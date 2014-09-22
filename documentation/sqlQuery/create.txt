@@ -1,0 +1,509 @@
+-- Database: rttb
+
+-- DROP DATABASE rttb;
+
+CREATE DATABASE rttb
+  WITH OWNER = postgres
+       ENCODING = 'UTF8';
+GRANT ALL ON DATABASE rttb TO public;
+GRANT ALL ON DATABASE rttb TO postgres;
+COMMENT ON DATABASE rttb IS 'RT Auswertungsdatenbank';
+
+
+-- Schema: "public"
+
+-- DROP SCHEMA public;
+
+CREATE SCHEMA public
+  AUTHORIZATION postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+-- Table: bio_model_algorithm
+
+-- DROP TABLE bio_model_algorithm;
+
+CREATE TABLE bio_model_algorithm
+(
+  id serial NOT NULL,
+  "name" character varying(255),
+  reference character varying(255),
+  CONSTRAINT bio_model_algorithm_pkey PRIMARY KEY (id)
+)
+WITH (OIDS=FALSE);
+ALTER TABLE bio_model_algorithm OWNER TO postgres;
+
+
+-- Table: bio_model_parameter
+
+-- DROP TABLE bio_model_parameter;
+
+CREATE TABLE bio_model_parameter
+(
+  id serial NOT NULL,
+  "name" character varying(255),
+  CONSTRAINT bio_model_parameter_pkey PRIMARY KEY (id)
+)
+WITH (OIDS=FALSE);
+ALTER TABLE bio_model_parameter OWNER TO postgres;
+
+-- Table: bio_model_parameter_value
+
+-- DROP TABLE bio_model_parameter_value;
+
+CREATE TABLE bio_model_parameter_value
+(
+  id serial NOT NULL,
+  bio_model_parameter_id integer NOT NULL,
+  "value" double precision,
+  CONSTRAINT bio_model_parameter_value_pkey PRIMARY KEY (id),
+  CONSTRAINT bio_model_parameter_value_bio_model_parameter_id_fkey FOREIGN KEY (bio_model_parameter_id)
+      REFERENCES bio_model_parameter (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE bio_model_parameter_value OWNER TO postgres;
+
+-- Table: clinical_trial
+
+-- DROP TABLE clinical_trial;
+
+CREATE TABLE clinical_trial
+(
+  id serial NOT NULL,
+  "name" character varying(255),
+  CONSTRAINT clinical_trial_pkey PRIMARY KEY (id)
+)
+WITH (OIDS=FALSE);
+ALTER TABLE clinical_trial OWNER TO postgres;
+COMMENT ON TABLE clinical_trial IS 'Clinical Trial';
+
+-- Table: patient
+
+-- DROP TABLE patient;
+
+CREATE TABLE patient
+(
+  id serial NOT NULL,
+  size integer,
+  "name" character varying(255),
+  sex character varying(255),
+  age integer,
+  weight double precision,
+  clinical_trial_id integer,
+  CONSTRAINT patient_pkey PRIMARY KEY (id),
+  CONSTRAINT patient_clinical_trial_id_fkey FOREIGN KEY (clinical_trial_id)
+      REFERENCES clinical_trial (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+
+-- Table: therapy
+
+-- DROP TABLE therapy;
+
+CREATE TABLE therapy
+(
+  id serial NOT NULL,
+  patient_id integer NOT NULL,
+  CONSTRAINT therapy_pkey PRIMARY KEY (id),
+  CONSTRAINT therapy_patient_id_fkey FOREIGN KEY (patient_id)
+      REFERENCES patient (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+
+
+-- Table: fraction_manager
+
+-- DROP TABLE fraction_manager;
+
+CREATE TABLE fraction_manager
+(
+  id serial NOT NULL,
+  therapy_id integer NOT NULL,
+  CONSTRAINT fraction_manager_pkey PRIMARY KEY (id),
+  CONSTRAINT fraction_manager_therapy_id_fkey FOREIGN KEY (therapy_id)
+      REFERENCES therapy (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE); 
+
+CREATE TABLE fraction
+(
+  id serial NOT NULL,
+  fraction_manager_id integer NOT NULL,
+  CONSTRAINT fraction_pkey PRIMARY KEY (id),
+  CONSTRAINT fraction_fraction_manager_id_fkey FOREIGN KEY (fraction_manager_id)
+      REFERENCES fraction_manager (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+
+-- Table: dvh_set
+
+-- DROP TABLE dvh_set;
+
+CREATE TABLE dvh_set
+(
+  id serial NOT NULL,
+  therapy_id integer NOT NULL,
+  fraction_id integer NOT NULL,
+  CONSTRAINT dvh_set_pkey PRIMARY KEY (id),
+  CONSTRAINT dvh_set_fraction_id_fkey FOREIGN KEY (fraction_id)
+      REFERENCES fraction (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT dvh_set_therapy_id_fkey FOREIGN KEY (therapy_id)
+      REFERENCES therapy (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+
+-- Table: coverage_index
+
+-- DROP TABLE coverage_index;
+
+CREATE TABLE coverage_index
+(
+  id serial NOT NULL,
+  "value" double precision,
+  dvh_set_id integer NOT NULL,
+  CONSTRAINT coverage_index_pkey PRIMARY KEY (id),
+  CONSTRAINT coverage_index_dvh_set_id_fkey FOREIGN KEY (dvh_set_id)
+      REFERENCES dvh_set (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE coverage_index OWNER TO postgres;
+
+-- Table: dose
+
+-- DROP TABLE dose;
+
+CREATE TABLE dose
+(
+  id serial NOT NULL,
+  therapy_id integer NOT NULL,
+  fraction_id integer NOT NULL,
+  path character varying(255),
+  CONSTRAINT dose_pkey PRIMARY KEY (id),
+  CONSTRAINT dose_fraction_id_fkey FOREIGN KEY (fraction_id)
+      REFERENCES fraction (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT dose_therapy_id_fkey FOREIGN KEY (therapy_id)
+      REFERENCES therapy (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+
+
+
+-- Table: dose_statistics
+
+-- DROP TABLE dose_statistics;
+
+CREATE TABLE dose_statistics
+(
+  id serial NOT NULL,
+  maximum double precision,
+  minimum double precision,
+  mean double precision,
+  std_deviation double precision,
+  variance double precision,
+  dose_id integer NOT NULL,
+  CONSTRAINT dose_statistics_pkey PRIMARY KEY (id),
+  CONSTRAINT dose_statistics_dose_id_fkey FOREIGN KEY (dose_id)
+      REFERENCES dose (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+
+
+-- Table: plan
+
+-- DROP TABLE plan;
+
+CREATE TABLE plan
+(
+  id serial NOT NULL,
+  therapy_id integer NOT NULL,
+  fraction_id integer NOT NULL,
+  CONSTRAINT plan_pkey PRIMARY KEY (id),
+  CONSTRAINT plan_fraction_id_fkey FOREIGN KEY (fraction_id)
+      REFERENCES fraction (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT plan_therapy_id_fkey FOREIGN KEY (therapy_id)
+      REFERENCES therapy (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE plan OWNER TO postgres;
+
+-- Table: structure_set
+
+-- DROP TABLE structure_set;
+
+CREATE TABLE structure_set
+(
+  id serial NOT NULL,
+  therapy_id integer NOT NULL,
+  CONSTRAINT structure_set_pkey PRIMARY KEY (id),
+  CONSTRAINT structure_set_therapy_id_fkey FOREIGN KEY (therapy_id)
+      REFERENCES therapy (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE structure_set OWNER TO postgres;
+
+-- Table: structure
+
+-- DROP TABLE structure;
+
+CREATE TABLE structure
+(
+  id serial NOT NULL,
+  structure_set_id integer NOT NULL,
+  CONSTRAINT structure_pkey PRIMARY KEY (id),
+  CONSTRAINT structure_structure_set_id_fkey FOREIGN KEY (structure_set_id)
+      REFERENCES structure_set (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE structure OWNER TO postgres;
+
+-- Table: dvh_type
+
+-- DROP TABLE dvh_type;
+
+CREATE TABLE dvh_type
+(
+  id serial NOT NULL,
+  "name" character varying(255),
+  CONSTRAINT dvh_type_pkey PRIMARY KEY (id)
+)
+WITH (OIDS=FALSE);
+ALTER TABLE dvh_type OWNER TO postgres;
+
+
+-- Table: dvh
+
+-- DROP TABLE dvh;
+
+CREATE TABLE dvh
+(
+  id serial NOT NULL,
+  plan_id integer,
+  structure_id integer,
+  dose_id integer,
+  dvh_set_id integer,
+  "deltaD" double precision, -- Absolute dose value of a dose-bin in Gy
+  "deltaV" double precision, -- Volume of a voxel in cm3
+  dvh_type_id integer NOT NULL,
+  CONSTRAINT dvh_pkey PRIMARY KEY (id),
+  CONSTRAINT dvh_dose_id_fkey FOREIGN KEY (dose_id)
+      REFERENCES dose (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT dvh_dvh_set_id_fkey FOREIGN KEY (dvh_set_id)
+      REFERENCES dvh_set (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT dvh_dvh_type_id_fkey FOREIGN KEY (dvh_type_id)
+      REFERENCES dvh_type (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT dvh_plan_id_fkey FOREIGN KEY (plan_id)
+      REFERENCES plan (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT dvh_structure_id_fkey FOREIGN KEY (structure_id)
+      REFERENCES structure (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE dvh OWNER TO postgres;
+COMMENT ON COLUMN dvh."deltaD" IS 'Absolute dose value of a dose-bin in Gy';
+COMMENT ON COLUMN dvh."deltaV" IS 'Volume of a voxel in cm3';
+
+
+-- Table: dvh_data
+
+-- DROP TABLE dvh_data;
+
+CREATE TABLE dvh_data
+(
+  id serial NOT NULL,
+  dose double precision, -- dose_bin or absolute dose
+  volume double precision, -- numbe of voxels or absolute volume in cm3 or mm3
+  dvh_id integer NOT NULL,
+  CONSTRAINT dvh_data_pkey PRIMARY KEY (id),
+  CONSTRAINT dvh_data_dvh_id_fkey FOREIGN KEY (dvh_id)
+      REFERENCES dvh (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE dvh_data OWNER TO postgres;
+COMMENT ON COLUMN dvh_data.dose IS 'dose_bin or absolute dose';
+COMMENT ON COLUMN dvh_data.volume IS 'numbe of voxels or absolute volume in cm3 or mm3';
+
+
+
+
+
+
+
+-- Table: homogeneity_index
+
+-- DROP TABLE homogeneity_index;
+
+CREATE TABLE homogeneity_index
+(
+  id serial NOT NULL,
+  "value" double precision,
+  dvh_set_id integer NOT NULL,
+  CONSTRAINT homogeneity_index_pkey PRIMARY KEY (id),
+  CONSTRAINT homogeneity_index_dvh_set_id_fkey FOREIGN KEY (dvh_set_id)
+      REFERENCES dvh_set (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE homogeneity_index OWNER TO postgres;
+
+
+-- Table: ntcp
+
+-- DROP TABLE ntcp;
+
+CREATE TABLE ntcp
+(
+  id serial NOT NULL,
+  "value" double precision,
+  dvh_id integer NOT NULL,
+  bio_model_algorithm_id integer NOT NULL,
+  CONSTRAINT ntcp_pkey PRIMARY KEY (id),
+  CONSTRAINT ntcp_bio_model_algorithm_id_fkey FOREIGN KEY (bio_model_algorithm_id)
+      REFERENCES bio_model_algorithm (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT ntcp_dvh_id_fkey FOREIGN KEY (dvh_id)
+      REFERENCES dvh (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE ntcp OWNER TO postgres;
+
+
+-- Table: ntcp_parameter_set
+
+-- DROP TABLE ntcp_parameter_set;
+
+CREATE TABLE ntcp_parameter_set
+(
+  id serial NOT NULL,
+  ntcp_id integer NOT NULL,
+  bio_model_parameter_value_id integer NOT NULL,
+  CONSTRAINT ntcp_parameter_set_pkey PRIMARY KEY (id),
+  CONSTRAINT ntcp_parameter_set_bio_model_parameter_value_id_fkey FOREIGN KEY (bio_model_parameter_value_id)
+      REFERENCES bio_model_parameter_value (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT ntcp_parameter_set_ntcp_id_fkey FOREIGN KEY (ntcp_id)
+      REFERENCES ntcp (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE ntcp_parameter_set OWNER TO postgres;
+
+
+
+
+
+
+
+-- Table: structure_geo_relation
+
+-- DROP TABLE structure_geo_relation;
+
+CREATE TABLE structure_geo_relation
+(
+  id serial NOT NULL,
+  structure_id1 integer NOT NULL,
+  structure_id2 integer NOT NULL,
+  relationship character varying(255),
+  CONSTRAINT structure_geo_relation_pkey PRIMARY KEY (id),
+  CONSTRAINT structure_geo_relation_structure_id1_fkey FOREIGN KEY (structure_id1)
+      REFERENCES structure (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT structure_geo_relation_structure_id2_fkey FOREIGN KEY (structure_id2)
+      REFERENCES structure (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE structure_geo_relation OWNER TO postgres;
+
+
+
+
+
+-- Table: structure_volume_change
+
+-- DROP TABLE structure_volume_change;
+
+CREATE TABLE structure_volume_change
+(
+  id serial NOT NULL,
+  "value" double precision,
+  begin_time time with time zone,
+  end_time time with time zone,
+  structure_id integer NOT NULL,
+  CONSTRAINT structure_volume_change_pkey PRIMARY KEY (id),
+  CONSTRAINT structure_volume_change_structure_id_fkey FOREIGN KEY (structure_id)
+      REFERENCES structure (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE structure_volume_change OWNER TO postgres;
+
+
+-- Table: tcp
+
+-- DROP TABLE tcp;
+
+CREATE TABLE tcp
+(
+  id serial NOT NULL,
+  "value" double precision,
+  dvh_id integer NOT NULL,
+  bio_model_algorithm_id integer NOT NULL,
+  CONSTRAINT tcp_pkey PRIMARY KEY (id),
+  CONSTRAINT tcp_bio_model_algorithm_id_fkey FOREIGN KEY (bio_model_algorithm_id)
+      REFERENCES bio_model_algorithm (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT tcp_dvh_id_fkey FOREIGN KEY (dvh_id)
+      REFERENCES dvh (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE tcp OWNER TO postgres;
+
+
+-- Table: tcp_parameter_set
+
+-- DROP TABLE tcp_parameter_set;
+
+CREATE TABLE tcp_parameter_set
+(
+  id serial NOT NULL,
+  tcp_id integer NOT NULL,
+  bio_model_parameter_value_id integer NOT NULL,
+  CONSTRAINT tcp_parameter_set_pkey PRIMARY KEY (id),
+  CONSTRAINT tcp_parameter_set_bio_model_parameter_value_id_fkey FOREIGN KEY (bio_model_parameter_value_id)
+      REFERENCES bio_model_parameter_value (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT tcp_parameter_set_tcp_id_fkey FOREIGN KEY (tcp_id)
+      REFERENCES tcp (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (OIDS=FALSE);
+ALTER TABLE tcp_parameter_set OWNER TO postgres;
+
+
+
+
+    
+

@@ -1,0 +1,27 @@
+SET(CPP_FILES 
+	rttbCoreTests.cpp
+	DummyDoseAccessor.cpp
+	DummyMaskAccessor.cpp
+	DummyMutableDoseAccessor.cpp
+	DummyDVHGenerator.cpp
+	DummyStructure.cpp
+	CreateTestStructure.cpp
+	StructureTest.cpp
+	GeometricInfoTest.cpp
+	MaskVoxelTest.cpp
+	GenericDoseIteratorTest.cpp
+	GenericMaskedDoseIteratorTest.cpp
+	DVHCalculatorTest.cpp
+	DVHTest.cpp
+	DVHSetTest.cpp
+	StrVectorStructureSetGeneratorTest.cpp
+  )
+
+SET(H_FILES 
+	DummyStructure.h
+	CreateTestStructure.h
+	DummyDoseAccessor.h
+	DummyMaskAccessor.h
+	DummyMutableDoseAccessor.h
+	DummyDVHGenerator.h
+)

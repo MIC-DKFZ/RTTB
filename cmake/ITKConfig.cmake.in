@@ -1,0 +1,13 @@
+SET(MatchPoint_ITK_IS_ENABLED ON)
+
+# The itk source tree used by MatchPoint.
+SET(MatchPoint_ITK_SOURCE_DIR @ITK_SOURCE_DIR@)
+
+# The itk library directories used by MatchPoint.
+SET(MatchPoint_ITK_LIBRARY_DIRS @ITK_LIBRARY_DIRS@)
+
+# The itk libraries used by MatchPoint.
+SET(MatchPoint_ITK_LIBRARIES @ITK_LIBRARIES@)
+
+# The itk include directories used by MatchPoint.
+SET(MatchPoint_ITK_INCLUDE_DIRS @ITK_INCLUDE_DIRS@)

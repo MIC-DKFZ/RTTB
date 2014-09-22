@@ -1,0 +1,76 @@
+/** \mainpage RTToolbox - DKFZ radiotherapy quantitative evaluation library
+\section intro Introduction
+
+Welcome to RTToolbox ...\n\n
+
+\image html Homepage-RTToolbox.png
+Radiotherapy is a comprehensive and fast-moving discipline which plays a major role
+in cancer care. Software tools which support and simplify the quantitative evaluation
+process of radiotherapy are essential to support decision makings and improve therapy
+effectiveness.\n
+RTToolbox is a software library to support quantitative analysis of treatment outcome
+for radiotherapy.\n\n
+
+The RTToolbox was designed following object-oriented design (OOD) principles and was
+implemented in the language C++. It supports the import of radiotherapy data (e.g. dose
+distributions and structure sets) from arbitrary format (e.g. stored in DICOM-RT
+standard format using the open source library DCMTK).\n\n
+
+The RTToolbox supports the full range of radiotherapy evaluation.
+Tools such as DVH calculation, arithmetic operations on dose distributions and
+structure relationship analysis (e.g. fully-contained, partially-contained)
+are provided as a basis for further calculations. Dose comparison indices such as
+Conformity Index (CI), Homogeneity Index (HI) and Conformation Number (CN),
+and biological models including TCP, NTCP, EUD and BED are determined from dose
+distributions and DVHs. The RTToolbox can be easily extended to support other
+data format, comparison indices and models. A PostgreSQL database was designed
+to store study information and analysis results. The communication interfaces
+between toolbox and database are provided as well. Thus, using the RTToolbox
+radiotherapy evaluation applications can be built easily and quickly.
+
+\section Structure
+The RTToolbox code is contained in topic related folders:
+<UL>
+<LI>\b code: you will find all relevant code for RT data evaluation.
+<UL>
+<LI> \b core: The main code of the RTToolbox. Here you'll find all interface classes, the main objects used and the DVH 
+calculation.</LI>
+<LI> \b algorithm: Here you find the code for dose statistics.</LI>
+<LI> \b indices: The code for dose comparison indices can be found here.</LI>
+<LI> \b io: Containes sub folderes for different formats.</LI>
+<UL>
+<LI> \b dicom: Support for the dicom format (You need DCMTK to build this option).</LI>
+<LI> \b other: Data from text formats.</LI>
+</UL>
+<LI> \b masks: Here you can find the code for the original toolbox voxelisation. We are currently 
+re-designing the atructure of the RT-Toolbox, therefore this folder also includes some 
+legacy code required by this voxelization, that should not be used elsewhere. Please use the 
+data objects and interfaces defined in 'core'.</LI>
+<LI> \b models: It contains the code for the calculation of TCP and NTCP models.</LI>
+</UL>
+<LI> \b testing: In this folder you find corresponding unit tests (similar 
+folder structure as in code) and more extensive tests, which use multiple classes in 'examples'.</LI>
+<LI> \b utilities: This folder contains third party projects needed to build RTToolbox (depending on the activated modules).</LI>
+</UL>
+
+\section Contact
+RTToolbox homepage: http://www.dkfz.de/en/sidt/projects/rttb/info.html\n\n
+
+Software Development for Integrated Diagnostics and Therapy (SIDT),\n
+German Cancer Research Center (DKFZ), Heidelberg, Germany.\n\n 
+
+Web: http://www.dkfz.de/en/sidt/index.html\n
+Tel.: +49 6221 42-30-21\n
+E-mail: l.zhang@dkfz.de (L. Zhang) or sbr@dkfz.de\n
+
+\section copyright Copyright
+Copyright (c) German Cancer Research Center (DKFZ),
+Software development for Integrated Diagnostics and Therapy (SIDT).\n
+ALL RIGHTS RESERVED.\n
+See rttbCopyright.txt or
+http://www.dkfz.de/en/sidt/projects/rttb/copyright.html\n\n
+
+This software is distributed WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.  See the above copyright notices for more information.
+*/

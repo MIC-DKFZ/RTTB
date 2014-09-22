@@ -1,0 +1,108 @@
+#
+# This is a recommended file for RTToolbox dashboard submissions
+# The generated file will use the current settings in the CMakeCache.txt file
+# The file should be copied, edited if necessary and moved to another location
+# 
+# This file was generated from
+# @RTToolbox_SOURCE_DIR@/cmake/rttbSampleBuildTest.cmake
+#
+
+######################
+# Set the Dashboard to one of Nightly, Continuous or Experimental
+#
+SET(DASHBOARD Nightly) 
+SET(DASHBOARD Continuous) 
+SET(DASHBOARD Experimental) 
+
+######################
+# Set the Default Build Type to one of Release, Debug, RelWithDebInfo 
+# or MinSizeRel
+#
+SET(DEFAULT_BUILD_TYPE "Debug")
+SET(DEFAULT_BUILD_TYPE "RelWithDebInfo")
+SET(DEFAULT_BUILD_TYPE "MinSizeRel")
+SET(DEFAULT_BUILD_TYPE "Release")
+
+IF("@CMAKE_BUILD_TYPE@" STREQUAL "")
+  SET(BUILD_TYPE ${DEFAULT_BUILD_TYPE})
+ELSE("@CMAKE_BUILD_TYPE@" STREQUAL "")
+  SET(BUILD_TYPE @CMAKE_BUILD_TYPE@)
+ENDIF("@CMAKE_BUILD_TYPE@" STREQUAL "")
+
+
+# These are the the locations of the source and binary directory
+SET(CTEST_SOURCE_DIRECTORY "@RTToolbox_SOURCE_DIR@")
+SET(CTEST_BINARY_DIRECTORY "@RTToolbox_BINARY_DIR@")
+
+# The ctest command to use for running the dashboard
+SET(CTEST_COMMAND
+   "@CMAKE_COMMAND@ -P \"${CTEST_BINARY_DIRECTORY}/cmake/RemoveTemporaryFiles.cmake\""
+   "@CMAKE_CTEST_COMMAND@ -D ${DASHBOARD} -A \"${CTEST_SCRIPT_DIRECTORY}/${CTEST_SCRIPT_NAME}\""
+)
+
+# cmake/RemoveTemporaryFiles.cmake must exist before the CTEST_COMMAND runs
+IF(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/cmake/RemoveTemporaryFiles.cmake)
+  SET(CTEST_CMAKE_COMMAND "@CMAKE_COMMAND@")
+ENDIF(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/cmake/RemoveTemporaryFiles.cmake)
+
+# CMakeCache.txt must exist before the CTEST_COMMAND runs
+IF(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt)
+  SET(CTEST_CMAKE_COMMAND "@CMAKE_COMMAND@")
+ENDIF(NOT EXISTS ${CTEST_BINARY_DIRECTORY}/CMakeCache.txt)
+
+# Specify how long to run the continuous in minutes
+IF(${DASHBOARD} STREQUAL "Continuous")
+  SET (CTEST_CONTINUOUS_DURATION 1080)
+  SET (CTEST_CONTINUOUS_MINIMUM_INTERVAL 15)
+ENDIF(${DASHBOARD} STREQUAL "Continuous")
+
+# Set defaults
+SET(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY FALSE)
+SET(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE FALSE)
+
+# For Nightly builds, this should be TRUE
+IF(${DASHBOARD} STREQUAL "Nightly")
+  SET(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY TRUE)
+ELSE(${DASHBOARD} STREQUAL "Nightly")
+  SET(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY FALSE)
+ENDIF(${DASHBOARD} STREQUAL "Nightly")
+
+# For Continuous builds. this should be TRUE
+IF(${DASHBOARD} STREQUAL "Continuous")
+  SET(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE TRUE)
+ELSE(${DASHBOARD} STREQUAL "Continuous")
+  SET(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE FALSE)
+ENDIF(${DASHBOARD} STREQUAL "Continuous")
+
+# For Experimental builds, these should be FALSE
+IF(${DASHBOARD} STREQUAL "Experimental")
+  SET(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY FALSE)
+  SET(CTEST_START_WITH_EMPTY_BINARY_DIRECTORY_ONCE FALSE)
+ENDIF(${DASHBOARD} STREQUAL "Experimental")
+
+# This is the initial cache to use for the binary tree, be careful to escape
+# any quotes inside of this string if you use it
+SET (CTEST_INITIAL_CACHE "
+SITE:STRING=@SITE@
+BUILDNAME:STRING=@BUILDNAME@
+CVSCOMMAND:FILEPATH=@CVSCOMMAND@
+CVS_UPDATE_OPTIONS:STRING=-d -A -P
+
+CMAKE_GENERATOR:INTERNAL=@CMAKE_GENERATOR@
+CMAKE_CXX_COMPILER:FILEPATH=@CMAKE_CXX_COMPILER@
+CMAKE_CXX_FLAGS:STRING=@CMAKE_CXX_FLAGS@
+CMAKE_C_COMPILER:FILEPATH=@CMAKE_C_COMPILER@
+CMAKE_C_FLAGS:STRING=@CMAKE_C_FLAGS@
+CMAKE_CONFIGURATION_TYPES:STRING=${BUILD_TYPE}
+CMAKE_BUILD_TYPE:STRING=${BUILD_TYPE}
+
+BUILD_SHARED_LIBS:BOOL=@BUILD_SHARED_LIBS@
+BUILD_TESTING:BOOL=@BUILD_TESTING@
+
+RTTB_ENFORCE_MATURE_CODE:BOOL=@RTTB_ENFORCE_MATURE_CODE@
+
+")
+
+# Set any extra envionment variables here
+SET (CTEST_ENVIRONMENT
+  )

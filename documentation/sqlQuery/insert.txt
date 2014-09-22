@@ -1,0 +1,48 @@
+
+
+INSERT INTO dvh_type(name) 
+VALUES ('DIFFERENTIAL');
+
+INSERT INTO dvh_type(name)
+VALUES ('CUMMULATIVE');
+
+INSERT INTO dvh_type(name)
+VALUES ('BED');
+
+INSERT INTO dvh_type(name)
+VALUES ('LQED2');
+
+INSERT INTO dvh_type(name)
+VALUES ('OER_WEIGHTED');
+    
+INSERT INTO bio_model_algorithm(
+            "name", reference)
+    VALUES ('TCP LQ Model', 'LQ Model (Nahum and Sanchez-Nieto 2001, Hall and Giaccia 2006)');
+INSERT INTO bio_model_algorithm(
+            "name", reference)
+    VALUES ('NTCP LKB Model', 'L-K-B Model (Lyman 1985, Kutcher and Burman 1989)');
+INSERT INTO bio_model_algorithm(
+            "name", reference)
+    VALUES ('NTCP RS Model', 'The relative seriality model (Källman 1992)');
+
+INSERT INTO bio_model_parameter(
+            "name")
+    VALUES ('alphaMean');
+INSERT INTO bio_model_parameter(
+            "name")
+    VALUES ('alpha/beta');
+    INSERT INTO bio_model_parameter(
+            "name")
+    VALUES ('alphaVariance');
+    INSERT INTO bio_model_parameter(
+            "name")
+    VALUES ('rho');
+    INSERT INTO bio_model_parameter(
+            "name")
+    VALUES ('a');
+    INSERT INTO bio_model_parameter(
+            "name")
+    VALUES ('m');
+    INSERT INTO bio_model_parameter(
+            "name")
+    VALUES ('D50');

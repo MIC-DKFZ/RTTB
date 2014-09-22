@@ -1,0 +1,64 @@
+// -----------------------------------------------------------------------
+// RTToolbox - DKFZ SIDT RT Interface
+//
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html
+//
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE.  See the above copyright notices for more information.
+//
+//------------------------------------------------------------------------
+/*!
+// @file
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
+//
+// Subversion HeadURL: $HeadURL: http://sidt-hpc1/dkfz_repository/NotMeVisLab/SIDT/RTToolbox/branch/restructure/RTToolboxConfigure.h.in $
+*/
+
+//----------------------------------------------------------
+// !!!EXPERIMENTAL CODE!!!
+//
+// This code may not be used for release.
+// Add #define SIDT_ENFORCE_MATURE_CODE to any release module
+// to ensure this policy.
+//----------------------------------------------------------
+#ifdef SIDT_ENFORCE_MATURE_CODE
+#error “This code is marked as experimental code. It must not be used because this build enforces mature code.”
+#endif
+#ifndef SIDT_CONTAINS_EXPERIMENTAL_CODE
+  #define SIDT_CONTAINS_EXPERIMENTAL_CODE 1
+#endif
+
+#ifndef __RTT_CONFIGURE_H
+#define __RTT_CONFIGURE_H
+
+
+/*! @def RTT_ENFORCE_MATURE_CODE
+ * This define controls if RTToolbox should force the whole build to be mature code.
+ * Mature code convention is part of the SIDT coding styles.
+ * Projects that use RTToolbox are able to ensure with SIDT_ENFORCE_MATURE_CODE
+ * that used code is guaranteed to be tested and reviewed regarding the strict
+ * SIDT coding styles.\n
+ * RTT_ENFORCE_MATURE_CODE can be used to ensure that strictness when prebuilding
+ * static or dynamic libraries.
+ * @remark This definition should by configured via the advance options in CMake.
+*/
+#cmakedefine RTT_ENFORCE_MATURE_CODE
+#ifdef RTT_ENFORCE_MATURE_CODE
+	#define SIDT_ENFORCE_MATURE_CODE
+#endif
+
+#define RTT_VERSION_MAJOR @RTToolbox_VERSION_MAJOR@
+#define RTT_VERSION_MINOR @RTToolbox_VERSION_MINOR@
+#define RTT_VERSION_PATCH @RTToolbox_VERSION_PATCH@
+#define RTT_VERSION_STRING "@RTToolbox_VERSION_STRING@"
+#define RTT_FULL_VERSION_STRING "@RTToolbox_FULL_VERSION_STRING@"
+
+
+#endif

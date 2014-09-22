@@ -1,0 +1,21 @@
+MESSAGE (STATUS "processing RTToolbox io")
+ADD_SUBDIRECTORY (other)
+
+OPTION(BUILD_IO_Dicom "Determine if the IO class wrappers for DICOM format will be generated." OFF)
+IF(BUILD_IO_Dicom)
+	ADD_SUBDIRECTORY(dicom)
+	OPTION(BUILD_IO_HELAX "Determine if the IO class wrappers for HELAX format will be generated." OFF)
+	IF(BUILD_IO_HELAX)
+		ADD_SUBDIRECTORY(helax)
+	ENDIF(BUILD_IO_HELAX)
+ENDIF(BUILD_IO_Dicom)
+
+OPTION(BUILD_IO_ITK "Determine if the IO class wrappers for ITK image formats will be generated." OFF)
+IF(BUILD_IO_ITK)
+	ADD_SUBDIRECTORY(itk)
+ENDIF(BUILD_IO_ITK)
+
+OPTION(BUILD_IO_Virtuos "Determine if the IO class wrappers for Virtuos format will be generated." OFF)
+IF(BUILD_IO_Virtuos)
+	ADD_SUBDIRECTORY(virtuos)
+ENDIF(BUILD_IO_Virtuos)

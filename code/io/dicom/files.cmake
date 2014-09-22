@@ -1,0 +1,19 @@
+SET(CPP_FILES 
+  rttbDcmrtException.cpp
+  rttbDicomDoseAccessor.cpp
+  rttbDicomFileDoseAccessorGenerator.cpp
+  rttbDicomFileStructureSetGenerator.cpp
+  rttbDicomIODDoseAccessorGenerator.cpp
+  rttbDicomIODStructureSetGenerator.cpp
+  rttbDVHDicomFileReader.cpp
+  )
+
+SET(H_FILES 
+  rttbDcmrtException.h
+  rttbDicomDoseAccessor.h
+  rttbDicomFileDoseAccessorGenerator.h
+  rttbDicomFileStructureSetGenerator.h
+  rttbDicomIODDoseAccessorGenerator.h
+  rttbDicomIODStructureSetGenerator.h
+  rttbDVHDicomFileReader.h
+)

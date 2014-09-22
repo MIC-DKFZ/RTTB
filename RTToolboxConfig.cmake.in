@@ -1,0 +1,38 @@
+#-----------------------------------------------------------------------------
+#
+# RTToolboxConfig.cmake - RTToolbox CMake configuration file for external projects.
+#
+# This file is configured by RTToolbox and used by the UseRTToolbox.cmake module
+# to load RTToolbox's settings for an external project.
+
+SET(RTToolbox_FOUND 1)
+
+# The RTToolbox source tree.
+SET(RTToolbox_SOURCE_DIR "@RTToolbox_SOURCE_DIR@")
+
+# The RTToolbox binary tree.
+SET(RTToolbox_BINARY_DIR "@RTToolbox_BINARY_DIR@")
+
+# The RTToolbox include file directories.
+SET(RTToolbox_INCLUDE_DIRS "@RTToolbox_INCLUDE_DIRS_CONFIG@")
+
+# The RTToolbox library directories.
+SET(RTToolbox_LIBRARY_DIRS "@RTToolbox_LIBRARY_DIRS_CONFIG@")
+
+# The RTToolbox version number
+SET(RTToolbox_VERSION_MAJOR "@RTToolbox_VERSION_MAJOR@")
+SET(RTToolbox_VERSION_MINOR "@RTToolbox_VERSION_MINOR@")
+SET(RTToolbox_VERSION_PATCH "@RTToolbox_VERSION_PATCH@")
+
+# The location of the UseRTToolbox.cmake file.
+SET(RTToolbox_USE_FILE "@RTToolbox_USE_FILE@")
+
+# The location of the MatchPointTargets.cmake file.
+SET(RTToolbox_TARGETS_FILE "@RTToolbox_TARGETS_FILE@")
+
+# The RTToolbox library dependencies.
+IF(NOT RTToolbox_NO_LIBRARY_DEPENDS AND
+    EXISTS "@RTToolbox_LIBRARY_DEPENDS_FILE@")
+  INCLUDE("@RTToolbox_LIBRARY_DEPENDS_FILE@")
+ENDIF(NOT RTToolbox_NO_LIBRARY_DEPENDS AND
+  EXISTS "@RTToolbox_LIBRARY_DEPENDS_FILE@")
