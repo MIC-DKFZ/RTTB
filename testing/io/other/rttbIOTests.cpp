@@ -35,7 +35,7 @@ namespace rttb{
 		{
 			LIT_REGISTER_TEST(DoseStatisticsIOTest);
 			LIT_REGISTER_TEST(DVHXMLIOTest);
-			LIT_REGISTER_TEST(OtherIOTest);
+			LIT_REGISTER_TEST(DVHTXTIOTest);
 		}
 	}
 }

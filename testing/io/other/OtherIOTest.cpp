@@ -48,6 +48,7 @@ namespace rttb{
 		/*! @brief OtherIOTest - test the IO for DVH txt data
 			1) test writing dvh to text file
 			2) test reading DVH from text file 
+			3) test reading and writing the same dvh
 		*/
 
 		int OtherIOTest(int argc, char* argv[] )
@@ -56,6 +57,13 @@ namespace rttb{
 			typedef core::DVH::DVHPointer DVHPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
+
+			std::string DVHTXT_FILENAME;
+
+			if (argc>1)
+			{
+				DVHTXT_FILENAME = argv[1];
+			}
 
 			/* generate dummy DVH */
 			const IDType structureIDPrefix = "myStructure";
@@ -107,6 +115,56 @@ namespace rttb{
 			DVHPointer importedDVH = dvhReader.generateDVH();
 
 			CHECK_EQUAL(*importedDVH, *spMyDVH);
+
+			// 3) test reading and writing the same dvh
+			//read dvh from a txt file
+			io::other::DVHTxtFileReader dvhReader_R(DVHTXT_FILENAME);
+			rttb::core::DVHGeneratorInterface::DVHPointer dvhP_R = dvhReader_R.generateDVH();
+
+			//write the dvh to another file as cumulative		
+			io::other::DVHTxtFileWriter dvhWriter_R_Cum("test_Cum.txt", typeCum);
+			dvhWriter_R_Cum.writeDVH(dvhP_R);
+
+			//read the file
+			io::other::DVHTxtFileReader dvhReader_W_Cum("test_Cum.txt");
+			rttb::core::DVHGeneratorInterface::DVHPointer dvhP_W_Cum = dvhReader_W_Cum.generateDVH();
+
+			//check equal
+			const double errorConstant = 1e-7;
+			CHECK_CLOSE(dvhP_R->getDeltaD(), dvhP_W_Cum->getDeltaD(), errorConstant);
+			CHECK_CLOSE(dvhP_R->getDeltaV(), dvhP_W_Cum->getDeltaV(), errorConstant);
+			CHECK(dvhP_R->getDoseID() == dvhP_W_Cum->getDoseID());
+			CHECK(dvhP_R->getStructureID() == dvhP_W_Cum->getStructureID());
+			CHECK_CLOSE(dvhP_R->getMaximum(), dvhP_W_Cum->getMaximum(), errorConstant);
+			CHECK_CLOSE(dvhP_R->getMinimum(), dvhP_W_Cum->getMinimum(), errorConstant);
+			CHECK_CLOSE(dvhP_R->getMean(), dvhP_W_Cum->getMean(), errorConstant);
+			CHECK(dvhP_R->getDataDifferential().size() == dvhP_W_Cum->getDataDifferential().size());
+			for(int i=0; i<dvhP_R->getDataDifferential().size(); i++){
+				CHECK_CLOSE(dvhP_R->getDataDifferential().at(i), dvhP_W_Cum->getDataDifferential().at(i), errorConstant);
+			}
+
+
+			//write the dvh to another file as differential		
+			io::other::DVHTxtFileWriter dvhWriter_R_Diff("test_Diff.txt", typeDiff);
+			dvhWriter_R_Diff.writeDVH(dvhP_R);
+
+			//read the file
+			io::other::DVHTxtFileReader dvhReader_W_Diff("test_Diff.txt");
+			rttb::core::DVHGeneratorInterface::DVHPointer dvhP_W_Diff = dvhReader_W_Diff.generateDVH();
+
+			//check equal
+			CHECK_CLOSE(dvhP_R->getDeltaD(), dvhP_W_Diff->getDeltaD(), errorConstant);
+			CHECK_CLOSE(dvhP_R->getDeltaV(), dvhP_W_Diff->getDeltaV(), errorConstant);
+			CHECK(dvhP_R->getDoseID() == dvhP_W_Diff->getDoseID());
+			CHECK(dvhP_R->getStructureID() == dvhP_W_Diff->getStructureID());
+			CHECK_CLOSE(dvhP_R->getMaximum(), dvhP_W_Diff->getMaximum(), errorConstant);
+			CHECK_CLOSE(dvhP_R->getMinimum(), dvhP_W_Diff->getMinimum(), errorConstant);
+			CHECK_CLOSE(dvhP_R->getMean(), dvhP_W_Diff->getMean(), errorConstant);
+			CHECK(dvhP_R->getDataDifferential().size() == dvhP_W_Diff->getDataDifferential().size());
+			for(int i=0; i<dvhP_R->getDataDifferential().size(); i++){
+				CHECK_CLOSE(dvhP_R->getDataDifferential().at(i), dvhP_W_Diff->getDataDifferential().at(i), errorConstant);
+			}
+
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

@@ -160,7 +160,7 @@ namespace rttb{
 						else{
 							differentialDVHi = *it-*(it+1);
 						}
-						dataDifferential.push_front(differentialDVHi);
+						dataDifferential.push_back(differentialDVHi);
 					}
 				}
 				if(numberOfBins==0)

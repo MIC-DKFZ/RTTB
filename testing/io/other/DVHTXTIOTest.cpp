@@ -15,7 +15,7 @@
 /*!
 // @file
 // @version $Revision$ (last changed revision)
-// @date $Date$ (last change date)
+// @date    $Date$ (last change date)
 // @author  $Author$ (last changed by)
 */
 
@@ -33,8 +33,6 @@
 #include "rttbDVHSet.h"
 #include "rttbDVHTxtFileReader.h"
 #include "rttbDVHTxtFileWriter.h"
-#include "rttbDVHXMLFileReader.h"
-#include "rttbDVHXMLFileWriter.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbNullPointerException.h"
 
@@ -46,13 +44,13 @@ namespace rttb{
 
 	namespace testing{
 
-		/*! @brief DVHXMLIOTest - test the IO for DVH xml data
-		1) test writing dvh to xml file
-		2) test reading DVH from xml file 
-		3) test reading dvh from txt file and writing to xml, check equal
+		/*! @brief DVHTXTIOTest - test the IO for DVH txt data
+			1) test writing dvh to text file
+			2) test reading DVH from text file 
+			3) test reading and writing the same dvh
 		*/
 
-		int DVHXMLIOTest(int argc, char* argv[] )
+		int DVHTXTIOTest(int argc, char* argv[] )
 		{
 			typedef core::DVHSet::DVHSetType DVHSetType;
 			typedef core::DVH::DVHPointer DVHPointer;
@@ -74,18 +72,19 @@ namespace rttb{
 
 			DVHPointer spMyDVH = boost::make_shared<core::DVH>(dvhGenerator.generateDVH(structureIDPrefix,doseID));		
 
-			// 1) test writing DVH to xml file
+			// 1) test writing DVH to text file
 			DVHType typeCum = {DVHType::Cumulative};
 			DVHType typeDiff = {DVHType::Differential};
-			FileNameString fN1 = "test.xml";
-			CHECK_NO_THROW(io::other::DVHXMLFileWriter(fN1, typeDiff));
-			CHECK_NO_THROW(io::other::DVHXMLFileWriter(fN1, typeCum));
+			FileNameString fN1 = "test.txt";
+			CHECK_NO_THROW(io::other::DVHTxtFileWriter(fN1, typeDiff));
+			CHECK_NO_THROW(io::other::DVHTxtFileWriter(fN1, typeCum));
 
-			io::other::DVHXMLFileWriter dvhWriter (fN1, typeCum);
+
+			io::other::DVHTxtFileWriter dvhWriter (fN1, typeCum);
 
 			CHECK_EQUAL(fN1, dvhWriter.getFileName());
 
-			FileNameString fN2 = "otherFile.xml";
+			FileNameString fN2 = "otherFile.txt";
 			CHECK_NO_THROW(dvhWriter.setFileName(fN2));
 			CHECK_EQUAL(fN2, dvhWriter.getFileName());
 
@@ -94,41 +93,54 @@ namespace rttb{
 			CHECK_EQUAL(DVHType::Differential, dvhWriter.getDVHType().Type);
 
 			DVHPointer emptyDvh;
-			CHECK_THROW_EXPLICIT(dvhWriter.writeDVH(emptyDvh), core::NullPointerException);
-			//CHECK_THROW_EXPLICIT(dvhWriter.writeDVH(spMyDVH), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(dvhWriter.writeDVH(emptyDvh),core::NullPointerException);
 			CHECK_NO_THROW(dvhWriter.setDVHType(typeDiff));
 			CHECK_NO_THROW(dvhWriter.writeDVH(spMyDVH));
 
-			// 2) test reading DVH from xml file 
-			io::other::DVHXMLFileReader dvhReader(fN2);
+			// 2) test reading DVH from text file 
+			CHECK_NO_THROW(io::other::DVHTxtFileReader dvhReader(fN1));
+			io::other::DVHTxtFileReader dvhReaderTest(fN1);
+			CHECK_THROW_EXPLICIT(dvhReaderTest.generateDVH(),core::InvalidParameterException);
+			CHECK_NO_THROW(io::other::DVHTxtFileReader dvhReader(fN2));
 
+			io::other::DVHTxtFileReader dvhReader(fN2);
+
+			CHECK_NO_THROW(dvhReader.resetFileName(fN1));
+			CHECK_THROW_EXPLICIT(dvhReader.generateDVH(), core::InvalidParameterException);
+			CHECK_NO_THROW(dvhReader.resetFileName(fN2));
+
+			CHECK_NO_THROW(dvhReader.generateDVH());
+			
 			DVHPointer importedDVH = dvhReader.generateDVH();
 
 			CHECK_EQUAL(*importedDVH, *spMyDVH);
 
-			//3) test reading dvh from txt file and writing to xml 
-			io::other::DVHTxtFileReader dvhReader2(DVHTXT_FILENAME);
-			DVHPointer importedDVH2 = dvhReader2.generateDVH();
+			// 3) test reading and writing the same dvh
+			//read dvh from a txt file
+			io::other::DVHTxtFileReader dvhReader_R(DVHTXT_FILENAME);
+			rttb::core::DVHGeneratorInterface::DVHPointer dvhP_R = dvhReader_R.generateDVH();
 
-			//write dvh to a xml file as differential
-			FileNameString toWrite_diff = "test_diff.xml";
-			io::other::DVHXMLFileWriter xmlWriter(toWrite_diff, typeDiff);
-			xmlWriter.writeDVH(importedDVH2);
+			//write the dvh to another file as cumulative		
+			io::other::DVHTxtFileWriter dvhWriter_R_Cum("test_Cum.txt", typeCum);
+			dvhWriter_R_Cum.writeDVH(dvhP_R);
 
-			io::other::DVHXMLFileReader xmlReader(toWrite_diff);
-			DVHPointer readDVH = xmlReader.generateDVH();
+			//read the file
+			io::other::DVHTxtFileReader dvhReader_W_Cum("test_Cum.txt");
+			rttb::core::DVHGeneratorInterface::DVHPointer dvhP_W_Cum = dvhReader_W_Cum.generateDVH();
 
-			CHECK(checkEqualDVH(importedDVH2, readDVH));
+			//check equal
+			CHECK(checkEqualDVH(dvhP_R, dvhP_W_Cum));
 
-			//write dvh to a xml file as cummulative
-			FileNameString toWrite_cum = "test_cum.xml";
-			io::other::DVHXMLFileWriter xmlWriter_cum(toWrite_cum, typeCum);
-			xmlWriter_cum.writeDVH(importedDVH2);
+			//write the dvh to another file as differential		
+			io::other::DVHTxtFileWriter dvhWriter_R_Diff("test_Diff.txt", typeDiff);
+			dvhWriter_R_Diff.writeDVH(dvhP_R);
 
-			io::other::DVHXMLFileReader xmlReader_cum(toWrite_cum);
-			DVHPointer readDVH_cum = xmlReader_cum.generateDVH();
+			//read the file
+			io::other::DVHTxtFileReader dvhReader_W_Diff("test_Diff.txt");
+			rttb::core::DVHGeneratorInterface::DVHPointer dvhP_W_Diff = dvhReader_W_Diff.generateDVH();
 
-			CHECK(checkEqualDVH(importedDVH2, readDVH_cum));
+			//check equal
+			CHECK(checkEqualDVH(dvhP_R, dvhP_W_Diff));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
