@@ -199,12 +199,6 @@ namespace rttb
 
 			CHECK_EQUAL(aMappableDoseAccessorMPChangedGeometricInfo->getGeometricInfo(), geoInfoTarget);
 
-			CHECK_EQUAL(aMappableDoseAccessorMPChangedGeometricInfo->validID(idValid), true);
-			CHECK_EQUAL(aMappableDoseAccessorMPChangedGeometricInfo->validID(idInvalid), false);
-
-			CHECK_EQUAL(aMappableDoseAccessorMPChangedGeometricInfo->validIndex(indexValid), true);
-			CHECK_EQUAL(aMappableDoseAccessorMPChangedGeometricInfo->validIndex(indexInvalid), false);
-
 
 			//3) test with registration stub
 			//First: Identity Transformation (nothing changes)
