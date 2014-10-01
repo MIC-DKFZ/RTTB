@@ -1,24 +1,22 @@
 // -----------------------------------------------------------------------
 // RTToolbox - DKFZ radiotherapy quantitative evaluation library
 //
-// (c) Copyright 2007, DKFZ, Heidelberg, Germany
-// ALL RIGHTS RESERVED
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html [^]
 //
-// THIS FILE CONTAINS CONFIDENTIAL AND PROPRIETARY INFORMATION OF DKFZ.
-// ANY DUPLICATION, MODIFICATION, DISTRIBUTION, OR
-// DISCLOSURE IN ANY FORM, IN WHOLE, OR IN PART, IS STRICTLY PROHIBITED
-// WITHOUT THE PRIOR EXPRESS WRITTEN PERMISSION OF DKFZ.
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE. See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
 /*!
 // @file
 // @version $Revision$ (last changed revision)
 // @date $Date$ (last change date)
-// @author zhangl (last changed by)
-// @author *none* (Reviewer)
-// @author zhangl (Programmer)
-//
-// Subversion HeadURL: $HeadURL: http://sidt-hpc1/dkfz_repository/NotMeVisLab/SIDT/RTToolbox/trunk/testing/core/DVHCalculatorTest.cpp $
+// @author $Author$ (last changed by)
 */
 
 #ifndef __SCATTER_TESTER_H
@@ -32,17 +30,20 @@
 #include "rttbBioModelScatterPlots.h"
 #include "rttbBioModelCurve.h"
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace testing{
+	namespace testing
+	{
 		/*! class ScatterTester
-			@brief Tester class for for model scatter plots. Compares a given scatter plot with a 
-			given model curve. The values should be similar for similar doses. Variations should 
-			only depend on the variance given for the scatter plot calculation. An additional 
+			@brief Tester class for for model scatter plots. Compares a given scatter plot with a
+			given model curve. The values should be similar for similar doses. Variations should
+			only depend on the variance given for the scatter plot calculation. An additional
 			deviation of 1e-4+givenVariance is ignored.
 		*/
-		class ScatterTester: public lit::TesterBase {
-		
+		class ScatterTester: public lit::TesterBase
+		{
+
 		private:
 			models::CurveDataType _referenceCurve;
 			models::ScatterPlotType _compareScatter;
@@ -60,19 +61,20 @@ namespace rttb{
 				If false, all points have to correspond.
 			*/
 			bool _allowExceptions;
-		
+
 
 		public:
-			ScatterTester(models::CurveDataType aReferenceCurve, models::ScatterPlotType aCompareScatter, models::BioModelParamType aVariance=0);
-			
-			/*! Set the reference curve used in comparison. 
+			ScatterTester(models::CurveDataType aReferenceCurve, models::ScatterPlotType aCompareScatter,
+			              models::BioModelParamType aVariance = 0);
+
+			/*! Set the reference curve used in comparison.
 			*/
 			void setReferenceCurve(const models::CurveDataType aReferenceCurve);
-			/*! Set the scatter data used in comparison. 
+			/*! Set the scatter data used in comparison.
 			*/
 			void setCompareScatter(const models::ScatterPlotType aCompareScatter);
-			/*! Set the variance that is allowed for the scatter plot. Usually this matches the parameter used in the computation of 
-				the scattered values. 
+			/*! Set the variance that is allowed for the scatter plot. Usually this matches the parameter used in the computation of
+				the scattered values.
 			*/
 			void setVariance(const models::BioModelParamType aVariance);
 			/*! If true allows up tp 5% of the scatter points to deviate without failing.
@@ -81,9 +83,12 @@ namespace rttb{
 			void setAllowExceptions(const bool allow);
 
 			/*! Returns a string that specifies the test the tester currently performs.
-		    */
+			*/
 			lit::StringType getTestDescription(void) const;
-			lit::StringType getTestName(void) const {return "ScatterTester";};
+			lit::StringType getTestName(void) const
+			{
+				return "ScatterTester";
+			};
 
 		protected:
 			/*! performes the test and checks the results.

@@ -1,24 +1,22 @@
 // -----------------------------------------------------------------------
 // RTToolbox - DKFZ radiotherapy quantitative evaluation library
 //
-// (c) Copyright 2007, DKFZ, Heidelberg, Germany
-// ALL RIGHTS RESERVED
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html [^]
 //
-// THIS FILE CONTAINS CONFIDENTIAL AND PROPRIETARY INFORMATION OF DKFZ.
-// ANY DUPLICATION, MODIFICATION, DISTRIBUTION, OR
-// DISCLOSURE IN ANY FORM, IN WHOLE, OR IN PART, IS STRICTLY PROHIBITED
-// WITHOUT THE PRIOR EXPRESS WRITTEN PERMISSION OF DKFZ.
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE. See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
 /*!
 // @file
 // @version $Revision$ (last changed revision)
 // @date $Date$ (last change date)
-// @author smang (last changed by)
-// @author *none* (Reviewer)
-// @author zhangl (Programmer)
-//
-// Subversion HeadURL: $HeadURL: http://sidt-hpc1/dkfz_repository/NotMeVisLab/SIDT/RTToolbox/branch/restructure/testing/core/rttbCoreTests.cpp $
+// @author $Author$ (last changed by)
 */
 
 // this file defines the rttbCoreTests for the test driver
@@ -28,46 +26,46 @@
 #endif
 
 
-#include "litMultiTestsMain.h" 
+#include "litMultiTestsMain.h"
 
 namespace rttb
 {
-  namespace testing
-  {
-    void registerTests()
-    {
-	  LIT_REGISTER_TEST(RTBioModelExampleTest);
-	  LIT_REGISTER_TEST(DVHCalculatorExampleTest);
-	  LIT_REGISTER_TEST(RTDVHTest);
-	  LIT_REGISTER_TEST(RTDoseIndexTest);
-	  LIT_REGISTER_TEST(RTDoseStatisticsTest);
-	  LIT_REGISTER_TEST(RTBioModelScatterPlotExampleTest);
+	namespace testing
+	{
+		void registerTests()
+		{
+			LIT_REGISTER_TEST(RTBioModelExampleTest);
+			LIT_REGISTER_TEST(DVHCalculatorExampleTest);
+			LIT_REGISTER_TEST(RTDVHTest);
+			LIT_REGISTER_TEST(RTDoseIndexTest);
+			LIT_REGISTER_TEST(RTDoseStatisticsTest);
+			LIT_REGISTER_TEST(RTBioModelScatterPlotExampleTest);
 
-    }
-  }
+		}
+	}
 }
 
 int main(int argc, char* argv[])
 {
-  int result = 0;
+	int result = 0;
 
-  rttb::testing::registerTests();
+	rttb::testing::registerTests();
 
-  try
-  {
-    result = lit::multiTestsMain(argc,argv);
-  }
-  catch(const std::exception& e)
-  {
-//    std::cerr << "RTToolbox test driver caught an exception:\n";
- //   std::cerr << e.what() << "\n";
-    result = -1;
-  }
-  catch(...)
-  {
-    //std::cerr << "RTToolbox test driver caught an unknown exception!!!\n";
-    result = -1;
-  }
+	try
+	{
+		result = lit::multiTestsMain(argc, argv);
+	}
+	catch (const std::exception& e)
+	{
+		//    std::cerr << "RTToolbox test driver caught an exception:\n";
+		//   std::cerr << e.what() << "\n";
+		result = -1;
+	}
+	catch (...)
+	{
+		//std::cerr << "RTToolbox test driver caught an unknown exception!!!\n";
+		result = -1;
+	}
 
-  return result;
+	return result;
 }
