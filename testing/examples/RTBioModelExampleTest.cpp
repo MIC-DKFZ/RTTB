@@ -148,7 +148,7 @@ namespace rttb
 			CurveDataType curve = models::getCurveDoseVSBioModel(tcplq, normalizationDose);
 			CurveDataType::iterator it;
 
-			for (it = curve.begin(); it != curve.end(); it++)
+			for (it = curve.begin(); it != curve.end(); ++it)
 			{
 				if ((*it).first < 62)
 				{

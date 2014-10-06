@@ -16,15 +16,15 @@ Needed Third Party Libraries
 
 Please load and compile the following third party libraries/tools:
 
-required:
+Required:
 1. CMake (version 2.8.3 or higher)
 2. boost (version 1.56.0 or higher)
 
-optional:
+Optional:
 [3. Litmus (in this distribution; see \utilities\Litmus; if you want tests)] 
 [4. dcmtk (with RT support - 3.6.1 or newer; if you want DICOM support)] 
-[5. ITK (version 4.0 or higher; if you want DoseInterpolation support)]
-[6. MatchPoint (version 0.9 or higher, see http://sourceforge.net/projects/matchpoint/; if you want DoseInterpolation support)]
+[5. ITK (version 4.0 or higher; if you want DoseInterpolation support with itk::Transform or ITK File IO support)]
+[6. MatchPoint (version 0.9 or higher, see http://sourceforge.net/projects/matchpoint/; if you want DoseInterpolation support with MatchPoint Registration objects)]
 [7. doxygen (if you want to generate a source code documentation)]
 
 Installation Instruction
@@ -132,11 +132,11 @@ For unix-like systems: Set the CMake parameter DCMTK_FORCE_FPIC_ON_UNIX to true 
 
 C.2. Build DCMTK
 
-[D. If you want ITKIO or DoseInterpolation support - ITK]
+[D. If you want ITKIO or DoseInterpolation support with itk::Transform - ITK]
 
 D.1. Build ITK.
 
-[E. If you want DoseInterpolation support - MatchPoint]
+[E. If you want support of DoseInterpolation with MatchPoint Registration objects - MatchPoint]
 
 E.1. Build MatchPoint.
 

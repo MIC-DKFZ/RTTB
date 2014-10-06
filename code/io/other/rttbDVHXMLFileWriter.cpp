@@ -35,12 +35,14 @@ namespace rttb
 		namespace other
 		{
 
-			DVHXMLFileWriter::DVHXMLFileWriter(FileNameString aFileName, DVHType aDVHType){
-				this->setFileName(aFileName); 
+			DVHXMLFileWriter::DVHXMLFileWriter(FileNameString aFileName, DVHType aDVHType)
+			{
+				this->setFileName(aFileName);
 				this->setDVHType(aDVHType);
 			}
 
-			void DVHXMLFileWriter::setDVHType(DVHType aDVHType){
+			void DVHXMLFileWriter::setDVHType(DVHType aDVHType)
+			{
 				_dvhType = aDVHType;
 			}
 
@@ -54,13 +56,14 @@ namespace rttb
 				_fileName = aFileName;
 			}
 
-			DVHType DVHXMLFileWriter::getDVHType() const{
+			DVHType DVHXMLFileWriter::getDVHType() const
+			{
 				return _dvhType;
 			}
 
 			void DVHXMLFileWriter::writeDVH(DVHPointer aDvh)
 			{
-				if(!aDvh)
+				if (!aDvh)
 				{
 					throw core::NullPointerException("aDvh must not be NULL! ");
 				}
@@ -69,55 +72,56 @@ namespace rttb
 				using boost::property_tree::ptree;
 				ptree pt;
 
-				if(_dvhType.Type == DVHType::Differential)
+				if (_dvhType.Type == DVHType::Differential)
 				{
 					pt.put("dvh.type", "DIFFERENTIAL");
 				}
-				else if( _dvhType.Type == DVHType::Cumulative)
+				else if (_dvhType.Type == DVHType::Cumulative)
 				{
 					pt.put("dvh.type", "CUMULATIVE");
 				}
-				else{
+				else
+				{
 					throw core::InvalidParameterException("DVH Type not acceptable: Only: DIFFERENTIAL/CUMULATIVE!");
 				}
 
-				
+
 				DataDifferentialType dataDifferential = aDvh->getDataDifferential();
-				int numberOfBins = dataDifferential.size();
+				size_t numberOfBins = dataDifferential.size();
 				pt.put("dvh.deltaD", aDvh->getDeltaD());
 				pt.put("dvh.deltaV", aDvh->getDeltaV());
 				pt.put("dvh.structureID", aDvh->getStructureID());
 				pt.put("dvh.doseID", aDvh->getDoseID());
 
-				
-				if(_dvhType.Type == DVHType::Differential)
+
+				if (_dvhType.Type == DVHType::Differential)
 				{
 
-					for(int i=0; i<numberOfBins; i++)
-					{				
+					for (int i = 0; i < (int)numberOfBins; i++)
+					{
 						pt.add("dvh.data.dosebin", i);
 						pt.add("dvh.data.volume", dataDifferential[i]);
 					}
 				}
-				else if(_dvhType.Type == DVHType::Cumulative)
+				else if (_dvhType.Type == DVHType::Cumulative)
 				{
 
 					DataDifferentialType dataCumulative = aDvh->calcCumulativeDVH();
 
-					for(int i=0; i<numberOfBins; i++)
+					for (int i = 0; i < (int)numberOfBins; i++)
 					{
 						pt.add("dvh.data.dosebin", i);
 						pt.add("dvh.data.volume", dataCumulative[i]);
 					}
 				}
-				
-				
+
+
 				try
 				{
-					boost::property_tree::xml_parser::xml_writer_settings<char> settings('\t', 1);
+					auto settings = boost::property_tree::xml_parser::xml_writer_make_settings<std::string>('\t', 1);
 					boost::property_tree::xml_parser::write_xml(_fileName, pt, std::locale(), settings);
 				}
-				catch (boost::property_tree::xml_parser_error& e)
+				catch (boost::property_tree::xml_parser_error& /*e*/)
 				{
 					throw core::InvalidParameterException("Write xml failed: xml_parser_error!");
 				}
