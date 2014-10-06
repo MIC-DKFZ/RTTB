@@ -222,8 +222,9 @@ namespace rttb
 		bool GeometricInfo::isInside(const VoxelGridIndex3D& aIndex) const
 		{
 			return (aIndex(0) >= 0 && aIndex(1) >= 0 && aIndex(2) >= 0
-			        && aIndex(0) < unsigned int(_numberOfColumns) && aIndex(1) < unsigned int(_numberOfRows)
-			        && aIndex(2) < unsigned int(_numberOfFrames));
+			        && aIndex(0) < static_cast<unsigned int>(_numberOfColumns)
+			        && aIndex(1) < static_cast<unsigned int>(_numberOfRows)
+			        && aIndex(2) < static_cast<unsigned int>(_numberOfFrames));
 		}
 
 		bool GeometricInfo::isInside(const WorldCoordinate3D& aWorldCoordinate)
@@ -253,9 +254,9 @@ namespace rttb
 
 		bool GeometricInfo::convert(const VoxelGridIndex3D& gridIndex, VoxelGridID& gridID) const
 		{
-			if ((gridIndex.x() >= (unsigned int)getNumColumns())
-			    || (gridIndex.y() >= (unsigned int)getNumRows())
-			    || (gridIndex.z() >= (unsigned int)getNumSlices()))
+			if ((gridIndex.x() >= static_cast<unsigned int>(getNumColumns()))
+			    || (gridIndex.y() >= static_cast<unsigned int>(getNumRows()))
+			    || (gridIndex.z() >= static_cast<unsigned int>(getNumSlices())))
 			{
 				return false;
 			}

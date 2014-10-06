@@ -88,7 +88,7 @@ namespace rttb
 
 					if (status.good())
 					{
-						for (unsigned int i = 0; i < (unsigned int)this->_geoInfo.getNumberOfVoxels(); i++)
+						for (unsigned int i = 0; i < static_cast<unsigned int>(this->_geoInfo.getNumberOfVoxels()); i++)
 						{
 							this->doseData.push_back(pixelData[i]);
 						}
@@ -230,11 +230,15 @@ namespace rttb
 				{
 					OFVector<Float64> gridFrameOffsetVector;
 					_dose->getGridFrameOffsetVector(gridFrameOffsetVector);
-					if(gridFrameOffsetVector.size() >= 2){
-						spacingVector(2) = gridFrameOffsetVector.at(1) - gridFrameOffsetVector.at(0); //read slice thickness from GridFrameOffsetVector (3004,000c)
+
+					if (gridFrameOffsetVector.size() >= 2)
+					{
+						spacingVector(2) = gridFrameOffsetVector.at(1) - gridFrameOffsetVector.at(
+						                       0); //read slice thickness from GridFrameOffsetVector (3004,000c)
 					}
 
-					if(spacingVector(2) == 0){
+					if (spacingVector(2) == 0)
+					{
 						OFCondition status;
 						DcmItem doseitem;
 						OFString pixelSpacingBetweenSlices;
@@ -243,11 +247,13 @@ namespace rttb
 
 						if (status.good())
 						{
-							
+
 							status = doseitem.findAndGetOFString(DcmTagKey(0x0018, 0x0088), pixelSpacingBetweenSlices);
+
 							try
 							{
-								spacingVector(2) = boost::lexical_cast<GridVolumeType>(pixelSpacingBetweenSlices.c_str());//read slice thickness from PixelSpacingBetweenSlices (0018,0088)
+								spacingVector(2) = boost::lexical_cast<GridVolumeType>
+								                   (pixelSpacingBetweenSlices.c_str());//read slice thickness from PixelSpacingBetweenSlices (0018,0088)
 							}
 							catch (boost::bad_lexical_cast&)
 							{
@@ -257,14 +263,15 @@ namespace rttb
 
 
 						//if no useful tags to compute slicing -> set slice thickness to spacingVector(0)
-						if(spacingVector(2) == 0 ){
-					std::cerr << "sliceThickness == 0! It wird be replaced with pixelSpacingRow=" <<
-					          _geoInfo.getPixelSpacingRow()
-					          << "!" << std::endl;
-					spacingVector(2) = spacingVector(0);
-				}
-						
-						
+						if (spacingVector(2) == 0)
+						{
+							std::cerr << "sliceThickness == 0! It wird be replaced with pixelSpacingRow=" <<
+							          _geoInfo.getPixelSpacingRow()
+							          << "!" << std::endl;
+							spacingVector(2) = spacingVector(0);
+						}
+
+
 					}
 				}
 

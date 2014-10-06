@@ -104,7 +104,8 @@ namespace rttb
 
 						if (status.good())
 						{
-							for (unsigned int i = 0; i < unsigned int(_geoInfo.getNumColumns()*_geoInfo.getNumRows()); i++)
+							for (unsigned int i = 0;
+							     i < static_cast<unsigned int>(_geoInfo.getNumColumns()*_geoInfo.getNumRows()); i++)
 							{
 								this->_doseData.push_back(pixelData[i]*currentDoseGridScaling /
 								                          _doseGridScaling); //recalculate dose data
