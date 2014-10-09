@@ -1,24 +1,22 @@
 // -----------------------------------------------------------------------
 // RTToolbox - DKFZ radiotherapy quantitative evaluation library
 //
-// (c) Copyright 2007, DKFZ, Heidelberg, Germany
-// ALL RIGHTS RESERVED
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html [^]
 //
-// THIS FILE CONTAINS CONFIDENTIAL AND PROPRIETARY INFORMATION OF DKFZ.
-// ANY DUPLICATION, MODIFICATION, DISTRIBUTION, OR
-// DISCLOSURE IN ANY FORM, IN WHOLE, OR IN PART, IS STRICTLY PROHIBITED
-// WITHOUT THE PRIOR EXPRESS WRITTEN PERMISSION OF DKFZ.
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE. See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
 /*!
 // @file
 // @version $Revision$ (last changed revision)
 // @date $Date$ (last change date)
-// @author zhangl (last changed by)
-// @author *none* (Reviewer)
-// @author zhangl (Programmer)
-//
-// Subversion HeadURL: $HeadURL: http://sidt-hpc1/dkfz_repository/NotMeVisLab/SIDT/RTToolbox/trunk/testing/core/DVHCalculatorTest.cpp $
+// @author $Author$ (last changed by)
 */
 
 // this file defines the rttbCoreTests for the test driver
@@ -39,16 +37,18 @@
 #include "rttbInvalidParameterException.h"
 
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace testing{
+	namespace testing
+	{
 
 		/*!@brief DicomHelaxDoseAccessorGeneratorTest - test the IO for dicom helax data
-		1) test dicom helax file generator generateDoseAccessor() 
-		2) test dicom helax IOD vector generator generateDoseAccessor() 
+		1) test dicom helax file generator generateDoseAccessor()
+		2) test dicom helax IOD vector generator generateDoseAccessor()
 		*/
 
-		int DicomHelaxDoseAccessorGeneratorTest(int argc, char* argv[] )
+		int DicomHelaxDoseAccessorGeneratorTest(int argc, char* argv[])
 		{
 			typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
 
@@ -64,19 +64,22 @@ namespace rttb{
 			std::string RTDOSE3_FILENAME;
 
 
-			if (argc>1)
+			if (argc > 1)
 			{
 				RTDOSE_DIRNAME = argv[1];
 			}
-			if (argc>2)
+
+			if (argc > 2)
 			{
 				RTDOSE1_FILENAME = argv[2];
 			}
-			if (argc>3)
+
+			if (argc > 3)
 			{
 				RTDOSE2_FILENAME = argv[3];
 			}
-			if (argc>4)
+
+			if (argc > 4)
 			{
 				RTDOSE3_FILENAME = argv[4];
 			}
@@ -86,9 +89,11 @@ namespace rttb{
 			DcmFileFormat fileformat;
 
 			/* test dicom helax file generator generateDoseAccessor() */
-			CHECK_THROW_EXPLICIT(io::helax::DicomHelaxFileDoseAccessorGenerator("/test").generateDoseAccessor(), core::InvalidParameterException);
-			CHECK_NO_THROW(io::helax::DicomHelaxFileDoseAccessorGenerator(RTDOSE_DIRNAME.c_str()).generateDoseAccessor());
-			
+			CHECK_THROW_EXPLICIT(io::helax::DicomHelaxFileDoseAccessorGenerator("/test").generateDoseAccessor(),
+			                     core::InvalidParameterException);
+			CHECK_NO_THROW(io::helax::DicomHelaxFileDoseAccessorGenerator(
+			                   RTDOSE_DIRNAME.c_str()).generateDoseAccessor());
+
 
 			/* test dicom helax IOD vector generator generateDoseAccessor()*/
 			DRTDoseIODPtr dose1 = boost::make_shared<DRTDoseIOD>();
@@ -97,25 +102,28 @@ namespace rttb{
 			std::vector<DRTDoseIODPtr> doseVector;
 
 			//test empty vector
-			CHECK_THROW_EXPLICIT(io::helax::DicomHelaxIODVecDoseAccessorGenerator(doseVector).generateDoseAccessor(), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(io::helax::DicomHelaxIODVecDoseAccessorGenerator(
+			                         doseVector).generateDoseAccessor(), core::InvalidParameterException);
 
 			doseVector.push_back(dose1);
 			doseVector.push_back(dose2);
 			doseVector.push_back(dose3);
 
 			//test vector with all empty dose IODs
-			CHECK_THROW_EXPLICIT(io::helax::DicomHelaxIODVecDoseAccessorGenerator(doseVector).generateDoseAccessor(), core::InvalidDoseException);
+			CHECK_THROW_EXPLICIT(io::helax::DicomHelaxIODVecDoseAccessorGenerator(
+			                         doseVector).generateDoseAccessor(), core::InvalidDoseException);
 
 
-			fileformat.loadFile(RTDOSE1_FILENAME.c_str());			
+			fileformat.loadFile(RTDOSE1_FILENAME.c_str());
 			dose1->read(*fileformat.getDataset());
-			fileformat.loadFile(RTDOSE2_FILENAME.c_str());			
+			fileformat.loadFile(RTDOSE2_FILENAME.c_str());
 			dose2->read(*fileformat.getDataset());
 			//test vector with one empty dose IOD
-			CHECK_THROW_EXPLICIT(io::helax::DicomHelaxIODVecDoseAccessorGenerator(doseVector).generateDoseAccessor(), core::InvalidDoseException);
+			CHECK_THROW_EXPLICIT(io::helax::DicomHelaxIODVecDoseAccessorGenerator(
+			                         doseVector).generateDoseAccessor(), core::InvalidDoseException);
 
-			
-			fileformat.loadFile(RTDOSE3_FILENAME.c_str());			
+
+			fileformat.loadFile(RTDOSE3_FILENAME.c_str());
 			dose3->read(*fileformat.getDataset());
 			CHECK_NO_THROW(io::helax::DicomHelaxIODVecDoseAccessorGenerator(doseVector).generateDoseAccessor());
 

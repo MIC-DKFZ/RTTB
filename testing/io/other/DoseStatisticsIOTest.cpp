@@ -1,24 +1,22 @@
 // -----------------------------------------------------------------------
 // RTToolbox - DKFZ radiotherapy quantitative evaluation library
 //
-// (c) Copyright 2007, DKFZ, Heidelberg, Germany
-// ALL RIGHTS RESERVED
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html [^]
 //
-// THIS FILE CONTAINS CONFIDENTIAL AND PROPRIETARY INFORMATION OF DKFZ.
-// ANY DUPLICATION, MODIFICATION, DISTRIBUTION, OR
-// DISCLOSURE IN ANY FORM, IN WHOLE, OR IN PART, IS STRICTLY PROHIBITED
-// WITHOUT THE PRIOR EXPRESS WRITTEN PERMISSION OF DKFZ.
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE. See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
 /*!
 // @file
 // @version $Revision$ (last changed revision)
 // @date $Date$ (last change date)
-// @author zhangl (last changed by)
-// @author *none* (Reviewer)
-// @author zhangl (Programmer)
-//
-// Subversion HeadURL: $HeadURL: http://sidt-hpc1/dkfz_repository/NotMeVisLab/SIDT/RTToolbox/trunk/testing/core/DVHCalculatorTest.cpp $
+// @author $Author$ (last changed by)
 */
 
 // this file defines the rttbCoreTests for the test driver
@@ -41,16 +39,18 @@
 #include "../../core/DummyDoseAccessor.h"
 
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace testing{
+	namespace testing
+	{
 
 		/*! @brief OtherIOTest - test the IO for dose statistics
 		    1) test exception
 			2) test writing statistcs to xml file
 		*/
 
-		int DoseStatisticsIOTest(int argc, char* argv[] )
+		int DoseStatisticsIOTest(int argc, char* argv[])
 		{
 			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
 			typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
@@ -62,27 +62,29 @@ namespace rttb{
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor = boost::make_shared<DummyDoseAccessor>();
 			DoseAccessorPointer spDoseAccessor(spTestDoseAccessor);
 
-			boost::shared_ptr<core::GenericDoseIterator> spTestDoseIterator = 
-				boost::make_shared<core::GenericDoseIterator>(spDoseAccessor);
-			DoseIteratorPointer spDoseIterator (spTestDoseIterator);
+			boost::shared_ptr<core::GenericDoseIterator> spTestDoseIterator =
+			    boost::make_shared<core::GenericDoseIterator>(spDoseAccessor);
+			DoseIteratorPointer spDoseIterator(spTestDoseIterator);
 
 			rttb::algorithms::DoseStatistics myDoseStats(spDoseIterator);
-			DoseStatisticsPtr myDoseStatsPtr=boost::make_shared<rttb::algorithms::DoseStatistics>(myDoseStats);
+			DoseStatisticsPtr myDoseStatsPtr = boost::make_shared<rttb::algorithms::DoseStatistics>
+			                                   (myDoseStats);
 
 			/* test exception */
-			CHECK_THROW_EXPLICIT(io::other::writeDoseStatistics(myDoseStatsPtr,"test.test", 0),core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(io::other::writeDoseStatistics(myDoseStatsPtr, "test.test", 0),
+			                     core::InvalidParameterException);
 
-				
+
 			/* test writing statistcs to xml file */
-			FileNameString fN="testStatistics.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsPtr,fN));
+			FileNameString fN = "testStatistics.xml";
+			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsPtr, fN));
 
 			/* test writing statistcs to string */
 			boost::property_tree::ptree pt = io::other::writeDoseStatistics(myDoseStatsPtr);
 			XMLString str = io::other::writerDoseStatisticsToString(myDoseStatsPtr);
-		
+
 			std::stringstream sstr;
-			boost::property_tree::xml_parser::write_xml(sstr,pt);
+			boost::property_tree::xml_parser::write_xml(sstr, pt);
 			CHECK_EQUAL(str, sstr.str());
 
 

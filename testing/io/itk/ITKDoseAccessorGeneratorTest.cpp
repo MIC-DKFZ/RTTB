@@ -1,24 +1,22 @@
 // -----------------------------------------------------------------------
 // RTToolbox - DKFZ radiotherapy quantitative evaluation library
 //
-// (c) Copyright 2007, DKFZ, Heidelberg, Germany
-// ALL RIGHTS RESERVED
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html [^]
 //
-// THIS FILE CONTAINS CONFIDENTIAL AND PROPRIETARY INFORMATION OF DKFZ.
-// ANY DUPLICATION, MODIFICATION, DISTRIBUTION, OR
-// DISCLOSURE IN ANY FORM, IN WHOLE, OR IN PART, IS STRICTLY PROHIBITED
-// WITHOUT THE PRIOR EXPRESS WRITTEN PERMISSION OF DKFZ.
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE. See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
 /*!
 // @file
 // @version $Revision$ (last changed revision)
 // @date $Date$ (last change date)
-// @author zhangl (last changed by)
-// @author *none* (Reviewer)
-// @author zhangl (Programmer)
-//
-// Subversion HeadURL: $HeadURL: http://sidt-hpc1/dkfz_repository/NotMeVisLab/SIDT/RTToolbox/trunk/testing/core/DVHCalculatorTest.cpp $
+// @author $Author$ (last changed by)
 */
 
 // this file defines the rttbCoreTests for the test driver

@@ -50,10 +50,6 @@ namespace rttb
 			bool _acceptPadding;
 			DoseTypeGy _defaultOutsideValue;
 
-			bool convert(const VoxelGridID& gridID, VoxelGridIndex3D& gridIndex) const;
-
-			bool convert(const VoxelGridIndex3D& gridIndex, VoxelGridID& gridID) const;
-
 		public:
 			/*! @brief Constructor.
 				@param geoInfoTargetImage target image geometry
@@ -67,19 +63,11 @@ namespace rttb
 			MappableDoseAccessorBase(const core::GeometricInfo& geoInfoTargetImage,
 			                         const DoseAccessorPointer doseMovingImage, const TransformationInterface::Pointer aTransformation,
 			                         bool acceptPadding = true,
-									 DoseTypeGy defaultOutsideValue = 0.0);
+			                         DoseTypeGy defaultOutsideValue = 0.0);
 
 			/*! @brief Virtual destructor of base class
 			*/
 			virtual ~MappableDoseAccessorBase() {};
-
-			/*! @brief test if given ID is inside current dose grid
-			*/
-			bool validID(const VoxelGridID aID) const;
-
-			/*! @brief test if given index is inside current dose grid
-			*/
-			bool validIndex(const VoxelGridIndex3D& aIndex) const;
 
 			inline const core::GeometricInfo& getGeometricInfo() const
 			{

@@ -87,7 +87,7 @@ namespace rttb
 
 
 				DataDifferentialType dataDifferential = aDvh->getDataDifferential();
-				int numberOfBins = dataDifferential.size();
+				size_t numberOfBins = dataDifferential.size();
 				pt.put("dvh.deltaD", aDvh->getDeltaD());
 				pt.put("dvh.deltaV", aDvh->getDeltaV());
 				pt.put("dvh.structureID", aDvh->getStructureID());
@@ -121,7 +121,7 @@ namespace rttb
 					auto settings = boost::property_tree::xml_writer_make_settings<std::string> ('\t', 1);
 					boost::property_tree::xml_parser::write_xml(_fileName, pt, std::locale(), settings);
 				}
-				catch (boost::property_tree::xml_parser_error& e)
+				catch (boost::property_tree::xml_parser_error& /*e*/)
 				{
 					throw core::InvalidParameterException("Write xml failed: xml_parser_error!");
 				}
