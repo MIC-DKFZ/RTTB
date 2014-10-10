@@ -44,8 +44,11 @@ namespace rttb{
 				int _numberOfFractions;
 
 			public: 
+
 				TCPModel(): BioModel(), _numberOfFractions(0){};
+
 				TCPModel(int aNum): BioModel(), _numberOfFractions(aNum){};
+
 				TCPModel(DVHPointer aDvh, int aNum): BioModel(aDvh), _numberOfFractions(aNum){};
 
 				void setNumberOfFractions(const int aNumberOfFractions);

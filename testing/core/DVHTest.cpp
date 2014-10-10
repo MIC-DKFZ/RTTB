@@ -38,14 +38,14 @@ namespace rttb{
 		typedef core::DVH::DataDifferentialType DataDifferentialType;
 
 		/*! @brief DVHTest - test the API of DVH
-			1) test constructors (values as expected?)
-			2) test asignement
-			3) test set/getLabel
-			4) test set/get<Values>
-			5) test equality
+		1) test constructors (values as expected?)
+		2) test asignement
+		3) test set/getLabel
+		4) test set/get<Values>
+		5) test equality
 		*/
 		int DVHTest(int argc, char* argv[] )
-			{
+		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
 			//generate artificial DVH and corresponding statistical values
@@ -72,20 +72,20 @@ namespace rttb{
 					maximum = (i+0.5)*binSize;
 					if (minimum==0){
 						minimum = (i+0.5)*binSize;
-						}
 					}
+				}
 				sum+=value*(i+0.5)*binSize;
 				squareSum+=value*pow((i+0.5)*binSize,2);
-				}
+			}
 			DoseStatisticType mean = sum/numberOfVoxels;
 			DoseStatisticType variance=(squareSum/numberOfVoxels-mean*mean);
 			DoseStatisticType stdDeviation=pow(variance,0.5);
 
 			std::deque<DoseCalcType>::iterator it;
 			for(it=aDataDifferential.begin();it!=aDataDifferential.end();it++)
-				{
+			{
 				aDataDifferentialRelative.push_back((*it)/numberOfVoxels);
-				}
+			}
 
 			const IDType structureID = "myStructure";
 			const IDType doseID = "myDose";
@@ -94,7 +94,6 @@ namespace rttb{
 			//1) test default constructor (values as expected?)
 			CHECK_THROW(core::DVH(anEmptyDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID));	
 			CHECK_THROW(core::DVH(anEmptyDataDifferential, binSize, voxelVolume, structureID, doseID));
-
 			CHECK_NO_THROW(core::DVH(aDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID));	
 			CHECK_NO_THROW(core::DVH(aDataDifferential, binSize, voxelVolume, structureID, doseID));
 			CHECK_THROW(core::DVH(aDataDifferential, 0, voxelVolume, structureID, doseID, voxelizationID));	
@@ -148,7 +147,7 @@ namespace rttb{
 			CHECK(myDVH.getDataDifferential()==aDataDifferential);
 			CHECK(myDVH.getDataDifferential(false) == aDataDifferential);
 			CHECK(myDVH.getDataDifferential(true)==aDataDifferentialRelative);
-			
+
 			CHECK_EQUAL(myDVH.getNumberOfVoxels(), numberOfVoxels);
 			CHECK_EQUAL(myDVH.getDeltaV(), voxelVolume);
 			CHECK_EQUAL(myDVH.getDeltaD(), binSize);
@@ -173,7 +172,7 @@ namespace rttb{
 			CHECK_EQUAL(aDVH,myOtherDVH);	  	  
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
-			}
+		}
 
-		}//end namespace testing
-	}//end namespace rttb
+	}//end namespace testing
+}//end namespace rttb

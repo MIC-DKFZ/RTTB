@@ -97,7 +97,7 @@ namespace rttb
 			models::BioModelParamType alpha = 0.35;
 			models::BioModelParamType beta = 0.023333333333333;
 			models::BioModelParamType roh = 10000000;
-			int numFractions = 1;
+			int numFractions = 2;
 
 			DoseTypeGy normalizationDose = 68;
 

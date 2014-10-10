@@ -625,7 +625,7 @@ namespace rttb
 
 	typedef double FractionType, VoxelSizeType, DVHVoxelNumber;
 
-	typedef double DoseCalcType, DoseTypeGy, DoseVoxelVolumeType, VolumeType, GridVolumeType;
+	typedef double DoseCalcType, DoseTypeGy, DoseVoxelVolumeType, VolumeType, GridVolumeType, VoxelNumberType, BEDType, LQEDType;
 
 	typedef std::string IDType;
 

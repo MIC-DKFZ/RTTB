@@ -82,6 +82,7 @@ namespace rttb{
           @pre _alphaVariance >= 0
           @pre _alpha_beta > 0
           @pre _rho > 0
+			@pre _numberOfFractions > 1
           @exception InvalidParameterException Thrown if parameters were not set correctly.
 				*/
 				BioModelValueType calcModel(const double doseFactor=1); 
@@ -90,11 +91,20 @@ namespace rttb{
 				TCPLQModel();
 
 				/*! @brief Constructor initializes member variables with given parameters.
+			@pre aAlphaMean >0
+			@pre aBeta > 0
+			@pre aRho > 0
+			@pre aNumberOfFractions > 1
 				*/
 				TCPLQModel(DVHPointer aDVH, BioModelParamType aAlphaMean, BioModelParamType aBeta, BioModelParamType aRho, 
 					int aNumberOfFractions);
 
 				/*! @brief Constructor for alpha distribution initializes member variables with given parameters.
+			@pre aAlphaMean >0
+			@pre aAlphaVariance >0
+			@pre aAlpha_Beta > 0
+			@pre aRho > 0
+			@pre aNumberOfFractions > 1
 				*/
 				TCPLQModel(DVHPointer aDVH, BioModelParamType aRho, int aNumberOfFractions, BioModelParamType aAlpha_Beta, 
 					BioModelParamType aAlphaMean, BioModelParamType aAlphaVariance);
@@ -102,7 +112,7 @@ namespace rttb{
 				const BioModelParamType getRho();
 
 				void setRho(const BioModelParamType aRho);
-		
+
 				const BioModelParamType getAlphaMean();
 
 				const BioModelParamType getAlphaVariance();
@@ -145,7 +155,7 @@ namespace rttb{
 			};
 
 		}//end algorithms
-	}//end rttb
+}//end rttb
 
 
 #endif

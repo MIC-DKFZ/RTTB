@@ -61,7 +61,6 @@ namespace rttb{
 
 			_dataDifferential.clear();
 			_dataDifferential = copy._dataDifferential;
-			
 			this->init();
 			}
 
@@ -369,4 +368,4 @@ namespace rttb{
 			}
 
 		}//end namespace core
-	}//end namespace rttb
+}//end namespace rttb

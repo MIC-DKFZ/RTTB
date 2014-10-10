@@ -135,10 +135,13 @@ namespace rttb{
 
 			BioModelValueType value=0;
 			if(_alphaVariance==0){
-				if(_alphaMean<=0 && _alpha_beta<=0 && _rho<=0 && _numberOfFractions<=0)
+				if(_alphaMean<=0 && _alpha_beta<=0 && _rho<=0 )
 					{
           throw core::InvalidParameterException("Parameter invalid: alpha, alpha/beta, rho and number of fractions must >0!");
 					}
+				if(_numberOfFractions<=1){
+					throw core::InvalidParameterException("Parameter invalid: numberOfFractions must be >1! The dvh should be an accumulated-dvh of all fractions, not a single fraction-dvh!");
+				}
 
 				long double tcp=1;
 				std::map<rttb::DoseTypeGy, rttb::DoseCalcType> dataBED=calcBEDDVH(spDVH,_numberOfFractions, _alpha_beta);
@@ -153,6 +156,9 @@ namespace rttb{
 					{
           throw core::InvalidParameterException("Parameter invalid: alpha/beta, alphaMean, rho and number of fractions must >0!");
 					}
+				if(_numberOfFractions<=1){
+					throw core::InvalidParameterException("Parameter invalid: numberOfFractions must be >1! The dvh should be an accumulated-dvh of all fractions, not a single fraction-dvh!");
+				}
 
 				std::map<rttb::DoseTypeGy, rttb::DoseCalcType> dataBED=calcBEDDVH(spDVH,_numberOfFractions, _alpha_beta);
 				value=(BioModelValueType)(this->calcTCPAlphaNormalDistribution(dataBED,_rho,_alphaMean,_alphaVariance,

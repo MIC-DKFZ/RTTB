@@ -5,6 +5,7 @@ SET(CPP_FILES
 	BioModelScatterPlotTest.cpp
 	DummyModel.cpp
 	../core/DummyDVHGenerator.cpp
+	DvhBasedModelsTest.cpp
   )
 
 SET(H_FILES 

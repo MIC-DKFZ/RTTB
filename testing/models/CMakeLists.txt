@@ -15,6 +15,7 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 #-----------------------------------------------------------------------------
 ADD_TEST(BioModelTest ${MODELS_TESTS} BioModelTest)
 ADD_TEST(BioModelScatterPlotTest ${MODELS_TESTS} BioModelScatterPlotTest)
+ADD_TEST(DvhBasedModelsTest ${MODELS_TESTS} DvhBasedModelsTest)
 
 RTTB_CREATE_TEST_MODULE(rttbModel DEPENDS RTTBModels RTTBOtherIO PACKAGE_DEPENDS Boost Litmus DCMTK)
 

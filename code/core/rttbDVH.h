@@ -40,7 +40,6 @@ namespace rttb{
 			public:
 				typedef std::deque<DoseCalcType> DataDifferentialType;
 				typedef boost::shared_ptr<DVH> DVHPointer;
-
 			private: 
 				IDType _structureID;
 				IDType _doseID;
@@ -71,7 +70,7 @@ namespace rttb{
 				DoseStatisticType _variance;
 				DataDifferentialType _dataCumulative;
 				DataDifferentialType _dataCumulativeRelative;
-				
+
 				/*! @brief DVH initialisation 
 					The DVH is initialized and all statistical values are calculated.
 					@throw <InvalidParameterException> if _deltaV or _deltaD are zero
@@ -187,7 +186,7 @@ namespace rttb{
 
 			};
 		}
-	}
+}
 
 
 #endif
