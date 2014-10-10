@@ -26,7 +26,7 @@
 #include "rttbBaseType.h"
 #include "rttbInterpolationBase.h"
 #include "rttbTransformationInterface.h"
-#include "rttbMappableDoseAccessorBase.h"
+#include "rttbMappableDoseAccessorInterface.h"
 
 namespace rttb
 {
@@ -38,7 +38,7 @@ namespace rttb
 		@details implementation of the following paper: Rosu, M., Chetty, I. J., Balter, J. M., Kessler, M. L., McShan, D. L., & Ten Haken, R. K. (2005). Dose reconstruction in deforming lung anatomy: Dose grid size effects and clinical implications. Medical Physics, 32(8), 2487.
 		@ingroup interpolation
 		*/
-		class RosuMappableDoseAccessor: public MappableDoseAccessorBase
+		class RosuMappableDoseAccessor: public MappableDoseAccessorInterface
 		{
 		private:
 			InterpolationBase::Pointer _spInterpolation;
@@ -59,6 +59,8 @@ namespace rttb
 			/*! @brief Virtual destructor.
 			*/
 			virtual ~RosuMappableDoseAccessor() {};
+
+			DoseTypeGy getDoseAt(const VoxelGridID aID) const;
 
 			/*! @brief Returns the dose for a given voxel grid index. The computation of the octant around the voxel is done and the interpolation is performed.
 				@details Boundary treatment: if more than 6 subvoxels are outside: return _defaultOutsideValue. Otherwise: ignore the outside values.

@@ -139,13 +139,13 @@ namespace rttb
 				If the target is inside the grid return true.
 			*/
 			bool worldCoordinateToIndex(const WorldCoordinate3D& aWorldCoordinate,
-			                            VoxelGridIndex3D& aIndex) const;
+										VoxelGridIndex3D& aIndex) const;
 			/*! @brief voxel grid index to convert world coordinates.
 				The conversion of values is done even if the target is not inside the given voxel grid (return false).
 				If the target is inside the voxel grid return true.
 			*/
 			bool indexToWorldCoordinate(const VoxelGridIndex3D& aIndex ,
-			                            WorldCoordinate3D& aWorldCoordinate) const;
+										WorldCoordinate3D& aWorldCoordinate) const;
 
 			/*! @brief check if a given voxel grid index is inside the given voxel grid.*/
 			bool isInside(const VoxelGridIndex3D& aIndex) const;

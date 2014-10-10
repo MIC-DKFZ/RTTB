@@ -19,49 +19,29 @@
 // @author  $Author$ (last changed by)
 */
 
-#include <boost/shared_ptr.hpp>
-
 #include "litCheckMacros.h"
 
 #include "rttbBaseType.h"
 #include "rttbGenericDoseIterator.h"
-#include "rttbDoseIteratorInterface.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
-#include "rttbMatchPointTransformation.h"
 #include "rttbRosuMappableDoseAccessor.h"
-#include "rttbNearestNeighborInterpolation.h"
-#include "rttbLinearInterpolation.h"
-#include "rttbITKImageDoseAccessor.h"
+
+#include "DummyTransformation.h"
 
 #include "rttbNullPointerException.h"
 #include "rttbMappingOutsideOfImageException.h"
-
-#include "itkImage.h"
-
-#include "registrationTest.h"
-#include "registrationAlgorithm.h"
 
 namespace rttb
 {
 	namespace testing
 	{
-		static const unsigned int TargetDimension3D = 3;
-		static const unsigned int MovingDimension3D = 3;
 		typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
-		typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
 		typedef rttb::interpolation::RosuMappableDoseAccessor RosuMappableDoseAccessor;
-		typedef map::core::RegistrationTest<MovingDimension3D, TargetDimension3D> Registration3D3DTypeTest;
-		typedef Registration3D3DTypeTest::Pointer Registration3D3DTypeTestPointer;
-		typedef map::core::Registration<MovingDimension3D, TargetDimension3D> Registration3D3DType;
-		typedef Registration3D3DType::Pointer Registration3D3DPointer;
 		typedef rttb::interpolation::TransformationInterface TransformationInterface;
-		typedef rttb::interpolation::MatchPointTransformation MatchPointTransformation;
-		typedef RosuMappableDoseAccessor::Pointer RosuMappableDoseAccessorPointer;
-		typedef rttb::interpolation::MappableDoseAccessorBase MappableDoseAccessorBase;
 
 		/*! @brief RosuMappableDoseAccessorTest - test the API of RosuMappableDoseAccessor
-			1) test constructor
-			2) test with registration stub
+			1) Constructor
+			2) test getDoseAt()
 		*/
 
 		int RosuMappableDoseAccessorTest(int argc, char* argv[])
@@ -78,82 +58,93 @@ namespace rttb
 			}
 			else
 			{
-				std::cout << "at least two parameters for MappableDoseAccessorTest are expected" << std::endl;
+				std::cout << "at least two parameters for RosuMappableDoseAccessorTest are expected" << std::endl;
 				return -1;
 			}
+
+			const double doseGridScaling = 2.822386e-005;
 
 			rttb::io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(
 			    RTDOSE_FILENAME_CONSTANT_TWO.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
 
-			DoseAccessorPointer doseAccessorNull;
-
 			rttb::io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator2(
 			    RTDOSE_FILENAME_INCREASE_X.c_str());
 			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
 
-			const double doseGridScalingDose2 = 2.822386e-005;
+			DoseAccessorPointer doseAccessorNull;
 
-			Registration3D3DTypeTestPointer registration = Registration3D3DTypeTest::New();
-			double translation[] = {0.0, 0.0, 0.0};
-			registration->translation = translation;
-			registration->_limitedTarget = false;
+			auto transformDummy = TransformationInterface::Pointer(new DummyTransformation());
+			TransformationInterface::Pointer transformNull;
 
-			TransformationInterface::Pointer transformMP = TransformationInterface::Pointer(
-			            new MatchPointTransformation(registration));
-			boost::shared_ptr<MatchPointTransformation> transformNull;
+			auto aRosuMappableDoseAccessorDefault =
+			    RosuMappableDoseAccessor::Pointer(new RosuMappableDoseAccessor(
+			            doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy));
 
-			MappableDoseAccessorBase::Pointer aMappableDoseAccessorDefault =
-			    MappableDoseAccessorBase::Pointer(new RosuMappableDoseAccessor(
-			            doseAccessor1->getGeometricInfo(), doseAccessor2, transformMP));
+			auto aRosuMappableDoseAccessorNoPadding =
+			    RosuMappableDoseAccessor::Pointer(new RosuMappableDoseAccessor(
+			            doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, false));
 
-			//1) test constructors
+			//1) Constructor
+
 			CHECK_NO_THROW(RosuMappableDoseAccessor test(doseAccessor1->getGeometricInfo(), doseAccessor2,
-			               transformMP));
+			               transformDummy));
+			CHECK_NO_THROW(RosuMappableDoseAccessor test(doseAccessor1->getGeometricInfo(), doseAccessor2,
+			               transformDummy, false));
+			CHECK_NO_THROW(RosuMappableDoseAccessor test(doseAccessor1->getGeometricInfo(), doseAccessor2,
+			               transformDummy, true, 5.0));
 
+			CHECK_THROW_EXPLICIT(RosuMappableDoseAccessor test(doseAccessor1->getGeometricInfo(),
+			                     doseAccessorNull, transformDummy), core::NullPointerException);
+			CHECK_THROW_EXPLICIT(RosuMappableDoseAccessor test(doseAccessor1->getGeometricInfo(),
+			                     doseAccessor2, transformNull), core::NullPointerException);
+			CHECK_THROW_EXPLICIT(RosuMappableDoseAccessor test(doseAccessor1->getGeometricInfo(),
+			                     doseAccessorNull, transformNull), core::NullPointerException);
 
-			//2) test with registration stub
-			//First: Identity Transformation (nothing changes). Should lead to the same value although the subvoxel values are different (but symmetric with respect to the voxel center)
+			//2) test getDoseAt()
 
-			//outside: should have default value 0
-			CHECK_EQUAL(aMappableDoseAccessorDefault->getDoseAt(
-			                aMappableDoseAccessorDefault->getGridSize() + 1), 0.0);
+			std::vector<VoxelGridIndex3D> voxelsAsIndexToTest;
+			std::vector<VoxelGridID> voxelsAsIdToTest;
+			std::vector<DoseTypeGy> expectedValues;
 
-			const core::GeometricInfo geoInfoTarget = doseAccessor1->getGeometricInfo();
+			voxelsAsIndexToTest.push_back(VoxelGridIndex3D(5, 9, 8));
+			voxelsAsIndexToTest.push_back(VoxelGridIndex3D(22, 15, 10));
+			voxelsAsIndexToTest.push_back(VoxelGridIndex3D(30, 20, 7));
 
-			const VoxelGridIndex3D indexValid(geoInfoTarget.getNumColumns() - 1, geoInfoTarget.getNumRows() - 1,
-			                                  geoInfoTarget.getNumSlices() - 1);
+			expectedValues.push_back(5.0 * doseGridScaling);
+			expectedValues.push_back(22.0 * doseGridScaling);
+			expectedValues.push_back(30.0 * doseGridScaling);
 
-			const VoxelGridID idValid(indexValid[2] * geoInfoTarget.getNumColumns() * geoInfoTarget.getNumRows()
-			                          + indexValid[1] * geoInfoTarget.getNumColumns()
-			                          + indexValid[0]);
+			//convert VoxelGridIndex3D to VoxelGridID
+			for (int i = 0; i < voxelsAsIndexToTest.size(); i++)
+			{
+				VoxelGridID currentId;
+				doseAccessor1->getGeometricInfo().convert(voxelsAsIndexToTest.at(i), currentId);
+				voxelsAsIdToTest.push_back(currentId);
+			}
 
-			//check if getDoseAt(VoxelGridID) and getDoseAt(VoxelGridIndex3D) lead to same result
-			CHECK_NO_THROW(aMappableDoseAccessorDefault->getDoseAt(indexValid));
-			CHECK_EQUAL(aMappableDoseAccessorDefault->getDoseAt(indexValid),
-			            aMappableDoseAccessorDefault->getDoseAt(idValid));
-			CHECK_CLOSE(aMappableDoseAccessorDefault->getDoseAt(indexValid),
-			            doseGridScalingDose2 * indexValid.x(),
-			            errorConstant);
-			//dose value equals x-position. 0.5*(0.25+0.75)=0.5 (compute interpolation value at x-pos 0.25 and 0.75)
-			CHECK_CLOSE(aMappableDoseAccessorDefault->getDoseAt(VoxelGridID(0)), 0.5 * doseGridScalingDose2,
-			            errorConstant);
+			for (int i = 0; i < voxelsAsIndexToTest.size(); i++)
+			{
+				//test if the expected interpolation values are computed
+				CHECK_CLOSE(aRosuMappableDoseAccessorDefault->getDoseAt(voxelsAsIndexToTest.at(i)),
+				            expectedValues.at(i), errorConstant);
+				//test if getDoseAt(VoxelGridIndex3D) and getDoseAt(VoxelGridD) lead to the same results
+				CHECK_EQUAL(aRosuMappableDoseAccessorDefault->getDoseAt(voxelsAsIndexToTest.at(i)),
+				            aRosuMappableDoseAccessorDefault->getDoseAt(voxelsAsIdToTest.at(i)));
+			}
 
-			//Second: Translation (2.5mm/2.5mm/2.5mm) --> in voxel: (0.5/0.5/0.5) as pixelspacing = 5 mm
-			translation[0] = translation[1] = translation[2] = 2.5;
-			registration->translation = translation;
-			rttb::VoxelGridIndex3D aIndex(23, 11, 9);
+			//test invalid voxels
+			VoxelGridID invalidID(doseAccessor1->getGeometricInfo().getNumberOfVoxels() + 1);
+			VoxelGridIndex3D invalidIndex(doseAccessor1->getGeometricInfo().getNumColumns() + 1,
+			                              doseAccessor1->getGeometricInfo().getNumRows() + 1,
+			                              doseAccessor1->getGeometricInfo().getNumSlices() + 1);
+			CHECK_EQUAL(aRosuMappableDoseAccessorDefault->getDoseAt(invalidID), 0.0);
+			CHECK_EQUAL(aRosuMappableDoseAccessorDefault->getDoseAt(invalidIndex), 0.0);
+			CHECK_THROW_EXPLICIT(aRosuMappableDoseAccessorNoPadding->getDoseAt(invalidID),
+			                     core::MappingOutsideOfImageException);
+			CHECK_THROW_EXPLICIT(aRosuMappableDoseAccessorNoPadding->getDoseAt(invalidIndex),
+			                     core::MappingOutsideOfImageException);
 
-			//value equals x-position. 0.5*((indexValid.x()+0.25+translation_x)+(indexValid.x()+0.75+translation_x))=1
-			CHECK_CLOSE(aMappableDoseAccessorDefault->getDoseAt(aIndex),
-			            (aIndex.x() + 1.0)*doseGridScalingDose2, errorConstant);
-
-			rttb::VoxelGridIndex3D aIndex2(49, 32, 29);
-
-			CHECK_CLOSE(aMappableDoseAccessorDefault->getDoseAt(aIndex2),
-			            (aIndex2.x() + 1.0)*doseGridScalingDose2, errorConstant);
-
-			//@todo: more tests needed?
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

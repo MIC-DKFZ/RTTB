@@ -1,5 +1,4 @@
 SET(CPP_FILES
-	rttbMappableDoseAccessorBase.cpp
 	rttbRosuMappableDoseAccessor.cpp
 	rttbSimpleMappableDoseAccessor.cpp
 	rttbInterpolationBase.cpp
@@ -8,7 +7,7 @@ SET(CPP_FILES
    )
 
 SET(H_FILES
-	rttbMappableDoseAccessorBase.h
+	rttbMappableDoseAccessorInterface.h
 	rttbRosuMappableDoseAccessor.h
 	rttbSimpleMappableDoseAccessor.h
 	rttbInterpolationBase.h

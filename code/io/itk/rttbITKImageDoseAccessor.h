@@ -61,6 +61,11 @@ namespace rttb
 				*/
 				ITKImageDoseAccessor();
 
+				/*! @brief get all required data from the itk image contained in _dose
+					@exception InvalidDoseException if PixelSpacing is 0 or size in any dimension is 0.
+				*/
+				bool assembleGeometricInfo();
+
 
 			public:
 				~ITKImageDoseAccessor();
@@ -85,17 +90,6 @@ namespace rttb
 				};
 
 			};
-
-			/*! @brief get all required data from the itk image contained in _dose
-			*/
-			core::GeometricInfo convertToGeometricInfo(const ITKImageBaseType* image);
-
-			/*! @brief check if GeometricInfo is valid
-				@details e.g. if spacing != 0 and size[i] != 0
-				@exception InvalidDoseException
-				@todo add as member function in GeometricInfo?
-			*/
-			bool isValid(const core::GeometricInfo& geoInfo);
 		}
 	}
 }

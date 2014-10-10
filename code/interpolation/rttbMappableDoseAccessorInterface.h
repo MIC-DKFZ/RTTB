@@ -27,21 +27,22 @@
 #include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
 #include "rttbTransformationInterface.h"
+#include "rttbNullPointerException.h"
 
 namespace rttb
 {
 	namespace interpolation
 	{
 
-		/*! @class MappableDoseAccessorBase
-		@brief Base class for dealing with dose information that has to be transformed into another geometry than the original dose image
+		/*! @class MappableDoseAccessorInterface
+		@brief Interface for dealing with dose information that has to be transformed into another geometry than the original dose image
 		@details implementation of strategy is done by derived class (e.g. SimpleMappableDoseAccessor or RosuMappableDoseAccessor. Transformation is defined in TransformationInterface
 		@ingroup interpolation
 		*/
-		class MappableDoseAccessorBase: public core::DoseAccessorInterface
+		class MappableDoseAccessorInterface: public core::DoseAccessorInterface
 		{
 		public:
-			typedef boost::shared_ptr<MappableDoseAccessorBase> Pointer;
+			typedef boost::shared_ptr<MappableDoseAccessorInterface> Pointer;
 		protected:
 			DoseAccessorPointer _spOriginalDoseDataMovingImage;
 			TransformationInterface::Pointer _spTransformation;
@@ -60,14 +61,23 @@ namespace rttb
 				@pre all input parameters have to be valid
 				@exception core::NullPointerException if one input parameter is NULL
 			*/
-			MappableDoseAccessorBase(const core::GeometricInfo& geoInfoTargetImage,
-			                         const DoseAccessorPointer doseMovingImage, const TransformationInterface::Pointer aTransformation,
-			                         bool acceptPadding = true,
-			                         DoseTypeGy defaultOutsideValue = 0.0);
+			MappableDoseAccessorInterface(const core::GeometricInfo& geoInfoTargetImage,
+			                              const DoseAccessorPointer doseMovingImage, const TransformationInterface::Pointer aTransformation,
+			                              bool acceptPadding = true,
+			                              DoseTypeGy defaultOutsideValue = 0.0): _spOriginalDoseDataMovingImage(doseMovingImage),
+				_spTransformation(aTransformation), _geoInfoTargetImage(geoInfoTargetImage),
+				_acceptPadding(acceptPadding), _defaultOutsideValue(defaultOutsideValue)
+			{
+				//handle null pointers
+				if (doseMovingImage == NULL || aTransformation == NULL)
+				{
+					throw core::NullPointerException("Pointers to input accessors/transformation cannot be NULL.");
+				}
+			}
 
 			/*! @brief Virtual destructor of base class
 			*/
-			virtual ~MappableDoseAccessorBase() {};
+			virtual ~MappableDoseAccessorInterface() {};
 
 			inline const core::GeometricInfo& getGeometricInfo() const
 			{
@@ -82,7 +92,7 @@ namespace rttb
 			/*! @brief Returns the dose for a given VoxelGridID (convenience function that handles conversion VoxelGridID->VoxelGridIndex3D)
 				@sa getDoseAt(const VoxelGridIndex3D& aIndex)
 			*/
-			DoseTypeGy getDoseAt(const VoxelGridID aID) const;
+			DoseTypeGy getDoseAt(const VoxelGridID aID) const = 0;
 
 			/*! @brief Returns the dose for a given VoxelGridIndex3D
 			*/

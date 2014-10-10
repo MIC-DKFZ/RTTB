@@ -31,7 +31,7 @@ namespace rttb
 		        geoInfoTargetImage,
 		        const DoseAccessorPointer doseMovingImage, TransformationInterface::Pointer aTransformation,
 		        const InterpolationBase::Pointer aInterpolation, bool acceptPadding,
-		        double defaultOutsideValue): MappableDoseAccessorBase(geoInfoTargetImage, doseMovingImage,
+		        double defaultOutsideValue): MappableDoseAccessorInterface(geoInfoTargetImage, doseMovingImage,
 			                aTransformation, acceptPadding, defaultOutsideValue),
 			_spInterpolation(aInterpolation)
 		{
@@ -43,6 +43,28 @@ namespace rttb
 			else
 			{
 				_spInterpolation->setDoseAccessorPointer(_spOriginalDoseDataMovingImage);
+			}
+		}
+
+		DoseTypeGy SimpleMappableDoseAccessor::getDoseAt(const VoxelGridID aID) const
+		{
+			VoxelGridIndex3D aVoxelGridIndex3D;
+
+			if (_geoInfoTargetImage.convert(aID, aVoxelGridIndex3D))
+			{
+				return getDoseAt(aVoxelGridIndex3D);
+			}
+			else
+			{
+				if (_acceptPadding)
+				{
+					return _defaultOutsideValue;
+				}
+				else
+				{
+					throw core::MappingOutsideOfImageException("Error in conversion from index to world coordinates");
+					return -1;
+				}
 			}
 		}
 

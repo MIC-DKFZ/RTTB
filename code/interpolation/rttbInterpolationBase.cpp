@@ -73,6 +73,7 @@ namespace rttb
 					//find the voxel with the smallest coordinate values in each dimension. This defines the standard cube
 					for (int i = 0; i < 3; i++)
 					{
+
 						if (aWorldCoordinate[i] < theNextVoxel[i])
 						{
 							if (aIndex[i] > 0)

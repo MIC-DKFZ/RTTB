@@ -1,5 +1,25 @@
-#ifndef __TESTREGISTRATION_H
-#define __TESTREGISTRATION_H
+// -----------------------------------------------------------------------
+// RTToolbox - DKFZ radiotherapy quantitative evaluation library
+//
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html [^]
+//
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE. See the above copyright notices for more information.
+//
+//------------------------------------------------------------------------
+/*!
+// @file
+// @version $Revision: 741 $ (last changed revision)
+// @date    $Date: 2014-09-16 16:34:22 +0200 (Di, 16 Sep 2014) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
+*/
+#ifndef __REGISTRATION_TEST_H
+#define __REGISTRATION_TEST_H
 
 #include "mapRegistration.h"
 
@@ -7,7 +27,7 @@ namespace map
 {
 	namespace core
 	{
-		 /*! @class TestRegistration
+		/*! @class TestRegistration
 		@brief Simple implementation of MatchPoint Registration class with direct access to mapping.
 		*/
 		template<unsigned int VMovingDimensions, unsigned int VTargetDimensions>
@@ -24,7 +44,7 @@ namespace map
 			itkNewMacro(Self);
 
 			bool _limitedTarget;
-			double* translation;
+			double* _translation;
 
 			RegistrationTest() {};
 
@@ -37,7 +57,7 @@ namespace map
 			{
 				for (unsigned int i = 0; i < VTargetDimensions; i++)
 				{
-					outPoint[i] = inPoint[i] + translation[i];
+					outPoint[i] = inPoint[i] + _translation[i];
 				}
 
 				return true;

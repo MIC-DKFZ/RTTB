@@ -20,7 +20,6 @@
 */
 
 #include "rttbMatchPointTransformation.h"
-#include "rttbPaddingException.h"
 #include "rttbNullPointerException.h"
 
 namespace rttb

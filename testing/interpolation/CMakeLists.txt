@@ -16,4 +16,11 @@ ADD_TEST(SimpleMappableDoseAccessorTest ${INTERPOLATION_TESTS} SimpleMappableDos
 ADD_TEST(RosuMappableDoseAccessorTest ${INTERPOLATION_TESTS} RosuMappableDoseAccessorTest "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncreaseX.dcm")
 ADD_TEST(InterpolationTest ${INTERPOLATION_TESTS} InterpolationTest "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncreaseX.dcm")
 
-RTTB_CREATE_TEST_MODULE(rttbInterpolation DEPENDS RTTBInterpolation RTTBMatchPointBinding RTTBDicomIO RTTBITKIO RTTBHelaxIO PACKAGE_DEPENDS Boost Litmus MatchPoint DCMTK)
+IF(BUILD_ITKBinding)
+	ADD_SUBDIRECTORY(ITKBinding)
+ENDIF(BUILD_ITKBinding)
+IF(BUILD_MatchPointBinding)
+	ADD_SUBDIRECTORY(MatchPointBinding)
+ENDIF(BUILD_MatchPointBinding)
+
+RTTB_CREATE_TEST_MODULE(rttbInterpolation DEPENDS RTTBInterpolation RTTBDicomIO PACKAGE_DEPENDS Litmus)

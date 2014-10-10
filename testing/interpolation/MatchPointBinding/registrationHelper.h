@@ -1,31 +1,30 @@
 // -----------------------------------------------------------------------
-// MatchPoint - DKFZ translational registration framework
+// RTToolbox - DKFZ radiotherapy quantitative evaluation library
 //
 // Copyright (c) German Cancer Research Center (DKFZ),
 // Software development for Integrated Diagnostics and Therapy (SIDT).
 // ALL RIGHTS RESERVED.
-// See mapCopyright.txt or
-// http://www.dkfz.de/en/sidt/projects/MatchPoint/copyright.html
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html [^]
 //
 // This software is distributed WITHOUT ANY WARRANTY; without even
 // the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-// PURPOSE.  See the above copyright notices for more information.
+// PURPOSE. See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-// Subversion HeadURL: $HeadURL: https://svn/sbr/Sources/SBR-Projects/MatchPoint/trunk/Examples/Algorithms/mapDemoHelloWorldRegistration1Helper.h $
+// @version $Revision: 741 $ (last changed revision)
+// @date    $Date: 2014-09-16 16:34:22 +0200 (Di, 16 Sep 2014) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
 
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
 
-#ifndef __MAP_DEMO_HELLO_WORLD_REGISTRATION1_HELPER_H
-#define __MAP_DEMO_HELLO_WORLD_REGISTRATION1_HELPER_H
+#ifndef __REGISTRATION_HELPER_H
+#define __REGISTRATION_HELPER_H
 
 #include "mapContinuousElements.h"
 #include "mapDiscreteElements.h"
@@ -38,7 +37,6 @@ struct AppGlobals
 {
 	std::string targetImageFileName;
 	std::string movingImageFileName;
-	std::string resultImageFileName;
 
 	bool isDirectory;
 
@@ -50,10 +48,9 @@ struct AppGlobals
 	AppGlobals();
 };
 
-int setImageFileNames(std::string targetImage, std::string movingImage, std::string resultImage, bool isDirectory, AppGlobals& globals);
+int setImageFileNames(std::string targetImage, std::string movingImage, bool isDirectory,
+                      AppGlobals& globals);
 
 int loadData(AppGlobals& globals);
-
-int saveResults(AppGlobals& globals);
 
 #endif

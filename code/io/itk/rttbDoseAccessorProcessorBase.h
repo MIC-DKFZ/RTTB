@@ -25,34 +25,37 @@
 
 #include "rttbDoseAccessorProcessorInterface.h"
 
-namespace rttb{
+namespace rttb
+{
 	namespace core
-		{
+	{
 		/*! @class DoseAccessorProcessorBase
 			@brief Abstract class for all DoseAccessor generating classes
 		*/
 		class DoseAccessorProcessorBase: public DoseAccessorProcessorInterface
+		{
+		public:
+			typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+
+			virtual void setDoseAccessor(DoseAccessorPointer accessor)
 			{
-			public:
-				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
-
-				virtual void setDoseAccessor(DoseAccessorPointer accessor)
-				{
-				  _doseAccessor = accessor;
-				};				
-
-			private:
-				DoseAccessorProcessorBase(const DoseAccessorProcessorBase&); //not implemented on purpose -> non-copyable
-				DoseAccessorProcessorBase& operator=(const DoseAccessorProcessorBase&);//not implemented on purpose -> non-copyable
-				
-			protected:	
-				DoseAccessorProcessorBase(){};
-				virtual ~DoseAccessorProcessorBase(){};
-
-				/*! @brief Dose accessor which should be generated */
-				DoseAccessorPointer _doseAccessor;
+				_doseAccessor = accessor;
 			};
-		}
+
+		private:
+			DoseAccessorProcessorBase(const
+			                          DoseAccessorProcessorBase&); //not implemented on purpose -> non-copyable
+			DoseAccessorProcessorBase& operator=(const
+			                                     DoseAccessorProcessorBase&);//not implemented on purpose -> non-copyable
+
+		protected:
+			DoseAccessorProcessorBase() {};
+			virtual ~DoseAccessorProcessorBase() {};
+
+			/*! @brief Dose accessor which should be generated */
+			DoseAccessorPointer _doseAccessor;
+		};
 	}
+}
 
 #endif

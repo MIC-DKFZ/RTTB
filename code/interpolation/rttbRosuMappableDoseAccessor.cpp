@@ -32,7 +32,7 @@ namespace rttb
 		        const DoseAccessorPointer doseMovingImage,
 		        const TransformationInterface::Pointer aTransformation,
 		        bool acceptPadding,
-		        DoseTypeGy defaultOutsideValue): MappableDoseAccessorBase(geoInfoTargetImage, doseMovingImage,
+		        DoseTypeGy defaultOutsideValue): MappableDoseAccessorInterface(geoInfoTargetImage, doseMovingImage,
 			                aTransformation, acceptPadding, defaultOutsideValue)
 		{
 			//define linear interpolation
@@ -40,6 +40,28 @@ namespace rttb
 			            new LinearInterpolation());
 			_spInterpolation = interpolationLinear;
 			_spInterpolation->setDoseAccessorPointer(_spOriginalDoseDataMovingImage);
+		}
+
+		DoseTypeGy RosuMappableDoseAccessor::getDoseAt(const VoxelGridID aID) const
+		{
+			VoxelGridIndex3D aVoxelGridIndex3D;
+
+			if (_geoInfoTargetImage.convert(aID, aVoxelGridIndex3D))
+			{
+				return getDoseAt(aVoxelGridIndex3D);
+			}
+			else
+			{
+				if (_acceptPadding)
+				{
+					return _defaultOutsideValue;
+				}
+				else
+				{
+					throw core::MappingOutsideOfImageException("Error in conversion from index to world coordinates");
+					return -1;
+				}
+			}
 		}
 
 		DoseTypeGy RosuMappableDoseAccessor::getDoseAt(const VoxelGridIndex3D& aIndex) const
@@ -126,11 +148,11 @@ namespace rttb
 			core::GeometricInfo geometricInfoDoseData = _spOriginalDoseDataMovingImage->getGeometricInfo();
 
 			//as the corner point is the coordinate of the voxel (grid), 0.25 and 0.75 are the center of the subvoxels
-			for (double xOct = 0.25; xOct <= 0.75; xOct += 0.5)
+			for (double xOct = -0.25; xOct <= 0.25; xOct += 0.5)
 			{
-				for (double yOct = 0.25; yOct <= 0.75; yOct += 0.5)
+				for (double yOct = -0.25; yOct <= 0.25; yOct += 0.5)
 				{
-					for (double zOct = 0.25; zOct <= 0.75; zOct += 0.5)
+					for (double zOct = -0.25; zOct <= 0.25; zOct += 0.5)
 					{
 						WorldCoordinate3D aWorldCoordinate(aCoordinate.x() + (xOct * spacingTargetImage.x()),
 						                                   aCoordinate.y() + (yOct * spacingTargetImage.y()),

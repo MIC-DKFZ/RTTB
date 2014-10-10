@@ -26,7 +26,7 @@
 #include "rttbBaseType.h"
 #include "rttbInterpolationBase.h"
 #include "rttbTransformationInterface.h"
-#include "rttbMappableDoseAccessorBase.h"
+#include "rttbMappableDoseAccessorInterface.h"
 
 namespace rttb
 {
@@ -37,7 +37,7 @@ namespace rttb
 		@brief Class for dose mapping based on simple trilinear interpolation
 		@ingroup interpolation
 		*/
-		class SimpleMappableDoseAccessor: public MappableDoseAccessorBase
+		class SimpleMappableDoseAccessor: public MappableDoseAccessorInterface
 		{
 		private:
 			InterpolationBase::Pointer _spInterpolation;
@@ -58,6 +58,10 @@ namespace rttb
 			/*! @brief Virtual destructor of class
 			*/
 			virtual ~SimpleMappableDoseAccessor() {};
+			/*! @brief Returns the dose for a given voxel grid id. Plain trilinear interpolation is performed.
+				@sa getDoseAt(const VoxelGridIndex3D& aIndex)
+			*/
+			DoseTypeGy getDoseAt(const VoxelGridID aID) const;
 
 			/*! @brief Returns the dose for a given voxel grid index. Plain trilinear interpolation is performed.
 				@return the dose or if (isOutside==true && _acceptPadding==true) then _defaultValue

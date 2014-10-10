@@ -46,7 +46,7 @@ namespace rttb
 					throw core::InvalidDoseException("Dose image = 0!") ;
 				}
 
-				_geoInfo = convertToGeometricInfo(_dose);
+				assembleGeometricInfo();
 			}
 
 			DoseTypeGy ITKImageDoseAccessor::getDoseAt(const VoxelGridID aID) const
@@ -77,54 +77,40 @@ namespace rttb
 
 			}
 
-			bool isValid(const core::GeometricInfo& geoInfo)
+			bool ITKImageDoseAccessor::assembleGeometricInfo()
 			{
-				if (geoInfo.getSpacing()[0] == 0 || geoInfo.getSpacing()[1] == 0 || geoInfo.getSpacing()[2] == 0)
+				_geoInfo.setSpacing(SpacingVectorType3D(_dose->GetSpacing()[0], _dose->GetSpacing()[1],
+				                                        _dose->GetSpacing()[2]));
+
+				if (_geoInfo.getSpacing()[0] == 0 || _geoInfo.getSpacing()[1] == 0 || _geoInfo.getSpacing()[2] == 0)
 				{
-					throw core::InvalidDoseException("Dose spacing = 0!") ;
-					return false;
+					throw core::InvalidDoseException("Pixel spacing = 0!");
 				}
 
-				if (geoInfo.getNumRows() == 0 || geoInfo.getNumColumns() == 0 || geoInfo.getNumSlices() == 0)
-				{
-					throw core::InvalidDoseException("Dose row/col/slices = 0!") ;
-					return false;
-				}
-
-				return true;
-			}
-
-			core::GeometricInfo convertToGeometricInfo(const ITKImageBaseType* image)
-			{
-				core::GeometricInfo geoInfo;
-				geoInfo.setSpacing(SpacingVectorType3D(image->GetSpacing()[0], image->GetSpacing()[1],
-				                                       image->GetSpacing()[2]));
-				geoInfo.setImagePositionPatient(WorldCoordinate3D(image->GetOrigin()[0], image->GetOrigin()[1],
-				                                image->GetOrigin()[2]));
+				_geoInfo.setImagePositionPatient(WorldCoordinate3D(_dose->GetOrigin()[0], _dose->GetOrigin()[1],
+				                                 _dose->GetOrigin()[2]));
 				OrientationMatrix OM(0);
 
 				for (int col = 0; col < 3; ++col)
 				{
 					for (int row = 0; row < 3; ++row)
 					{
-						OM(col, row) = image->GetDirection()(col, row);
+						OM(col, row) = _dose->GetDirection()(col, row);
 					}
 				}
 
-				geoInfo.setOrientationMatrix(OM);
-				geoInfo.setNumColumns(image->GetLargestPossibleRegion().GetSize()[0]);
-				geoInfo.setNumRows(image->GetLargestPossibleRegion().GetSize()[1]);
-				geoInfo.setNumSlices(image->GetLargestPossibleRegion().GetSize()[2]);
+				_geoInfo.setOrientationMatrix(OM);
+				_geoInfo.setNumColumns(_dose->GetLargestPossibleRegion().GetSize()[0]);
+				_geoInfo.setNumRows(_dose->GetLargestPossibleRegion().GetSize()[1]);
+				_geoInfo.setNumSlices(_dose->GetLargestPossibleRegion().GetSize()[2]);
 
-				if (isValid(geoInfo))
+				if (_geoInfo.getNumColumns() == 0 || _geoInfo.getNumRows() == 0 || _geoInfo.getNumSlices() == 0)
 				{
-					return geoInfo;
+					throw core::InvalidDoseException("Empty dicom dose!") ;
 				}
-				else
-				{
-					throw core::InvalidDoseException("no valid GeometricInfo after conversion from itk");
-					return core::GeometricInfo();
-				}
+
+				return true;
+
 			}
 
 		}
