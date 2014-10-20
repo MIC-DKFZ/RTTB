@@ -118,7 +118,8 @@ namespace rttb
 
 				try
 				{
-					auto settings = boost::property_tree::xml_writer_make_settings<std::string> ('\t', 1);
+					boost::property_tree::xml_parser::xml_writer_settings<std::string> settings =
+					    boost::property_tree::xml_writer_make_settings<std::string> ('\t', 1);
 					boost::property_tree::xml_parser::write_xml(_fileName, pt, std::locale(), settings);
 				}
 				catch (boost::property_tree::xml_parser_error& /*e*/)
