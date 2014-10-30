@@ -18,7 +18,8 @@ ADD_TEST(DicomDoseAccessorGeneratorTest ${DICOMIO_TEST} DicomDoseAccessorGenerat
 
 ADD_TEST(DicomIOTest ${DICOMIO_TEST} DicomIOTest 
 "${TEST_DATA_ROOT}/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm"
-"${TEST_DATA_ROOT}/DICOM/TestDose/ConstantFifty.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncrease3D.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/dicompylerTestDose.dcm" )
+"${TEST_DATA_ROOT}/DICOM/TestDose/ConstantFifty.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncrease3D.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/dicompylerTestDose.dcm"
+"${TEST_DATA_ROOT}/DICOM/TestDose/InhomogeneousGrid.dcm" )
 
 ADD_TEST(DicomStructureSetGeneratorTest ${DICOMIO_TEST} DicomStructureSetGeneratorTest 
 "${TEST_DATA_ROOT}/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm" )

@@ -233,7 +233,7 @@ namespace rttb
 				SpacingVectorType3D spacingVector;
 				OFString pixelSpacingRowStr;
 				dose->getPixelSpacing(pixelSpacingRowStr, 0);
-				spacingVector(0) = strtod(pixelSpacingRowStr.c_str(), &pEnd);
+				spacingVector(1) = strtod(pixelSpacingRowStr.c_str(), &pEnd);
 
 				if (*pEnd != '\0')
 				{
@@ -242,7 +242,7 @@ namespace rttb
 
 				OFString pixelSpacingColumnStr;
 				dose->getPixelSpacing(pixelSpacingColumnStr, 1);
-				spacingVector(1) = strtod(pixelSpacingColumnStr.c_str(), &pEnd);
+				spacingVector(0) = strtod(pixelSpacingColumnStr.c_str(), &pEnd);
 
 				if (*pEnd != '\0')
 				{

@@ -200,8 +200,8 @@ namespace rttb
 
 				try
 				{
-					spacingVector(0) = boost::lexical_cast<GridVolumeType>(pixelSpacingRowStr.c_str());
-					spacingVector(1) = boost::lexical_cast<GridVolumeType>(pixelSpacingColumnStr.c_str());
+					spacingVector(1) = boost::lexical_cast<GridVolumeType>(pixelSpacingRowStr.c_str());
+					spacingVector(0) = boost::lexical_cast<GridVolumeType>(pixelSpacingColumnStr.c_str());
 				}
 				catch (boost::bad_lexical_cast&)
 				{

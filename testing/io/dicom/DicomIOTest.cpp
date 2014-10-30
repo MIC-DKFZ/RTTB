@@ -63,12 +63,15 @@ namespace rttb
 			//           2: dose1 file name
 			//           3: dose2 file name
 			//           4: dose3 file name
+			//           5: dose4 file name
+			//           6: dose5 file name
 
 			std::string RTSTRUCT_FILENAME;
 			std::string RTDOSE_FILENAME;
 			std::string RTDOSE2_FILENAME;
 			std::string RTDOSE3_FILENAME;
 			std::string RTDOSE4_FILENAME;
+			std::string RTDOSE5_FILENAME;
 
 			if (argc > 1)
 			{
@@ -94,6 +97,10 @@ namespace rttb
 			{
 				RTDOSE4_FILENAME = argv[5];
 			}
+			if(argc > 6)
+			{
+				RTDOSE5_FILENAME = argv[6];
+			}
 
 
 			OFCondition status;
@@ -116,6 +123,13 @@ namespace rttb
 			WorldCoordinate3D imagePositionPatient(-170.556642, -273.431642, -674);
 			CHECK_EQUAL(imagePositionPatient, geoInfo.getImagePositionPatient());
 
+			//test geometric info of an inhomogeneous dose grid
+			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator5(RTDOSE5_FILENAME.c_str());
+			DoseAccessorPointer doseAccessor5(doseAccessorGenerator5.generateDoseAccessor());
+
+			SpacingVectorType3D pixelSpacing5(2,3,2);
+			CHECK_EQUAL(pixelSpacing5, doseAccessor5->getGeometricInfo().getSpacing());
+
 			const VoxelGridID start = 0;
 			const VoxelGridIndex3D start3D(0);
 
@@ -123,7 +137,6 @@ namespace rttb
 			VoxelGridIndex3D end3D, inbetween3D;
 
 			//2) test dicom dose import accessing dose data and converting
-
 
 			CHECK_EQUAL(2, doseAccessor1->getDoseAt(start));
 			CHECK_EQUAL(2, doseAccessor1-> getDoseAt(start3D));
