@@ -70,9 +70,12 @@ namespace rttb
 				char* pEnd;
 				_doseVector.at(0)->getDoseGridScaling(
 				    doseGridScalingStr);//get the first dose grid scaling as _doseGridScaling
-				_doseGridScaling = strtod(doseGridScalingStr.c_str(), &pEnd);
 
-				if (*pEnd != '\0' || _doseGridScaling == 0)
+				try
+				{
+					_doseGridScaling = boost::lexical_cast<double>(doseGridScalingStr.c_str());
+				}
+				catch (boost::bad_lexical_cast&)
 				{
 					throw core::InvalidDoseException("Dose grid scaling not readable or = 0!") ;
 				}
@@ -83,9 +86,13 @@ namespace rttb
 
 					OFString currentDoseGridScalingStr;
 					dose->getDoseGridScaling(currentDoseGridScalingStr);
-					double currentDoseGridScaling = strtod(currentDoseGridScalingStr.c_str(), &pEnd);
+					double currentDoseGridScaling;
 
-					if (*pEnd != '\0' || currentDoseGridScaling == 0)
+					try
+					{
+						currentDoseGridScaling = boost::lexical_cast<double>(currentDoseGridScalingStr.c_str());
+					}
+					catch (boost::bad_lexical_cast&)
 					{
 						throw core::InvalidDoseException("Dose grid scaling not readable or = 0!") ;
 					}
@@ -123,8 +130,6 @@ namespace rttb
 					}
 				}
 
-				//std::cout  << _doseData.size()<<std::endl;
-				//std::cout  << _geoInfo<<std::endl;
 				return true;
 
 
@@ -174,13 +179,22 @@ namespace rttb
 				OFString imageOrientationColumnZ;
 				dose->getImageOrientationPatient(imageOrientationColumnZ, 5);
 				WorldCoordinate3D imageOrientationRow;
-				imageOrientationRow(0) = boost::lexical_cast<WorldCoordinate>(imageOrientationRowX.c_str());
-				imageOrientationRow(1) = boost::lexical_cast<WorldCoordinate>(imageOrientationRowY.c_str());
-				imageOrientationRow(2) = boost::lexical_cast<WorldCoordinate>(imageOrientationRowZ.c_str());
 				WorldCoordinate3D imageOrientationColumn;
-				imageOrientationColumn(0) = boost::lexical_cast<WorldCoordinate>(imageOrientationColumnX.c_str());
-				imageOrientationColumn(1) = boost::lexical_cast<WorldCoordinate>(imageOrientationColumnY.c_str());
-				imageOrientationColumn(2) = boost::lexical_cast<WorldCoordinate>(imageOrientationColumnZ.c_str());
+
+				try
+				{			
+					imageOrientationRow(0) = boost::lexical_cast<WorldCoordinate>(imageOrientationRowX.c_str());
+					imageOrientationRow(1) = boost::lexical_cast<WorldCoordinate>(imageOrientationRowY.c_str());
+					imageOrientationRow(2) = boost::lexical_cast<WorldCoordinate>(imageOrientationRowZ.c_str());
+				
+					imageOrientationColumn(0) = boost::lexical_cast<WorldCoordinate>(imageOrientationColumnX.c_str());
+					imageOrientationColumn(1) = boost::lexical_cast<WorldCoordinate>(imageOrientationColumnY.c_str());
+					imageOrientationColumn(2) = boost::lexical_cast<WorldCoordinate>(imageOrientationColumnZ.c_str());
+				}
+				catch (boost::bad_lexical_cast&)
+				{
+					throw core::InvalidDoseException("boost::lexical_cast ImageOrientation failed! Can not read image orientation X/Y/Z!") ;
+				}
 
 				OrientationMatrix orientation;
 				orientation(0, 0) = imageOrientationRow.x();
@@ -206,26 +220,16 @@ namespace rttb
 
 
 				WorldCoordinate3D imagePositionPatient;
-				char* pEnd;
-				imagePositionPatient(0) = strtod(imagePositionX.c_str(), &pEnd);
 
-				if (*pEnd != '\0')
+				try
 				{
-					throw core::InvalidDoseException("Can not read image position X!");
+					imagePositionPatient(0) = boost::lexical_cast<WorldCoordinate>(imagePositionX.c_str());
+					imagePositionPatient(1) = boost::lexical_cast<WorldCoordinate>(imagePositionY.c_str());
+					imagePositionPatient(2) = boost::lexical_cast<WorldCoordinate>(imagePositionZ.c_str());
 				}
-
-				imagePositionPatient(1) = strtod(imagePositionY.c_str(), &pEnd);
-
-				if (*pEnd != '\0')
+				catch (boost::bad_lexical_cast&)
 				{
-					throw core::InvalidDoseException("Can not read image position Y!");
-				}
-
-				imagePositionPatient(2) = strtod(imagePositionZ.c_str(), &pEnd);
-
-				if (*pEnd != '\0')
-				{
-					throw core::InvalidDoseException("Can not read image position Z!");
+					throw core::InvalidDoseException("boost::lexical_cast ImagePosition failed! Can not read image position X/Y/Z!") ;
 				}
 
 				_geoInfo.setImagePositionPatient(imagePositionPatient);
@@ -233,20 +237,17 @@ namespace rttb
 				SpacingVectorType3D spacingVector;
 				OFString pixelSpacingRowStr;
 				dose->getPixelSpacing(pixelSpacingRowStr, 0);
-				spacingVector(1) = strtod(pixelSpacingRowStr.c_str(), &pEnd);
-
-				if (*pEnd != '\0')
-				{
-					throw core::InvalidDoseException("Can not read Pixel Spacing Row!");
-				}
-
 				OFString pixelSpacingColumnStr;
 				dose->getPixelSpacing(pixelSpacingColumnStr, 1);
-				spacingVector(0) = strtod(pixelSpacingColumnStr.c_str(), &pEnd);
 
-				if (*pEnd != '\0')
+				try
 				{
-					throw core::InvalidDoseException("Can not read Pixel Spacing Column!");
+					spacingVector(1) = boost::lexical_cast<GridVolumeType>(pixelSpacingRowStr.c_str());
+					spacingVector(0) = boost::lexical_cast<GridVolumeType>(pixelSpacingColumnStr.c_str());
+				}
+				catch (boost::bad_lexical_cast&)
+				{
+					throw core::InvalidDoseException("Can not read Pixel Spacing Row/Column!") ;
 				}
 
 				_geoInfo.setSpacing(spacingVector);
@@ -258,25 +259,29 @@ namespace rttb
 
 				OFString sliceThicknessStr;
 				dose->getSliceThickness(sliceThicknessStr);
-				spacingVector(2) = strtod(sliceThicknessStr.c_str(), &pEnd);
-
-				if (*pEnd != '\0')
+				try
 				{
-					throw core::InvalidDoseException("Can not read slice thickness!");
+					spacingVector(2) = boost::lexical_cast<GridVolumeType>(sliceThicknessStr.c_str());
+				}
+				catch (boost::bad_lexical_cast&)
+				{
+					spacingVector(2) = 0 ;//if no information about slice thickness, set to 0 and calculate it using z coordinate difference between 1. and 2. dose 
 				}
 
 				if (spacingVector(2) == 0)
 				{
 					if (_doseVector.size() > 1)
 					{
-						DRTDoseIODPtr dose2 = _doseVector.at(1);
+						DRTDoseIODPtr dose2 = _doseVector.at(1);//get the 2. dose
 						OFString imagePositionZ2;
 						dose2->getImagePositionPatient(imagePositionZ2, 2);
-						spacingVector(2) = strtod(imagePositionZ2.c_str(), &pEnd) - imagePositionPatient(2);
 
-						if (*pEnd != '\0')
+						try{
+							spacingVector(2) = boost::lexical_cast<GridVolumeType>(imagePositionZ2.c_str())- imagePositionPatient(2);//caculate slicethickness
+						}
+						catch (boost::bad_lexical_cast&)
 						{
-							throw core::InvalidDoseException("Can not read image position Z!");
+							throw core::InvalidDoseException("Can not read image position Z of the 2. dose!");
 						}
 					}
 					else
