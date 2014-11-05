@@ -43,10 +43,11 @@ namespace rttb
 
 			}
 
-			DicomDoseAccessor::DicomDoseAccessor(DRTDoseIODPtr aDRTDoseIODP)
+			DicomDoseAccessor::DicomDoseAccessor(DRTDoseIODPtr aDRTDoseIODP, DcmItemPtr aDcmDataset)
 			{
 
 				_dose = aDRTDoseIODP;
+				_dataSet = aDcmDataset;
 
 				OFString uid;
 				_dose->getSeriesInstanceUID(uid);
@@ -75,35 +76,25 @@ namespace rttb
 				}
 
 				OFCondition status;
-				DcmFileFormat fileformat;
-				DcmItem doseitem;
-
-				status = _dose->write(doseitem);
+				
+				unsigned long count;
+				const Uint16* pixelData;
+				status = _dataSet->findAndGetUint16Array(DcmTagKey(0x7fe0, 0x0010), pixelData, &count);
 
 				if (status.good())
 				{
-					unsigned long count;
-					const Uint16* pixelData;
-					status = doseitem.findAndGetUint16Array(DcmTagKey(0x7fe0, 0x0010), pixelData, &count);
-
-					if (status.good())
+					for (unsigned int i = 0; i < static_cast<unsigned int>(this->_geoInfo.getNumberOfVoxels()); i++)
 					{
-						for (unsigned int i = 0; i < static_cast<unsigned int>(this->_geoInfo.getNumberOfVoxels()); i++)
-						{
-							this->doseData.push_back(pixelData[i]);
-						}
+						this->doseData.push_back(pixelData[i]);
+					}
 
-						return true;
-					}
-					else
-					{
-						throw io::dicom::DcmrtException("Read Pixel Data (7FE0,0010) failed!");
-					}
+					return true;
 				}
 				else
 				{
-					throw io::dicom::DcmrtException("Read DICOM-RT Dose file failed!");
+					throw io::dicom::DcmrtException("Read Pixel Data (7FE0,0010) failed!");
 				}
+				
 
 
 			}

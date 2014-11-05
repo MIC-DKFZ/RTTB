@@ -34,6 +34,7 @@
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomIODDoseAccessorGenerator.h"
 #include "rttbInvalidDoseException.h"
+#include "rttbDcmrtException.h"
 
 
 namespace rttb
@@ -96,7 +97,7 @@ namespace rttb
 			DRTDoseIODPtr dose = boost::make_shared<DRTDoseIOD>();
 
 			CHECK_THROW_EXPLICIT(io::dicom::DicomIODDoseAccessorGenerator(dose).generateDoseAccessor(),
-			                     core::InvalidDoseException);
+			                     io::dicom::DcmrtException);
 
 			fileformat.loadFile(RTDOSE_FILENAME.c_str());
 

@@ -43,6 +43,7 @@ namespace rttb{
 			{
 			public: 							
 				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
+				typedef boost::shared_ptr<DcmItem> DcmItemPtr;
 				
 			private:
 				FileNameType _dicomDoseFileName;
