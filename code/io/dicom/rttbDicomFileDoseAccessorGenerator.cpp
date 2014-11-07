@@ -54,14 +54,16 @@ namespace rttb{
 					std::cerr << "Error: load rtdose loadFile("<<_dicomDoseFileName.c_str()<<") failed!"<<std::endl;
 					throw core::InvalidDoseException("Invalid dicom dose!");
 				}
-				status = dose->read(*fileformat.getDataset());
+
+				DcmItemPtr dataSet =  boost::make_shared<DcmDataset>(*fileformat.getDataset());
+				status = dose->read(*dataSet);
 				if(!status.good())
 				{
 					std::cerr << "Error: read DRTDoseIOD failed!"<<std::endl;
 					throw core::InvalidDoseException("Invalid dicom dose!");
 				}
 
-				_doseAccessor=boost::make_shared<io::dicom::DicomDoseAccessor>(dose);
+				_doseAccessor=boost::make_shared<io::dicom::DicomDoseAccessor>(dose, dataSet);
 				return _doseAccessor;
 
 				

@@ -42,8 +42,20 @@ namespace rttb{
 			}
 
 			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomIODDoseAccessorGenerator::generateDoseAccessor() {
-				_doseAccessor=boost::make_shared<io::dicom::DicomDoseAccessor>(_doseIODPtr);
+				DcmItem doseitem;
+				OFCondition status;
+
+				status = _doseIODPtr->write(doseitem);//write DoseIOD to DcmItem to get pixel data
+
+				if(status.good()){
+					DcmItemPtr dataSetPtr = boost::make_shared<DcmItem>(doseitem);
+					_doseAccessor=boost::make_shared<io::dicom::DicomDoseAccessor>(_doseIODPtr, dataSetPtr);
 				return _doseAccessor;
+			}
+				else
+				{
+					throw io::dicom::DcmrtException("Write DICOM RT Dose to DcmItem failed!");
+				}
 			}
 			
 

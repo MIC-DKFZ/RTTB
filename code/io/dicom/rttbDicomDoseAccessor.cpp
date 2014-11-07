@@ -43,10 +43,11 @@ namespace rttb
 
 			}
 
-			DicomDoseAccessor::DicomDoseAccessor(DRTDoseIODPtr aDRTDoseIODP)
+			DicomDoseAccessor::DicomDoseAccessor(DRTDoseIODPtr aDRTDoseIODP, DcmItemPtr aDcmDataset)
 			{
 
 				_dose = aDRTDoseIODP;
+				_dataSet = aDcmDataset;
 
 				OFString uid;
 				_dose->getSeriesInstanceUID(uid);
@@ -75,35 +76,25 @@ namespace rttb
 				}
 
 				OFCondition status;
-				DcmFileFormat fileformat;
-				DcmItem doseitem;
 
-				status = _dose->write(doseitem);
+				unsigned long count;
+				const Uint16* pixelData;
+				status = _dataSet->findAndGetUint16Array(DcmTagKey(0x7fe0, 0x0010), pixelData, &count);
 
 				if (status.good())
 				{
-					unsigned long count;
-					const Uint16* pixelData;
-					status = doseitem.findAndGetUint16Array(DcmTagKey(0x7fe0, 0x0010), pixelData, &count);
-
-					if (status.good())
+					for (unsigned int i = 0; i < static_cast<unsigned int>(this->_geoInfo.getNumberOfVoxels()); i++)
 					{
-						for (unsigned int i = 0; i < static_cast<unsigned int>(this->_geoInfo.getNumberOfVoxels()); i++)
-						{
-							this->doseData.push_back(pixelData[i]);
-						}
+						this->doseData.push_back(pixelData[i]);
+					}
 
-						return true;
-					}
-					else
-					{
-						throw io::dicom::DcmrtException("Read Pixel Data (7FE0,0010) failed!");
-					}
+					return true;
 				}
 				else
 				{
-					throw io::dicom::DcmrtException("Read DICOM-RT Dose file failed!");
+					throw io::dicom::DcmrtException("Read Pixel Data (7FE0,0010) failed!");
 				}
+
 
 
 			}
@@ -234,7 +225,7 @@ namespace rttb
 					if (gridFrameOffsetVector.size() >= 2)
 					{
 						spacingVector(2) = gridFrameOffsetVector.at(1) - gridFrameOffsetVector.at(
-						                       0); //read slice thickness from GridFrameOffsetVector (3004,000c)
+							0); //read slice thickness from GridFrameOffsetVector (3004,000c)
 					}
 
 					if (spacingVector(2) == 0)
@@ -253,7 +244,7 @@ namespace rttb
 							try
 							{
 								spacingVector(2) = boost::lexical_cast<GridVolumeType>
-								                   (pixelSpacingBetweenSlices.c_str());//read slice thickness from PixelSpacingBetweenSlices (0018,0088)
+									(pixelSpacingBetweenSlices.c_str());//read slice thickness from PixelSpacingBetweenSlices (0018,0088)
 							}
 							catch (boost::bad_lexical_cast&)
 							{
@@ -266,8 +257,8 @@ namespace rttb
 						if (spacingVector(2) == 0)
 						{
 							std::cerr << "sliceThickness == 0! It wird be replaced with pixelSpacingRow=" <<
-							          _geoInfo.getPixelSpacingRow()
-							          << "!" << std::endl;
+								_geoInfo.getPixelSpacingRow()
+								<< "!" << std::endl;
 							spacingVector(2) = spacingVector(0);
 						}
 

@@ -42,15 +42,17 @@ namespace rttb
 		{
 
 			/*! @class DicomDoseAccessor
-			@brief This class gives access to dose information from DRTDoseIOD
+			@brief This class gives access to dose information from DRTDoseIOD and DcmItem
 			*/
 			class DicomDoseAccessor: public core::DoseAccessorInterface
 			{
 			public:
 				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
+				typedef boost::shared_ptr<DcmItem> DcmItemPtr;
 
 			private:
 				DRTDoseIODPtr _dose;
+				DcmItemPtr _dataSet;
 
 				/*! vector of dose data(absolute Gy dose/doseGridScaling)*/
 				std::vector<Uint16> doseData;
@@ -78,10 +80,10 @@ namespace rttb
 			public:
 				~DicomDoseAccessor();
 
-				/*! @brief Constructor. Initialisation with a boost::shared_ptr of DRTDoseIOD
+				/*! @brief Constructor. Initialisation with a boost::shared_ptr of DRTDoseIOD and of DcmItem to get the pixel data
 				@exception DcmrtException Throw if dcmrt error
 				*/
-				DicomDoseAccessor(DRTDoseIODPtr aDRTDoseIODP);
+				DicomDoseAccessor(DRTDoseIODPtr aDRTDoseIODP, DcmItemPtr aDcmDataset);
 
 				DoseTypeGy getDoseAt(const VoxelGridID aID) const;
 
