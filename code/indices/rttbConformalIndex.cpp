@@ -26,90 +26,84 @@
 
 namespace rttb{
 
-  namespace indices{
+	namespace indices{
 
-    ConformalIndex::ConformalIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference)
-    {
-      _dvhSet=dvhSet;
-      _doseReference=aDoseReference;
-      initSuccess=false;
-    }
+		ConformalIndex::ConformalIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference)
+		{
+			_dvhSet=dvhSet;
+			_doseReference=aDoseReference;
+			initSuccess=false;
+		}
 
-    bool ConformalIndex::init()
-    {
-      if(!_dvhSet){
-        throw core::NullPointerException("DVHSet must not be NULL! ");
-      }
-      if(this->calcIndex()){
-        initSuccess=true;
-        return true;
-      }
-      else 
-        return false;
-    }
+		bool ConformalIndex::checkInputs(){
+			if(!_dvhSet)
+				return false;
+			else
+				return true;
+		}
+		
+		bool ConformalIndex::calcIndex()
+		{
+			VolumeType TV=_dvhSet->getTVVolume(0);
+			VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
+			if(TV!=0 && Vref!=0){
+				_value=(_dvhSet->getTVVolume(_doseReference)/TV)*
+					(_dvhSet->getTVVolume(_doseReference)/Vref);
 
-    bool ConformalIndex::calcIndex()
-    {
-      VolumeType TV=_dvhSet->getTVVolume(0);
-      VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
-      if(TV!=0 && Vref!=0){
-        _value=(_dvhSet->getTVVolume(_doseReference)/TV)*
-          (_dvhSet->getTVVolume(_doseReference)/Vref);
+				std::vector<core::DVH> dvhHTSet=this->_dvhSet->getDVHHTSet();
+				std::vector<core::DVH>::iterator it;
 
-        std::vector<core::DVH> dvhHTSet=this->_dvhSet->getDVHHTSet();
-        std::vector<core::DVH>::iterator it;
+				for(it=dvhHTSet.begin(); it!=dvhHTSet.end();++it)		
+				{
+					core::DVH dvh=*(it);
+					VolumeType HT=dvh.getVx(0);
+					if(HT!=0)
+						_value*=(1-dvh.getVx(this->_doseReference)/HT);
+				}
+			}
+			else if(TV==0){
+				throw core::InvalidParameterException("DVH Set invalid: Target volume should not be 0!");
+			}
+			else{
+				rttbExceptionMacro(core::InvalidParameterException, << "Reference dose "<<this->getDoseReference()<<" invalid: Volume of reference dose should not be 0!");
+			}
+			return true;
+		}
 
-        for(it=dvhHTSet.begin(); it!=dvhHTSet.end();++it)		
-        {
-          core::DVH dvh=*(it);
-          VolumeType HT=dvh.getVx(0);
-          if(HT!=0)
-            _value*=(1-dvh.getVx(this->_doseReference)/HT);
-        }
-      }
-      else if(TV==0){
-        throw core::InvalidParameterException("DVH Set invalid: Target volume should not be 0!");
-      }
-      else{
-		  rttbExceptionMacro(core::InvalidParameterException, << "Reference dose "<<this->getDoseReference()<<" invalid: Volume of reference dose should not be 0!");
-      }
-      return true;
-    }
+		IndexValueType ConformalIndex::getDoseIndexAt(core::DVHSet::IndexType tvIndex){
+			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
+			VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
+			if(tvIndex>=dvhTVSet.size()){
+				rttbExceptionMacro(core::InvalidParameterException, <<"tvIndex invalid: it should be <"<<dvhTVSet.size()<<"!");
+			}
+			else{
+				core::DVH dvh=dvhTVSet.at(tvIndex);
 
-    IndexValueType ConformalIndex::getDoseIndexAt(GridIndexType tvIndex){
-      std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
-      VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
-      if(tvIndex>=dvhTVSet.size()){
-		rttbExceptionMacro(core::InvalidParameterException, <<"tvIndex invalid: it should be <"<<dvhTVSet.size()<<"!");
-      }
-      else{
-        core::DVH dvh=dvhTVSet.at(tvIndex);
+				VolumeType TV=dvh.getVx(0);
+				if(TV==0){
+					throw core::InvalidParameterException("DVH invalid: Volume of tvIndex should not be 0!");
+				}
+				else if(Vref==0){
+					rttbExceptionMacro(core::InvalidParameterException, << "Reference dose "<<this->getDoseReference()<<" invalid: Volume of reference dose should not be 0!");
+				}
 
-        VolumeType TV=dvh.getVx(0);
-        if(TV==0){
-          throw core::InvalidParameterException("DVH invalid: Volume of tvIndex should not be 0!");
-        }
-        else if(Vref==0){
-          rttbExceptionMacro(core::InvalidParameterException, << "Reference dose "<<this->getDoseReference()<<" invalid: Volume of reference dose should not be 0!");
-        }
+				double value=dvh.getVx(_doseReference)/TV;//the irradiation factor of i-th target volume
+				value=value*dvh.getVx(_doseReference)/Vref;//conformation number
 
-        double value=dvh.getVx(_doseReference)/TV;//the irradiation factor of i-th target volume
-        value=value*dvh.getVx(_doseReference)/Vref;//conformation number
+				std::vector<core::DVH> dvhHTSet=this->_dvhSet->getDVHHTSet();
+				std::vector<core::DVH>::iterator it;
 
-        std::vector<core::DVH> dvhHTSet=this->_dvhSet->getDVHHTSet();
-        std::vector<core::DVH>::iterator it;
+				for(it=dvhHTSet.begin(); it!=dvhHTSet.end();++it)		
+				{
+					dvh=*(it);
+					VolumeType HT=dvh.getVx(0);
+					if(HT!=0){
+						value*=(1-dvh.getVx(this->_doseReference)/HT);
+					}
+				}
+				return value;
+			}
+		}
 
-        for(it=dvhHTSet.begin(); it!=dvhHTSet.end();++it)		
-        {
-          dvh=*(it);
-          VolumeType HT=dvh.getVx(0);
-          if(HT!=0){
-            value*=(1-dvh.getVx(this->_doseReference)/HT);
-          }
-        }
-        return value;
-      }
-    }
-
-  }//end namespace indices
+	}//end namespace indices
 }//end namespace rttb

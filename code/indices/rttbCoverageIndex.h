@@ -24,51 +24,48 @@
 #include <string>
 #include <vector>
 
-#include "rttbDoseIndex.h"
+#include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
 #include "rttbDVHSet.h"
 
 namespace rttb{
 
-  namespace indices{
+	namespace indices{
 
-    /*! @class CoverageIndex
-        @brief This class representing a CoverageIndex Object. Coverage Index fraction of the target volume receiving a dose >= the reference dose
+		/*! @class CoverageIndex
+		@brief This class representing a CoverageIndex Object. Coverage Index fraction of the target volume receiving a dose >= the reference dose
 		@ingroup indices
-    */
-    class CoverageIndex: public DoseIndex
-    {
+		*/
+		class CoverageIndex: public DvhBasedDoseIndex
+		{
 
-    protected: 
-      /*! @brief Calculate conformation number
-          @exception InvalidParameterException Thrown if dvhSet invalid
-      */
-      bool calcIndex();
+		protected: 
+			/*! @brief Calculate conformation number
+			@exception InvalidParameterException Thrown if dvhSet invalid
+			*/
+			bool calcIndex();
 
-      
-    public: 
-      /*! @brief Constructor
-      */
-      CoverageIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference);
+			bool checkInputs();
 
-      /*! @return Return true if calcIndex() finished sucessfully
-          @exception NullPointerException thrown if dvhSet is NULL
-		  @see calcIndex
-      */
-      bool init();
 
-      /*! @brief Dose index calculation for tvIndex-th treated volume
-       *  @param tvIndex: index in the vector of DVH TV
-       *  @return Return index value 
-          @exception InvalidParameterException Thrown if tvIndex invalid
-      */
-	  IndexValueType getDoseIndexAt(const GridIndexType tvIndex);
+		public: 
+			/*! @brief Constructor
+			*/
+			CoverageIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference);
+
+		
+			/*! @brief Dose index calculation for tvIndex-th treated volume
+			*  @param tvIndex: index in the vector of DVH TV
+			*  @return Return index value 
+			@exception InvalidParameterException Thrown if tvIndex invalid
+			*/
+			IndexValueType getDoseIndexAt(const core::DVHSet::IndexType tvIndex);
 
 
 
-    };
+		};
 
-  }
+	}
 }
 
 #endif

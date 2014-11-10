@@ -34,16 +34,14 @@ namespace rttb{
 			initSuccess=false;
 		}
 
-		bool HomogeneityIndex::init()
+		bool HomogeneityIndex::checkInputs()
 		{
 			if(!_dvhSet){
-				throw core::NullPointerException("DVHSet must not be NULL! ");
+				return false;
 			}
-			if(this->calcIndex()){
-				initSuccess=true;
+			else{
 				return true;
 			}
-			return false;
 		}
 
 		bool HomogeneityIndex::calcIndex()
@@ -52,7 +50,7 @@ namespace rttb{
 			double min;
 			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
 			std::vector<core::DVH>::iterator it;
-				
+
 			for(it=dvhTVSet.begin(); it!=dvhTVSet.end();it++)		
 			{
 				core::DVH dvh=*(it);
@@ -71,10 +69,10 @@ namespace rttb{
 				rttbExceptionMacro(core::InvalidParameterException, << "Reference dose "<<this->getDoseReference()<<" invalid: Volume of reference dose should not be 0!");
 			}
 			return true;
-			
+
 		}
 
-		IndexValueType HomogeneityIndex::getDoseIndexAt(GridIndexType tvIndex){
+		IndexValueType HomogeneityIndex::getDoseIndexAt(core::DVHSet::IndexType tvIndex){
 			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
 			if(tvIndex>=dvhTVSet.size()){
 				rttbExceptionMacro(core::InvalidParameterException, <<"tvIndex invalid: it should be <"<<dvhTVSet.size()<<"!");

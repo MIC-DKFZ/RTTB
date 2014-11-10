@@ -14,17 +14,17 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 707 $ (last changed revision)
+// @date    $Date: 2014-09-04 16:37:24 +0200 (Do, 04 Sep 2014) $ (last change date)
+// @author  $Author: floca $ (last changed by)
 */
-#ifndef __DOSE_INDEX_H
-#define __DOSE_INDEX_H
+#ifndef __DVH_BASED_DOSE_INDEX_H
+#define __DVH_BASED_DOSE_INDEX_H
 
 
 #include "rttbBaseType.h"
 #include "rttbDVHSet.h"
-#include "rttbNullPointerException.h"
+#include "rttbDoseIndex.h"
 
 namespace rttb{
 
@@ -34,17 +34,14 @@ namespace rttb{
 		@brief This is the interface for dose/plan comparison indices.
 		@ingroup indices
 		*/
-		class DoseIndex
+		class DvhBasedDoseIndex: public DoseIndex
 		{
+		public:
+
 		protected: 
 
-
-			IndexValueType _value;
-
-			DoseTypeGy _doseReference;
-
-			/*! @brief If init() successful*/
-			bool initSuccess;
+			/*! @todo Use Shared Pointers for _dvhSet*/
+			core::DVHSet* _dvhSet;
 
 			/*! @brief Dose index calculation */
 			virtual bool calcIndex()=0;
@@ -52,35 +49,8 @@ namespace rttb{
 			virtual bool checkInputs()=0;
 
 		public:
-			/*! @brief Initialize the calculation
-			@return Return true if successfully
-			*/
-			bool init()
-			{
-				initSuccess = false;
-				if(!(this->checkInputs())){
-					throw core::NullPointerException("DVHSet must not be NULL! ");
-				}
-				if( this->calcIndex()){
-					initSuccess=true;
-				}
-				return initSuccess;
-			};
 
-			/*! @brief Set the reference dose
-			*/
-			void setDoseReference(DoseTypeGy aDoseReference);
-
-			/*! @brief Get the reference dose
-			*/
-			DoseTypeGy getDoseReference() const;
-
-			/*! @brief Get the value of dose/plan comparison index 
-			@return Return the value of this index 
-			@exception Exception Thrown if the class was not initialized previously.
-			*/
-			IndexValueType getValue() const;
-
+			
 			/*! @brief Dose/plan comparison index calculation for tvIndex-th treated volume
 			(tv = target volume; th = healthy tissue)
 			@param tvIndex index in the DVH in the current set of tv-DVHs

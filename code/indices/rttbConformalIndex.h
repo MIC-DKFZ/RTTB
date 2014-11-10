@@ -23,47 +23,45 @@
 #define __CONFORMAL_INDEX_H
 
 
-#include "rttbDoseIndex.h"
+#include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
 
 namespace rttb{
 
-  namespace indices{
+	namespace indices{
 
-    /*! @class ConformalIndex
+		/*! @class ConformalIndex
 		@brief This class representing a ConformalIndex Object. Conformal Index (COIN)= Conformation Number(CN)* (1-Vref,0/Vnt,0)*(1-Vref,1/Vnt,1)... i: i-th critiacal organ
 		Conformation Number (CN)= (TVref/TV) * (TVref/Vref)
 		@ingroup indices
-    */
-    class ConformalIndex: public DoseIndex
-    {
-    protected: 
-      /*! @brief Calculate conformal index
-		  @exception InvalidParameterException Thrown if dvhSet or aDoseReference invalid
-      */
-      bool calcIndex();
-      
+		*/
+		class ConformalIndex: public DvhBasedDoseIndex
+		{
+		protected: 
+			/*! @brief Calculate conformal index
+			@exception InvalidParameterException Thrown if dvhSet or aDoseReference invalid
+			*/
+			bool calcIndex();
 
-    public: 
-      /*! @brief Constructor
-      */
-      ConformalIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference);
+			bool checkInputs();
 
-      /*! @return Return true if calcIndex() finished
-		  @exception NullPointerException thrown if dvhSet is NULL
-      */
-      bool init();
 
-      /*! @brief Dose index calculation for tvIndex-th treated volume
-          @param tvIndex index in the DVH in the current set of tv-DVHs
-          @return Return index value 
-          @exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
-      */
-      IndexValueType getDoseIndexAt(const GridIndexType tvIndex);
+		public: 
+			/*! @brief Constructor
+			*/
+			ConformalIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference);
 
-    };
+			/*! @brief Dose index calculation for tvIndex-th treated volume
+			@param tvIndex index in the DVH in the current set of tv-DVHs
+			@return Return index value 
+			@exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
+			*/
+			IndexValueType getDoseIndexAt(const core::DVHSet::IndexType tvIndex);
 
-  }
+
+		};
+
+	}
 }
 
 #endif

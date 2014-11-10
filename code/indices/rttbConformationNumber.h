@@ -24,46 +24,46 @@
 
 
 
-#include "rttbDoseIndex.h"
+#include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
 
 namespace rttb{
 
-  namespace indices{
+	namespace indices{
 
-    /*! @class ConformationNumber
+		/*! @class ConformationNumber
 		@brief This class representing a ConformationNumber Object. Conformation Number (CN)= (TVref/TV) * (TVref/Vref)
 		@ingroup indices
-    */
-    class ConformationNumber: public DoseIndex
-    {
-    protected: 
-      /*! @brief Calculate conformation number
-          @exception InvalidParameterException Thrown if dvhSet or aDoseReference invalid
-      */
-      bool calcIndex();
+		*/
+		class ConformationNumber: public DvhBasedDoseIndex
+		{
+		protected: 
+			/*! @brief Calculate conformation number
+			@exception InvalidParameterException Thrown if dvhSet or aDoseReference invalid
+			*/
+			bool calcIndex();
 
-      
-    public: 
+			bool checkInputs();
 
-      /*! @brief Constructor
-      */
-      ConformationNumber(core::DVHSet* dvhSet, DoseTypeGy aDoseReference);
 
-      /*! @return Return true if calcIndex() finished sucessfully
-          @exception NullPointerException thrown if dvhSet is NULL
-      */
-      bool init();
+		public: 
 
-      /*! @brief Dose index calculation for tvIndex-th treated volume
-          @param tvIndex index in the DVH in the current set of tv-DVHs
-          @return Return index value 
-          @exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
-      */
-	  IndexValueType getDoseIndexAt(const GridIndexType tvIndex);
+			/*! @brief Constructor
+			*/
+			ConformationNumber(core::DVHSet* dvhSet, DoseTypeGy aDoseReference);
 
-    };
-  }
+			
+			/*! @brief Dose index calculation for tvIndex-th treated volume
+			@param tvIndex index in the DVH in the current set of tv-DVHs
+			@return Return index value 
+			@exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
+			*/
+			IndexValueType getDoseIndexAt(const core::DVHSet::IndexType tvIndex);
+
+
+
+		};
+	}
 }
 
 #endif
