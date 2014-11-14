@@ -59,8 +59,9 @@ namespace rttb{
 			public:
 				
 				/*! @brief Constructor 
-				@param aDICOMRTStrSetFileName a DICOM-RT Structure set file name  
-				
+				@param aDICOMRTStrSetFileName a DICOM-RT Structure set file name or a directory name
+				@exception InvalidParameterException thrown if the file does not exist or the directory has no dicom structure file
+				@exception DcmrtException thrown if load and read file failed
 				*/
 				DicomFileStructureSetGenerator(DICOMRTFileNameString aDICOMRTStrSetFileName);
 

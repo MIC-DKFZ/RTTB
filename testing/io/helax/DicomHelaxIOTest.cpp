@@ -58,22 +58,14 @@ namespace rttb
 			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
-			//ARGUMENTS: 1: structure file name
-			//           2: dose1 directory name
+			//ARGUMENTS: 1: directory name
 
-
-			std::string RTSTRUCT_FILENAME;
-			std::string RTDOSE_DIRNAME;
+			std::string RT_DIRNAME;
 
 
 			if (argc > 1)
 			{
-				RTSTRUCT_FILENAME = argv[1];
-			}
-
-			if (argc > 2)
-			{
-				RTDOSE_DIRNAME = argv[2];
+				RT_DIRNAME = argv[1];
 			}
 
 
@@ -82,7 +74,7 @@ namespace rttb
 			DcmFileFormat fileformat;
 
 			/* read dicom-rt dose */
-			io::helax::DicomHelaxFileDoseAccessorGenerator doseAccessorGenerator1(RTDOSE_DIRNAME.c_str());
+			io::helax::DicomHelaxFileDoseAccessorGenerator doseAccessorGenerator1(RT_DIRNAME.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
 
 			//1) test dicom dose import if geometric info was set correctly
@@ -115,7 +107,7 @@ namespace rttb
 
 			/* structure set */
 			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(
-			        RTSTRUCT_FILENAME.c_str()).generateStructureSet();
+			        RT_DIRNAME.c_str()).generateStructureSet();
 			//3) test structure import
 			CHECK_EQUAL(8, rtStructureSet->getNumberOfStructures());
 

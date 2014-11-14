@@ -57,8 +57,10 @@ namespace rttb{
 			public: 
 				~DicomFileDoseAccessorGenerator();
 
-				/*! @brief Constructor. Initialisation with a DICOM-RT dose file with name aDICOMRTDoseFileName
-				
+				/*! @brief Constructor. Initialisation with a DICOM-RT dose file or a directory name
+				@param aDICOMRTDoseFileName a DICOM-RT dose file name or a directory name
+				@exception InvalidParameterException thrown if the file does not exist or the directory has no dicom dose file
+				@exception DcmrtException thrown if load and read file failed	
 				*/
 				DicomFileDoseAccessorGenerator(FileNameType aDICOMRTDoseFileName);
 
