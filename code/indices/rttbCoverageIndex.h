@@ -45,13 +45,11 @@ namespace rttb{
 			*/
 			bool calcIndex();
 
-			bool checkInputs();
-
 
 		public: 
 			/*! @brief Constructor
 			*/
-			CoverageIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference);
+			CoverageIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference);
 
 		
 			/*! @brief Dose index calculation for tvIndex-th treated volume
@@ -59,7 +57,7 @@ namespace rttb{
 			*  @return Return index value 
 			@exception InvalidParameterException Thrown if tvIndex invalid
 			*/
-			IndexValueType getDoseIndexAt(const core::DVHSet::IndexType tvIndex);
+			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex);
 
 
 

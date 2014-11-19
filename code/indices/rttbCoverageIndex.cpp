@@ -28,22 +28,10 @@ namespace rttb{
 
 	namespace indices{
 
-		CoverageIndex::CoverageIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference)
-		{
-			_dvhSet=dvhSet;
-			_doseReference=aDoseReference;
-			initSuccess=false;
-		}
-
-		bool CoverageIndex::checkInputs()
-		{
-			if(!_dvhSet){
-				return false;
-			}
-			else
-			{
-				return true;
-			}
+		CoverageIndex::CoverageIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference)
+			:DvhBasedDoseIndex(dvhSet, aDoseReference)
+		{	
+			init();
 		}
 
 		bool CoverageIndex::calcIndex()
@@ -57,7 +45,7 @@ namespace rttb{
 			return true;
 		}
 
-		IndexValueType CoverageIndex::getDoseIndexAt(core::DVHSet::IndexType tvIndex){
+		IndexValueType CoverageIndex::getValueAt(core::DVHSet::IndexType tvIndex){
 			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
 			VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
 			if(tvIndex>=dvhTVSet.size()){

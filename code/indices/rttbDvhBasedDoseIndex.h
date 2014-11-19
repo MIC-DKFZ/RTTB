@@ -30,33 +30,33 @@ namespace rttb{
 
 
 	namespace indices{
-		/*! @class DoseIndex
-		@brief This is the interface for dose/plan comparison indices.
-		@ingroup indices
+		/*! @class DvhBasedDoseIndex
+		@brief This is the interface for dose/plan comparison indices calculated by DVh set of the dose.
 		*/
 		class DvhBasedDoseIndex: public DoseIndex
 		{
 		public:
+			typedef boost::shared_ptr<core::DVHSet> DVHSetPtr;
 
 		protected: 
 
-			/*! @todo Use Shared Pointers for _dvhSet*/
-			core::DVHSet* _dvhSet;
+			DVHSetPtr _dvhSet;
 
 			/*! @brief Dose index calculation */
 			virtual bool calcIndex()=0;
 
-			virtual bool checkInputs()=0;
+			/*! @brief Check inputs*/
+			bool checkInputs();
 
 		public:
-
+			/*! @brief Constructor*/
+			DvhBasedDoseIndex(DVHSetPtr aDVHSet, DoseTypeGy aDoseReference);
 			
 			/*! @brief Dose/plan comparison index calculation for tvIndex-th treated volume
 			(tv = target volume; th = healthy tissue)
 			@param tvIndex index in the DVH in the current set of tv-DVHs
-			@todo is this name good? getIndexAt() instead?
 			*/
-			virtual IndexValueType getDoseIndexAt(const core::DVHSet::IndexType tvIndex)=0;
+			virtual IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex)=0;
 		};
 	}
 }

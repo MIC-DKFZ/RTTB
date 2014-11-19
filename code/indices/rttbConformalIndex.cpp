@@ -28,20 +28,12 @@ namespace rttb{
 
 	namespace indices{
 
-		ConformalIndex::ConformalIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference)
+		ConformalIndex::ConformalIndex(ConformalIndex::DVHSetPtr dvhSet, DoseTypeGy aDoseReference)
+			:DvhBasedDoseIndex(dvhSet, aDoseReference)
 		{
-			_dvhSet=dvhSet;
-			_doseReference=aDoseReference;
-			initSuccess=false;
+			init();
 		}
 
-		bool ConformalIndex::checkInputs(){
-			if(!_dvhSet)
-				return false;
-			else
-				return true;
-		}
-		
 		bool ConformalIndex::calcIndex()
 		{
 			VolumeType TV=_dvhSet->getTVVolume(0);
@@ -70,7 +62,7 @@ namespace rttb{
 			return true;
 		}
 
-		IndexValueType ConformalIndex::getDoseIndexAt(core::DVHSet::IndexType tvIndex){
+		IndexValueType ConformalIndex::getValueAt(core::DVHSet::IndexType tvIndex){
 			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
 			VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
 			if(tvIndex>=dvhTVSet.size()){

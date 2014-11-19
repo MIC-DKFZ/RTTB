@@ -27,21 +27,10 @@
 namespace rttb{
 	namespace indices{
 
-		HomogeneityIndex::HomogeneityIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference)
+		HomogeneityIndex::HomogeneityIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference)
+			:DvhBasedDoseIndex(dvhSet, aDoseReference)
 		{
-			_dvhSet=dvhSet;
-			_doseReference=aDoseReference;
-			initSuccess=false;
-		}
-
-		bool HomogeneityIndex::checkInputs()
-		{
-			if(!_dvhSet){
-				return false;
-			}
-			else{
-				return true;
-			}
+			init();
 		}
 
 		bool HomogeneityIndex::calcIndex()
@@ -72,7 +61,7 @@ namespace rttb{
 
 		}
 
-		IndexValueType HomogeneityIndex::getDoseIndexAt(core::DVHSet::IndexType tvIndex){
+		IndexValueType HomogeneityIndex::getValueAt(core::DVHSet::IndexType tvIndex){
 			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
 			if(tvIndex>=dvhTVSet.size()){
 				rttbExceptionMacro(core::InvalidParameterException, <<"tvIndex invalid: it should be <"<<dvhTVSet.size()<<"!");
