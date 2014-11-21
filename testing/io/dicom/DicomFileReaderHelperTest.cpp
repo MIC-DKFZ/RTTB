@@ -75,7 +75,7 @@ namespace rttb
 			//2) test getFileNames() with a RTDOSE file name and check equal with getFileNamesWithSameUID()
 			std::vector<FileNameType> fileVector2 = rttb::io::dicom::getFileNames(RTDOSE_FILENAME);
 			for(int i=0; i<fileVector.size(); i++){
-				CHECK_EQUAL(fileVector.at(i), fileVector.at(i));
+				CHECK_EQUAL(fileVector.at(i), fileVector2.at(i));
 			}
 			
 			//3) test getFileNames() with a RTSTRUCT file name

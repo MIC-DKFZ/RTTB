@@ -70,6 +70,14 @@ namespace rttb{
 			*/
 			bool isDirectory(FileNameType aName);
 
+			/*! Return modality DcmTagKey(0x0008, 0x0060)
+			@exception DcmrtException thrown if reading modality failed*/
+			OFString getModality(DcmDataSetPtr aDcmDataSet);
+
+			/*! Return uid DcmTagKey(0x0020, 0x000e)
+			@exception DcmrtException thrown if reading uid failed*/
+			OFString getUID(DcmDataSetPtr aDcmDataSet);
+
 
 		};
 	}

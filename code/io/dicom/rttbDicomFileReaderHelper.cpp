@@ -52,6 +52,29 @@ namespace rttb{
 					return false;
 			}
 
+			OFString getModality(DcmDataSetPtr aDcmDataSet){
+				OFString modality;
+				OFCondition status;
+				status = aDcmDataSet->findAndGetOFString(DcmTagKey(0x0008, 0x0060), modality);
+				if (!status.good())
+				{
+					throw DcmrtException("Error: get modality failed!");
+				}
+				return modality;
+			}
+
+
+			OFString getUID(DcmDataSetPtr aDcmDataSet){
+				OFString uid;
+				OFCondition status;
+				status = aDcmDataSet->findAndGetOFString(DcmTagKey(0x0020, 0x000e), uid);
+				if (!status.good())
+				{
+					throw DcmrtException("Error: get uid failed!");
+				}
+				return uid;
+			}
+
 			std::vector<FileNameType> getFileNamesWithSameUID(FileNameType aDirName, Modality aModality){
 				std::vector<FileNameType> fileNameVector;
 				std::string modalityStrArray[] = {"RTDOSE", "RTSTRUCT", "RTPLAN"};
@@ -61,22 +84,18 @@ namespace rttb{
 				OFCondition status;
 				DcmFileFormat fileformat;
 
-				IDType uid;
+				IDType uid = "";
 				DcmDataSetPtr datasetPtr;
 
-				int file_count=0;
-				if(!boost::filesystem::exists(path)){
-					throw core::InvalidParameterException("Error: file/directory does not exist!");
-				}
 				if(aModality.Type != 1 && aModality.Type != 2 && aModality.Type != 3){
 					throw core::InvalidParameterException("Error: invalid modality! The modality should be RTDOSE(1)/RTSTRUCT(2)/RTPLAN(3).");
 				}
 
 				//if a directory		
-				if(boost::filesystem::is_directory(path)){
+				if(isDirectory(aDirName)){
 
 					boost::filesystem::directory_iterator end_iter;
-					bool isFirst=true;
+					bool isFirst=false;
 
 					for(boost::filesystem::directory_iterator dir_itr(path);dir_itr!=end_iter;++dir_itr)
 					{
@@ -88,49 +107,39 @@ namespace rttb{
 							status = fileformat.loadFile(filePath.string().c_str());
 							if (!status.good())
 							{
-								throw DcmrtException("Error: load dose fileformat.loadFile failed!");
+								throw DcmrtException("Error: load dose file "+ filePath.string() +" failed!");
 							}
 
 							datasetPtr =  boost::make_shared<DcmDataset>(*fileformat.getDataset());
-							OFString modalityOFS;
-							status = datasetPtr->findAndGetOFString(DcmTagKey(0x0008, 0x0060), modalityOFS);
-							if (!status.good())
-							{
-								throw DcmrtException("Error: get modality failed!");
-							}
-
+							OFString modalityOFS = getModality(datasetPtr);
 
 							for(unsigned int i=0; i<3; i++){
 								if (aModality.Type == (i+1) && modalityOFS == modalityStrArray[i].c_str()) 
 								{
-									++file_count;
-									OFString currentUID;
-									status = datasetPtr->findAndGetOFString(DcmTagKey(0x0020, 0x000e), currentUID);
-									if (!status.good())
-									{
-										throw DcmrtException("Error: get uid failed!");
+									if(uid == ""){
+										isFirst = true;
 									}
-
+									OFString currentUID = getUID(datasetPtr);
+									
 									//get the first uid of the given modality
-									if(file_count==1)
+									if(isFirst)
 									{
 										uid = currentUID.c_str();
+										isFirst = false;
 									}
-
-
 									if(uid == currentUID.c_str())
 									{
 										fileNameVector.push_back(filePath.string().c_str());
 									}
-
+									break;
 								}
 							}
 						}
 					}
 
 				}	
-				else if(boost::filesystem::is_regular_file(path)){
-					std::cout << "Important: the given name is a file name, not a directory name. Given modality will be ignored, use the modality of the file." << std::endl;
+				else if(isFile(aDirName)){
+					std::cout << "Important: the given name "+ aDirName +" is a file name, not a directory name. Given modality will be ignored, use the modality of the file." << std::endl;
 					fileNameVector = getFileNames(aDirName);
 				}
 				else{
@@ -141,6 +150,11 @@ namespace rttb{
 			}
 
 			std::vector<FileNameType> getFileNames(FileNameType aFileName){
+
+				if(!isFile(aFileName)){
+					throw core::InvalidParameterException("Error: file does not exist!");
+				}
+
 				std::vector<FileNameType> fileNameVector;
 
 				boost::filesystem::path path=boost::filesystem::path(aFileName);
@@ -151,10 +165,6 @@ namespace rttb{
 				OFString modality;//modality of the given file
 				OFString uid;//uid of the given file
 
-				if(!boost::filesystem::exists(path) || !boost::filesystem::is_regular_file(path)){
-					throw core::InvalidParameterException("Error: file does not exist!");
-				}
-
 				status = fileformat.loadFile(aFileName.c_str());
 				if (!status.good())
 				{
@@ -162,16 +172,8 @@ namespace rttb{
 				}
 
 				datasetPtr =  boost::make_shared<DcmDataset>(*fileformat.getDataset());				
-				status = datasetPtr->findAndGetOFString(DcmTagKey(0x0008, 0x0060), modality);
-				if (!status.good())
-				{
-					throw DcmrtException("Error: get modality failed!");
-				}
-				status = datasetPtr->findAndGetOFString(DcmTagKey(0x0020, 0x000e), uid);
-				if (!status.good())
-				{
-					throw DcmrtException("Error: get uid failed!");
-				}
+				modality = getModality(datasetPtr);
+				uid = getUID(datasetPtr);
 
 				//get parent directory
 				boost::filesystem::path parentDir = path.parent_path();		
@@ -193,18 +195,8 @@ namespace rttb{
 							}
 
 							datasetPtr =  boost::make_shared<DcmDataset>(*fileformat.getDataset());
-							OFString currentModality;
-							status = datasetPtr->findAndGetOFString(DcmTagKey(0x0008, 0x0060), currentModality);
-							if (!status.good())
-							{
-								throw DcmrtException("Error: get modality failed!");
-							}
-							OFString currentUID;
-							status = datasetPtr->findAndGetOFString(DcmTagKey(0x0020, 0x000e), currentUID);
-							if (!status.good())
-							{
-								throw DcmrtException("Error: get modality failed!");
-							}
+							OFString currentModality = getModality(datasetPtr);
+							OFString currentUID = getUID(datasetPtr);
 
 							//if the same modality
 							if (modality == currentModality && uid == currentUID){

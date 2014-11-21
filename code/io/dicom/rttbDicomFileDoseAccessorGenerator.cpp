@@ -68,9 +68,6 @@ namespace rttb{
 
 				DcmFileFormat fileformat;
 
-				std::cout << _dicomDoseFileName << std::endl;
-				std::cout << fileVector.at(0) << std::endl;
-
 				DRTDoseIODPtr dose= boost::make_shared<DRTDoseIOD>();
 				status = fileformat.loadFile(fileVector.at(0).c_str());
 				if (!status.good())
