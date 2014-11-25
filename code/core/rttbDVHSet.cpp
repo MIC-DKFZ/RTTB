@@ -102,11 +102,11 @@ namespace rttb{
 			}
 
 		VolumeType DVHSet::getWholeVolume(DoseTypeGy aDoseAbsolute) const {
-			VolumeType volume=this->getHTVolume(aDoseAbsolute)+this->getTVVolume(aDoseAbsolute);
+			VolumeType volume=this->getHealthyTissueVolume(aDoseAbsolute)+this->getTargetVolume(aDoseAbsolute);
 			return volume;
 			}
 
-		VolumeType DVHSet::getHTVolume(DoseTypeGy aDoseAbsolute) const{
+		VolumeType DVHSet::getHealthyTissueVolume(DoseTypeGy aDoseAbsolute) const{
 			DVHSetType::const_iterator itHT = _dvhHTSet.begin();
 			VolumeType volume=0;
 			VolumeType testVol=0;
@@ -124,7 +124,7 @@ namespace rttb{
 
 			}
 
-		VolumeType DVHSet::getTVVolume(DoseTypeGy aDoseAbsolute) const{
+		VolumeType DVHSet::getTargetVolume(DoseTypeGy aDoseAbsolute) const{
 			DVHSetType::const_iterator itTV = _dvhTVSet.begin();
 			VolumeType volume=0;
 			VolumeType testVol=0;

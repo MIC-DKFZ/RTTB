@@ -20,7 +20,6 @@
 */
 
 #include "rttbHomogeneityIndex.h"
-#include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbExceptionMacros.h"
 
@@ -37,10 +36,10 @@ namespace rttb{
 		{
 			double max=0;
 			double min;
-			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
+			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getTargetVolumeSet();
 			std::vector<core::DVH>::iterator it;
 
-			for(it=dvhTVSet.begin(); it!=dvhTVSet.end();it++)		
+			for(it=dvhTVSet.begin(); it!=dvhTVSet.end();++it)		
 			{
 				core::DVH dvh=*(it);
 				if(it==dvhTVSet.begin())
@@ -62,7 +61,7 @@ namespace rttb{
 		}
 
 		IndexValueType HomogeneityIndex::getValueAt(core::DVHSet::IndexType tvIndex){
-			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
+			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getTargetVolumeSet();
 			if(tvIndex>=dvhTVSet.size()){
 				rttbExceptionMacro(core::InvalidParameterException, <<"tvIndex invalid: it should be <"<<dvhTVSet.size()<<"!");
 			}

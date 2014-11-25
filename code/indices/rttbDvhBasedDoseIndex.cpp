@@ -20,16 +20,14 @@
 */
 
 #include "rttbDvhBasedDoseIndex.h"
-#include "rttbException.h"
-#include "rttbInvalidParameterException.h"
+
 
 namespace rttb{
 	namespace indices{
 
 		DvhBasedDoseIndex::DvhBasedDoseIndex(DvhBasedDoseIndex::DVHSetPtr aDVHSet, DoseTypeGy aDoseReference)
-		:DoseIndex(aDoseReference)
+		:DoseIndex(aDoseReference),_dvhSet(aDVHSet)
 		{	
-			_dvhSet = aDVHSet;
 		}
 
 		bool DvhBasedDoseIndex::checkInputs(){

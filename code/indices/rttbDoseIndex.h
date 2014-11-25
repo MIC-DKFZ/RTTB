@@ -24,7 +24,6 @@
 
 #include "rttbBaseType.h"
 #include "rttbDVHSet.h"
-#include "rttbNullPointerException.h"
 
 namespace rttb{
 
@@ -43,7 +42,7 @@ namespace rttb{
 			DoseTypeGy _doseReference;
 
 			/*! @brief If init() successful*/
-			bool initSuccess;
+			bool _initSuccess;
 
 			/*! @brief Initialize the calculation. It should be called in constructor or if any parameter of the calcualtion is changed.
 			@return Return true if successfully
@@ -77,7 +76,7 @@ namespace rttb{
 			IndexValueType getValue() const;
 
 			/*! @brief Get the value of dose/plan comparison index for a treated volume with the index in the DVH treated volume set 
-			@param tvIndex index in the DVH in the current set of DVH subset for target volume: use DVHSet.getDVHTVSet()
+			@param tvIndex index in the DVH in the current set of DVH subset for target volume: use DVHSet.getTargetVolumeSet()
 			*/
 			virtual IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex)=0;
 		};

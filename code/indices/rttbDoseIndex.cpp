@@ -26,10 +26,8 @@
 namespace rttb{
 	namespace indices{
 
-		DoseIndex::DoseIndex(DoseTypeGy aDoseReference){
-			_doseReference = aDoseReference;			
-			initSuccess = false;
-		}
+		DoseIndex::DoseIndex(DoseTypeGy aDoseReference)
+		:_doseReference(aDoseReference),_initSuccess(false){}
 
 		bool DoseIndex::init()
 		{	
@@ -37,18 +35,18 @@ namespace rttb{
 				throw core::InvalidParameterException("Check inputs failed: invalid parameters! ");
 			}
 			if( this->calcIndex()){
-				initSuccess=true;
+				_initSuccess=true;
 			}
 			else{
 				throw core::InvalidParameterException("Index calculation failed! ");
 			}
-			return initSuccess;
+			return _initSuccess;
 		}
 
 		void DoseIndex::setDoseReference(DoseTypeGy aDoseReference)
 		{
 			_doseReference=aDoseReference;
-			initSuccess=false;
+			_initSuccess=false;
 			init();
 		}
 
@@ -59,7 +57,7 @@ namespace rttb{
 
 		IndexValueType DoseIndex::getValue() const
 		{
-			if(initSuccess){
+			if(_initSuccess){
 				return _value;
 			}
 			else{

@@ -36,11 +36,11 @@ namespace rttb{
 
 		bool ConformationNumber::calcIndex()
 		{
-			VolumeType TV=_dvhSet->getTVVolume(0);
+			VolumeType TV=_dvhSet->getTargetVolume(0);
 			VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
 			if(TV!=0 && Vref!=0){
-				_value=(_dvhSet->getTVVolume(_doseReference)/TV)*
-					(_dvhSet->getTVVolume(_doseReference)/Vref);
+				_value=(_dvhSet->getTargetVolume(_doseReference)/TV)*
+					(_dvhSet->getTargetVolume(_doseReference)/Vref);
 			}
 			else if(TV==0){
 				throw core::InvalidParameterException("DVH Set invalid: Target volume should not be 0!");
@@ -53,7 +53,7 @@ namespace rttb{
 		}
 
 		IndexValueType ConformationNumber::getValueAt(core::DVHSet::IndexType tvIndex){
-			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
+			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getTargetVolumeSet();
 			VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
 			if(tvIndex>=dvhTVSet.size()){
 				rttbExceptionMacro(core::InvalidParameterException, <<"tvIndex invalid: it should be <"<<dvhTVSet.size()<<"!");

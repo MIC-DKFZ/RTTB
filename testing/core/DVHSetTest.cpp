@@ -146,19 +146,19 @@ namespace rttb{
 			dvhPtr = myDvhSet3.getDVH(structureIDPrefix+"_TV_2");
 			CHECK_EQUAL(*dvhPtr,tvSet.at(2));
 
-			DVHSetType tvTest =  myDvhSet3.getDVHTVSet();
+			DVHSetType tvTest =  myDvhSet3.getTargetVolumeSet();
 			CHECK_EQUAL(tvTest,tvSet);
 
-			DVHSetType htTest =  myDvhSet3.getDVHHTSet();
+			DVHSetType htTest =  myDvhSet3.getHealthyTissueSet();
 			CHECK_EQUAL(htTest,htSet);
 
-			DVHSetType wvTest =  myDvhSet3.getDVHWVSet();	  
+			DVHSetType wvTest =  myDvhSet3.getWholeVolumeSet();	  
 			CHECK_EQUAL(wvTest,wvSet);
 
 			//6) test get<Type>Volume
 			DoseTypeGy aDoseAbsolute = 10;
-			CHECK_EQUAL(0,myDvhSet3.getHTVolume(aDoseAbsolute));
-			CHECK_EQUAL(0,myDvhSet3.getTVVolume(aDoseAbsolute));
+			CHECK_EQUAL(0,myDvhSet3.getHealthyTissueVolume(aDoseAbsolute));
+			CHECK_EQUAL(0,myDvhSet3.getTargetVolume(aDoseAbsolute));
 			CHECK_EQUAL(0,myDvhSet3.getWholeVolume(aDoseAbsolute));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

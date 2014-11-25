@@ -79,15 +79,15 @@ namespace rttb{
 
 			/*! @brief Get DVH subset for target volume	
 			*/
-			const DVHSetType& getDVHTVSet() const{return _dvhTVSet;};
+			const DVHSetType& getTargetVolumeSet() const{return _dvhTVSet;};
 
 			/*! @brief Get DVH subset for healthy tissue
 			*/
-			const DVHSetType& getDVHHTSet() const{return _dvhHTSet;};
+			const DVHSetType& getHealthyTissueSet() const{return _dvhHTSet;};
 
 			/*! @brief Get DVH subset for whole volume
 			*/
-			const DVHSetType& getDVHWVSet() const{return _dvhWVSet;};
+			const DVHSetType& getWholeVolumeSet() const{return _dvhWVSet;};
 
 
 			/*! @brief Get the whole volume irradiated to >= aDoseAbsolute
@@ -97,12 +97,12 @@ namespace rttb{
 			/*! @brief Get the healthy tissue volume irradiated to >= aDoseAbsolute
 			@return Return -1 if DVH of _dvhHTSet init() failed
 			*/
-			VolumeType getHTVolume(DoseTypeGy aDoseAbsolute) const;
+			VolumeType getHealthyTissueVolume(DoseTypeGy aDoseAbsolute) const;
 
 			/*! @brief Get the target volume irradiated to >= aDoseAbsolute
 			@return Return -1 if DVH of _dvhTVSet init() failed
 			*/
-			VolumeType getTVVolume(DoseTypeGy aDoseAbsolute) const;
+			VolumeType getTargetVolume(DoseTypeGy aDoseAbsolute) const;
 
 			/*! DVHSets are considered equal if they have the same structureSet, dose and voxelization ID
 			and the number of DVHs are equal.
