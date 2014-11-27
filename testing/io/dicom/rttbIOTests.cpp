@@ -34,6 +34,7 @@ namespace rttb{
 		void registerTests()
 			{
 				LIT_REGISTER_TEST(DicomDoseAccessorGeneratorTest);
+				LIT_REGISTER_TEST(DicomFileReaderHelperTest);
 				LIT_REGISTER_TEST(DicomIOTest);
 			LIT_REGISTER_TEST(DicomStructureSetGeneratorTest);
 			

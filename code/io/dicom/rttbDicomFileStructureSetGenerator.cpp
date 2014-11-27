@@ -24,15 +24,13 @@
 #include <sstream>
 #include <stdlib.h>
 
-//#include <boost/lexical_cast.hpp>
-
 #include "rttbInvalidParameterException.h"
 #include "rttbStructure.h"
 
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbDicomIODStructureSetGenerator.h"
 #include "rttbDcmrtException.h"
-
+#include "rttbDicomFileReaderHelper.h"
 
 namespace rttb{
 	namespace io{		
@@ -52,12 +50,33 @@ namespace rttb{
 			}
 
 			DicomFileStructureSetGenerator::StructureSetPointer DicomFileStructureSetGenerator::generateStructureSet(){
+				std::vector<FileNameString> fileVector;
+
+				//if a file
+				if(isFile(_fileName)){
+					fileVector.push_back(_fileName);
+				}
+				//if a directory
+				else if(isDirectory(_fileName)){
+					rttb::io::dicom::Modality strModality= {rttb::io::dicom::Modality::RTSTRUCT};
+					fileVector = getFileNamesWithSameUID(_fileName, strModality);
+				}
+				else{
+					throw rttb::core::InvalidParameterException("Invalid file/directory name!");
+				}
+
+				if(fileVector.size()<1){
+					throw rttb::core::InvalidParameterException("There is no structure set files in the directory!");
+				}
+
 				OFCondition status;
 
 				DcmFileFormat fileformat;
 				DRTStrSetIODPtr drtStrSetIODPtr=boost::make_shared<DRTStructureSetIOD>();
 
-				status = fileformat.loadFile(_fileName.c_str());
+
+				//get the first structure set file
+				status = fileformat.loadFile(fileVector.at(0).c_str());
 				if (!status.good())
 				{
 					throw DcmrtException("Load rt structure set loadFile() failed!");

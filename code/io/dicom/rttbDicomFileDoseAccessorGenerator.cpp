@@ -28,6 +28,8 @@
 #include "rttbInvalidDoseException.h"
 #include "rttbDcmrtException.h"
 #include "rttbIndexOutOfBoundsException.h"
+#include "rttbDicomFileReaderHelper.h"
+#include "rttbInvalidParameterException.h"
 
 namespace rttb{
 	namespace io{
@@ -42,16 +44,35 @@ namespace rttb{
 			}
 
 			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomFileDoseAccessorGenerator::generateDoseAccessor() {
+				std::vector<FileNameString> fileVector;
+
+				//if a file
+				if(isFile(_dicomDoseFileName)){
+					fileVector.push_back(_dicomDoseFileName);
+				}
+				//if a directory
+				else if(isDirectory(_dicomDoseFileName)){
+					rttb::io::dicom::Modality doseModality= {rttb::io::dicom::Modality::RTDOSE};
+					fileVector = getFileNamesWithSameUID(_dicomDoseFileName, doseModality);
+				}
+				else{
+					throw rttb::core::InvalidParameterException("Invalid file/directory name!");
+				}
+
+				if(fileVector.size()<1){
+					throw rttb::core::InvalidParameterException("There is no structure set files in the directory!");
+				}
+
 
 				OFCondition status;
 
 				DcmFileFormat fileformat;
 
 				DRTDoseIODPtr dose= boost::make_shared<DRTDoseIOD>();
-				status = fileformat.loadFile(_dicomDoseFileName.c_str());
+				status = fileformat.loadFile(fileVector.at(0).c_str());
 				if (!status.good())
 				{
-					std::cerr << "Error: load rtdose loadFile("<<_dicomDoseFileName.c_str()<<") failed!"<<std::endl;
+					std::cerr << "Error: load rtdose loadFile("<<fileVector.at(0)<<") failed!"<<std::endl;
 					throw core::InvalidDoseException("Invalid dicom dose!");
 				}
 

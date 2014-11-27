@@ -70,7 +70,7 @@ namespace rttb
 			CHECK_NO_THROW(io::dicom::DicomFileStructureSetGenerator(""));
 			CHECK_NO_THROW(io::dicom::DicomFileStructureSetGenerator("Test.test"));
 			CHECK_THROW_EXPLICIT(io::dicom::DicomFileStructureSetGenerator("Test.test").generateStructureSet(),
-			                     io::dicom::DcmrtException);
+			                     rttb::core::InvalidParameterException);
 			CHECK_NO_THROW(io::dicom::DicomFileStructureSetGenerator(RTSTRUCT_FILENAME.c_str()));
 
 			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(

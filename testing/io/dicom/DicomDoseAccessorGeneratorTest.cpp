@@ -35,6 +35,7 @@
 #include "rttbDicomIODDoseAccessorGenerator.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbDcmrtException.h"
+#include "rttbInvalidParameterException.h"
 
 
 namespace rttb
@@ -84,7 +85,7 @@ namespace rttb
 
 			/* test DicomFileDoseAccessorGenerator generateDoseAccessor()*/
 			CHECK_THROW_EXPLICIT(io::dicom::DicomFileDoseAccessorGenerator("test.test").generateDoseAccessor(),
-			                     core::InvalidDoseException);
+			                     core::InvalidParameterException);
 			CHECK_NO_THROW(io::dicom::DicomFileDoseAccessorGenerator(
 			                   RTDOSE_FILENAME.c_str()).generateDoseAccessor());
 			CHECK_NO_THROW(io::dicom::DicomFileDoseAccessorGenerator(
