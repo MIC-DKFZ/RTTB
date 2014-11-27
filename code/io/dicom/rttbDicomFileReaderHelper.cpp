@@ -95,7 +95,7 @@ namespace rttb{
 				if(isDirectory(aDirName)){
 
 					boost::filesystem::directory_iterator end_iter;
-					bool isFirst=false;
+					bool isFirst=true;
 
 					for(boost::filesystem::directory_iterator dir_itr(path);dir_itr!=end_iter;++dir_itr)
 					{
@@ -116,9 +116,6 @@ namespace rttb{
 							for(unsigned int i=0; i<3; i++){
 								if (aModality.Type == (i+1) && modalityOFS == modalityStrArray[i].c_str()) 
 								{
-									if(uid == ""){
-										isFirst = true;
-									}
 									OFString currentUID = getUID(datasetPtr);
 									
 									//get the first uid of the given modality
