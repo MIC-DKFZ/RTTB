@@ -37,26 +37,30 @@ namespace rttb{
     {
     protected: 
 
-	  /*! @todo Use Shared Pointers for _dvhSet*/
-      core::DVHSet* _dvhSet;
-
       IndexValueType _value;
 
       DoseTypeGy _doseReference;
 
       /*! @brief If init() successful*/
-      bool initSuccess;
+			bool _initSuccess;
+
+			/*! @brief Initialize the calculation. It should be called in constructor or if any parameter of the calcualtion is changed.
+			@return Return true if successfully
+			@exception InvalidParameterException thrown if any input is invalid or index calculation failed
+			*/
+			bool init();
 
       /*! @brief Dose index calculation */
       virtual bool calcIndex()=0;
 
+			/*! @brief Check all inputs for the index calculation*/
+			virtual bool checkInputs()=0;
 
     public:
-      /*! @brief Initialize the calculation
-		  @return Return true if successfully
-      */
-      virtual bool init()=0;
 
+			/*! @brief Constructor with the referece dose*/
+			DoseIndex(DoseTypeGy aDoseReference);
+	
       /*! @brief Set the reference dose
       */
       void setDoseReference(DoseTypeGy aDoseReference);
@@ -71,12 +75,10 @@ namespace rttb{
       */
       IndexValueType getValue() const;
 
-      /*! @brief Dose/plan comparison index calculation for tvIndex-th treated volume
-	      (tv = target volume; th = healthy tissue)
-          @param tvIndex index in the DVH in the current set of tv-DVHs
-		  @todo is this name good? getIndexAt() instead?
+			/*! @brief Get the value of dose/plan comparison index for a treated volume with the index in the DVH treated volume set 
+			@param tvIndex index in the DVH in the current set of DVH subset for target volume: use DVHSet.getTargetVolumeSet()
       */
-      virtual IndexValueType getDoseIndexAt(const GridIndexType tvIndex)=0;
+			virtual IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex)=0;
     };
   }
 }

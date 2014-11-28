@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-#include "rttbDoseIndex.h"
+#include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
 
 namespace rttb{
@@ -34,7 +34,7 @@ namespace rttb{
 		@brief This class representing a HomogeneityIndex Object. Homogeneity Index (HI) = (Dmax(PTV)-Dmin(PTV))/Dref
 		@ingroup indices
     */
-    class HomogeneityIndex: public DoseIndex
+		class HomogeneityIndex: public DvhBasedDoseIndex
     {
     protected: 
       /*! @brief Calculate Conformity index
@@ -42,23 +42,17 @@ namespace rttb{
       */
       bool calcIndex();  
 
-
     public: 
       /*! @brief Constructor
       */
-      HomogeneityIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference);
-
-      /*! @return Return true if calcIndex() finished sucessfully
-		  @exception NullPointerException thrown if dvhSet is NULL
-      */
-      bool init();
+			HomogeneityIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference);
 
       /*! @brief Dose index calculation for tvIndex-th treated volume
           @param tvIndex index in the DVH in the current set of tv-DVHs
           @return Return index value  
           @exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
       */
-      IndexValueType getDoseIndexAt(const GridIndexType tvIndex);
+			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex);
 
     };
 

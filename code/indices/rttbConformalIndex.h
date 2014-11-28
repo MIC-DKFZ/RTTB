@@ -23,7 +23,7 @@
 #define __CONFORMAL_INDEX_H
 
 
-#include "rttbDoseIndex.h"
+#include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
 
 namespace rttb{
@@ -35,31 +35,27 @@ namespace rttb{
 		Conformation Number (CN)= (TVref/TV) * (TVref/Vref)
 		@ingroup indices
     */
-    class ConformalIndex: public DoseIndex
+		class ConformalIndex: public DvhBasedDoseIndex
     {
     protected: 
       /*! @brief Calculate conformal index
 		  @exception InvalidParameterException Thrown if dvhSet or aDoseReference invalid
       */
       bool calcIndex();
-      
+
 
     public: 
       /*! @brief Constructor
       */
-      ConformalIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference);
-
-      /*! @return Return true if calcIndex() finished
-		  @exception NullPointerException thrown if dvhSet is NULL
-      */
-      bool init();
+			ConformalIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference);
 
       /*! @brief Dose index calculation for tvIndex-th treated volume
           @param tvIndex index in the DVH in the current set of tv-DVHs
           @return Return index value 
           @exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
       */
-      IndexValueType getDoseIndexAt(const GridIndexType tvIndex);
+			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex);
+
 
     };
 

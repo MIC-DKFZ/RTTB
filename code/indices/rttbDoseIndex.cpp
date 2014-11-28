@@ -21,13 +21,33 @@
 
 #include "rttbDoseIndex.h"
 #include "rttbException.h"
+#include "rttbInvalidParameterException.h"
 
 namespace rttb{
 	namespace indices{
+
+		DoseIndex::DoseIndex(DoseTypeGy aDoseReference)
+		:_doseReference(aDoseReference),_initSuccess(false){}
+
+		bool DoseIndex::init()
+		{	
+			if(!(this->checkInputs())){
+				throw core::InvalidParameterException("Check inputs failed: invalid parameters! ");
+			}
+			if( this->calcIndex()){
+				_initSuccess=true;
+			}
+			else{
+				throw core::InvalidParameterException("Index calculation failed! ");
+			}
+			return _initSuccess;
+		}
+
 		void DoseIndex::setDoseReference(DoseTypeGy aDoseReference)
 			{
 			_doseReference=aDoseReference;
-			initSuccess=false;
+			_initSuccess=false;
+			init();
 			}
 
 		DoseTypeGy DoseIndex::getDoseReference() const
@@ -37,7 +57,7 @@ namespace rttb{
 
 		IndexValueType DoseIndex::getValue() const
 			{
-			if(initSuccess){
+			if(_initSuccess){
 				return _value;
 				}
 			else{
@@ -45,6 +65,6 @@ namespace rttb{
 				}
 			}
 		}
-	}
+}
 
 

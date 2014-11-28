@@ -28,33 +28,19 @@ namespace rttb{
 
 	namespace indices{
 
-		ConformityIndex::ConformityIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference)
+		ConformityIndex::ConformityIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference)
+			:DvhBasedDoseIndex(dvhSet, aDoseReference)
 			{
-			_dvhSet=dvhSet;
-			_doseReference=aDoseReference;
-			initSuccess=false;
-			}
-
-		bool ConformityIndex::init()
-			{
-			if(!_dvhSet){
-				throw core::NullPointerException("DVHSet must not be NULL! ");
-				}
-			if( this->calcIndex()){
-				initSuccess=true;
-				return true;
-				}
-			else 
-				return false;
+			init();
 			}
 
 		bool ConformityIndex::calcIndex()
 			{
-			VolumeType TV=_dvhSet->getTVVolume(0);
+			VolumeType TV=_dvhSet->getTargetVolume(0);
 			VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
 
 			if(TV!=0 && Vref!=0){
-				_value=(_dvhSet->getTVVolume(this->_doseReference)/TV)*(1-_dvhSet->getHTVolume(_doseReference)/Vref);
+				_value=(_dvhSet->getTargetVolume(this->_doseReference)/TV)*(1-_dvhSet->getHealthyTissueVolume(_doseReference)/Vref);
 				}
 			else if(TV==0){
 				throw core::InvalidParameterException("DVH Set invalid: Target volume should not be 0!");
@@ -65,8 +51,8 @@ namespace rttb{
 			return true;
 			}
 
-		IndexValueType ConformityIndex::getDoseIndexAt(GridIndexType tvIndex){
-			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
+		IndexValueType ConformityIndex::getValueAt(core::DVHSet::IndexType tvIndex){
+			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getTargetVolumeSet();
 			VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
 			if(tvIndex>=dvhTVSet.size()){
 				rttbExceptionMacro(core::InvalidParameterException, <<"tvIndex invalid: it should be <"<<dvhTVSet.size()<<"!");
@@ -81,10 +67,10 @@ namespace rttb{
 					rttbExceptionMacro(core::InvalidParameterException, << "Reference dose "<<this->getDoseReference()<<" invalid: Volume of reference dose should not be 0!");
 					}
 				double value=dvh.getVx(_doseReference)/TV;//the irradiation factor of i-th treated volume
-				value=value*(1-_dvhSet->getHTVolume(_doseReference)/Vref);
+				value=value*(1-_dvhSet->getHealthyTissueVolume(_doseReference)/Vref);
 				return value;
 				}
 			}
 
 		}//end namespace indices
-	}//end namespace rttb
+}//end namespace rttb

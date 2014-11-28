@@ -38,6 +38,9 @@
 
 #include <math.h>
 
+#include <boost/make_shared.hpp>
+#include <boost/shared_ptr.hpp>
+
 
 namespace rttb
 {
@@ -112,130 +115,86 @@ namespace rttb
 			dvhHTSet.push_back(dvhNT2);
 			dvhHTSet.push_back(dvhNT3);
 
-			core::DVHSet dvhSet = core::DVHSet(dvhTVSet, dvhHTSet, "testStrSet", dvhPTV.getDoseID());
-
+			boost::shared_ptr<core::DVHSet> dvhSetPtr = boost::make_shared<core::DVHSet>(dvhTVSet, dvhHTSet, "testStrSet", dvhPTV.getDoseID());
+			
 			/*test exception*/
-			indices::ConformalIndex test1 = indices::ConformalIndex(NULL, 0);
-			indices::ConformationNumber test2 = indices::ConformationNumber(NULL, 0);
-			indices::ConformityIndex test3 = indices::ConformityIndex(NULL, 0);
-			indices::CoverageIndex test4 = indices::CoverageIndex(NULL, 0);
-			indices::HomogeneityIndex test5 = indices::HomogeneityIndex(NULL, 0);
-
-			CHECK_THROW_EXPLICIT(test1.init(), core::NullPointerException);
-			CHECK_THROW_EXPLICIT(test2.init(), core::NullPointerException);
-			CHECK_THROW_EXPLICIT(test3.init(), core::NullPointerException);
-			CHECK_THROW_EXPLICIT(test4.init(), core::NullPointerException);
-			CHECK_THROW_EXPLICIT(test5.init(), core::NullPointerException);
-
+			CHECK_THROW_EXPLICIT(indices::ConformalIndex(NULL, 0), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::ConformationNumber(NULL, 0), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::ConformityIndex(NULL, 0), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::CoverageIndex(NULL, 0), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::HomogeneityIndex(NULL, 0), core::InvalidParameterException);
 
 			/*test exception for invalid reference dose*/
-			test1 = indices::ConformalIndex(&dvhSet, 100);
-			test2 = indices::ConformationNumber(&dvhSet, 100);
-			test3 = indices::ConformityIndex(&dvhSet, 100);
-			test5 = indices::HomogeneityIndex(&dvhSet, 0);
-
-			CHECK_THROW_EXPLICIT(test1.init(), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(test2.init(), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(test3.init(), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(test5.init(), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::ConformalIndex(dvhSetPtr, 100), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::ConformationNumber(dvhSetPtr, 100), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::ConformityIndex(dvhSetPtr, 100), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::HomogeneityIndex(dvhSetPtr, 0), core::InvalidParameterException);
 
 			/*test index calculation*/
 
 			/*RTConformationNumber */
 			//PTV covered by reference dose 30 = the whole PTV =362.5; Volume of the referece 30=362.5+1.25
-			indices::ConformationNumber cn = indices::ConformationNumber(&dvhSet, 30);
-			cn.init();
+			indices::ConformationNumber cn = indices::ConformationNumber(dvhSetPtr, 30);
 			//check if values are close. Equality is only achieved with double precission.
 			CHECK_CLOSE(362.5 / 363.75, cn.getValue(), errorConstant);
 
 			//cn==1*TV0/V0=362.5/2466.25
 			cn.setDoseReference(0);
-			//if not init, throw Exception
-			CHECK_THROW_EXPLICIT(cn.getValue(), core::Exception);
-			cn.init();
 			CHECK_CLOSE(362.5 / 2466.25, cn.getValue(), errorConstant);
 
 			cn.setDoseReference(65);
-			//if not init, throw Exception
-			CHECK_THROW_EXPLICIT(cn.getValue(), core::Exception);
-			cn.init();
 			CHECK_CLOSE(2300 / 2900.0, cn.getValue(),
 			            errorConstant); //ref dose: 65 -> TVref=Vref -> cn=TVref/TV=2300/2900
 
-			CHECK_EQUAL(cn.getValue(), cn.getDoseIndexAt(0));
-			CHECK_THROW_EXPLICIT(cn.getDoseIndexAt(1), core::InvalidParameterException);
+			CHECK_EQUAL(cn.getValue(), cn.getValueAt(0));
+			CHECK_THROW_EXPLICIT(cn.getValueAt(1), core::InvalidParameterException);
 
 			/*ConformalIndex */
 			//HT 1 covered by ref=HT2 covered by ref=0, HT3 covered by ref=1.25
-			indices::ConformalIndex coin = indices::ConformalIndex(&dvhSet, 30);
-			coin.init();
+			indices::ConformalIndex coin = indices::ConformalIndex(dvhSetPtr, 30);
 			CHECK_CLOSE((362.5 / 363.75) * (1 - 1.25 / 151.25), coin.getValue(), errorConstant);
 
 			coin.setDoseReference(0);
-			//if not init, throw Exception
-			CHECK_THROW_EXPLICIT(coin.getValue(), core::Exception);
-			coin.init();
 			CHECK_EQUAL(0, coin.getValue());
 
 			coin.setDoseReference(65);
-			//if not init, throw Exception
-			CHECK_THROW_EXPLICIT(coin.getValue(), core::Exception);
-			coin.init();
 			CHECK_CLOSE(2300 / 2900.0, coin.getValue(),
 			            errorConstant); //ref dose: 65 -> Vref=0 for all HT -> cn=cn*(1-0)=cn
 
-			CHECK_EQUAL(coin.getValue(), coin.getDoseIndexAt(0));
-			CHECK_THROW_EXPLICIT(coin.getDoseIndexAt(1), core::InvalidParameterException);
+			CHECK_EQUAL(coin.getValue(), coin.getValueAt(0));
+			CHECK_THROW_EXPLICIT(coin.getValueAt(1), core::InvalidParameterException);
 
 			/*ConformityIndex */
-			indices::ConformityIndex ci = indices::ConformityIndex(&dvhSet, 30);
-			//if not init, throw Exception
-			CHECK_THROW_EXPLICIT(ci.getValue(), core::Exception);
-			ci.init();
+			indices::ConformityIndex ci = indices::ConformityIndex(dvhSetPtr, 30);
 			CHECK_CLOSE(362.5 / 363.75, ci.getValue(), errorConstant);
 
 			ci.setDoseReference(65);
-			//if not init, throw Exception
-			CHECK_THROW_EXPLICIT(ci.getValue(), core::Exception);
-			ci.init();
 			CHECK_CLOSE(2300 / 2900.0, ci.getValue(), errorConstant); //ref dose: 65->ci=2300/2900*1*1*1
 
-			CHECK_EQUAL(ci.getValue(), ci.getDoseIndexAt(0));
-			CHECK_THROW_EXPLICIT(ci.getDoseIndexAt(1), core::InvalidParameterException);
+			CHECK_EQUAL(ci.getValue(), ci.getValueAt(0));
+			CHECK_THROW_EXPLICIT(ci.getValueAt(1), core::InvalidParameterException);
 
 			/*CoverageIndex*/
-			indices::CoverageIndex coverageI = indices::CoverageIndex(&dvhSet, 30);
-			//if not init, throw Exception
-			CHECK_THROW_EXPLICIT(coverageI.getValue(), core::Exception);
-			coverageI.init();
+			indices::CoverageIndex coverageI = indices::CoverageIndex(dvhSetPtr, 30);
 			CHECK_CLOSE(362.5 / 362.5, coverageI.getValue(), errorConstant); //ref dose: 30 -> coverage index=1
 
 			coverageI.setDoseReference(65);
-			//if not init, throw Exception
-			CHECK_THROW_EXPLICIT(coverageI.getValue(), core::Exception);
-			coverageI.init();
 			CHECK_CLOSE(2300 / 2900.0, coverageI.getValue(),
 			            errorConstant); //ref dose: 65->coverage index=2300/2900
 
-			CHECK_EQUAL(coverageI.getValue(), coverageI.getDoseIndexAt(0));
-			CHECK_THROW_EXPLICIT(coverageI.getDoseIndexAt(1), core::InvalidParameterException);
+			CHECK_EQUAL(coverageI.getValue(), coverageI.getValueAt(0));
+			CHECK_THROW_EXPLICIT(coverageI.getValueAt(1), core::InvalidParameterException);
 
 
 			/*HomogeneityIndex TV max: 133*0.5=66.5, TV min: 127*0.5=63.5 -> hi=(66.5-63.5)/30*/
-			indices::HomogeneityIndex hi = indices::HomogeneityIndex(&dvhSet, 30);
-			//if not init, throw Exception
-			CHECK_THROW_EXPLICIT(hi.getValue(), core::Exception);
-			hi.init();
+			indices::HomogeneityIndex hi = indices::HomogeneityIndex(dvhSetPtr, 30);
 			CHECK_CLOSE(3 / 30.0, hi.getValue(), errorConstant);
 
 			hi.setDoseReference(65);
-			//if not init, throw Exception
-			CHECK_THROW_EXPLICIT(hi.getValue(), core::Exception);
-			hi.init();
 			CHECK_CLOSE(3 / 65.0, hi.getValue(), errorConstant);
 
-			CHECK_EQUAL(hi.getValue(), hi.getDoseIndexAt(0));
-			CHECK_THROW_EXPLICIT(hi.getDoseIndexAt(1), core::InvalidParameterException);
+			CHECK_EQUAL(hi.getValue(), hi.getValueAt(0));
+			CHECK_THROW_EXPLICIT(hi.getValueAt(1), core::InvalidParameterException);
 
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

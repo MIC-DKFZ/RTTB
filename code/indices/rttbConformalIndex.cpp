@@ -28,35 +28,21 @@ namespace rttb{
 
   namespace indices{
 
-    ConformalIndex::ConformalIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference)
+		ConformalIndex::ConformalIndex(ConformalIndex::DVHSetPtr dvhSet, DoseTypeGy aDoseReference)
+			:DvhBasedDoseIndex(dvhSet, aDoseReference)
     {
-      _dvhSet=dvhSet;
-      _doseReference=aDoseReference;
-      initSuccess=false;
-    }
-
-    bool ConformalIndex::init()
-    {
-      if(!_dvhSet){
-        throw core::NullPointerException("DVHSet must not be NULL! ");
-      }
-      if(this->calcIndex()){
-        initSuccess=true;
-        return true;
-      }
-      else 
-        return false;
+			init();
     }
 
     bool ConformalIndex::calcIndex()
     {
-      VolumeType TV=_dvhSet->getTVVolume(0);
+			VolumeType TV=_dvhSet->getTargetVolume(0);
       VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
       if(TV!=0 && Vref!=0){
-        _value=(_dvhSet->getTVVolume(_doseReference)/TV)*
-          (_dvhSet->getTVVolume(_doseReference)/Vref);
+				_value=(_dvhSet->getTargetVolume(_doseReference)/TV)*
+					(_dvhSet->getTargetVolume(_doseReference)/Vref);
 
-        std::vector<core::DVH> dvhHTSet=this->_dvhSet->getDVHHTSet();
+				std::vector<core::DVH> dvhHTSet=this->_dvhSet->getHealthyTissueSet();
         std::vector<core::DVH>::iterator it;
 
         for(it=dvhHTSet.begin(); it!=dvhHTSet.end();++it)		
@@ -76,8 +62,8 @@ namespace rttb{
       return true;
     }
 
-    IndexValueType ConformalIndex::getDoseIndexAt(GridIndexType tvIndex){
-      std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
+		IndexValueType ConformalIndex::getValueAt(core::DVHSet::IndexType tvIndex){
+			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getTargetVolumeSet();
       VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
       if(tvIndex>=dvhTVSet.size()){
 		rttbExceptionMacro(core::InvalidParameterException, <<"tvIndex invalid: it should be <"<<dvhTVSet.size()<<"!");
@@ -96,7 +82,7 @@ namespace rttb{
         double value=dvh.getVx(_doseReference)/TV;//the irradiation factor of i-th target volume
         value=value*dvh.getVx(_doseReference)/Vref;//conformation number
 
-        std::vector<core::DVH> dvhHTSet=this->_dvhSet->getDVHHTSet();
+				std::vector<core::DVH> dvhHTSet=this->_dvhSet->getHealthyTissueSet();
         std::vector<core::DVH>::iterator it;
 
         for(it=dvhHTSet.begin(); it!=dvhHTSet.end();++it)		

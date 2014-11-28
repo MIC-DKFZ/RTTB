@@ -4,6 +4,7 @@ SET(CPP_FILES
   rttbConformityIndex.cpp
   rttbCoverageIndex.cpp
   rttbDoseIndex.cpp
+  rttbDvhBasedDoseIndex.cpp
   rttbHomogeneityIndex.cpp
   )
 
@@ -13,5 +14,6 @@ SET(H_FILES
   rttbConformityIndex.h
   rttbCoverageIndex.h
   rttbDoseIndex.h
+  rttbDvhBasedDoseIndex.h
   rttbHomogeneityIndex.h
 )

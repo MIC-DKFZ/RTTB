@@ -22,7 +22,7 @@
 #define __CONFORMITY_INDEX_H
 
 
-#include "rttbDoseIndex.h"
+#include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
 
 namespace rttb{
@@ -35,7 +35,7 @@ namespace rttb{
 		IFht(D): the irradiation factor of healthy tissue, defined as the radio of the volume of tissue outside the PTV receiving a dose greater than D to the volume of isodose D
 		@ingroup indices
 	*/
-    class ConformityIndex: public DoseIndex
+		class ConformityIndex: public DvhBasedDoseIndex
     {
     protected: 
       /*! @brief Calculate Conformity index
@@ -47,19 +47,14 @@ namespace rttb{
     public: 
       /*! @brief Constructor
       */
-      ConformityIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference);
-
-      /*! @return Return true if calcIndex() finished sucessfully
-		  @exception NullPointerException thrown if dvhSet is NULL
-      */
-      bool init();
+			ConformityIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference);
 
       /*! @brief Dose index calculation for tvIndex-th treated volume
           @param tvIndex index in the DVH in the current set of tv-DVHs
           @return Return index value 
           @exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
       */
-      IndexValueType getDoseIndexAt(const GridIndexType tvIndex);
+			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex);
 
     };
 

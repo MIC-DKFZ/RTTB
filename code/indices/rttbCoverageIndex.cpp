@@ -28,39 +28,25 @@ namespace rttb{
 
 	namespace indices{
 
-		CoverageIndex::CoverageIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference)
-			{
-			_dvhSet=dvhSet;
-			_doseReference=aDoseReference;
-			initSuccess=false;
-			}
-
-		bool CoverageIndex::init()
-			{
-			if(!_dvhSet){
-				throw core::NullPointerException("DVHSet must not be NULL! ");
-				}
-			if( this->calcIndex()){
-				initSuccess=true;
-				return true;
-				}
-			else 
-				return false;
+		CoverageIndex::CoverageIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference)
+			:DvhBasedDoseIndex(dvhSet, aDoseReference)
+		{	
+			init();
 			}
 
 		bool CoverageIndex::calcIndex()
 			{
-			VolumeType TV=_dvhSet->getTVVolume(0);
+			VolumeType TV=_dvhSet->getTargetVolume(0);
 			if(TV!=0)
-				_value=_dvhSet->getTVVolume(this->_doseReference)/TV;
+				_value=_dvhSet->getTargetVolume(this->_doseReference)/TV;
 			else{
 				throw core::InvalidParameterException("DVH Set invalid: Target volume should not be 0!");
 				}
 			return true;
 			}
 
-		IndexValueType CoverageIndex::getDoseIndexAt(GridIndexType tvIndex){
-			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
+		IndexValueType CoverageIndex::getValueAt(core::DVHSet::IndexType tvIndex){
+			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getTargetVolumeSet();
 			VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
 			if(tvIndex>=dvhTVSet.size()){
 				rttbExceptionMacro(core::InvalidParameterException, <<"tvIndex invalid: it should be <"<<dvhTVSet.size()<<"!");
@@ -75,4 +61,4 @@ namespace rttb{
 			}
 
 		}//end namespace indices
-	}//end namespace rttb
+}//end namespace rttb

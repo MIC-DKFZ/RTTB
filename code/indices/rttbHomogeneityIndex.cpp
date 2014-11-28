@@ -20,40 +20,26 @@
 */
 
 #include "rttbHomogeneityIndex.h"
-#include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbExceptionMacros.h"
 
 namespace rttb{
 	namespace indices{
 
-		HomogeneityIndex::HomogeneityIndex(core::DVHSet* dvhSet, DoseTypeGy aDoseReference)
+		HomogeneityIndex::HomogeneityIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference)
+			:DvhBasedDoseIndex(dvhSet, aDoseReference)
 		{
-			_dvhSet=dvhSet;
-			_doseReference=aDoseReference;
-			initSuccess=false;
-		}
-
-		bool HomogeneityIndex::init()
-		{
-			if(!_dvhSet){
-				throw core::NullPointerException("DVHSet must not be NULL! ");
-			}
-			if(this->calcIndex()){
-				initSuccess=true;
-				return true;
-			}
-			return false;
+			init();
 		}
 
 		bool HomogeneityIndex::calcIndex()
 		{
 			double max=0;
 			double min;
-			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
+			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getTargetVolumeSet();
 			std::vector<core::DVH>::iterator it;
-				
-			for(it=dvhTVSet.begin(); it!=dvhTVSet.end();it++)		
+
+			for(it=dvhTVSet.begin(); it!=dvhTVSet.end();++it)		
 			{
 				core::DVH dvh=*(it);
 				if(it==dvhTVSet.begin())
@@ -71,11 +57,11 @@ namespace rttb{
 				rttbExceptionMacro(core::InvalidParameterException, << "Reference dose "<<this->getDoseReference()<<" invalid: Volume of reference dose should not be 0!");
 			}
 			return true;
-			
+
 		}
 
-		IndexValueType HomogeneityIndex::getDoseIndexAt(GridIndexType tvIndex){
-			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getDVHTVSet();
+		IndexValueType HomogeneityIndex::getValueAt(core::DVHSet::IndexType tvIndex){
+			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getTargetVolumeSet();
 			if(tvIndex>=dvhTVSet.size()){
 				rttbExceptionMacro(core::InvalidParameterException, <<"tvIndex invalid: it should be <"<<dvhTVSet.size()<<"!");
 			}
