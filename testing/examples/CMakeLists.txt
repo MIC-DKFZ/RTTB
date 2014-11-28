@@ -33,5 +33,5 @@ ADD_TEST(DVHCalculatorExampleTest ${CORE_TEST_EXAMPLES} DVHCalculatorExampleTest
 ADD_TEST(RTBioModelScatterPlotExampleTest ${CORE_TEST_EXAMPLES} RTBioModelScatterPlotExampleTest
 "${TEST_DATA_ROOT}/TestDVH/dvh_PTV_HIT.txt" "${TEST_DATA_ROOT}/TestDVH/dvh_test_HT1.txt" "${TEST_DATA_ROOT}/TestDVH/dvh_test_TV.txt")
 
-RTTB_CREATE_TEST_MODULE(rttbExamples DEPENDS RTTBCore RTTBAlgorithms RTTBMasks RTTBIndices RTTBDicomIO RTTBOtherIO RTTBModels PACKAGE_DEPENDS Boost Litmus DCMTK)
+RTTB_CREATE_TEST_MODULE(rttbExamples DEPENDS RTTBCore RTTBAlgorithms RTTBMasks RTTBIndices RTTBDicomIO RTTBOtherIO RTTBModels PACKAGE_DEPENDS BoostBinaries Litmus DCMTK)
 
