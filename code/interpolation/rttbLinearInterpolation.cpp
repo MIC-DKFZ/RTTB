@@ -27,7 +27,7 @@ namespace rttb
 	{
 
 		DoseTypeGy LinearInterpolation::trilinear(boost::array<double, 3> target,
-				boost::shared_array<DoseTypeGy> values) const
+		        boost::shared_ptr<DoseTypeGy[]> values) const
 		{
 			//4 linear interpolation in x direction
 			DoseTypeGy c_00 = values[0] * (1.0 - target[0]) + values[1] * target[0];
@@ -47,7 +47,7 @@ namespace rttb
 		{
 			//proper initialization of target and values
 			boost::array<double, 3> target = {0.0, 0.0, 0.0};
-			boost::shared_array<DoseTypeGy> values(new DoseTypeGy[8]());
+			boost::shared_ptr<DoseTypeGy[]> values(new DoseTypeGy[8]());
 			getNeighborhoodVoxelValues(aWorldCoordinate, 8, target, values);
 
 			return trilinear(target, values);

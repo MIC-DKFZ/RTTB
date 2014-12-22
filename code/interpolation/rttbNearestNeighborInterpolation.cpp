@@ -21,6 +21,8 @@
 
 #include "rttbNearestNeighborInterpolation.h"
 
+#include <boost/array.hpp>
+
 namespace rttb
 {
 	namespace interpolation
@@ -29,7 +31,7 @@ namespace rttb
 		{
 			//proper initialization of target and values (although target is irrelevant in nearest neighbor case)
 			boost::array<double, 3> target = {0.0, 0.0, 0.0};
-			boost::shared_array<DoseTypeGy> values(new DoseTypeGy[8]());
+			boost::shared_ptr<DoseTypeGy[]> values(new DoseTypeGy[8]());
 			getNeighborhoodVoxelValues(aWorldCoordinate, 0, target, values);
 			return values[0];
 		}

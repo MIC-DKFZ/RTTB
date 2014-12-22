@@ -22,11 +22,9 @@
 #ifndef __INTERPOLATION_BASE_H
 #define __INTERPOLATION_BASE_H
 
-#include <vector>
 #include <assert.h>
 
 #include <boost/shared_ptr.hpp>
-#include <boost/shared_array.hpp>
 #include <boost/array.hpp>
 
 #include "rttbDoseAccessorInterface.h"
@@ -79,8 +77,8 @@ namespace rttb
 				@todo use shared_ptr[] with boost >1.52 instead of shared_array
 			*/
 			void getNeighborhoodVoxelValues(const WorldCoordinate3D& aWorldCoordinate,
-											unsigned int neighborhood, boost::array<double, 3>& target,
-											boost::shared_array<DoseTypeGy> values) const;
+			                                unsigned int neighborhood, boost::array<double, 3>& target,
+			                                boost::shared_ptr<DoseTypeGy[]> values) const;
 
 			/*! @brief returns the nearest inside voxel value
 				@pre the voxelGridIndex is outside the image and voxelGridIndex>image.size() for all dimensions. Also voxelGridIndex[]>=0 for all dimensions
