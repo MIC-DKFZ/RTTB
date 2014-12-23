@@ -50,7 +50,7 @@ namespace rttb
 			return _imagePositionPatient;
 		}
 
-		void GeometricInfo::setOrientationMatrix(const OrientationMatrix anOrientationMatrix)
+		void GeometricInfo::setOrientationMatrix(const OrientationMatrix& anOrientationMatrix)
 		{
 			_orientationMatrix = anOrientationMatrix;
 			computeInvertOrientation();
@@ -130,7 +130,7 @@ namespace rttb
 		}
 
 
-		void GeometricInfo::setImageSize(const ImageSize aSize)
+		void GeometricInfo::setImageSize(const ImageSize& aSize)
 		{
 			setNumColumns(aSize(0));
 			setNumRows(aSize(1));

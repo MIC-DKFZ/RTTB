@@ -30,75 +30,77 @@
 #include "rttbBaseTypeModels.h"
 
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace models{
+	namespace models
+	{
 
 		/*! @class NTCPRSModel
 			@brief This class represents a NTCP(Normal Tissue Complication Probability) relative seriality model (Källman 1992)
 			@see NTCPModel
 		*/
 		class NTCPRSModel: public NTCPModel
-			{
-			public:
-				typedef NTCPModel::ParamVectorType ParamVectorType;
-				typedef NTCPModel::DVHPointer DVHPointer;
+		{
+		public:
+			typedef NTCPModel::ParamVectorType ParamVectorType;
+			typedef NTCPModel::DVHPointer DVHPointer;
 
-			private: 
-				/*! _gamma The normalised dose-response gradient, values between 1.7 and 2.0 are typical for human tumours. 
-				(Källman 1992)
-				*/
-				BioModelParamType _gamma;		
+		private:
+			/*! _gamma The normalised dose-response gradient, values between 1.7 and 2.0 are typical for human tumours.
+			(Källman 1992)
+			*/
+			BioModelParamType _gamma;
 
-				/*! _s The relative seriality factor, e.g. s=3.4 for the esophagus (highly serial structure) and s=0.0061 
-				for the lung(highly parallel structure). Must not be zero on model evaluation.
-				*/				
-				BioModelParamType _s;
+			/*! _s The relative seriality factor, e.g. s=3.4 for the esophagus (highly serial structure) and s=0.0061
+			for the lung(highly parallel structure). Must not be zero on model evaluation.
+			*/
+			BioModelParamType _s;
 
-				const double poissonModel(const double dose);
+			const double poissonModel(const double dose);
 
-			protected:
-				/*! @brief Calculate the model value
-					@param doseFactor scaling factor for the dose. The model calculation will use the dvh with each di=old di*doseFactor.
-					@throw <InvalidParameterException>  if either _s or _d50 is zero for the model calculation.
-				*/
-				BioModelValueType calcModel(const double doseFactor=1); 
+		protected:
+			/*! @brief Calculate the model value
+				@param doseFactor scaling factor for the dose. The model calculation will use the dvh with each di=old di*doseFactor.
+				@throw <InvalidParameterException>  if either _s or _d50 is zero for the model calculation.
+			*/
+			BioModelValueType calcModel(const double doseFactor = 1);
 
-			public: 
-				NTCPRSModel();
+		public:
+			NTCPRSModel();
 
-				/*!@brief Constructor initializing all member variables with given parameters.
-				*/
-				NTCPRSModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aGamma, BioModelParamType aS);
+			/*!@brief Constructor initializing all member variables with given parameters.
+			*/
+			NTCPRSModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aGamma, BioModelParamType aS);
 
-				void setGamma(const BioModelParamType aGamma);
+			void setGamma(const BioModelParamType aGamma);
 
-				const BioModelParamType getGamma();
+			const BioModelParamType getGamma();
 
-				void setS(const BioModelParamType aS);
+			void setS(const BioModelParamType aS);
 
-				const BioModelParamType getS();
+			const BioModelParamType getS();
 
-				/*! @brief Set parameter with ID. "d50":0,"gamma":1,"s":2
-        @exception InvalidParameterException Thrown if aParamId is not 0 or 1 or 2.
-				*/
-				virtual void setParameterByID(const int aParamId, const BioModelParamType aValue);
+			/*! @brief Set parameter with ID. "d50":0,"gamma":1,"s":2
+			@exception InvalidParameterException Thrown if aParamId is not 0 or 1 or 2.
+			*/
+			virtual void setParameterByID(const int aParamId, const BioModelParamType aValue);
 
-				/*! @brief Set parameter vector, where index of vector is the parameter Id.
-					"d50":0,"gamma":1,"s":2
-          @exception InvalidParameterException Thrown if aParamterVector.size()!=3.
-				*/
-				virtual void setParameterVector(const ParamVectorType aParameterVector);
+			/*! @brief Set parameter vector, where index of vector is the parameter Id.
+				"d50":0,"gamma":1,"s":2
+			@exception InvalidParameterException Thrown if aParamterVector.size()!=3.
+			*/
+			virtual void setParameterVector(const ParamVectorType& aParameterVector);
 
-				/*! @brief Get parameter ID. "d50":0,"gamma":1,"s":2
-					@return 0 for "d50", 1 for "gamma", 2 for "s"
-          @exception InvalidParameterException Thrown if aParamName is not d50 or gamma or s.
-				*/
-				virtual const int getParameterID(const std::string aParamName) const;
-			};
+			/*! @brief Get parameter ID. "d50":0,"gamma":1,"s":2
+				@return 0 for "d50", 1 for "gamma", 2 for "s"
+			@exception InvalidParameterException Thrown if aParamName is not d50 or gamma or s.
+			*/
+			virtual const int getParameterID(const std::string& aParamName) const;
+		};
 
-		}
 	}
+}
 
 
 #endif

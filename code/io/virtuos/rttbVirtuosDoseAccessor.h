@@ -80,7 +80,7 @@ namespace rttb
 				@throw InvalidDoseException Thrown if one dimension of the virtuos cube is zero
 				@throw InvalidParameterException Thrown if _pPointerOnVirtuosCube is invalid
 				*/
-				bool begin();
+				void begin();
 
 				/*! @brief get all required geometrical data from virtuos cube
 				*/
