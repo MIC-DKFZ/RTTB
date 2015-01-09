@@ -26,38 +26,40 @@
 #endif
 
 
-#include "litMultiTestsMain.h" 
+#include "litMultiTestsMain.h"
 
-namespace rttb{
-	namespace testing{
+namespace rttb
+{
+	namespace testing
+	{
 
 		void registerTests()
-			{
+		{
 			LIT_REGISTER_TEST(BioModelTest);
 			LIT_REGISTER_TEST(BioModelScatterPlotTest);
 			LIT_REGISTER_TEST(DvhBasedModelsTest);
-			}
 		}
 	}
+}
 
 int main(int argc, char* argv[])
-	{
+{
 	int result = 0;
 
 	rttb::testing::registerTests();
 
 	try
-		{
-		result = lit::multiTestsMain(argc,argv);
-		}
-	catch(const std::exception& e)
-		{
+	{
+		result = lit::multiTestsMain(argc, argv);
+	}
+	catch (const std::exception& /*e*/)
+	{
 		result = -1;
-		}
-	catch(...)
-		{
+	}
+	catch (...)
+	{
 		result = -1;
-		}
+	}
 
 	return result;
-	}
+}

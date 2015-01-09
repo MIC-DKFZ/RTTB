@@ -70,12 +70,11 @@ namespace rttb
 			boost::random::variate_generator<boost::mt19937&, boost::normal_distribution<double> > generator(
 			    rng, gaussian_dist);
 
-			double paramValue;
-			double probability;
 			int i = 0;
 
 			while (i < numberOfPoints)
 			{
+				double paramValue, probability;
 				double randomValue = generator();
 				paramValue = randomValue + aMean;
 				probability = normal_pdf(randomValue, aVariance);
@@ -99,7 +98,7 @@ namespace rttb
 						scatterPlotData.insert(std::pair<double, std::pair<double, double> >(dose, modelProbPair));
 						i++;
 					}
-					catch (core::InvalidParameterException e)
+					catch (core::InvalidParameterException& /*e*/)
 					{
 						//repeat evaluation to guarantee the correct number of scatter values
 						continue;
@@ -152,7 +151,6 @@ namespace rttb
 			}
 
 			double paramValue;
-			double probability;
 
 
 			// vary all parameters for each scattered point
@@ -160,7 +158,7 @@ namespace rttb
 
 			while (i < numberOfPoints)
 			{
-				probability = 1;
+				double probability = 1;
 
 				for (GridIndexType j = 0; j < aParamIdVec.size(); j++)
 				{
@@ -206,7 +204,7 @@ namespace rttb
 						scatterPlotData.insert(std::pair<double, std::pair<double, double> >(dose, modelProbPair));
 						i++;
 					}
-					catch (core::InvalidParameterException e)
+					catch (core::InvalidParameterException& /*e*/)
 					{
 						//repeat evaluation to guarantee the correct number of scatter values
 						continue;

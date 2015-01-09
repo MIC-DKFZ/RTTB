@@ -30,102 +30,116 @@
 #include "rttbInvalidParameterException.h"
 #include "rttbBaseType.h"
 
-namespace rttb{
-	namespace io{
-		namespace other{
+namespace rttb
+{
+	namespace io
+	{
+		namespace other
+		{
 
-			DVHXMLFileReader::DVHXMLFileReader(FileNameString aFileName){
-				_fileName=aFileName;
-				_resetFile=true;
+			DVHXMLFileReader::DVHXMLFileReader(FileNameString aFileName)
+			{
+				_fileName = aFileName;
+				_resetFile = true;
 			}
 
-			DVHXMLFileReader::~DVHXMLFileReader(){}
+			DVHXMLFileReader::~DVHXMLFileReader() {}
 
-			void DVHXMLFileReader::resetFileName(FileNameString aFileName){
-				_fileName=aFileName;
-				_resetFile=true;
+			void DVHXMLFileReader::resetFileName(FileNameString aFileName)
+			{
+				_fileName = aFileName;
+				_resetFile = true;
 			}
 
-			void DVHXMLFileReader::createDVH(){
+			void DVHXMLFileReader::createDVH()
+			{
 				using boost::property_tree::ptree;
 				ptree pt;
 
 				// Load the XML file into the property tree. If reading fails
 				// (cannot open file, parse error), an exception is thrown.
-				try{
+				try
+				{
 					read_xml(_fileName, pt);
 				}
-				catch(boost::property_tree::xml_parser_error &e){
+				catch (boost::property_tree::xml_parser_error& /*e*/)
+				{
 					throw rttb::core::InvalidParameterException("DVH file name invalid: could not open the xml file!");
 				}
 
 
-				std::string structureLabel;
 				std::string dvhType;
 				int numberOfBins;
-				DoseTypeGy prescribedDose;
-				double _estimated_max_dose_prescribed_dose_ratio;
-				int voxelsInStructure;
-				std::deque<DoseTypeGy> dataDifferential;
-				std::deque<DoseTypeGy> dataCumulative;
+				std::deque<DoseTypeGy> dataDifferential, dataCumulative;
 
-				DoseTypeGy deltaD=0;
-				DoseVoxelVolumeType deltaV=0;
+				DoseTypeGy deltaD = 0;
+				DoseVoxelVolumeType deltaV = 0;
 				IDType strID;
 				IDType doseID;
-				
-				dvhType=pt.get<std::string>("dvh.type");
-				deltaD=pt.get<DoseTypeGy>("dvh.deltaD");
-				deltaV=pt.get<DoseVoxelVolumeType>("dvh.deltaV");
-				strID=pt.get<IDType>("dvh.structureID");
-				doseID=pt.get<IDType>("dvh.doseID");
 
-				if(dvhType!="DIFFERENTIAL" && dvhType!="CUMULATIVE"){
+				dvhType = pt.get<std::string>("dvh.type");
+				deltaD = pt.get<DoseTypeGy>("dvh.deltaD");
+				deltaV = pt.get<DoseVoxelVolumeType>("dvh.deltaV");
+				strID = pt.get<IDType>("dvh.structureID");
+				doseID = pt.get<IDType>("dvh.doseID");
+
+				if (dvhType != "DIFFERENTIAL" && dvhType != "CUMULATIVE")
+				{
 					throw core::InvalidParameterException("DVH Type invalid! Only: DIFFERENTIAL/CUMULATIVE!");
 				}
 
-				int count=0;
-				BOOST_FOREACH(boost::property_tree::ptree::value_type &v, pt.get_child("dvh.data")){
-					if(count%2==1){
-						if(dvhType=="DIFFERENTIAL"){
-								dataDifferential.push_back( boost::lexical_cast<DoseTypeGy>(v.second.data()));
-						
+				int count = 0;
+				BOOST_FOREACH(boost::property_tree::ptree::value_type & v, pt.get_child("dvh.data"))
+				{
+					if (count % 2 == 1)
+					{
+						if (dvhType == "DIFFERENTIAL")
+						{
+							dataDifferential.push_back(boost::lexical_cast<DoseTypeGy>(v.second.data()));
+
 						}
-						else if(dvhType=="CUMULATIVE"){
+						else if (dvhType == "CUMULATIVE")
+						{
 							dataCumulative.push_back(boost::lexical_cast<DoseTypeGy>(v.second.data()));
 						}
 					}
+
 					count++;
 				}
 
-				numberOfBins=std::max(dataDifferential.size(),dataCumulative.size());
+				numberOfBins = std::max(dataDifferential.size(), dataCumulative.size());
 
-				if(dvhType=="CUMULATIVE")//dataDifferential should be calculated
+				if (dvhType == "CUMULATIVE") //dataDifferential should be calculated
 				{
 					DoseCalcType differentialDVHi = 0;
 					std::deque<DoseCalcType>::iterator it;
 
-					for(it=dataCumulative.begin();it!=dataCumulative.end();it++ )
+					for (it = dataCumulative.begin(); it != dataCumulative.end(); ++it)
 					{
-						if(dataDifferential.size()==numberOfBins-1)
+						if (dataDifferential.size() == numberOfBins - 1)
 						{
-							differentialDVHi=*it;
+							differentialDVHi = *it;
 						}
-						else{
-							differentialDVHi = *it-*(it+1);
+						else
+						{
+							differentialDVHi = *it - *(it + 1);
 						}
+
 						dataDifferential.push_back(differentialDVHi);
 					}
 				}
-			
-				_dvh=boost::make_shared<core::DVH>(dataDifferential,deltaD,deltaV,strID,doseID);
-				_resetFile=false;
+
+				_dvh = boost::make_shared<core::DVH>(dataDifferential, deltaD, deltaV, strID, doseID);
+				_resetFile = false;
 			}
 
-			DVHXMLFileReader::DVHPointer DVHXMLFileReader::generateDVH(){
-				if(_resetFile){
+			DVHXMLFileReader::DVHPointer DVHXMLFileReader::generateDVH()
+			{
+				if (_resetFile)
+				{
 					this->createDVH();
 				}
+
 				return _dvh;
 			}
 		}//end namepsace other

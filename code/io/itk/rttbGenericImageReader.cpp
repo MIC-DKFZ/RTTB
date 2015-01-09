@@ -279,12 +279,9 @@ namespace rttb
 
 
 			GenericImageReader::
-			GenericImageReader()
+			GenericImageReader() : _fileName(), _upperSeriesLimit(255), _upToDate(false),
+				_seriesReadStyle(ImageSeriesReadStyle::Default)
 			{
-				_fileName = "";
-				_upperSeriesLimit = 255;
-				_upToDate = false;
-				_seriesReadStyle = ImageSeriesReadStyle::Default;
 			};
 
 

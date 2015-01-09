@@ -29,6 +29,10 @@ ENDIF (WIN32)
 
 MARK_AS_ADVANCED(BUILD_SHARED_LIBS)
 
+IF (WIN32)
+add_definitions(-D_SCL_SECURE_NO_WARNINGS)
+ENDIF(WIN32)
+
 IF(BUILD_SHARED_LIBS)
   IF(WIN32)
   MESSAGE(FATAL_ERROR "RTToolbox currently does not support a dynamic build on Windows. We are working on that...")

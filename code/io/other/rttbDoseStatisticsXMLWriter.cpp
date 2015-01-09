@@ -270,7 +270,7 @@ namespace rttb
 				{
 					boost::property_tree::xml_parser::write_xml(aFileName, pt);
 				}
-				catch (boost::property_tree::xml_parser_error& e)
+				catch (boost::property_tree::xml_parser_error& /*e*/)
 				{
 					throw core::InvalidParameterException("Write xml failed: xml_parser_error!");
 				}
@@ -285,7 +285,7 @@ namespace rttb
 				{
 					boost::property_tree::xml_parser::write_xml(sstr, pt);
 				}
-				catch (boost::property_tree::xml_parser_error& e)
+				catch (boost::property_tree::xml_parser_error& /*e*/)
 				{
 					throw core::InvalidParameterException("Write xml to string failed: xml_parser_error!");
 				}

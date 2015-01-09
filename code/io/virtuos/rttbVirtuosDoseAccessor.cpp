@@ -80,7 +80,7 @@ namespace rttb
 
 			}
 
-			bool VirtuosDoseAccessor::begin()
+			void VirtuosDoseAccessor::begin()
 			{
 				if (!_pPointerOnVirtuosCube)
 				{

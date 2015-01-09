@@ -28,7 +28,7 @@
 
 #ifdef RTTB_DISABLE_ITK_IO_FACTORY_AUTO_REGISTER
 #undef ITK_IO_FACTORY_REGISTER_MANAGER
-#endif //RTTB_DISABLE_ITK_IO_FACTORY_AUTO_REGISTER
+#endif RTTB_DISABLE_ITK_IO_FACTORY_AUTO_REGISTER
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -247,10 +247,9 @@ namespace rttb
 				core::FileDispatch dispatch(_fileName);
 
 				FileNameString	sTemp = dispatch.getExtension();
-				FileNameString  sDir = dispatch.getPath();
 
 				//Convert to lowercase
-				for (FileNameString::iterator spos = sTemp.begin(); spos != sTemp.end(); spos++)
+				for (FileNameString::iterator spos = sTemp.begin(); spos != sTemp.end(); ++spos)
 				{
 					(*spos) = std::tolower((*spos), std::locale(""));
 				}

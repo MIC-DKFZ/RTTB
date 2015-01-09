@@ -71,7 +71,7 @@ namespace rttb
 					filteredVoxelVectorPointer->push_back(*it);
 				}
 
-				it++;
+				++it;
 			}
 
 			// if mask calculation was not successful this is empty!
@@ -102,7 +102,7 @@ namespace rttb
 						return true;
 					}
 
-					it++;
+					++it;
 				}
 
 				//aID is not in mask
@@ -149,7 +149,7 @@ namespace rttb
 						return;
 					}
 
-					it++;
+					++it;
 				}
 
 				//not sID is not found in existing voxels
