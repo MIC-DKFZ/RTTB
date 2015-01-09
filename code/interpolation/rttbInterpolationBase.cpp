@@ -19,6 +19,8 @@
 // @author  $Author$ (last changed by)
 */
 
+#include <list>
+
 #include "rttbInterpolationBase.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbNullPointerException.h"
@@ -43,7 +45,7 @@ namespace rttb
 		void InterpolationBase::getNeighborhoodVoxelValues(
 		    const WorldCoordinate3D& aWorldCoordinate,
 		    unsigned int neighborhood, boost::array<double, 3>& target,
-		    boost::shared_array<DoseTypeGy> values) const
+		    boost::shared_ptr<DoseTypeGy[]> values) const
 		{
 			if (_spOriginalDose == NULL)
 			{
@@ -63,7 +65,7 @@ namespace rttb
 				//determine the 8 voxels around the world coordinate
 				else if (neighborhood == 8)
 				{
-					std::vector<VoxelGridIndex3D> cornerPoints;
+					std::list<VoxelGridIndex3D> cornerPoints;
 
 					WorldCoordinate3D theNextVoxel;
 					_spOriginalDose->getGeometricInfo().indexToWorldCoordinate(aIndex, theNextVoxel);
@@ -114,20 +116,23 @@ namespace rttb
 						assert(target[i] >= 0.0 && target[i] <= 1.0);
 					}
 
+					unsigned int count = 0;
+
 					//now just get the values of all (dose) voxels and store them in values
-					for (int i = 0; i < cornerPoints.size(); ++i)
+					for (auto cornerPointsIterator = std::begin(cornerPoints); cornerPointsIterator != std::end(cornerPoints);
+					     ++cornerPointsIterator, ++count)
 					{
-						if (_spOriginalDose->getGeometricInfo().isInside(cornerPoints.at(i)))
+						if (_spOriginalDose->getGeometricInfo().isInside(*cornerPointsIterator))
 						{
-							values[i] = _spOriginalDose->getDoseAt(cornerPoints.at(i));
+							values[count] = _spOriginalDose->getDoseAt(*cornerPointsIterator);
 						}
 						else
 						{
 							//outside value! boundary treatment
-							values[i] = getNearestInsideVoxelValue(cornerPoints.at(i));
+							values[count] = getNearestInsideVoxelValue(*cornerPointsIterator);
 						}
 
-						assert(values[i] != -1);
+						assert(values[count] != -1);
 					}
 				}
 				else
