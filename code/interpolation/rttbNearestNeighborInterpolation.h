@@ -22,9 +22,6 @@
 #ifndef __NEAREST_NEIGHBOR_INTERPOLATION_H
 #define __NEAREST_NEIGHBOR_INTERPOLATION_H
 
-#include <boost/shared_array.hpp>
-#include <boost/array.hpp>
-
 #include "rttbInterpolationBase.h"
 
 namespace rttb
