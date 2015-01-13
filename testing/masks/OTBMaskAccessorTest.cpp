@@ -33,6 +33,7 @@
 #include "../core/DummyDoseAccessor.h"
 #include "rttbMaskVoxelListTester.h"
 #include "rttbMaskRectStructTester.h"
+#include "rttbMaskBoost.h"
 
 
 namespace rttb
@@ -65,6 +66,13 @@ namespace rttb
 			core::Structure myTestStruct = myStructGenerator.CreateRectangularStructureCentered(zPlane);
 			StructTypePointer spMyStruct = boost::make_shared<core::Structure>(myTestStruct);
 
+			//test maskBoost
+			boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>(spTestDoseAccessor->getGeometricInfo());
+			
+
+			rttb::masks::MaskBoost maskBoost = rttb::masks::MaskBoost(geometricPtr, spMyStruct);
+			MaskVoxelListPointer voxelListBoost = maskBoost.getRelevantVoxelVector();
+
 
 			//1) test constructors
 			CHECK_NO_THROW(masks::OTBMaskAccessor(spMyStruct, spTestDoseAccessor->getGeometricInfo()));
@@ -89,6 +97,17 @@ namespace rttb
 
 			MaskVoxelListTester listComp(relVoxelOTB1, relVoxelOTB2);
 			CHECK_TESTER(listComp);
+
+			MaskVoxelListTester listComp2(relVoxelOTB1, voxelListBoost);
+			CHECK_TESTER(listComp2);
+			for(int i=0; i<relVoxelOTB1->size(); i++){
+				std::cout << relVoxelOTB1->at(i).getRelevantVolumeFraction() << ", ";
+			}
+			std::cout << std::endl;
+			for(int i=0; i<voxelListBoost->size(); i++){
+				std::cout << voxelListBoost->at(i).getRelevantVolumeFraction() << ", ";
+			}
+			std::cout << std::endl;
 
 			//3) test valid/convert
 			const VoxelGridIndex3D gridIndexIn1(0, 0, 0);

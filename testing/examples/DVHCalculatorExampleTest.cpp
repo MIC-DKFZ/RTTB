@@ -47,6 +47,9 @@
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbOTBMaskAccessor.h"
 
+#include "rttbMaskBoost.h"
+#include "../masks/rttbMaskVoxelListTester.h"
+
 
 namespace rttb
 {
@@ -70,6 +73,8 @@ namespace rttb
 			typedef masks::OTBMaskAccessor::StructTypePointer StructTypePointer;
 			typedef core::DVH::DVHPointer DVHPointer;
 			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+			typedef masks::OTBMaskAccessor::MaskVoxelListPointer MaskVoxelListPointer;
+			typedef masks::OTBMaskAccessor::MaskVoxelList MaskVoxelList;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//ARGUMENTS: 1: structure file name
@@ -136,6 +141,15 @@ namespace rttb
 			{
 				for (int j = 0; j < rtStructureSet->getNumberOfStructures(); j++)
 				{
+					std::cout << rtStructureSet->getStructure(j)->getLabel() << std::endl;
+					/**/
+					boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>(doseAccessor1->getGeometricInfo());
+			
+					rttb::masks::MaskBoost maskBoost = rttb::masks::MaskBoost(geometricPtr, rtStructureSet->getStructure(j));
+					MaskVoxelListPointer voxelListBoost = maskBoost.getRelevantVoxelVector();
+
+					/**/
+
 
 					//create MaskAccessor for each structure
 					boost::shared_ptr<masks::OTBMaskAccessor> spOTBMaskAccessor =
@@ -143,6 +157,12 @@ namespace rttb
 					            doseAccessor1->getGeometricInfo());
 					spOTBMaskAccessor->updateMask();
 					MaskAccessorPointer spMaskAccessor(spOTBMaskAccessor);
+
+					
+					MaskVoxelListPointer relVoxelOTB2 = spMaskAccessor->getRelevantVoxelVector();
+					MaskVoxelListTester listComp(voxelListBoost, relVoxelOTB2);
+					CHECK_TESTER(listComp);
+			
 					//create corresponding MaskedDoseIterator
 					boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
 					    boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, doseAccessor1);
