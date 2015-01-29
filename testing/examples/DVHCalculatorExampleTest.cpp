@@ -49,6 +49,7 @@
 
 #include "rttbMaskBoost.h"
 #include "../masks/rttbMaskVoxelListTester.h"
+#include "rttbBoostMaskAccessor.h"
 
 
 namespace rttb
@@ -147,6 +148,29 @@ namespace rttb
 			
 					rttb::masks::MaskBoost maskBoost = rttb::masks::MaskBoost(geometricPtr, rtStructureSet->getStructure(j));
 					MaskVoxelListPointer voxelListBoost = maskBoost.getRelevantVoxelVector();
+					 
+					boost::shared_ptr<rttb::masks::BoostMaskAccessor> spBoostMaskAccessorTmp = boost::make_shared<rttb::masks::BoostMaskAccessor>(rtStructureSet->getStructure(j),geometricPtr);
+					spBoostMaskAccessorTmp->updateMask();
+					MaskAccessorPointer spBoostMaskAccessor(spBoostMaskAccessorTmp);
+
+					boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorBoostTmp =
+					    boost::make_shared<core::GenericMaskedDoseIterator>(spBoostMaskAccessor, doseAccessor1);
+					DoseIteratorPointer spMaskedDoseIteratorBoost(spMaskedDoseIteratorBoostTmp);
+
+					rttb::core::DVHCalculator calcBoost(spMaskedDoseIteratorBoost, (rtStructureSet->getStructure(j))->getUID(),
+					                               doseAccessor1->getDoseUID());
+					rttb::core::DVH dvhBoost = *(calcBoost.generateDVH());
+
+					//DEBUG OUTPUT
+					std::cout << "=== Dose 1 Structure "<<j<<"===" << std::endl;
+					std::cout << std::setprecision (20) <<"max: "<< dvhBoost.getMaximum()<<std::endl;
+					std::cout << std::setprecision (20) <<"min: "<< dvhBoost.getMinimum()<<std::endl;
+					std::cout << std::setprecision (20) <<"mean: "<< dvhBoost.getMean()<<std::endl;
+					std::cout << std::setprecision (20) <<"median: "<< dvhBoost.getMedian()<<std::endl;
+					std::cout << std::setprecision (20) <<"modal: "<< dvhBoost.getModal()<<std::endl;
+					std::cout << std::setprecision (20) <<"std: "<< dvhBoost.getStdDeviation()<<std::endl;
+					std::cout << std::setprecision (20) <<"var: "<< dvhBoost.getVariance()<<std::endl;
+					std::cout << std::setprecision (20) <<"numV: "<< dvhBoost.getNumberOfVoxels()<<std::endl;
 
 					/**/
 
@@ -176,7 +200,7 @@ namespace rttb
 					rttb::core::DVH dvh = *(calc.generateDVH());
 
 
-					/*//DEBUG OUTPUT
+					//DEBUG OUTPUT
 					std::cout << "=== Dose 1 Structure "<<j<<"===" << std::endl;
 					std::cout << std::setprecision (20) <<"max: "<< dvh.getMaximum()<<std::endl;
 					std::cout << std::setprecision (20) <<"min: "<< dvh.getMinimum()<<std::endl;
@@ -186,7 +210,7 @@ namespace rttb
 					std::cout << std::setprecision (20) <<"std: "<< dvh.getStdDeviation()<<std::endl;
 					std::cout << std::setprecision (20) <<"var: "<< dvh.getVariance()<<std::endl;
 					std::cout << std::setprecision (20) <<"numV: "<< dvh.getNumberOfVoxels()<<std::endl;
-					*/
+					
 
 					//compare explicit values for some results.
 					//expected values were generated from the original implementation
