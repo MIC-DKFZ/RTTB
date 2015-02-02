@@ -1,0 +1,173 @@
+// -----------------------------------------------------------------------
+// RTToolbox - DKFZ radiotherapy quantitative evaluation library
+//
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html
+//
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE.  See the above copyright notices for more information.
+//
+//------------------------------------------------------------------------
+/*!
+// @file
+// @version $Revision: 793 $ (last changed revision)
+// @date    $Date: 2014-10-10 10:24:45 +0200 (Fr, 10 Okt 2014) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
+*/
+
+#include <assert.h>
+
+#include "rttbITKImageMaskAccessor.h"
+#include "rttbException.h"
+#include "rttbInvalidDoseException.h"
+
+namespace rttb
+{
+	namespace io
+	{
+		namespace mask
+		{
+			ITKImagMaskAccessor::ITKImagMaskAccessor(ITKDoseImageType::ConstPointer aMaskImage)
+				: _mask(aMaskImage)
+			{
+				if (_mask.IsNull())
+				{
+					throw core::InvalidDoseException("Dose image = 0!") ;
+				}
+
+				assembleGeometricInfo();
+			}
+
+
+			ITKImagMaskAccessor::~ITKImagMaskAccessor()
+			{
+			};
+
+			bool ITKImagMaskAccessor::assembleGeometricInfo()
+			{
+				_geoInfo->setSpacing(SpacingVectorType3D(_mask->GetSpacing()[0], _mask->GetSpacing()[1],
+				                                        _mask->GetSpacing()[2]));
+
+				if (_geoInfo->getSpacing()[0] == 0 || _geoInfo->getSpacing()[1] == 0 || _geoInfo->getSpacing()[2] == 0)
+				{
+					throw core::InvalidDoseException("Pixel spacing = 0!");
+				}
+
+				_geoInfo->setImagePositionPatient(WorldCoordinate3D(_mask->GetOrigin()[0], _mask->GetOrigin()[1],
+				                                 _mask->GetOrigin()[2]));
+				OrientationMatrix OM(0);
+
+				for (int col = 0; col < 3; ++col)
+				{
+					for (int row = 0; row < 3; ++row)
+					{
+						OM(col, row) = _mask->GetDirection()(col, row);
+					}
+				}
+
+				_geoInfo->setOrientationMatrix(OM);
+				_geoInfo->setNumColumns(_mask->GetLargestPossibleRegion().GetSize()[0]);
+				_geoInfo->setNumRows(_mask->GetLargestPossibleRegion().GetSize()[1]);
+				_geoInfo->setNumSlices(_mask->GetLargestPossibleRegion().GetSize()[2]);
+
+				if (_geoInfo->getNumColumns() == 0 || _geoInfo->getNumRows() == 0 || _geoInfo->getNumSlices() == 0)
+				{
+					throw core::InvalidDoseException("Empty dicom dose!") ;
+				}
+
+				return true;
+
+			}
+
+
+			void ITKImagMaskAccessor::updateMask()
+			{
+				return;
+			}
+
+			ITKImagMaskAccessor::MaskVoxelListPointer ITKImagMaskAccessor::getRelevantVoxelVector()
+			{
+				// if not already generated start voxelization here
+				updateMask();
+				for(int gridIndex =0 ; gridIndex < _geoInfo->getNumColumns()*_geoInfo->getNumRows()*_geoInfo->getNumSlices(); gridIndex++){
+					core::MaskVoxel currentVoxel = core::MaskVoxel(gridIndex);
+					if(getMaskAt(gridIndex, currentVoxel)){
+						if(currentVoxel.getRelevantVolumeFraction() > 0){
+							_spRelevantVoxelVector->push_back(currentVoxel);
+						}
+					}
+				}
+				return _spRelevantVoxelVector;
+			}
+
+			ITKImagMaskAccessor::MaskVoxelListPointer ITKImagMaskAccessor::getRelevantVoxelVector(float lowerThreshold)
+			{
+				MaskVoxelListPointer filteredVoxelVectorPointer(new MaskVoxelList);
+				updateMask();
+				// filter relevant voxels
+				ITKImagMaskAccessor::MaskVoxelList::iterator it = _spRelevantVoxelVector->begin();
+
+				while (it != _spRelevantVoxelVector->end())
+				{
+					if ((*it).getRelevantVolumeFraction() > lowerThreshold)
+					{
+						filteredVoxelVectorPointer->push_back(*it);
+					}
+
+					++it;
+				}
+
+				// if mask calculation was not successful this is empty!
+				return filteredVoxelVectorPointer;
+			}
+
+			bool ITKImagMaskAccessor::getMaskAt(VoxelGridID aID, core::MaskVoxel& voxel) const
+			{
+				VoxelGridIndex3D aVoxelGridIndex;
+
+				if (_geoInfo->convert(aID, aVoxelGridIndex))
+				{
+					return getMaskAt(aVoxelGridIndex, voxel);
+				}
+				else
+				{
+					return false;
+				}
+
+			}
+
+			bool ITKImagMaskAccessor::getMaskAt(const VoxelGridIndex3D& aIndex, core::MaskVoxel& voxel) const
+			{
+				voxel.setRelevantVolumeFraction(0);
+
+				if (_geoInfo->validIndex(aIndex))
+				{
+					const ITKDoseImageType::IndexType pixelIndex = {{aIndex[0], aIndex[1], aIndex[2]}};
+					double value = _mask->GetPixel(pixelIndex);
+					VoxelGridID gridId;
+					_geoInfo->convert(aIndex, gridId);
+					if(value >= 0 && value <=1 ){
+						voxel.setRelevantVolumeFraction(value);
+					}
+					else{
+						return false;
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+
+			const core::GeometricInfo& ITKImagMaskAccessor::getGeometricInfo() const
+			{
+				return *_geoInfo;
+			};
+		}
+	}
+}
+
