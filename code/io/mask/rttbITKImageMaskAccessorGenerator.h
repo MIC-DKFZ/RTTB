@@ -24,8 +24,9 @@
 #include <string>
 #include <exception>
 
-#include "rttbDoseAccessorGeneratorBase.h"
 #include "rttbBaseType.h"
+#include "rttbITKImageMaskAccessor.h"
+#include "rttbMaskAccessorGeneratorBase.h"
 #include "rttbITKImageMaskAccessor.h"
 
 #include "itkImage.h"
@@ -37,8 +38,30 @@ namespace rttb
 		namespace mask
 		{
 			
-			class ITKImageMaskAccessorGenerator 
+			class ITKImageMaskAccessorGenerator: public core::MaskAccessorGeneratorBase
 			{
+			public:
+				typedef MaskAccessorGeneratorBase::MaskAccessorPointer MaskAccessorPointer;
+
+			private:
+				/** @brief The Mask as itkImage */
+				ITKImageMaskAccessor::ITKMaskImageType::ConstPointer _maskPtr;
+
+				ITKImageMaskAccessorGenerator();
+
+			public:
+				virtual ~ITKImageMaskAccessorGenerator() {};
+
+				/*!
+				@pre aMaskImage must point to a valid instance.
+				@exception InvalidDoseException Thrown if aMaskImage is invalid.
+				*/
+				ITKImageMaskAccessorGenerator(const ITKImageMaskAccessor::ITKMaskImageType* aMaskImage);
+
+				/*! @brief Generate MaskAccessor
+				@return Return shared pointer of MaskAccessor.
+				*/
+				MaskAccessorPointer generateMaskAccessor() ;
 
 			};
 		}

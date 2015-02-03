@@ -40,12 +40,11 @@ namespace rttb
 
 			/*! @class ITKImageMaskAccessor
 			@brief This class gives access to mask information stored in an itk image
-			@details _doseGridScaling is always 1.0. Thus, it is assumed that the values in the itkImage are absolute.
 			*/
-			class ITKImagMaskAccessor: public core::MaskAccessorInterface
+			class ITKImageMaskAccessor: public core::MaskAccessorInterface
 			{
 			public:
-				typedef ::itk::Image<DoseTypeGy, 3> ITKDoseImageType;
+				typedef ::itk::Image<DoseTypeGy, 3> ITKMaskImageType;
 				typedef ::itk::ImageBase<3> ITKImageBaseType;
 				typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
 				typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
@@ -55,7 +54,7 @@ namespace rttb
 			private:
 
 				/** @brief The mask as itkImage */
-				ITKDoseImageType::ConstPointer _mask;
+				ITKMaskImageType::ConstPointer _mask;
 
 				IDType _maskUID;
 
@@ -64,7 +63,7 @@ namespace rttb
 				/*! vector containing list of mask voxels*/
 				MaskVoxelListPointer _spRelevantVoxelVector;
 
-				/*! @brief get all required data from the itk image contained in _dose
+				/*! @brief get all required data from the itk image contained in _Mask
 					@exception InvalidDoseException if PixelSpacing is 0 or size in any dimension is 0.
 				*/
 				bool assembleGeometricInfo();
@@ -72,11 +71,11 @@ namespace rttb
 
 			public:
 
-				~ITKImagMaskAccessor();
+				~ITKImageMaskAccessor();
 
 				// import of structure sets (loading from data) is done elsewhere. Structures are only voxelized here.
 				// here the original RTToolbox voxelization shall be implemented
-				ITKImagMaskAccessor(ITKDoseImageType::ConstPointer aMaskImage);
+				ITKImageMaskAccessor(ITKMaskImageType::ConstPointer aMaskImage);
 
 				/*! @brief voxelization of the given structures according to the original RTToolbox algorithm*/
 				void updateMask();
@@ -99,7 +98,7 @@ namespace rttb
 				/*! @brief give access to GeometricInfo*/
 				const core::GeometricInfo& getGeometricInfo() const;
 
-				/* @ brief is true if dose is on a homogeneous grid */
+				/* @ brief is true if Mask is on a homogeneous grid */
 				// Inhomogeneous grids are not supported at the moment, but if they will
 				// be supported in the future the interface does not need to change.
 				bool isGridHomogeneous() const

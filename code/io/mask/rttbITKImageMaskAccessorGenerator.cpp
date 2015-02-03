@@ -32,6 +32,18 @@
 namespace rttb{
 	namespace io{
 		namespace mask{
+			ITKImageMaskAccessorGenerator::ITKImageMaskAccessorGenerator(const ITKImageMaskAccessor::ITKMaskImageType* aMaskImage){
+				if (aMaskImage == NULL){
+					throw core::InvalidDoseException("MaskImage is NULL");
+				}
+
+				_maskPtr = aMaskImage;
+			}
+
+			core::MaskAccessorGeneratorBase::MaskAccessorPointer ITKImageMaskAccessorGenerator::generateMaskAccessor(){
+				_maskAccessor = boost::make_shared<ITKImageMaskAccessor>(_maskPtr);
+				return _maskAccessor;
+			}
 
 			
 		}//end namespace mask

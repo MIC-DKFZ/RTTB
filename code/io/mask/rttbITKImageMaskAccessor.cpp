@@ -31,23 +31,23 @@ namespace rttb
 	{
 		namespace mask
 		{
-			ITKImagMaskAccessor::ITKImagMaskAccessor(ITKDoseImageType::ConstPointer aMaskImage)
+			ITKImageMaskAccessor::ITKImageMaskAccessor(ITKMaskImageType::ConstPointer aMaskImage)
 				: _mask(aMaskImage)
 			{
 				if (_mask.IsNull())
 				{
-					throw core::InvalidDoseException("Dose image = 0!") ;
+					throw core::InvalidDoseException("Mask image = 0!") ;
 				}
 
 				assembleGeometricInfo();
 			}
 
 
-			ITKImagMaskAccessor::~ITKImagMaskAccessor()
+			ITKImageMaskAccessor::~ITKImageMaskAccessor()
 			{
 			};
 
-			bool ITKImagMaskAccessor::assembleGeometricInfo()
+			bool ITKImageMaskAccessor::assembleGeometricInfo()
 			{
 				_geoInfo->setSpacing(SpacingVectorType3D(_mask->GetSpacing()[0], _mask->GetSpacing()[1],
 				                                        _mask->GetSpacing()[2]));
@@ -76,7 +76,7 @@ namespace rttb
 
 				if (_geoInfo->getNumColumns() == 0 || _geoInfo->getNumRows() == 0 || _geoInfo->getNumSlices() == 0)
 				{
-					throw core::InvalidDoseException("Empty dicom dose!") ;
+					throw core::InvalidDoseException("Empty mask!") ;
 				}
 
 				return true;
@@ -84,12 +84,12 @@ namespace rttb
 			}
 
 
-			void ITKImagMaskAccessor::updateMask()
+			void ITKImageMaskAccessor::updateMask()
 			{
 				return;
 			}
 
-			ITKImagMaskAccessor::MaskVoxelListPointer ITKImagMaskAccessor::getRelevantVoxelVector()
+			ITKImageMaskAccessor::MaskVoxelListPointer ITKImageMaskAccessor::getRelevantVoxelVector()
 			{
 				// if not already generated start voxelization here
 				updateMask();
@@ -104,12 +104,12 @@ namespace rttb
 				return _spRelevantVoxelVector;
 			}
 
-			ITKImagMaskAccessor::MaskVoxelListPointer ITKImagMaskAccessor::getRelevantVoxelVector(float lowerThreshold)
+			ITKImageMaskAccessor::MaskVoxelListPointer ITKImageMaskAccessor::getRelevantVoxelVector(float lowerThreshold)
 			{
 				MaskVoxelListPointer filteredVoxelVectorPointer(new MaskVoxelList);
 				updateMask();
 				// filter relevant voxels
-				ITKImagMaskAccessor::MaskVoxelList::iterator it = _spRelevantVoxelVector->begin();
+				ITKImageMaskAccessor::MaskVoxelList::iterator it = _spRelevantVoxelVector->begin();
 
 				while (it != _spRelevantVoxelVector->end())
 				{
@@ -125,7 +125,7 @@ namespace rttb
 				return filteredVoxelVectorPointer;
 			}
 
-			bool ITKImagMaskAccessor::getMaskAt(VoxelGridID aID, core::MaskVoxel& voxel) const
+			bool ITKImageMaskAccessor::getMaskAt(VoxelGridID aID, core::MaskVoxel& voxel) const
 			{
 				VoxelGridIndex3D aVoxelGridIndex;
 
@@ -140,13 +140,13 @@ namespace rttb
 
 			}
 
-			bool ITKImagMaskAccessor::getMaskAt(const VoxelGridIndex3D& aIndex, core::MaskVoxel& voxel) const
+			bool ITKImageMaskAccessor::getMaskAt(const VoxelGridIndex3D& aIndex, core::MaskVoxel& voxel) const
 			{
 				voxel.setRelevantVolumeFraction(0);
 
 				if (_geoInfo->validIndex(aIndex))
 				{
-					const ITKDoseImageType::IndexType pixelIndex = {{aIndex[0], aIndex[1], aIndex[2]}};
+					const ITKMaskImageType::IndexType pixelIndex = {{aIndex[0], aIndex[1], aIndex[2]}};
 					double value = _mask->GetPixel(pixelIndex);
 					VoxelGridID gridId;
 					_geoInfo->convert(aIndex, gridId);
@@ -163,7 +163,7 @@ namespace rttb
 				}
 			}
 
-			const core::GeometricInfo& ITKImagMaskAccessor::getGeometricInfo() const
+			const core::GeometricInfo& ITKImageMaskAccessor::getGeometricInfo() const
 			{
 				return *_geoInfo;
 			};

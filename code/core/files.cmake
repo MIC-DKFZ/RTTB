@@ -41,6 +41,8 @@ SET(H_FILES
   rttbInvalidDoseException.h
   rttbInvalidParameterException.h
   rttbMappingOutsideOfImageException.h
+  rttbMaskAccessorGeneratorBase.h
+  rttbMaskAccessorGeneratorInterface.h
   rttbMaskAccessorInterface.h
   rttbMaskedDoseIteratorInterface.h
   rttbMaskVoxel.h
