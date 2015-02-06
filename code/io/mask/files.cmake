@@ -11,4 +11,6 @@ SET(H_FILES
 	rttbITKImageMaskAccessor.h
 	rttbITKImageMaskAccessorGenerator.h
 	rttbITKImageMaskAccessorConverter.h
+	../itk/rttbImageReader.h
+	../itk/rttbImageReader.tpp
 )

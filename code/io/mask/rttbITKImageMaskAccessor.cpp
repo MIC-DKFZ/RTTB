@@ -20,6 +20,8 @@
 */
 
 #include <assert.h>
+#include <boost/make_shared.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include "rttbITKImageMaskAccessor.h"
 #include "rttbException.h"
@@ -49,6 +51,8 @@ namespace rttb
 
 			bool ITKImageMaskAccessor::assembleGeometricInfo()
 			{
+				_geoInfo =  boost::make_shared<core::GeometricInfo>();
+
 				_geoInfo->setSpacing(SpacingVectorType3D(_mask->GetSpacing()[0], _mask->GetSpacing()[1],
 				                                        _mask->GetSpacing()[2]));
 
