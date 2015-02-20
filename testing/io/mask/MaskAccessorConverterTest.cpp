@@ -37,6 +37,11 @@
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomDoseAccessor.h"
 #include "rttbInvalidDoseException.h"
+#include "rttbDicomFileStructureSetGenerator.h"
+#include "rttbOTBMaskAccessor.h"
+#include "rttbITKImageMaskAccessorConverter.h"
+#include "rttbITKImageFileMaskAccessorGenerator.h"
+
 
 
 namespace rttb
@@ -53,26 +58,70 @@ namespace rttb
 		int MaskAccessorConverterTest(int argc, char* argv[])
 		{
 			typedef core::DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
+			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+			typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
+			typedef io::mask::ITKImageMaskAccessor::ITKMaskImageType::Pointer ITKImageTypePointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//ARGUMENTS:
-			//           1: dose1 file name
-			//           2: dose2 file name
+			//ARGUMENTS: 1: structure file name
+			//           2: dose1 file name
 
-			std::string RTDOSE_FILENAME;
-			std::string RTDOSE2_FILENAME;
+			std::string RTStr_FILENAME;
+			std::string RTDose_FILENAME;
+			std::string Mask_FILENAME;
 
 			if (argc > 1)
 			{
-				RTDOSE_FILENAME = argv[1];
+				RTStr_FILENAME = argv[1];
 			}
 
 			if (argc > 2)
 			{
-				RTDOSE2_FILENAME = argv[2];
+				RTDose_FILENAME = argv[2];
 			}
 
+			if (argc > 3)
+			{
+				Mask_FILENAME = argv[3];
+			}
 			//1) Read dicomFile and test getITKImage()
+			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(RTDose_FILENAME.c_str());
+			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
+
+			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(
+			        RTStr_FILENAME.c_str()).generateStructureSet();
+
+
+			MaskAccessorPointer maskAccessorPtr = boost::make_shared<rttb::masks::OTBMaskAccessor>(rtStructureSet->getStructure(0), doseAccessor1->getGeometricInfo());
+			
+			io::mask::ITKImageMaskAccessorConverter maskAccessorConverter(maskAccessorPtr);
+
+			CHECK_NO_THROW(maskAccessorConverter.process());
+			CHECK_NO_THROW(maskAccessorConverter.getITKImage());
+
+			//2) Read itk image, generate mask and convert it back to itk image, check equal
+			MaskAccessorPointer maskAccessorPtr2 = io::mask::ITKImageFileMaskAccessorGenerator(Mask_FILENAME.c_str()).generateMaskAccessor();
+			io::mask::ITKImageMaskAccessorConverter maskAccessorConverter2(maskAccessorPtr2);
+			maskAccessorConverter2.process();
+
+			typedef itk::Image< DoseTypeGy, 3 >         MaskImageType;
+			typedef itk::ImageFileReader<MaskImageType> ReaderType;
+
+			ITKImageTypePointer convertedImagePtr = maskAccessorConverter2.getITKImage();
+
+			io::mask::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer expectedImage =
+			    lit::TestImageIO<unsigned char, io::mask::ITKImageMaskAccessor::ITKMaskImageType>::readImage(
+			        Mask_FILENAME);
+
+			CHECK_EQUAL(convertedImagePtr->GetOrigin()[0], expectedImage->GetOrigin()[0]);
+			CHECK_EQUAL(convertedImagePtr->GetOrigin()[1], expectedImage->GetOrigin()[1]);
+			CHECK_EQUAL(convertedImagePtr->GetOrigin()[2], expectedImage->GetOrigin()[2]);
+
+			CHECK_EQUAL(convertedImagePtr->GetSpacing()[0], expectedImage->GetSpacing()[0]);
+			CHECK_EQUAL(convertedImagePtr->GetSpacing()[1], expectedImage->GetSpacing()[1]);
+			CHECK_EQUAL(convertedImagePtr->GetSpacing()[2], expectedImage->GetSpacing()[2]);
+
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

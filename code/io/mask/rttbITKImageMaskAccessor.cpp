@@ -97,6 +97,8 @@ namespace rttb
 			{
 				// if not already generated start voxelization here
 				updateMask();
+				_spRelevantVoxelVector = boost::make_shared<MaskVoxelList>();
+
 				for(int gridIndex =0 ; gridIndex < _geoInfo->getNumColumns()*_geoInfo->getNumRows()*_geoInfo->getNumSlices(); gridIndex++){
 					core::MaskVoxel currentVoxel = core::MaskVoxel(gridIndex);
 					if(getMaskAt(gridIndex, currentVoxel)){
@@ -112,20 +114,15 @@ namespace rttb
 			{
 				MaskVoxelListPointer filteredVoxelVectorPointer(new MaskVoxelList);
 				updateMask();
-				// filter relevant voxels
-				ITKImageMaskAccessor::MaskVoxelList::iterator it = _spRelevantVoxelVector->begin();
-
-				while (it != _spRelevantVoxelVector->end())
-				{
-					if ((*it).getRelevantVolumeFraction() > lowerThreshold)
-					{
-						filteredVoxelVectorPointer->push_back(*it);
+				for(int gridIndex =0 ; gridIndex < _geoInfo->getNumColumns()*_geoInfo->getNumRows()*_geoInfo->getNumSlices(); gridIndex++){
+					core::MaskVoxel currentVoxel = core::MaskVoxel(gridIndex);
+					if(getMaskAt(gridIndex, currentVoxel)){
+						if(currentVoxel.getRelevantVolumeFraction() > lowerThreshold){
+							filteredVoxelVectorPointer->push_back(currentVoxel);
+						}
 					}
-
-					++it;
 				}
 
-				// if mask calculation was not successful this is empty!
 				return filteredVoxelVectorPointer;
 			}
 
@@ -158,6 +155,7 @@ namespace rttb
 						voxel.setRelevantVolumeFraction(value);
 					}
 					else{
+						std::cerr << "The pixel value of the mask should be >=0 and <=1!"<<std::endl;
 						return false;
 					}
 				}
