@@ -43,7 +43,6 @@ namespace rttb
 			/*! @class ITKImageFileMaskAccessorGenerator
 			@brief Load Mask data using the itk loading methods and wraps the resulting itk image in a ITKImageMaskAccessor.
 			* this is normally used if Mask distributions are stored in formats like meta image, nrrd...
-			* @note it implies that the Mask information is stored in absolute Gy values.
 			*/
 			class ITKImageFileMaskAccessorGenerator: public core::MaskAccessorGeneratorBase
 			{
@@ -52,7 +51,7 @@ namespace rttb
 
 			private:
 				FileNameType _itkMaskFileName;
-				/** @brief The dose as itkImage */
+				/** @brief The mask as itkImage */
 				ITKImageMaskAccessor::ITKMaskImageType::Pointer _itkDoubleImage;
 
 				ITKImageFileMaskAccessorGenerator();
