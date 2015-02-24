@@ -1,4 +1,5 @@
-SET(CPP_FILES 
+SET(CPP_FILES
+	BoostMaskAccessorTest.cpp 
 	../core/DummyStructure.cpp
 	../core/CreateTestStructure.cpp		
 	../core/DummyDoseAccessor.cpp

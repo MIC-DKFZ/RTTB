@@ -47,7 +47,7 @@
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbOTBMaskAccessor.h"
 
-#include "rttbMaskBoost.h"
+#include "rttbBoostMask.h"
 #include "../masks/rttbMaskVoxelListTester.h"
 #include "rttbBoostMaskAccessor.h"
 
@@ -145,9 +145,6 @@ namespace rttb
 					std::cout << rtStructureSet->getStructure(j)->getLabel() << std::endl;
 					/**/
 					boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>(doseAccessor1->getGeometricInfo());
-			
-					rttb::masks::MaskBoost maskBoost = rttb::masks::MaskBoost(geometricPtr, rtStructureSet->getStructure(j));
-					MaskVoxelListPointer voxelListBoost = maskBoost.getRelevantVoxelVector();
 					 
 					boost::shared_ptr<rttb::masks::BoostMaskAccessor> spBoostMaskAccessorTmp = boost::make_shared<rttb::masks::BoostMaskAccessor>(rtStructureSet->getStructure(j),geometricPtr);
 					spBoostMaskAccessorTmp->updateMask();
@@ -184,9 +181,7 @@ namespace rttb
 
 					
 					MaskVoxelListPointer relVoxelOTB2 = spMaskAccessor->getRelevantVoxelVector();
-					MaskVoxelListTester listComp(voxelListBoost, relVoxelOTB2);
-					CHECK_TESTER(listComp);
-			
+					
 					//create corresponding MaskedDoseIterator
 					boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
 					    boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, doseAccessor1);

@@ -33,7 +33,8 @@ namespace rttb{
 
 		void registerTests()
 			{
-			LIT_REGISTER_TEST(OTBMaskAccessorTest);
+				LIT_REGISTER_TEST(BoostMaskAccessorTest);
+				LIT_REGISTER_TEST(OTBMaskAccessorTest);
 			}
 		}
 	}

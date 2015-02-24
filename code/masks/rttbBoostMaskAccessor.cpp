@@ -20,7 +20,7 @@
 */
 
 #include "rttbBoostMaskAccessor.h"
-#include "rttbMaskBoost.h"
+#include "rttbBoostMask.h"
 #include "rttbMappingOutsideOfImageException.h"
 
 #include <boost/make_shared.hpp>
@@ -64,7 +64,7 @@ namespace rttb
 			}
 
 
-			MaskBoost mask(_spGeoInfo , _spStructure);
+			BoostMask mask(_spGeoInfo , _spStructure);
 
 			_spRelevantVoxelVector = mask.getRelevantVoxelVector();
 
