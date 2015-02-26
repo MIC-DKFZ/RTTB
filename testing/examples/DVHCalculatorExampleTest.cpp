@@ -230,18 +230,6 @@ namespace rttb
 				rttb::core::DVH dvh = *(calc.generateDVH());
 
 
-				/*//DEBUG OUTPUT
-				std::cout << "=== Dose 2 Structure "<<j<<"===" << std::endl;
-				std::cout << std::setprecision (20) <<"max: "<< dvh.getMaximum()<<std::endl;
-				std::cout << std::setprecision (20) <<"min: "<< dvh.getMinimum()<<std::endl;
-				std::cout << std::setprecision (20) <<"mean: "<< dvh.getMean()<<std::endl;
-				std::cout << std::setprecision (20) <<"median: "<< dvh.getMedian()<<std::endl;
-				std::cout << std::setprecision (20) <<"modal: "<< dvh.getModal()<<std::endl;
-				std::cout << std::setprecision (20) <<"std: "<< dvh.getStdDeviation()<<std::endl;
-				std::cout << std::setprecision (20) <<"var: "<< dvh.getVariance()<<std::endl;
-				std::cout << std::setprecision (20) <<"numV: "<< dvh.getNumberOfVoxels()<<std::endl;
-				*/
-
 				if (j == 0)
 				{
 					CHECK_CLOSE(1.8423272053074631, dvh.getMaximum(), 1e-1);
@@ -286,18 +274,6 @@ namespace rttb
 				                               doseAccessor3->getDoseUID());
 				rttb::core::DVH dvh = *(calc.generateDVH());
 
-
-				/*//DEBUG OUTPUT
-				std::cout << "=== Dose 3 Structure "<<j<<"===" << std::endl;
-				std::cout << std::setprecision (20) <<"max: "<< dvh.getMaximum()<<std::endl;
-				std::cout << std::setprecision (20) <<"min: "<< dvh.getMinimum()<<std::endl;
-				std::cout << std::setprecision (20) <<"mean: "<< dvh.getMean()<<std::endl;
-				std::cout << std::setprecision (20) <<"median: "<< dvh.getMedian()<<std::endl;
-				std::cout << std::setprecision (20) <<"modal: "<< dvh.getModal()<<std::endl;
-				std::cout << std::setprecision (20) <<"std: "<< dvh.getStdDeviation()<<std::endl;
-				std::cout << std::setprecision (20) <<"var: "<< dvh.getVariance()<<std::endl;
-				std::cout << std::setprecision (20) <<"numV: "<< dvh.getNumberOfVoxels()<<std::endl;
-				*/
 
 				if (j == 1)
 				{
