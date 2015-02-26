@@ -47,10 +47,6 @@
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbOTBMaskAccessor.h"
 
-#include "rttbBoostMask.h"
-#include "../masks/rttbMaskVoxelListTester.h"
-#include "rttbBoostMaskAccessor.h"
-
 
 namespace rttb
 {
@@ -74,8 +70,6 @@ namespace rttb
 			typedef masks::OTBMaskAccessor::StructTypePointer StructTypePointer;
 			typedef core::DVH::DVHPointer DVHPointer;
 			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
-			typedef masks::OTBMaskAccessor::MaskVoxelListPointer MaskVoxelListPointer;
-			typedef masks::OTBMaskAccessor::MaskVoxelList MaskVoxelList;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//ARGUMENTS: 1: structure file name
@@ -143,34 +137,6 @@ namespace rttb
 				for (int j = 0; j < rtStructureSet->getNumberOfStructures(); j++)
 				{
 					std::cout << rtStructureSet->getStructure(j)->getLabel() << std::endl;
-					/**/
-					boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>(doseAccessor1->getGeometricInfo());
-					 
-					boost::shared_ptr<rttb::masks::BoostMaskAccessor> spBoostMaskAccessorTmp = boost::make_shared<rttb::masks::BoostMaskAccessor>(rtStructureSet->getStructure(j),geometricPtr);
-					spBoostMaskAccessorTmp->updateMask();
-					MaskAccessorPointer spBoostMaskAccessor(spBoostMaskAccessorTmp);
-
-					boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorBoostTmp =
-					    boost::make_shared<core::GenericMaskedDoseIterator>(spBoostMaskAccessor, doseAccessor1);
-					DoseIteratorPointer spMaskedDoseIteratorBoost(spMaskedDoseIteratorBoostTmp);
-
-					rttb::core::DVHCalculator calcBoost(spMaskedDoseIteratorBoost, (rtStructureSet->getStructure(j))->getUID(),
-					                               doseAccessor1->getDoseUID());
-					rttb::core::DVH dvhBoost = *(calcBoost.generateDVH());
-
-					//DEBUG OUTPUT
-					std::cout << "=== Dose 1 Structure "<<j<<"===" << std::endl;
-					std::cout << std::setprecision (20) <<"max: "<< dvhBoost.getMaximum()<<std::endl;
-					std::cout << std::setprecision (20) <<"min: "<< dvhBoost.getMinimum()<<std::endl;
-					std::cout << std::setprecision (20) <<"mean: "<< dvhBoost.getMean()<<std::endl;
-					std::cout << std::setprecision (20) <<"median: "<< dvhBoost.getMedian()<<std::endl;
-					std::cout << std::setprecision (20) <<"modal: "<< dvhBoost.getModal()<<std::endl;
-					std::cout << std::setprecision (20) <<"std: "<< dvhBoost.getStdDeviation()<<std::endl;
-					std::cout << std::setprecision (20) <<"var: "<< dvhBoost.getVariance()<<std::endl;
-					std::cout << std::setprecision (20) <<"numV: "<< dvhBoost.getNumberOfVoxels()<<std::endl;
-
-					/**/
-
 
 					//create MaskAccessor for each structure
 					boost::shared_ptr<masks::OTBMaskAccessor> spOTBMaskAccessor =
@@ -178,9 +144,6 @@ namespace rttb
 					            doseAccessor1->getGeometricInfo());
 					spOTBMaskAccessor->updateMask();
 					MaskAccessorPointer spMaskAccessor(spOTBMaskAccessor);
-
-					
-					MaskVoxelListPointer relVoxelOTB2 = spMaskAccessor->getRelevantVoxelVector();
 					
 					//create corresponding MaskedDoseIterator
 					boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
