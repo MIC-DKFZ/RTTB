@@ -25,7 +25,6 @@
 #include "litCheckMacros.h"
 
 #include "rttbBaseType.h"
-#include "rttbOTBMaskAccessor.h"
 #include "rttbMaskVoxel.h"
 #include "rttbNullPointerException.h"
 #include "rttbException.h"
@@ -34,6 +33,7 @@
 #include "rttbMaskVoxelListTester.h"
 #include "rttbMaskRectStructTester.h"
 #include "rttbBoostMask.h"
+#include "rttbBoostMaskAccessor.h"
 
 
 namespace rttb
@@ -43,18 +43,16 @@ namespace rttb
 
 		/*! @brief BoostMaskAccessorTest.
 			1) test constructors
-			2) test updateMask (do relevant voxels match?)
-			3) test valid/convert
-			4) test getMaskAt
-			5) other interface functions (simple getters)
+			2) test getRelevantVoxelVector 
+			3) test getMaskAt
 		*/
 		int BoostMaskAccessorTest(int argc, char* argv[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
 			typedef core::Structure::StructTypePointer StructTypePointer;
-			typedef masks::OTBMaskAccessor::MaskVoxelListPointer MaskVoxelListPointer;
-			typedef masks::OTBMaskAccessor::MaskVoxelList MaskVoxelList;
+			typedef masks::BoostMaskAccessor::MaskVoxelListPointer MaskVoxelListPointer;
+			typedef masks::BoostMaskAccessor::MaskVoxelList MaskVoxelList;
 
 			// generate test structure set
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor =
@@ -65,19 +63,64 @@ namespace rttb
 			GridIndexType zPlane = 4;
 			core::Structure myTestStruct = myStructGenerator.CreateRectangularStructureCentered(zPlane);
 			StructTypePointer spMyStruct = boost::make_shared<core::Structure>(myTestStruct);
-
-			//test BoostMask constructor
 			boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>(spTestDoseAccessor->getGeometricInfo());
-			
 
+			//1) test BoostMask and BoostMaskAccessor constructor			
 			CHECK_NO_THROW( rttb::masks::BoostMask(geometricPtr, spMyStruct));
 			rttb::masks::BoostMask boostMask = rttb::masks::BoostMask(geometricPtr, spMyStruct);
-
+			CHECK_NO_THROW(rttb::masks::BoostMaskAccessor(spMyStruct, geometricPtr));
+			rttb::masks::BoostMaskAccessor boostMaskAccessor(spMyStruct, geometricPtr);
 			
 			//2) test getRelevantVoxelVector 
 			CHECK_NO_THROW(boostMask.getRelevantVoxelVector());
+			CHECK_NO_THROW(boostMaskAccessor.getRelevantVoxelVector());
 
-			MaskVoxelListPointer voxelListBoost = boostMask.getRelevantVoxelVector();
+			
+			//3) test getMaskAt
+			const VoxelGridIndex3D inMask1(2, 1, 4); //corner -> volumeFraction = 0.25
+			const VoxelGridIndex3D inMask2(3, 4, 4); //inside ->volumeFraction = 1
+			const VoxelGridIndex3D inMask3(4, 5, 4); //side -> volumeFraction = 0.5
+			const VoxelGridIndex3D outMask1(7, 5, 4);
+			const VoxelGridIndex3D outMask2(2, 1, 2);
+			VoxelGridID testId;
+			double errorConstant = 1e-7;
+
+			core::MaskVoxel tmpMV1(0), tmpMV2(0);
+			CHECK(boostMaskAccessor.getMaskAt(inMask1, tmpMV1));
+			geometricPtr->convert(inMask1, testId);
+			CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
+			CHECK_EQUAL(tmpMV1, tmpMV2);
+			CHECK_CLOSE(0.25, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+			CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+			CHECK(boostMaskAccessor.getMaskAt(inMask2, tmpMV1));
+			CHECK(geometricPtr->convert(inMask2, testId));
+			CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
+			CHECK_EQUAL(tmpMV1, tmpMV2);
+			CHECK_EQUAL(1, tmpMV1.getRelevantVolumeFraction());
+			CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+			CHECK(boostMaskAccessor.getMaskAt(inMask3, tmpMV1));
+			CHECK(geometricPtr->convert(inMask3, testId));
+			CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
+			CHECK_EQUAL(tmpMV1, tmpMV2);
+			CHECK_CLOSE(0.5, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+			CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+			CHECK(!boostMaskAccessor.getMaskAt(outMask1, tmpMV1));
+			CHECK(geometricPtr->convert(outMask1, testId));
+			CHECK(!boostMaskAccessor.getMaskAt(testId, tmpMV2));
+			CHECK_EQUAL(tmpMV1, tmpMV2);
+			CHECK_EQUAL(0, tmpMV1.getRelevantVolumeFraction());
+			//CHECK_EQUAL(testId,tmpMV1.getVoxelGridID()); -> return value will not be valid outside the mask
+
+			CHECK(!boostMaskAccessor.getMaskAt(outMask2, tmpMV1));
+			CHECK(geometricPtr->convert(outMask2, testId));
+			CHECK(!boostMaskAccessor.getMaskAt(testId, tmpMV2));
+			CHECK_EQUAL(tmpMV1, tmpMV2);
+			CHECK_EQUAL(0, tmpMV1.getRelevantVolumeFraction());
+			//CHECK_EQUAL(testId,tmpMV1.getVoxelGridID()); -> return value will not be valid outside the mask
+
 
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
