@@ -19,12 +19,10 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#include <assert.h>
 
 #include <boost/shared_ptr.hpp>
 
 #include "rttbITKImageMaskAccessorConverter.h"
-#include "rttbException.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbGeometricInfo.h"
 #include "itkImageRegionIterator.h"
@@ -47,17 +45,10 @@ namespace rttb
 				core::GeometricInfo geoInfo = _maskAccessor->getGeometricInfo();
 
 				ITKImageMaskAccessor::ITKMaskImageType::RegionType region;
-				ITKImageMaskAccessor::ITKMaskImageType::IndexType start;
+				
+				ITKImageMaskAccessor::ITKMaskImageType::IndexType start = {{0, 0, 0}};
 
-				for (unsigned int i = 0; i < 3; ++i)
-				{
-					start[i] = 0;
-				}
-
-				ITKImageMaskAccessor::ITKMaskImageType::SizeType size;
-				size[0] = geoInfo.getNumColumns();
-				size[1] = geoInfo.getNumRows();
-				size[2] = geoInfo.getNumSlices();
+				ITKImageMaskAccessor::ITKMaskImageType::SizeType size = {{geoInfo.getNumColumns(), geoInfo.getNumRows(), geoInfo.getNumSlices()}};
 
 				ITKImageMaskAccessor::ITKMaskImageType::SpacingType spacing;
 

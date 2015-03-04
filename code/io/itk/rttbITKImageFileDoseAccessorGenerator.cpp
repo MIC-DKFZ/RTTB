@@ -26,6 +26,7 @@
 #include "rttbException.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbITKIOHelper.h"
 
 
 namespace rttb
@@ -47,130 +48,12 @@ namespace rttb
 			rttb::core::DoseAccessorGeneratorBase::DoseAccessorPointer
 			ITKImageFileDoseAccessorGenerator::generateDoseAccessor()
 			{
-				GenericImageReader::Pointer spReader = GenericImageReader::New();
-
-				spReader->setFileName(_dicomDoseFileName);
-
-				GenericImageReader::GenericOutputImageType::Pointer itkGenericImage;
-
-				ITKDoseImageType::ConstPointer itkDoubleImageConst;
-
-				try
-				{
-					unsigned int loadedDimensions;
-					GenericImageReader::LoadedPixelType loadedPixelType;
-					GenericImageReader::LoadedComponentType loadedComponentType;
-					itkGenericImage = spReader->GetOutput(loadedDimensions, loadedPixelType, loadedComponentType);
-
-					if (loadedDimensions != 3)
-					{
-						throw core::InvalidParameterException("image dimensions != 3. Only dim = 3 supported.");
-					}
-
-					if (loadedPixelType != ::itk::ImageIOBase::SCALAR)
-					{
-						throw core::InvalidParameterException("image component type != SCALAR. Only SCALAR supported.");
-					}
-
-					if (loadedComponentType == ::itk::ImageIOBase::DOUBLE)
-					{
-						_itkDoubleImage = dynamic_cast<ITKDoseImageType*>(itkGenericImage.GetPointer());
-					}
-					else
-					{
-						handleGenericImage(itkGenericImage, loadedComponentType);
-					}
-
-					if (_itkDoubleImage.IsNull())
-					{
-						throw core::InvalidDoseException("Error!!! unable to load input image. File is not existing or has an unsupported format.");
-						return core::DoseAccessorGeneratorInterface::DoseAccessorPointer();
-					}
-				}
-				catch (::itk::ExceptionObject& e)
-				{
-					std::cerr << "Error!!!" << std::endl;
-					std::cerr << e << std::endl;
-					throw rttb::core::InvalidDoseException(e.GetDescription());
-					return core::DoseAccessorGeneratorInterface::DoseAccessorPointer();
-				}
+				_itkDoubleImage = readITKDoubleImage(_dicomDoseFileName);
 
 				_doseAccessor = boost::make_shared<ITKImageDoseAccessor>(_itkDoubleImage.GetPointer());
 				return _doseAccessor;
 			}
 
-			void ITKImageFileDoseAccessorGenerator::handleGenericImage(
-			    GenericImageReader::GenericOutputImageType* itkGenericImage,
-			    ::itk::ImageIOBase::IOComponentType& loadedComponentType)
-			{
-				switch (loadedComponentType)
-				{
-					case ::itk::ImageIOBase::UCHAR:
-					{
-						doCasting<unsigned char>(itkGenericImage);
-						break;
-					}
-
-					case ::itk::ImageIOBase::CHAR:
-					{
-						doCasting<char>(itkGenericImage);
-						break;
-					}
-
-					case ::itk::ImageIOBase::USHORT:
-					{
-						doCasting<unsigned short>(itkGenericImage);
-						break;
-					}
-
-					case ::itk::ImageIOBase::SHORT:
-					{
-						doCasting<short>(itkGenericImage);
-						break;
-					}
-
-					case ::itk::ImageIOBase::UINT:
-					{
-						doCasting<unsigned int>(itkGenericImage);
-						break;
-					}
-
-					case ::itk::ImageIOBase::INT:
-					{
-						doCasting<int>(itkGenericImage);
-						break;
-					}
-
-					case ::itk::ImageIOBase::ULONG:
-					{
-						doCasting<unsigned long>(itkGenericImage);
-						break;
-					}
-
-					case ::itk::ImageIOBase::LONG:
-					{
-						doCasting<long>(itkGenericImage);
-						break;
-					}
-
-					case ::itk::ImageIOBase::FLOAT:
-					{
-						doCasting<float>(itkGenericImage);
-						break;
-					}
-
-					case ::itk::ImageIOBase::DOUBLE:
-					{
-						doCasting<double>(itkGenericImage);
-						break;
-					}
-
-					default:
-					{
-						throw core::InvalidParameterException("image type unknown");
-					}
-				}
-			}
 		}//end namespace itk
 	}//end namespace io
 }//end namespace rttb

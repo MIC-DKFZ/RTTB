@@ -19,7 +19,6 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#include <assert.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>

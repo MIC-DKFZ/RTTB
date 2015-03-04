@@ -21,7 +21,6 @@
 #ifndef __MASK_ACCESSOR_GENERATOR_INTERFACE_H
 #define __MASK_ACCESSOR_GENERATOR_INTERFACE_H
 
-#include <boost/shared_ptr.hpp>
 
 #include "rttbMaskAccessorInterface.h"
 

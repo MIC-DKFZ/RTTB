@@ -7,7 +7,6 @@ SET(CPP_FILES
 
 SET(H_FILES 
 	rttbITKImageFileMaskAccessorGenerator.h
-	rttbITKImageFileMaskAccessorGenerator.tpp
 	rttbITKImageMaskAccessor.h
 	rttbITKImageMaskAccessorGenerator.h
 	rttbITKImageMaskAccessorConverter.h
@@ -15,4 +14,6 @@ SET(H_FILES
 	rttbMaskAccessorProcessorInterface.h
 	../itk/rttbImageReader.h
 	../itk/rttbImageReader.tpp
+	../itk/rttbITKIOHelper.h
+	../itk/rttbITKIOHelper.tpp
 )

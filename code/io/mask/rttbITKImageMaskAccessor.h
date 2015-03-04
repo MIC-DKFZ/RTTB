@@ -21,10 +21,6 @@
 #ifndef __ITK_IMAGE_MASK_ACCESSOR_H
 #define __ITK_IMAGE_MASK_ACCESSOR_H
 
-#include <exception>
-
-#include <boost/shared_ptr.hpp>
-
 #include "rttbMaskAccessorInterface.h"
 #include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
@@ -49,7 +45,7 @@ namespace rttb
 				typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
 				typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
 
-				typedef boost::shared_ptr<core::GeometricInfo> GeometricInfoPtr;
+				typedef boost::shared_ptr<core::GeometricInfo> GeometricInfoPointer;
 
 			private:
 
@@ -58,10 +54,10 @@ namespace rttb
 
 				IDType _maskUID;
 
-				GeometricInfoPtr _geoInfo;
+				GeometricInfoPointer _geoInfo;
 
 				/*! vector containing list of mask voxels*/
-				MaskVoxelListPointer _spRelevantVoxelVector;
+				MaskVoxelListPointer _relevantVoxelVector;
 
 				/*! @brief get all required data from the itk image contained in _Mask
 					@exception InvalidDoseException if PixelSpacing is 0 or size in any dimension is 0.
@@ -73,8 +69,6 @@ namespace rttb
 
 				~ITKImageMaskAccessor();
 
-				// import of structure sets (loading from data) is done elsewhere. Structures are only voxelized here.
-				// here the original RTToolbox voxelization shall be implemented
 				ITKImageMaskAccessor(ITKMaskImageType::ConstPointer aMaskImage);
 
 				/*! @brief voxelization of the given structures according to the original RTToolbox algorithm*/

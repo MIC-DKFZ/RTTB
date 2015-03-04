@@ -35,7 +35,6 @@ namespace rttb{
 			{
 				LIT_REGISTER_TEST(MaskAccessorGeneratorTest);
 				LIT_REGISTER_TEST(MaskAccessorConverterTest);
-				LIT_REGISTER_TEST(MaskIOTest);
 			}
 		}
 	}

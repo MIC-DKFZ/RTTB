@@ -21,9 +21,6 @@
 #ifndef __ITK_IMAGE_MASK_FILE_ACCESSOR_GENERATOR_H
 #define __ITK_IMAGE_MASK_FILE_ACCESSOR_GENERATOR_H
 
-#include <string>
-#include <exception>
-
 #include "rttbMaskAccessorGeneratorBase.h"
 #include "rttbBaseType.h"
 #include "rttbITKImageMaskAccessor.h"
@@ -41,7 +38,7 @@ namespace rttb
 		{
 
 			/*! @class ITKImageFileMaskAccessorGenerator
-			@brief Load Mask data using the itk loading methods and wraps the resulting itk image in a ITKImageMaskAccessor.
+			@brief Load 3D Mask data using the itk loading methods and wraps the resulting itk image in a ITKImageMaskAccessor.
 			* this is normally used if Mask distributions are stored in formats like meta image, nrrd...
 			*/
 			class ITKImageFileMaskAccessorGenerator: public core::MaskAccessorGeneratorBase
@@ -55,22 +52,6 @@ namespace rttb
 				ITKImageMaskAccessor::ITKMaskImageType::Pointer _itkDoubleImage;
 
 				ITKImageFileMaskAccessorGenerator();
-
-				/*! @brief Casts into itkImage<DoseTypeGy,3>
-				@details result is stored into _itkDoubleImage
-				*/
-				template <typename TPixelType> void doCasting(rttb::io::itk::GenericImageReader::GenericOutputImageType*
-				        genericImage);
-
-				/*! @brief Converts a generic image to itkImage<DoseTypeGy,3>
-				@param itkGenericImage the image read by GenericImageReader
-				@param loadedComponentType the component type (used for casting later on)
-				@exception InvalidParameterException if component type is not supported
-				@sa GenericImageReader
-				*/
-				void handleGenericImage(rttb::io::itk::GenericImageReader::GenericOutputImageType* itkGenericImage,
-				                        ::itk::ImageIOBase::IOComponentType& loadedComponentType);
-
 
 			public:
 				~ITKImageFileMaskAccessorGenerator();
@@ -92,6 +73,5 @@ namespace rttb
 	}//end namespace io
 }//end namespace rttb
 
-#include "rttbITKImageFileMaskAccessorGenerator.tpp"
 
 #endif

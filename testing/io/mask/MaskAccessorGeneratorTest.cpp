@@ -87,7 +87,7 @@ namespace rttb
 			
 			io::mask::ITKImageMaskAccessorGenerator::MaskAccessorPointer maskAcc = io::mask::ITKImageMaskAccessorGenerator(reader->GetOutput()).generateMaskAccessor();
 
-			rttb::core::MaskAccessorInterface::MaskVoxelListPointer maskVoxelListPtr = maskAcc->getRelevantVoxelVector();
+			CHECK_NO_THROW( maskAcc->getRelevantVoxelVector());
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

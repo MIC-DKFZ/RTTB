@@ -5,12 +5,12 @@ SET(CPP_FILES
 	rttbGenericImageReader.cpp
 	rttbFileDispatch.cpp
 	rttbITKImageDoseAccessorConverter.cpp
+	rttbITKIOHelper.cpp
   )
 
 SET(H_FILES 
 	rttbITKImageDoseAccessor.h
 	rttbITKImageFileDoseAccessorGenerator.h
-	rttbITKImageFileDoseAccessorGenerator.tpp
 	rttbITKImageDoseAccessorGenerator.h
 	rttbGenericImageReader.h
 	rttbImageReader.h
@@ -20,4 +20,7 @@ SET(H_FILES
 	rttbDoseAccessorProcessorInterface.h
 	rttbDoseAccessorProcessorBase.h
 	rttbDoseAccessorConversionSettingInterface.h
+	rttbITKIOHelper.h
+	rttbITKIOHelper.tpp
+
 )

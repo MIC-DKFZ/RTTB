@@ -19,12 +19,10 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#include <assert.h>
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include "rttbITKImageMaskAccessor.h"
-#include "rttbException.h"
 #include "rttbInvalidDoseException.h"
 
 namespace rttb
@@ -95,26 +93,18 @@ namespace rttb
 
 			ITKImageMaskAccessor::MaskVoxelListPointer ITKImageMaskAccessor::getRelevantVoxelVector()
 			{
-				// if not already generated start voxelization here
 				updateMask();
-				_spRelevantVoxelVector = boost::make_shared<MaskVoxelList>();
-
-				for(int gridIndex =0 ; gridIndex < _geoInfo->getNumColumns()*_geoInfo->getNumRows()*_geoInfo->getNumSlices(); gridIndex++){
-					core::MaskVoxel currentVoxel = core::MaskVoxel(gridIndex);
-					if(getMaskAt(gridIndex, currentVoxel)){
-						if(currentVoxel.getRelevantVolumeFraction() > 0){
-							_spRelevantVoxelVector->push_back(currentVoxel);
-						}
-					}
-				}
-				return _spRelevantVoxelVector;
+				_relevantVoxelVector = getRelevantVoxelVector(0);
+				return _relevantVoxelVector;
 			}
 
 			ITKImageMaskAccessor::MaskVoxelListPointer ITKImageMaskAccessor::getRelevantVoxelVector(float lowerThreshold)
 			{
 				MaskVoxelListPointer filteredVoxelVectorPointer(new MaskVoxelList);
 				updateMask();
-				for(int gridIndex =0 ; gridIndex < _geoInfo->getNumColumns()*_geoInfo->getNumRows()*_geoInfo->getNumSlices(); gridIndex++){
+				int size =  _geoInfo->getNumColumns()*_geoInfo->getNumRows()*_geoInfo->getNumSlices();
+				filteredVoxelVectorPointer->reserve(size);
+				for(int gridIndex =0 ; gridIndex < size; gridIndex++){
 					core::MaskVoxel currentVoxel = core::MaskVoxel(gridIndex);
 					if(getMaskAt(gridIndex, currentVoxel)){
 						if(currentVoxel.getRelevantVolumeFraction() > lowerThreshold){

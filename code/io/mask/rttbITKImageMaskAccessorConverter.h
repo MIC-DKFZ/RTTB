@@ -21,8 +21,6 @@
 #ifndef __ITK_IMAGE_MASK_ACCESSOR_CONVERTER_H
 #define __ITK_IMAGE_MASK_ACCESSOR_CONVERTER_H
 
-#include <boost/shared_ptr.hpp>
-
 #include "rttbITKImageMaskAccessor.h"
 #include "rttbMaskAccessorProcessorBase.h"
 #include "../itk/rttbDoseAccessorConversionSettingInterface.h"
@@ -47,7 +45,7 @@ namespace rttb
 
 				bool process();
 
-				ITKImageMaskAccessor::ITKMaskImageType::Pointer getITKImage()
+				const ITKImageMaskAccessor::ITKMaskImageType::Pointer getITKImage() 
 				{
 					return _itkImage;
 				}

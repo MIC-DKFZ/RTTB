@@ -71,20 +71,13 @@ namespace rttb
 			std::string RTDose_FILENAME;
 			std::string Mask_FILENAME;
 
-			if (argc > 1)
-			{
-				RTStr_FILENAME = argv[1];
-			}
-
-			if (argc > 2)
-			{
-				RTDose_FILENAME = argv[2];
-			}
-
 			if (argc > 3)
 			{
+				RTStr_FILENAME = argv[1];
+				RTDose_FILENAME = argv[2];
 				Mask_FILENAME = argv[3];
 			}
+
 			//1) Read dicomFile and test getITKImage()
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(RTDose_FILENAME.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
@@ -121,6 +114,41 @@ namespace rttb
 			CHECK_EQUAL(convertedImagePtr->GetSpacing()[0], expectedImage->GetSpacing()[0]);
 			CHECK_EQUAL(convertedImagePtr->GetSpacing()[1], expectedImage->GetSpacing()[1]);
 			CHECK_EQUAL(convertedImagePtr->GetSpacing()[2], expectedImage->GetSpacing()[2]);
+
+			int sizeX = convertedImagePtr->GetLargestPossibleRegion().GetSize()[0];
+			int sizeY = convertedImagePtr->GetLargestPossibleRegion().GetSize()[1];
+			int sizeZ = convertedImagePtr->GetLargestPossibleRegion().GetSize()[2];
+
+			io::mask::ITKImageMaskAccessor::ITKMaskImageType::IndexType index;
+
+			for(unsigned int i=0; i<20 && i<sizeX && i<sizeY && i<sizeZ; i++){
+				index[0] = i;
+				index[1] = i;
+				index[2] = i;
+				if(expectedImage->GetPixel(index) >= 0 && expectedImage->GetPixel(index)<=1){
+					CHECK_EQUAL(convertedImagePtr->GetPixel(index), expectedImage->GetPixel(index));
+				}
+			}
+
+			for(unsigned int i=0; i<20; i++){
+				index[0] = sizeX -1-i;
+				index[1] = sizeY -1-i;
+				index[2] = sizeZ -1-i;
+
+				if(expectedImage->GetPixel(index) >= 0 && expectedImage->GetPixel(index)<=1){
+					CHECK_EQUAL(convertedImagePtr->GetPixel(index), expectedImage->GetPixel(index));
+				}
+			}
+
+			for(unsigned int i=0; i<20 && (sizeX/2 -i) < sizeX && (sizeY/2 -i) < sizeY && (sizeZ/2 -i) < sizeZ; i++){
+				index[0] = sizeX/2 -i;
+				index[1] = sizeY/2 -i;
+				index[2] = sizeZ/2 -i;
+
+				if(expectedImage->GetPixel(index) >= 0 && expectedImage->GetPixel(index)<=1){
+					CHECK_EQUAL(convertedImagePtr->GetPixel(index), expectedImage->GetPixel(index));
+				}
+			}
 
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

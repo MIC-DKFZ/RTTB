@@ -21,13 +21,9 @@
 #ifndef __ITK_IMAGE_MASK_ACCESSOR_GENERATOR_H
 #define __ITK_IMAGE_MASK_ACCESSOR_GENERATOR_H
 
-#include <string>
-#include <exception>
-
 #include "rttbBaseType.h"
 #include "rttbITKImageMaskAccessor.h"
 #include "rttbMaskAccessorGeneratorBase.h"
-#include "rttbITKImageMaskAccessor.h"
 
 #include "itkImage.h"
 
