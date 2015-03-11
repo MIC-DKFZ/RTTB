@@ -57,22 +57,7 @@ namespace rttb
 
 				ITKImageFileDoseAccessorGenerator();
 
-				/*! @brief Casts into itkImage<DoseTypeGy,3>
-				@details result is stored into _itkDoubleImage
-				*/
-				template <typename TPixelType> void doCasting(GenericImageReader::GenericOutputImageType*
-				        genericImage);
-
-				/*! @brief Converts a generic image to itkImage<DoseTypeGy,3>
-				@param itkGenericImage the image read by GenericImageReader
-				@param loadedComponentType the component type (used for casting later on)
-				@exception InvalidParameterException if component type is not supported
-				@sa GenericImageReader
-				*/
-				void handleGenericImage(GenericImageReader::GenericOutputImageType* itkGenericImage,
-				                        ::itk::ImageIOBase::IOComponentType& loadedComponentType);
-
-
+				
 			public:
 				~ITKImageFileDoseAccessorGenerator();
 
@@ -93,6 +78,5 @@ namespace rttb
 	}//end namespace io
 }//end namespace rttb
 
-#include "rttbITKImageFileDoseAccessorGenerator.tpp"
 
 #endif
