@@ -40,52 +40,62 @@ namespace rttb{
 		class BoostMask{	
 
 		public:
-			typedef boost::shared_ptr<core::GeometricInfo> GeometricInfoPtr;
-			typedef core::Structure::StructTypePointer StrPtr;
+			typedef boost::shared_ptr<core::GeometricInfo> GeometricInfoPointer;
+			typedef core::Structure::StructTypePointer StructPointer;
 			typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
 			typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
-			typedef boost::geometry::model::d2::point_xy<double> BoostPoint2D;
-			typedef boost::geometry::model::polygon<boost::geometry::model::d2::point_xy<double> > BoostPolygon2D;
-			typedef boost::geometry::model::ring<boost::geometry::model::d2::point_xy<double> > BoostRing2D;
+			
+			/*! @brief Constructor
+			* @exception rttb::core::NullPointerException thrown if aDoseGeoInfo or aStructure is NULL
+			*/
+			BoostMask(GeometricInfoPointer aDoseGeoInfo, StructPointer aStructure);
 
-			BoostMask(GeometricInfoPtr aDoseGeoInfo, StrPtr aStructure);
-
+			/*! @brief Generate mask and return the voxels in the mask
+			* @exception rttb::core::InvalidParameterException thrown if the structure has self intersections
+			*/
 			MaskVoxelListPointer getRelevantVoxelVector();
 
 		private:
+			typedef boost::geometry::model::d2::point_xy<double> BoostPoint2D;
+			typedef boost::geometry::model::polygon<boost::geometry::model::d2::point_xy<double> > BoostPolygon2D;
+			typedef boost::geometry::model::ring<boost::geometry::model::d2::point_xy<double> > BoostRing2D;
+			typedef std::deque<BoostPolygon2D> BoostPolygonDeque;
+			typedef std::vector<BoostRing2D> BoostRingVector;
+			typedef std::vector<rttb::VoxelGridIndex3D> VoxelIndexVector;
 
-			GeometricInfoPtr _geometricInfo;
+			GeometricInfoPointer _geometricInfo;
 
-			StrPtr _structure;
+			StructPointer _structure;
 
 			 //vector of the MaskVoxel inside the structure
 			MaskVoxelListPointer _voxelInStructure;
 
-			/* Check if the structure has self intersections*/
+			/*! @brief Voxelization and generate mask
+			*/
+			void calcMask();
+
+			/*! @brief Check if the structure has self intersections*/
 			bool hasSelfIntersections();
 
+			/*! @brief Get the min/max voxel index of the bounding box of the polygon in the slice with sliceNumber*/
+			VoxelIndexVector getBoundingBox(unsigned int sliceNumber);
 
-			/*Get the min/max voxel index of the bounding box of the polygon in the slice with sliceNumber*/
-			std::vector<rttb::VoxelGridIndex3D> getBoundingBox(unsigned int sliceNumber);
+			/*! @brief Get intersection polygons of the contour and a voxel polygon*/
+			BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D);
 
+			/*! @brief Calculate the intersection area*/
+			double calcArea(BoostPolygonDeque aPolygonDeque);
 
-			/*Get intersection polygons of the contour and a voxel polygon*/
-			std::deque<BoostPolygon2D> getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D);
-
-
-			/*Calculate the intersection area*/
-			double calcArea(std::deque<BoostPolygon2D> aPolygonDeque);
-
+			/*! @brief Get grid index of a mask voxel*/
 			VoxelGridIndex3D getGridIndex3D(const core::MaskVoxel& aMaskVoxel);
 
-
-			/*Convert RTTB polygon to boost polygon*/
+			/*! @brief Convert RTTB polygon to boost polygon*/
 			BoostRing2D convert(const rttb::PolygonType& aRTTBPolygon);
 
-			/*Get the intersection slice of the voxel, return the polygons in the slice*/
-			std::vector<BoostRing2D> getIntersectionSlicePolygons(const rttb::VoxelGridIndex3D& aVoxelGrid3D);
+			/*! @brief Get the intersection slice of the voxel, return the polygons in the slice*/
+			BoostRingVector getIntersectionSlicePolygons(const rttb::VoxelGridIndex3D& aVoxelGrid3D);
 
-			/*Get the voxel 2d contour polygon*/
+			/*! @brief Get the voxel 2d contour polygon*/
 			BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D);
 
 		};

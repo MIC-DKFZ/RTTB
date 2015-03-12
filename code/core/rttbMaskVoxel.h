@@ -53,9 +53,13 @@ namespace rttb{
 			*/
 			MaskVoxel(const VoxelGridID& aVoxelGridID, FractionType aVolumeFraction);
 
+			/*! @brief Operator ==
+			@return Return true if the id and volumeFraction are equal to these of the maskVoxel   
+			*/
 			bool operator==(const MaskVoxel& maskVoxel) const;
 
 			/*! @brief Operator <
+			@return Return true if the id < the id of the maskVoxel
 			*/
 			bool operator<(const MaskVoxel& maskVoxel) const;
 

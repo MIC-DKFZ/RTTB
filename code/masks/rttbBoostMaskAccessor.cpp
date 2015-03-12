@@ -21,7 +21,6 @@
 
 #include "rttbBoostMaskAccessor.h"
 #include "rttbBoostMask.h"
-#include "rttbMappingOutsideOfImageException.h"
 
 #include <boost/make_shared.hpp>
 
@@ -35,7 +34,7 @@ namespace rttb
 	namespace masks
 	{
 
-		BoostMaskAccessor::BoostMaskAccessor(StructTypePointer aStructurePointer, GeometricInfoPtr aGeometricInfoPtr)
+		BoostMaskAccessor::BoostMaskAccessor(StructTypePointer aStructurePointer, GeometricInfoPointer aGeometricInfoPtr)
 			: _spStructure(aStructurePointer), _spGeoInfo(aGeometricInfoPtr)
 		{
 			_spRelevantVoxelVector = MaskVoxelListPointer();
@@ -126,8 +125,6 @@ namespace rttb
 					++it;
 				}
 
-				//aID is not in mask
-				voxel.setRelevantVolumeFraction(0);
 			}
 			// returns false if mask was not calculated without triggering calculation (otherwise not const!)
 			else

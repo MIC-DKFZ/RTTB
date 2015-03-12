@@ -14,7 +14,7 @@
 
 namespace rttb{
 	namespace masks{
-		BoostMask::BoostMask(BoostMask::GeometricInfoPtr aDoseGeoInfo, BoostMask::StrPtr aStructure)
+		BoostMask::BoostMask(BoostMask::GeometricInfoPointer aDoseGeoInfo, BoostMask::StructPointer aStructure)
 		:_geometricInfo(aDoseGeoInfo), _structure(aStructure), _voxelInStructure(boost::make_shared<MaskVoxelList>()){
 
 
@@ -25,13 +25,15 @@ namespace rttb{
 				throw rttb::core::NullPointerException("Error: Structure is NULL!");
 			}
 
+		}
+
+		void BoostMask::calcMask(){
 			if(hasSelfIntersections()){
 				throw rttb::core::InvalidParameterException("Error: structure has self intersections!");
 			}
 
-			
-			for(unsigned int i=0; i< aDoseGeoInfo->getNumSlices(); i++){
-				std::vector<rttb::VoxelGridIndex3D> voxelList = getBoundingBox(i);
+			for(unsigned int i=0; i< _geometricInfo->getNumSlices(); i++){
+				VoxelIndexVector voxelList = getBoundingBox(i);
 				rttb::VoxelGridIndex3D gridIndex3D0 = voxelList.at(0);
 				rttb::VoxelGridIndex3D gridIndex3D1 = voxelList.at(1);
 			
@@ -64,7 +66,6 @@ namespace rttb{
 			}
 
 			sort(_voxelInStructure->begin(), _voxelInStructure->end());
-
 		}
 
 		bool BoostMask::hasSelfIntersections(){
@@ -73,7 +74,7 @@ namespace rttb{
 			for(unsigned int indexZ=0; indexZ< _geometricInfo->getNumSlices(); indexZ++){
 				rttb::VoxelGridIndex3D currentIndex(0,0,indexZ);
 				
-				std::vector<BoostMask::BoostRing2D> boostPolygons = getIntersectionSlicePolygons(currentIndex);
+				BoostMask::BoostRingVector boostPolygons = getIntersectionSlicePolygons(currentIndex);
 
 				for(unsigned int i =0; i<boostPolygons.size(); i++){
 					boost::geometry::correct(boostPolygons.at(i));
@@ -86,7 +87,7 @@ namespace rttb{
 					//test if the polygons on the same slice has intersection
 					for(unsigned int j =0; j<boostPolygons.size() && j!=i; j++){
 						boost::geometry::correct(boostPolygons.at(j));
-						std::deque<BoostPolygon2D> intersection;
+						BoostPolygonDeque intersection;
 						boost::geometry::intersection(boostPolygons.at(i), boostPolygons.at(j), intersection);
 						if(intersection.size()>0){
 							hasSelfIntersection = true;
@@ -103,14 +104,14 @@ namespace rttb{
 
 
 		/*Get the 4 voxel index of the bounding box of the polygon in the slice with sliceNumber*/
-		std::vector<rttb::VoxelGridIndex3D> BoostMask::getBoundingBox(unsigned int sliceNumber){
+		BoostMask::VoxelIndexVector BoostMask::getBoundingBox(unsigned int sliceNumber){
 			if(sliceNumber<0 || sliceNumber >= _geometricInfo->getNumSlices()){
 				throw rttb::core::InvalidParameterException(std::string("Error: slice number is invalid!"));
 			}
 
 			rttb::VoxelGridIndex3D currentIndex(0,0,sliceNumber);
 				
-			std::vector<BoostMask::BoostRing2D> boostPolygons = getIntersectionSlicePolygons(currentIndex);
+			BoostRingVector boostPolygons = getIntersectionSlicePolygons(currentIndex);
 			
 			double xMin = 0;
 	        double yMin = 0;
@@ -144,7 +145,7 @@ namespace rttb{
 			_geometricInfo->worldCoordinateToIndex(minWorldCoord, index0);
 			_geometricInfo->worldCoordinateToIndex(maxWorldCoord, index1);
 			
-			std::vector<rttb::VoxelGridIndex3D> voxelList;
+			VoxelIndexVector voxelList;
 			voxelList.push_back(index0);
 			voxelList.push_back(index1);
 			
@@ -153,17 +154,17 @@ namespace rttb{
 
 
 		/*Get intersection polygons of the contour and a voxel polygon*/
-		std::deque<BoostMask::BoostPolygon2D> BoostMask::getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D){
-			std::deque<BoostMask::BoostPolygon2D> polygonDeque;
+		BoostMask::BoostPolygonDeque BoostMask::getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D){
+			BoostMask::BoostPolygonDeque polygonDeque;
 
 			BoostRing2D voxelPolygon = get2DContour(aVoxelIndex3D);
 			boost::geometry::correct(voxelPolygon);
 
-			std::vector<BoostMask::BoostRing2D> contourVector = getIntersectionSlicePolygons(aVoxelIndex3D);
+			BoostMask::BoostRingVector contourVector = getIntersectionSlicePolygons(aVoxelIndex3D);
 			for(unsigned int i=0; i<contourVector.size(); i++){
 				BoostRing2D contour = contourVector.at(i);
 				boost::geometry::correct(contour);
-				std::deque<BoostPolygon2D> intersection;
+				BoostPolygonDeque intersection;
 				boost::geometry::intersection(voxelPolygon, contour, intersection);
 
 				polygonDeque.insert(polygonDeque.end(), intersection.begin(), intersection.end());
@@ -189,6 +190,7 @@ namespace rttb{
 		}
 
 		BoostMask::MaskVoxelListPointer BoostMask::getRelevantVoxelVector(){
+			calcMask();
 			return _voxelInStructure;
 		}
 
@@ -208,8 +210,8 @@ namespace rttb{
 
 		}
 
-		std::vector<BoostMask::BoostRing2D> BoostMask::getIntersectionSlicePolygons(const rttb::VoxelGridIndex3D& aVoxelGrid3D){
-			std::vector<BoostRing2D> boostPolygonVector;
+		BoostMask::BoostRingVector BoostMask::getIntersectionSlicePolygons(const rttb::VoxelGridIndex3D& aVoxelGrid3D){
+			BoostRingVector boostPolygonVector;
 
 			rttb::PolygonSequenceType polygonSequence = _structure->getStructureVector();
 

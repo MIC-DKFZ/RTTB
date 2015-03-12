@@ -24,7 +24,6 @@
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
 #include "rttbMaskVoxel.h"
-#include "rttbBoostMask.h"
 #include "rttbMaskAccessorInterface.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbStructure.h"
@@ -37,8 +36,8 @@ namespace rttb
 
 	namespace masks
 	{
-		/*! @class OTBMaskAccessor
-		*   @brief Implementation of original toolbox voxelization by M. Hub.
+		/*! @class BoostMaskAccessor
+		*   @brief Implementation of the voxelization using boost 
 		*/
 		class BoostMaskAccessor: public core::MaskAccessorInterface
 		{
@@ -47,11 +46,11 @@ namespace rttb
 			typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
 
 			typedef core::Structure::StructTypePointer StructTypePointer;
-			typedef boost::shared_ptr<core::GeometricInfo> GeometricInfoPtr;
+			typedef boost::shared_ptr<core::GeometricInfo> GeometricInfoPointer;
 
 		private:
 
-			GeometricInfoPtr _spGeoInfo;
+			GeometricInfoPointer _spGeoInfo;
 
 			/*! vector containing list of mask voxels*/
 			MaskVoxelListPointer _spRelevantVoxelVector;
@@ -63,18 +62,23 @@ namespace rttb
 
 		public:
 
+			
+			/*! @brief constructor with a structure pointer and a geometric info pointer
+			  * @param aStructurePointer smart pointer of the structure
+			  * @param aGeometricInfoPtr smart pointer of the geometricinfo of the dose
+			  */
+			BoostMaskAccessor(StructTypePointer aStructurePointer, GeometricInfoPointer aGeometricInfoPtr);
+
+			/*! @brief destructor*/
 			~BoostMaskAccessor();
 
-			// import of structure sets (loading from data) is done elsewhere. Structures are only voxelized here.
-			// here the original RTToolbox voxelization shall be implemented
-			BoostMaskAccessor(StructTypePointer aStructurePointer, GeometricInfoPtr aGeometricInfoPtr);
-
-			/*! @brief voxelization of the given structures according to the original RTToolbox algorithm*/
+			/*! @brief voxelization of the given structures using boost algorithms*/
 			void updateMask();
 
-			/*! @brief get vector conatining al relevant voxels that are inside the given structure*/
+			/*! @brief get vector containing all relevant voxels that are inside the given structure*/
 			MaskVoxelListPointer getRelevantVoxelVector();
-			/*! @brief get vector conatining al relevant voxels that have a relevant volume above the given threshold and are inside the given structure*/
+
+			/*! @brief get vector containing all relevant voxels that have a relevant volume above the given threshold and are inside the given structure*/
 			MaskVoxelListPointer getRelevantVoxelVector(float lowerThreshold);
 
 			/*!@brief determine how a given voxel on the dose grid is masked
@@ -82,17 +86,20 @@ namespace rttb
 			 * @param voxel Reference to the voxel.
 			 * @post after a valid call voxel containes the information of the specified grid voxel. If aID is not valid, voxel values are undefined.
 			 * The relevant volume fraction will be set to zero.
-			* @return Indicates of the voxel exists and therefore if parameter voxel containes valid values.*/
+			 * @return Indicates of the voxel exists and therefore if parameter voxel containes valid values.*/
 			bool getMaskAt(const VoxelGridID aID, core::MaskVoxel& voxel) const;
 
+			/*!@brief determine how a given voxel on the dose grid is masked
+			 * @param aIndex 3d index of the voxel in grid.
+			 * @param voxel Reference to the voxel.
+			 * @return Indicates of the voxel exists and therefore if parameter voxel containes valid values.*/
 			bool getMaskAt(const VoxelGridIndex3D& aIndex, core::MaskVoxel& voxel) const;
 
 			/*! @brief give access to GeometricInfo*/
 			const core::GeometricInfo& getGeometricInfo() const;
 
-			/* @ brief is true if dose is on a homogeneous grid */
-			// Inhomogeneous grids are not supported at the moment, but if they will
-			// be supported in the future the interface does not need to change.
+			/* @ brief is true if dose is on a homogeneous grid 
+			 * @remark Inhomogeneous grids are not supported at the moment, but if they will be supported in the future the interface does not need to change.*/
 			bool isGridHomogeneous() const
 			{
 				return true;
