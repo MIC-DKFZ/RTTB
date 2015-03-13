@@ -40,7 +40,6 @@ namespace rttb
 			LIT_REGISTER_TEST(RTDoseIndexTest);
 			LIT_REGISTER_TEST(RTDoseStatisticsTest);
 			LIT_REGISTER_TEST(RTBioModelScatterPlotExampleTest);
-
 		}
 	}
 }
@@ -55,15 +54,12 @@ int main(int argc, char* argv[])
 	{
 		result = lit::multiTestsMain(argc, argv);
 	}
-	catch (const std::exception& e)
+	catch (const std::exception& /*e*/)
 	{
-		//    std::cerr << "RTToolbox test driver caught an exception:\n";
-		//   std::cerr << e.what() << "\n";
 		result = -1;
 	}
 	catch (...)
 	{
-		//std::cerr << "RTToolbox test driver caught an unknown exception!!!\n";
 		result = -1;
 	}
 

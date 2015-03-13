@@ -59,7 +59,7 @@ namespace rttb
 				std::string dvhType;
 				int numberOfBins;
 				DoseTypeGy prescribedDose;
-				double _estimated_max_dose_prescribed_dose_ratio;
+				double estimated_max_dose_prescribed_dose_ratio;
 				int voxelsInStructure;
 				std::deque<DoseTypeGy> dataDifferential;
 				std::deque<DoseTypeGy> dataCumulative;
@@ -154,7 +154,7 @@ namespace rttb
 						if (line.find("Estimated_max_dose_prescribed_dose_ratio: ") != std::string::npos)
 						{
 							std::stringstream ss(line.substr(42));
-							ss >> _estimated_max_dose_prescribed_dose_ratio;
+							ss >> estimated_max_dose_prescribed_dose_ratio;
 						}
 
 						if (line.find("Voxels In Structure: ") != std::string::npos)
@@ -172,7 +172,7 @@ namespace rttb
 					DoseCalcType differentialDVHi = 0;
 					std::deque<DoseCalcType>::iterator it;
 
-					for (it = dataCumulative.begin(); it != dataCumulative.end(); it++)
+					for (it = dataCumulative.begin(); it != dataCumulative.end(); ++it)
 					{
 						if (dataDifferential.size() == numberOfBins - 1)
 						{
@@ -182,6 +182,7 @@ namespace rttb
 						{
 							differentialDVHi = *it - *(it + 1);
 						}
+
 						dataDifferential.push_back(differentialDVHi);
 					}
 				}
@@ -193,7 +194,7 @@ namespace rttb
 
 				if (deltaD == 0)
 				{
-					deltaD = prescribedDose * _estimated_max_dose_prescribed_dose_ratio / numberOfBins;
+					deltaD = prescribedDose * estimated_max_dose_prescribed_dose_ratio / numberOfBins;
 				}
 
 				if (deltaV == 0)

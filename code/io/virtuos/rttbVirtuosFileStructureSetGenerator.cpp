@@ -32,97 +32,118 @@
 #include "rttbVirtuosFileStructureSetGenerator.h"
 
 
-namespace rttb{
-	namespace io{
-		namespace virtuos{
+namespace rttb
+{
+	namespace io
+	{
+		namespace virtuos
+		{
 
-			VirtuosFileStructureSetGenerator::VirtuosFileStructureSetGenerator(FileNameType aVirtuosVDXFileName, FileNameType aVirtuosCTXFileName)
+			VirtuosFileStructureSetGenerator::VirtuosFileStructureSetGenerator(FileNameType aVirtuosVDXFileName,
+			        FileNameType aVirtuosCTXFileName)
 				: _pPointerOnVirtuosCube(new Cubeinfo*), _patient(NULL)
-			{ 
-				_VDXFileName=aVirtuosVDXFileName;
-				_CTXFileName=aVirtuosCTXFileName;
+			{
+				_VDXFileName = aVirtuosVDXFileName;
+				_CTXFileName = aVirtuosCTXFileName;
 
 				//check if file names are valid
-				if (!boost::filesystem::exists(_VDXFileName)){
+				if (!boost::filesystem::exists(_VDXFileName))
+				{
 					throw core::InvalidParameterException("invalid vdx file name");
 				}
-				if (!boost::filesystem::exists(_CTXFileName)){
+
+				if (!boost::filesystem::exists(_CTXFileName))
+				{
 					throw core::InvalidParameterException("invalid ctx file name");
 				}
+
 				*_pPointerOnVirtuosCube = create_cubeinfo(0);
 
 				this->initializeVirtuosCube(_CTXFileName);
-				
+
 			}
 
 
 			VirtuosFileStructureSetGenerator::~VirtuosFileStructureSetGenerator()
 			{
-				if(this->_patient!=NULL)      
+				if (this->_patient != NULL)
 				{
 					delete this->_patient;
 				}
+
 				closecube((*(this->_pPointerOnVirtuosCube)));
 				nc_free_cubeinfo((*(this->_pPointerOnVirtuosCube)));
 				delete this->_pPointerOnVirtuosCube;
 			}
 
-			void VirtuosFileStructureSetGenerator::importStructureSet(FileNameType aVirtuosVDXFileName, FileNameType aVirtuosCTXFileName)
+			void VirtuosFileStructureSetGenerator::importStructureSet(FileNameType aVirtuosVDXFileName,
+			        FileNameType aVirtuosCTXFileName)
 			{
 				//check file name
-				if(aVirtuosCTXFileName.empty() || aVirtuosVDXFileName.empty())
+				if (aVirtuosCTXFileName.empty() || aVirtuosVDXFileName.empty())
+				{
 					throw core::InvalidParameterException("Virtuos VDX/CTX file name must not be empty!");
+				}
+
 				int vdxPosition = aVirtuosVDXFileName.find(".vdx");
-				if(vdxPosition == std::string::npos)
+
+				if (vdxPosition == std::string::npos)
+				{
 					throw core::InvalidParameterException("Virtuos VDX file name must be *.vdx!");
+				}
 
 				//get patientFileName, patientDataPath for Virtuos function
 				std::string patientFileName, patientName, patientDataPath;
-				patientFileName.assign(aVirtuosVDXFileName,aVirtuosVDXFileName.find_last_of("/")+1, aVirtuosVDXFileName.length());
-				patientName.assign(patientFileName,0,patientFileName.find_first_of("."));
-				patientDataPath.assign(aVirtuosVDXFileName,0,aVirtuosVDXFileName.find_last_of("/")+1);
+				patientFileName.assign(aVirtuosVDXFileName, aVirtuosVDXFileName.find_last_of("/") + 1, aVirtuosVDXFileName.length());
+				patientName.assign(patientFileName, 0, patientFileName.find_first_of("."));
+				patientDataPath.assign(aVirtuosVDXFileName, 0, aVirtuosVDXFileName.find_last_of("/") + 1);
 
 				//Virtuos: voi create voi model
-				int errorcode = voi_create_voi_model_dirolab(patientName.c_str(),patientDataPath.c_str(),0, this->_patient);
+				int errorcode = voi_create_voi_model_dirolab(patientName.c_str(), patientDataPath.c_str(), 0, this->_patient);
+
 				//@todo soll wohl trotz Fehler weiter laufen (vgl. alte Implementierung)
-				if(errorcode!=0) {
+				if (errorcode != 0)
+				{
 					//throw std::string ("Virtuos Routines unable to create VOI Model! ");
-					std::cerr << "voi_create_voi_model_dirolab error: error code "<<errorcode<<std::endl;
+					std::cerr << "voi_create_voi_model_dirolab error: error code " << errorcode << std::endl;
 				}
 
 				//Virtuos: voi read vdx
-				errorcode= voi_read_vdx_version_2_for_DIROlab(patientFileName.c_str(),patientDataPath.c_str(),this->_patient);
+				errorcode = voi_read_vdx_version_2_for_DIROlab(patientFileName.c_str(), patientDataPath.c_str(), this->_patient);
 
 				//@todo soll wohl trotz Fehler weiter laufen (vgl. alte Implementierung)
-				if(errorcode!=0){ 
+				if (errorcode != 0)
+				{
 					//throw std::string ("voi_read_vdx_version_2_for_DIROlab failed! ");
-					std::cerr << "voi_read_vdx_version_2_for_DIROlab error: error code "<<errorcode<<std::endl;
+					std::cerr << "voi_read_vdx_version_2_for_DIROlab error: error code " << errorcode << std::endl;
 				}
 
-				int numberOfVois=this->_patient->getNumberOfVois();
+				int numberOfVois = this->_patient->getNumberOfVois();
 
-				float firstSliceInFrame=(*_pPointerOnVirtuosCube)->pos_list[0].position;
+				float firstSliceInFrame = (*_pPointerOnVirtuosCube)->pos_list[0].position;
 
-				double sliceThickness=(*_pPointerOnVirtuosCube)->slicedist;
+				double sliceThickness = (*_pPointerOnVirtuosCube)->slicedist;
 
-				float lastSliceInFrame=((*_pPointerOnVirtuosCube)->dimz-1)*sliceThickness+firstSliceInFrame;
+				float lastSliceInFrame = ((*_pPointerOnVirtuosCube)->dimz - 1) * sliceThickness + firstSliceInFrame;
 
-				for(int currentVoiNumber = 0; currentVoiNumber < numberOfVois; currentVoiNumber++)
+				for (int currentVoiNumber = 0; currentVoiNumber < numberOfVois; currentVoiNumber++)
 				{
-					std::string voiName ="";
+					std::string voiName = "";
 					char tmpVoiName[1024];
-					voi_get_voi_name_by_index_dirolab(currentVoiNumber,1024,tmpVoiName,this->_patient);
+					voi_get_voi_name_by_index_dirolab(currentVoiNumber, 1024, tmpVoiName, this->_patient);
 					voiName.assign(tmpVoiName);
 
 					/* prepare contour extraction */
 					D3PointList* contours = NULL;
 					contours = d3_list_create(1000000);
-					D3Point origin = {0,0,0}, y_axis_point = {0,0,0}, x_axis_point = {0,0,0};
+					D3Point origin = {0, 0, 0}, y_axis_point = {0, 0, 0}, x_axis_point = {0, 0, 0};
 					int maxNumberOfContours = 100000;
-					int *pNoOFContours = &maxNumberOfContours;
+					int* pNoOFContours = &maxNumberOfContours;
 
 					PolygonSequenceType polygonSequence;
-					for(float z=firstSliceInFrame; z<=lastSliceInFrame; z+=sliceThickness){
+
+					for (float z = firstSliceInFrame; z <= lastSliceInFrame; z += sliceThickness)
+					{
 
 						origin.x = 0.0;
 						origin.y = 0.0;
@@ -137,18 +158,23 @@ namespace rttb{
 						y_axis_point.z = z;
 						*pNoOFContours = 100000; //<-- reason is the next function call
 
-						int errorcode = voi_get_CT_contours_dirolab(voiName.c_str(), origin,  x_axis_point, y_axis_point, pNoOFContours, &contours, 1,this->_patient);
+						voi_get_CT_contours_dirolab(voiName.c_str(), origin,  x_axis_point, y_axis_point, pNoOFContours, &contours, 1,
+						                            this->_patient);
 
-						for(int i=0;i<*pNoOFContours; i++){
+						for (int i = 0; i < *pNoOFContours; i++)
+						{
 							PolygonType polygon;
-							for(int j=0;j<contours[i].used-1;j++){//Virtuos polygon the last point is the same as the first point
+
+							for (int j = 0; j < contours[i].used - 1; j++) //Virtuos polygon the last point is the same as the first point
+							{
 								WorldCoordinate3D point;
-								point(0)=contours[i].points[j].x;
-								point(1)=contours[i].points[j].y;
-								point(2)=contours[i].points[j].z;
+								point(0) = contours[i].points[j].x;
+								point(1) = contours[i].points[j].y;
+								point(2) = contours[i].points[j].z;
 								polygon.push_back(point);
 
 							}//end for j
+
 							polygonSequence.push_back(polygon);
 
 						}//end for i
@@ -164,32 +190,42 @@ namespace rttb{
 
 			void VirtuosFileStructureSetGenerator::initializeVirtuosCube(FileNameType aVirtuosCTXFileName)
 			{
-				if(aVirtuosCTXFileName.empty()){
-					throw core::InvalidParameterException("Empty File Name");}
+				if (aVirtuosCTXFileName.empty())
+				{
+					throw core::InvalidParameterException("Empty File Name");
+				}
 
 				int gzPosition = aVirtuosCTXFileName.find(".gz");
-				if(gzPosition != std::string::npos){
+
+				if (gzPosition != std::string::npos)
+				{
 					aVirtuosCTXFileName.erase(gzPosition, aVirtuosCTXFileName.length());
 				}
+
 				nc_init_cubeinfo(*_pPointerOnVirtuosCube);
 
 				int opencubeErrorCode = opencube(aVirtuosCTXFileName.c_str() , *_pPointerOnVirtuosCube);
-				if(opencubeErrorCode != 0)
-				{							  
+
+				if (opencubeErrorCode != 0)
+				{
 					std::stringstream opencubeErrorCodeAsStringStream;
 
-					opencubeErrorCodeAsStringStream<<opencubeErrorCode;
+					opencubeErrorCodeAsStringStream << opencubeErrorCode;
 
-					throw core::InvalidParameterException(std::string(std::string("VirtuosIO::openCube returned error Code: ")+opencubeErrorCodeAsStringStream.str()));
+					throw core::InvalidParameterException(std::string(std::string("VirtuosIO::openCube returned error Code: ") +
+					                                      opencubeErrorCodeAsStringStream.str()));
 				}
 
-				if((*_pPointerOnVirtuosCube)->dimx == 0 || (*_pPointerOnVirtuosCube)->dimy == 0 || (*_pPointerOnVirtuosCube)->dimz == 0){
+				if ((*_pPointerOnVirtuosCube)->dimx == 0 || (*_pPointerOnVirtuosCube)->dimy == 0
+				    || (*_pPointerOnVirtuosCube)->dimz == 0)
+				{
 					throw core::InvalidParameterException("Invalid Cube dimension: dimX/dimY/dimZ must not be zero! ");
 				}
 			}
 
-			VirtuosFileStructureSetGenerator::StructureSetPointer VirtuosFileStructureSetGenerator::generateStructureSet(){
-				
+			VirtuosFileStructureSetGenerator::StructureSetPointer VirtuosFileStructureSetGenerator::generateStructureSet()
+			{
+
 				this->importStructureSet(_VDXFileName, _CTXFileName);
 
 				return boost::make_shared<core::StructureSet>(_strVector);

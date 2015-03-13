@@ -26,13 +26,15 @@
 #include "rttbException.h"
 #include "rttbInvalidParameterException.h"
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
-		DVH::~DVH(){}
+		DVH::~DVH() {}
 
-		DVH::DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD, const DoseVoxelVolumeType& aDeltaV, 
-			IDType aStructureID, IDType aDoseID): _deltaD(aDeltaD), _deltaV(aDeltaV), _structureID(aStructureID), 
+		DVH::DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD, const DoseVoxelVolumeType& aDeltaV,
+		         IDType aStructureID, IDType aDoseID): _deltaD(aDeltaD), _deltaV(aDeltaV), _structureID(aStructureID),
 			_doseID(aDoseID), _voxelizationID("NONE")
 			{
 			_dataDifferential.clear();
@@ -41,8 +43,8 @@ namespace rttb{
 			this->init();
 			}
 
-		DVH::DVH(const DataDifferentialType& aDataDifferential, DoseTypeGy aDeltaD, DoseVoxelVolumeType aDeltaV, 
-			IDType aStructureID, IDType aDoseID, IDType aVoxelizationID): _deltaD(aDeltaD), _deltaV(aDeltaV), 
+		DVH::DVH(const DataDifferentialType& aDataDifferential, DoseTypeGy aDeltaD, DoseVoxelVolumeType aDeltaV,
+		         IDType aStructureID, IDType aDoseID, IDType aVoxelizationID): _deltaD(aDeltaD), _deltaV(aDeltaV),
 			_structureID(aStructureID), _doseID(aDoseID), _voxelizationID(aVoxelizationID)
 			{
 			_dataDifferential.clear();
@@ -51,69 +53,75 @@ namespace rttb{
 			this->init();
 			}
 
-		DVH::DVH(const DVH &copy){
-			_deltaD=copy._deltaD;
-			_deltaV=copy._deltaV;
-			_structureID=copy._structureID;
-			_doseID=copy._doseID;
-			_voxelizationID=copy._voxelizationID;
-			_label=copy._label;
+		DVH::DVH(const DVH& copy) : _structureID(copy._structureID), _doseID(copy._doseID),
+			_voxelizationID(copy._voxelizationID), _label(copy._label)
+		{
+			_deltaD = copy._deltaD;
+			_deltaV = copy._deltaV;
 
 			_dataDifferential.clear();
 			_dataDifferential = copy._dataDifferential;
 			this->init();
 			}
 
-		DVH &DVH::operator=(const DVH &copy)
+		DVH& DVH::operator=(const DVH& copy)
 			{
 			if (this != &copy)
 				{
-				_deltaD=copy._deltaD;
-				_deltaV=copy._deltaV;
-				_structureID=copy._structureID;
-				_doseID=copy._doseID;
-				_voxelizationID=copy._voxelizationID;
-				_label=copy._label;
+				_deltaD = copy._deltaD;
+				_deltaV = copy._deltaV;
+				_structureID = copy._structureID;
+				_doseID = copy._doseID;
+				_voxelizationID = copy._voxelizationID;
+				_label = copy._label;
 
 				_dataDifferential.clear();
 				_dataDifferential = copy._dataDifferential;
 
 				}
+
 			this->init();
 			return *this;
 			}
 
-		bool operator==(const DVH &aDVH, const DVH &otherDVH){
+		bool operator==(const DVH& aDVH, const DVH& otherDVH)
+		{
 			if (aDVH.getStructureID() != otherDVH.getStructureID())
 				{
 				return false;
 				}
+
 			if (aDVH.getDoseID() != otherDVH.getDoseID())
 				{
 				return false;
 				}
+
 			if (aDVH.getVoxelizationID() != otherDVH.getVoxelizationID())
 				{
 				return false;
 				}
+
 			if (aDVH.getNumberOfVoxels() != otherDVH.getNumberOfVoxels())
 				{
 				return false;
 				}
+
 			return true;
 			}
 
-		std::ostream& operator<<(std::ostream& s, const DVH &aDVH){
-			s << "[ " << aDVH.getStructureID() << ", " << aDVH.getDoseID() << ", " << aDVH.getVoxelizationID() << ", " <<aDVH.getNumberOfVoxels() << " ]";
+		std::ostream& operator<<(std::ostream& s, const DVH& aDVH)
+		{
+			s << "[ " << aDVH.getStructureID() << ", " << aDVH.getDoseID() << ", " << aDVH.getVoxelizationID() << ", " <<
+			  aDVH.getNumberOfVoxels() << " ]";
 			return s;
 			}
 
 
 		std::deque<DoseCalcType> DVH::getDataDifferential(bool relativeVolume) const
 			{
-			if(!relativeVolume)
+			if (!relativeVolume)
 				{
-				return _dataDifferential; 
+				return _dataDifferential;
 				}
 			else
 				{
@@ -121,109 +129,129 @@ namespace rttb{
 				}
 			}
 
-		DoseVoxelVolumeType DVH::getDeltaV() const{
+		DoseVoxelVolumeType DVH::getDeltaV() const
+		{
 			return _deltaV;
 			}
 
-		DoseTypeGy DVH::getDeltaD() const{
+		DoseTypeGy DVH::getDeltaD() const
+		{
 			return _deltaD;
 			}
 
-		IDType DVH::getDoseID() const{
+		IDType DVH::getDoseID() const
+		{
 			return this->_doseID;
 			}
 
-		IDType DVH::getStructureID() const{
+		IDType DVH::getStructureID() const
+		{
 			return this->_structureID;
 			}
 
-		IDType DVH::getVoxelizationID() const{
+		IDType DVH::getVoxelizationID() const
+		{
 			return this->_voxelizationID;
 			}
 
-		void DVH::setDoseID(IDType aDoseID){_doseID=aDoseID;}
+		void DVH::setDoseID(IDType aDoseID)
+		{
+			_doseID = aDoseID;
+		}
 
-		void DVH::setStructureID(IDType aStrID){_structureID=aStrID;}
+		void DVH::setStructureID(IDType aStrID)
+		{
+			_structureID = aStrID;
+		}
 
-		DoseStatisticType DVH::getMaximum() const{
+		DoseStatisticType DVH::getMaximum() const
+		{
 			return _maximum;
 			}
 
-		DoseStatisticType DVH::getMinimum() const{
+		DoseStatisticType DVH::getMinimum() const
+		{
 			return _minimum;
 			}
 
-		DoseStatisticType DVH::getMean() const{
+		DoseStatisticType DVH::getMean() const
+		{
 			return _mean;
 			}
 
-		DVHVoxelNumber DVH::getNumberOfVoxels() const{
+		DVHVoxelNumber DVH::getNumberOfVoxels() const
+		{
 			return _numberOfVoxels;
 			}
 
-		DoseStatisticType DVH::getStdDeviation() const{
+		DoseStatisticType DVH::getStdDeviation() const
+		{
 			return _stdDeviation;
 			}
 
-		DoseStatisticType DVH::getVariance() const{
+		DoseStatisticType DVH::getVariance() const
+		{
 			return _variance;
 			}
 
-		void DVH::init() {
-			if(_deltaD==0 || _deltaV==0)
+		void DVH::init()
 				{
+			if (_deltaD == 0 || _deltaV == 0)
+			{
 				throw InvalidParameterException("DVH init error: neither _deltaD nor _deltaV must be zero!");
 				}
-			if(this->_dataDifferential.empty())
+
+			if (this->_dataDifferential.empty())
 				{
 				throw InvalidParameterException("DVH init error: data differential is empty!");
 				}
 
-			double sum=0;
-			double squareSum=0;
-			_numberOfVoxels=0;
-			_maximum=0;
-			_minimum=0;
+			double sum = 0;
+			double squareSum = 0;
+			_numberOfVoxels = 0;
+			_maximum = 0;
+			_minimum = 0;
 			_dataCumulative.clear();
 			this->_dataCumulativeRelative.clear();
 			this->_dataDifferentialRelative.clear();
 
 			DataDifferentialType::iterator it;
 
-			int i=0;
-			for(it=_dataDifferential.begin();it!=_dataDifferential.end(); it++)
+			int i = 0;
+
+			for (it = _dataDifferential.begin(); it != _dataDifferential.end(); ++it)
 				{
-				_numberOfVoxels+=(*it);
+				_numberOfVoxels += (*it);
 
-				if((*it)>0)
+				if ((*it) > 0)
 					{
-					_maximum=(i+0.5)*this->_deltaD;
+					_maximum = (i + 0.5) * this->_deltaD;
 					}
 
-				if((_minimum==0.0f) && ((*it)>0))
+				if ((_minimum == 0.0f) && ((*it) > 0))
 					{
-					_minimum=(i+0.5)*this->_deltaD;
+					_minimum = (i + 0.5) * this->_deltaD;
 					}
 
-				sum+=(*it)*(i+0.5)*this->_deltaD;
+				sum += (*it) * (i + 0.5) * this->_deltaD;
 
-				squareSum+=(*it)*pow((i+0.5)*this->_deltaD,2);
+				squareSum += (*it) * pow((i + 0.5) * this->_deltaD, 2);
 
 				i++;
 				}
 
-			_mean=sum/_numberOfVoxels;
+			_mean = sum / _numberOfVoxels;
 
-			for(it=_dataDifferential.begin();it!=_dataDifferential.end(); it++)
+			for (it = _dataDifferential.begin(); it != _dataDifferential.end(); ++it)
 				{
-				DoseCalcType datai=((*it)*1.0/_numberOfVoxels);
+				DoseCalcType datai = ((*it) * 1.0 / _numberOfVoxels);
 				_dataDifferentialRelative.push_back(datai);
 				}
 
-			_variance=(squareSum/_numberOfVoxels-_mean*_mean);
-			_stdDeviation=pow(_variance,0.5);
+			_variance = (squareSum / _numberOfVoxels - _mean * _mean);
+			_stdDeviation = pow(_variance, 0.5);
 
-			_dataCumulative=this->calcCumulativeDVH();
+			_dataCumulative = this->calcCumulativeDVH();
 			}
 
 		std::deque<DoseCalcType> DVH::calcCumulativeDVH(bool relativeVolume)
@@ -233,22 +261,24 @@ namespace rttb{
 			_dataCumulativeRelative.clear();
 
 			DoseCalcType cumulativeDVHi = 0;
-			DataDifferentialType::iterator it;
 
-			size_t size=_dataDifferential.size();
-			for(int i=0;i<size;i++ )
+			size_t size = _dataDifferential.size();
+
+			for (int i = 0; i < size; i++)
 				{
-				cumulativeDVHi += _dataDifferential.at(size-i-1);
-				if(!relativeVolume)
+				cumulativeDVHi += _dataDifferential.at(size - i - 1);
+
+				if (!relativeVolume)
 					{
 					_dataCumulative.push_front(cumulativeDVHi);
 					}
 				else
 					{
-					_dataCumulativeRelative.push_front(cumulativeDVHi/this->getNumberOfVoxels());
+					_dataCumulativeRelative.push_front(cumulativeDVHi / this->getNumberOfVoxels());
 					}
 				}
-			if(!relativeVolume)
+
+			if (!relativeVolume)
 				{
 				return _dataCumulative;
 				}
@@ -258,54 +288,59 @@ namespace rttb{
 				}
 			}
 
-		DoseStatisticType DVH::getMedian() const{
+		DoseStatisticType DVH::getMedian() const
+		{
 
-			double median_voxel=0;
-			int median_i=0;
+			double median_voxel = 0;
+			int median_i = 0;
 
-			for(GridIndexType i=0;i<this->_dataDifferential.size();i++)
+			for (GridIndexType i = 0; i < this->_dataDifferential.size(); i++)
 				{
-				if(median_voxel<(_numberOfVoxels-median_voxel))
+				if (median_voxel < (_numberOfVoxels - median_voxel))
 					{
-					median_voxel+=_dataDifferential[i];
-					median_i=i;
+					median_voxel += _dataDifferential[i];
+					median_i = i;
 					}
 				}
-			double median=(median_i+0.5)*this->_deltaD;
+
+			double median = (median_i + 0.5) * this->_deltaD;
 			return median;
 			}
 
-		DoseStatisticType DVH::getModal() const{
+		DoseStatisticType DVH::getModal() const
+		{
 
-			double modal_voxel=0;
-			int modal_i=0;
+			double modal_voxel = 0;
+			int modal_i = 0;
 
-			for(GridIndexType i=0;i<this->_dataDifferential.size();i++)
+			for (GridIndexType i = 0; i < this->_dataDifferential.size(); i++)
 				{
-				if(modal_voxel<_dataDifferential[i])
+				if (modal_voxel < _dataDifferential[i])
 					{
-					modal_voxel=_dataDifferential[i];
-					modal_i=i;
+					modal_voxel = _dataDifferential[i];
+					modal_i = i;
 					}
 				}
-			double modal=(modal_i+0.5)*this->_deltaD;
+
+			double modal = (modal_i + 0.5) * this->_deltaD;
 			return modal;
 			}
 
-		VolumeType DVH::getVx(DoseTypeGy xDoseAbsolute){
+		VolumeType DVH::getVx(DoseTypeGy xDoseAbsolute)
+		{
 
-			GridIndexType i=static_cast<GridIndexType>(xDoseAbsolute/_deltaD);
+			GridIndexType i = static_cast<GridIndexType>(xDoseAbsolute / _deltaD);
 
-			if(i<_dataCumulative.size())
+			if (i < _dataCumulative.size())
 				{
-				VolumeType vx=(_dataCumulative.at(i));
-				vx = (vx*this->_deltaV);
+				VolumeType vx = (_dataCumulative.at(i));
+				vx = (vx * this->_deltaV);
 				return vx;
 				}
-			else if(i<_dataCumulativeRelative.size())
+			else if (i < _dataCumulativeRelative.size())
 				{
-				VolumeType vx=(_dataCumulativeRelative.at(i));
-				vx = (vx*this->_deltaV);
+				VolumeType vx = (_dataCumulativeRelative.at(i));
+				vx = (vx * this->_deltaV);
 				return vx;
 				}
 			else
@@ -314,39 +349,44 @@ namespace rttb{
 				}
 			}
 
-		DoseTypeGy DVH::getDx(VolumeType xVolumeAbsolute){
+		DoseTypeGy DVH::getDx(VolumeType xVolumeAbsolute)
+		{
 
-			GridIndexType i=0;
+			GridIndexType i = 0;
+
 			if (!_dataCumulative.empty())
 				{
-				for(; i<_dataCumulative.size();i++)
+				for (; i < _dataCumulative.size(); i++)
 					{
-					double volumeAbsoluteI=_dataCumulative[i]*this->_deltaV;
-					if(xVolumeAbsolute>volumeAbsoluteI)
+					double volumeAbsoluteI = _dataCumulative[i] * this->_deltaV;
+
+					if (xVolumeAbsolute > volumeAbsoluteI)
 						{
 						break;
 						}
 					}
 				}
-			else 
+			else
 				{
-				for(; i<_dataCumulativeRelative.size();i++)
+				for (; i < _dataCumulativeRelative.size(); i++)
 					{
-					double volumeAbsoluteI=_dataCumulativeRelative[i]*this->_deltaV;
-					if(xVolumeAbsolute/this->getNumberOfVoxels()>volumeAbsoluteI)
+					double volumeAbsoluteI = _dataCumulativeRelative[i] * this->_deltaV;
+
+					if (xVolumeAbsolute / this->getNumberOfVoxels() > volumeAbsoluteI)
 						{
 						break;
 						}
 					}
 				}
-			if(i<=_dataCumulative.size() && i>0)
+
+			if (i <= _dataCumulative.size() && i > 0)
 				{
-				DoseTypeGy dx=(i-1)*this->_deltaD;
+				DoseTypeGy dx = (i - 1) * this->_deltaD;
 				return dx;
 				}
-			else if(i<_dataCumulativeRelative.size()&& i>0)
+			else if (i < _dataCumulativeRelative.size() && i > 0)
 				{
-				DoseTypeGy dx=(i-1)*this->_deltaD;
+				DoseTypeGy dx = (i - 1) * this->_deltaD;
 				return dx;
 				}
 			else
@@ -355,15 +395,18 @@ namespace rttb{
 				}
 			}
 
-		VolumeType DVH::getAbsoluteVolume(int relativePercent){
-			return (relativePercent*getNumberOfVoxels()*getDeltaV()/100.0);
+		VolumeType DVH::getAbsoluteVolume(int relativePercent)
+		{
+			return (relativePercent * getNumberOfVoxels() * getDeltaV() / 100.0);
 			}
 
-		void DVH::setLabel(StructureLabel aLabel){
-			_label=aLabel;
+		void DVH::setLabel(StructureLabel aLabel)
+		{
+			_label = aLabel;
 			}
 
-		StructureLabel DVH::getLabel() const{
+		StructureLabel DVH::getLabel() const
+		{
 			return _label;
 			}
 

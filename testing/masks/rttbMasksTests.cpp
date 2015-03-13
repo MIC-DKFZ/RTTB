@@ -26,10 +26,12 @@
 #endif
 
 
-#include "litMultiTestsMain.h" 
+#include "litMultiTestsMain.h"
 
-namespace rttb{
-	namespace testing{
+namespace rttb
+{
+	namespace testing
+	{
 
 		void registerTests()
 			{
@@ -37,26 +39,26 @@ namespace rttb{
 				LIT_REGISTER_TEST(OTBMaskAccessorTest);
 			}
 		}
-	}
+}
 
 int main(int argc, char* argv[])
-	{
+{
 	int result = 0;
 
 	rttb::testing::registerTests();
 
 	try
 		{
-		result = lit::multiTestsMain(argc,argv);
+		result = lit::multiTestsMain(argc, argv);
 		}
-	catch(const std::exception& e)
+	catch (const std::exception& /*e*/)
 		{
 		result = -1;
 		}
-	catch(...)
+	catch (...)
 		{
 		result = -1;
 		}
 
 	return result;
-	}
+}

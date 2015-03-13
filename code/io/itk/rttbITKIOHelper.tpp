@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 793 $ (last changed revision)
+// @date    $Date: 2014-10-10 10:24:45 +0200 (Fr, 10 Okt 2014) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 // Subversion HeadURL: $HeadURL: https://svn/sbr/Sources/SBR-Projects/MatchPoint/trunk/Code/IO/include/mapImageReader.tpp $
 */
 
@@ -35,9 +35,9 @@ namespace rttb
 		namespace itk
 		{
 
-			template <typename TPixelType> void ITKImageFileDoseAccessorGenerator::doCasting(
-			    GenericImageReader::GenericOutputImageType* genericImage)
+			template <typename TPixelType> ITKDoseImageType::Pointer doCasting(GenericImageReader::GenericOutputImageType* genericImage)
 			{
+				ITKDoseImageType::Pointer itkDoubleImage;
 				typedef ::itk::Image<TPixelType, 3> InputImageType;
 				typedef ITKDoseImageType OutputImageType;
 				InputImageType::Pointer pCastedInput = dynamic_cast<InputImageType*>(genericImage);
@@ -49,13 +49,15 @@ namespace rttb
 				{
 					//important to update the filter!
 					castFilter->Update();
-					_itkDoubleImage = castFilter->GetOutput();
+					itkDoubleImage = castFilter->GetOutput();
 				}
 				catch (::itk::ExceptionObject& e)
 				{
 					std::cerr << "ITK Error!!!" << std::endl;
 					std::cerr << e << std::endl;
 				}
+
+				return itkDoubleImage;
 			}
 
 		}

@@ -118,11 +118,12 @@ namespace rttb
 			boost::shared_ptr<core::DVHSet> dvhSetPtr = boost::make_shared<core::DVHSet>(dvhTVSet, dvhHTSet, "testStrSet", dvhPTV.getDoseID());
 			
 			/*test exception*/
-			CHECK_THROW_EXPLICIT(indices::ConformalIndex(NULL, 0), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(indices::ConformationNumber(NULL, 0), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(indices::ConformityIndex(NULL, 0), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(indices::CoverageIndex(NULL, 0), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(indices::HomogeneityIndex(NULL, 0), core::InvalidParameterException);
+			boost::shared_ptr<core::DVHSet> dvhSetNullPtr;
+			CHECK_THROW_EXPLICIT(indices::ConformalIndex(dvhSetNullPtr, 0), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::ConformationNumber(dvhSetNullPtr, 0), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::ConformityIndex(dvhSetNullPtr, 0), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::CoverageIndex(dvhSetNullPtr, 0), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::HomogeneityIndex(dvhSetNullPtr, 0), core::InvalidParameterException);
 
 			/*test exception for invalid reference dose*/
 			CHECK_THROW_EXPLICIT(indices::ConformalIndex(dvhSetPtr, 100), core::InvalidParameterException);

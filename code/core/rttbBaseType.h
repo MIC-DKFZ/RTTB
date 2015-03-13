@@ -74,7 +74,7 @@ namespace rttb
 			        value) {}
 		UnsignedIndex3D(const UnsignedIndex1D  xValue, const UnsignedIndex1D  yValue,
 		                const UnsignedIndex1D  zValue)
-				:boost::numeric::ublas::vector<UnsignedIndex1D >(3, xValue) 
+			: boost::numeric::ublas::vector<UnsignedIndex1D >(3, xValue)
 				{
 				(*this)(1) = yValue;
 				(*this)(2) = zValue;
@@ -83,7 +83,7 @@ namespace rttb
 		const UnsignedIndex1D x() const
 		{
 			return (*this)(0);
-				} 
+		}
 		const UnsignedIndex1D y() const
 		{
 			return (*this)(1);
@@ -94,15 +94,15 @@ namespace rttb
 		}
 		friend bool operator==(const UnsignedIndex3D& gi1, const UnsignedIndex3D& gi2)
 		{
-				if (gi1.size()!=gi2.size())
+			if (gi1.size() != gi2.size())
 					{
 					return false;
 					}
 
 				for (int i = 0; i < gi1.size(); i++)
 					{
-					if (gi1(i)!=gi2(i))
-						{	
+				if (gi1(i) != gi2(i))
+				{
 						return false;
 						}
 					}
@@ -135,7 +135,7 @@ namespace rttb
 			WorldCoordinate2D() : boost::numeric::ublas::vector<WorldCoordinate> (2) {}
 		WorldCoordinate2D(const WorldCoordinate value) : boost::numeric::ublas::vector<WorldCoordinate>(2,
 			        value) {}
-			WorldCoordinate2D( const WorldCoordinate xValue, const WorldCoordinate yValue) 
+		WorldCoordinate2D(const WorldCoordinate xValue, const WorldCoordinate yValue)
 			: boost::numeric::ublas::vector<WorldCoordinate>(2, xValue)
 		{
 			(*this)(1) = yValue;
@@ -153,13 +153,13 @@ namespace rttb
 			const std::string toString() const
 				{
 				std::stringstream ss;
-				ss << x() <<' '<< y(); 
+			ss << x() << ' ' << y();
 				return ss.str();
 				}
 
 		friend bool operator==(const WorldCoordinate2D& wc1, const WorldCoordinate2D& wc2)
 		{
-				if (wc1.size()!=wc2.size())
+			if (wc1.size() != wc2.size())
 					{
 					return false;
 					}
@@ -188,7 +188,7 @@ namespace rttb
 			        value) {}
 		WorldCoordinate3D(const WorldCoordinate xValue, const WorldCoordinate yValue,
 		                  const WorldCoordinate zValue)
-				:boost::numeric::ublas::vector<WorldCoordinate>(3, xValue) 
+			: boost::numeric::ublas::vector<WorldCoordinate>(3, xValue)
 				{
 				(*this)(1) = yValue;
 				(*this)(2) = zValue;
@@ -221,9 +221,9 @@ namespace rttb
 				WorldCoordinate y = (*this)(1);
 				WorldCoordinate z = (*this)(2);
 
-				result(0) = y*aVector(2)-z*aVector(1);
-				result(1) = z*aVector(0)-x*aVector(2);
-				result(2) = x*aVector(1)-y*aVector(0);
+			result(0) = y * aVector(2) - z * aVector(1);
+			result(1) = z * aVector(0) - x * aVector(2);
+			result(2) = x * aVector(1) - y * aVector(0);
 
 				return result;
 				}
@@ -236,12 +236,12 @@ namespace rttb
 				result(1) = (*this)(1);
 
 				return result;
-				} 
+		}
 
 			const std::string toString() const
 				{
 				std::stringstream ss;
-				ss << x() <<' '<< y() <<' '<< z(); 
+			ss << x() << ' ' << y() << ' ' << z();
 				return ss.str();
 				}
 
@@ -263,24 +263,24 @@ namespace rttb
 
 		WorldCoordinate3D operator-(const boost::numeric::ublas::vector<WorldCoordinate> wc)
 		{
-				return WorldCoordinate3D ((*this)(0) - wc(0),(*this)(1) - wc(1),(*this)(2) - wc(2));
+			return WorldCoordinate3D((*this)(0) - wc(0), (*this)(1) - wc(1), (*this)(2) - wc(2));
 				}
 
 		WorldCoordinate3D operator+(const boost::numeric::ublas::vector<WorldCoordinate> wc)
 		{
-				return WorldCoordinate3D ((*this)(0) + wc(0),(*this)(1) + wc(1),(*this)(2) + wc(2));
+			return WorldCoordinate3D((*this)(0) + wc(0), (*this)(1) + wc(1), (*this)(2) + wc(2));
 				}
 
 		friend bool operator==(const WorldCoordinate3D& wc1, const WorldCoordinate3D& wc2)
 		{
-				if (wc1.size()!=wc2.size())
+			if (wc1.size() != wc2.size())
 					{
 					return false;
 					}
 
 				for (int i = 0; i < wc1.size(); i++)
 					{
-					if (wc1(i)!=wc2(i))
+				if (wc1(i) != wc2(i))
 						{
 						return false;
 						}
@@ -305,7 +305,7 @@ namespace rttb
 
 	typedef double GridVolumeType;
 
-	
+
 
 	/*! @class SpacingVectorType3D
 		@brief 3D spacing vector.
@@ -350,7 +350,7 @@ namespace rttb
 			const std::string toString() const
 				{
 				std::stringstream ss;
-				ss << x() <<' '<< y() <<' '<< z(); 
+			ss << x() << ' ' << y() << ' ' << z();
 				return ss.str();
 				}
 
@@ -380,15 +380,15 @@ namespace rttb
 
 		friend bool operator==(const SpacingVectorType3D& wc1, const SpacingVectorType3D& wc2)
 		{
-				if (wc1.size()!=wc2.size())
+			if (wc1.size() != wc2.size())
 					{
 					return false;
 					}
 
 				for (int i = 0; i < wc1.size(); i++)
 					{
-					if (wc1(i)!=wc2(i))
-						{	
+				if (wc1(i) != wc2(i))
+				{
 						return false;
 						}
 					}
@@ -416,7 +416,7 @@ namespace rttb
 		{
 			for (std::size_t m = 0; m < (*this).size1(); m++)
 			{
-					(*this)(m,m) = 1;
+				(*this)(m, m) = 1;
 					}
 				}
 		OrientationMatrix(const WorldCoordinate value) : boost::numeric::ublas::matrix<WorldCoordinate>(3,
@@ -424,27 +424,27 @@ namespace rttb
 
 		bool equal(const OrientationMatrix& anOrientationMatrix) const
 		{
-				if (anOrientationMatrix.size1()==(*this).size1())
+			if (anOrientationMatrix.size1() == (*this).size1())
 					{
-					if (anOrientationMatrix.size2()==(*this).size2())
+				if (anOrientationMatrix.size2() == (*this).size2())
 						{
 						for (std::size_t m = 0; m < anOrientationMatrix.size1(); m++)
 							{
 							for (std::size_t n = 0; n < anOrientationMatrix.size2(); n++)
 								{
-								if (!((*this)(m,n) == anOrientationMatrix(m,n)))
+							if (!((*this)(m, n) == anOrientationMatrix(m, n)))
 									{
 									return false;
 									}
 								}
 							}// end element comparison
 						}
-					else 
+				else
 						{
 						return false;
 						}
 					}
-				else 
+			else
 					{
 					return false;
 					}
@@ -467,13 +467,13 @@ namespace rttb
 
 					for (std::size_t n = 0; n < anOrientationMatrix.size2(); n++)
 						{
-						if (n==0)
+					if (n == 0)
 							{
-							s << anOrientationMatrix(m,n);
+						s << anOrientationMatrix(m, n);
 							}
 						else
 							{
-							s << ", " << anOrientationMatrix(m,n);
+						s << ", " << anOrientationMatrix(m, n);
 							}
 						}
 
@@ -486,9 +486,9 @@ namespace rttb
 		};
 
 
-	/*! base for 2D and 3D VoxelIndex; Therefore required beside VoxelGridID 
+	/*! base for 2D and 3D VoxelIndex; Therefore required beside VoxelGridID
 	*/
-	typedef unsigned int GridIndexType; 
+	typedef unsigned int GridIndexType;
 
 	/*! @class VoxelGridIndex3D
 		@brief 3D voxel grid index.
@@ -499,7 +499,7 @@ namespace rttb
 			VoxelGridIndex3D() : boost::numeric::ublas::vector<GridIndexType>(3) {}
 		VoxelGridIndex3D(const GridIndexType value) : boost::numeric::ublas::vector<GridIndexType>(3,
 			        value) {}
-			VoxelGridIndex3D( const GridIndexType xValue, const GridIndexType yValue, const GridIndexType zValue) 
+		VoxelGridIndex3D(const GridIndexType xValue, const GridIndexType yValue, const GridIndexType zValue)
 			: boost::numeric::ublas::vector<GridIndexType>(3, xValue)
 		{
 					(*this)(1) = yValue;
@@ -522,11 +522,11 @@ namespace rttb
 		const std::string toString() const
 		{
 				std::stringstream ss;
-				ss << x() <<' '<< y() <<' '<< z(); 
+			ss << x() << ' ' << y() << ' ' << z();
 				return ss.str();
 				}
 
-		VoxelGridIndex3D& operator=(const UnsignedIndex3D ui)
+		VoxelGridIndex3D& operator=(const UnsignedIndex3D& ui)
 		{
 				(*this)(0) = ui(0);
 				(*this)(1) = ui(1);
@@ -536,7 +536,7 @@ namespace rttb
 
 		friend bool operator==(const VoxelGridIndex3D& gi1, const VoxelGridIndex3D& gi2)
 		{
-				if (gi1.size()!=gi2.size())
+			if (gi1.size() != gi2.size())
 					{
 					return false;
 					}
@@ -569,7 +569,7 @@ namespace rttb
 			VoxelGridIndex2D() : boost::numeric::ublas::vector<GridIndexType>(2) {}
 		VoxelGridIndex2D(const GridIndexType value) : boost::numeric::ublas::vector<GridIndexType>(2,
 			        value) {}
-			VoxelGridIndex2D( const GridIndexType xValue, const GridIndexType yValue) 
+		VoxelGridIndex2D(const GridIndexType xValue, const GridIndexType yValue)
 			: boost::numeric::ublas::vector<GridIndexType>(2, xValue)
 		{
 			(*this)(1) = yValue;
@@ -587,21 +587,21 @@ namespace rttb
 			const std::string toString() const
 				{
 				std::stringstream ss;
-				ss << x() <<' '<< y(); 
+			ss << x() << ' ' << y();
 				return ss.str();
 				}
 
 		friend bool operator==(const VoxelGridIndex2D& gi1, const VoxelGridIndex2D& gi2)
 		{
-				if (gi1.size()!=gi2.size())
+			if (gi1.size() != gi2.size())
 					{
 					return false;
 					}
 
 				for (int i = 0; i < gi1.size(); i++)
 					{
-					if (gi1(i)!=gi2(i))
-						{	
+				if (gi1(i) != gi2(i))
+				{
 						return false;
 						}
 					}
@@ -625,7 +625,8 @@ namespace rttb
 
 	typedef double FractionType, VoxelSizeType, DVHVoxelNumber;
 
-	typedef double DoseCalcType, DoseTypeGy, DoseVoxelVolumeType, VolumeType, GridVolumeType, VoxelNumberType, BEDType, LQEDType;
+	typedef double DoseCalcType, DoseTypeGy, DoseVoxelVolumeType, VolumeType, GridVolumeType, VoxelNumberType, BEDType,
+	        LQEDType;
 
 	typedef std::string IDType;
 
@@ -657,7 +658,7 @@ namespace rttb
 
 	typedef std::string FileNameType;
 
-	typedef std::vector<WorldCoordinate3D> PolygonType; 
+	typedef std::vector<WorldCoordinate3D> PolygonType;
 
 	typedef std::vector<PolygonType> PolygonSequenceType;
 
@@ -679,18 +680,18 @@ namespace rttb
 		WorldCoordinate y_begin;
 		WorldCoordinate y_end;
 		VoxelGridIndex2D index_begin;
-		VoxelGridIndex2D index_end; 	
+		VoxelGridIndex2D index_end;
 
 		void Init()
 		{
 			x_begin = -1000000;
 			x_end = -1000000;
 			y_begin = -1000000;
-			y_end = -1000000;		
+			y_end = -1000000;
 			index_begin(0) = 0;
-			index_begin(1) = 0;			        
-			index_end(0) = 0; 	
-			index_end(1) = 0; 	     
+			index_begin(1) = 0;
+			index_end(0) = 0;
+			index_end(1) = 0;
 			}
 		};
 
@@ -713,7 +714,7 @@ namespace rttb
 	typedef std::string XMLString, StatisticsString;
 
 
-	}//end: namespace rttb
+}//end: namespace rttb
 
 #endif
 

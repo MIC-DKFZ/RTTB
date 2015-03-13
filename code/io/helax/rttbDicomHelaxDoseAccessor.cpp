@@ -67,7 +67,6 @@ namespace rttb
 				_doseData.clear();
 
 				OFString doseGridScalingStr;
-				char* pEnd;
 				_doseVector.at(0)->getDoseGridScaling(
 				    doseGridScalingStr);//get the first dose grid scaling as _doseGridScaling
 
@@ -182,11 +181,11 @@ namespace rttb
 				WorldCoordinate3D imageOrientationColumn;
 
 				try
-				{			
+				{
 				imageOrientationRow(0) = boost::lexical_cast<WorldCoordinate>(imageOrientationRowX.c_str());
 				imageOrientationRow(1) = boost::lexical_cast<WorldCoordinate>(imageOrientationRowY.c_str());
 				imageOrientationRow(2) = boost::lexical_cast<WorldCoordinate>(imageOrientationRowZ.c_str());
-				
+
 				imageOrientationColumn(0) = boost::lexical_cast<WorldCoordinate>(imageOrientationColumnX.c_str());
 				imageOrientationColumn(1) = boost::lexical_cast<WorldCoordinate>(imageOrientationColumnY.c_str());
 				imageOrientationColumn(2) = boost::lexical_cast<WorldCoordinate>(imageOrientationColumnZ.c_str());
@@ -259,13 +258,15 @@ namespace rttb
 
 				OFString sliceThicknessStr;
 				dose->getSliceThickness(sliceThicknessStr);
+
 				try
 				{
 					spacingVector(2) = boost::lexical_cast<GridVolumeType>(sliceThicknessStr.c_str());
 				}
 				catch (boost::bad_lexical_cast&)
 				{
-					spacingVector(2) = 0 ;//if no information about slice thickness, set to 0 and calculate it using z coordinate difference between 1. and 2. dose 
+					spacingVector(2) = 0
+					                   ;//if no information about slice thickness, set to 0 and calculate it using z coordinate difference between 1. and 2. dose
 				}
 
 				if (spacingVector(2) == 0)
@@ -276,8 +277,10 @@ namespace rttb
 						OFString imagePositionZ2;
 						dose2->getImagePositionPatient(imagePositionZ2, 2);
 
-						try{
-							spacingVector(2) = boost::lexical_cast<GridVolumeType>(imagePositionZ2.c_str())- imagePositionPatient(2);//caculate slicethickness
+						try
+						{
+							spacingVector(2) = boost::lexical_cast<GridVolumeType>(imagePositionZ2.c_str()) - imagePositionPatient(
+							                       2); //caculate slicethickness
 						}
 						catch (boost::bad_lexical_cast&)
 						{

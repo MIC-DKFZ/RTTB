@@ -69,7 +69,8 @@ namespace rttb
 			/*! @brief Constructor, initializes orientation matrix, spacing vector and patient
 				position with zeros.
 			*/
-			GeometricInfo() : _orientationMatrix(0), _spacing(0), _imagePositionPatient(0) {}
+			GeometricInfo() : _orientationMatrix(0), _spacing(0), _imagePositionPatient(0), _numberOfFrames(0), _numberOfRows(0),
+				_numberOfColumns(0) {}
 
 			void setSpacing(const SpacingVectorType3D& aSpacingVector);
 
@@ -79,7 +80,7 @@ namespace rttb
 
 			const WorldCoordinate3D& getImagePositionPatient() const;
 
-			void setOrientationMatrix(const OrientationMatrix anOrientationMatrix);
+			void setOrientationMatrix(const OrientationMatrix& anOrientationMatrix);
 
 			const OrientationMatrix getOrientationMatrix() const
 			{
@@ -112,7 +113,7 @@ namespace rttb
 				@deprecated please use getSpacing() (2) instead*/
 			const GridVolumeType getSliceThickness() const;
 
-			void setImageSize(const ImageSize aSize);
+			void setImageSize(const ImageSize& aSize);
 
 			const ImageSize getImageSize() const;
 

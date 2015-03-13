@@ -30,13 +30,15 @@
 
 
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace models{
+	namespace models
+	{
 
 		/*! @class NTCPLKBModel
-		@brief This class represents a NTCP(Normal Tissue Complication Probability) LKB model 
-		(Lyman 1985, Kutcher and Burman 1989) 
+		@brief This class represents a NTCP(Normal Tissue Complication Probability) LKB model
+		(Lyman 1985, Kutcher and Burman 1989)
 		@see NTCPModel
 		*/
 		class NTCPLKBModel: public NTCPModel
@@ -45,12 +47,12 @@ namespace rttb{
 				typedef NTCPModel::ParamVectorType ParamVectorType;
 				typedef NTCPModel::DVHPointer DVHPointer;
 
-			private: 
-				/*! The steepness of the dose-response curve. Must not be zero on model evaluation. 
+		private:
+			/*! The steepness of the dose-response curve. Must not be zero on model evaluation.
 				*/
 				BioModelParamType _m;
 
-				/*! Tumor or normal tissue-specific parameter that describes the dose–volume effect, 
+			/*! Tumor or normal tissue-specific parameter that describes the dose–volume effect,
 				e.g. -10 for prostate (Wu 2002). Must not be zero on model evaluation, because EUD calculation will fail.
 				*/
 				BioModelParamType _a;
@@ -60,9 +62,9 @@ namespace rttb{
 				*  @param doseFactor: scaling factor for the dose. The model calculation will use the dvh with each di=old di*doseFactor.
 				*  @throw <InvalidParameterException> if either _a or _m is zero for the model calculation
 				*/
-				BioModelValueType calcModel(const double doseFactor=1); 
+			BioModelValueType calcModel(const double doseFactor = 1);
 
-			public: 
+		public:
 				NTCPLKBModel();
 
 				NTCPLKBModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aM, BioModelParamType aA);
@@ -83,17 +85,17 @@ namespace rttb{
 				/*! @brief Set parameter vector, where index of vector is the parameter ID. "d50":0,"m":1,"a":2
         @exception InvalidParameterException Thrown if aParamterVector.size()!=3.
 				*/
-				virtual void setParameterVector(const ParamVectorType aParameterVector);
+			virtual void setParameterVector(const ParamVectorType& aParameterVector);
 
 				/*! @brief Get parameter ID. "d50":0,"m":1,"a":2
 					@return 0 for "d50", 1 for "m", 2 for "a"
           @exception InvalidParameterException Thrown if aParamName is not d50 or m or a.
 				*/
-				virtual const int getParameterID(const std::string aParamName) const;
+			virtual const int getParameterID(const std::string& aParamName) const;
 			};
 
 		}
-	}
+}
 
 
 #endif

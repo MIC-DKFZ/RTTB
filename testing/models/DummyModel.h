@@ -26,14 +26,17 @@
 #include "rttbBaseTypeModels.h"
 #include "rttbBioModel.h"
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace models{
+	namespace models
+	{
 
 		/*! @class DummyModel
 		@brief generates a dummy model object used for unit tests
 		*/
-		class DummyModel: public BioModel{
+		class DummyModel: public BioModel
+		{
 		private:
 			BioModelParamType _param1;
 			BioModelParamType _param2;
@@ -46,10 +49,10 @@ namespace rttb{
 
 		protected:
 			/*! @brief Calculate the model value
-			@param doseFactor scaling factor for the dose. The model calculation will use the dvh with each di=old 
+			@param doseFactor scaling factor for the dose. The model calculation will use the dvh with each di=old
 			di*doseFactor.
 			*/
-			BioModelValueType calcModel(const double doseFactor=1); 
+			BioModelValueType calcModel(const double doseFactor = 1);
 		public:
 			/*!@constructor initializes DVH pointer */
 			DummyModel(DVHPointer aDvh);
@@ -57,20 +60,32 @@ namespace rttb{
 			/*! @brief Set parameter vector, where index of vector is the parameter ID.
 				The length of the vector has to be 3.
 			*/
-			void setParameterVector(const ParamVectorType aParameterVector);
+			void setParameterVector(const ParamVectorType& aParameterVector);
 
 			void setParameterByID(const int aParamId, const BioModelParamType aValue);
 
-			/*! @brief Get parameter by ID. 
+			/*! @brief Get parameter by ID.
 			@return Return -1 if ID is not found.
 			*/
-			const int getParameterID(std::string aParamName) const;
+			const int getParameterID(const std::string& aParamName) const;
 
 			/*! return counting values */
-			const int getSetParam1Count() const {return _setParam1Count;};
-			const int getSetParam2Count() const {return _setParam2Count;};
-			const int getSetParam3Count() const {return _setParam3Count;};
-			const int getCalcCount() const {return _calcCount;};
+			const int getSetParam1Count() const
+			{
+				return _setParam1Count;
+			};
+			const int getSetParam2Count() const
+			{
+				return _setParam2Count;
+			};
+			const int getSetParam3Count() const
+			{
+				return _setParam3Count;
+			};
+			const int getCalcCount() const
+			{
+				return _calcCount;
+			};
 
 			void resetCounters();
 		};

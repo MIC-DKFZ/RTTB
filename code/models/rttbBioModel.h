@@ -26,9 +26,11 @@
 #include "rttbDVH.h"
 #include "rttbBaseTypeModels.h"
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace models{
+	namespace models
+	{
 
 		/*! @class BioModel
 			@brief This is the interface class for biological models
@@ -39,27 +41,27 @@ namespace rttb{
 				typedef std::vector<BioModelParamType> ParamVectorType;
 				typedef core::DVH::DVHPointer DVHPointer;
 
-			protected: 
+		protected:
 				DVHPointer _dvh;
 
 				BioModelValueType _value;
 
 				/*! @brief Calculate the model value
-					@param doseFactor scaling factor for the dose. The model calculation will use the dvh with each di=old 
+				@param doseFactor scaling factor for the dose. The model calculation will use the dvh with each di=old
 					di*doseFactor.
 				*/
-				virtual BioModelValueType calcModel(const double doseFactor=1)=0; 
+			virtual BioModelValueType calcModel(const double doseFactor = 1) = 0;
 
 
-			public: 
-				BioModel(): _value(0){};
-				BioModel(DVHPointer aDvh): _dvh(aDvh), _value(0){};
+		public:
+			BioModel(): _value(0) {};
+			BioModel(DVHPointer aDvh): _dvh(aDvh), _value(0) {};
 
-				/*! @brief Start the calculation. If any parameter changed, init() should be called again and return =true 
+			/*! @brief Start the calculation. If any parameter changed, init() should be called again and return =true
 					before getValue() is called!
 					@return Return true if successful
 				*/
-				bool init(const double doseFactor=1);
+			bool init(const double doseFactor = 1);
 
 				/*! @param aDVH must be a DVH calculated by a cumulative dose distribution, not a fraction DVH!
 				*/
@@ -69,22 +71,22 @@ namespace rttb{
 
 				/*! @brief Set parameter vector, where index of vector is the parameter ID.
 				*/
-				virtual void setParameterVector(const ParamVectorType aParameterVector)=0;
+			virtual void setParameterVector(const ParamVectorType& aParameterVector) = 0;
 
-				virtual void setParameterByID(const int aParamId, const BioModelParamType aValue)=0;
+			virtual void setParameterByID(const int aParamId, const BioModelParamType aValue) = 0;
 
-				/*! @brief Get parameter by ID. 
+			/*! @brief Get parameter by ID.
 					@return Return -1 if ID is not found.
 				*/
-				virtual const int getParameterID(const std::string aParamName) const=0;
+			virtual const int getParameterID(const std::string& aParamName) const = 0;
 
 				/*! @brief Get the value of biological model
 					@pre init() must be called and =true!
 				*/
-				const BioModelValueType getValue() const;	
+			const BioModelValueType getValue() const;
 			};
 
 		}//end namespace models
-	}//end namespace rttb
+}//end namespace rttb
 
 #endif

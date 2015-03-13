@@ -22,7 +22,6 @@
 #define __SIMPLE_REGISTRATION_WORKFLOW_H
 
 #include <boost/shared_ptr.hpp>
-#include <boost/shared_array.hpp>
 
 #include "registrationHelper.h"
 

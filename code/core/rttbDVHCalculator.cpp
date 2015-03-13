@@ -28,82 +28,98 @@
 #include "rttbMaskedDoseIteratorInterface.h"
 
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
-		DVHCalculator::DVHCalculator(DoseIteratorPointer aDoseIterator,const IDType aStructureID,const IDType aDoseID, 
-			DoseTypeGy aDeltaD, const int aNumberOfBins){
-				if(!aDoseIterator)
+		DVHCalculator::DVHCalculator(DoseIteratorPointer aDoseIterator, const IDType& aStructureID, const IDType& aDoseID,
+		                             DoseTypeGy aDeltaD, const int aNumberOfBins)
 				{
+			if (!aDoseIterator)
+			{
 					throw NullPointerException("aDoseIterator must not be NULL! ");
 				}
-				_doseIteratorPtr=aDoseIterator;
-				_structureID=aStructureID;
-				_doseID=aDoseID;
 
-				if(aNumberOfBins<=0 || aDeltaD<0 )
+			_doseIteratorPtr = aDoseIterator;
+			_structureID = aStructureID;
+			_doseID = aDoseID;
+
+			if (aNumberOfBins <= 0 || aDeltaD < 0)
 				{
 					throw InvalidParameterException("aNumberOfBins/aDeltaD must be >0! ");
 				}
 
-				_numberOfBins=aNumberOfBins;
-				_deltaD=aDeltaD;
+			_numberOfBins = aNumberOfBins;
+			_deltaD = aDeltaD;
 
-				if(_deltaD==0)
+			if (_deltaD == 0)
 				{
 					aDoseIterator->reset();
-					DoseTypeGy max=0;
+				DoseTypeGy max = 0;
+
+				while (aDoseIterator->isPositionValid())
+				{
 					DoseTypeGy currentVal = 0;
-					while(aDoseIterator->isPositionValid())
-					{
 						currentVal = aDoseIterator->getCurrentDoseValue();
-						if(currentVal>max)
+
+					if (currentVal > max)
 						{
-							max=currentVal;
+						max = currentVal;
 						}
+
 						aDoseIterator->next();
 					}
-					_deltaD=(max*1.5/_numberOfBins);
 
-					if(_deltaD==0)
+				_deltaD = (max * 1.5 / _numberOfBins);
+
+				if (_deltaD == 0)
 					{
-						_deltaD=0.1;
+					_deltaD = 0.1;
 					}
 				}
 
 		}
 
-		DVHCalculator::~DVHCalculator(){}
+		DVHCalculator::~DVHCalculator() {}
 
-		DVHCalculator::DVHPointer DVHCalculator::generateDVH(){
+		DVHCalculator::DVHPointer DVHCalculator::generateDVH()
+		{
 
-			std::deque<DoseCalcType> dataDifferential(_numberOfBins,0);
+			std::deque<DoseCalcType> dataDifferential(_numberOfBins, 0);
 
 			// calculate DVH
 			_doseIteratorPtr->reset();
-			DoseTypeGy currentVal = 0;
-			while(_doseIteratorPtr->isPositionValid())
+
+			while (_doseIteratorPtr->isPositionValid())
 			{
-				FractionType voxelProportion=_doseIteratorPtr->getCurrentRelevantVolumeFraction();
+			DoseTypeGy currentVal = 0;
+				FractionType voxelProportion = _doseIteratorPtr->getCurrentRelevantVolumeFraction();
 				currentVal = _doseIteratorPtr->getCurrentDoseValue();
 
-				int dose_bin = static_cast<int>(currentVal/_deltaD);
+				int dose_bin = static_cast<int>(currentVal / _deltaD);
 
-				if(dose_bin < _numberOfBins)
+				if (dose_bin < _numberOfBins)
 				{
-					dataDifferential[dose_bin]+=voxelProportion;
+					dataDifferential[dose_bin] += voxelProportion;
 				}
-				else{
+				else
+				{
 					throw InvalidParameterException("_numberOfBins is too small: dose bin out of bounds! ");
 				}
+
 				_doseIteratorPtr->next();
 			}
+
 			if (boost::dynamic_pointer_cast<MaskedDoseIteratorPointer>(_doseIteratorPtr))
 			{
-				_dvh=boost::make_shared<DVH>(dataDifferential,_deltaD,_doseIteratorPtr->getCurrentVoxelVolume(),_structureID,_doseID, _doseIteratorPtr->getVoxelizationID());
+				_dvh = boost::make_shared<DVH>(dataDifferential, _deltaD, _doseIteratorPtr->getCurrentVoxelVolume(), _structureID,
+				                               _doseID, _doseIteratorPtr->getVoxelizationID());
 			}
-			else{
-				_dvh=boost::make_shared<DVH>(dataDifferential,_deltaD,_doseIteratorPtr->getCurrentVoxelVolume(),_structureID,_doseID);
+			else
+			{
+				_dvh = boost::make_shared<DVH>(dataDifferential, _deltaD, _doseIteratorPtr->getCurrentVoxelVolume(), _structureID,
+				                               _doseID);
 			}
 
 			return _dvh;

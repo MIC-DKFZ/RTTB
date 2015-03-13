@@ -190,7 +190,7 @@ namespace rttb
 					rttb::core::DVH::DataDifferentialType::iterator itOrig;
 					itOrig = dvhOrigData.begin();
 
-					for (it = dvhData.begin(); it != dvhData.end(), itOrig != dvhOrigData.end(); ++it, ++itOrig)
+					for (it = dvhData.begin(); it != dvhData.end() || itOrig != dvhOrigData.end(); ++it, ++itOrig)
 					{
 						CHECK_CLOSE(*(itOrig), *(it), errorConstant);
 						std::cout << std::setprecision(20) << "difference: " << abs(*(itOrig) - * (it)) << std::endl;
@@ -257,7 +257,7 @@ namespace rttb
 				rttb::core::DVH::DataDifferentialType::iterator itOrig;
 				itOrig = dvhOrigData.begin();
 
-				for (it = dvhData.begin(); it != dvhData.end(), itOrig != dvhOrigData.end(); ++it, ++itOrig)
+				for (it = dvhData.begin(); it != dvhData.end() || itOrig != dvhOrigData.end(); ++it, ++itOrig)
 				{
 					CHECK_CLOSE(*(itOrig), *(it), errorConstant);
 					std::cout << std::setprecision(20) << "difference: " << abs(*(itOrig) - * (it)) << std::endl;
@@ -330,7 +330,7 @@ namespace rttb
 				rttb::core::DVH::DataDifferentialType::iterator itOrig;
 				itOrig = dvhOrigData.begin();
 
-				for (it = dvhData.begin(); it != dvhData.end(), itOrig != dvhOrigData.end(); ++it, ++itOrig)
+				for (it = dvhData.begin(); it != dvhData.end() || itOrig != dvhOrigData.end(); ++it, ++itOrig)
 				{
 					CHECK_CLOSE(*(itOrig), *(it), errorConstant);
 					std::cout << std::setprecision(20) << "difference: " << abs(*(itOrig) - * (it)) << std::endl;
