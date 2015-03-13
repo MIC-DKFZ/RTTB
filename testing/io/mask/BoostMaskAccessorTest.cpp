@@ -28,10 +28,8 @@
 #include "rttbMaskVoxel.h"
 #include "rttbNullPointerException.h"
 #include "rttbException.h"
-#include "../core/DummyStructure.h"
-#include "../core/DummyDoseAccessor.h"
-#include "rttbMaskVoxelListTester.h"
-#include "rttbMaskRectStructTester.h"
+#include "../../core/DummyStructure.h"
+#include "../../core/DummyDoseAccessor.h"
 #include "rttbBoostMask.h"
 #include "rttbBoostMaskAccessor.h"
 
@@ -51,8 +49,8 @@ namespace rttb
 			PREPARE_DEFAULT_TEST_REPORTING;
 
 			typedef core::Structure::StructTypePointer StructTypePointer;
-			typedef masks::BoostMaskAccessor::MaskVoxelListPointer MaskVoxelListPointer;
-			typedef masks::BoostMaskAccessor::MaskVoxelList MaskVoxelList;
+			typedef io::mask::BoostMaskAccessor::MaskVoxelListPointer MaskVoxelListPointer;
+			typedef io::mask::BoostMaskAccessor::MaskVoxelList MaskVoxelList;
 
 			// generate test structure set
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor =
@@ -66,10 +64,10 @@ namespace rttb
 			boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>(spTestDoseAccessor->getGeometricInfo());
 
 			//1) test BoostMask and BoostMaskAccessor constructor			
-			CHECK_NO_THROW( rttb::masks::BoostMask(geometricPtr, spMyStruct));
-			rttb::masks::BoostMask boostMask = rttb::masks::BoostMask(geometricPtr, spMyStruct);
-			CHECK_NO_THROW(rttb::masks::BoostMaskAccessor(spMyStruct, geometricPtr));
-			rttb::masks::BoostMaskAccessor boostMaskAccessor(spMyStruct, geometricPtr);
+			CHECK_NO_THROW( rttb::io::mask::BoostMask(geometricPtr, spMyStruct));
+			rttb::io::mask::BoostMask boostMask = rttb::io::mask::BoostMask(geometricPtr, spMyStruct);
+			CHECK_NO_THROW(rttb::io::mask::BoostMaskAccessor(spMyStruct, geometricPtr));
+			rttb::io::mask::BoostMaskAccessor boostMaskAccessor(spMyStruct, geometricPtr);
 			
 			//2) test getRelevantVoxelVector 
 			CHECK_NO_THROW(boostMask.getRelevantVoxelVector());

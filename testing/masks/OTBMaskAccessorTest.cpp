@@ -33,7 +33,6 @@
 #include "../core/DummyDoseAccessor.h"
 #include "rttbMaskVoxelListTester.h"
 #include "rttbMaskRectStructTester.h"
-#include "rttbBoostMask.h"
 
 
 namespace rttb

@@ -12,6 +12,9 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 
 #-----------------------------------------------------------------------------
+ADD_TEST(BoostMaskAccessorTest ${MaskIO_TEST} BoostMaskAccessorTest 
+)
+
 ADD_TEST(MaskAccessorGeneratorTest ${MaskIO_TEST} MaskAccessorGeneratorTest
 "${TEST_DATA_ROOT}/MatchPointLogo.mhd") 
 
@@ -20,5 +23,5 @@ ADD_TEST(MaskAccessorConverterTest ${MaskIO_TEST} MaskAccessorConverterTest
  "${TEST_DATA_ROOT}/MatchPointLogo.mhd")
 
 
-RTTB_CREATE_TEST_MODULE(rttbMaskIO DEPENDS RTTBMaskIO RTTBDicomIO RTTBITKIO RTTBMasks PACKAGE_DEPENDS Boost Litmus MatchPoint ITK DCMTK)
+RTTB_CREATE_TEST_MODULE(rttbMaskIO DEPENDS RTTBMaskIO RTTBDicomIO RTTBITKIO RTTBMasks PACKAGE_DEPENDS Boost BoostBinaries Litmus MatchPoint ITK DCMTK)
 

@@ -1,8 +1,6 @@
 SET(CPP_FILES 
 	rttbOTBMaskAccessor.cpp
 	rttbMask.cpp
-	rttbBoostMask.cpp
-	rttbBoostMaskAccessor.cpp
 	DoseVoxel_LEGACY.cpp
 	DoseIteratorInterface_LEGACY.cpp
 	DoseIterator_LEGACY.cpp
@@ -17,8 +15,6 @@ SET(CPP_FILES
 SET(H_FILES 
 	rttbMaskType_LEGACY.h
 	rttbMask.h
-	rttbBoostMask.h
-	rttbBoostMaskAccessor.h
 	rttbOTBMaskAccessor.h
 	DoseVoxel_LEGACY.h
 	DoseIteratorInterface_LEGACY.h

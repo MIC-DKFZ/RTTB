@@ -13,9 +13,6 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 #-----------------------------------------------------------------------------
 
-ADD_TEST(BoostMaskAccessorTest ${MASKS_TESTS} BoostMaskAccessorTest 
-)
-
 ADD_TEST(OTBMaskAccessorTest ${MASKS_TESTS} OTBMaskAccessorTest 
 )
 

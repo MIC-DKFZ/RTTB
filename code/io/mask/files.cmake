@@ -1,4 +1,6 @@
 SET(CPP_FILES 
+	rttbBoostMask.cpp
+	rttbBoostMaskAccessor.cpp
 	rttbITKImageFileMaskAccessorGenerator.cpp
 	rttbITKImageMaskAccessor.cpp
 	rttbITKImageMaskAccessorGenerator.cpp
@@ -6,6 +8,8 @@ SET(CPP_FILES
   )
 
 SET(H_FILES 
+	rttbBoostMask.h
+	rttbBoostMaskAccessor.h
 	rttbITKImageFileMaskAccessorGenerator.h
 	rttbITKImageMaskAccessor.h
 	rttbITKImageMaskAccessorGenerator.h
