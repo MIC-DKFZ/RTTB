@@ -1,9 +1,11 @@
 SET(CPP_FILES 
   rttbDcmrtException.cpp
   rttbDicomDoseAccessor.cpp
+  rttbDicomFileDoseAccessorConverter.cpp
   rttbDicomFileDoseAccessorGenerator.cpp
   rttbDicomFileReaderHelper.cpp
   rttbDicomFileStructureSetGenerator.cpp
+  rttbDicomIODDoseAccessorConverter.cpp
   rttbDicomIODDoseAccessorGenerator.cpp
   rttbDicomIODStructureSetGenerator.cpp
   rttbDVHDicomFileReader.cpp
@@ -12,9 +14,11 @@ SET(CPP_FILES
 SET(H_FILES 
   rttbDcmrtException.h
   rttbDicomDoseAccessor.h
+  rttbDicomFileDoseAccessorConverter.h
   rttbDicomFileDoseAccessorGenerator.h
   rttbDicomFileReaderHelper.h
   rttbDicomFileStructureSetGenerator.h
+  rttbDicomIODDoseAccessorConverter.h
   rttbDicomIODDoseAccessorGenerator.h
   rttbDicomIODStructureSetGenerator.h
   rttbDVHDicomFileReader.h
