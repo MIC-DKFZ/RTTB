@@ -73,6 +73,10 @@ namespace rttb
 				//vector of the MaskVoxel inside the structure
 				MaskVoxelListPointer _voxelInStructure;
 
+				/*! @brief If the mask is up to date
+				*/
+				bool _isUpToDate;
+
 				/*! @brief Voxelization and generate mask
 				*/
 				void calcMask();

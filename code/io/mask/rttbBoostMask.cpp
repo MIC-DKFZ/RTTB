@@ -21,7 +21,7 @@ namespace rttb
 			BoostMask::BoostMask(BoostMask::GeometricInfoPointer aDoseGeoInfo, BoostMask::StructPointer aStructure)
 				:_geometricInfo(aDoseGeoInfo), _structure(aStructure), _voxelInStructure(boost::make_shared<MaskVoxelList>()){
 
-
+					_isUpToDate = false;
 					if(! _geometricInfo ){
 						throw rttb::core::NullPointerException("Error: Geometric info is NULL!");
 					}
@@ -194,7 +194,9 @@ namespace rttb
 			}
 
 			BoostMask::MaskVoxelListPointer BoostMask::getRelevantVoxelVector(){
-				calcMask();
+				if(!_isUpToDate){
+					calcMask();
+				}
 				return _voxelInStructure;
 			}
 
