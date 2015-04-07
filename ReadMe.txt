@@ -23,8 +23,8 @@ Required:
 Optional:
 [3. Litmus (in this distribution; see \utilities\Litmus; if you want tests)] 
 [4. dcmtk (with RT support - 3.6.1 or newer; if you want DICOM support)] 
-[5. ITK (version 4.0 or higher; if you want DoseInterpolation support with itk::Transform or ITK File IO support)]
-[6. MatchPoint (version 0.9 or higher, see http://sourceforge.net/projects/matchpoint/; if you want DoseInterpolation support with MatchPoint Registration objects)]
+[5. ITK (version 4.4 or higher; if you want DoseInterpolation support with itk::Transform or ITK File IO support)]
+[6. MatchPoint (version 0.11 or higher, see http://sourceforge.net/projects/matchpoint/; if you want DoseInterpolation support with MatchPoint Registration objects)]
 [7. doxygen (if you want to generate a source code documentation)]
 
 Installation Instruction

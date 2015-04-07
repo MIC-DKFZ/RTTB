@@ -6,7 +6,9 @@ IF(NOT Boost_FOUND)
     ENDIF(NOT IS_ABSOLUTE ${Boost_INCLUDE_DIR})
   ENDIF(DEFINED Boost_INCLUDE_DIR)
 
-  FIND_PACKAGE(Boost REQUIRED)
+  SET(BOOST_MIN_VERSION "1.56.0")
+  
+  FIND_PACKAGE(Boost ${BOOST_MIN_VERSION} REQUIRED)
 
   LIST(APPEND ALL_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
   # this is only necessary if we use more than just the headers
