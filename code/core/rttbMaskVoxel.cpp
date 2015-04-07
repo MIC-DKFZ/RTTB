@@ -60,6 +60,10 @@ namespace rttb{
 			return ( (_voxelGridID==voxel.getVoxelGridID()) && (_volumeFraction==voxel.getRelevantVolumeFraction()) );
 			}
 
+		bool MaskVoxel::operator<(const MaskVoxel& maskVoxel) const{
+			return (_voxelGridID < maskVoxel.getVoxelGridID());
+		}
+
 		const VoxelGridID& MaskVoxel::getVoxelGridID() const{
 			return _voxelGridID;
 			}
@@ -78,4 +82,4 @@ namespace rttb{
 			}
 
 		}//end namespace core
-	}//end namespace rttb
+}//end namespace rttb

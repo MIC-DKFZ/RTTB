@@ -1,4 +1,4 @@
-SET(CPP_FILES 
+SET(CPP_FILES
 	../core/DummyStructure.cpp
 	../core/CreateTestStructure.cpp		
 	../core/DummyDoseAccessor.cpp

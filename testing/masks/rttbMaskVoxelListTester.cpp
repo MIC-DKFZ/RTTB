@@ -74,6 +74,9 @@ namespace rttb{
 						if (diff > _maxDifference) {
 							_maxDifference = diff;
 						}
+						/*if(diff > 0.001){
+							std::cout <<iterR->getVoxelGridID()<< ": ("<< iterR->getRelevantVolumeFraction() << ","<<iterC->getRelevantVolumeFraction()<<"); ";
+						}*/
 						_numDifference++;
 					}
 				}
