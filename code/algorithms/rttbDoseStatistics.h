@@ -22,184 +22,143 @@
 #ifndef __DOSE_STATISTICS_H
 #define __DOSE_STATISTICS_H
 
-#include <boost/make_shared.hpp>
 #include <vector>
-#include <map>
 
 #include "rttbBaseType.h"
 #include "rttbDoseIteratorInterface.h"
 
-namespace rttb
-{
+namespace rttb{
 
-	namespace algorithms
-	{
+	namespace algorithms{
 
 		/*! @class DoseStatistics
-		@brief This is a data class storing different statistical values from a rt dose distribution
-		@sa DoseStatisticsCalculator
+		@brief This is a class calculating different statistical values from a rt dose distribution
+		These values range fram standard statistical values such as minimum, maximum and mean to more 
+		dose specific properties such as Vx (volume iradiated with a dose >=x), Dx (minimal dose delivered 
+		to x% of the VOI, and MOHx (mean in the hottest volume).
 		*/
 		class DoseStatistics
-		{
-		public:
-			enum complexStatistics { Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx};
-			typedef boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultListPointer;
-			typedef boost::shared_ptr<DoseStatistics> DoseStatisticsPointer;
-			typedef std::map<DoseTypeGy, VolumeType> DoseToVolumeFunctionType;
-			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
+			{
+			public:
+				typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
+				typedef boost::shared_ptr<std::vector<std::pair<DoseTypeGy,VoxelGridID> > > ResultListPointer;
 
-		private:
-			double getValue(std::map<double, double> aMap, double key, bool findNearestValueInstead,
-			                double& storedKey) const;
+			private: 
+				DoseIteratorPointer _doseIterator;
+				DoseStatisticType _maximum;
+				DoseStatisticType _minimum;
+				DoseStatisticType _mean;
+				DoseStatisticType _stdDeviation;
+				DoseStatisticType _variance;
+				DoseStatisticType _numVoxels;
 
-			std::map<double, double>::const_iterator findNearestKeyInMap(std::map<double, double> aMap, double key) const;
+				/* Contains relevant dose values sorted in descending order.
+				*/
+				std::vector<DoseTypeGy> doseVector;
 
-			DoseStatisticType _maximum;
-			DoseStatisticType _minimum;
-			ResultListPointer _maximumVoxelPositions;
-			ResultListPointer _minimumVoxelPositions;
-			DoseStatisticType _mean;
-			DoseStatisticType _stdDeviation;
-			unsigned int _numVoxels;
-			VolumeType _volume;
-			DoseToVolumeFunctionType _Dx;
-			VolumeToDoseFunctionType _Vx;
-			VolumeToDoseFunctionType _MOHx;
-			VolumeToDoseFunctionType _MOCx;
-			VolumeToDoseFunctionType _MaxOHx;
-			VolumeToDoseFunctionType _MinOCx;
+				/*! Contains the corresponding voxel proprtions to the values in doseVector. 
+				*/
+				std::vector<double> voxelProportionVector;
 
-		public:
-			/*! @brief Standard Constructor
-			*/
-			//DoseStatistics();
+				bool initSuccess;
 
-			/*! @brief Constructor
-				@detail the dose statistic values are set. Complex values maximumVoxelLocation, maximumVoxelLocation, Dx, Vx, MOHx, MOCx, MaxOHx and MinOCx are optional
-			*/
-			DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum, DoseStatisticType mean,
-			               DoseStatisticType stdDeviation, unsigned int numVoxels, VolumeType volume,
-			               ResultListPointer minimumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
-			               (std::vector<std::pair<DoseTypeGy, VoxelGridID> >()),
-			               ResultListPointer maximumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
-			               (std::vector<std::pair<DoseTypeGy, VoxelGridID> >()),
-			               DoseToVolumeFunctionType Dx = DoseToVolumeFunctionType(),
-			               VolumeToDoseFunctionType Vx = VolumeToDoseFunctionType(),
-			               VolumeToDoseFunctionType MOHx = VolumeToDoseFunctionType(),
-			               VolumeToDoseFunctionType MOCx = VolumeToDoseFunctionType(),
-			               VolumeToDoseFunctionType MaxOHx = VolumeToDoseFunctionType(),
-			               VolumeToDoseFunctionType MinOCx = VolumeToDoseFunctionType());
+				/*! @brief Calculation of basic dose statistics. It will be called in Constructor.
+					@exception NullPointerException Thrown if _doseIterator is NULL.
+				*/
+				bool init();
 
-			~DoseStatistics();
 
-			void setMinimumVoxelPositions(ResultListPointer minimumVoxelPositions);
-			void setMaximumVoxelPositions(ResultListPointer maximumVoxelPositions);
-			void setDx(const DoseToVolumeFunctionType& DxValues);
-			void setVx(const VolumeToDoseFunctionType& VxValues);
-			void setMOHx(const VolumeToDoseFunctionType& MOHxValues);
-			void setMOCx(const VolumeToDoseFunctionType& MOCxValues);
-			void setMaxOHx(const VolumeToDoseFunctionType& MaxOHxValues);
-			void setMinOCx(const VolumeToDoseFunctionType& MinOCxValues);
 
-			/*! @brief Get number of voxels in doseIterator, with sub-voxel accuracy.
-			*/
-			unsigned int getNumberOfVoxels() const;
+			public:
+				/*! @brief Standard Constructor
+				*/
+				DoseStatistics();
 
-			VolumeType getVolume() const;
+				/*! @brief Constructor
+				*/
+				DoseStatistics(DoseIteratorPointer aDoseIterator);
 
-			/*! @brief Get the maximum of the current dose distribution.
-				@return Return the maximum dose in Gy
-			*/
-			DoseStatisticType getMaximum() const;
+				/*! @brief Set new dose data for statistics. Statistics will be re-initialized.
+				*/
+				void setDoseIterator(DoseIteratorPointer aDoseIterator);
 
-			/*! @brief Get a vector of the the maximum dose VoxelGridIDs together with their dose value in Gy
-				@exception InvalidDoseException if the vector has not been set (i.e. is empty)
-			*/
-			ResultListPointer getMaximumPositions() const;
+				/*! @brief Get dose iterator.
+				*/
+				DoseIteratorPointer getDoseIterator() const;
 
-			/*! @brief Get the minimum of the current dose distribution.
-				@return Return the minimum dose in Gy
-			*/
-			DoseStatisticType getMinimum() const;
 
-			/*! @brief Get a vector of the the minimum dose VoxelGridIDs together with their dose value in Gy
-			@exception InvalidDoseException if the vector has not been set (i.e. is empty)
-			*/
-			ResultListPointer getMinimumPositions() const;
+				/*! @brief Get number of voxels in doseIterator, with sub-voxel accuracy.
+        @exception InvalidDoseException Thrown if statistic was not initialized.
+				*/
+				DoseStatisticType getNumberOfVoxels();
 
-			/*! @brief Get the mean of the current dose distribution.
-				@return Return the mean dose in Gy
-			*/
-			DoseStatisticType getMean() const;
+				/*! @brief Get the maximum of the current dose distribution.
+					@param maxVoxelVector: vector of all voxel with the dose=maximum.
+					@return Return the maximum dose in Gy, or -1 if an error occured.
+          @exception InvalidDoseException Thrown if statistic was not initialized.
+				*/
+				DoseStatisticType getMaximum( ResultListPointer maxVoxelVector) const;
 
-			/*! @brief Get the standard deviation of the current dose distribution.
-				@return Return the standard deviation in Gy
-			*/
-			DoseStatisticType getStdDeviation() const;
+				/*! @brief Get the minimum of the current dose distribution.
+					@param minVoxelVector: vector of all voxel with the dose=minimum.
+					@param number: the number of dose voxels with dose=minimum that are stored in minVoxelVector.
+					Only the first occurences are stored. The default value is 100.
+					@return Return the minimum dose in Gy, or -1 if an error occured.
+          @exception InvalidDoseException Thrown if statistic was not initialized.
+				*/
+				DoseStatisticType getMinimum( ResultListPointer minVoxelVector, int number=100) const;
 
-			/*! @brief Get the variance of of the current dose distribution.
-				@return Return the variance in Gy
-			*/
-			DoseStatisticType getVariance() const;
+				/*! @brief Get the mean of the current dose distribution.
+					@return Return the mean dose in Gy, or -1 if an error occured.
+          @exception InvalidDoseException Thrown if statistic was not initialized.
+				*/
+				DoseStatisticType getMean() const;
 
-			/*! @brief Get Vx: the volume irradiated with a dose >= x.
-				@return Return absolute volume in absolute cm^3.
-				@exception NoDataException if the Vx values have not been set (i.e. the vector is empty)
-				@exception NoDataException if the requested Dose is not in the vector
-			*/
-			VolumeType getVx(DoseTypeGy xDoseAbsolute) const;
-			VolumeType getVx(DoseTypeGy xDoseAbsolute, bool findNearestValue,
-			                 DoseTypeGy& nearestXDose) const;
-			DoseToVolumeFunctionType getAllVx() const;
+				/*! @brief Get the standard deviation of the current dose distribution.
+					@return Return the standard deviation in Gy, or -1 if an error occured.
+          @exception InvalidDoseException Thrown if statistic was not initialized.
+				*/
+				DoseStatisticType getStdDeviation() const;
 
-			/*! @brief Get Dx: the minimal dose delivered to part x of the current volume.
-				@return Return dose value in Gy.
-				@exception InvalidDoseException if the Dx values have not been set (i.e. the vector is empty)
-			*/
-			DoseTypeGy getDx(VolumeType xVolumeAbsolute, bool findNearestValue,
-			                 VolumeType& nearestXVolume) const;
-			DoseTypeGy getDx(VolumeType xVolumeAbsolute) const;
-			VolumeToDoseFunctionType getAllDx() const;
+				/*! @brief Get the variance of of the current dose distribution.
+					@return Return the variance in Gy, or -1 if an error occured.
+          @exception InvalidDoseException Thrown if statistic was not initialized.
+				*/
+				DoseStatisticType getVariance() const;
 
-			/*! @brief Get MOHx: mean dose of the hottest x voxels.
-				@return Return dose value in Gy.
-				@exception InvalidDoseException if the values have not been set (i.e. the vector is empty)
-			*/
-			DoseTypeGy getMOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
-			                   VolumeType& nearestXVolume) const;
-			DoseTypeGy getMOHx(VolumeType xVolumeAbsolute) const;
-			VolumeToDoseFunctionType getAllMOHx() const;
+				/*! @brief Get Vx: the volume irradiated with a dose >= x.
+					@return Return absolute volume in absolute cm3.
+				*/
+				VolumeType getVx(DoseTypeGy xDoseAbsolute) const;
 
-			/*! @brief Get MOCx: mean dose of the coldest x voxels.
-				@return Return dose value in Gy.
-				@exception InvalidDoseException if the values have not been set (i.e. the vector is empty)
-			*/
-			DoseTypeGy getMOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
-			                   VolumeType& nearestXVolume) const;
-			DoseTypeGy getMOCx(VolumeType xVolumeAbsolute) const;
-			VolumeToDoseFunctionType getAllMOCx() const;
+				/*! @brief Get Dx: the minimal dose delivered to part x of the current volume.
+					@return Return dose value in Gy.
+				*/	
+				DoseTypeGy getDx(VolumeType xVolumeAbsolute) const;
 
-			/*! @brief Get MaxOHx: Maximum outside of the hottest x voxels.
-				@return Return dose value in Gy.
-				@exception InvalidDoseException if the values have not been set (i.e. the vector is empty)
-			*/
-			DoseTypeGy getMaxOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
-			                     VolumeType& nearestXVolume) const;
-			DoseTypeGy getMaxOHx(VolumeType xVolumeAbsolute) const;
-			VolumeToDoseFunctionType getAllMaxOHx() const;
+				/*! @brief Get MOHx: mean dose of the hottest x voxels.
+					@return Return dose value in Gy.
+				*/	
+				DoseTypeGy getMOHx(VolumeType xVolumeAbsolute) const;
 
-			/*! @brief Get MinOCx: Minimum outside of the coldest x voxels.
-				@return Return dose value in Gy.
-				@exception InvalidDoseException if the values have not been set (i.e. the vector is empty)
-			*/
-			DoseTypeGy getMinOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
-			                     VolumeType& nearestXVolume) const;
-			DoseTypeGy getMinOCx(VolumeType xVolumeAbsolute) const;
-			VolumeToDoseFunctionType getAllMinOCx() const;
-		};
+				/*! @brief Get MOCx: mean dose of the coldest x voxels.
+					@return Return dose value in Gy.
+				*/
+				DoseTypeGy getMOCx(VolumeType xVolumeAbsolute) const;
 
+				/*! @brief Get MaxOHx: Maximum outside of the hottest x voxels.
+					@return Return dose value in Gy.
+				*/
+				DoseTypeGy getMaxOHx(VolumeType xVolumeAbsolute) const;
+
+				/*! @brief Get MinOCx: Minimum outside of the coldest x voxels.
+					@return Return ose value in Gy.
+				*/
+				DoseTypeGy getMinOCx(VolumeType xVolumeAbsolute) const;
+			};
+
+		}
 	}
-}
 
 
 #endif

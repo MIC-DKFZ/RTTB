@@ -14,7 +14,6 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 #-----------------------------------------------------------------------------
 ADD_TEST(DoseStatisticsTest ${ALGORITHMS_TESTS} DoseStatisticsTest)
-ADD_TEST(DoseStatisticsCalculatorTest ${ALGORITHMS_TESTS} DoseStatisticsCalculatorTest)
 ADD_TEST(ArithmeticTest ${ALGORITHMS_TESTS} ArithmeticTest)
 ADD_TEST(BinaryFunctorDoseAccessorTest ${ALGORITHMS_TESTS} BinaryFunctorDoseAccessorTest "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/dicompylerTestDose.dcm")
 
