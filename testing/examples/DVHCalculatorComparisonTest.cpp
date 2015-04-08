@@ -149,8 +149,8 @@ namespace rttb
 				{
 
 					//create MaskAccessor
-					boost::shared_ptr<masks::OTBMaskAccessor> spOTBMaskAccessor =
-					    boost::make_shared<masks::OTBMaskAccessor>(rtStructureSet->getStructure(j),
+					boost::shared_ptr<masks::legacy::OTBMaskAccessor> spOTBMaskAccessor =
+					    boost::make_shared<masks::legacy::OTBMaskAccessor>(rtStructureSet->getStructure(j),
 					            doseAccessor1->getGeometricInfo());
 					spOTBMaskAccessor->updateMask();
 					MaskAccessorPointer spMaskAccessor(spOTBMaskAccessor);

@@ -48,5 +48,5 @@ ADD_TEST(VirtuosDVHCalculatorExampleTest ${VIRTUOSIO_TEST} VirtuosDVHCalculatorE
 "${TEST_DATA_ROOT}/Virtuos/MPM_LR_ah/MPM_LR_ah101.pln" 
 "${TEST_DATA_ROOT}/Virtuos/MPM_LR_ah/MPM_LR_ah000.ctx.gz" )
 
-RTTB_CREATE_TEST_MODULE(rttbVirtuosIO DEPENDS RTTBVirtuosIO RTTBMasks PACKAGE_DEPENDS Boost Litmus VirtuosIO)
+RTTB_CREATE_TEST_MODULE(rttbVirtuosIO DEPENDS RTTBVirtuosIO RTTBMasks RTTBOTBMask PACKAGE_DEPENDS Boost Litmus VirtuosIO)
 
