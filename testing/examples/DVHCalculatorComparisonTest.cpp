@@ -149,14 +149,14 @@ namespace rttb
 				{
 
 					//create MaskAccessor
-					boost::shared_ptr<masks::legacy::OTBMaskAccessor> spOTBMaskAccessor =
-					    boost::make_shared<masks::legacy::OTBMaskAccessor>(rtStructureSet->getStructure(j),
+					::boost::shared_ptr<masks::legacy::OTBMaskAccessor> spOTBMaskAccessor =
+					    ::boost::make_shared<masks::legacy::OTBMaskAccessor>(rtStructureSet->getStructure(j),
 					            doseAccessor1->getGeometricInfo());
 					spOTBMaskAccessor->updateMask();
 					MaskAccessorPointer spMaskAccessor(spOTBMaskAccessor);
 					//create corresponding MaskedDoseIterator
-					boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
-					    boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, doseAccessor1);
+					::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
+					    ::boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, doseAccessor1);
 					DoseIteratorPointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
 					//store MaskAccessor
 					rtStructSetMaskAccessorVec.push_back(spMaskAccessor);
@@ -223,8 +223,8 @@ namespace rttb
 			for (int j = 0; j < rtStructSetMaskAccessorVec.size(); j++)
 			{
 				//create corresponding MaskedDoseIterator
-				boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
-				    boost::make_shared<core::GenericMaskedDoseIterator>(rtStructSetMaskAccessorVec.at(j),
+				::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
+				    ::boost::make_shared<core::GenericMaskedDoseIterator>(rtStructSetMaskAccessorVec.at(j),
 				            doseAccessor2);
 				DoseIteratorPointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
 
@@ -296,8 +296,8 @@ namespace rttb
 			for (int j = 0; j < rtStructSetMaskAccessorVec.size(); j++)
 			{
 				//create corresponding MaskedDoseIterator
-				boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
-				    boost::make_shared<core::GenericMaskedDoseIterator>(rtStructSetMaskAccessorVec.at(j),
+				::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
+				    ::boost::make_shared<core::GenericMaskedDoseIterator>(rtStructSetMaskAccessorVec.at(j),
 				            doseAccessor3);
 				DoseIteratorPointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
 

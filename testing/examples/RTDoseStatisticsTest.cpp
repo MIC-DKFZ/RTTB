@@ -83,10 +83,10 @@ namespace rttb
 			/*Test NullPointerException*/
 
 			rttb::algorithms::DoseStatistics doseStatistics;
-			typedef boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultsVectorPointer;
+			typedef ::boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultsVectorPointer;
 
 			ResultsVectorPointer spResults =
-			    boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
+			    ::boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
 
 			ResultListPointer minListPtr(spResults);
 			ResultListPointer maxListPtr(spResults);
@@ -96,8 +96,8 @@ namespace rttb
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
 
 			//create corresponding DoseIterator
-			boost::shared_ptr<core::GenericDoseIterator> spDoseIteratorTmp =
-			    boost::make_shared<core::GenericDoseIterator>(doseAccessor1);
+			::boost::shared_ptr<core::GenericDoseIterator> spDoseIteratorTmp =
+			    ::boost::make_shared<core::GenericDoseIterator>(doseAccessor1);
 			DoseIteratorPointer spDoseIterator(spDoseIteratorTmp);
 			doseStatistics.setDoseIterator(spDoseIterator);
 

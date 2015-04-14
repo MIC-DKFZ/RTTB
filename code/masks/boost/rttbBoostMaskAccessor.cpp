@@ -30,7 +30,7 @@
 
 namespace rttb
 {
-	namespace mask
+	namespace masks
 	{
 		namespace boost
 		{

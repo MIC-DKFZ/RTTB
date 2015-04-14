@@ -14,7 +14,7 @@
 
 namespace rttb
 {
-	namespace mask
+	namespace masks
 	{
 		namespace boost
 		{
@@ -154,7 +154,7 @@ namespace rttb
 				voxelList.push_back(index1);
 
 				return voxelList;
-			}
+			} 
 
 
 			/*Get intersection polygons of the contour and a voxel polygon*/
