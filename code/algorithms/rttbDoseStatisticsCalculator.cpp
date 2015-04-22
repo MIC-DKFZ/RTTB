@@ -111,9 +111,9 @@ namespace rttb
 
 
 			float sum = 0;
-			unsigned int numVoxels = 0;
+			rttb::DoseStatisticType numVoxels = 0.0;
 			float squareSum = 0;
-			VolumeType volume;
+			VolumeType volume = 0;
 
 			_doseIterator->reset();
 			int i = 0;
@@ -131,6 +131,7 @@ namespace rttb
 
 				rttb::FractionType voxelProportion = _doseIterator->getCurrentRelevantVolumeFraction();
 				sum += doseValue * voxelProportion;
+
 				numVoxels += voxelProportion;
 				squareSum += doseValue * doseValue * voxelProportion;
 
@@ -153,16 +154,25 @@ namespace rttb
 			if (numVoxels != 0)
 			{
 				meanDose = sum / numVoxels;
-				DoseStatisticType varianceDose = (squareSum / numVoxels - meanDose * meanDose);
 
 				//standard deviation is defined only for n>=2
-				if (varianceDose < errorConstant || numVoxels <= 2)
+				if (numVoxels >= 2)
 				{
-					stdDeviationDose = 0;
+					//uncorrected variance is calculated
+					DoseStatisticType varianceDose = (squareSum / numVoxels - meanDose * meanDose);
+
+					if (varianceDose < errorConstant)
+					{
+						stdDeviationDose = 0;
+					}
+					else
+					{
+						stdDeviationDose = pow(varianceDose, 0.5);
+					}
 				}
 				else
 				{
-					stdDeviationDose = pow(varianceDose, 0.5);
+					stdDeviationDose = 0;
 				}
 
 			}
@@ -202,17 +212,19 @@ namespace rttb
 			//set default values
 			if (precomputeDoseValues.empty())
 			{
-				std::vector<double> defaultPrecomputeDoseValues = boost::assign::list_of(0.02 * _statistics->getMaximum())(
-				            0.05 * _statistics->getMaximum())(0.1 * _statistics->getMaximum())(0.9 * _statistics->getMaximum())(
-				            0.95 * _statistics->getMaximum())(0.98 * _statistics->getMaximum());
+				DoseTypeGy maxDose = _statistics->getMaximum();
+				std::vector<double> defaultPrecomputeDoseValues = boost::assign::list_of(0.02 * maxDose)(0.05 * maxDose)(0.1 * maxDose)(
+				            0.9 * maxDose)(
+				            0.95 * maxDose)(0.98 * maxDose);
 				precomputeDoseValuesNonConst = defaultPrecomputeDoseValues;
 			}
 
 			if (precomputeVolumeValues.empty())
 			{
-				std::vector<double> defaultPrecomputeVolumeValues = boost::assign::list_of(0.02 * _statistics->getNumberOfVoxels())(
-				            0.05 * _statistics->getNumberOfVoxels())(0.1 * _statistics->getNumberOfVoxels())(0.9 * _statistics->getNumberOfVoxels())
-				        (0.95 * _statistics->getNumberOfVoxels())(0.98 * _statistics->getNumberOfVoxels());
+				VolumeType volume = _statistics->getVolume();
+				std::vector<double> defaultPrecomputeVolumeValues = boost::assign::list_of(0.02 * volume)(
+				            0.05 * volume)(0.1 * volume)(0.9 * volume)
+				        (0.95 * volume)(0.98 * volume);
 				precomputeVolumeValuesNonConst = defaultPrecomputeVolumeValues;
 			}
 
@@ -492,14 +504,13 @@ namespace rttb
 		    const std::vector<double>& precomputeDoseValues, DoseStatistics::complexStatistics name) const
 		{
 			DoseToVolumeFunctionType VxMulti;
-			DoseTypeGy maxDose = _statistics->getMaximum();
 
 			for (int i = 0; i < precomputeDoseValues.size(); ++i)
 			{
 				if (name == DoseStatistics::Vx)
 				{
 					VxMulti.insert(std::pair<DoseTypeGy, VolumeType>(precomputeDoseValues.at(i),
-					               computeVx(maxDose * (precomputeDoseValues.at(i) / 100.0))));
+					               computeVx(precomputeDoseValues.at(i))));
 				}
 			}
 
@@ -510,7 +521,6 @@ namespace rttb
 		    const std::vector<double>& precomputeVolumeValues, DoseStatistics::complexStatistics name) const
 		{
 			VolumeToDoseFunctionType multiValues;
-			VolumeType maxVolume = _statistics->getNumberOfVoxels();
 
 			for (int i = 0; i < precomputeVolumeValues.size(); ++i)
 			{
@@ -518,27 +528,27 @@ namespace rttb
 				{
 					case DoseStatistics::Dx:
 						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(precomputeVolumeValues.at(i),
-						                   computeDx(maxVolume * (precomputeVolumeValues.at(i) / 100.0))));
+						                   computeDx(precomputeVolumeValues.at(i))));
 						break;
 
 					case DoseStatistics::MOHx:
 						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(precomputeVolumeValues.at(i),
-						                   computeMOHx(maxVolume * (precomputeVolumeValues.at(i) / 100.0))));
+						                   computeMOHx(precomputeVolumeValues.at(i))));
 						break;
 
 					case DoseStatistics::MOCx:
 						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(precomputeVolumeValues.at(i),
-						                   computeMOCx(maxVolume * (precomputeVolumeValues.at(i) / 100.0))));
+						                   computeMOCx(precomputeVolumeValues.at(i))));
 						break;
 
 					case DoseStatistics::MaxOHx:
 						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(precomputeVolumeValues.at(i),
-						                   computeMaxOHx(maxVolume * (precomputeVolumeValues.at(i) / 100.0))));
+						                   computeMaxOHx(precomputeVolumeValues.at(i))));
 						break;
 
 					case DoseStatistics::MinOCx:
 						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(precomputeVolumeValues.at(i),
-						                   computeMinOCx(maxVolume * (precomputeVolumeValues.at(i) / 100.0))));
+						                   computeMinOCx(precomputeVolumeValues.at(i))));
 						break;
 
 					default:

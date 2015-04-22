@@ -62,8 +62,8 @@ namespace rttb
 			DoseStatisticType _stdDeviation;
 			unsigned int _numVoxels;
 			VolumeType _volume;
-			DoseToVolumeFunctionType _Dx;
-			VolumeToDoseFunctionType _Vx;
+			VolumeToDoseFunctionType _Dx;
+			DoseToVolumeFunctionType _Vx;
 			VolumeToDoseFunctionType _MOHx;
 			VolumeToDoseFunctionType _MOCx;
 			VolumeToDoseFunctionType _MaxOHx;

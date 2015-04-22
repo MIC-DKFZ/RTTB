@@ -145,6 +145,7 @@ namespace rttb
 		DoseTypeGy DoseStatistics::getDx(VolumeType xVolumeAbsolute, bool findNearestValue,
 		                                 VolumeType& nearestXVolume) const
 		{
+
 			return getValue(_Dx, xVolumeAbsolute, findNearestValue, nearestXVolume);
 		}
 
