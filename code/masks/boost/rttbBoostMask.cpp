@@ -37,7 +37,8 @@ namespace rttb
 				}
 
 				for(unsigned int i=0; i< _geometricInfo->getNumSlices(); i++){
-					VoxelIndexVector voxelList = getBoundingBox(i);
+					BoostMask::BoostRingVector intersectionSlicePolygons;
+					VoxelIndexVector voxelList = getBoundingBox(i, intersectionSlicePolygons);
 					rttb::VoxelGridIndex3D gridIndex3D0 = voxelList.at(0);
 					rttb::VoxelGridIndex3D gridIndex3D1 = voxelList.at(1);
 
@@ -52,7 +53,7 @@ namespace rttb
 							rttb::VoxelGridID gridID; 
 							_geometricInfo->convert(currentIndex, gridID);
 
-							std::deque<BoostMask::BoostPolygon2D> polygons = getIntersections(currentIndex);
+							std::deque<BoostMask::BoostPolygon2D> polygons = getIntersections(currentIndex, intersectionSlicePolygons);
 							double intersectionArea = calcArea(polygons);
 
 							double voxelSize = _geometricInfo->getSpacing()[0] * _geometricInfo->getSpacing()[1];
@@ -78,7 +79,7 @@ namespace rttb
 				for(unsigned int indexZ=0; indexZ< _geometricInfo->getNumSlices(); indexZ++){
 					rttb::VoxelGridIndex3D currentIndex(0,0,indexZ);
 
-					BoostMask::BoostRingVector boostPolygons = getIntersectionSlicePolygons(currentIndex);
+					BoostMask::BoostRingVector boostPolygons = getIntersectionSlicePolygons(currentIndex[2]);
 
 					for(unsigned int i =0; i<boostPolygons.size(); i++){
 						::boost::geometry::correct(boostPolygons.at(i));
@@ -108,23 +109,23 @@ namespace rttb
 
 
 			/*Get the 4 voxel index of the bounding box of the polygon in the slice with sliceNumber*/
-			BoostMask::VoxelIndexVector BoostMask::getBoundingBox(unsigned int sliceNumber){
+			BoostMask::VoxelIndexVector BoostMask::getBoundingBox(const unsigned int sliceNumber, BoostRingVector& intersectionSlicePolygons){
 				if(sliceNumber<0 || sliceNumber >= _geometricInfo->getNumSlices()){
 					throw rttb::core::InvalidParameterException(std::string("Error: slice number is invalid!"));
 				}
 
 				rttb::VoxelGridIndex3D currentIndex(0,0,sliceNumber);
 
-				BoostRingVector boostPolygons = getIntersectionSlicePolygons(currentIndex);
+				intersectionSlicePolygons = getIntersectionSlicePolygons(currentIndex[2]);
 
 				double xMin = 0;
 				double yMin = 0;
 				double xMax = 0; 
 				double yMax = 0;
-				for(unsigned int i =0; i<boostPolygons.size(); i++){
-					::boost::geometry::correct(boostPolygons.at(i));
+				for(unsigned int i =0; i<intersectionSlicePolygons.size(); i++){
+					::boost::geometry::correct(intersectionSlicePolygons.at(i));
 					::boost::geometry::model::box<BoostPoint2D> box;
-					::boost::geometry::envelope(boostPolygons.at(i), box);
+					::boost::geometry::envelope(intersectionSlicePolygons.at(i), box);
 					BoostPoint2D minPoint = box.min_corner();
 					BoostPoint2D maxPoint = box.max_corner();
 					if(i==0){
@@ -158,15 +159,14 @@ namespace rttb
 
 
 			/*Get intersection polygons of the contour and a voxel polygon*/
-			BoostMask::BoostPolygonDeque BoostMask::getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D){
+			BoostMask::BoostPolygonDeque BoostMask::getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D, const BoostRingVector& intersectionSlicePolygons){
 				BoostMask::BoostPolygonDeque polygonDeque;
 
 				BoostRing2D voxelPolygon = get2DContour(aVoxelIndex3D);
 				::boost::geometry::correct(voxelPolygon);
 
-				BoostMask::BoostRingVector contourVector = getIntersectionSlicePolygons(aVoxelIndex3D);
-				for(unsigned int i=0; i<contourVector.size(); i++){
-					BoostRing2D contour = contourVector.at(i);
+				for(unsigned int i=0; i<intersectionSlicePolygons.size(); i++){
+					BoostRing2D contour = intersectionSlicePolygons.at(i);
 					::boost::geometry::correct(contour);
 					BoostPolygonDeque intersection;
 					::boost::geometry::intersection(voxelPolygon, contour, intersection);
@@ -216,7 +216,7 @@ namespace rttb
 
 			}
 
-			BoostMask::BoostRingVector BoostMask::getIntersectionSlicePolygons(const rttb::VoxelGridIndex3D& aVoxelGrid3D){
+			BoostMask::BoostRingVector BoostMask::getIntersectionSlicePolygons(const rttb::GridIndexType aVoxelGridIndexZ){
 				BoostRingVector boostPolygonVector;
 
 				rttb::PolygonSequenceType polygonSequence = _structure->getStructureVector();
@@ -230,7 +230,7 @@ namespace rttb
 						_geometricInfo->worldCoordinateToIndex(polygonPoint, polygonPointIndex3D);
 
 						//if the z
-						if(aVoxelGrid3D[2] == polygonPointIndex3D[2]){
+						if(aVoxelGridIndexZ == polygonPointIndex3D[2]){
 							boostPolygonVector.push_back(convert(rttbPolygon));
 						}
 					}

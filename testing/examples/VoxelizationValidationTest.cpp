@@ -76,19 +76,19 @@ namespace rttb
 			//           4: directory name to write OTB mask of all structures
 			
 
-			std::string RTSTRUCT_FILENAME;
-			std::string RTDOSE_FILENAME;
-			std::string BoostMask_DIRNAME;
-			std::string OTBMask_DIRNAME;
+			std::string RTSTRUCT_FILENAME = "D:/Temp/Test/str.IMA";
+			std::string RTDOSE_FILENAME= "D:/Temp/Test/dose.IMA";
+			std::string BoostMask_DIRNAME= "D:/Temp/Test/Boost/";
+			std::string OTBMask_DIRNAME= "D:/Temp/Test/OTB/";
 
 
-			if (argc > 4)
+			/*if (argc > 4)
 			{
 				RTSTRUCT_FILENAME = argv[1];
 				RTDOSE_FILENAME = argv[2];
 				BoostMask_DIRNAME = argv[3];
 				OTBMask_DIRNAME = argv[4];
-			}
+			}*/
 
 
 			OFCondition status;
@@ -118,22 +118,46 @@ namespace rttb
 					            doseAccessor1->getGeometricInfo());
 					spOTBMaskAccessor->updateMask();
 					MaskAccessorPointer spMaskAccessor(spOTBMaskAccessor);
+					
+					::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
+					    ::boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, doseAccessor1);
+					DoseIteratorPointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
+					rttb::core::DVHCalculator calc(spMaskedDoseIterator, (rtStructureSet->getStructure(j))->getUID(),
+					                               doseAccessor1->getDoseUID());
+					rttb::core::DVH dvh = *(calc.generateDVH());
+
+					clock_t finish(clock());
+					std::cout << "OTB Mask Calculation time: " << finish - start << " ms" << std::endl;
 					//write the mask image to a file	
 					rttb::io::itk::ITKImageMaskAccessorConverter itkConverter(spOTBMaskAccessor);
 					CHECK(itkConverter.process());
+					
 					std::stringstream fileNameSstr;
 					fileNameSstr<<OTBMask_DIRNAME<<j<<".mhd";
 					std::cout << fileNameSstr.str()<<std::endl;
 					rttb::io::itk::ImageWriter writer(fileNameSstr.str(), itkConverter.getITKImage());
 					CHECK(writer.writeITKFile());
-
-					clock_t finish(clock());
-					std::cout << "OTB Mask Calculation and write file time: " << finish - start << " ms" << std::endl;
+					
+					
 
 					clock_t start2(clock());
 					//create Boost MaskAccessor		
 					MaskAccessorPointer boostMaskAccessorPtr = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>(rtStructureSet->getStructure(j), geometricPtr);
 					CHECK_NO_THROW(boostMaskAccessorPtr->updateMask());
+
+					::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp2 =
+					    ::boost::make_shared<core::GenericMaskedDoseIterator>(boostMaskAccessorPtr, doseAccessor1);
+					DoseIteratorPointer spMaskedDoseIterator2(spMaskedDoseIteratorTmp2);
+					rttb::core::DVHCalculator calc2(spMaskedDoseIterator2, (rtStructureSet->getStructure(j))->getUID(),
+					                               doseAccessor1->getDoseUID());
+					rttb::core::DVH dvh2 = *(calc2.generateDVH());
+
+					clock_t finish2(clock());
+					std::cout << "Boost Mask Calculation and write file time: " << finish2 - start2 << " ms" << std::endl;
+
+					CHECK_CLOSE(dvh.getMaximum(), dvh2.getMaximum(), 0.1);
+					CHECK_CLOSE(dvh.getMinimum(), dvh2.getMinimum(), 0.01);
+
 					//write the mask image to a file		
 					rttb::io::itk::ITKImageMaskAccessorConverter itkConverter2(boostMaskAccessorPtr);
 					CHECK(itkConverter2.process());
@@ -143,8 +167,7 @@ namespace rttb
 					rttb::io::itk::ImageWriter writer2(fileNameSstr2.str(), itkConverter2.getITKImage());
 					CHECK(writer2.writeITKFile());
 
-					clock_t finish2(clock());
-					std::cout << "Boost Mask Calculation and write file time: " << finish2 - start2 << " ms" << std::endl;
+					
 
 				}
 			}

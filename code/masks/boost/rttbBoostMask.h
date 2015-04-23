@@ -87,10 +87,10 @@ namespace rttb
 				bool hasSelfIntersections();
 
 				/*! @brief Get the min/max voxel index of the bounding box of the polygon in the slice with sliceNumber*/
-				VoxelIndexVector getBoundingBox(unsigned int sliceNumber);
+				VoxelIndexVector getBoundingBox(const unsigned int sliceNumber, BoostRingVector& intersectionSlicePolygons);
 
 				/*! @brief Get intersection polygons of the contour and a voxel polygon*/
-				BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D);
+				BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D, const BoostRingVector& intersectionSlicePolygons);
 
 				/*! @brief Calculate the intersection area*/
 				double calcArea(BoostPolygonDeque aPolygonDeque);
@@ -102,7 +102,7 @@ namespace rttb
 				BoostRing2D convert(const rttb::PolygonType& aRTTBPolygon);
 
 				/*! @brief Get the intersection slice of the voxel, return the polygons in the slice*/
-				BoostRingVector getIntersectionSlicePolygons(const rttb::VoxelGridIndex3D& aVoxelGrid3D);
+				BoostRingVector getIntersectionSlicePolygons(const rttb::GridIndexType aVoxelGridIndexZ);
 
 				/*! @brief Get the voxel 2d contour polygon*/
 				BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D);
