@@ -35,10 +35,11 @@ namespace rttb
 	{
 
 		/*! @class DoseStatisticsCalculator
-		@brief This is a class calculating different statistical values from a rt dose distribution
-		These values range from standard statistical values such as minimum, maximum and mean to more
-		dose specific properties such as Vx (volume irradiated with a dose >=x), Dx (minimal dose delivered
-		to x% of the VOI, and MOHx (mean in the hottest volume).
+		@brief Class for calculating different statistical values from a RT dose distribution
+		@details These values range from standard statistical values such as minimum, maximum and mean to more
+		complex dose specific measures such as Vx (volume irradiated with a dose >=x), Dx (minimal dose delivered
+		to x% of the VOI) or MOHx (mean in the hottest volume). For a complete list, see calculateDoseStatistics().
+		@note the complex dose statistics are precomputed and cannot be computed "on the fly" lateron! The doses/volumes that should be used for precomputation have to be set in calculateDoseStatistics()
 		*/
 		class DoseStatisticsCalculator
 		{
@@ -52,27 +53,22 @@ namespace rttb
 		private:
 			DoseIteratorPointer _doseIterator;
 
-			/* Contains relevant dose values sorted in descending order.
+			/*! @brief Contains relevant dose values sorted in descending order.
 			*/
 			std::vector<DoseTypeGy> _doseVector;
 
-			/*! Contains the corresponding voxel proportions to the values in doseVector.
+			/*! @brief Contains the corresponding voxel proportions to the values in doseVector.
 			*/
 			std::vector<double> _voxelProportionVector;
-
-
+			/*! @brief The doseStatistics are stored here.
+			*/
 			DoseStatisticsPointer _statistics;
 
-			bool simpleDoseStatisticsCalculated;
+			bool _simpleDoseStatisticsCalculated;
 
-			/*! @brief Calculation of basic dose statistics. It will be called in Constructor.
-				@exception NullPointerException Thrown if _doseIterator is NULL.
-			*/
+			ResultListPointer computeMaximumPositions(unsigned int maxNumberMaxima) const;
+			ResultListPointer computeMinimumPositions(unsigned int maxNumberMinima) const;
 
-
-			ResultListPointer computeMaximumPositions(unsigned int maxNumberMaxima);
-
-			ResultListPointer computeMinimumPositions(unsigned int maxNumberMinima);
 			VolumeType computeVx(DoseTypeGy xDoseAbsolute) const;
 			DoseTypeGy computeDx(VolumeType xVolumeAbsolute) const;
 			DoseTypeGy computeMOHx(VolumeType xVolumeAbsolute) const;
@@ -85,28 +81,53 @@ namespace rttb
 			VolumeToDoseFunctionType computeVolumeToDoseFunctionMulti(const std::vector<double>& precomputeVolumeValues,
 			        DoseStatistics::complexStatistics name) const;
 
+			/*! @brief Calculatues simple dose statistics (min, mean, max, stdDev, minDosePositions, maxDosePositions)
+			*/
 			void calculateSimpleDoseStatistics();
+			/*! @brief Calculatues complex dose statistics (Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx)
+				@warning computations can take quite long (>1 min) for large structures as many statistics are precomputed
+			*/
 			void calculateComplexDoseStatistics(const std::vector<double>& precomputeDoseValues,
 			                                    const std::vector<double>& precomputeVolumeValues);
 
 
 		public:
-			/*! @brief Standard Constructor
-			*/
-			DoseStatisticsCalculator();
-
 			~DoseStatisticsCalculator();
 
 			/*! @brief Constructor
+				@param aDoseIterator the dose to be analyzed
 			*/
 			DoseStatisticsCalculator(DoseIteratorPointer aDoseIterator);
 
-			/*! @brief Set new dose data for statistics. Statistics will be re-initialized.
-			*/
-			void setDoseIterator(DoseIteratorPointer aDoseIterator);
-
 			DoseIteratorPointer getDoseIterator() const;
 
+			/*! @brief Calculatues dose statistics
+				@details The following statistics are calculated always (i.e. also if computeComplexMeasures=false):
+						<ul>
+							<li>minimum dose
+							<li>mean dose
+							<li>maximum dose
+							<li>standard deviation dose
+							<li>voxel positions of minimum dose
+							<li>voxel positions of maximum dose
+						</ul>
+						Additionally, these statistics are computed if computeComplexMeasures=true:
+						<ul>
+							<li>Dx (the minimal dose delivered to part x of the current volume)
+							<li>Vx (the volume irradiated with a dose >= x)
+							<li>MOHx (mean dose of the hottest x voxels)
+							<li>MOCx (mean dose of the coldest x voxels)
+							<li>MaxOHx (Maximum outside of the hottest x voxels)
+							<li>MinOCx (Minimum outside of the coldest x voxels)
+						</ul>
+						Default values for precomputeDoseValues are 0.02, 0.05, 0.1, 0.9, 0.95 and 0.98 with respect to maxDose.
+						Default values for precomputeVolumeValues are 0.02, 0.05, 0.1, 0.9, 0.95 and 0.98 with respect to volume.
+				@param computeComplexMeasures should complex statistics be calculated?
+				@param precomputeDoseValues the dose values for Vx precomputation
+				@param precomputeVolumeValues the volume values for Dx, MOHx, MOCx, MaxOHx and MinOCx precomputation
+				@warning if computeComplexMeasures==true, computations can take quite long (>1 min) for large structures as many statistics are precomputed
+				@note the complex dose statistics are precomputed and cannot be computed "on the fly" lateron! The doses/volumes that should be used for precomputation have to be set by in precomputeDoseValues and precomputeVolumeValues. Only these values can be requested in DoseStatistics!
+			*/
 			DoseStatisticsPointer calculateDoseStatistics(bool computeComplexMeasures = false,
 			        const std::vector<double>& precomputeDoseValues = std::vector<double>(),
 			        const std::vector<double>& precomputeVolumeValues = std::vector<double>());

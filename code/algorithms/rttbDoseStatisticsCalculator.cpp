@@ -34,26 +34,8 @@ namespace rttb
 
 	namespace algorithms
 	{
-		DoseStatisticsCalculator::DoseStatisticsCalculator()
-		{
-			simpleDoseStatisticsCalculated = false;
-			_doseIterator = NULL;
-		}
 
 		DoseStatisticsCalculator::DoseStatisticsCalculator(DoseIteratorPointer aDoseIterator)
-		{
-			setDoseIterator(aDoseIterator);
-			simpleDoseStatisticsCalculated = false;
-		}
-
-
-		DoseStatisticsCalculator::~DoseStatisticsCalculator()
-		{
-
-		}
-
-
-		void DoseStatisticsCalculator::setDoseIterator(DoseIteratorPointer aDoseIterator)
 		{
 			if (aDoseIterator == NULL)
 			{
@@ -63,6 +45,14 @@ namespace rttb
 			{
 				_doseIterator = aDoseIterator;
 			}
+
+			_simpleDoseStatisticsCalculated = false;
+		}
+
+
+		DoseStatisticsCalculator::~DoseStatisticsCalculator()
+		{
+
 		}
 
 		DoseStatisticsCalculator::DoseIteratorPointer DoseStatisticsCalculator::getDoseIterator() const
@@ -81,7 +71,7 @@ namespace rttb
 				throw core::NullPointerException("_doseIterator must not be NULL!");
 			}
 
-			//"simple" dose statistics are obligatory
+			//"simple" dose statistics are mandatory
 			calculateSimpleDoseStatistics();
 
 			if (computeComplexMeasures)
@@ -105,14 +95,14 @@ namespace rttb
 
 
 			DoseStatisticType maximumDose = 0;
-			DoseStatisticType minimumDose = 0;
-			DoseStatisticType meanDose = 0;
-			DoseStatisticType stdDeviationDose = 0;
+			DoseStatisticType minimumDose = std::numeric_limits<DoseStatisticType>::max();
+			DoseStatisticType meanDose;
+			DoseStatisticType stdDeviationDose;
 
 
-			float sum = 0;
-			rttb::DoseStatisticType numVoxels = 0.0;
-			float squareSum = 0;
+			DoseTypeGy sum = 0;
+			VolumeType numVoxels = 0.0;
+			DoseTypeGy squareSum = 0;
 			VolumeType volume = 0;
 
 			_doseIterator->reset();
@@ -178,9 +168,7 @@ namespace rttb
 			}
 
 			//sort dose values and corresponding volume fractions in member variables
-			std::multimap<double, int>::iterator it;
-
-			for (it = doseValueVSIndexMap.begin(); it != doseValueVSIndexMap.end(); ++it)
+			for (auto it = doseValueVSIndexMap.begin(); it != doseValueVSIndexMap.end(); ++it)
 			{
 				_doseVector.push_back((float)(*it).first);
 				_voxelProportionVector.push_back(voxelProportionVectorTemp.at((*it).second));
@@ -191,21 +179,24 @@ namespace rttb
 			_statistics = boost::make_shared<DoseStatistics>(minimumDose, maximumDose, meanDose, stdDeviationDose, numVoxels,
 			              volume);
 
-			simpleDoseStatisticsCalculated = true;
+			_simpleDoseStatisticsCalculated = true;
 
 			ResultListPointer minimumVoxelPositions = computeMinimumPositions(100);
 			ResultListPointer maximumVoxelPositions = computeMaximumPositions(100);
 
 			_statistics->setMinimumVoxelPositions(minimumVoxelPositions);
 			_statistics->setMaximumVoxelPositions(maximumVoxelPositions);
-
-
 		}
 
 
 		void DoseStatisticsCalculator::calculateComplexDoseStatistics(const std::vector<double>& precomputeDoseValues,
 		        const std::vector<double>& precomputeVolumeValues)
 		{
+			if (!_simpleDoseStatisticsCalculated)
+			{
+				throw core::InvalidDoseException("simple DoseStatistics have to be computed in order to call calculateComplexDoseStatistics()");
+			}
+
 			std::vector<double> precomputeDoseValuesNonConst = precomputeDoseValues;
 			std::vector<double> precomputeVolumeValuesNonConst = precomputeVolumeValues;
 
@@ -248,12 +239,11 @@ namespace rttb
 
 
 		DoseStatisticsCalculator::ResultListPointer DoseStatisticsCalculator::computeMaximumPositions(
-		    unsigned int maxNumberMaxima)
+		    unsigned int maxNumberMaxima) const
 		{
-			if (!simpleDoseStatisticsCalculated)
+			if (!_simpleDoseStatisticsCalculated)
 			{
-				throw core::InvalidDoseException("simple DoseStatistics have to be computed in order to call computeMaximumAndPosition()");
-
+				throw core::InvalidDoseException("simple DoseStatistics have to be computed in order to call computeMaximumPositions()");
 			}
 
 			ResultListPointer maxVoxelVector = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
@@ -281,11 +271,11 @@ namespace rttb
 		}
 
 		DoseStatisticsCalculator::ResultListPointer DoseStatisticsCalculator::computeMinimumPositions(
-		    unsigned int maxNumberMinima)
+		    unsigned int maxNumberMinima) const
 		{
-			if (!simpleDoseStatisticsCalculated)
+			if (!_simpleDoseStatisticsCalculated)
 			{
-				throw core::InvalidDoseException("simple DoseStatistics have to be computed in order to call computeMinimumAndPosition()");
+				throw core::InvalidDoseException("simple DoseStatistics have to be computed in order to call computeMinimumPositions()");
 
 			}
 
@@ -348,7 +338,7 @@ namespace rttb
 			DoseTypeGy resultDose = 0;
 
 			double countVoxels = 0;
-			int i = _doseVector.size() - 1;
+			int i = static_cast<int>(_doseVector.size() - 1);
 
 			for (; i >= 0; i--)
 			{
@@ -386,7 +376,7 @@ namespace rttb
 				double countVoxels = 0;
 				double sum = 0;
 
-				for (int i = _doseVector.size() - 1; i >= 0; i--)
+				for (int i = static_cast<int>(_doseVector.size() - 1); i >= 0; i--)
 				{
 					double voxelProportion = _voxelProportionVector.at(i);
 					countVoxels += voxelProportion;
@@ -440,7 +430,7 @@ namespace rttb
 			DoseTypeGy resultDose = 0;
 
 			double countVoxels = 0;
-			int i = _doseVector.size() - 1;
+			int i = static_cast<int>(_doseVector.size() - 1);
 
 			for (; i >= 0; i--)
 			{

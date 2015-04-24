@@ -68,9 +68,6 @@ namespace rttb
 
 			//1) test constructors
 			// the values cannot be accessed from outside, therefore correct default values are not tested
-			CHECK_NO_THROW(rttb::algorithms::DoseStatisticsCalculator myEmptyDoseStatCalculatur);
-			rttb::algorithms::DoseStatisticsCalculator myEmptyDoseStatCalculatur;
-			rttb::algorithms::DoseStatisticsCalculator myDoseStatCalculaturToBeFilled;
 
 			CHECK_THROW_EXPLICIT(rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(spDoseIteratorNull),
 			                     core::NullPointerException);
@@ -79,14 +76,10 @@ namespace rttb
 			rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(spDoseIterator);
 
 			//2) test setDoseIterator
-			CHECK_THROW_EXPLICIT(myDoseStatCalculaturToBeFilled.setDoseIterator(spDoseIteratorNull), core::NullPointerException);
-			CHECK_NO_THROW(myDoseStatCalculaturToBeFilled.setDoseIterator(spDoseIterator));
 
 			//3) test calculateDoseStatistics
-			DoseStatisticsPointer theStatistics, theStatistics2;
-			CHECK_THROW_EXPLICIT(myEmptyDoseStatCalculatur.calculateDoseStatistics(), core::NullPointerException);
+			DoseStatisticsPointer theStatistics;
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics());
-			CHECK_NO_THROW(theStatistics2 = myDoseStatCalculaturToBeFilled.calculateDoseStatistics());
 			CHECK_EQUAL(theStatistics->getMinimumPositions()->empty(), false);
 			CHECK_EQUAL(theStatistics->getMaximumPositions()->empty(), false);
 			CHECK_EQUAL(theStatistics->getAllVx().empty(), true);
@@ -106,12 +99,12 @@ namespace rttb
 			CHECK_NO_THROW(theStatisticsDefault->getVx(0.9 * theStatisticsDefault->getMaximum()));
 			CHECK_NO_THROW(theStatisticsDefault->getVx(0.95 * theStatisticsDefault->getMaximum()));
 			CHECK_NO_THROW(theStatisticsDefault->getVx(0.98 * theStatisticsDefault->getMaximum()));
-			CHECK_NO_THROW(theStatisticsDefault->getDx(0.02 * theStatisticsDefault->getNumberOfVoxels()));
-			CHECK_NO_THROW(theStatisticsDefault->getDx(0.05 * theStatisticsDefault->getNumberOfVoxels()));
-			CHECK_NO_THROW(theStatisticsDefault->getDx(0.1 * theStatisticsDefault->getNumberOfVoxels()));
-			CHECK_NO_THROW(theStatisticsDefault->getDx(0.9 * theStatisticsDefault->getNumberOfVoxels()));
-			CHECK_NO_THROW(theStatisticsDefault->getDx(0.95 * theStatisticsDefault->getNumberOfVoxels()));
-			CHECK_NO_THROW(theStatisticsDefault->getDx(0.98 * theStatisticsDefault->getNumberOfVoxels()));
+			CHECK_NO_THROW(theStatisticsDefault->getDx(0.02 * theStatisticsDefault->getVolume()));
+			CHECK_NO_THROW(theStatisticsDefault->getDx(0.05 * theStatisticsDefault->getVolume()));
+			CHECK_NO_THROW(theStatisticsDefault->getDx(0.1 * theStatisticsDefault->getVolume()));
+			CHECK_NO_THROW(theStatisticsDefault->getDx(0.9 * theStatisticsDefault->getVolume()));
+			CHECK_NO_THROW(theStatisticsDefault->getDx(0.95 * theStatisticsDefault->getVolume()));
+			CHECK_NO_THROW(theStatisticsDefault->getDx(0.98 * theStatisticsDefault->getVolume()));
 
 			//check manually set values for omputeComplexMeasures=true
 			std::vector<double> precomputeDoseValues, precomputeVolumeValues;
@@ -119,9 +112,9 @@ namespace rttb
 			precomputeDoseValues.push_back(0.02 * theStatistics->getMaximum());
 			precomputeDoseValues.push_back(0.05 * theStatistics->getMaximum());
 
-			precomputeVolumeValues.push_back(0.9 * theStatistics->getNumberOfVoxels());
-			precomputeVolumeValues.push_back(0.95 * theStatistics->getNumberOfVoxels());
-			precomputeVolumeValues.push_back(0.99 * theStatistics->getNumberOfVoxels());
+			precomputeVolumeValues.push_back(0.9 * theStatistics->getVolume());
+			precomputeVolumeValues.push_back(0.95 * theStatistics->getVolume());
+			precomputeVolumeValues.push_back(0.99 * theStatistics->getVolume());
 
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(true, precomputeDoseValues,
 			                               precomputeVolumeValues));
@@ -129,24 +122,23 @@ namespace rttb
 			CHECK_NO_THROW(theStatistics->getVx(0.02 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getVx(0.05 * theStatistics->getMaximum()));
 			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.03 * theStatistics->getMaximum()), core::DataNotAvailableException);
-			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatistics->getNumberOfVoxels()));
-			CHECK_NO_THROW(theStatistics->getDx(0.95 * theStatistics->getNumberOfVoxels()));
-			CHECK_NO_THROW(theStatistics->getDx(0.99 * theStatistics->getNumberOfVoxels()));
-			CHECK_THROW_EXPLICIT(theStatistics->getDx(0.03 * theStatistics->getNumberOfVoxels()), core::DataNotAvailableException);
+			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatistics->getVolume()));
+			CHECK_NO_THROW(theStatistics->getDx(0.95 * theStatistics->getVolume()));
+			CHECK_NO_THROW(theStatistics->getDx(0.99 * theStatistics->getVolume()));
+			CHECK_THROW_EXPLICIT(theStatistics->getDx(0.03 * theStatistics->getVolume()), core::DataNotAvailableException);
 			CHECK_EQUAL(theStatistics->getVx(0.02 * theStatistics->getMaximum()),
 			            theStatisticsDefault->getVx(0.02 * theStatistics->getMaximum()));
 			CHECK_EQUAL(theStatistics->getVx(0.05 * theStatistics->getMaximum()),
 			            theStatisticsDefault->getVx(0.05 * theStatistics->getMaximum()));
-			CHECK_EQUAL(theStatistics->getDx(0.9 * theStatistics->getNumberOfVoxels()),
-			            theStatisticsDefault->getDx(0.9 * theStatistics->getNumberOfVoxels()));
-			CHECK_EQUAL(theStatistics->getDx(0.95 * theStatistics->getNumberOfVoxels()),
-			            theStatisticsDefault->getDx(0.95 * theStatistics->getNumberOfVoxels()));
+			CHECK_EQUAL(theStatistics->getDx(0.9 * theStatistics->getVolume()),
+			            theStatisticsDefault->getDx(0.9 * theStatistics->getVolume()));
+			CHECK_EQUAL(theStatistics->getDx(0.95 * theStatistics->getVolume()),
+			            theStatisticsDefault->getDx(0.95 * theStatistics->getVolume()));
 
 			//MOHx, MOCx, MaxOHx and MinOCx are computed analogous to Dx, they will not be checked.
 
 			//4) get statistical values
 			CHECK_EQUAL(theStatistics->getNumberOfVoxels(), doseVals->size());
-			CHECK_EQUAL(theStatistics2->getNumberOfVoxels(), doseVals->size());
 
 			//compute simple statistical values (min, mean, max, stddev) for comparison
 			DoseStatisticType maximum = 0;
@@ -172,7 +164,7 @@ namespace rttb
 			}
 
 			mean /= doseVals->size();
-			float compMean = (int(mean * 100)) / 100;
+			DoseTypeGy compMean = (int(mean * 100)) / 100;
 
 			doseIt = doseVals->begin();
 
@@ -189,19 +181,10 @@ namespace rttb
 			double errorConstantLarger = 1e-2;
 
 			CHECK_EQUAL(theStatistics->getMaximum(), maximum);
-			CHECK_EQUAL(theStatistics2->getMaximum(), maximum);
-
 			CHECK_EQUAL(theStatistics->getMinimum(), minimum);
-			CHECK_EQUAL(theStatistics2->getMinimum(), minimum);
-
 			CHECK_CLOSE(theStatistics->getMean(), mean, errorConstantLarger);
-			CHECK_CLOSE(theStatistics2->getMean(), mean, errorConstantLarger);
-
 			CHECK_CLOSE(theStatistics->getStdDeviation(), stdDev, errorConstantLarger);
-			CHECK_CLOSE(theStatistics2->getStdDeviation(), stdDev, errorConstantLarger);
-
 			CHECK_CLOSE(theStatistics->getVariance(), variance, errorConstantLarger);
-			CHECK_CLOSE(theStatistics2->getVariance(), variance, errorConstantLarger);
 
 			//check for complex doseStatistics (maximumPositions, minimumPositions, Vx, Dx, MOHx, MOCx, MAXOHx, MinOCx)
 

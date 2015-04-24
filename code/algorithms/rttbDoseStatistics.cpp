@@ -28,11 +28,11 @@ namespace rttb
 	namespace algorithms
 	{
 		DoseStatistics::DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum, DoseStatisticType mean,
-		                               DoseStatisticType stdDeviation, unsigned int numVoxels, VolumeType volume,
+		                               DoseStatisticType stdDeviation, VolumeType numVoxels, VolumeType volume,
 		                               ResultListPointer maximumVoxelPositions /*= ResultListPointer()*/,
 		                               ResultListPointer minimumVoxelPositions /*= ResultListPointer()*/,
-		                               DoseToVolumeFunctionType Dx /*= std::map<DoseTypeGy, VolumeType>()*/,
-		                               VolumeToDoseFunctionType Vx /*= std::map<VolumeType, DoseTypeGy>()*/,
+		                               VolumeToDoseFunctionType Dx /*= std::map<DoseTypeGy, VolumeType>()*/,
+		                               DoseToVolumeFunctionType Vx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MaxOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
@@ -92,7 +92,7 @@ namespace rttb
 			_MinOCx = MinOCValues;
 		}
 
-		unsigned int DoseStatistics::getNumberOfVoxels() const
+		VolumeType DoseStatistics::getNumberOfVoxels() const
 		{
 			return _numVoxels;
 		}
@@ -203,10 +203,10 @@ namespace rttb
 			return getValue(_MinOCx, xVolumeAbsolute, false, dummy);
 		}
 
-		double DoseStatistics::getValue(std::map<double, double> aMap, double key,
+		double DoseStatistics::getValue(const std::map<double, double>& aMap, double key,
 		                                bool findNearestValueInstead, double& storedKey) const
 		{
-			if (aMap.find(key) != aMap.end())
+			if (aMap.find(key) != std::end(aMap))
 			{
 				return aMap.find(key)->second;
 			}
@@ -233,7 +233,7 @@ namespace rttb
 			}
 		}
 
-		std::map<double, double>::const_iterator DoseStatistics::findNearestKeyInMap(std::map<double, double> aMap,
+		std::map<double, double>::const_iterator DoseStatistics::findNearestKeyInMap(const std::map<double, double>& aMap,
 		        double key) const
 		{
 			double minDistance = 1e19;
