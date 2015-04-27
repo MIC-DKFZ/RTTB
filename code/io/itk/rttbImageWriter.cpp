@@ -1,11 +1,11 @@
 // -----------------------------------------------------------------------
-// MatchPoint - DKFZ translational registration framework
+// RTToolbox - DKFZ radiotherapy quantitative evaluation library
 //
 // Copyright (c) German Cancer Research Center (DKFZ),
 // Software development for Integrated Diagnostics and Therapy (SIDT).
 // ALL RIGHTS RESERVED.
-// See mapCopyright.txt or
-// http://www.dkfz.de/en/sidt/projects/MatchPoint/copyright.html
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html
 //
 // This software is distributed WITHOUT ANY WARRANTY; without even
 // the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
@@ -16,10 +16,8 @@
 // @file
 // @version $Revision: 793 $ (last changed revision)
 // @date    $Date: 2014-10-10 10:24:45 +0200 (Fr, 10 Okt 2014) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-// Subversion HeadURL: $HeadURL: https://svn/sbr/Sources/SBR-Projects/MatchPoint/trunk/Code/IO/include/mapImageReader.h $
+// @author  $Author: lzhang $ (last changed by)
 */
-
 
 #include "rttbImageWriter.h"
 #include "rttbInvalidParameterException.h"
