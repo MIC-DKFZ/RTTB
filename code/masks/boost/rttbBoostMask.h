@@ -86,22 +86,40 @@ namespace rttb
 				/*! @brief Check if the structure has self intersections*/
 				bool hasSelfIntersections();
 
-				/*! @brief Get the min/max voxel index of the bounding box of the polygon in the slice with sliceNumber*/
+				/*! @brief Get the min/max voxel index of the bounding box of the polygon in the slice with sliceNumber
+				 * @param sliceNumber slice number between 0 and _geometricInfo->getNumSlices()
+				 * @param intersectionSlicePolygons Get the polygons intersecting the slice
+				 * @exception InvalidParameterException thrown if sliceNumber < 0 or sliceNumber >=  _geometricInfo->getNumSlices()
+				 * @return Return the 4 voxel index of the bounding box
+				*/
 				VoxelIndexVector getBoundingBox(const unsigned int sliceNumber, BoostRingVector& intersectionSlicePolygons);
 
-				/*! @brief Get intersection polygons of the contour and a voxel polygon*/
+				/*! @brief Get intersection polygons of the contour and a voxel polygon
+				 * @param aVoxelIndex3D The 3d grid index of the voxel
+				 * @param intersectionSlicePolygons The polygons of the slice intersecting the voxel
+				 * @return Return all intersetion polygons of the structure and the voxel
+				*/
 				BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D, const BoostRingVector& intersectionSlicePolygons);
 
-				/*! @brief Calculate the intersection area*/
+				/*! @brief Calculate the area of all polygons
+				 * @param aPolygonDeque The deque of polygons
+				 * @return Return the area of all polygons
+				*/
 				double calcArea(BoostPolygonDeque aPolygonDeque);
 
-				/*! @brief Get grid index of a mask voxel*/
+				/*! @brief Get grid index of a mask voxel
+				 * @param aMaskVoxel A mask voxel
+				 * @return Return the 3d grid index of the mask voxel 
+				*/
 				VoxelGridIndex3D getGridIndex3D(const core::MaskVoxel& aMaskVoxel);
 
 				/*! @brief Convert RTTB polygon to boost polygon*/
 				BoostRing2D convert(const rttb::PolygonType& aRTTBPolygon);
 
-				/*! @brief Get the intersection slice of the voxel, return the polygons in the slice*/
+				/*! @brief Get the intersection slice of the voxel, return the polygons in the slice
+				 * @param aVoxelGridIndexZ The z grid index (slice number) of the voxel
+				 * @return Return the structure polygons intersecting the slice 
+				*/
 				BoostRingVector getIntersectionSlicePolygons(const rttb::GridIndexType aVoxelGridIndexZ);
 
 				/*! @brief Get the voxel 2d contour polygon*/
