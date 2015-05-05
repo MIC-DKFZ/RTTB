@@ -25,8 +25,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/numeric/conversion/cast.hpp>
 
-#include "rttbDicomFileDoseAccessorConverter.h"
-#include "rttbDicomIODDoseAccessorConverter.h"
+#include "rttbDicomFileDoseAccessorWriter.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbGeometricInfo.h"
 #include "rttbGeometricInfo.h"
@@ -40,17 +39,19 @@ namespace rttb
 		namespace dicom
 		{
 
-			DicomFileDoseAccessorConverter::DicomFileDoseAccessorConverter(DoseAccessorPointer aAccessor, DICOMRTFileNameString aFileName)
-				:_fileName(aFileName)
+			DicomFileDoseAccessorWriter::DicomFileDoseAccessorWriter()
 			{
-				setDoseAccessor(aAccessor);
 				_doseIOD = boost::make_shared<DRTDoseIOD>();
 				_dataset = _fileformat.getDataset();
 			}
 
-			bool DicomFileDoseAccessorConverter::process()
+			void DicomFileDoseAccessorWriter::setFileName(DICOMRTFileNameString aFileName)			
 			{
-				std::string s;
+				_fileName = aFileName;
+			}
+
+			bool DicomFileDoseAccessorWriter::process()
+			{
 				OFCondition status;
 
 				/* Prepare dcmtk */				
@@ -112,26 +113,30 @@ namespace rttb
 				_dataset->putAndInsertString (DCM_SeriesNumber, "");
 				_dataset->putAndInsertString (DCM_InstanceNumber, "1");
 
-				s = string_format ("%g\\%g\\%g", geometricInfo.getImagePositionPatient().x(), 
-					geometricInfo.getImagePositionPatient().y(), geometricInfo.getImagePositionPatient().z());
+
 				/* GCS FIX: PatientOrientation */
+				std::ostringstream sstr;
+				sstr << geometricInfo.getImagePositionPatient().x() << "\\" << geometricInfo.getImagePositionPatient().y()
+					<< "\\" << geometricInfo.getImagePositionPatient().z();
 				_dataset->putAndInsertString (DCM_PatientOrientation, "L/P");
-				_dataset->putAndInsertString (DCM_ImagePositionPatient, s.c_str());
-				s = string_format ("%g\\%g\\%g\\%g\\%g\\%g",
-					geometricInfo.getImageOrientationRow().x(),
-					geometricInfo.getImageOrientationRow().y(),
-					geometricInfo.getImageOrientationRow().z(),
-					geometricInfo.getImageOrientationColumn().x(),
-					geometricInfo.getImageOrientationColumn().y(),
-					geometricInfo.getImageOrientationColumn().z());
-				_dataset->putAndInsertString (DCM_ImageOrientationPatient, s.c_str());
+				_dataset->putAndInsertString (DCM_ImagePositionPatient, sstr.str().c_str());
+				
+				sstr.str("");
+				sstr << geometricInfo.getImageOrientationRow().x() << "\\" 
+					<< geometricInfo.getImageOrientationRow().y() << "\\"
+					<< geometricInfo.getImageOrientationRow().z() << "\\"
+					<< geometricInfo.getImageOrientationColumn().x() << "\\"
+					<< geometricInfo.getImageOrientationColumn().y() << "\\"
+					<< geometricInfo.getImageOrientationColumn().z();
+				_dataset->putAndInsertString (DCM_ImageOrientationPatient, sstr.str().c_str());
 				_dataset->putAndInsertString (DCM_FrameOfReferenceUID, 
 					"");//FrameOfReferenceUID?
 
 				_dataset->putAndInsertString (DCM_SamplesPerPixel, "1");
 				_dataset->putAndInsertString (DCM_PhotometricInterpretation, "MONOCHROME2");
-				s = string_format ("%d", geometricInfo.getNumSlices());
-				_dataset->putAndInsertString (DCM_NumberOfFrames, s.c_str());
+				sstr.str("");
+				sstr << geometricInfo.getNumSlices();
+				_dataset->putAndInsertString (DCM_NumberOfFrames, sstr.str().c_str());
 
 				/* GCS FIX: Add FrameIncrementPointer */
 				_dataset->putAndInsertString (DCM_FrameIncrementPointer, 
@@ -139,40 +144,29 @@ namespace rttb
 
 				_dataset->putAndInsertUint16 (DCM_Rows, geometricInfo.getNumRows());
 				_dataset->putAndInsertUint16 (DCM_Columns, geometricInfo.getNumColumns());
-				s = string_format ("%g\\%g", 
-					geometricInfo.getSpacing()(1), geometricInfo.getSpacing()(0));
-				_dataset->putAndInsertString (DCM_PixelSpacing, s.c_str());
+				sstr.str("");
+				sstr << geometricInfo.getSpacing()(1) << "\\"<<geometricInfo.getSpacing()(0);
+				_dataset->putAndInsertString (DCM_PixelSpacing, sstr.str().c_str());
 
 				_dataset->putAndInsertString (DCM_BitsAllocated, "32");
 				_dataset->putAndInsertString (DCM_BitsStored, "32");
 				_dataset->putAndInsertString (DCM_HighBit, "31");
-				/*if (dose_metadata 
-				&& dose_metadata->get_metadata(0x3004, 0x0004) == "ERROR")
-				{
-				_dataset->putAndInsertString (DCM_PixelRepresentation, "1");
-				} else {
-				_dataset->putAndInsertString (DCM_PixelRepresentation, "0");
-				}*/
 
 				_dataset->putAndInsertString (DCM_DoseUnits, "GY");
-				/*dcmtk_copy_from_metadata (_dataset, dose_metadata, 
-				DCM_DoseType, "PHYSICAL");*/
+				
 				_dataset->putAndInsertString (DCM_DoseSummationType, "PLAN");
 
-				s = std::string ("0");
+				sstr.str("0");
 				for (int i = 1; i < geometricInfo.getNumSlices(); i++) {
-					s += string_format ("\\%g",  i * geometricInfo.getSpacing()(2));//*dose_volume->direction_cosines[8]? What is dose_volume->direction_cosines[8]
+					sstr << "\\" <<  i * geometricInfo.getSpacing()(2);//*dose_volume->direction_cosines[8]? What is dose_volume->direction_cosines[8]
 				}
-				_dataset->putAndInsertString (DCM_GridFrameOffsetVector, s.c_str());
+				_dataset->putAndInsertString (DCM_GridFrameOffsetVector, sstr.str().c_str());
 
-				/* GCS FIX:
-				Leave ReferencedRTPlanSequence empty (until I can cross reference) */
 
 				/* We need to convert image to uint16_t, but first we need to 
 				scale it so that the maximum dose fits in a 16-bit unsigned 
 				integer.  Compute an appropriate scaling factor based on the 
 				maximum dose. */
-
 
 				/* Find the maximum value in the image */
 				boost::shared_ptr<rttb::core::GenericDoseIterator> spTestDoseIterator = boost::make_shared<rttb::core::GenericDoseIterator>(_doseAccessor);
@@ -189,8 +183,9 @@ namespace rttb
 				dose_scale = maxDose /PixelDataMaxValue;
 
 				/* Scale the image and add scale factor to _dataset */
-				s = string_format ("%g", dose_scale);
-				_dataset->putAndInsertString (DCM_DoseGridScaling, s.c_str());
+				sstr.str("");
+				sstr << dose_scale;
+				_dataset->putAndInsertString (DCM_DoseGridScaling, sstr.str().c_str());
 
 				/* (300c,0002) ReferencedRTPlanSequence -- for future expansion */
 				dcm_item = 0;
@@ -231,46 +226,13 @@ namespace rttb
 					throw core::InvalidDoseException("Error: put and insert pixel data failed!");
 				}
 
-				return true;
-			}
-
-			void DicomFileDoseAccessorConverter::writeDicomDoseFile(){
-				OFCondition status;
-
+				//Write dose to file
 				status = _fileformat.saveFile (_fileName.c_str(), EXS_LittleEndianExplicit);
 				if (status.bad()) {
 					std::cerr << "Error: cannot write DICOM RTDOSE!" << std::endl;
 				}
 
-			}
-
-			std::string DicomFileDoseAccessorConverter::string_format (const char *fmt, va_list ap)
-			{
-				int size=100;
-				std::string str;
-				while (1) {
-					str.resize(size);
-					va_list ap_copy = ap; //va_list ap_copy; va_copy (ap_copy, ap); va_copy() is supported starting in Visual Studio 2013.
-					int n = vsnprintf((char *)str.c_str(), size, fmt, ap_copy);
-					va_end (ap_copy);
-					if (n > -1 && n < size) {
-						str = std::string (str.c_str());  /* Strip excess padding */
-						return str;
-					}
-					if (n > -1)
-						size=n+1;
-					else
-						size*=2;
-				}
-			}
-
-			std::string DicomFileDoseAccessorConverter::string_format (const char *fmt, ...)
-			{
-				va_list ap;
-				va_start (ap, fmt);
-				std::string string = string_format (fmt, ap);
-				va_end (ap);
-				return string;
+				return true;
 			}
 
 

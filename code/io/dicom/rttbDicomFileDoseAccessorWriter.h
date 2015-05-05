@@ -18,15 +18,13 @@
 // @date    $Date: 2014-10-10 10:24:45 +0200 (Fr, 10 Okt 2014) $ (last change date)
 // @author  $Author: hentsch $ (last changed by)
 */
-#ifndef __DICOM_IOD_DOSE_ACCESSOR_CONVERTER_H
-#define __DICOM_IOD_DOSE_ACCESSOR_CONVERTER_H
+#ifndef __DICOM_FILE_DOSE_ACCESSOR_WRITER_H
+#define __DICOM_FILE_DOSE_ACCESSOR_WRITER_H
 
 
 #include "../itk/rttbDoseAccessorProcessorBase.h"
 #include "../itk/rttbDoseAccessorConversionSettingInterface.h"
 #include "rttbDicomDoseAccessor.h"
-
-#include <cstdint>
 
 //pixel data max value
 #define PixelDataMaxValue UINT16_MAX
@@ -37,39 +35,46 @@ namespace rttb
 	{
 		namespace dicom
 		{
-
-			/*! @class DicomIODDoseAccessorConverter
-				@brief Class converts/dumps the processed accessor into an dicom dose iod
+			/*! @class DicomFileDoseAccessorWriter
+				@brief Class converts/dumps the processed accessor into an dicom file
 				@remark DoseAccessorConversionInterface defines how the converter should react on non valid dose values.
-				@remark Not implemented because of no usage now, please use DicomFileDoseAccessorConverter
 			*/
-			class DicomIODDoseAccessorConverter: public core::DoseAccessorProcessorBase,
+			class DicomFileDoseAccessorWriter: public core::DoseAccessorProcessorBase,
 				public core::DoseAccessorConversionSettingInterface
 			{
-
 			public:
 				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
 				typedef DicomDoseAccessor::DRTDoseIODPtr DRTDoseIODPointer;
-				typedef boost::shared_ptr<DcmItem> DcmItemPtr;
 
-				DicomIODDoseAccessorConverter(DoseAccessorPointer accessor);
-				virtual ~DicomIODDoseAccessorConverter() {};
+				/*! @brief Standard Constructor.
+				*/
+				DicomFileDoseAccessorWriter();
 
-				bool process();//not implemented because of no usage now, please use DicomFileDoseAccessorConverter
+				virtual ~DicomFileDoseAccessorWriter() {};
 
-				DRTDoseIODPointer getDicomDoseIOD()
-				{
-					return _doseIOD;
-				}
+				/*! Set a file name to write the dose
+				@param aFileName a file name to write the dose 
+				*/
+				void setFileName(DICOMRTFileNameString aFileName);
 
+				/*! @brief Convert the accessor into dicom dataset and write dicom dataset to a file
+				@exception InvalidDoseException thrown if put and insert pixel data into dicom dataset failed
+				*/
+				bool process();
+
+				
+				
 			private:
-				DicomIODDoseAccessorConverter(const
-				                              DicomIODDoseAccessorConverter&); //not implemented on purpose -> non-copyable
-				DicomIODDoseAccessorConverter& operator=(const
-				        DicomIODDoseAccessorConverter&);//not implemented on purpose -> non-copyable
-
+				DicomFileDoseAccessorWriter(const
+				                              DicomFileDoseAccessorWriter&); //not implemented on purpose -> non-copyable
+				DicomFileDoseAccessorWriter& operator=(const
+				        DicomFileDoseAccessorWriter&);//not implemented on purpose -> non-copyable
 
 				DRTDoseIODPointer _doseIOD;
+				DICOMRTFileNameString _fileName;
+				DcmFileFormat _fileformat;
+				DcmDataset *_dataset;
+
 			};
 		}
 	}

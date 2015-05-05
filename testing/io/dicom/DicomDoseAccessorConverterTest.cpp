@@ -32,7 +32,7 @@
 #include "rttbBaseType.h"
 #include "rttbDicomDoseAccessor.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
-#include "rttbDicomFileDoseAccessorConverter.h"
+#include "rttbDicomFileDoseAccessorWriter.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbDcmrtException.h"
 #include "rttbInvalidParameterException.h"
@@ -71,10 +71,11 @@ namespace rttb
 			double errorConstant = 1e-3;
 			DoseAccessorPointer doseAccessor_r = io::dicom::DicomFileDoseAccessorGenerator(RTDOSE_FILENAME_R.c_str()).generateDoseAccessor();
 
-			CHECK_NO_THROW(io::dicom::DicomFileDoseAccessorConverter(doseAccessor_r, RTDOSE_FILENAME_W));
-			io::dicom::DicomFileDoseAccessorConverter doseConverter(doseAccessor_r, RTDOSE_FILENAME_W);
+			CHECK_NO_THROW(io::dicom::DicomFileDoseAccessorWriter());
+			io::dicom::DicomFileDoseAccessorWriter doseConverter;
+			CHECK_NO_THROW(doseConverter.setDoseAccessor(doseAccessor_r));
+			CHECK_NO_THROW(doseConverter.setFileName(RTDOSE_FILENAME_W)); 
 			CHECK_EQUAL(doseConverter.process(), true);
-			CHECK_NO_THROW(doseConverter.writeDicomDoseFile());
 
 			
 			DoseAccessorPointer doseAccessor_w = io::dicom::DicomFileDoseAccessorGenerator(RTDOSE_FILENAME_W).generateDoseAccessor();
