@@ -36,7 +36,7 @@ namespace rttb
 
 
 			/** @class ImageWriter
-			* @brief Helper class writing 2D/3D images to file ...
+			* @brief Helper class writing 3D images to file ...
 			*
 			*/
 			class ImageWriter
@@ -57,7 +57,7 @@ namespace rttb
 				@return Return true if successful.
 				@exception InvalidParameterException thrown if itk exception by writing the image
 				*/
-				bool writeITKFile();
+				bool writeFile();
 
 
 

@@ -27,10 +27,6 @@
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */
-#include "dcmtk/dcmrt/drtdose.h"
-#include "dcmtk/dcmdata/dcfilefo.h"
-
 #include "litCheckMacros.h"
 #include "rttbDoseStatistics.h"
 #include "rttbDicomDoseAccessor.h"
@@ -91,7 +87,6 @@ namespace rttb
 			ResultListPointer minListPtr(spResults);
 			ResultListPointer maxListPtr(spResults);
 
-			::DRTDoseIOD rtdoseDKFZ;
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(RTDOSE_FILENAME.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
 

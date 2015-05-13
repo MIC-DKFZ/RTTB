@@ -20,7 +20,7 @@
 */
 
 #include "rttbImageWriter.h"
-#include "rttbInvalidParameterException.h"
+#include "rttbITKException.h"
 
 namespace rttb
 {
@@ -32,7 +32,7 @@ namespace rttb
 
 			}
 
-			bool ImageWriter::writeITKFile(){ 			
+			bool ImageWriter::writeFile(){ 			
 				WriterType::Pointer writer = WriterType::New();
 				writer->SetFileName(_fileName);
 				writer->SetInput(_itkImage);
@@ -42,7 +42,7 @@ namespace rttb
 				catch( ::itk::ExceptionObject & excp )
 				{
 					std::cerr << "Error: ITK Exception caught " << excp << std::endl;
-					throw rttb::core::InvalidParameterException("ITK Exception writer->Update()!");
+					throw rttb::io::itk::ITKException("ITK Exception in writing image: writer->Update()!");
 					return false;
 				}
 

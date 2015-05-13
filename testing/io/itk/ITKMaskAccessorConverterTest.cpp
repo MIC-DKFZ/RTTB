@@ -78,6 +78,11 @@ namespace rttb
 				Mask_FILENAME = argv[3];
 			}
 
+			RTStr_FILENAME = "D:/RTToolboxProj/RTToolbox_sbr_branch/testing/data/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm";
+			RTDose_FILENAME = "D:/RTToolboxProj/RTToolbox_sbr_branch/testing/data/DICOM/TestDose/ConstantTwo.dcm" ;
+			Mask_FILENAME = "D:/RTToolboxProj/RTToolbox_sbr_branch/testing/data/MatchPointLogo.mhd";
+
+
 			//1) Read dicomFile and test getITKImage()
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(RTDose_FILENAME.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
@@ -88,6 +93,8 @@ namespace rttb
 
 			MaskAccessorPointer maskAccessorPtr = boost::make_shared<rttb::masks::legacy::OTBMaskAccessor>(rtStructureSet->getStructure(0), doseAccessor1->getGeometricInfo());
 			
+			maskAccessorPtr->updateMask();//!Important: Update the mask before conversion.
+
 			io::itk::ITKImageMaskAccessorConverter maskAccessorConverter(maskAccessorPtr);
 
 			CHECK_NO_THROW(maskAccessorConverter.process());
@@ -95,6 +102,7 @@ namespace rttb
 
 			//2) Read itk image, generate mask and convert it back to itk image, check equal
 			MaskAccessorPointer maskAccessorPtr2 = io::itk::ITKImageFileMaskAccessorGenerator(Mask_FILENAME.c_str()).generateMaskAccessor();
+			maskAccessorPtr2->updateMask();//!Important: Update the mask before conversion.
 			io::itk::ITKImageMaskAccessorConverter maskAccessorConverter2(maskAccessorPtr2);
 			maskAccessorConverter2.process();
 

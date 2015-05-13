@@ -92,7 +92,7 @@ namespace rttb
 				 * @exception InvalidParameterException thrown if sliceNumber < 0 or sliceNumber >=  _geometricInfo->getNumSlices()
 				 * @return Return the 4 voxel index of the bounding box
 				*/
-				VoxelIndexVector getBoundingBox(const unsigned int sliceNumber, BoostRingVector& intersectionSlicePolygons);
+				VoxelIndexVector getBoundingBox(unsigned int sliceNumber, const BoostRingVector& intersectionSlicePolygons);
 
 				/*! @brief Get intersection polygons of the contour and a voxel polygon
 				 * @param aVoxelIndex3D The 3d grid index of the voxel
@@ -105,7 +105,7 @@ namespace rttb
 				 * @param aPolygonDeque The deque of polygons
 				 * @return Return the area of all polygons
 				*/
-				double calcArea(BoostPolygonDeque aPolygonDeque);
+				double calcArea(const BoostPolygonDeque aPolygonDeque);
 
 				/*! @brief Get grid index of a mask voxel
 				 * @param aMaskVoxel A mask voxel
