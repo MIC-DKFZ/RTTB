@@ -20,15 +20,10 @@
 */
 
 #include <ostream>
-#include <fstream>
 
 #include "rttbDoseStatisticsXMLWriter.h"
-#include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbDataNotAvailableException.h"
-#include "rttbException.h"
-
-#include "boost/lexical_cast.hpp"
 
 namespace rttb
 {
@@ -47,18 +42,6 @@ namespace rttb
 				using boost::property_tree::ptree;
 				ptree pt;
 
-				/*rttb::core::DoseIteratorInterface::DoseIteratorPointer spDoseIterator =
-					aDoseStatistics->getDoseIterator();
-					rttb::core::DoseIteratorInterface::DoseAccessorPointer spDoseAccessor =
-					spDoseIterator->getDoseAccessor();
-
-					boost::shared_ptr< std::vector<std::pair<DoseTypeGy, VoxelGridID> > > myResultPairs =
-					boost::make_shared< std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
-					ResultListPointer spMyResultPairs(myResultPairs);
-					boost::shared_ptr< std::vector<std::pair<DoseTypeGy, VoxelGridID> > > myResultPairs2 =
-					boost::make_shared< std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
-					ResultListPointer spMyResultPairs2(myResultPairs2);*/
-
 				pt.put(statisticsTag + ".numberOfVoxels", aDoseStatistics->getNumberOfVoxels());
 				pt.put(statisticsTag + ".volume", aDoseStatistics->getVolume());
 				pt.put(statisticsTag + ".minimum", aDoseStatistics->getMinimum());
@@ -71,22 +54,6 @@ namespace rttb
 				{
 					VoxelGridID voxelID = pairItMin->second;
 					pt.add(statisticsTag + ".minimum.voxelGridID", voxelID);
-
-					//VoxelGridIndex3D voxelIndex3D;
-					//spDoseAccessor->getGeometricInfo().convert(voxelID, voxelIndex3D);
-					//std::string voxelIndex3DStr;
-					//voxelIndex3DStr = boost::lexical_cast<std::string>(voxelIndex3D.x()) + ","
-					//                  + boost::lexical_cast<std::string>(voxelIndex3D.y()) + ","
-					//                  + boost::lexical_cast<std::string>(voxelIndex3D.z());
-					//pt.add(statisticsTag + ".minimum.voxelIndex3D", voxelIndex3DStr);
-
-					//WorldCoordinate3D worldCoor;
-					//spDoseAccessor->getGeometricInfo().indexToWorldCoordinate(voxelIndex3D, worldCoor);
-					//std::string worldCoorStr;
-					//worldCoorStr = boost::lexical_cast<std::string>(worldCoor.x()) + ","
-					//               + boost::lexical_cast<std::string>(worldCoor.y()) + ","
-					//               + boost::lexical_cast<std::string>(worldCoor.z());
-					//pt.add(statisticsTag + ".minimum.worldCoordinate", worldCoorStr);
 
 					count++;
 				}
@@ -101,23 +68,6 @@ namespace rttb
 				{
 					VoxelGridID voxelID = pairItMax->second;
 					pt.add(statisticsTag + ".maximum.voxelGridID", voxelID);
-
-					//VoxelGridIndex3D voxelIndex3D;
-					//spDoseAccessor->getGeometricInfo().convert(voxelID, voxelIndex3D);
-					//std::string voxelIndex3DStr;
-					//voxelIndex3DStr = boost::lexical_cast<std::string>(voxelIndex3D.x()) + ","
-					//                  + boost::lexical_cast<std::string>(voxelIndex3D.y()) + ","
-					//                  + boost::lexical_cast<std::string>(voxelIndex3D.z());
-					//pt.add(statisticsTag + ".maximum.voxelIndex3D", voxelIndex3DStr);
-
-
-					//WorldCoordinate3D worldCoor;
-					//spDoseAccessor->getGeometricInfo().indexToWorldCoordinate(voxelIndex3D, worldCoor);
-					//std::string worldCoorStr;
-					//worldCoorStr = boost::lexical_cast<std::string>(worldCoor.x()) + ","
-					//               + boost::lexical_cast<std::string>(worldCoor.y()) + ","
-					//               + boost::lexical_cast<std::string>(worldCoor.z());
-					//pt.add(statisticsTag + ".maximum.worldCoordinate", worldCoorStr);
 
 					count ++;
 				}
@@ -344,19 +294,6 @@ namespace rttb
 			{
 
 				std::stringstream sstr;
-
-
-				//rttb::core::DoseIteratorInterface::DoseIteratorPointer spDoseIterator =
-				//    aDoseStatistics->getDoseIterator();
-				//rttb::core::DoseIteratorInterface::DoseAccessorPointer spDoseAccessor =
-				//    spDoseIterator->getDoseAccessor();
-
-				//boost::shared_ptr< std::vector<std::pair<DoseTypeGy, VoxelGridID> > > myResultPairs =
-				//    boost::make_shared< std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
-				//ResultListPointer spMyResultPairs(myResultPairs);
-				//boost::shared_ptr< std::vector<std::pair<DoseTypeGy, VoxelGridID> > > myResultPairs2 =
-				//    boost::make_shared< std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
-				//ResultListPointer spMyResultPairs2(myResultPairs2);
 
 				sstr << aDoseStatistics->getVolume() * 1000 << columnSeparator; // cm3 to mm3
 				sstr << aDoseStatistics->getMaximum() << columnSeparator;

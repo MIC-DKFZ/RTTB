@@ -66,8 +66,16 @@ namespace rttb
 
 			bool _simpleDoseStatisticsCalculated;
 
-			ResultListPointer computeMaximumPositions(unsigned int maxNumberMaxima) const;
-			ResultListPointer computeMinimumPositions(unsigned int maxNumberMinima) const;
+			/*! @brief Calculates the positions where the dose has its maximum
+				@param maxNumberMaximaPositions the maximal amount of computed positions
+				@pre maximumDose must be defined in _statistics with the correct value
+			*/
+			ResultListPointer computeMaximumPositions(unsigned int maxNumberMaximaPositions) const;
+			/*! @brief Calculates the positions where the dose has its minimum
+				@param maxNumberMinimaPositions the maximal amount of computed positions (they are read sequentially using the iterator until maxNumberMinimaPositions have been read, other positions are not considered)
+				@pre minimumDose must be defined in _statistics with the correct value
+			*/
+			ResultListPointer computeMinimumPositions(unsigned int maxNumberMinimaPositions) const;
 
 			VolumeType computeVx(DoseTypeGy xDoseAbsolute) const;
 			DoseTypeGy computeDx(VolumeType xVolumeAbsolute) const;
@@ -76,15 +84,17 @@ namespace rttb
 			DoseTypeGy computeMaxOHx(DoseTypeGy xVolumeAbsolute) const;
 			DoseTypeGy computeMinOCx(DoseTypeGy xVolumeAbsolute) const;
 
-			DoseToVolumeFunctionType computeDoseToVolumeMulti(const std::vector<double>& precomputeDoseValues,
+			DoseToVolumeFunctionType computeDoseToVolumeFunctionMulti(const std::vector<double>& precomputeDoseValues,
 			        DoseStatistics::complexStatistics name) const;
 			VolumeToDoseFunctionType computeVolumeToDoseFunctionMulti(const std::vector<double>& precomputeVolumeValues,
 			        DoseStatistics::complexStatistics name) const;
 
-			/*! @brief Calculatues simple dose statistics (min, mean, max, stdDev, minDosePositions, maxDosePositions)
+			/*! @brief Calculates simple dose statistics (min, mean, max, stdDev, minDosePositions, maxDosePositions)
+				@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed
+				@param maxNumberMaximaPositions the maximal amount of computed positions where the dose has its maximum that is computed
 			*/
-			void calculateSimpleDoseStatistics();
-			/*! @brief Calculatues complex dose statistics (Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx)
+			void calculateSimpleDoseStatistics(unsigned int maxNumberMinimaPositions, unsigned int maxNumberMaximaPositions);
+			/*! @brief Calculates complex dose statistics (Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx)
 				@warning computations can take quite long (>1 min) for large structures as many statistics are precomputed
 			*/
 			void calculateComplexDoseStatistics(const std::vector<double>& precomputeDoseValues,
@@ -125,12 +135,15 @@ namespace rttb
 				@param computeComplexMeasures should complex statistics be calculated?
 				@param precomputeDoseValues the dose values for Vx precomputation
 				@param precomputeVolumeValues the volume values for Dx, MOHx, MOCx, MaxOHx and MinOCx precomputation
+				@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed
+				@param maxNumberMaximaPositions the maximal amount of computed positions where the dose has its maximum that is computed
 				@warning if computeComplexMeasures==true, computations can take quite long (>1 min) for large structures as many statistics are precomputed
 				@note the complex dose statistics are precomputed and cannot be computed "on the fly" lateron! The doses/volumes that should be used for precomputation have to be set by in precomputeDoseValues and precomputeVolumeValues. Only these values can be requested in DoseStatistics!
 			*/
 			DoseStatisticsPointer calculateDoseStatistics(bool computeComplexMeasures = false,
 			        const std::vector<double>& precomputeDoseValues = std::vector<double>(),
-			        const std::vector<double>& precomputeVolumeValues = std::vector<double>());
+			        const std::vector<double>& precomputeVolumeValues = std::vector<double>(), unsigned int maxNumberMinimaPositions = 100,
+			        unsigned int maxNumberMaximaPositions = 100);
 
 		};
 

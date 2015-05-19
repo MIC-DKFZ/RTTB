@@ -63,7 +63,8 @@ namespace rttb
 
 		DoseStatisticsCalculator::DoseStatisticsPointer DoseStatisticsCalculator::calculateDoseStatistics(
 		    bool computeComplexMeasures, const std::vector<double>& precomputeDoseValues,
-		    const std::vector<double>& precomputeVolumeValues)
+		    const std::vector<double>& precomputeVolumeValues, unsigned int maxNumberMinimaPositions,
+		    unsigned int maxNumberMaximaPositions)
 		{
 
 			if (!_doseIterator)
@@ -72,7 +73,7 @@ namespace rttb
 			}
 
 			//"simple" dose statistics are mandatory
-			calculateSimpleDoseStatistics();
+			calculateSimpleDoseStatistics(maxNumberMinimaPositions, maxNumberMaximaPositions);
 
 			if (computeComplexMeasures)
 			{
@@ -85,7 +86,8 @@ namespace rttb
 		}
 
 
-		void DoseStatisticsCalculator::calculateSimpleDoseStatistics()
+		void DoseStatisticsCalculator::calculateSimpleDoseStatistics(unsigned int maxNumberMinimaPositions,
+		        unsigned int maxNumberMaximaPositions)
 		{
 			_doseVector.clear();
 			_voxelProportionVector.clear();
@@ -181,8 +183,8 @@ namespace rttb
 
 			_simpleDoseStatisticsCalculated = true;
 
-			ResultListPointer minimumVoxelPositions = computeMinimumPositions(100);
-			ResultListPointer maximumVoxelPositions = computeMaximumPositions(100);
+			ResultListPointer minimumVoxelPositions = computeMinimumPositions(maxNumberMinimaPositions);
+			ResultListPointer maximumVoxelPositions = computeMaximumPositions(maxNumberMaximaPositions);
 
 			_statistics->setMinimumVoxelPositions(minimumVoxelPositions);
 			_statistics->setMaximumVoxelPositions(maximumVoxelPositions);
@@ -219,7 +221,7 @@ namespace rttb
 				precomputeVolumeValuesNonConst = defaultPrecomputeVolumeValues;
 			}
 
-			DoseToVolumeFunctionType Vx = computeDoseToVolumeMulti(precomputeDoseValuesNonConst, DoseStatistics::Vx);
+			DoseToVolumeFunctionType Vx = computeDoseToVolumeFunctionMulti(precomputeDoseValuesNonConst, DoseStatistics::Vx);
 			VolumeToDoseFunctionType Dx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst, DoseStatistics::Dx);
 			VolumeToDoseFunctionType MOHx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst, DoseStatistics::MOHx);
 			VolumeToDoseFunctionType MOCx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst, DoseStatistics::MOCx);
@@ -490,7 +492,7 @@ namespace rttb
 			return resultDose;
 		}
 
-		DoseStatisticsCalculator::DoseToVolumeFunctionType DoseStatisticsCalculator::computeDoseToVolumeMulti(
+		DoseStatisticsCalculator::DoseToVolumeFunctionType DoseStatisticsCalculator::computeDoseToVolumeFunctionMulti(
 		    const std::vector<double>& precomputeDoseValues, DoseStatistics::complexStatistics name) const
 		{
 			DoseToVolumeFunctionType VxMulti;
