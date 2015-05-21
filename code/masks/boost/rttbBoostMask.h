@@ -105,7 +105,7 @@ namespace rttb
 				 * @param aPolygonDeque The deque of polygons
 				 * @return Return the area of all polygons
 				*/
-				double calcArea(const BoostPolygonDeque aPolygonDeque);
+				double calcArea(const BoostPolygonDeque& aPolygonDeque);
 
 				/*! @brief Get grid index of a mask voxel
 				 * @param aMaskVoxel A mask voxel

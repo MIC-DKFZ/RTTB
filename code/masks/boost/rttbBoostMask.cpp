@@ -208,12 +208,12 @@ namespace rttb
 
 
 			/*Calculate the intersection area*/
-			double BoostMask::calcArea(const std::deque<BoostMask::BoostPolygon2D> aPolygonDeque){
+			double BoostMask::calcArea(const BoostPolygonDeque& aPolygonDeque){
 				double area = 0;
 
-				std::deque<BoostMask::BoostPolygon2D>::iterator it;
-				for(unsigned int i=0; i<aPolygonDeque.size(); i++){
-					area += ::boost::geometry::area(aPolygonDeque.at(i));
+				BoostPolygonDeque::const_iterator it;
+				for(it = aPolygonDeque.begin(); it != aPolygonDeque.end(); ++it){
+					area += ::boost::geometry::area(*it);
 				}
 				return area;
 			}

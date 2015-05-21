@@ -102,7 +102,7 @@ namespace rttb
 
 			if (rtStructureSet->getNumberOfStructures() > 0)
 			{
-				for (int j = 2; j < rtStructureSet->getNumberOfStructures(); j++)
+				for (int j = 0; j < rtStructureSet->getNumberOfStructures(); j++)
 				{
 					std::cout << j << ": "<< rtStructureSet->getStructure(j)->getLabel()<<std::endl;
 					clock_t start(clock());
@@ -135,8 +135,6 @@ namespace rttb
 					CHECK(writer.writeFile());*/
 
 
-
-
 					clock_t start2(clock());
 					//create Boost MaskAccessor		
 					MaskAccessorPointer boostMaskAccessorPtr = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>(rtStructureSet->getStructure(j), geometricPtr);
@@ -167,6 +165,12 @@ namespace rttb
 					//check close of 2 voxelizatin: OTB and Boost
 					CHECK_CLOSE(dvh.getMaximum(), dvh2.getMaximum(), 0.1);
 					CHECK_CLOSE(dvh.getMinimum(), dvh2.getMinimum(), 0.1);
+					if(j!=7)//7: Ref.Pkt, mean = -1.#IND
+					{
+					CHECK_CLOSE(dvh.getMean(), dvh2.getMean(), 0.1);
+					}
+					CHECK_CLOSE(dvh.getMedian(), dvh2.getMedian(), 0.1);
+					CHECK_CLOSE(dvh.getModal(), dvh2.getModal(), 0.1);
 
 					//0: Aussenkontur and 3: Niere li. failed. 
 					if(j!=0 && j!=3){
