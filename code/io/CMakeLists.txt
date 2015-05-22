@@ -20,8 +20,3 @@ IF(BUILD_IO_Virtuos)
 	ADD_SUBDIRECTORY(virtuos)
 ENDIF(BUILD_IO_Virtuos)
 
-OPTION(BUILD_IO_Mask "Determine if the IO class wrappers for Mask Image will be generated." OFF)
-IF(BUILD_IO_Mask)
-	ADD_SUBDIRECTORY(mask)
-ENDIF(BUILD_IO_Mask)
-

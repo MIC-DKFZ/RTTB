@@ -63,7 +63,7 @@ namespace rttb
 			typedef core::GenericMaskedDoseIterator::MaskAccessorPointer MaskAccessorPointer;
 			typedef core::DVHCalculator::DoseIteratorPointer DoseIteratorPointer;
 			typedef core::DVHCalculator::MaskedDoseIteratorPointer MaskedDoseIteratorPointer;
-			typedef masks::OTBMaskAccessor::StructTypePointer StructTypePointer;
+			typedef masks::legacy::OTBMaskAccessor::StructTypePointer StructTypePointer;
 			typedef core::DVH::DVHPointer DVHPointer;
 			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
 
@@ -115,8 +115,8 @@ namespace rttb
 				{
 
 					//create MaskAccessor for each structure
-					boost::shared_ptr<masks::OTBMaskAccessor> spOTBMaskAccessorVirtuos =
-					    boost::make_shared<masks::OTBMaskAccessor>(rtStructureSetVirtuos->getStructure(i),
+					boost::shared_ptr<masks::legacy::OTBMaskAccessor> spOTBMaskAccessorVirtuos =
+					    boost::make_shared<masks::legacy::OTBMaskAccessor>(rtStructureSetVirtuos->getStructure(i),
 					            doseAccessorVirtuos->getGeometricInfo());
 
 					spOTBMaskAccessorVirtuos->updateMask();

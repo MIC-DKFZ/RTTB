@@ -1,20 +1,17 @@
-#-----------------------------------------------------------------------------
-# Setup the system information test.  Write out some basic failsafe
-# information in case the test doesn't run.
-#-----------------------------------------------------------------------------
 
+  MESSAGE (STATUS "Process All Mask Tests...")
 
-SET(MASKS_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbMasksTests)
+  #-----------------------------------------------------------------------------
+  # Include sub directories
+  #-----------------------------------------------------------------------------
 
-SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
+  IF(BUILD_MASK_BOOST)
+	ADD_SUBDIRECTORY(boost)
+  ENDIF(BUILD_MASK_BOOST)
+   
+  IF(BUILD_OTBMASK)
+	ADD_SUBDIRECTORY(legacy)
+  ENDIF(BUILD_OTBMASK)
+ 
 
-SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
-
-
-#-----------------------------------------------------------------------------
-
-ADD_TEST(OTBMaskAccessorTest ${MASKS_TESTS} OTBMaskAccessorTest 
-)
-
-RTTB_CREATE_TEST_MODULE(rttbMasks DEPENDS RTTBMasks PACKAGE_DEPENDS BoostBinaries Litmus DCMTK)
 

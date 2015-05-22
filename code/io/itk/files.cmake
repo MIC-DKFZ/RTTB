@@ -1,25 +1,37 @@
 SET(CPP_FILES 
-	rttbITKImageDoseAccessor.cpp
-	rttbITKImageFileDoseAccessorGenerator.cpp
-	rttbITKImageDoseAccessorGenerator.cpp
-	rttbGenericImageReader.cpp
 	rttbFileDispatch.cpp
+	rttbGenericImageReader.cpp
+	rttbImageWriter.cpp
+	rttbITKException.cpp
+	rttbITKImageDoseAccessor.cpp
 	rttbITKImageDoseAccessorConverter.cpp
+	rttbITKImageDoseAccessorGenerator.cpp
+	rttbITKImageFileDoseAccessorGenerator.cpp
+	rttbITKImageFileMaskAccessorGenerator.cpp
+	rttbITKImageMaskAccessor.cpp
+	rttbITKImageMaskAccessorGenerator.cpp
+	rttbITKImageMaskAccessorConverter.cpp
 	rttbITKIOHelper.cpp
   )
 
 SET(H_FILES 
-	rttbITKImageDoseAccessor.h
-	rttbITKImageFileDoseAccessorGenerator.h
-	rttbITKImageDoseAccessorGenerator.h
+	rttbDoseAccessorConversionSettingInterface.h
+	rttbDoseAccessorProcessorBase.h
+	rttbDoseAccessorProcessorInterface.h
+	rttbFileDispatch.h
 	rttbGenericImageReader.h
 	rttbImageReader.h
 	rttbImageReader.tpp
-	rttbFileDispatch.h
+	rttbImageWriter.h
+	rttbITKException.h
+	rttbITKImageDoseAccessor.h
 	rttbITKImageDoseAccessorConverter.h
-	rttbDoseAccessorProcessorInterface.h
-	rttbDoseAccessorProcessorBase.h
-	rttbDoseAccessorConversionSettingInterface.h
+	rttbITKImageDoseAccessorGenerator.h
+	rttbITKImageFileDoseAccessorGenerator.h
+	rttbITKImageFileMaskAccessorGenerator.h
+	rttbITKImageMaskAccessor.h
+	rttbITKImageMaskAccessorConverter.h
+	rttbITKImageMaskAccessorGenerator.h
 	rttbITKIOHelper.h
 	rttbITKIOHelper.tpp
 
