@@ -9,7 +9,7 @@ IF(BUILD_Models)
 ADD_SUBDIRECTORY(models)
 ENDIF(BUILD_Models)
 
-OPTION(BUILD_Masks "Determine if the mask classes will be generated." OFF)
+OPTION(BUILD_Masks "Determine if the mask classes will be generated." ON)
 IF(BUILD_Masks)
 ADD_SUBDIRECTORY(masks)
 ENDIF(BUILD_Masks)

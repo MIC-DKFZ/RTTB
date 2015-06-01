@@ -41,8 +41,8 @@
 #include "rttbOTBMaskAccessor.h"
 #include "rttbDVHTxtFileReader.h"
 #include "rttbBoostMaskAccessor.h"
-#include "rttbITKImageMaskAccessorConverter.h"
-#include "rttbImageWriter.h"
+//#include "rttbITKImageMaskAccessorConverter.h"
+//#include "rttbImageWriter.h"
 
 
 namespace rttb
@@ -52,7 +52,7 @@ namespace rttb
 	{
 
 		/*! @brief VoxelizationValidationTest.
-		Compare two differnt voxelizations: OTB and Boost. 
+		Compare two differnt voxelizations: OTB and Boost.
 		Check dvh maximum and minimum for each structure.
 		Check write mask to itk file for further validation.
 		*/
@@ -91,11 +91,12 @@ namespace rttb
 			/* read dicom-rt dose */
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(RTDOSE_FILENAME.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
-			boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>(doseAccessor1->getGeometricInfo());
+			boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>
+			        (doseAccessor1->getGeometricInfo());
 
 			//create a vector of MaskAccessors (one for each structure)
 			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(
-				RTSTRUCT_FILENAME.c_str()).generateStructureSet();
+			        RTSTRUCT_FILENAME.c_str()).generateStructureSet();
 
 			std::vector<MaskAccessorPointer> rtStructSetMaskAccessorVec;
 
@@ -104,27 +105,27 @@ namespace rttb
 			{
 				for (int j = 0; j < rtStructureSet->getNumberOfStructures(); j++)
 				{
-					std::cout << j << ": "<< rtStructureSet->getStructure(j)->getLabel()<<std::endl;
+					std::cout << j << ": " << rtStructureSet->getStructure(j)->getLabel() << std::endl;
 					clock_t start(clock());
 					//create OTB MaskAccessor
 					::boost::shared_ptr<masks::legacy::OTBMaskAccessor> spOTBMaskAccessor =
-						::boost::make_shared<masks::legacy::OTBMaskAccessor>(rtStructureSet->getStructure(j),
-						doseAccessor1->getGeometricInfo());
+					    ::boost::make_shared<masks::legacy::OTBMaskAccessor>(rtStructureSet->getStructure(j),
+					            doseAccessor1->getGeometricInfo());
 					spOTBMaskAccessor->updateMask();
 					MaskAccessorPointer spMaskAccessor(spOTBMaskAccessor);
 
 					::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
-						::boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, doseAccessor1);
+					    ::boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, doseAccessor1);
 					DoseIteratorPointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
 					rttb::core::DVHCalculator calc(spMaskedDoseIterator, (rtStructureSet->getStructure(j))->getUID(),
-						doseAccessor1->getDoseUID());
+					                               doseAccessor1->getDoseUID());
 					rttb::core::DVH dvh = *(calc.generateDVH());
 
 					clock_t finish(clock());
 					std::cout << "OTB Mask Calculation time: " << finish - start << " ms" << std::endl;
 
-					//Write the mask image to a file. 
-					/*! It takes a long time to write all mask files so that RUN_TESTS causes a timeout error. 
+					//Write the mask image to a file.
+					/*! It takes a long time to write all mask files so that RUN_TESTS causes a timeout error.
 						To write all mask files, please use the outcommented code and call the .exe directly!
 					*/
 					/*rttb::io::itk::ITKImageMaskAccessorConverter itkConverter(spOTBMaskAccessor);
@@ -136,22 +137,23 @@ namespace rttb
 
 
 					clock_t start2(clock());
-					//create Boost MaskAccessor		
-					MaskAccessorPointer boostMaskAccessorPtr = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>(rtStructureSet->getStructure(j), geometricPtr);
+					//create Boost MaskAccessor
+					MaskAccessorPointer boostMaskAccessorPtr = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+					        (rtStructureSet->getStructure(j), geometricPtr);
 					CHECK_NO_THROW(boostMaskAccessorPtr->updateMask());
 
 					::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp2 =
-						::boost::make_shared<core::GenericMaskedDoseIterator>(boostMaskAccessorPtr, doseAccessor1);
+					    ::boost::make_shared<core::GenericMaskedDoseIterator>(boostMaskAccessorPtr, doseAccessor1);
 					DoseIteratorPointer spMaskedDoseIterator2(spMaskedDoseIteratorTmp2);
 					rttb::core::DVHCalculator calc2(spMaskedDoseIterator2, (rtStructureSet->getStructure(j))->getUID(),
-						doseAccessor1->getDoseUID());
+					                                doseAccessor1->getDoseUID());
 					rttb::core::DVH dvh2 = *(calc2.generateDVH());
 
 					clock_t finish2(clock());
 					std::cout << "Boost Mask Calculation and write file time: " << finish2 - start2 << " ms" << std::endl;
 
-					//Write the mask image to a file. 
-					/*! It takes a long time to write all mask files so that RUN_TESTS causes a timeout error. 
+					//Write the mask image to a file.
+					/*! It takes a long time to write all mask files so that RUN_TESTS causes a timeout error.
 						To write all mask files, please use the outcommented code and call the .exe directly!
 					*/
 					/*rttb::io::itk::ITKImageMaskAccessorConverter itkConverter2(boostMaskAccessorPtr);
@@ -165,16 +167,19 @@ namespace rttb
 					//check close of 2 voxelizatin: OTB and Boost
 					CHECK_CLOSE(dvh.getMaximum(), dvh2.getMaximum(), 0.1);
 					CHECK_CLOSE(dvh.getMinimum(), dvh2.getMinimum(), 0.1);
-					if(j!=7)//7: Ref.Pkt, mean = -1.#IND
+
+					if (j != 7) //7: Ref.Pkt, mean = -1.#IND
 					{
-					CHECK_CLOSE(dvh.getMean(), dvh2.getMean(), 0.1);
+						CHECK_CLOSE(dvh.getMean(), dvh2.getMean(), 0.1);
 					}
+
 					CHECK_CLOSE(dvh.getMedian(), dvh2.getMedian(), 0.1);
 					CHECK_CLOSE(dvh.getModal(), dvh2.getModal(), 0.1);
 
-					//0: Aussenkontur and 3: Niere li. failed. 
-					if(j!=0 && j!=3){
-						CHECK_CLOSE(dvh.getVx(0), dvh2.getVx(0), dvh.getVx(0)*0.05);//check volume difference < 5% 
+					//0: Aussenkontur and 3: Niere li. failed.
+					if (j != 0 && j != 3)
+					{
+						CHECK_CLOSE(dvh.getVx(0), dvh2.getVx(0), dvh.getVx(0) * 0.05); //check volume difference < 5%
 					}
 
 				}

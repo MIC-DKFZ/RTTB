@@ -17,5 +17,5 @@ ADD_TEST(BoostMaskAccessorTest ${Boost_Mask_TESTS} BoostMaskAccessorTest
 
 
 
-RTTB_CREATE_TEST_MODULE(rttbBoostMask DEPENDS RTTBDicomIO RTTBITKIO RTTBMasks RTTBBoostMask PACKAGE_DEPENDS Boost BoostBinaries Litmus ITK DCMTK)
+RTTB_CREATE_TEST_MODULE(rttbBoostMask DEPENDS RTTBDicomIO RTTBMasks RTTBBoostMask PACKAGE_DEPENDS Boost BoostBinaries Litmus DCMTK)
 
