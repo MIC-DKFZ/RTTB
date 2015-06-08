@@ -96,7 +96,7 @@ namespace rttb
 				dcm_item->putAndInsertString (DCM_ReferencedSOPClassUID,
 					UID_CTImageStorage);
 				dcm_item->putAndInsertString (DCM_ReferencedSOPInstanceUID,
-					"");//ct_series_uid?
+					"");
 
 				_dataset->putAndInsertString (DCM_PatientName, "");
 				_dataset->putAndInsertString (DCM_PatientID, "");
@@ -130,7 +130,7 @@ namespace rttb
 					<< geometricInfo.getImageOrientationColumn().z();
 				_dataset->putAndInsertString (DCM_ImageOrientationPatient, sstr.str().c_str());
 				_dataset->putAndInsertString (DCM_FrameOfReferenceUID, 
-					"");//FrameOfReferenceUID?
+					"");
 
 				_dataset->putAndInsertString (DCM_SamplesPerPixel, "1");
 				_dataset->putAndInsertString (DCM_PhotometricInterpretation, "MONOCHROME2");
@@ -158,7 +158,7 @@ namespace rttb
 
 				sstr.str("0");
 				for (int i = 1; i < geometricInfo.getNumSlices(); i++) {
-					sstr << "\\" <<  i * geometricInfo.getSpacing()(2);//*dose_volume->direction_cosines[8]? What is dose_volume->direction_cosines[8]
+					sstr << "\\" <<  i * geometricInfo.getSpacing()(2);
 				}
 				_dataset->putAndInsertString (DCM_GridFrameOffsetVector, sstr.str().c_str());
 
@@ -194,7 +194,7 @@ namespace rttb
 				dcm_item->putAndInsertString (DCM_ReferencedSOPClassUID,
 					UID_RTPlanStorage);
 				dcm_item->putAndInsertString (DCM_ReferencedSOPInstanceUID,
-					"");//ReferencedSOPInstanceUID??
+					"");
 
 				/* (300c,0060) DCM_ReferencedStructureSetSequence -- MIM likes this */
 				dcm_item = 0;
@@ -203,7 +203,7 @@ namespace rttb
 				dcm_item->putAndInsertString (DCM_ReferencedSOPClassUID,
 					UID_RTStructureSetStorage);
 				dcm_item->putAndInsertString (DCM_ReferencedSOPInstanceUID,
-					"");//ReferencedSOPInstanceUID??
+					"");
 
 				/* Convert image bytes to integer, then add to _dataset */
 				Uint16* pixelData;
