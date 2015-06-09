@@ -89,7 +89,7 @@ namespace rttb
 			DcmFileFormat fileformat;
 
 			/* test dicom helax file generator generateDoseAccessor() */
-			CHECK_THROW_EXPLICIT(io::helax::DicomHelaxFileDoseAccessorGenerator("/test").generateDoseAccessor(),
+			CHECK_THROW_EXPLICIT(io::helax::DicomHelaxFileDoseAccessorGenerator("/test/").generateDoseAccessor(),
 			                     core::InvalidParameterException);
 			CHECK_NO_THROW(io::helax::DicomHelaxFileDoseAccessorGenerator(
 			                   RTDOSE_DIRNAME.c_str()).generateDoseAccessor());

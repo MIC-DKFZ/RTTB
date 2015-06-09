@@ -47,7 +47,7 @@ vnl_vector<double> simpleRegistrationWorkflow::getRegistrationParameters(
 	if (pModelBasedDirectKernel3D3D)
 	{
 		ModelBasedRegistrationKernel3D3D::ParametersType params =
-		    pModelBasedDirectKernel3D3D->getTransformModel()->getTransform()->GetParameters();
+		    pModelBasedDirectKernel3D3D->getTransformModel()->GetParameters();
 
 		return params;
 	}

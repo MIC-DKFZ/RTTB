@@ -40,6 +40,7 @@ namespace rttb
 			LIT_REGISTER_TEST(RTDoseIndexTest);
 			LIT_REGISTER_TEST(RTDoseStatisticsTest);
 			LIT_REGISTER_TEST(RTBioModelScatterPlotExampleTest);
+			LIT_REGISTER_TEST(VoxelizationValidationTest);
 		}
 	}
 }
