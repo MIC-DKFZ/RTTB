@@ -26,10 +26,8 @@
 #include "../itk/rttbDoseAccessorConversionSettingInterface.h"
 #include "rttbDicomDoseAccessor.h"
 
-#include <stdint.h>
-
-//pixel data max value
-#define PixelDataMaxValue UINT16_MAX
+//pixel data max value ‘UINT16_MAX’ 
+#define PixelDataMaxValue 0xffff
 
 namespace rttb
 {
