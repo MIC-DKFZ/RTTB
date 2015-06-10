@@ -78,8 +78,8 @@ namespace rttb
 					DoseTypeGy interpolatedDoseValue = 0.0;
 
 					//get trilinear interpolation value of every octant point
-					for (std::vector<WorldCoordinate3D>::const_iterator octantIterator = std::begin(octants);
-					     octantIterator != std::end(octants);
+					for (std::vector<WorldCoordinate3D>::const_iterator octantIterator = octants.begin();
+					     octantIterator != octants.end();
 					     ++octantIterator)
 					{
 						//transform coordinates

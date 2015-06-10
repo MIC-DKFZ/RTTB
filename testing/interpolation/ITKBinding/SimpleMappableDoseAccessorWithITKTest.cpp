@@ -84,9 +84,9 @@ namespace rttb
 
 			core::GeometricInfo doseAccessor1GeometricInfo = doseAccessor1->getGeometricInfo();
 
-			auto interpolationNN =
+			NearestNeighborInterpolation::Pointer interpolationNN =
 			    NearestNeighborInterpolation::Pointer(new NearestNeighborInterpolation());
-			auto interpolationLinear = boost::shared_ptr<LinearInterpolation>
+			LinearInterpolation::Pointer interpolationLinear = LinearInterpolation::Pointer
 			                           (new LinearInterpolation());
 
 			//auto transformITKIdentity = TransformationInterface::Pointer(new ITKTransformation(
@@ -100,7 +100,7 @@ namespace rttb
 			translationIdentity[2] = 0.0;
 			transformITKIdentityTemporary->Translate(translationIdentity);
 
-			auto transformITKIdentity = TransformationInterface::Pointer(new ITKTransformation(
+			TransformationInterface::Pointer transformITKIdentity = TransformationInterface::Pointer(new ITKTransformation(
 			                                transformITKIdentityTemporary));
 
 			TranslationTransformType::Pointer transformITKTranslationTemporary =
@@ -111,13 +111,13 @@ namespace rttb
 			translation[2] = 5.0;
 			transformITKTranslationTemporary->Translate(translation);
 
-			auto transformITKTranslation = TransformationInterface::Pointer(new ITKTransformation(
+			TransformationInterface::Pointer transformITKTranslation = TransformationInterface::Pointer(new ITKTransformation(
 			                                   transformITKTranslationTemporary));
 
-			auto aSimpleMappableDoseAccessorITKIdentity = new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformITKIdentity, interpolationLinear);
-			auto aSimpleMappableDoseAccessorITKTranslation = new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformITKTranslation, interpolationLinear);
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorITKIdentity = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
+			    doseAccessor1GeometricInfo, doseAccessor2, transformITKIdentity, interpolationLinear));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorITKTranslation = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
+			    doseAccessor1GeometricInfo, doseAccessor2, transformITKTranslation, interpolationLinear));
 
 			//1) Test constructor
 			CHECK_NO_THROW(SimpleMappableDoseAccessor(

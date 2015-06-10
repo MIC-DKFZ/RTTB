@@ -106,7 +106,7 @@ namespace rttb
 
 			ITKImageTypePointer convertedImagePtr = maskAccessorConverter2.getITKImage();
 
-			io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer expectedImage =
+			io::itk::ITKImageMaskAccessor::ITKMaskImageType::Pointer expectedImage =
 			    lit::TestImageIO<unsigned char, io::itk::ITKImageMaskAccessor::ITKMaskImageType>::readImage(
 			        Mask_FILENAME);
 

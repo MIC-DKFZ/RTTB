@@ -215,8 +215,8 @@ namespace rttb
 								 core::NullPointerException);
 
 			//Check that no exception is thrown otherwise
-			CHECK_NO_THROW(NearestNeighborInterpolation::NearestNeighborInterpolation());
-			CHECK_NO_THROW(LinearInterpolation::LinearInterpolation());
+			CHECK_NO_THROW(new NearestNeighborInterpolation());
+			CHECK_NO_THROW(new LinearInterpolation());
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
