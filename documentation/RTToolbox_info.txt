@@ -47,9 +47,9 @@ The RTToolbox code is divided into topic related directories:
 <UL>
 <LI> \b core: The main code of the RTToolbox. It includes all interface classes, the main objects used and the DVH 
 calculation.</LI>
-<LI> \b algorithm: contains the code for dose statistics and dose arithmetics.</LI>
+<LI> \b algorithm: Contains the code for dose statistics and dose arithmetics.</LI>
 <LI> \b indices: The code for dose comparison indices can be found here.</LI>
-<LI> \b interpolation: contains code for dose mapping (transform dose information into another geometry)</LI>
+<LI> \b interpolation: Contains code for dose mapping (transform dose information into another geometry)</LI>
 <LI> \b io: Contains sub folders for different formats.</LI>
 <UL>
 <LI> \b dicom: Support for reading dicom format files (DCMTK is required).</LI>

@@ -9,8 +9,8 @@ IF(CMAKE_BACKWARDS_COMPATIBILITY GREATER 2.8)
 ENDIF(CMAKE_BACKWARDS_COMPATIBILITY GREATER 2.8)
 
 # RTToolbox version number.
-SET(RTToolbox_VERSION_MAJOR "2")
-SET(RTToolbox_VERSION_MINOR "1")
+SET(RTToolbox_VERSION_MAJOR "4")
+SET(RTToolbox_VERSION_MINOR "0")
 SET(RTToolbox_VERSION_PATCH "0")
 
 # Version string should not include patch level.  The major.minor is
@@ -21,15 +21,12 @@ SET(RTToolbox_FULL_VERSION_STRING "${RTToolbox_VERSION_MAJOR}.${RTToolbox_VERSIO
 # default build type
 SET(CMAKE_BUILD_TYPE Release)
 
-IF (WIN32)
-  OPTION(BUILD_SHARED_LIBS "Build MatchPoint with shared libraries." OFF)
-ELSE (WIN32)
-  OPTION(BUILD_SHARED_LIBS "Build MatchPoint with shared libraries." ON)
-ENDIF (WIN32)
-
 MARK_AS_ADVANCED(BUILD_SHARED_LIBS)
 
 IF (WIN32)
+	IF (MSVC_VERSION LESS 1600)
+		MESSAGE(FATAL_ERROR "RTToolbox requires at least Visual Studio 2010.")
+	ENDIF(MSVC_VERSION LESS 1600)
 	add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 ENDIF(WIN32)
 

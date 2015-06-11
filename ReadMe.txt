@@ -8,6 +8,7 @@ RTToolbox is currently tested with the following compilers (only x64):
 - Visual Studio 2010
 - Visual Studio 2013
 - GCC 4.6
+- GCC 4.9
 
 Needed Third Party Libraries
 ----------------------------
@@ -39,10 +40,10 @@ Please give the location of the root folder, where the libraries where built for
 
 A.1. Configure Litmus with CMake (separated binary folder recommended)
 A.2. Build Litmus
-A.3 enable BUILD_TESTING
-A.4 press Configure
-A.5 enable tests of interest
-A.6 enable BUILD_RTToolbox_Test_examples if you want examples
+A.3. Enable BUILD_TESTING
+A.4. Press Configure
+A.5. Enable tests of interest
+A.6. Enable BUILD_RTToolbox_Test_examples if you want examples
 
 [B. If you build Helax or DICOM support - Boost]
 
@@ -123,7 +124,7 @@ For unix-like systems: Set the CMake parameter DCMTK_FORCE_FPIC_ON_UNIX to true 
 
 C.2. Build DCMTK
 
-[D. If you want ITKIO, MaskIO or DoseInterpolation support with itk::Transform - ITK]
+[D. If you want ITKIO or DoseInterpolation support with itk::Transform - ITK]
 
 D.1. Build ITK.
 
@@ -133,43 +134,41 @@ E.1. Build MatchPoint.
 
 [F. Configure/Build RTToolbox]
 
-F.1 Configure with CMake
+F.1. Configure with CMake
 
-F.1.1 Set BOOST_INCLUDE_DIR to the main boost directory (where "boost_build.jam" is located)
+F.1.1. Set BOOST_INCLUDE_DIR to the main boost directory (where "boost_build.jam" is located)
       REMARK: For the current version of the RTToolbox you do need to build boost only if you want to use the provided Helax-Dicom or DICOM data support. 
       Otherwise you can use headers only.
 
-F.2 Select all packages you like to build (Parameters "BUILD_*"; e.g. BUILD_IO_Dicom)
+F.2. Select all packages you like to build (Parameters "BUILD_*"; e.g. BUILD_IO_Dicom)
    
-F.2.1 If you select BUILD_IO_DICOM the configuration will ask you for the DCMTK main directory (parameter DCMTK_DIR; where you have built DCMTK).
+F.2.1. If you select BUILD_IO_DICOM the configuration will ask you for the DCMTK main directory (parameter DCMTK_DIR; where you have built DCMTK).
       REMARK: If you have built DCMTK as out source build you have to also set the
       CMake parameter DCMTK_SOURCE_DIR to the root directory of the DCMTK source.
 	
-F.2.3 If you select BUILD_ITKBinding, BUILD_IO_Mask or BUILD_IO_ITK, set ITK_DIR to the binary directory of ITK
+F.2.3. If you select BUILD_ITKBinding or BUILD_IO_ITK, set ITK_DIR to the binary directory of ITK
 	
-F.2.3 If you select BUILD_MatchPointBinding, set MatchPoint_DIR to the binary directory of MatchPoint
+F.2.3. If you select BUILD_MatchPointBinding, set MatchPoint_DIR to the binary directory of MatchPoint
 
-F.3 Generate CMake configuration
+F.3. Generate CMake configuration
 
-F.4 Build RTToolbox and have fun!
+F.4. Build RTToolbox and have fun!
 
 
 [G. Documentation]
 
-G.1 Generate the documentation using doxygen and the configuration found in "RTTB_binary_dir/documentation/doxygen.config".
+G.1. Generate the documentation using doxygen and the configuration found in "RTTB_binary_dir/documentation/doxygen.config".
 
 [H. Tests]
 
-H.1 Run tests (build RUN_TESTS project) to ensure that everything is correct.
+H.1. Run tests (build RUN_TESTS project or ctest) to ensure that everything is correct.
 
 [I. Examples]
 
-I.1 Run tests (build RUN_TESTS project) to also build the examples. Be sure to have switched it on before (see A.6). These examples are a good starting point for own projects and show basic functionality of RTToolbox like DVH generation.
+I.1. Run tests (build RUN_TESTS project) to also build the examples. Be sure to have switched it on before (see A.6). These examples are a good starting point for own projects and show basic functionality of RTToolbox like DVH generation.
 
 Remarks
 -------
-R.1 Virtuos Support: Virtuos is a proprietary data format and therefore not included in the RTToolbox. The Virtuos support (wrapper) for the RTToolbox is currently being restructured and will be included in the near future.
+R.1. Virtuos Support: Virtuos is a proprietary data format and therefore not included in the RTToolbox.
 
-R.2 Database support: The database support for the RTToolbox is currently being restructured and will be included in the near future.
-
-R.3 ITK Version: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, this will lead to linker errors.
+R.2. ITK Version: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, this will lead to linker errors.
