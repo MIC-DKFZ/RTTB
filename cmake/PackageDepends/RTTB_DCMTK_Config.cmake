@@ -182,7 +182,7 @@ foreach(dir
 endforeach()
 
 if(WIN32)
-  list(APPEND DCMTK_LIBRARIES netapi32 wsock32)
+  list(APPEND DCMTK_LIBRARIES netapi32 wsock32 ws2_32)
 endif()
 
 if(UNIX)
