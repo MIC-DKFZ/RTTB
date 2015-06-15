@@ -9,6 +9,7 @@ SET(CPP_FILES
 	../models/rttbScatterTester.cpp
 	rttbTestExamples.cpp
 	../masks/rttbMaskVoxelListTester.cpp
+	VoxelizationValidationTest.cpp
   )
 
 SET(H_FILES 

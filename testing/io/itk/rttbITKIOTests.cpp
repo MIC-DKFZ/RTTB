@@ -36,6 +36,8 @@ namespace rttb{
 				LIT_REGISTER_TEST(ITKDoseAccessorGeneratorTest);
 				LIT_REGISTER_TEST(ITKDoseAccessorConverterTest);
 				LIT_REGISTER_TEST(ITKIOTest);
+				LIT_REGISTER_TEST(ITKMaskAccessorGeneratorTest);
+				LIT_REGISTER_TEST(ITKMaskAccessorConverterTest);
 			}
 		}
 	}

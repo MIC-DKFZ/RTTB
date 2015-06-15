@@ -44,6 +44,8 @@ SET(H_FILES
   rttbMaskAccessorGeneratorBase.h
   rttbMaskAccessorGeneratorInterface.h
   rttbMaskAccessorInterface.h
+  rttbMaskAccessorProcessorBase.h
+  rttbMaskAccessorProcessorInterface.h
   rttbMaskedDoseIteratorInterface.h
   rttbMaskVoxel.h
   rttbMutableDoseAccessorInterface.h

@@ -12,6 +12,10 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 
 #-----------------------------------------------------------------------------
+ADD_TEST(DicomDoseAccessorConverterTest ${DICOMIO_TEST} DicomDoseAccessorConverterTest
+"${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncrease3D.dcm"
+"${TEST_DATA_ROOT}/DICOM/TestDose/dose_w.dcm" ) 
+
 ADD_TEST(DicomDoseAccessorGeneratorTest ${DICOMIO_TEST} DicomDoseAccessorGeneratorTest
 "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm"
 "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantFifty.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncrease3D.dcm" ) 

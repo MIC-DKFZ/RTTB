@@ -33,17 +33,18 @@ namespace rttb{
 
 		void registerTests()
 			{
+			LIT_REGISTER_TEST(DicomDoseAccessorConverterTest);
 				LIT_REGISTER_TEST(DicomDoseAccessorGeneratorTest);
 				LIT_REGISTER_TEST(DicomFileReaderHelperTest);
 				LIT_REGISTER_TEST(DicomIOTest);
 			LIT_REGISTER_TEST(DicomStructureSetGeneratorTest);
-			
+
 			}
 		}
-	}
+}
 
 int main(int argc, char* argv[])
-	{
+{
 	int result = 0;
 
 	rttb::testing::registerTests();
@@ -59,4 +60,4 @@ int main(int argc, char* argv[])
 		}
 
 	return result;
-	}
+}

@@ -1,4 +1,5 @@
 SET(CPP_FILES 
+	DicomDoseAccessorConverterTest.cpp
 	DicomDoseAccessorGeneratorTest.cpp
      DicomFileReaderHelperTest.cpp
 	DicomIOTest.cpp
