@@ -68,39 +68,39 @@ namespace rttb
 			}
 
 			rttb::io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(
-				RTDOSE_FILENAME_CONSTANT_TWO.c_str());
+			    RTDOSE_FILENAME_CONSTANT_TWO.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
 
 			DoseAccessorPointer doseAccessorNull;
 
 			rttb::io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator2(
-				RTDOSE_FILENAME_INCREASE_X.c_str());
+			    RTDOSE_FILENAME_INCREASE_X.c_str());
 			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
 
 			//doseAccessor1 is used as dose image
 			boost::shared_ptr<NearestNeighborInterpolation> interpolationNN =
-				boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
+			    boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
 			interpolationNN->setDoseAccessorPointer(doseAccessor1);
 			boost::shared_ptr<LinearInterpolation> interpolationLinear = boost::shared_ptr<LinearInterpolation>
-					(new LinearInterpolation());
+			        (new LinearInterpolation());
 			interpolationLinear->setDoseAccessorPointer(doseAccessor1);
 
 			//doseAccessor2 is used as dose image.
 			//RTDOSE_FILENAME_INCREASE_X and RTDOSE_FILENAME_CONSTANT_TWO have the same GeometricInfo
 			boost::shared_ptr<NearestNeighborInterpolation> interpolationNN2 =
-				boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
+			    boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
 			interpolationNN2->setDoseAccessorPointer(doseAccessor2);
 			boost::shared_ptr<LinearInterpolation> interpolationLinear2 =
-				boost::shared_ptr<LinearInterpolation>(new LinearInterpolation());
+			    boost::shared_ptr<LinearInterpolation>(new LinearInterpolation());
 			interpolationLinear2->setDoseAccessorPointer(doseAccessor2);
 
 			boost::shared_ptr<NearestNeighborInterpolation> interpolationNullNN =
-				boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
+			    boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
 			boost::shared_ptr<LinearInterpolation> interpolationNullLinear =
-				boost::shared_ptr<LinearInterpolation>(new LinearInterpolation());
+			    boost::shared_ptr<LinearInterpolation>(new LinearInterpolation());
 
 			rttb::WorldCoordinate3D imagePositionPatient =
-				doseAccessor1->getGeometricInfo().getImagePositionPatient();
+			    doseAccessor1->getGeometricInfo().getImagePositionPatient();
 			rttb::SpacingVectorType3D pixelSpacing = doseAccessor1->getGeometricInfo().getSpacing();
 			int size[] = {doseAccessor1->getGeometricInfo().getNumColumns(), doseAccessor1->getGeometricInfo().getNumRows(), doseAccessor1->getGeometricInfo().getNumSlices()};
 
@@ -109,21 +109,21 @@ namespace rttb
 			std::vector<double> coordinatesZeroAndMaxX;
 			coordinatesZeroAndMaxX.push_back(imagePositionPatient.x() - (pixelSpacing.x() * 0.5));
 			coordinatesZeroAndMaxX.push_back(coordinatesZeroAndMaxX.at(0) + (size[0]
-											 *pixelSpacing.x() - 0.001));
+			                                 *pixelSpacing.x() - 0.001));
 			coordinatesZeroAndMaxX.push_back(coordinatesZeroAndMaxX.at(0) + ((size[0] - 1)*pixelSpacing.x() *
-											 0.5));
+			                                 0.5));
 			std::vector<double> coordinatesZeroAndMaxY;
 			coordinatesZeroAndMaxY.push_back(imagePositionPatient.y() - (pixelSpacing.y() * 0.5));
 			coordinatesZeroAndMaxY.push_back(coordinatesZeroAndMaxY.at(0) + (size[1]
-											 *pixelSpacing.y() - 0.001));
+			                                 *pixelSpacing.y() - 0.001));
 			coordinatesZeroAndMaxY.push_back(coordinatesZeroAndMaxY.at(0) + ((size[1] - 1)*pixelSpacing.y() *
-											 0.5));
+			                                 0.5));
 			std::vector<double> coordinatesZeroAndMaxZ;
 			coordinatesZeroAndMaxZ.push_back(imagePositionPatient.z() - (pixelSpacing.z() * 0.5));
 			coordinatesZeroAndMaxZ.push_back(coordinatesZeroAndMaxZ.at(0) + (size[2]
-											 *pixelSpacing.z() - 0.001));
+			                                 *pixelSpacing.z() - 0.001));
 			coordinatesZeroAndMaxZ.push_back(coordinatesZeroAndMaxZ.at(0) + ((size[2] - 1)*pixelSpacing.z() *
-											 0.5));
+			                                 0.5));
 
 			std::vector<rttb::WorldCoordinate3D> coordinatesToCheck;
 
@@ -134,17 +134,17 @@ namespace rttb
 					for (int z = 0; z < coordinatesZeroAndMaxZ.size(); z++)
 					{
 						coordinatesToCheck.push_back(rttb::WorldCoordinate3D(coordinatesZeroAndMaxX.at(x),
-													 coordinatesZeroAndMaxY.at(y), coordinatesZeroAndMaxZ.at(z)));
+						                             coordinatesZeroAndMaxY.at(y), coordinatesZeroAndMaxZ.at(z)));
 					}
 				}
 			}
 
 			rttb::WorldCoordinate3D positionOutsideOfImageLeft = imagePositionPatient - rttb::WorldCoordinate3D(
-						pixelSpacing.x() * 2.0, pixelSpacing.y() * 2.0, pixelSpacing.z() * 2.0);
+			            pixelSpacing.x() * 2.0, pixelSpacing.y() * 2.0, pixelSpacing.z() * 2.0);
 			rttb::WorldCoordinate3D positionOutsideOfImageRight = imagePositionPatient +
-					rttb::WorldCoordinate3D(size[0] * pixelSpacing.x(), size[1] * pixelSpacing.y(),
-											size[2] * pixelSpacing.z()) + rttb::WorldCoordinate3D(pixelSpacing.x() * 2.0,
-													pixelSpacing.y() * 2.0, pixelSpacing.z() * 2.0);
+			        rttb::WorldCoordinate3D(size[0] * pixelSpacing.x(), size[1] * pixelSpacing.y(),
+			                                size[2] * pixelSpacing.z()) + rttb::WorldCoordinate3D(pixelSpacing.x() * 2.0,
+			                                        pixelSpacing.y() * 2.0, pixelSpacing.z() * 2.0);
 
 			//precomputed values for Nearest neighbor + Linear interpolator
 			double expectedDoseIncreaseXNearest[27];
@@ -186,9 +186,9 @@ namespace rttb
 			while (iterCoordinates != coordinatesToCheck.cend() && index < 27)
 			{
 				CHECK_CLOSE(interpolationNN2->getValue(*iterCoordinates), expectedDoseIncreaseXNearest[index],
-							errorConstant);
+				            errorConstant);
 				CHECK_CLOSE(interpolationLinear2->getValue(*iterCoordinates), expectedDoseIncreaseXLinear[index],
-							errorConstant);
+				            errorConstant);
 				++iterCoordinates;
 				++index;
 			}
@@ -196,27 +196,27 @@ namespace rttb
 			//TEST 3) Exception handling
 			//Check that core::MappingOutOfImageException is thrown if requested position is outside image
 			CHECK_THROW_EXPLICIT(interpolationNN->getValue(positionOutsideOfImageLeft),
-								 core::MappingOutsideOfImageException);
+			                     core::MappingOutsideOfImageException);
 			CHECK_THROW_EXPLICIT(interpolationNN->getValue(positionOutsideOfImageRight),
-								 core::MappingOutsideOfImageException);
+			                     core::MappingOutsideOfImageException);
 			CHECK_THROW_EXPLICIT(interpolationLinear->getValue(positionOutsideOfImageLeft),
-								 core::MappingOutsideOfImageException);
+			                     core::MappingOutsideOfImageException);
 			CHECK_THROW_EXPLICIT(interpolationLinear->getValue(positionOutsideOfImageRight),
-								 core::MappingOutsideOfImageException);
+			                     core::MappingOutsideOfImageException);
 
 			//Check that core::NullPointerException is thrown if Null Pointers are given to interpolator
 			CHECK_THROW_EXPLICIT(interpolationNullLinear->setDoseAccessorPointer(doseAccessorNull),
-								 core::NullPointerException);
+			                     core::NullPointerException);
 			CHECK_THROW_EXPLICIT(interpolationNullNN->setDoseAccessorPointer(doseAccessorNull),
-								 core::NullPointerException);
+			                     core::NullPointerException);
 			CHECK_THROW_EXPLICIT(interpolationNullLinear->getValue(coordinatesToCheck.front()),
-								 core::NullPointerException);
+			                     core::NullPointerException);
 			CHECK_THROW_EXPLICIT(interpolationNullNN->getValue(coordinatesToCheck.front()),
-								 core::NullPointerException);
+			                     core::NullPointerException);
 
 			//Check that no exception is thrown otherwise
-			CHECK_NO_THROW(new NearestNeighborInterpolation());
-			CHECK_NO_THROW(new LinearInterpolation());
+			CHECK_NO_THROW(boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation()));
+			CHECK_NO_THROW(boost::shared_ptr<LinearInterpolation>(new LinearInterpolation()));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
