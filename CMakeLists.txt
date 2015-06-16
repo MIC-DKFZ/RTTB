@@ -30,13 +30,15 @@ IF (WIN32)
 	add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 ENDIF(WIN32)
 
-IF(COMMAND CMAKE_POLICY)
-  # Enable old CMake behaviour when dealing with export_library_dependencies().
-  # This is necessary to avoid warnings in CMake versions
-  # greater than 3.0
-  # See http://www.cmake.org/cmake/help/v3.0/policy/CMP0033.html
-  CMAKE_POLICY(SET CMP0033 OLD)
-ENDIF(COMMAND CMAKE_POLICY)
+IF (NOT (CMAKE_MAJOR_VERSION LESS 3))
+	IF(COMMAND CMAKE_POLICY)
+	  # Enable old CMake behaviour when dealing with export_library_dependencies().
+	  # This is necessary to avoid warnings in CMake versions
+	  # greater than 3.0
+	  # See http://www.cmake.org/cmake/help/v3.0/policy/CMP0033.html
+	  CMAKE_POLICY(SET CMP0033 OLD)
+	ENDIF(COMMAND CMAKE_POLICY)
+ENDIF()
 
 IF(BUILD_SHARED_LIBS)
   IF(WIN32)
