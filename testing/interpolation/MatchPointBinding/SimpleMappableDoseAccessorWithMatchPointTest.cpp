@@ -107,19 +107,19 @@ namespace rttb
 			registration->_translation = translation;
 			registration->_limitedTarget = false;
 
-			auto interpolationNN =
+			NearestNeighborInterpolation::Pointer interpolationNN =
 			    NearestNeighborInterpolation::Pointer(new NearestNeighborInterpolation());
-			auto interpolationLinear = boost::shared_ptr<LinearInterpolation>
+			LinearInterpolation::Pointer interpolationLinear = LinearInterpolation::Pointer
 			                           (new LinearInterpolation());
-			boost::shared_ptr<NearestNeighborInterpolation> interpolationNull;
+			NearestNeighborInterpolation::Pointer interpolationNull;
 
-			auto transformMP = TransformationInterface::Pointer(new MatchPointTransformation(
+			TransformationInterface::Pointer transformMP = TransformationInterface::Pointer(new MatchPointTransformation(
 			                       registration.GetPointer()));
 
-			auto aSimpleMappableDoseAccessorMPIdentityLinear = new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear);
-			auto aSimpleMappableDoseAccessorMPIdentityNN = new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN);
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityLinear = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
+			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityNN = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
+			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
 
 			//1) Test constructor
 			CHECK_NO_THROW(SimpleMappableDoseAccessor(
@@ -153,10 +153,10 @@ namespace rttb
 			//Second: Translation (5mm/5mm/5mm) --> in voxel: (1/1/1) as pixelspacing = 5 mm
 			translation[0] = translation[1] = translation[2] = 5.0;
 			registration->_translation = translation;
-			auto aSimpleMappableDoseAccessorMPTranslationLinear = new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear);
-			auto aSimpleMappableDoseAccessorMPTranslationNN = new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN);
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPTranslationLinear = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
+			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPTranslationNN = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
+			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
 
 			rttb::VoxelGridIndex3D aIndexBeforeTransformation(0, 0, 0);
 			rttb::VoxelGridIndex3D aIndexAfterTransformation(1, 1, 1);
@@ -195,7 +195,7 @@ namespace rttb
 				Registration3D3DPointer registrationRealisticScenario =
 				    prepareRegistrationRealisticScenario.getRegistration();
 
-				auto transformRealistic = TransformationInterface::Pointer(new MatchPointTransformation(
+				TransformationInterface::Pointer transformRealistic = TransformationInterface::Pointer(new MatchPointTransformation(
 				                              registrationRealisticScenario));
 
 				io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator3(RTDOSE_FILENAME_REALISTIC.c_str());
@@ -210,9 +210,9 @@ namespace rttb
 				    prepareRegistrationRealisticScenario.getTargetImage()->GetLargestPossibleRegion().GetSize()[2]);
 
 				//Dose is related to BP-CT, map dose to fraction CT geometry
-				auto aSimpleMappableDoseAccessorRealisticScenarioLinear =
-				    new SimpleMappableDoseAccessor(geoInfoRealistic,
-				                                   doseAccessor3, transformRealistic, interpolationLinear);
+				SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorRealisticScenarioLinear =
+				    SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(geoInfoRealistic,
+				                                   doseAccessor3, transformRealistic, interpolationLinear));
 
 				//combination of 0, size/2 and size to check as coordinates
 				std::vector<unsigned int> coordinatesToCheckX, coordinatesToCheckY, coordinatesToCheckZ;
