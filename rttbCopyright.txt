@@ -1,6 +1,6 @@
 RTToolbox - DKFZ radiotherapy quantitative evaluation library
 
-Copyright (C) 2013 German Cancer Research Center (DKFZ),
+Copyright (C) 2015 German Cancer Research Center (DKFZ),
 Software development for Integrated Diagnostics and Therapy (SIDT)
 All rights reserved.
 

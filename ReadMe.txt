@@ -6,10 +6,9 @@ Compiler tests
 ----------------------------
 RTToolbox is currently tested with the following compilers (only x64):
 - Visual Studio 2010
-- Visual Studio 2012 (soon)
+- Visual Studio 2013
 - GCC 4.6
-
-RTToolbox should compile with all compilers recognizing the C++11 keywords 'override', 'auto' and 'nullptr'.
+- GCC 4.9
 
 Needed Third Party Libraries
 ----------------------------
@@ -41,10 +40,14 @@ Please give the location of the root folder, where the libraries where built for
 
 A.1. Configure Litmus with CMake (separated binary folder recommended)
 A.2. Build Litmus
+A.3. Enable BUILD_TESTING
+A.4. Press Configure
+A.5. Enable tests of interest
+A.6. Enable BUILD_RTToolbox_Test_examples if you want examples
 
-[B. If you build Helax support - Boost]
+[B. If you build Helax or DICOM support - Boost]
 
-B.1. Build (using the same compiler options as RTToolbox, usually STATIC LINKING and x64 architecture). For all other modules, only the headers are required.
+B.1. Build (using the same compiler options as RTToolbox, usually STATIC LINKING and x64 architecture). The component "filesystem" needs compilation. For all other modules, only the headers are required.
 
 [C. If you want DICOM support - DCMTK]
 
@@ -113,17 +116,6 @@ IF(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS AND NOT BUILD_SHARED_LIBS)
   
 	ENDIF(CMAKE_GENERATOR MATCHES "Visual Studio .*")
 
-  
-	# settings for Borland C++
-  
-	IF(CMAKE_GENERATOR MATCHES "Borland Makefiles")
-    
-		# further settings required? not tested for a very long time!
-    
-		SET(CMAKE_STANDARD_LIBRARIES "import32.lib cw32md.lib")
-  
-	ENDIF(CMAKE_GENERATOR MATCHES "Borland Makefiles")
-
 
 ENDIF(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS AND NOT BUILD_SHARED_LIBS)
 
@@ -142,36 +134,41 @@ E.1. Build MatchPoint.
 
 [F. Configure/Build RTToolbox]
 
-F.1 Configure with CMake
+F.1. Configure with CMake
 
-F.1.1 Set BOOST_INCLUDE_DIR to the main boost directory (where "boost_build.jam" is located)
-      REMARK: For the current version of the RTToolbox you do need to build boost only if you want to use the provided Helax-Dicom data support. 
+F.1.1. Set BOOST_INCLUDE_DIR to the main boost directory (where "boost_build.jam" is located)
+      REMARK: For the current version of the RTToolbox you do need to build boost only if you want to use the provided Helax-Dicom or DICOM data support. 
       Otherwise you can use headers only.
 
-F.2 Select all packages you like to build (Parameters "BUILD_*"; e.g. BUILD_IO_Dicom)
+F.2. Select all packages you like to build (Parameters "BUILD_*"; e.g. BUILD_IO_Dicom)
    
-F.2.1 If you select BUILD_IO_DICOM the configuration will ask you for the DCMTK main directory (parameter DCMTK_DIR; where you have built DCMTK).
+F.2.1. If you select BUILD_IO_DICOM the configuration will ask you for the DCMTK main directory (parameter DCMTK_DIR; where you have built DCMTK).
       REMARK: If you have built DCMTK as out source build you have to also set the
       CMake parameter DCMTK_SOURCE_DIR to the root directory of the DCMTK source.
 	
-F.2.3 If you select BUILD_ITKBinding or BUILD_IO_ITK, set ITK_DIR to the binary directory of ITK
+F.2.3. If you select BUILD_ITKBinding or BUILD_IO_ITK, set ITK_DIR to the binary directory of ITK
 	
-F.2.3 If you select BUILD_MatchPointBinding, set MatchPoint_DIR to the binary directory of MatchPoint
+F.2.3. If you select BUILD_MatchPointBinding, set MatchPoint_DIR to the binary directory of MatchPoint
 
-F.3 Generate CMake configuration
+F.3. Generate CMake configuration
 
-F.4 Build RTToolbox and have fun!
+F.4. Build RTToolbox and have fun!
 
 
 [G. Documentation]
 
-G.1 Generate the documentation using doxygen and the configuration found in "RTTB_binary_dir/documentation/doxygen.config".
+G.1. Generate the documentation using doxygen and the configuration found in "RTTB_binary_dir/documentation/doxygen.config".
 
+[H. Tests]
+
+H.1. Run tests (build RUN_TESTS project or ctest) to ensure that everything is correct.
+
+[I. Examples]
+
+I.1. Run tests (build RUN_TESTS project) to also build the examples. Be sure to have switched it on before (see A.6). These examples are a good starting point for own projects and show basic functionality of RTToolbox like DVH generation.
 
 Remarks
 -------
-R.1 Virtuos Support: Virtuos is a proprietary data format and therefore not included in the RTToolbox. The Virtuos support (wrapper) for the RTToolbox is currently being restructured and will be included in the near future.
+R.1. Virtuos Support: Virtuos is a proprietary data format and therefore not included in the RTToolbox.
 
-R.2 Database support: The database support for the RTToolbox is currently being restructured and will be included in the near future.
-
-R.3 ITK Version: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, this will lead to linker errors.
+R.2. ITK Version: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, this will lead to linker errors.

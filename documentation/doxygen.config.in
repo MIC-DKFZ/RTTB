@@ -1,4 +1,4 @@
-# Doxyfile 1.5.6
+# Doxyfile 1.8.7
 
 #---------------------------------------------------------------------------
 # Project related configuration options
@@ -23,6 +23,7 @@ ABBREVIATE_BRIEF       = "The $name class" \
                          an \
                          the
 ALWAYS_DETAILED_SEC    = NO
+PROJECT_LOGO 		   = "@RTToolbox_SOURCE_DIR@/documentation/images/icon.png" 	
 INLINE_INHERITED_MEMB  = NO
 FULL_PATH_NAMES        = YES
 STRIP_FROM_PATH        = "@RTToolbox_BINARY_DIR@/documentation/" \
@@ -97,37 +98,14 @@ WARN_LOGFILE           =
 INPUT                  = "@RTToolbox_SOURCE_DIR@/documentation/RTToolbox_info.txt" \
                          "@RTToolbox_SOURCE_DIR@/code"
 INPUT_ENCODING         = UTF-8
-FILE_PATTERNS          = *.c \
-                         *.cc \
-                         *.cxx \
+FILE_PATTERNS          = *.cxx \
                          *.cpp \
                          *.c++ \
-                         *.d \
-                         *.java \
-                         *.ii \
-                         *.ixx \
-                         *.ipp \
-                         *.i++ \
-                         *.inl \
                          *.h \
                          *.hh \
                          *.hxx \
                          *.hpp \
-                         *.h++ \
-                         *.idl \
-                         *.odl \
-                         *.cs \
-                         *.php \
-                         *.php3 \
-                         *.inc \
-                         *.m \
-                         *.mm \
                          *.dox \
-                         *.py \
-                         *.f90 \
-                         *.f \
-                         *.vhd \
-                         *.vhdl \
                          *.tpp
 RECURSIVE              = YES
 EXCLUDE                = 
@@ -261,7 +239,6 @@ CLASS_DIAGRAMS         = NO
 MSCGEN_PATH            = 
 HIDE_UNDOC_RELATIONS   = YES
 HAVE_DOT               = YES
-DOT_FONTNAME           = FreeSans
 DOT_FONTPATH           = 
 CLASS_GRAPH            = YES
 COLLABORATION_GRAPH    = YES
@@ -277,7 +254,7 @@ DIRECTORY_GRAPH        = YES
 DOT_IMAGE_FORMAT       = png
 DOT_PATH               = 
 DOTFILE_DIRS           = 
-DOT_GRAPH_MAX_NODES    = 50
+DOT_GRAPH_MAX_NODES    = 75
 MAX_DOT_GRAPH_DEPTH    = 1000
 DOT_TRANSPARENT        = YES
 DOT_MULTI_TARGETS      = NO

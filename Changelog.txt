@@ -1,0 +1,11 @@
+3.0 (01-2014 Release) -> 4.0 (06-2015 Release)
+* Improved performance for DVH calculation (#715)
+* Implemented ITKImageDoseAccessor to read from arbitrary file formats ITK can handle (#1239-#1244)
+* Implemented Dose interpolation techniques (#1029)
+* LQED2DVH and BEDDVH can be computed now in DVH module (#1164)
+* Refactored RTTBIndices (#1511)
+* Made Architecture Changes in DVH Module (#1167)
+* Introduced writing of voxelization as images (#1602)
+* Redesigned voxelization with using boost (#734)
+* Implemented a Dicom Dose Writer to write RT doses (#1235)
+* Lots of other bugfixes, cleanups and enhancements
