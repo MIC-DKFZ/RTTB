@@ -7,13 +7,9 @@ IF(NOT Boost_FOUND)
   ENDIF(DEFINED Boost_INCLUDE_DIR)
 
   SET(BOOST_MIN_VERSION "1.56.0")
-  
   FIND_PACKAGE(Boost ${BOOST_MIN_VERSION} REQUIRED)
 
   LIST(APPEND ALL_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
-  # this is only necessary if we use more than just the headers
-  LIST(APPEND ALL_LIBRARIES ${Boost_LIBRARIES})
-  link_directories(${Boost_LIBRARY_DIRS})
 	
   MARK_AS_ADVANCED(CLEAR Boost_INCLUDE_DIR)
 	

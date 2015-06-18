@@ -1,7 +1,7 @@
 MESSAGE (STATUS "processing RTToolbox io")
 ADD_SUBDIRECTORY (other)
 
-OPTION(BUILD_IO_Dicom "Determine if the IO class wrappers for DICOM format will be generated." OFF)
+OPTION(BUILD_IO_Dicom "Determine if the IO class wrappers for DICOM format will be generated." ON)
 IF(BUILD_IO_Dicom)
 	ADD_SUBDIRECTORY(dicom)
 	OPTION(BUILD_IO_HELAX "Determine if the IO class wrappers for HELAX format will be generated." OFF)

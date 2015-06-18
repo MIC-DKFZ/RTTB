@@ -3,10 +3,10 @@
 #-----------------------------------------------------------------------------
 PROJECT(RTToolbox)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-IF(CMAKE_BACKWARDS_COMPATIBILITY GREATER 2.8)
-  SET(CMAKE_BACKWARDS_COMPATIBILITY 2.8 CACHE STRING "Latest version of CMake when this project was released." FORCE)
-ENDIF(CMAKE_BACKWARDS_COMPATIBILITY GREATER 2.8)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.11.2)
+IF(CMAKE_BACKWARDS_COMPATIBILITY GREATER 2.8.11.2)
+  SET(CMAKE_BACKWARDS_COMPATIBILITY 2.8.11.2 CACHE STRING "Latest version of CMake when this project was released." FORCE)
+ENDIF(CMAKE_BACKWARDS_COMPATIBILITY GREATER 2.8.11.2)
 
 # RTToolbox version number.
 SET(RTToolbox_VERSION_MAJOR "4")
@@ -28,7 +28,14 @@ IF (WIN32)
 		MESSAGE(FATAL_ERROR "RTToolbox requires at least Visual Studio 2010.")
 	ENDIF(MSVC_VERSION LESS 1600)
 	add_definitions(-D_SCL_SECURE_NO_WARNINGS)
+ELSE (WIN32)
+	IF (CMAKE_COMPILER_IS_GNUCC)
+		IF (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.6 OR CMAKE_CXX_COMPILER_VERSION VERSION_EQUAL 5.0 OR CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0)
+			MESSAGE(AUTHOR_WARNING "RTToolbox was only tested with GCC 4.6 and GCC 4.9. You are using GCC " ${CMAKE_CXX_COMPILER_VERSION} ". This compiler version might not work.")
+		ENDIF()
+	ENDIF()
 ENDIF(WIN32)
+
 
 IF (NOT (CMAKE_MAJOR_VERSION LESS 3))
 	IF(COMMAND CMAKE_POLICY)
@@ -72,16 +79,15 @@ set(RTTB_MODULES_CONF_DIR ${RTToolbox_BINARY_DIR}/modulesConf CACHE INTERNAL "Mo
 set(RTTB_MODULES_PACKAGE_DEPENDS_DIR ${RTToolbox_SOURCE_DIR}/cmake/PackageDepends)
 set(MODULES_PACKAGE_DEPENDS_DIRS ${RTTB_MODULES_PACKAGE_DEPENDS_DIR})
 
-
 #-----------------------------------------------------------------------------
 # Testing setup
 # Configure Dart testing support.  This should be done before any
 # MESSAGE(FATAL_ERROR ...) commands are invoked.
 #-----------------------------------------------------------------------------
-
 SET(CTEST_NEW_FORMAT 1)
 INCLUDE(CTest)
 ENABLE_TESTING()
+
 IF(BUILD_TESTING)
   CONFIGURE_FILE(${RTToolbox_SOURCE_DIR}/cmake/RemoveTemporaryFiles.cmake.in
     ${RTToolbox_BINARY_DIR}/cmake/RemoveTemporaryFiles.cmake @ONLY IMMEDIATE)

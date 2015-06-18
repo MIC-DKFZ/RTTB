@@ -2,15 +2,15 @@ MESSAGE (STATUS "processing RTToolbox mask")
 
 RTTB_CREATE_MODULE(RTTBMasks DEPENDS RTTBCore PACKAGE_DEPENDS boost)
 
-OPTION(BUILD_MASK_BOOST "Determine if the boost mask voxelization will be supported." ON)
-IF(BUILD_MASK_BOOST)
+OPTION(BUILD_Masks_Boost "Determine if the boost mask voxelization will be supported." ON)
+IF(BUILD_Masks_Boost)
 	ADD_SUBDIRECTORY(boost)
-ENDIF(BUILD_MASK_BOOST)
+ENDIF(BUILD_Masks_Boost)
 
-OPTION(BUILD_OTBMASK "Determine if the rttb OTB mask voxalization will be supported." ON)
-IF(BUILD_OTBMASK)
+OPTION(BUILD_Masks_OTB "Determine if the rttb OTB mask voxalization will be supported." OFF)
+IF(BUILD_Masks_OTB)
 	ADD_SUBDIRECTORY(legacy)
-ENDIF(BUILD_OTBMASK)
+ENDIF(BUILD_Masks_OTB)
 
 
 

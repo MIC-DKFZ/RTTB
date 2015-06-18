@@ -16,7 +16,7 @@ Needed Third Party Libraries
 Please load and compile the following third party libraries/tools:
 
 Required:
-1. CMake (version 2.8.3 or higher)
+1. CMake (version 2.8.11.2 or higher)
 2. boost (version 1.56.0 or higher)
 
 Optional:
