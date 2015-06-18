@@ -4,14 +4,14 @@
   #-----------------------------------------------------------------------------
   # Include sub directories
   #-----------------------------------------------------------------------------
-
-  IF(BUILD_MASK_BOOST)
+	
+  IF(BUILD_Masks_Boost)
 	ADD_SUBDIRECTORY(boost)
-  ENDIF(BUILD_MASK_BOOST)
+  ENDIF()
    
-  IF(BUILD_OTBMASK)
+  IF(BUILD_Masks_OTB)
 	ADD_SUBDIRECTORY(legacy)
-  ENDIF(BUILD_OTBMASK)
+  ENDIF()
  
 
 

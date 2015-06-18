@@ -47,16 +47,6 @@ IF (NOT (CMAKE_MAJOR_VERSION LESS 3))
 	ENDIF(COMMAND CMAKE_POLICY)
 ENDIF()
 
-IF(BUILD_SHARED_LIBS)
-  IF(WIN32)
-  MESSAGE(FATAL_ERROR "RTToolbox currently does not support a dynamic build on Windows. We are working on that...")
-  ENDIF(WIN32)
-ELSE(BUILD_SHARED_LIBS)
-  IF(UNIX)
-  MESSAGE(FATAL_ERROR "RTToolbox currently does not support a static build on unix like systems. We are working on that...")
-  ENDIF(UNIX)
-ENDIF(BUILD_SHARED_LIBS)
-
 message(STATUS ${CMAKE_BUILD_TYPE})
 #-----------------------------------------------------------------------------
 # CMake Function(s) and Macro(s)
@@ -217,6 +207,16 @@ IF (WIN32)
 ELSE (WIN32)
   OPTION(BUILD_SHARED_LIBS "Build RTToolbox with shared libraries." ON)
 ENDIF (WIN32)
+
+IF(BUILD_SHARED_LIBS)
+  IF(WIN32)
+  MESSAGE(FATAL_ERROR "RTToolbox currently does not support a dynamic build on Windows. We are working on that...")
+  ENDIF(WIN32)
+ELSE(BUILD_SHARED_LIBS)
+  IF(UNIX)
+  MESSAGE(FATAL_ERROR "RTToolbox currently does not support a static build on unix like systems. We are working on that...")
+  ENDIF(UNIX)
+ENDIF(BUILD_SHARED_LIBS)
 
 SET(RTToolbox_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
