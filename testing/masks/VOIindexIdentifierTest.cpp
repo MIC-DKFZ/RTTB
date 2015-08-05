@@ -42,11 +42,6 @@ namespace rttb
 	namespace testing
 	{
 
-		/*!@brief DicomIOTest - test structure set generator for dicom data
-				1) test dicom file structure set generator
-				2) test dicom IOD structure set generator
-		*/
-
 		int VOIindexIdentifierTest(int argc, char* argv[])
 		{
 			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
@@ -63,8 +58,10 @@ namespace rttb
 			{
 				RTSTRUCT_FILENAME = argv[1];
 			}
-
-      RTSTRUCT_FILENAME = "D:\\ajaeger\\Packages\\NotMeVisLab\\SBR\\RTToolbox\\AVIDIntegration\\testing\\data\\DICOM\\StructureSet\\RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm";
+      else
+      {
+        RTSTRUCT_FILENAME = "D:\\ajaeger\\Packages\\NotMeVisLab\\SBR\\RTToolbox\\AVIDIntegration\\testing\\data\\DICOM\\StructureSet\\RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm";
+      }
 
 			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(
 			        RTSTRUCT_FILENAME.c_str()).generateStructureSet();
@@ -86,8 +83,7 @@ namespace rttb
       CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet,"Leber"),intVoi);
       CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet,"Leber||Leb"),intVoi);
 
-      int intInvalidVoi = -1;
-      CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet,"Herz"),intInvalidVoi);
+      CHECK_THROW_EXPLICIT(testVOIindexId.getIndexByVoiName(rtStructureSet,"Herz"),::rttb::core::Exception);
 
       /* getVoiNameByIndex */
       CHECK_THROW_EXPLICIT(testVOIindexId.getVoiNameByIndex(emptyPointer, 5),

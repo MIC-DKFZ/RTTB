@@ -1,35 +1,29 @@
 // -----------------------------------------------------------------------
+// RTToolbox - DKFZ radiotherapy quantitative evaluation library
 //
-// (c) Copyright 2008  company=DKFZ";  location="Heidelberg ; Germany"
-// ALL RIGHTS RESERVED
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html
 //
-// THIS FILE CONTAINS CONFIDENTIAL AND PROPRIETARY INFORMATION OF DKFZ.
-// ANY DUPLICATION; MODIFICATION; DISTRIBUTION; OR
-// DISCLOSURE IN ANY FORM; IN WHOLE; OR IN PART; IS STRICTLY PROHIBITED
-// WITHOUT THE PRIOR EXPRESS WRITTEN PERMISSION OF DKFZ.
-// -----------------------------------------------------------------------
-// @file VOIindexIdentifier.h
-// @version
-// @date
-// @author $Author$
-// @author $Author$
-// @author
-// Subversion HeadURL: $HeadURL$
-
-
-// -----------------------------------------------------------------------
-// -----------------------------------------------------------------------
-// !!!EXPERIMENTAL CODE!!!
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE.  See the above copyright notices for more information.
 //
-// This code may not be used for release.
-// Add #define SIDT_ENFORCE_MATURE_CODE to any release module
-// to ensure this policy.
-// -----------------------------------------------------------------------
+//------------------------------------------------------------------------
+/*!
+// @file
+// @version $Revision: 
+// @date    $Date: 
+// @author  $Author: 
+*/
 
 
 
-#ifndef __RTTB_MASKS_VOIINDEXIDENTIFIER_H
-#define __RTTB_MASKS_VOIINDEXIDENTIFIER_H
+
+#ifndef __VOI_INDEX_IDENTIFIER_H
+#define __VOI_INDEX_IDENTIFIER_H
 
 #include "rttbStructureSet.h"
 #include "rttbStructure.h"
@@ -61,28 +55,32 @@ namespace rttb
 
 
             /*!@brief get the index of the corresponding VOI
-            * @param valid struct must be loaded
-            * @param std::string filename
+            * @pre name must contain a valid voi name
+            * @pre spStructSet must point to a valid structure set.
+            * @param spStructSet Pointer to the structur set that should be checked for the named VOI.
+            * @param name Name of the VOI
+            * @exception  ::rttb::core::Exception on invalid spStructSet
+                          ::rttb::core::Exception on invalid spStructSet 
             * @return the index */
-            const unsigned int getIndexByVoiName(StructSetTypePointer spStructSet,
-                                                 const std::string name);
+            static const unsigned int getIndexByVoiName(StructSetTypePointer spStructSet,
+                                                 const std::string& name);
 
 
             /*!@brief get the VOI of the corresponding index
-            * @param valid struct must be loaded
-            * @param std::string filename
+            * @pre index must specify a valid index value
+            * @pre spStructSet must point to a valid structure set.
+            * @param spStructSet Pointer to the structur set that should be checked for the named VOI.
+            * @param name Index of the VOI
+            * @exception  ::rttb::core::Exception on invalid spStructSet
+                          ::rttb::core::Exception on invalid spStructSet
             * @return voi name */
-            const std::string getVoiNameByIndex(StructSetTypePointer spStructSet,
-                                                const unsigned int index);
+            static const std::string getVoiNameByIndex(StructSetTypePointer spStructSet,
+                                                const unsigned int& index);
 
-        private:
-            void init(StructSetTypePointer spStructSet);
 
-            StructSetTypePointer                    _spStructSet;
-            VoiLabelList                            _voiLabelList;
         };
 
     }
 }
 
-#endif __RTTB_MASKS_VOIINDEXIDENTIFIER_H
+#endif __VOI_INDEX_IDENTIFIER_H
