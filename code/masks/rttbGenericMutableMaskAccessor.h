@@ -27,82 +27,82 @@
 
 namespace rttb
 {
-	namespace masks
-	{
+    namespace masks
+    {
 
-		/*! @class GenericMutableMaskAccessor
-		@brief Default implementation of MutableMaskAccessorInterface.
-		@see MutableMaskAccessorInterface
-		*/
-		class GenericMutableMaskAccessor: public core::MutableMaskAccessorInterface
-		{
-		public:
-			typedef core::MutableMaskAccessorInterface::MaskVoxelList MaskVoxelList;
-			typedef core::MutableMaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
+        /*! @class GenericMutableMaskAccessor
+        @brief Default implementation of MutableMaskAccessorInterface.
+        @see MutableMaskAccessorInterface
+        */
+        class GenericMutableMaskAccessor: public core::MutableMaskAccessorInterface
+        {
+        public:
+            typedef core::MutableMaskAccessorInterface::MaskVoxelList MaskVoxelList;
+            typedef core::MutableMaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
 
-		private:
-			core::GeometricInfo _geoInfo;
+        private:
+            core::GeometricInfo _geoInfo;
 
-			/*! vector containing list of mask voxels*/
-			MaskVoxelListPointer _spRelevantVoxelVector;
+            /*! vector containing list of mask voxels*/
+            MaskVoxelListPointer _spRelevantVoxelVector;
 
-			IDType _maskUID;
+            IDType _maskUID;
 
-			GenericMutableMaskAccessor(const
-			                           GenericMutableMaskAccessor&); //not implemented on purpose -> non-copyable
-			GenericMutableMaskAccessor& operator=(const
-			                                      GenericMutableMaskAccessor&);//not implemented on purpose -> non-copyable
+            GenericMutableMaskAccessor(const
+                                       GenericMutableMaskAccessor&); //not implemented on purpose -> non-copyable
+            GenericMutableMaskAccessor& operator=(const
+                                                  GenericMutableMaskAccessor&);//not implemented on purpose -> non-copyable
 
-		public:
-			~GenericMutableMaskAccessor();
+        public:
+            ~GenericMutableMaskAccessor();
 
-			GenericMutableMaskAccessor(const core::GeometricInfo& aGeometricInfo);
+            GenericMutableMaskAccessor(const core::GeometricInfo& aGeometricInfo);
 
-			/*! @brief initialize mask structure if _spRelevantVoxelVector was not previously initialized*/
-			void updateMask();
+            /*! @brief initialize mask structure if _spRelevantVoxelVector was not previously initialized*/
+            void updateMask();
 
-			/*! @brief get vector containing all relevant voxels that are inside the given structure*/
-			MaskVoxelListPointer getRelevantVoxelVector();
-			/*! @brief get vector containing all relevant voxels that have a relevant volume above the given threshold and are inside the given structure*/
-			MaskVoxelListPointer getRelevantVoxelVector(float lowerThreshold);
+            /*! @brief get vector containing all relevant voxels that are inside the given structure*/
+            MaskVoxelListPointer getRelevantVoxelVector();
+            /*! @brief get vector containing all relevant voxels that have a relevant volume above the given threshold and are inside the given structure*/
+            MaskVoxelListPointer getRelevantVoxelVector(float lowerThreshold);
 
-			/*!@brief determine how a given voxel on the dose grid is masked
-			* @param aID ID of the voxel in grid.
-			* @param voxel Reference to the voxel.
-			* @post after a valid call voxel contains the information of the specified grid voxel. If aID is not valid, voxel values are undefined.
-			* The relevant volume fraction will be set to zero.
-			* @return Indicates if the voxel exists and therefore if parameter voxel contains valid values.*/
-			bool getMaskAt(const VoxelGridID aID, core::MaskVoxel& voxel) const;
+            /*!@brief determine how a given voxel on the dose grid is masked
+            * @param aID ID of the voxel in grid.
+            * @param voxel Reference to the voxel.
+            * @post after a valid call voxel contains the information of the specified grid voxel. If aID is not valid, voxel values are undefined.
+            * The relevant volume fraction will be set to zero.
+            * @return Indicates if the voxel exists and therefore if parameter voxel contains valid values.*/
+            bool getMaskAt(const VoxelGridID aID, core::MaskVoxel& voxel) const;
 
-			bool getMaskAt(const VoxelGridIndex3D& aIndex, core::MaskVoxel& voxel) const;
+            bool getMaskAt(const VoxelGridIndex3D& aIndex, core::MaskVoxel& voxel) const;
 
-			/* @ brief is true if dose is on a homogeneous grid */
-			// Inhomogeneous grids are not supported at the moment, but if they will
-			// be supported in the future the interface does not need to change.
-			bool isGridHomogeneous() const
-			{
-				return true;
-			};
+            /* @ brief is true if dose is on a homogeneous grid */
+            // Inhomogeneous grids are not supported at the moment, but if they will
+            // be supported in the future the interface does not need to change.
+            bool isGridHomogeneous() const
+            {
+                return true;
+            };
 
-			/*! @brief give access to GeometricInfo*/
-			inline const core::GeometricInfo& getGeometricInfo() const
-			{
-				return _geoInfo;
-			};
+            /*! @brief give access to GeometricInfo*/
+            inline const core::GeometricInfo& getGeometricInfo() const
+            {
+                return _geoInfo;
+            };
 
-			IDType getMaskUID() const
-			{
-				return _maskUID;
-			};
+            IDType getMaskUID() const
+            {
+                return _maskUID;
+            };
 
 
-			void setMaskAt(VoxelGridID aID, const core::MaskVoxel& voxel);
+            void setMaskAt(VoxelGridID aID, const core::MaskVoxel& voxel);
 
-			void setMaskAt(const VoxelGridIndex3D& gridIndex, const core::MaskVoxel& voxel);
+            void setMaskAt(const VoxelGridIndex3D& gridIndex, const core::MaskVoxel& voxel);
 
-			void setRelevantVoxelVector(MaskVoxelListPointer aVoxelListPointer);
+            void setRelevantVoxelVector(MaskVoxelListPointer aVoxelListPointer);
 
-		};
-	}
+        };
+    }
 }
 #endif
