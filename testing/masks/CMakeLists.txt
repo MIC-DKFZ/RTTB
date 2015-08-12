@@ -4,7 +4,7 @@
   #-----------------------------------------------------------------------------
   # Include sub directories
   #-----------------------------------------------------------------------------
-	
+
   IF(BUILD_Masks_Boost)
 	ADD_SUBDIRECTORY(boost)
   ENDIF()
@@ -27,7 +27,7 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 
 #-----------------------------------------------------------------------------
-ADD_TEST(VOIindexIdentifierTest ${Mask_TESTS} VOIindexIdentifierTest 
+ADD_TEST(VOIindexIdentifierTest ${Masks_TESTS} VOIindexIdentifierTest 
 "${TEST_DATA_ROOT}/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm" )
 
 

@@ -38,7 +38,7 @@ namespace rttb
 		namespace boost
 		{
 			/*! @class BoostMaskAccessor
-			*   @brief Implementation of the voxelization using boost 
+			*   @brief Implementation of the voxelization using boost
 			*/
 			class BoostMaskAccessor: public core::MaskAccessorInterface
 			{
@@ -47,11 +47,10 @@ namespace rttb
 				typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
 
 				typedef core::Structure::StructTypePointer StructTypePointer;
-				typedef ::boost::shared_ptr<core::GeometricInfo> GeometricInfoPointer;
 
 			private:
 
-				GeometricInfoPointer _spGeoInfo;
+				core::GeometricInfo _geoInfo;
 
 				/*! vector containing list of mask voxels*/
 				MaskVoxelListPointer _spRelevantVoxelVector;
@@ -68,7 +67,7 @@ namespace rttb
 				* @param aStructurePointer smart pointer of the structure
 				* @param aGeometricInfoPtr smart pointer of the geometricinfo of the dose
 				*/
-				BoostMaskAccessor(StructTypePointer aStructurePointer, GeometricInfoPointer aGeometricInfoPtr);
+				BoostMaskAccessor(StructTypePointer aStructurePointer, const core::GeometricInfo& aGeometricInfo);
 
 				/*! @brief destructor*/
 				~BoostMaskAccessor();
@@ -99,7 +98,7 @@ namespace rttb
 				/*! @brief give access to GeometricInfo*/
 				const core::GeometricInfo& getGeometricInfo() const;
 
-				/* @ brief is true if dose is on a homogeneous grid 
+				/* @ brief is true if dose is on a homogeneous grid
 				* @remark Inhomogeneous grids are not supported at the moment, but if they will be supported in the future the interface does not need to change.*/
 				bool isGridHomogeneous() const
 				{

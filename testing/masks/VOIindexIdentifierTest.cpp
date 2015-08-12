@@ -14,25 +14,18 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 
-// @date $Date: 
-// @author $Author: 
+// @version $Revision:
+// @date $Date:
+// @author $Author:
 */
 
 // this file defines the rttbCoreTests for the test driver
 // and all it expects is that you have a function called RegisterTests
 
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
-
-#include <iomanip>
-
 #include "litCheckMacros.h"
 
 #include "rttbBaseType.h"
 #include "rttbDicomFileStructureSetGenerator.h"
-#include "rttbDicomIODStructureSetGenerator.h"
-#include "rttbDcmrtException.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbVOIindexIdentifier.h"
 
@@ -44,13 +37,11 @@ namespace rttb
 
 		int VOIindexIdentifierTest(int argc, char* argv[])
 		{
-			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
-			//typedef boost::shared_ptr<DRTStructureSetIOD> DRTStrSetIODPtr;
-
 			PREPARE_DEFAULT_TEST_REPORTING;
+
+			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+
 			//ARGUMENTS: 1: structure file name
-
-
 			std::string RTSTRUCT_FILENAME;
 
 
@@ -58,39 +49,35 @@ namespace rttb
 			{
 				RTSTRUCT_FILENAME = argv[1];
 			}
-      else
-      {
-        RTSTRUCT_FILENAME = "D:\\ajaeger\\Packages\\NotMeVisLab\\SBR\\RTToolbox\\AVIDIntegration\\testing\\data\\DICOM\\StructureSet\\RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm";
-      }
 
 			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(
 			        RTSTRUCT_FILENAME.c_str()).generateStructureSet();
 
-      StructureSetPointer emptyPointer = StructureSetPointer();
+			StructureSetPointer emptyPointer = StructureSetPointer();
 
-      /* getIndexByVoiName */
-      CHECK_NO_THROW(::rttb::masks::VOIindexIdentifier testVOIindexId = ::rttb::masks::VOIindexIdentifier());
-      ::rttb::masks::VOIindexIdentifier testVOIindexId = ::rttb::masks::VOIindexIdentifier();
-      CHECK_THROW_EXPLICIT(testVOIindexId.getIndexByVoiName(emptyPointer,"Leber"),
-        ::rttb::core::Exception);
-			
-			CHECK_NO_THROW(testVOIindexId.getIndexByVoiName(rtStructureSet,"Leber"));
-      int intVoi = 5;
-      CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet,"Leber"),intVoi);
+			/* getIndexByVoiName */
+			CHECK_NO_THROW(::rttb::masks::VOIindexIdentifier testVOIindexId = ::rttb::masks::VOIindexIdentifier());
+			::rttb::masks::VOIindexIdentifier testVOIindexId = ::rttb::masks::VOIindexIdentifier();
+			CHECK_THROW_EXPLICIT(testVOIindexId.getIndexByVoiName(emptyPointer, "Leber"),
+			                     ::rttb::core::Exception);
 
-      CHECK_NO_THROW(testVOIindexId.getIndexByVoiName(rtStructureSet,"Leber||Leb"));
+			CHECK_NO_THROW(testVOIindexId.getIndexByVoiName(rtStructureSet, "Leber"));
+			int intVoi = 5;
+			CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet, "Leber"), intVoi);
 
-      CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet,"Leber"),intVoi);
-      CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet,"Leber||Leb"),intVoi);
+			CHECK_NO_THROW(testVOIindexId.getIndexByVoiName(rtStructureSet, "Leber||Leb"));
 
-      CHECK_THROW_EXPLICIT(testVOIindexId.getIndexByVoiName(rtStructureSet,"Herz"),::rttb::core::Exception);
+			CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet, "Leber"), intVoi);
+			CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet, "Leber||Leb"), intVoi);
 
-      /* getVoiNameByIndex */
-      CHECK_THROW_EXPLICIT(testVOIindexId.getVoiNameByIndex(emptyPointer, 5),
-        ::rttb::core::Exception);
-      CHECK_EQUAL(testVOIindexId.getVoiNameByIndex(rtStructureSet,5), "Leber");
-      std::string voiName = "Herz";
-      CHECK_THROW_EXPLICIT(testVOIindexId.getVoiNameByIndex(rtStructureSet,20), ::rttb::core::Exception);
+			CHECK_THROW_EXPLICIT(testVOIindexId.getIndexByVoiName(rtStructureSet, "Herz"), ::rttb::core::Exception);
+
+			/* getVoiNameByIndex */
+			CHECK_THROW_EXPLICIT(testVOIindexId.getVoiNameByIndex(emptyPointer, 5),
+			                     ::rttb::core::Exception);
+			CHECK_EQUAL(testVOIindexId.getVoiNameByIndex(rtStructureSet, 5), "Leber");
+			std::string voiName = "Herz";
+			CHECK_THROW_EXPLICIT(testVOIindexId.getVoiNameByIndex(rtStructureSet, 20), ::rttb::core::Exception);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

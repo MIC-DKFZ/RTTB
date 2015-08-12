@@ -10,6 +10,7 @@ SET(CPP_FILES
 	rttbTestExamples.cpp
 	../masks/rttbMaskVoxelListTester.cpp
 	VoxelizationValidationTest.cpp
+	DoseStatisticsIOVirtuosTest.cpp
   )
 
 SET(H_FILES 
