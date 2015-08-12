@@ -35,8 +35,8 @@ namespace rttb
 		namespace boost
 		{
 
-			BoostMaskAccessor::BoostMaskAccessor(StructTypePointer aStructurePointer, GeometricInfoPointer aGeometricInfoPtr)
-				: _spStructure(aStructurePointer), _spGeoInfo(aGeometricInfoPtr)
+			BoostMaskAccessor::BoostMaskAccessor(StructTypePointer aStructurePointer, const core::GeometricInfo& aGeometricInfo)
+				: _spStructure(aStructurePointer), _geoInfo(aGeometricInfo)
 			{
 				_spRelevantVoxelVector = MaskVoxelListPointer();
 
@@ -64,7 +64,7 @@ namespace rttb
 				}
 
 
-				BoostMask mask(_spGeoInfo , _spStructure);
+				BoostMask mask(::boost::make_shared<core::GeometricInfo>(_geoInfo), _spStructure);
 
 				_spRelevantVoxelVector = mask.getRelevantVoxelVector();
 
@@ -105,7 +105,7 @@ namespace rttb
 				voxel.setRelevantVolumeFraction(0);
 
 				//check if ID is valid
-				if (!_spGeoInfo->validID(aID))
+				if (!_geoInfo.validID(aID))
 				{
 					return false;
 				}
@@ -142,7 +142,7 @@ namespace rttb
 				//convert VoxelGridIndex3D to VoxelGridID
 				VoxelGridID aVoxelGridID;
 
-				if (_spGeoInfo->convert(aIndex, aVoxelGridID))
+				if (_geoInfo.convert(aIndex, aVoxelGridID))
 				{
 					return getMaskAt(aVoxelGridID, voxel);
 				}
@@ -154,7 +154,7 @@ namespace rttb
 
 			const core::GeometricInfo& BoostMaskAccessor::getGeometricInfo() const
 			{
-				return *_spGeoInfo;
+				return _geoInfo;
 			};
 		}
 

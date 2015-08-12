@@ -26,8 +26,7 @@
 
 #include "rttbBaseType.h"
 #include "rttbMaskVoxel.h"
-#include "rttbNullPointerException.h"
-#include "rttbException.h"
+
 #include "../../core/DummyStructure.h"
 #include "../../core/DummyDoseAccessor.h"
 #include "rttbBoostMask.h"
@@ -41,7 +40,7 @@ namespace rttb
 
 		/*! @brief BoostMaskAccessorTest.
 			1) test constructors
-			2) test getRelevantVoxelVector 
+			2) test getRelevantVoxelVector
 			3) test getMaskAt
 		*/
 		int BoostMaskAccessorTest(int argc, char* argv[])
@@ -61,19 +60,20 @@ namespace rttb
 			GridIndexType zPlane = 4;
 			core::Structure myTestStruct = myStructGenerator.CreateRectangularStructureCentered(zPlane);
 			StructTypePointer spMyStruct = boost::make_shared<core::Structure>(myTestStruct);
-			boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>(spTestDoseAccessor->getGeometricInfo());
+			boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>
+			        (spTestDoseAccessor->getGeometricInfo());
 
-			//1) test BoostMask and BoostMaskAccessor constructor			
-			CHECK_NO_THROW( rttb::masks::boost::BoostMask(geometricPtr, spMyStruct));
+			//1) test BoostMask and BoostMaskAccessor constructor
+			CHECK_NO_THROW(rttb::masks::boost::BoostMask(geometricPtr, spMyStruct));
 			rttb::masks::boost::BoostMask boostMask = rttb::masks::boost::BoostMask(geometricPtr, spMyStruct);
-			CHECK_NO_THROW(rttb::masks::boost::BoostMaskAccessor(spMyStruct, geometricPtr));
-			rttb::masks::boost::BoostMaskAccessor boostMaskAccessor(spMyStruct, geometricPtr);
-			
-			//2) test getRelevantVoxelVector 
+			CHECK_NO_THROW(rttb::masks::boost::BoostMaskAccessor(spMyStruct, spTestDoseAccessor->getGeometricInfo()));
+			rttb::masks::boost::BoostMaskAccessor boostMaskAccessor(spMyStruct, spTestDoseAccessor->getGeometricInfo());
+
+			//2) test getRelevantVoxelVector
 			CHECK_NO_THROW(boostMask.getRelevantVoxelVector());
 			CHECK_NO_THROW(boostMaskAccessor.getRelevantVoxelVector());
 
-			
+
 			//3) test getMaskAt
 			const VoxelGridIndex3D inMask1(2, 1, 4); //corner -> volumeFraction = 0.25
 			const VoxelGridIndex3D inMask2(3, 4, 4); //inside ->volumeFraction = 1
