@@ -138,6 +138,43 @@ rttb::apps::doseAcc::loadRegistration(const std::string& fileName)
   return resultPtr;
 };
 
+rttb::core::DoseAccessorInterface::DoseAccessorPointer generateNNMappableAccessor(
+  const rttb::core::GeometricInfo& geoInfoTargetImage,
+  const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
+  const rttb::interpolation::TransformationInterface::Pointer aTransformation)
+{
+  rttb::interpolation::InterpolationBase::Pointer interpolate =
+    rttb::interpolation::NearestNeighborInterpolation::Pointer(new
+        rttb::interpolation::NearestNeighborInterpolation());
+
+  return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
+           new rttb::interpolation::SimpleMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
+               aTransformation, interpolate));
+}
+
+rttb::core::DoseAccessorInterface::DoseAccessorPointer generateLinearMappableAccessor(
+  const rttb::core::GeometricInfo& geoInfoTargetImage,
+  const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
+  const rttb::interpolation::TransformationInterface::Pointer aTransformation)
+{
+  rttb::interpolation::InterpolationBase::Pointer interpolate =
+    rttb::interpolation::LinearInterpolation::Pointer(new
+        rttb::interpolation::LinearInterpolation());
+
+  return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
+           new rttb::interpolation::SimpleMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
+               aTransformation, interpolate));
+}
+
+rttb::core::DoseAccessorInterface::DoseAccessorPointer generateRosuMappableAccessor(
+  const rttb::core::GeometricInfo& geoInfoTargetImage,
+  const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
+  const rttb::interpolation::TransformationInterface::Pointer aTransformation)
+{
+  return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
+           new rttb::interpolation::RosuMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
+               aTransformation));
+}
 
 /**Private helper function for processData(). Generates a suitable output accessor
  * (depending on the configuration in appData a suitable accessor pipeline is established)
@@ -156,33 +193,25 @@ assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 
     if (appData._interpolatorName == "rosu")
     {
-      dose2Accessor = rttb::core::DoseAccessorInterface::DoseAccessorPointer(
-                        new rttb::interpolation::RosuMappableDoseAccessor(appData._Dose1->getGeometricInfo(),
-                            appData._Dose2, transform));
+      dose2Accessor = generateRosuMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
+                      transform);
+    }
+    else if (appData._interpolatorName == "nn")
+    {
+      dose2Accessor = generateNNMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
+                      transform);
+    }
+    else if (appData._interpolatorName == "linear")
+    {
+      dose2Accessor = generateLinearMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
+                      transform);
     }
     else
     {
-      rttb::interpolation::InterpolationBase::Pointer interpolate =
-        rttb::interpolation::LinearInterpolation::Pointer(new
-            rttb::interpolation::LinearInterpolation());
-
-      if (appData._interpolatorName == "nn")
-      {
-        interpolate = rttb::interpolation::NearestNeighborInterpolation::Pointer(new
-                      rttb::interpolation::NearestNeighborInterpolation());
-      }
-      else if (appData._interpolatorName != "linear")
-      {
-        mapDefaultExceptionStaticMacro( <<
-                                        "Unkown interpolation type selected. Cannot map dose. Interpolation type: " <<
-                                        appData._interpolatorName);
-      }
-
-      dose2Accessor = rttb::core::DoseAccessorInterface::DoseAccessorPointer(
-                        new rttb::interpolation::SimpleMappableDoseAccessor(appData._Dose1->getGeometricInfo(),
-                            appData._Dose2, transform, interpolate));
+      mapDefaultExceptionStaticMacro( <<
+                                      "Unkown interpolation type selected. Cannot map dose. Interpolation type: " <<
+                                      appData._interpolatorName);
     }
-
   }
 
   rttb::algorithms::arithmetic::doseOp::AddWeighted addOp(appData._weightDose1, appData._weightDose2);
