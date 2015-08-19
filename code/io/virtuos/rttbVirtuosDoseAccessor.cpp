@@ -34,197 +34,195 @@
 
 namespace rttb
 {
-	namespace io
-	{
-		namespace virtuos
-		{
+  namespace io
+  {
+    namespace virtuos
+    {
 
-			VirtuosDoseAccessor::~VirtuosDoseAccessor()
-			{
-				if (_freeVirtuosData)
-				{
-					this->freeVirtuosData();
-				}
-			}
+      VirtuosDoseAccessor::~VirtuosDoseAccessor()
+      {
+        if (_freeVirtuosData)
+        {
+          this->freeVirtuosData();
+        }
+      }
 
-			VirtuosDoseAccessor::VirtuosDoseAccessor(Cubeinfo* aPointerOnVirtuosCube, bool freeVirtuosData,
-			        DoseTypeGy normalizationDose, DoseTypeGy prescribedDose):
-				_pPointerOnVirtuosCube(new Cubeinfo*), _freeVirtuosData(freeVirtuosData), _doseGridScaling(0),
-				_doseUID(""), _doseScalingFactor(0)
-			{
-				//initialize cube pointer
-				*_pPointerOnVirtuosCube = create_cubeinfo(0);
-				*_pPointerOnVirtuosCube = aPointerOnVirtuosCube;
-
-
-				_prescribedDose = prescribedDose;
-				_normalizationDose = normalizationDose;
-
-				if (_prescribedDose == 0)
-				{
-					_prescribedDose = 1;
-				}
-
-				if (_normalizationDose == 0)
-				{
-					_normalizationDose = 1;
-				}
-
-				_doseScalingFactor = _prescribedDose / _normalizationDose;
-				std::cout << "Prescribed dose: " << _prescribedDose << std::endl;
-				std::cout << "Normalization dose: " << _normalizationDose << std::endl;
-
-				//dose import
-				this->begin();
+      VirtuosDoseAccessor::VirtuosDoseAccessor(Cubeinfo* aPointerOnVirtuosCube, bool freeVirtuosData,
+          DoseTypeGy normalizationDose, DoseTypeGy prescribedDose):
+        _pPointerOnVirtuosCube(new Cubeinfo*), _freeVirtuosData(freeVirtuosData), _doseGridScaling(0),
+        _doseUID(""), _doseScalingFactor(0)
+      {
+        //initialize cube pointer
+        *_pPointerOnVirtuosCube = create_cubeinfo(0);
+        *_pPointerOnVirtuosCube = aPointerOnVirtuosCube;
 
 
-			}
+        _prescribedDose = prescribedDose;
+        _normalizationDose = normalizationDose;
 
-			void VirtuosDoseAccessor::begin()
-			{
-				if (!_pPointerOnVirtuosCube)
-				{
-					throw core::NullPointerException(" *_pPointerOnVirtuosCube must not be NULL!");
-				}
+        if (_prescribedDose == 0)
+        {
+          _prescribedDose = 1;
+        }
 
-				assembleGeometricInfo();
+        if (_normalizationDose == 0)
+        {
+          _normalizationDose = 1;
+        }
 
-				//load data
-				if ((*_pPointerOnVirtuosCube)->data_type == 1)
-				{
-					this->importPixelData<int>();
-				}
-				else if ((*_pPointerOnVirtuosCube)->data_type == 2)
-				{
-					this->importPixelData<float>();
-				}
-				else
-				{
-					throw core::InvalidParameterException(" cube has wrong data type!");
-				}
-			}
+        _doseScalingFactor = _prescribedDose / _normalizationDose;
+        std::cout << "Prescribed dose: " << _prescribedDose << std::endl;
+        std::cout << "Normalization dose: " << _normalizationDose << std::endl;
 
-			template <typename TPixelType>
-			void VirtuosDoseAccessor::importPixelData()
-			{
-				doseData.clear();
+        //dose import
+        this->begin();
+      }
 
-				int dimX = (*_pPointerOnVirtuosCube)->dimx;
-				int dimY = (*_pPointerOnVirtuosCube)->dimy;
-				int dimZ = (*_pPointerOnVirtuosCube)->dimz;
+      void VirtuosDoseAccessor::begin()
+      {
+        if (!_pPointerOnVirtuosCube)
+        {
+          throw core::NullPointerException(" *_pPointerOnVirtuosCube must not be NULL!");
+        }
 
-				GridVolumeType pixelSpacing = (*_pPointerOnVirtuosCube)->pixdist;
-				GridVolumeType sliceThickness = (*_pPointerOnVirtuosCube)->slicedist;
+        assembleGeometricInfo();
 
-				TPixelType** * access_pointer = (TPixelType***)(*_pPointerOnVirtuosCube)->cube_direct_access;
+        //load data
+        if ((*_pPointerOnVirtuosCube)->data_type == 1)
+        {
+          this->importPixelData<int>();
+        }
+        else if ((*_pPointerOnVirtuosCube)->data_type == 2)
+        {
+          this->importPixelData<float>();
+        }
+        else
+        {
+          throw core::InvalidParameterException(" cube has wrong data type!");
+        }
+      }
 
-				for (int k = 0; k < dimZ; k++)
-				{
-					for (int j = 0; j < dimY; j++)
-					{
-						for (int i = 0; i < dimX; i++)
-						{
-							TPixelType voxel_value = access_pointer[k][j][i];
-							doseData.push_back(voxel_value * _doseScalingFactor);
-						}
+      template <typename TPixelType>
+      void VirtuosDoseAccessor::importPixelData()
+      {
+        doseData.clear();
 
-					}//end for j
-				}//end for k
-			}
+        int dimX = (*_pPointerOnVirtuosCube)->dimx;
+        int dimY = (*_pPointerOnVirtuosCube)->dimy;
+        int dimZ = (*_pPointerOnVirtuosCube)->dimz;
 
-			void VirtuosDoseAccessor::assembleGeometricInfo()
-			{
-				if (!_pPointerOnVirtuosCube)
-				{
-					throw core::NullPointerException(" _pPointerOnVirtuosCube must not be NULL!");
-				}
+        GridVolumeType pixelSpacing = (*_pPointerOnVirtuosCube)->pixdist;
+        GridVolumeType sliceThickness = (*_pPointerOnVirtuosCube)->slicedist;
 
-				_geoInfo.setNumColumns((*_pPointerOnVirtuosCube)->dimx);
+        TPixelType** * access_pointer = (TPixelType***)(*_pPointerOnVirtuosCube)->cube_direct_access;
 
-				_geoInfo.setNumRows((*_pPointerOnVirtuosCube)->dimy);
+        for (int k = 0; k < dimZ; k++)
+        {
+          for (int j = 0; j < dimY; j++)
+          {
+            for (int i = 0; i < dimX; i++)
+            {
+              TPixelType voxel_value = access_pointer[k][j][i];
+              doseData.push_back(voxel_value * _doseScalingFactor);
+            }
 
-				_geoInfo.setNumSlices((*_pPointerOnVirtuosCube)->dimz);
+          }//end for j
+        }//end for k
+      }
 
-				if (_geoInfo.getNumColumns() == 0 || _geoInfo.getNumRows() == 0 || _geoInfo.getNumSlices() == 0)
-				{
-					throw core::InvalidDoseException("Empty Virtuos dose!") ;
-				}
+      void VirtuosDoseAccessor::assembleGeometricInfo()
+      {
+        if (!_pPointerOnVirtuosCube)
+        {
+          throw core::NullPointerException(" _pPointerOnVirtuosCube must not be NULL!");
+        }
 
-				OrientationMatrix orientation;
-				_geoInfo.setOrientationMatrix(orientation);
+        _geoInfo.setNumColumns((*_pPointerOnVirtuosCube)->dimx);
 
-				WorldCoordinate3D imagePositionPatient;
-				imagePositionPatient(0) = (*this->_pPointerOnVirtuosCube)->pixdist / 2;
-				imagePositionPatient(1) = (*this->_pPointerOnVirtuosCube)->pixdist / 2;
+        _geoInfo.setNumRows((*_pPointerOnVirtuosCube)->dimy);
 
-				if (!((*this->_pPointerOnVirtuosCube)->pos_list))
-				{
-					throw core::InvalidDoseException("Empty Virtuos dose!") ;
-				}
+        _geoInfo.setNumSlices((*_pPointerOnVirtuosCube)->dimz);
 
-				imagePositionPatient(2) = (*this->_pPointerOnVirtuosCube)->pos_list[0].position;
+        if (_geoInfo.getNumColumns() == 0 || _geoInfo.getNumRows() == 0 || _geoInfo.getNumSlices() == 0)
+        {
+          throw core::InvalidDoseException("Empty Virtuos dose!") ;
+        }
 
-				_geoInfo.setImagePositionPatient(imagePositionPatient);
+        OrientationMatrix orientation;
+        _geoInfo.setOrientationMatrix(orientation);
 
-				SpacingVectorType3D spacingVector;
-				spacingVector(0) = (*_pPointerOnVirtuosCube)->pixdist;
-				spacingVector(1) = (*_pPointerOnVirtuosCube)->pixdist;
-				_geoInfo.setSpacing(spacingVector);
+        WorldCoordinate3D imagePositionPatient;
+        imagePositionPatient(0) = (*this->_pPointerOnVirtuosCube)->pixdist / 2;
+        imagePositionPatient(1) = (*this->_pPointerOnVirtuosCube)->pixdist / 2;
 
-				if (_geoInfo.getPixelSpacingRow() == 0 || _geoInfo.getPixelSpacingColumn() == 0)
-				{
-					throw core::InvalidDoseException("Pixel spacing = 0!");
-				}
+        if (!((*this->_pPointerOnVirtuosCube)->pos_list))
+        {
+          throw core::InvalidDoseException("Empty Virtuos dose!") ;
+        }
 
-				spacingVector(2) = (*_pPointerOnVirtuosCube)->slicedist;
+        imagePositionPatient(2) = (*this->_pPointerOnVirtuosCube)->pos_list[0].position;
 
-				if (spacingVector(2) == 0)
-				{
-					std::cerr << "sliceThickness == 0! It will be replaced with pixelSpacingRow=" <<
-					          _geoInfo.getPixelSpacingRow()
-					          << "!" << std::endl;
-					spacingVector(2) = spacingVector(0);
-				}
+        _geoInfo.setImagePositionPatient(imagePositionPatient);
 
-				_geoInfo.setSpacing(spacingVector);
-			}
+        SpacingVectorType3D spacingVector;
+        spacingVector(0) = (*_pPointerOnVirtuosCube)->pixdist;
+        spacingVector(1) = (*_pPointerOnVirtuosCube)->pixdist;
+        _geoInfo.setSpacing(spacingVector);
+
+        if (_geoInfo.getPixelSpacingRow() == 0 || _geoInfo.getPixelSpacingColumn() == 0)
+        {
+          throw core::InvalidDoseException("Pixel spacing = 0!");
+        }
+
+        spacingVector(2) = (*_pPointerOnVirtuosCube)->slicedist;
+
+        if (spacingVector(2) == 0)
+        {
+          std::cerr << "sliceThickness == 0! It will be replaced with pixelSpacingRow=" <<
+                    _geoInfo.getPixelSpacingRow()
+                    << "!" << std::endl;
+          spacingVector(2) = spacingVector(0);
+        }
+
+        _geoInfo.setSpacing(spacingVector);
+      }
 
 
-			DoseTypeGy VirtuosDoseAccessor::getDoseAt(const VoxelGridID aID) const
-			{
-				return doseData.at(aID);
-			}
+      DoseTypeGy VirtuosDoseAccessor::getDoseAt(const VoxelGridID aID) const
+      {
+        return doseData.at(aID);
+      }
 
-			DoseTypeGy VirtuosDoseAccessor::getDoseAt(const VoxelGridIndex3D& aIndex) const
-			{
-				VoxelGridID aVoxelGridID;
+      DoseTypeGy VirtuosDoseAccessor::getDoseAt(const VoxelGridIndex3D& aIndex) const
+      {
+        VoxelGridID aVoxelGridID;
 
-				if (_geoInfo.convert(aIndex, aVoxelGridID))
-				{
-					return getDoseAt(aVoxelGridID);
-				}
-				else
-				{
-					return -1;
-				}
-			}
+        if (_geoInfo.convert(aIndex, aVoxelGridID))
+        {
+          return getDoseAt(aVoxelGridID);
+        }
+        else
+        {
+          return -1;
+        }
+      }
 
-			void VirtuosDoseAccessor::freeVirtuosData()
-			{
-				if (*(this->_pPointerOnVirtuosCube) != NULL)
-				{
-					closecube((*(this->_pPointerOnVirtuosCube)));
-					nc_free_cubeinfo((*(this->_pPointerOnVirtuosCube)));
-					delete this->_pPointerOnVirtuosCube;
+      void VirtuosDoseAccessor::freeVirtuosData()
+      {
+        if (*(this->_pPointerOnVirtuosCube) != NULL)
+        {
+          closecube((*(this->_pPointerOnVirtuosCube)));
+          nc_free_cubeinfo((*(this->_pPointerOnVirtuosCube)));
+          delete this->_pPointerOnVirtuosCube;
 
-					// initialize attributes again
-					//this->_pPointerOnVirtuosCube = new Cubeinfo*;
-					//*(this->_pPointerOnVirtuosCube) = create_cubeinfo(0);
-				}
+          // initialize attributes again
+          //this->_pPointerOnVirtuosCube = new Cubeinfo*;
+          //*(this->_pPointerOnVirtuosCube) = create_cubeinfo(0);
+        }
 
-			}
+      }
 
-		}
-	}
+    }
+  }
 }
 

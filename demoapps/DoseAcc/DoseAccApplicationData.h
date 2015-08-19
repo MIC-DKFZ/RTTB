@@ -30,54 +30,56 @@
 
 namespace rttb
 {
-	namespace apps
-	{
-		namespace doseAcc
-		{
+  namespace apps
+  {
+    namespace doseAcc
+    {
 
-			class ApplicationData
-			{
-			public:
+      class ApplicationData
+      {
+      public:
         typedef map::core::Registration<3, 3> RegistrationType;
-			
-				/** Loaded Dose.*/
-				core::DoseAccessorInterface::DoseAccessorPointer _Dose1;
-				std::string  _dose1FileName;
-				std::string  _dose1VirtuosPlanFileName;
-				core::DoseAccessorInterface::DoseAccessorPointer _Dose2;
-				std::string  _dose2FileName;
-				std::string  _dose2VirtuosPlanFileName;
-				RegistrationType::Pointer _spReg;
-				std::string  _regFileName;
+        typedef std::vector<std::string> LoadingStyleArgType;
+        /** Loaded Dose.*/
+        core::DoseAccessorInterface::DoseAccessorPointer _Dose1;
+        std::string  _dose1FileName;
+        LoadingStyleArgType _dose1LoadStyle;
+        core::DoseAccessorInterface::DoseAccessorPointer _Dose2;
+        std::string  _dose2FileName;
+        LoadingStyleArgType _dose2LoadStyle;
+        RegistrationType::Pointer _spReg;
+        std::string  _regFileName;
 
-				std::string  _outputFileName;
+        std::string  _outputFileName;
 
-				double _weightDose1;
-				double _weightDose2;
+        double _weightDose1;
+        double _weightDose2;
 
-				bool _showVersion;
-				bool _showHelp;
+        std::string  _interpolatorName;
 
-				int _fileCount;
+        bool _showVersion;
+        bool _showHelp;
 
-				void Reset();
+        int _fileCount;
 
-				ApplicationData();
-			};
+        void Reset();
 
-			/** Parse the application argument passed when starting the application.
-			* If no error or special request occurred the return is 0. Otherwise the return values
-			* have the following meaning: \n
-			* 0: Normal parsing.\n
-			* 1: showed help or version (flag was set).\n
-			* 2: not enough required input files.\n
-			* 3: Parsing error.\n
-			* @param argc Number of parameter arguments
-			* @param argv Pointer to the passed arguments
-			* @return Result code of the parsing (see above).**/
-			unsigned int ParseArgumentsForAppData(int argc, char** argv, ApplicationData& appData);
-			
-		}
-	}
+        ApplicationData();
+      };
+
+      /** Parse the application argument passed when starting the application.
+      * If no error or special request occurred the return is 0. Otherwise the return values
+      * have the following meaning: \n
+      * 0: Normal parsing.\n
+      * 1: showed help or version (flag was set).\n
+      * 2: not enough required input files.\n
+      * 3: Parsing error.\n
+      * @param argc Number of parameter arguments
+      * @param argv Pointer to the passed arguments
+      * @return Result code of the parsing (see above).**/
+      unsigned int ParseArgumentsForAppData(int argc, char** argv, ApplicationData& appData);
+
+    }
+  }
 }
 #endif

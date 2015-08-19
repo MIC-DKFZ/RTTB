@@ -19,6 +19,7 @@ SET(CPP_FILES
   rttbStructure.cpp
   rttbStructureSet.cpp
   rttbStrVectorStructureSetGenerator.cpp
+  rttbDoseAccessorWithGeoInfoBase.cpp
   )
 
 SET(H_FILES 
@@ -26,6 +27,7 @@ SET(H_FILES
   rttbDoseAccessorGeneratorBase.h
   rttbDoseAccessorGeneratorInterface.h
   rttbDoseAccessorInterface.h
+  rttbDoseAccessorWithGeoInfoBase.h
   rttbDoseIteratorInterface.h
   rttbDVH.h
   rttbDVHCalculator.h
