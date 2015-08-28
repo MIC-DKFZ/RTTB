@@ -3,30 +3,20 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-
-SET(CORE_TEST_EXAMPLES ${EXECUTABLE_OUTPUT_PATH}/rttbExamplesTests)
-
+SET(VoxelizerTool_TESTS ${EXECUTABLE_OUTPUT_PATH}/Release/RTTBDemoappsVoxelizertoolTests)
 SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
-
-SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
-
+SET(TEST_DATA ${RTToolbox_BINARY_DIR}/Testing/demoapps/VoxelizerTool)
 
 #-----------------------------------------------------------------------------
-ADD_TEST(rttbVoxelizerToolDifferentCommandsTest ${CORE_TEST_EXAMPLES} RTBioModelExampleTest
+ADD_TEST(rttbVoxelizerToolIncorrectCommandsTest ${VoxelizerTool_TESTS} VoxelizerToolIncorrectCommandsTest 
+${EXECUTABLE_OUTPUT_PATH} ${TEST_DATA} ${TEST_DATA_ROOT})
+ADD_TEST(rttbVoxelizerToolVoxelizerAllStuctsTest ${VoxelizerTool_TESTS} VoxelizerToolVoxelizerAllStructsTest 
+${EXECUTABLE_OUTPUT_PATH} ${TEST_DATA} ${TEST_DATA_ROOT})
+ADD_TEST(rttbVoxelizerToolDifferentCommandsTest ${VoxelizerTool_TESTS} VoxelizerToolDifferentCommandsTest 
+${EXECUTABLE_OUTPUT_PATH} ${TEST_DATA} ${TEST_DATA_ROOT})
+ADD_TEST(rttbVoxelizerToolVoxelizerBoostLegacyTest ${VoxelizerTool_TESTS} VoxelizerToolVoxelizerBoostLegacy 
+${EXECUTABLE_OUTPUT_PATH} ${TEST_DATA} ${TEST_DATA_ROOT})
+ADD_TEST(rttbVoxelizerToolVoxelPixelValueTest  ${VoxelizerTool_TESTS} VoxelizerToolVoxelPixelValue 
+${EXECUTABLE_OUTPUT_PATH} ${TEST_DATA} ${TEST_DATA_ROOT})
 
-ADD_TEST(rttbVoxelizerToolIncorrectCommandsTest ${CORE_TEST_EXAMPLES} DVHCalculatorExampleTest 
-
-ADD_TEST(rttbVoxelizerToolVoxelizerAllStuctsTest ${CORE_TEST_EXAMPLES} RTDoseIndexTest 
-
-ADD_TEST(rttbVoxelizerToolVoxelizerBoostLegacyTest ${CORE_TEST_EXAMPLES} RTDoseStatisticsTest 
-
-ADD_TEST(rttbVoxelizerToolVoxelPixelValueTest ${CORE_TEST_EXAMPLES} RTDVHTest "${TEST_DATA_ROOT}/TestDVH/dvh_test.txt")
-
-RTTB_CREATE_TEST_MODULE(rttbDemoappsVoxelizertool DEPENDS RTTBCore RTTBAlgorithms RTTBMasks RTTBOTBMask RTTBBoostMask RTTBIndices RTTBDicomIO RTTBVirtuosIO RTTBOtherIO RTTBModels PACKAGE_DEPENDS Litmus)
-
-
-
-	
-	
-	
-	
+RTTB_CREATE_TEST_MODULE(RTTBDemoappsVoxelizertool DEPENDS RTTBITKIO RTTBCore RTTBAlgorithms RTTBMasks RTTBOTBMask RTTBBoostMask RTTBIndices RTTBDicomIO RTTBOtherIO PACKAGE_DEPENDS Litmus)

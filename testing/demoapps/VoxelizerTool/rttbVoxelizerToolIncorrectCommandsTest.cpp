@@ -29,36 +29,42 @@ Test incorrect commands with a wrong structfile, referencefile and a wrong struc
 if the command return one, the program could not run to the end.
 return zero the command is correct
 */
-
-int main(int argc, char* argv[])
+namespace rttb
 {
-	PREPARE_DEFAULT_TEST_REPORTING;
-
-	if (argc > 3)
+	namespace testing
 	{
-		const std::string PathToBinaryDirectory = argv[1];
-		const std::string RTToolBoxTestingDirectory = argv[3];
 
-		const std::string StructCommand = PathToBinaryDirectory +
-		                                  "Release/VoxelizerTool -s " + RTToolBoxTestingDirectory +
-		                                  "data/DICOM/StructureSet/Wrong_Data_Struct_file.dicom -r " + RTToolBoxTestingDirectory +
-		                                  "data/DICOM/TestDose/ConstantTwo.dcm -e Rueckenmark";
-		CHECK_EQUAL(system(StructCommand.c_str()), 1);
+		int VoxelizerToolIncorrectCommandsTest(int argc, char* argv[])
+		{
+			PREPARE_DEFAULT_TEST_REPORTING;
 
-		const std::string ReferenceCommand = PathToBinaryDirectory +
-		                                     "Release/VoxelizerTool -s " + RTToolBoxTestingDirectory +
-		                                     "data/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm -r " +
-		                                     RTToolBoxTestingDirectory + "data/DICOM/TestDose/Wrong_Reference_file.dicom -e Rueckenmark";
-		CHECK_EQUAL(system(ReferenceCommand.c_str()), 1);
+			if (argc > 3)
+			{
+				const std::string PathToBinaryDirectory = argv[1];
+				const std::string RTToolBoxTestingDirectory = argv[3];
 
-		const std::string Structure = PathToBinaryDirectory +
-		                              "Release/VoxelizerTool -s " + RTToolBoxTestingDirectory +
-		                              "data/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm -r " +
-		                              RTToolBoxTestingDirectory + "data/DICOM/TestDose/ConstantTwo.dcm -e blablabla";
-		CHECK_EQUAL(system(Structure.c_str()), 0);
+				const std::string StructCommand = PathToBinaryDirectory +
+				                                  "/Release/RTTBVoxelizerTool -s " + RTToolBoxTestingDirectory +
+				                                  "/DICOM/StructureSet/Wrong_Data_Struct_file.dicom -r " +
+				                                  RTToolBoxTestingDirectory + "/DICOM/TestDose/ConstantTwo.dcm -e Rueckenmark";
+
+				CHECK_EQUAL(system(StructCommand.c_str()), 1);
+
+				const std::string ReferenceCommand = PathToBinaryDirectory +
+				                                     "/Release/RTTBVoxelizerTool -s " + RTToolBoxTestingDirectory +
+				                                     "/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm -r " +
+				                                     RTToolBoxTestingDirectory + "/DICOM/TestDose/Wrong_Reference_file.dicom -e Rueckenmark";
+				CHECK_EQUAL(system(ReferenceCommand.c_str()), 1);
+
+				const std::string Structure = PathToBinaryDirectory +
+				                              "/Release/RTTBVoxelizerTool -s " + RTToolBoxTestingDirectory +
+				                              "/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm -r " +
+				                              RTToolBoxTestingDirectory + "/DICOM/TestDose/ConstantTwo.dcm -e blablabla";
+				CHECK_EQUAL(system(Structure.c_str()), 0);
+			}
+
+			RETURN_AND_REPORT_TEST_SUCCESS;
+		}
+
 	}
-
-	RETURN_AND_REPORT_TEST_SUCCESS;
 }
-
-

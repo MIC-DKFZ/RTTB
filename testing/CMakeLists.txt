@@ -65,6 +65,6 @@ ADD_SUBDIRECTORY(interpolation)
 ENDIF(${BUILD_RTToolbox_interpolation_Tester} STREQUAL ON)
 
 IF(${BUILD_RTToolbox_demoapps_VoxelizerTool_Tester} STREQUAL ON)
-ADD_SUBDIRECTORY(interpolation)
+ADD_SUBDIRECTORY(demoapps/VoxelizerTool)
 ENDIF(${BUILD_RTToolbox_demoapps_VoxelizerTool_Tester} STREQUAL ON)
 
