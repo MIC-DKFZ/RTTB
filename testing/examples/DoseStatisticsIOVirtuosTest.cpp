@@ -24,7 +24,6 @@
 
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
 
 #include "litCheckMacros.h"
 
@@ -37,8 +36,6 @@
 #include "rttbVirtuosDoseAccessor.h"
 #include "rttbVirtuosFileStructureSetGenerator.h"
 #include "rttbBoostMaskAccessor.h"
-#include "rttbInvalidParameterException.h"
-#include "rttbNullPointerException.h"
 
 
 namespace rttb
@@ -49,7 +46,7 @@ namespace rttb
 
 		/*! @brief OtherIOTest - test the IO for dose statistics
 		    1) test exception
-			2) test writing statistcs to xml file
+			2) test writing statistics to xml file
 		*/
 
 		int DoseStatisticsIOVirtuosTest(int argc, char* argv[])
@@ -104,7 +101,7 @@ namespace rttb
 			                                   (myDoseStats);
 
 			/* test writing statistcs to xml file */
-			FileNameString fN = "StatisticsSarkomPatient2.xml";
+			FileNameString fN = "doseStatisticsVirtuos.xml";
 			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsPtr, fN));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

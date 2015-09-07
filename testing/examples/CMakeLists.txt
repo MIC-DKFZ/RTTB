@@ -38,10 +38,10 @@ ADD_TEST(VoxelizationValidationTest ${CORE_TEST_EXAMPLES} VoxelizationValidation
 "${TEST_DATA_ROOT}/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm" 
 "${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncrease3D.dcm" "${TEST_DATA_ROOT}/boostMask/" "${TEST_DATA_ROOT}/OTBMask/")
 ADD_TEST(DoseStatisticsIOVirtuosTest ${CORE_TEST_EXAMPLES} DoseStatisticsIOVirtuosTest 
-"D:/data/Sarkom Daten anonymized and cleaned/0001663996_SarkomPatient2/0001663996_SarkomPatient2_000.vdx" 
-"D:/data/Sarkom Daten anonymized and cleaned/0001663996_SarkomPatient2/0001663996_SarkomPatient2_000.ctx.gz"
-"D:/data/Sarkom Daten anonymized and cleaned/0001663996_SarkomPatient2/0001663996_SarkomPatient2_108.dos.gz"
-"D:/data/Sarkom Daten anonymized and cleaned/0001663996_SarkomPatient2/0001663996_SarkomPatient2_108.pln" "RUECKENMARK")
+"${TEST_DATA_ROOT}/Virtuos/MPM_LR_aa/MPM_LR_aa000.vdx"
+"${TEST_DATA_ROOT}/Virtuos/MPM_LR_aa/MPM_LR_aa000.ctx.gz"
+"${TEST_DATA_ROOT}/Virtuos/MPM_LR_aa/MPM_LR_aa101.dos.gz"
+"${TEST_DATA_ROOT}/Virtuos/MPM_LR_aa/MPM_LR_aa101.pln" "CTV")
 
 RTTB_CREATE_TEST_MODULE(rttbExamples DEPENDS RTTBCore RTTBAlgorithms RTTBMasks RTTBOTBMask RTTBBoostMask RTTBIndices RTTBDicomIO RTTBVirtuosIO RTTBOtherIO RTTBModels PACKAGE_DEPENDS Litmus)
 
