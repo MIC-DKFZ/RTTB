@@ -4,3 +4,8 @@ OPTION(BUILD_DemoApp_DoseAcc "Determine if the demo application DoseAcc will be 
 IF(BUILD_DemoApp_DoseAcc)
 ADD_SUBDIRECTORY(DoseAcc)
 ENDIF(BUILD_DemoApp_DoseAcc)
+
+OPTION(BUILD_DemoApp_DoseMap "Determine if the demo application DoseMap will be generated." OFF)
+IF(BUILD_DemoApp_DoseMap)
+ADD_SUBDIRECTORY(DoseMap)
+ENDIF(BUILD_DemoApp_DoseMap)
