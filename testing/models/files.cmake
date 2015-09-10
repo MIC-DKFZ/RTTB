@@ -6,6 +6,7 @@ SET(CPP_FILES
 	DummyModel.cpp
 	../core/DummyDVHGenerator.cpp
 	DvhBasedModelsTest.cpp
+	LQModelAccessorTest.cpp
   )
 
 SET(H_FILES 

@@ -134,7 +134,7 @@ namespace rttb
 			//this is unexpected since the value was taken from the original calculation
 			//paramIdVec.push_back(1); meanVec.push_back(tcplq.getAlphaVariance()); varianceVec.push_back(0);
 			paramIdVec.push_back(2);
-			meanVec.push_back(tcplq.getAlpahBeta());
+			meanVec.push_back(tcplq.getAlphaBeta());
 			varianceVec.push_back(0);
 			paramIdVec.push_back(3);
 			meanVec.push_back(tcplq.getRho());
@@ -176,7 +176,7 @@ namespace rttb
 			varianceVec.push_back(variance);
 			//paramIdVec.push_back(1); meanVec.push_back(tcplq.getAlphaVariance()); varianceVec.push_back(variance);
 			paramIdVec.push_back(2);
-			meanVec.push_back(tcplq.getAlpahBeta());
+			meanVec.push_back(tcplq.getAlphaBeta());
 			varianceVec.push_back(variance);
 			paramIdVec.push_back(3);
 			meanVec.push_back(tcplq.getRho());
@@ -254,7 +254,7 @@ namespace rttb
 			varianceVec.push_back(0);
 			//paramIdVec.push_back(1); meanVec.push_back(tcplq_test.getAlphaVariance()); varianceVec.push_back(0);
 			paramIdVec.push_back(2);
-			meanVec.push_back(tcplq_test.getAlpahBeta());
+			meanVec.push_back(tcplq_test.getAlphaBeta());
 			varianceVec.push_back(0);
 			paramIdVec.push_back(3);
 			meanVec.push_back(tcplq_test.getRho());
@@ -292,7 +292,7 @@ namespace rttb
 			varianceVec.push_back(variance);
 			//paramIdVec.push_back(1); meanVec.push_back(tcplq_test.getAlphaVariance()); varianceVec.push_back(variance);
 			paramIdVec.push_back(2);
-			meanVec.push_back(tcplq_test.getAlpahBeta());
+			meanVec.push_back(tcplq_test.getAlphaBeta());
 			varianceVec.push_back(variance);
 			paramIdVec.push_back(3);
 			meanVec.push_back(tcplq_test.getRho());
