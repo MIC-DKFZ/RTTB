@@ -32,11 +32,12 @@ namespace rttb
 {
 	namespace testing
 	{
+		const char* _callingAppPath = NULL;
 		void registerTests()
 		{
 			LIT_REGISTER_TEST(VoxelizerToolDifferentCommandsTest);
 			LIT_REGISTER_TEST(VoxelizerToolVoxelizerBoostLegacy);
-			LIT_REGISTER_TEST(VoxelizerToolVoxelPixelValue);
+			LIT_REGISTER_TEST(VoxelizerToolVoxelValue);
 			LIT_REGISTER_TEST(VoxelizerToolIncorrectCommandsTest);
 			LIT_REGISTER_TEST(VoxelizerToolVoxelizerAllStructsTest);
 		}
@@ -49,6 +50,10 @@ int main(int argc, char* argv[])
 
 	rttb::testing::registerTests();
 
+	if (argc > 0)
+	{
+		rttb::testing::_callingAppPath = argv[0];
+	}
 
 	try
 	{

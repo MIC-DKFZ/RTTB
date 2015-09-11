@@ -19,13 +19,13 @@
 // @author  $Author: strubel $ (last changed by)
 */
 
-#include "litCheckMacros.h"
 #include <iostream>
+#include "litCheckMacros.h"
 #include <boost/filesystem.hpp>
 #include <vector>
 
-/*! @brief VoxelizerToolTest5.
-Test the paramter boost and legacy Voxelization.
+/*! @brief VoxelizerToolTest.
+Tests a selection of structs.
 */
 
 namespace rttb
@@ -34,7 +34,7 @@ namespace rttb
 	{
 		//path to the current running directory. VoxelizerTool is in the same directory (Debug/Release)
 		extern const char* _callingAppPath;
-		int VoxelizerToolVoxelizerBoostLegacy(int argc, char* argv[])
+		int VoxelizerToolVoxelizerAllStructsTest(int argc, char* argv[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
@@ -43,7 +43,7 @@ namespace rttb
 			std::string structFile;
 			std::string referenceFile;
 
-			if (argc > 4)
+			if (argc > 3)
 			{
 				voxelizerToolExe = argv[1];
 				tempDirectory = argv[2];
@@ -51,40 +51,46 @@ namespace rttb
 				referenceFile = argv[4];
 			}
 
-			std::vector<std::string> commands;
-			commands.push_back("PTV -o Legacy.hdr -l");
-			commands.push_back("PTV -o Boost.hdr -b");
-
-			std::vector<std::string> filenames;
-			filenames.push_back("Boost_PTV");
-			filenames.push_back("Legacy_PTV");
-
 			boost::filesystem::path callingPath(_callingAppPath);
 			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + voxelizerToolExe;
+
+			std::vector<std::string> structNames;
+			structNames.push_back("Niere re.");
+			structNames.push_back("Magen/DD");
+			structNames.push_back("PTV");
+
+			//structure names will be used for file naming, BUT '.' in the end will be cropped and '/' will be replaced by '_'. Thus, the different filenames.
+			std::vector<std::string> filenames;
+			filenames.push_back("Niere re");
+			filenames.push_back("Magen_DD");
+			filenames.push_back("PTV");
 
 			std::string baseCommand = voxelizerToolExeWithPath;
 			baseCommand += " -s " + structFile;
 			baseCommand += " -r " + referenceFile;
-			baseCommand += " -e ";
+			baseCommand += " -e \"";
 
-			for (int i = 0; i < commands.size(); i++)
+			for (int i = 0; i < structNames.size(); i++)
 			{
-				std::string command = baseCommand + commands.at(i);
-				int returnValue = system(command.c_str());
+				std::string command = baseCommand + structNames.at(i) + "\"";
 				std::cout << "Command line call: " + command << std::endl;
-				CHECK_EQUAL(returnValue, 0);
-			}
+				int returnValue = system(command.c_str());
 
-			for (int i = 0; i < filenames.size(); i++)
-			{
-				const std::string HDRfileName = tempDirectory + "/" + filenames.at(i) + ".hdr";
+				CHECK_EQUAL(returnValue, 0);
+
+				const std::string HDRfileName = tempDirectory + "/out_" + filenames.at(i) + ".hdr";
 				boost::filesystem::path HDRFile(HDRfileName);
 
-				const std::string IMGfileName = tempDirectory + "/" + filenames.at(i) + ".img";
+				const std::string IMGfileName = tempDirectory + "/out_" + filenames.at(i) + ".img";
 				boost::filesystem::path IMGFile(IMGfileName);
 
-				CHECK_EQUAL(boost::filesystem::exists(HDRFile), true);
-				CHECK_EQUAL(boost::filesystem::exists(IMGFile), true);
+				CHECK_EQUAL(
+				    boost::filesystem::exists(HDRFile),
+				    true);
+				CHECK_EQUAL(
+				    boost::filesystem::exists(IMGFile),
+				    true);
+
 
 				if (boost::filesystem::exists(IMGFile))
 				{
@@ -99,6 +105,5 @@ namespace rttb
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
-
 	}
 }

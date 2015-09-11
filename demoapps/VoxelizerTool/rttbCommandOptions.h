@@ -54,17 +54,17 @@ namespace rttb
 			};
 
 			/*! @class CommandOptions
-			@brief CommandOptions Class, everything about the commandline
+			@brief CommandOptions Class, everything about the command line
 			*/
 			class CommandOptions
 			{
 
 			public:
-				/*!@brief Constructor
-				@details add the dicription for commandline options
+				/**
+				@details add the description for command line options
 				* add parameter --h or --help for help informations,
-				* --Structfile= to set a structfile,
-				* --Reference= to set the referencefile,
+				* --Structfile= to set a struct file,
+				* --Reference= to set the reference file,
 				* --Output= to set an output file name and
 				* --struct= to add an expression like(SPINE).
 				*/

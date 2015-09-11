@@ -32,8 +32,8 @@ namespace rttb
 
 			CommandOptions::CommandOptions():
 				PARAM_HELP("help"),
-				PARAM_STRUCT_FILE("structfile"),
-				PARAM_REFERENCE_FILE("referencefile"),
+				PARAM_STRUCT_FILE("structFile"),
+				PARAM_REFERENCE_FILE("referenceFile"),
 				PARAM_OUT_FILE("output"),
 				PARAM_REGEX("struct"),
 				PARAM_MULTISTRUCT("multipleStructs"),
@@ -91,8 +91,17 @@ namespace rttb
 
 			void CommandOptions::showHelp()const
 			{
-				std::cout << "Usage: VoxelizerTool structfile <arg> reference <arg> [optional] \n";
+				std::cout << "Usage: VoxelizerTool -s <arg> -r <arg> [optional] \n";
 				std::cout << description << std::endl;
+				std::cout << "Example: VoxelizerTool -s structFile.dcm -r referenceFile.dcm -e Kidney -o outputFile.mhd -m" <<
+				          std::endl;
+				std::cout <<
+				          "Computes a voxelization file outputFile.mhd based on the DICOMRT-STRUCT structFile.dcm in the geometry of referenceFile.dcm where";
+				std::cout << "the name of the struct matches the regular expression 'Kidney'." << std::endl;
+				std::cout << "If structures 'Kidney_left' and 'Kidney_right' are defined, ";
+				std::cout <<
+				          "both are written under the names outputFile_Kidney_left.mhd and outputFile_Kidney_right.mhd (parameter -m)." <<
+				          std::endl;
 			}
 
 			bool CommandOptions::command(int argc, char* argv[])
@@ -118,25 +127,25 @@ namespace rttb
 
 					if (!var.count(PARAM_STRUCT_FILE))
 					{
-						throw std::runtime_error("Please use the parameter -s or --Structfile");
+						throw std::runtime_error("Please use the parameter -s or --structfile");
 					}
 					else
 					{
 						if (getFileEnding(params.structFile) !=  ".dcm")
 						{
-							throw std::runtime_error("Please check your Structfile: " + params.structFile);
+							throw std::runtime_error("Please check your struct file: " + params.structFile);
 						}
 					}
 
 					if (!var.count(PARAM_REFERENCE_FILE))
 					{
-						throw std::runtime_error("Please use the parameter -r or --Referencefile");
+						throw std::runtime_error("Please use the parameter -r or --referencefile");
 					}
 					else
 					{
 						if (getFileEnding(params.referenceFile) != ".dcm")
 						{
-							throw std::runtime_error("Please check your Referencefile: " + params.referenceFile);
+							throw std::runtime_error("Please check your reference file: " + params.referenceFile);
 						}
 					}
 
