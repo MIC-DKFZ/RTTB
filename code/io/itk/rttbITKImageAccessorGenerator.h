@@ -14,19 +14,16 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 793 $ (last changed revision)
+// @date    $Date: 2014-10-10 10:24:45 +0200 (Fr, 10 Okt 2014) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
-#ifndef __ITK_IMAGE_DOSE_ACCESSOR_GENERATOR_H
-#define __ITK_IMAGE_DOSE_ACCESSOR_GENERATOR_H
-
-#include <string>
-#include <exception>
+#ifndef __ITK_IMAGE_ACCESSOR_GENERATOR_H
+#define __ITK_IMAGE_ACCESSOR_GENERATOR_H
 
 #include "rttbDoseAccessorGeneratorBase.h"
 #include "rttbBaseType.h"
-#include "rttbITKImageDoseAccessor.h"
+#include "rttbITKImageAccessorConverter.h"
 
 #include "itkImage.h"
 
@@ -36,29 +33,30 @@ namespace rttb
 	{
 		namespace itk
 		{
-			/*! @class ITKImageDoseAccessorGenerator
-			@brief Generate ITKImageDoseAccessor wrapping an itk image as object (not as file).
-			@note it implies that the dose information is stored in absolute Gy values.
+			/*! @class ITKImageAccessorGenerator
+			@brief Generate ITKImageAccessor wrapping an itk image as object (not as file).
+			@note it implies that the information is stored in absolute values.
 			*/
-			class ITKImageDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
+			class ITKImageAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
 			public:
+				typedef ::itk::Image<GenericValueType, 3> ITKImageType;
 				typedef DoseAccessorGeneratorBase::DoseAccessorPointer DoseAccessorPointer;
 
 			private:
 				/** @brief The dose as itkImage */
-				ITKDoseImageType::ConstPointer _dosePtr;
+				ITKImageType::ConstPointer _dosePtr;
 
-				ITKImageDoseAccessorGenerator();
+				ITKImageAccessorGenerator();
 
 			public:
-				virtual ~ITKImageDoseAccessorGenerator() {};
+				virtual ~ITKImageAccessorGenerator() {};
 
 				/*!
 				@pre aDoseImage must point to a valid instance.
 				@exception InvalidDoseException Thrown if aDoseImage is invalid.
 				*/
-				ITKImageDoseAccessorGenerator(const ITKDoseImageType* aDoseImage);
+				ITKImageAccessorGenerator(const ITKImageType* aDoseImage);
 
 				/*! @brief Generate DoseAccessor
 				@return Return shared pointer of DoseAccessor.

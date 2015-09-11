@@ -32,18 +32,21 @@
 #include "rttbBaseType.h"
 
 
-namespace rttb{
-	namespace io{
-		namespace helax{
+namespace rttb
+{
+	namespace io
+	{
+		namespace helax
+		{
 
-			/*! @class DicomHelaxIODVecDoseAccessorGenerator         
+			/*! @class DicomHelaxIODVecDoseAccessorGenerator
 			@brief Generate DoseAccessor with a vector of DRTDoseIOD.
 			*/
 			class DicomHelaxIODVecDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
 			public:
 				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
-				
+
 
 			protected:
 			private:
@@ -51,15 +54,15 @@ namespace rttb{
 
 				DicomHelaxIODVecDoseAccessorGenerator();
 
-			public: 
+			public:
 				~DicomHelaxIODVecDoseAccessorGenerator();
 
 				/*! @brief Constructor. Initialisation with a vector of DRTDoseIOD pointers
-				
+
 				*/
 				DicomHelaxIODVecDoseAccessorGenerator(std::vector<DRTDoseIODPtr>& aDICOMRTDoseVector);
-				/*! @brief Generate DoseAccessor 
-				@return Return shared pointer of DoseAccessor. 
+				/*! @brief Generate DoseAccessor
+				@return Return shared pointer of DoseAccessor.
 				@exception InvalidDoseException Thrown if any DRTDoseIOD pointer of _doseVector is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
 				@exception DcmrtException Throw if dcmrt error
 				*/

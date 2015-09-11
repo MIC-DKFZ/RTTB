@@ -30,11 +30,11 @@ namespace rttb
 {
 	namespace interpolation
 	{
-		void InterpolationBase::setDoseAccessorPointer(const DoseAccessorPointer originalDose)
+		void InterpolationBase::setAccessorPointer(const AccessorPointer originalData)
 		{
-			if (originalDose != NULL)
+			if (originalData != NULL)
 			{
-				_spOriginalDose = originalDose;
+				_spOriginalData = originalData;
 			}
 			else
 			{
@@ -47,7 +47,7 @@ namespace rttb
 		    unsigned int neighborhood, boost::array<double, 3>& target,
 		    boost::shared_ptr<DoseTypeGy[]> values) const
 		{
-			if (_spOriginalDose == NULL)
+			if (_spOriginalData == NULL)
 			{
 				throw core::NullPointerException("originalDose is NULL!");
 			}
@@ -55,12 +55,12 @@ namespace rttb
 			//Determine target (abs(desired worldCoordinate- corner pixel world coordinate/pixel spacing) and values of corner pixels (from originalDose)
 			VoxelGridIndex3D aIndex;
 
-			if (_spOriginalDose->getGeometricInfo().worldCoordinateToIndex(aWorldCoordinate, aIndex))
+			if (_spOriginalData->getGeometricInfo().worldCoordinateToIndex(aWorldCoordinate, aIndex))
 			{
 				//determine just the nearest voxel to the world coordinate
 				if (neighborhood == 0)
 				{
-					values[0] = _spOriginalDose->getDoseAt(aIndex);
+					values[0] = _spOriginalData->getValueAt(aIndex);
 				}
 				//determine the 8 voxels around the world coordinate
 				else if (neighborhood == 8)
@@ -68,8 +68,8 @@ namespace rttb
 					std::list<VoxelGridIndex3D> cornerPoints;
 
 					WorldCoordinate3D theNextVoxel;
-					_spOriginalDose->getGeometricInfo().indexToWorldCoordinate(aIndex, theNextVoxel);
-					SpacingVectorType3D pixelSpacing = (_spOriginalDose->getGeometricInfo()).getSpacing();
+					_spOriginalData->getGeometricInfo().indexToWorldCoordinate(aIndex, theNextVoxel);
+					SpacingVectorType3D pixelSpacing = (_spOriginalData->getGeometricInfo()).getSpacing();
 					VoxelGridIndex3D leftTopFrontCoordinate;
 
 					//find the voxel with the smallest coordinate values in each dimension. This defines the standard cube
@@ -122,9 +122,9 @@ namespace rttb
 					for (auto cornerPointsIterator = cornerPoints.begin(); cornerPointsIterator != cornerPoints.end();
 					     ++cornerPointsIterator, ++count)
 					{
-						if (_spOriginalDose->getGeometricInfo().isInside(*cornerPointsIterator))
+						if (_spOriginalData->getGeometricInfo().isInside(*cornerPointsIterator))
 						{
-							values[count] = _spOriginalDose->getDoseAt(*cornerPointsIterator);
+							values[count] = _spOriginalData->getValueAt(*cornerPointsIterator);
 						}
 						else
 						{
@@ -180,9 +180,9 @@ namespace rttb
 
 			while (replacementVoxelIndex < runningIndex)
 			{
-				if (_spOriginalDose->getGeometricInfo().validIndex(voxelChangedXYZ[replacementVoxelIndex]))
+				if (_spOriginalData->getGeometricInfo().validIndex(voxelChangedXYZ[replacementVoxelIndex]))
 				{
-					return _spOriginalDose->getDoseAt(voxelChangedXYZ[replacementVoxelIndex]);
+					return _spOriginalData->getValueAt(voxelChangedXYZ[replacementVoxelIndex]);
 				}
 
 				++replacementVoxelIndex;

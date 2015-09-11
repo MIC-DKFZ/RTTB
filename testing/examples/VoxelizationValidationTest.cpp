@@ -116,7 +116,7 @@ namespace rttb
 					    ::boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, doseAccessor1);
 					DoseIteratorPointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
 					rttb::core::DVHCalculator calc(spMaskedDoseIterator, (rtStructureSet->getStructure(j))->getUID(),
-					                               doseAccessor1->getDoseUID());
+					                               doseAccessor1->getUID());
 					rttb::core::DVH dvh = *(calc.generateDVH());
 
 					clock_t finish(clock());
@@ -144,7 +144,7 @@ namespace rttb
 					    ::boost::make_shared<core::GenericMaskedDoseIterator>(boostMaskAccessorPtr, doseAccessor1);
 					DoseIteratorPointer spMaskedDoseIterator2(spMaskedDoseIteratorTmp2);
 					rttb::core::DVHCalculator calc2(spMaskedDoseIterator2, (rtStructureSet->getStructure(j))->getUID(),
-					                                doseAccessor1->getDoseUID());
+					                                doseAccessor1->getUID());
 					rttb::core::DVH dvh2 = *(calc2.generateDVH());
 
 					clock_t finish2(clock());

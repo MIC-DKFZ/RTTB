@@ -94,7 +94,7 @@ namespace rttb
 		DoseTypeGy GenericMaskedDoseIterator::getCurrentDoseValue() const
 		{
 			assert(_spDoseAccessor->getGeometricInfo().validID(_currentMaskPos->getVoxelGridID()));
-			return _spDoseAccessor->getDoseAt(_currentMaskPos->getVoxelGridID());
+			return _spDoseAccessor->getValueAt(_currentMaskPos->getVoxelGridID());
 		}
 
 	}//end namespace core

@@ -6,7 +6,10 @@ SET(CPP_FILES
 SET(H_FILES 
   rttbDoseStatistics.h
   rttbArithmetic.h
-  rttbArithmetic.tpp
-  rttbBinaryFunctorDoseAccessor.h
-  rttbBinaryFunctorDoseAccessor.tpp
+  rttbBinaryFunctorAccessor.h
 )
+
+SET(TXX_FILES
+  rttbArithmetic.tpp
+  rttbBinaryFunctorAccessor.tpp
+ )

@@ -20,13 +20,13 @@
 // Subversion HeadURL: $HeadURL: https://svn/sbr/Sources/SBR-Projects/MatchPoint/trunk/Code/IO/include/mapImageReader.tpp $
 */
 
-#ifndef __RTTB_ITK_IMAGE_FILE_DOSE_ACCESSOR_GENERATOR_TPP
-#define __RTTB_ITK_IMAGE_FILE_DOSE_ACCESSOR_GENERATOR_TPP
+#ifndef __RTTB_ITK_IO_HELPER_TPP
+#define __RTTB_ITK_IO_HELPER_TPP
 
-#include "rttbITKImageFileDoseAccessorGenerator.h"
+#include "rttbITKImageAccessorConverter.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbInvalidDoseException.h"
-#include "rttbITKImageDoseAccessor.h"
+#include "rttbITKImageAccessor.h"
 
 namespace rttb
 {
@@ -35,11 +35,11 @@ namespace rttb
 		namespace itk
 		{
 
-			template <typename TPixelType> ITKDoseImageType::Pointer doCasting(GenericImageReader::GenericOutputImageType* genericImage)
+			template <typename TPixelType> ITKImageType::Pointer doCasting(GenericImageReader::GenericOutputImageType* genericImage)
 			{
-				ITKDoseImageType::Pointer itkDoubleImage;
+				ITKImageType::Pointer itkDoubleImage;
 				typedef ::itk::Image<TPixelType, 3> InputImageType;
-				typedef ITKDoseImageType OutputImageType;
+				typedef ITKImageType OutputImageType;
 				typename InputImageType::Pointer pCastedInput = dynamic_cast<InputImageType*>(genericImage);
 				typedef ::itk::CastImageFilter<InputImageType, OutputImageType> CastFilterType;
 				typename CastFilterType::Pointer castFilter = CastFilterType::New();

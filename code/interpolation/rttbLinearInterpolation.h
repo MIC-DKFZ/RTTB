@@ -39,7 +39,6 @@ namespace rttb
 		class LinearInterpolation : public InterpolationBase
 		{
 		public:
-			typedef rttb::core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
 			/*! @brief Constructor
 			*/
 			LinearInterpolation() {};

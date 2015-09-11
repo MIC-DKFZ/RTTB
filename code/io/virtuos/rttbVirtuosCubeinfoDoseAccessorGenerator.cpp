@@ -35,27 +35,33 @@
 #include "rtp_type.h"
 
 
-namespace rttb{
-	namespace io{
-		namespace virtuos{
+namespace rttb
+{
+	namespace io
+	{
+		namespace virtuos
+		{
 
 
-			VirtuosCubeinfoDoseAccessorGenerator::~VirtuosCubeinfoDoseAccessorGenerator(){}
+			VirtuosCubeinfoDoseAccessorGenerator::~VirtuosCubeinfoDoseAccessorGenerator() {}
 
 
-			VirtuosCubeinfoDoseAccessorGenerator::VirtuosCubeinfoDoseAccessorGenerator(Cubeinfo *aPointerOnVirtuosCube, DoseTypeGy normalizationDose, DoseTypeGy prescribedDose):
-			_pPointerOnVirtuosCube(new Cubeinfo*)
+			VirtuosCubeinfoDoseAccessorGenerator::VirtuosCubeinfoDoseAccessorGenerator(Cubeinfo* aPointerOnVirtuosCube,
+			        DoseTypeGy normalizationDose, DoseTypeGy prescribedDose):
+				_pPointerOnVirtuosCube(new Cubeinfo*)
 			{
 				//initialize cube pointer
 				*_pPointerOnVirtuosCube = create_cubeinfo(0);
-				*_pPointerOnVirtuosCube=aPointerOnVirtuosCube;
-				_normalizationDose=normalizationDose;
-				_prescribedDose=prescribedDose;
+				*_pPointerOnVirtuosCube = aPointerOnVirtuosCube;
+				_normalizationDose = normalizationDose;
+				_prescribedDose = prescribedDose;
 
 			}
 
-			VirtuosCubeinfoDoseAccessorGenerator::DoseAccessorPointer VirtuosCubeinfoDoseAccessorGenerator::generateDoseAccessor() {
-				_doseAccessor=boost::make_shared<io::virtuos::VirtuosDoseAccessor>(*_pPointerOnVirtuosCube, false,_normalizationDose,_prescribedDose);
+			VirtuosCubeinfoDoseAccessorGenerator::DoseAccessorPointer VirtuosCubeinfoDoseAccessorGenerator::generateDoseAccessor()
+			{
+				_doseAccessor = boost::make_shared<io::virtuos::VirtuosDoseAccessor>(*_pPointerOnVirtuosCube, false, _normalizationDose,
+				                _prescribedDose);
 				return _doseAccessor;
 			}
 

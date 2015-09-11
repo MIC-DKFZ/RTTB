@@ -14,14 +14,14 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 793 $ (last changed revision)
+// @date    $Date: 2014-10-10 10:24:45 +0200 (Fr, 10 Okt 2014) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
 
 #include <assert.h>
 
-#include "rttbITKImageDoseAccessor.h"
+#include "rttbITKImageAccessor.h"
 #include "rttbException.h"
 #include "rttbInvalidDoseException.h"
 
@@ -31,17 +31,16 @@ namespace rttb
 	{
 		namespace itk
 		{
-			ITKImageDoseAccessor::~ITKImageDoseAccessor()
+			ITKImageAccessor::~ITKImageAccessor()
 			{
 
 			}
 
-			ITKImageDoseAccessor::ITKImageDoseAccessor(ITKDoseImageType::ConstPointer doseImage):
-				_doseGridScaling(1.0)
+			ITKImageAccessor::ITKImageAccessor(ITKImageType::ConstPointer image)
 			{
-				_dose = doseImage;
+				_data = image;
 
-				if (_dose.IsNull())
+				if (_data.IsNull())
 				{
 					throw core::InvalidDoseException("Dose image = 0!") ;
 				}
@@ -49,13 +48,13 @@ namespace rttb
 				assembleGeometricInfo();
 			}
 
-			DoseTypeGy ITKImageDoseAccessor::getDoseAt(const VoxelGridID aID) const
+			GenericValueType ITKImageAccessor::getValueAt(const VoxelGridID aID) const
 			{
 				VoxelGridIndex3D aVoxelGridIndex;
 
 				if (_geoInfo.convert(aID, aVoxelGridIndex))
 				{
-					return getDoseAt(aVoxelGridIndex);
+					return getValueAt(aVoxelGridIndex);
 				}
 				else
 				{
@@ -63,12 +62,12 @@ namespace rttb
 				}
 			}
 
-			DoseTypeGy ITKImageDoseAccessor::getDoseAt(const VoxelGridIndex3D& aIndex) const
+			GenericValueType ITKImageAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 			{
 				if (_geoInfo.validIndex(aIndex))
 				{
-					const ITKDoseImageType::IndexType pixelIndex = {{aIndex[0], aIndex[1], aIndex[2]}};
-					return _dose->GetPixel(pixelIndex) * _doseGridScaling;
+					const ITKImageType::IndexType pixelIndex = {{aIndex[0], aIndex[1], aIndex[2]}};
+					return _data->GetPixel(pixelIndex);
 				}
 				else
 				{
@@ -77,32 +76,32 @@ namespace rttb
 
 			}
 
-			bool ITKImageDoseAccessor::assembleGeometricInfo()
+			bool ITKImageAccessor::assembleGeometricInfo()
 			{
-				_geoInfo.setSpacing(SpacingVectorType3D(_dose->GetSpacing()[0], _dose->GetSpacing()[1],
-				                                        _dose->GetSpacing()[2]));
+				_geoInfo.setSpacing(SpacingVectorType3D(_data->GetSpacing()[0], _data->GetSpacing()[1],
+				                                        _data->GetSpacing()[2]));
 
 				if (_geoInfo.getSpacing()[0] == 0 || _geoInfo.getSpacing()[1] == 0 || _geoInfo.getSpacing()[2] == 0)
 				{
 					throw core::InvalidDoseException("Pixel spacing = 0!");
 				}
 
-				_geoInfo.setImagePositionPatient(WorldCoordinate3D(_dose->GetOrigin()[0], _dose->GetOrigin()[1],
-				                                 _dose->GetOrigin()[2]));
+				_geoInfo.setImagePositionPatient(WorldCoordinate3D(_data->GetOrigin()[0], _data->GetOrigin()[1],
+				                                 _data->GetOrigin()[2]));
 				OrientationMatrix OM(0);
 
 				for (int col = 0; col < 3; ++col)
 				{
 					for (int row = 0; row < 3; ++row)
 					{
-						OM(col, row) = _dose->GetDirection()(col, row);
+						OM(col, row) = _data->GetDirection()(col, row);
 					}
 				}
 
 				_geoInfo.setOrientationMatrix(OM);
-				_geoInfo.setNumColumns(_dose->GetLargestPossibleRegion().GetSize()[0]);
-				_geoInfo.setNumRows(_dose->GetLargestPossibleRegion().GetSize()[1]);
-				_geoInfo.setNumSlices(_dose->GetLargestPossibleRegion().GetSize()[2]);
+				_geoInfo.setNumColumns(_data->GetLargestPossibleRegion().GetSize()[0]);
+				_geoInfo.setNumRows(_data->GetLargestPossibleRegion().GetSize()[1]);
+				_geoInfo.setNumSlices(_data->GetLargestPossibleRegion().GetSize()[2]);
 
 				if (_geoInfo.getNumColumns() == 0 || _geoInfo.getNumRows() == 0 || _geoInfo.getNumSlices() == 0)
 				{

@@ -32,18 +32,21 @@
 #include "rttbBaseType.h"
 
 
-namespace rttb{
-	namespace io{
-		namespace helax{
+namespace rttb
+{
+	namespace io
+	{
+		namespace helax
+		{
 
-			/*! @class DicomHelaxFileDoseAccessorGenerator         
+			/*! @class DicomHelaxFileDoseAccessorGenerator
 			@brief Load dose data from dicom helax files and generate DoseAccessor
 			*/
 			class DicomHelaxFileDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
 			public:
 				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
-				
+
 
 			protected:
 
@@ -52,16 +55,16 @@ namespace rttb{
 
 				DicomHelaxFileDoseAccessorGenerator();
 
-			public: 
+			public:
 				~DicomHelaxFileDoseAccessorGenerator();
 				/*! @brief Constructor. Initialisation with a directory name
-				
+
 				*/
 				DicomHelaxFileDoseAccessorGenerator(FileNameType aDICOMRTDoseDirName);
 
-				/*! @brief Generate DoseAccessor 
-				@return Return shared pointer of DoseAccessor.  
-				@exception InvalidParameterException Thrown if aDICOMRTDoseDirName is not found 
+				/*! @brief Generate DoseAccessor
+				@return Return shared pointer of DoseAccessor.
+				@exception InvalidParameterException Thrown if aDICOMRTDoseDirName is not found
 				@exception InvalidDoseException Thrown if any loaded dose is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
 				@exception DcmrtException Throw if dcmrt error
 				*/

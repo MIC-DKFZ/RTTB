@@ -32,16 +32,19 @@
 #include "rttbBaseType.h"
 
 
-namespace rttb{
-	namespace io{
-		namespace dicom{
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
 
-			/*! @class DicomIODDoseAccessorGenerator         
+			/*! @class DicomIODDoseAccessorGenerator
 			@brief Generate DicomDoseAccessor with a DRTDoseIOD.
 			*/
 			class DicomIODDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
-			public: 							
+			public:
 				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
 				typedef boost::shared_ptr<DcmItem> DcmItemPtr;
 
@@ -54,16 +57,16 @@ namespace rttb{
 				DicomIODDoseAccessorGenerator();
 
 
-			public: 
+			public:
 				~DicomIODDoseAccessorGenerator();
 
-				/*! @brief Constructor. Initialisation with a boost shared pointer of DRTDoseIOD 
-				
+				/*! @brief Constructor. Initialisation with a boost shared pointer of DRTDoseIOD
+
 				*/
 				DicomIODDoseAccessorGenerator(DRTDoseIODPtr aDRTDoseIODP);
 
-				/*! @brief Generate DoseAccessor 
-				@return Return shared pointer of DoseAccessor. 
+				/*! @brief Generate DoseAccessor
+				@return Return shared pointer of DoseAccessor.
 				@exception InvalidDoseException Thrown if aDRTDoseIODP is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
 				@exception DcmrtException Throw if dcmrt error
 				*/

@@ -26,37 +26,40 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "litMultiTestsMain.h" 
+#include "litMultiTestsMain.h"
 
-namespace rttb{
-	namespace testing{
+namespace rttb
+{
+	namespace testing
+	{
 
 		void registerTests()
-			{
-				LIT_REGISTER_TEST(ITKDoseAccessorGeneratorTest);
-				LIT_REGISTER_TEST(ITKDoseAccessorConverterTest);
-				LIT_REGISTER_TEST(ITKIOTest);
-				LIT_REGISTER_TEST(ITKMaskAccessorGeneratorTest);
-				LIT_REGISTER_TEST(ITKMaskAccessorConverterTest);
-			}
+		{
+			LIT_REGISTER_TEST(ITKDoseAccessorGeneratorTest);
+			LIT_REGISTER_TEST(ITKDoseAccessorConverterTest);
+			LIT_REGISTER_TEST(ITKBioModelAccessorConverterTest);
+			LIT_REGISTER_TEST(ITKIOTest);
+			LIT_REGISTER_TEST(ITKMaskAccessorGeneratorTest);
+			LIT_REGISTER_TEST(ITKMaskAccessorConverterTest);
 		}
 	}
+}
 
 int main(int argc, char* argv[])
-	{
+{
 	int result = 0;
 
 	rttb::testing::registerTests();
 
 	try
-		{
-		result = lit::multiTestsMain(argc,argv);
-		}
+	{
+		result = lit::multiTestsMain(argc, argv);
+	}
 
-	catch(...)
-		{
+	catch (...)
+	{
 		result = -1;
-		}
+	}
 
 	return result;
-	}
+}

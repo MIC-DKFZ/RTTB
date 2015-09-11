@@ -136,12 +136,12 @@ namespace rttb
 					if (i == 6)
 					{
 						calc = new rttb::core::DVHCalculator(spMaskedDoseIterator,
-						                                     (rtStructureSetVirtuos->getStructure(i))->getUID(), doseAccessorVirtuos->getDoseUID(), 0.367944);
+						                                     (rtStructureSetVirtuos->getStructure(i))->getUID(), doseAccessorVirtuos->getUID(), 0.367944);
 					}
 					else
 					{
 						calc = new rttb::core::DVHCalculator(spMaskedDoseIterator,
-						                                     (rtStructureSetVirtuos->getStructure(i))->getUID(), doseAccessorVirtuos->getDoseUID(), 0.510107);
+						                                     (rtStructureSetVirtuos->getStructure(i))->getUID(), doseAccessorVirtuos->getUID(), 0.510107);
 					}
 
 

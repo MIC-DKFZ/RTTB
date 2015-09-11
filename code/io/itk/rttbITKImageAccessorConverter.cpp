@@ -14,16 +14,16 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 747 $ (last changed revision)
+// @date    $Date: 2014-09-17 12:01:00 +0200 (Mi, 17 Sep 2014) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
 
 #include <assert.h>
 
 #include <boost/shared_ptr.hpp>
 
-#include "rttbITKImageDoseAccessorConverter.h"
+#include "rttbITKImageAccessorConverter.h"
 #include "rttbException.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbGeometricInfo.h"
@@ -36,44 +36,44 @@ namespace rttb
 		namespace itk
 		{
 
-			ITKImageDoseAccessorConverter::ITKImageDoseAccessorConverter(DoseAccessorPointer accessor)
+			ITKImageAccessorConverter::ITKImageAccessorConverter(DoseAccessorPointer accessor)
 			{
 				setDoseAccessor(accessor);
 			}
 
-			bool ITKImageDoseAccessorConverter::process()
+			bool ITKImageAccessorConverter::process()
 			{
 				//Transfer GeometricInfo to ITK Properties
 				core::GeometricInfo geoInfo = _doseAccessor->getGeometricInfo();
 
-				ITKDoseImageType::RegionType region;
-				ITKDoseImageType::IndexType start;
+				ITKImageType::RegionType region;
+				ITKImageType::IndexType start;
 
 				for (unsigned int i = 0; i < 3; ++i)
 				{
 					start[i] = 0;
 				}
 
-				ITKDoseImageType::SizeType size;
+				ITKImageType::SizeType size;
 				size[0] = geoInfo.getNumColumns();
 				size[1] = geoInfo.getNumRows();
 				size[2] = geoInfo.getNumSlices();
 
-				ITKDoseImageType::SpacingType spacing;
+				ITKImageType::SpacingType spacing;
 
 				for (unsigned int i = 0; i < 3; ++i)
 				{
 					spacing[i] = geoInfo.getSpacing()[i];
 				}
 
-				ITKDoseImageType::PointType origin;
+				ITKImageType::PointType origin;
 
 				for (unsigned int i = 0; i < 3; ++i)
 				{
 					origin[i] = geoInfo.getImagePositionPatient()[i];
 				}
 
-				ITKDoseImageType::DirectionType direction;
+				ITKImageType::DirectionType direction;
 				OrientationMatrix OM = geoInfo.getOrientationMatrix();
 
 				for (int col = 0; col < 3; ++col)
@@ -88,14 +88,14 @@ namespace rttb
 				region.SetSize(size);
 				region.SetIndex(start);
 
-				_itkImage = ITKDoseImageType::New();
+				_itkImage = ITKImageType::New();
 				_itkImage->SetRegions(region);
 				_itkImage->SetSpacing(spacing);
 				_itkImage->SetDirection(direction);
 				_itkImage->SetOrigin(origin);
 				_itkImage->Allocate();
 
-				::itk::ImageRegionIterator<ITKDoseImageType> imageIterator(_itkImage, region);
+				::itk::ImageRegionIterator<ITKImageType> imageIterator(_itkImage, region);
 				VoxelGridID id = 0;
 
 				//Transfer dose values to itk image
@@ -107,7 +107,7 @@ namespace rttb
 					if (_doseAccessor->getGeometricInfo().validID(id))
 					{
 						// Set the current pixel
-						imageIterator.Set(_doseAccessor->getDoseAt(id));
+						imageIterator.Set(_doseAccessor->getValueAt(id));
 					}
 					else
 					{

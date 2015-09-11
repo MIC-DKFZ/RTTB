@@ -39,16 +39,16 @@ namespace rttb
 			InterpolationBase::Pointer interpolationLinear = InterpolationBase::Pointer(
 			            new LinearInterpolation());
 			_spInterpolation = interpolationLinear;
-			_spInterpolation->setDoseAccessorPointer(_spOriginalDoseDataMovingImage);
+			_spInterpolation->setAccessorPointer(_spOriginalDoseDataMovingImage);
 		}
 
-		DoseTypeGy RosuMappableDoseAccessor::getDoseAt(const VoxelGridID aID) const
+		DoseTypeGy RosuMappableDoseAccessor::getValueAt(const VoxelGridID aID) const
 		{
 			VoxelGridIndex3D aVoxelGridIndex3D;
 
 			if (_geoInfoTargetImage.convert(aID, aVoxelGridIndex3D))
 			{
-				return getDoseAt(aVoxelGridIndex3D);
+				return getValueAt(aVoxelGridIndex3D);
 			}
 			else
 			{
@@ -64,7 +64,7 @@ namespace rttb
 			}
 		}
 
-		DoseTypeGy RosuMappableDoseAccessor::getDoseAt(const VoxelGridIndex3D& aIndex) const
+		DoseTypeGy RosuMappableDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 		{
 			//Transform requested voxel coordinates of original image into world coordinates with RTTB
 			WorldCoordinate3D worldCoordinateTarget;

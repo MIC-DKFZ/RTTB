@@ -25,6 +25,5 @@ SET(H_FILES
   rttbDoseBasedModels.cpp
   rttbDvhBasedModels.h
   rttbIntegration.h
-  rttbBioModelAccessorInterface.h
   rttbLQModelAccessor.h
 )

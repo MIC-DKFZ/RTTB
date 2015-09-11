@@ -110,16 +110,18 @@ namespace rttb
 			NearestNeighborInterpolation::Pointer interpolationNN =
 			    NearestNeighborInterpolation::Pointer(new NearestNeighborInterpolation());
 			LinearInterpolation::Pointer interpolationLinear = LinearInterpolation::Pointer
-			                           (new LinearInterpolation());
+			        (new LinearInterpolation());
 			NearestNeighborInterpolation::Pointer interpolationNull;
 
 			TransformationInterface::Pointer transformMP = TransformationInterface::Pointer(new MatchPointTransformation(
-			                       registration.GetPointer()));
+			            registration.GetPointer()));
 
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityLinear = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear));
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityNN = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityLinear = SimpleMappableDoseAccessor::Pointer(
+			            new SimpleMappableDoseAccessor(
+			                doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityNN = SimpleMappableDoseAccessor::Pointer(
+			            new SimpleMappableDoseAccessor(
+			                doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
 
 			//1) Test constructor
 			CHECK_NO_THROW(SimpleMappableDoseAccessor(
@@ -139,10 +141,10 @@ namespace rttb
 				VoxelGridID runningID = (VoxelGridID)(vectorDoseAccessorStartEnd *
 				                                      (double)aSimpleMappableDoseAccessorMPIdentityLinear->getGridSize());
 
-				CHECK_EQUAL(aSimpleMappableDoseAccessorMPIdentityLinear->getDoseAt(runningID),
-				            doseAccessor2->getDoseAt(runningID));
-				CHECK_EQUAL(aSimpleMappableDoseAccessorMPIdentityNN->getDoseAt(runningID),
-				            doseAccessor2->getDoseAt(runningID));
+				CHECK_EQUAL(aSimpleMappableDoseAccessorMPIdentityLinear->getValueAt(runningID),
+				            doseAccessor2->getValueAt(runningID));
+				CHECK_EQUAL(aSimpleMappableDoseAccessorMPIdentityNN->getValueAt(runningID),
+				            doseAccessor2->getValueAt(runningID));
 				vectorDoseAccessorStartEnd += 0.1;
 			}
 
@@ -153,24 +155,26 @@ namespace rttb
 			//Second: Translation (5mm/5mm/5mm) --> in voxel: (1/1/1) as pixelspacing = 5 mm
 			translation[0] = translation[1] = translation[2] = 5.0;
 			registration->_translation = translation;
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPTranslationLinear = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear));
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPTranslationNN = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPTranslationLinear =
+			    SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
+			            doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPTranslationNN = SimpleMappableDoseAccessor::Pointer(
+			            new SimpleMappableDoseAccessor(
+			                doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
 
 			rttb::VoxelGridIndex3D aIndexBeforeTransformation(0, 0, 0);
 			rttb::VoxelGridIndex3D aIndexAfterTransformation(1, 1, 1);
-			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationLinear->getDoseAt(aIndexBeforeTransformation),
-			            doseAccessor2->getDoseAt(aIndexAfterTransformation));
-			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationNN->getDoseAt(aIndexBeforeTransformation),
-			            doseAccessor2->getDoseAt(aIndexAfterTransformation));
+			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationLinear->getValueAt(aIndexBeforeTransformation),
+			            doseAccessor2->getValueAt(aIndexAfterTransformation));
+			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationNN->getValueAt(aIndexBeforeTransformation),
+			            doseAccessor2->getValueAt(aIndexAfterTransformation));
 
 			rttb::VoxelGridIndex3D aIndexBeforeTransformation2(20, 10, 10);
 			rttb::VoxelGridIndex3D aIndexAfterTransformation2(21, 11, 11);
-			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationLinear->getDoseAt(aIndexBeforeTransformation2),
-			            doseAccessor2->getDoseAt(aIndexAfterTransformation2));
-			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationNN->getDoseAt(aIndexBeforeTransformation2),
-			            doseAccessor2->getDoseAt(aIndexAfterTransformation2));
+			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationLinear->getValueAt(aIndexBeforeTransformation2),
+			            doseAccessor2->getValueAt(aIndexAfterTransformation2));
+			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationNN->getValueAt(aIndexBeforeTransformation2),
+			            doseAccessor2->getValueAt(aIndexAfterTransformation2));
 
 			rttb::VoxelGridIndex3D aIndexBeforeTransformation3(
 			    aSimpleMappableDoseAccessorMPTranslationLinear->getGeometricInfo().getNumColumns() - 2,
@@ -180,10 +184,10 @@ namespace rttb
 			    aSimpleMappableDoseAccessorMPTranslationLinear->getGeometricInfo().getNumColumns() - 1,
 			    aSimpleMappableDoseAccessorMPTranslationLinear->getGeometricInfo().getNumRows() - 1,
 			    aSimpleMappableDoseAccessorMPTranslationLinear->getGeometricInfo().getNumSlices() - 1);
-			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationLinear->getDoseAt(aIndexBeforeTransformation3),
-			            doseAccessor2->getDoseAt(aIndexAfterTransformation3));
-			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationNN->getDoseAt(aIndexBeforeTransformation3),
-			            doseAccessor2->getDoseAt(aIndexAfterTransformation3));
+			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationLinear->getValueAt(aIndexBeforeTransformation3),
+			            doseAccessor2->getValueAt(aIndexAfterTransformation3));
+			CHECK_EQUAL(aSimpleMappableDoseAccessorMPTranslationNN->getValueAt(aIndexBeforeTransformation3),
+			            doseAccessor2->getValueAt(aIndexAfterTransformation3));
 
 			if (RTDOSE_FILENAME_REALISTIC != "" && CT_FRACTION != "" && CT_PLANNING != "")
 			{
@@ -196,7 +200,7 @@ namespace rttb
 				    prepareRegistrationRealisticScenario.getRegistration();
 
 				TransformationInterface::Pointer transformRealistic = TransformationInterface::Pointer(new MatchPointTransformation(
-				                              registrationRealisticScenario));
+				            registrationRealisticScenario));
 
 				io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator3(RTDOSE_FILENAME_REALISTIC.c_str());
 				DoseAccessorPointer doseAccessor3(doseAccessorGenerator3.generateDoseAccessor());
@@ -212,7 +216,7 @@ namespace rttb
 				//Dose is related to BP-CT, map dose to fraction CT geometry
 				SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorRealisticScenarioLinear =
 				    SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(geoInfoRealistic,
-				                                   doseAccessor3, transformRealistic, interpolationLinear));
+				                                        doseAccessor3, transformRealistic, interpolationLinear));
 
 				//combination of 0, size/2 and size to check as coordinates
 				std::vector<unsigned int> coordinatesToCheckX, coordinatesToCheckY, coordinatesToCheckZ;
@@ -233,7 +237,7 @@ namespace rttb
 					{
 						for (unsigned int k = 0; k < coordinatesToCheckZ.size(); ++k)
 						{
-							CHECK_NO_THROW(aSimpleMappableDoseAccessorRealisticScenarioLinear->getDoseAt(VoxelGridIndex3D(
+							CHECK_NO_THROW(aSimpleMappableDoseAccessorRealisticScenarioLinear->getValueAt(VoxelGridIndex3D(
 							                   coordinatesToCheckX.at(i), coordinatesToCheckY.at(j), coordinatesToCheckZ.at(k))));
 						}
 					}

@@ -37,7 +37,7 @@ namespace rttb
 		{
 			LIT_REGISTER_TEST(DoseStatisticsTest);
 			LIT_REGISTER_TEST(ArithmeticTest);
-			LIT_REGISTER_TEST(BinaryFunctorDoseAccessorTest);
+			LIT_REGISTER_TEST(BinaryFunctorAccessorTest);
 		}
 	}
 }

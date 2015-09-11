@@ -38,20 +38,17 @@ namespace rttb
 		namespace virtuos
 		{
 
-			/*! @class VirtuosPlanFileDoseAccessorGenerator         
+			/*! @class VirtuosPlanFileDoseAccessorGenerator
 			@brief Load dose data from a Virtuos dose file and a Virtuos plan file, generate DoseAccessor.
 			@detail Through the use of the plan file, the dose file can be normalized, i.e. the DoseAccessor returns values in Gy.
 			*/
 			class VirtuosPlanFileDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
-			public:
-				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
-
-			private: 
+			private:
 				FileNameType _doseFileName;
 				FileNameType _planFileName;
 
-				Cubeinfo **_pPointerOnVirtuosCube;
+				Cubeinfo** _pPointerOnVirtuosCube;
 
 				/*! prepare virtuos dose cube for data import. Actual data import is performed in importPixelData()
 				and assembleGeometricInfo().
@@ -63,25 +60,25 @@ namespace rttb
 				VirtuosPlanFileDoseAccessorGenerator();
 
 			protected:
-				
 
 
-			public: 
+
+			public:
 				~VirtuosPlanFileDoseAccessorGenerator();
-				/*! @brief Constructor. Initialisation with a Virtuos dose file and a Virtuos plan file. Information for dose scaling, 
+				/*! @brief Constructor. Initialisation with a Virtuos dose file and a Virtuos plan file. Information for dose scaling,
 				etc. is taken from the corresponding plan file aVirtuosPlanFileName.
-				
+
 				*/
 				VirtuosPlanFileDoseAccessorGenerator(const FileNameType aVirtuosDoseFileName,
 				                                     const FileNameType aVirtuosPlanFileName);
 
-				/*@brief Generate DoseAccessor 
-				@return Return shared pointer of DoseAccessor. 
+				/*@brief Generate DoseAccessor
+				@return Return shared pointer of DoseAccessor.
 				@throw InvalidParameterException Thrown if one of the file names is empty.
 				@throw InvalidParameterException Thrown if plan file or virtuos cube could not be read.
 				*/
-				DoseAccessorPointer generateDoseAccessor() ;
-				
+				DoseAccessorPointer generateDoseAccessor() override;
+
 			};
 		}
 	}

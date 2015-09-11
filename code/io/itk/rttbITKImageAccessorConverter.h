@@ -14,18 +14,20 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 793 $ (last changed revision)
+// @date    $Date: 2014-10-10 10:24:45 +0200 (Fr, 10 Okt 2014) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
-#ifndef __ITK_IMAGE_DOSE_ACCESSOR_CONVERTER_H
-#define __ITK_IMAGE_DOSE_ACCESSOR_CONVERTER_H
+#ifndef __ITK_IMAGE_ACCESSOR_CONVERTER_H
+#define __ITK_IMAGE_ACCESSOR_CONVERTER_H
 
 #include <boost/shared_ptr.hpp>
 
 #include "rttbDoseAccessorProcessorBase.h"
 #include "rttbDoseAccessorConversionSettingInterface.h"
-#include "rttbITKImageDoseAccessor.h"
+#include "rttbITKImageAccessorConverter.h"
+
+#include "itkImage.h"
 
 namespace rttb
 {
@@ -33,33 +35,34 @@ namespace rttb
 	{
 		namespace itk
 		{
-			/*! @class ITKImageDoseAccessorConverter
+			/*! @class ITKImageAccessorConverter
 				@brief Class converts/dumps the processed accessor into an itk image
 				@remark DoseAccessorConversionInterface defines how the converter should react on non valid dose values.
 			*/
-			class ITKImageDoseAccessorConverter: public core::DoseAccessorProcessorBase,
+			class ITKImageAccessorConverter: public core::DoseAccessorProcessorBase,
 				public core::DoseAccessorConversionSettingInterface
 			{
 			public:
+				typedef ::itk::Image<GenericValueType, 3> ITKImageType;
 				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
 
 				bool process();
 
-				ITKDoseImageType::Pointer getITKImage()
+				ITKImageType::Pointer getITKImage()
 				{
 					return _itkImage;
 				}
 
-				ITKImageDoseAccessorConverter(DoseAccessorPointer accessor);
-				virtual ~ITKImageDoseAccessorConverter() {};
+				ITKImageAccessorConverter(DoseAccessorPointer accessor);
+				virtual ~ITKImageAccessorConverter() {};
 
 			private:
-				ITKImageDoseAccessorConverter(const
-				                              ITKImageDoseAccessorConverter&); //not implemented on purpose -> non-copyable
-				ITKImageDoseAccessorConverter& operator=(const
-				        ITKImageDoseAccessorConverter&);//not implemented on purpose -> non-copyable
+				ITKImageAccessorConverter(const
+				                          ITKImageAccessorConverter&); //not implemented on purpose -> non-copyable
+				ITKImageAccessorConverter& operator=(const
+				                                     ITKImageAccessorConverter&);//not implemented on purpose -> non-copyable
 
-				ITKDoseImageType::Pointer _itkImage;
+				ITKImageType::Pointer _itkImage;
 
 			};
 		}

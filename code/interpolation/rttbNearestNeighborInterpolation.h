@@ -40,7 +40,7 @@ namespace rttb
 			*/
 			NearestNeighborInterpolation() {};
 
-			/*! @brief Returns the interpolated value (the nearest voxel value given by _spOriginalDose->getGeometricInfo().worldCoordinateToIndex())
+			/*! @brief Returns the interpolated value (the nearest voxel value given by _spOriginalData->getGeometricInfo().worldCoordinateToIndex())
 			*/
 			DoseTypeGy getValue(const WorldCoordinate3D& aWorldCoordinate) const;
 		};

@@ -1,7 +1,7 @@
 SET(CPP_FILES 
 	DoseStatisticsTest.cpp
 	ArithmeticTest.cpp
-	BinaryFunctorDoseAccessorTest.cpp
+	BinaryFunctorAccessorTest.cpp
 	rttbAlgorithmsTests.cpp
 	
 	#include dummy accessor files

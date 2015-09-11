@@ -60,14 +60,14 @@ namespace rttb
 			*/
 			virtual ~RosuMappableDoseAccessor() {};
 
-			DoseTypeGy getDoseAt(const VoxelGridID aID) const;
+			GenericValueType getValueAt(const VoxelGridID aID) const;
 
 			/*! @brief Returns the dose for a given voxel grid index. The computation of the octant around the voxel is done and the interpolation is performed.
 				@details Boundary treatment: if more than 6 subvoxels are outside: return _defaultOutsideValue. Otherwise: ignore the outside values.
 				@return the dose or if (isOutside==true && _acceptPadding==true) then _defaultValue
 				@exception core::MappingOutsideOfImageException if the point is mapped outside and if _acceptPadding==false, possibly returning _defaultValue)
 			*/
-			DoseTypeGy getDoseAt(const VoxelGridIndex3D& aIndex) const;
+			GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const;
 
 		private:
 			/*! @brief returns the octant coordinates around a coordinate.

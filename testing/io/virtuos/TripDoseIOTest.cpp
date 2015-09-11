@@ -117,23 +117,23 @@ namespace rttb
 
 			//3) test dose import accessing dose data and converting
 
-			CHECK_EQUAL(0, doseAccessor1->getDoseAt(start));
-			CHECK_EQUAL(0, doseAccessor1-> getDoseAt(start3D));
-			CHECK_EQUAL(doseAccessor1->getDoseAt(start), doseAccessor1-> getDoseAt(start3D));
+			CHECK_EQUAL(0, doseAccessor1->getValueAt(start));
+			CHECK_EQUAL(0, doseAccessor1-> getValueAt(start3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(start), doseAccessor1-> getValueAt(start3D));
 
 			inbetween = int(std::floor(doseAccessor1->getGridSize() / 2.0));
 			doseAccessor1->getGeometricInfo().convert(inbetween, inbetween3D);
 
-			CHECK_EQUAL(0, doseAccessor1->getDoseAt(inbetween));
-			CHECK_EQUAL(0, doseAccessor1-> getDoseAt(inbetween3D));
-			CHECK_EQUAL(doseAccessor1->getDoseAt(inbetween), doseAccessor1-> getDoseAt(inbetween3D));
+			CHECK_EQUAL(0, doseAccessor1->getValueAt(inbetween));
+			CHECK_EQUAL(0, doseAccessor1-> getValueAt(inbetween3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(inbetween), doseAccessor1-> getValueAt(inbetween3D));
 
 			end = doseAccessor1->getGridSize() - 1;
 			doseAccessor1->getGeometricInfo().convert(end, end3D);
 
-			CHECK_EQUAL(0, doseAccessor1->getDoseAt(end));
-			CHECK_EQUAL(0, doseAccessor1-> getDoseAt(end3D));
-			CHECK_EQUAL(doseAccessor1->getDoseAt(end), doseAccessor1-> getDoseAt(end3D));
+			CHECK_EQUAL(0, doseAccessor1->getValueAt(end));
+			CHECK_EQUAL(0, doseAccessor1-> getValueAt(end3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(end), doseAccessor1-> getValueAt(end3D));
 
 			/* Dose without plan */
 			io::virtuos::VirtuosDoseFileDoseAccessorGenerator doseAccessorGenerator2(RTDOSE2_FILENAME.c_str(),
@@ -158,23 +158,23 @@ namespace rttb
 
 			//3) test dose import accessing dose data and converting
 
-			CHECK_EQUAL(doseAccessor1->getDoseAt(start), doseAccessor2->getDoseAt(start));
-			CHECK_EQUAL(doseAccessor1-> getDoseAt(start3D), doseAccessor2-> getDoseAt(start3D));
-			CHECK_EQUAL(doseAccessor2->getDoseAt(start), doseAccessor2-> getDoseAt(start3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(start), doseAccessor2->getValueAt(start));
+			CHECK_EQUAL(doseAccessor1-> getValueAt(start3D), doseAccessor2-> getValueAt(start3D));
+			CHECK_EQUAL(doseAccessor2->getValueAt(start), doseAccessor2-> getValueAt(start3D));
 
 			inbetween = int(std::floor(doseAccessor2->getGridSize() / 2.0));
 			doseAccessor2->getGeometricInfo().convert(inbetween, inbetween3D);
 
-			CHECK_EQUAL(doseAccessor1->getDoseAt(inbetween), doseAccessor2->getDoseAt(inbetween));
-			CHECK_EQUAL(doseAccessor1-> getDoseAt(inbetween3D), doseAccessor2-> getDoseAt(inbetween3D));
-			CHECK_EQUAL(doseAccessor2->getDoseAt(inbetween), doseAccessor2-> getDoseAt(inbetween3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(inbetween), doseAccessor2->getValueAt(inbetween));
+			CHECK_EQUAL(doseAccessor1-> getValueAt(inbetween3D), doseAccessor2-> getValueAt(inbetween3D));
+			CHECK_EQUAL(doseAccessor2->getValueAt(inbetween), doseAccessor2-> getValueAt(inbetween3D));
 
 			end = doseAccessor2->getGridSize() - 1;
 			doseAccessor2->getGeometricInfo().convert(end, end3D);
 
-			CHECK_EQUAL(doseAccessor1->getDoseAt(end), doseAccessor2->getDoseAt(end));
-			CHECK_EQUAL(doseAccessor1-> getDoseAt(end3D), doseAccessor2-> getDoseAt(end3D));
-			CHECK_EQUAL(doseAccessor2->getDoseAt(end), doseAccessor2-> getDoseAt(end3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(end), doseAccessor2->getValueAt(end));
+			CHECK_EQUAL(doseAccessor1-> getValueAt(end3D), doseAccessor2-> getValueAt(end3D));
+			CHECK_EQUAL(doseAccessor2->getValueAt(end), doseAccessor2-> getValueAt(end3D));
 
 			/* Import Trip dose */
 			io::virtuos::VirtuosDoseFileDoseAccessorGenerator doseAccessorGenerator3(RTDOSE2_FILENAME.c_str(),
@@ -198,16 +198,16 @@ namespace rttb
 
 			//3) test dose import accessing dose data and converting
 
-			CHECK_EQUAL(doseAccessor1->getDoseAt(start), doseAccessor3->getDoseAt(start));
-			CHECK_EQUAL(doseAccessor1-> getDoseAt(start3D), doseAccessor3-> getDoseAt(start3D));
-			CHECK_EQUAL(doseAccessor3->getDoseAt(start), doseAccessor3-> getDoseAt(start3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(start), doseAccessor3->getValueAt(start));
+			CHECK_EQUAL(doseAccessor1-> getValueAt(start3D), doseAccessor3-> getValueAt(start3D));
+			CHECK_EQUAL(doseAccessor3->getValueAt(start), doseAccessor3-> getValueAt(start3D));
 
 			inbetween = int(std::floor(doseAccessor3->getGridSize() / 2.0));
 			doseAccessor3->getGeometricInfo().convert(inbetween, inbetween3D);
 
-			CHECK_EQUAL(doseAccessor1->getDoseAt(inbetween), doseAccessor3->getDoseAt(inbetween));
-			CHECK_EQUAL(doseAccessor1-> getDoseAt(inbetween3D), doseAccessor3-> getDoseAt(inbetween3D));
-			CHECK_EQUAL(doseAccessor3->getDoseAt(inbetween), doseAccessor3-> getDoseAt(inbetween3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(inbetween), doseAccessor3->getValueAt(inbetween));
+			CHECK_EQUAL(doseAccessor1-> getValueAt(inbetween3D), doseAccessor3-> getValueAt(inbetween3D));
+			CHECK_EQUAL(doseAccessor3->getValueAt(inbetween), doseAccessor3-> getValueAt(inbetween3D));
 
 			io::virtuos::VirtuosPlanFileDoseAccessorGenerator doseAccessorGenerator4(RTDOSE2_FILENAME.c_str(),
 			        RTPLAN_FILENAME.c_str());

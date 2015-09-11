@@ -35,7 +35,7 @@ namespace rttb
 		/*! @brief LQModelAccessorTest.
 		1) Test constructor
 		2) Test getGeometricInfo()
-		3) Test getBioModelValueAt()
+		3) Test getValueAt()
 
 		*/
 		int LQModelAccessorTest(int argc, char* argv[])
@@ -73,8 +73,8 @@ namespace rttb
 
 			DoseAccessorPointer doseAccessorNull;
 
-			core::BioModelAccessorInterface::BioModelAccessorPointer LQWithConstantDose;
-			core::BioModelAccessorInterface::BioModelAccessorPointer LQWithIncreaseXDose;
+			core::AccessorInterface::AccessorPointer LQWithConstantDose;
+			core::AccessorInterface::AccessorPointer LQWithIncreaseXDose;
 
 			//1) test constructor
 			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessorNull, 0, 0), core::InvalidDoseException);
@@ -88,22 +88,22 @@ namespace rttb
 			CHECK_EQUAL(LQWithConstantDose->getGeometricInfo(), doseAccessor1GeometricInfo);
 			CHECK_EQUAL(LQWithIncreaseXDose->getGeometricInfo(), doseAccessor2GeometricInfo);
 
-			//3) Test getBioModelValueAt()
+			//3) Test getValueAt()
 
 			models::BioModelParamType expectedLQWithDoseTwo = exp(-(0.2 * 2 + (0.02 * 2 * 2)));
-			CHECK_EQUAL(LQWithConstantDose->getBioModelValueAt(0), expectedLQWithDoseTwo);
-			CHECK_EQUAL(LQWithConstantDose->getBioModelValueAt(LQWithConstantDose->getGridSize() - 1), expectedLQWithDoseTwo);
-			CHECK_EQUAL(LQWithConstantDose->getBioModelValueAt(VoxelGridIndex3D(1, 2, 6)), expectedLQWithDoseTwo);
-			CHECK_EQUAL(LQWithConstantDose->getBioModelValueAt(VoxelGridIndex3D(65, 40, 60)), expectedLQWithDoseTwo);
-			CHECK_EQUAL(LQWithIncreaseXDose->getBioModelValueAt(0), 1);
+			CHECK_EQUAL(LQWithConstantDose->getValueAt(0), expectedLQWithDoseTwo);
+			CHECK_EQUAL(LQWithConstantDose->getValueAt(LQWithConstantDose->getGridSize() - 1), expectedLQWithDoseTwo);
+			CHECK_EQUAL(LQWithConstantDose->getValueAt(VoxelGridIndex3D(1, 2, 6)), expectedLQWithDoseTwo);
+			CHECK_EQUAL(LQWithConstantDose->getValueAt(VoxelGridIndex3D(65, 40, 60)), expectedLQWithDoseTwo);
+			CHECK_EQUAL(LQWithIncreaseXDose->getValueAt(0), 1);
 			models::BioModelParamType expectedLQWithIncreaseX = exp(-(0.3 * 66 * 2.822386e-5 + (0.01 * 66 * 2.822386e-5 * 66 *
 			        2.822386e-5)));
-			CHECK_CLOSE(LQWithIncreaseXDose->getBioModelValueAt(LQWithIncreaseXDose->getGridSize() - 1), expectedLQWithIncreaseX,
+			CHECK_CLOSE(LQWithIncreaseXDose->getValueAt(LQWithIncreaseXDose->getGridSize() - 1), expectedLQWithIncreaseX,
 			            errorConstant);
 			expectedLQWithIncreaseX = exp(-(0.3 * 1 * 2.822386e-5 + (0.01 * 1 * 2.822386e-5 * 1 * 2.822386e-5)));
-			CHECK_CLOSE(LQWithIncreaseXDose->getBioModelValueAt(VoxelGridIndex3D(1, 2, 6)), expectedLQWithIncreaseX, errorConstant);
+			CHECK_CLOSE(LQWithIncreaseXDose->getValueAt(VoxelGridIndex3D(1, 2, 6)), expectedLQWithIncreaseX, errorConstant);
 			expectedLQWithIncreaseX = exp(-(0.3 * 45 * 2.822386e-5 + (0.01 * 45 * 2.822386e-5 * 45 * 2.822386e-5)));
-			CHECK_CLOSE(LQWithIncreaseXDose->getBioModelValueAt(VoxelGridIndex3D(45, 40, 60)), expectedLQWithIncreaseX,
+			CHECK_CLOSE(LQWithIncreaseXDose->getValueAt(VoxelGridIndex3D(45, 40, 60)), expectedLQWithIncreaseX,
 			            errorConstant);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

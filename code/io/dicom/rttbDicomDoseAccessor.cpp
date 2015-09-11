@@ -225,7 +225,7 @@ namespace rttb
 					if (gridFrameOffsetVector.size() >= 2)
 					{
 						spacingVector(2) = gridFrameOffsetVector.at(1) - gridFrameOffsetVector.at(
-							0); //read slice thickness from GridFrameOffsetVector (3004,000c)
+						                       0); //read slice thickness from GridFrameOffsetVector (3004,000c)
 					}
 
 					if (spacingVector(2) == 0)
@@ -244,7 +244,7 @@ namespace rttb
 							try
 							{
 								spacingVector(2) = boost::lexical_cast<GridVolumeType>
-									(pixelSpacingBetweenSlices.c_str());//read slice thickness from PixelSpacingBetweenSlices (0018,0088)
+								                   (pixelSpacingBetweenSlices.c_str());//read slice thickness from PixelSpacingBetweenSlices (0018,0088)
 							}
 							catch (boost::bad_lexical_cast&)
 							{
@@ -257,8 +257,8 @@ namespace rttb
 						if (spacingVector(2) == 0)
 						{
 							std::cerr << "sliceThickness == 0! It wird be replaced with pixelSpacingRow=" <<
-								_geoInfo.getPixelSpacingRow()
-								<< "!" << std::endl;
+							          _geoInfo.getPixelSpacingRow()
+							          << "!" << std::endl;
 							spacingVector(2) = spacingVector(0);
 						}
 
@@ -270,18 +270,18 @@ namespace rttb
 				return true;
 			}
 
-			DoseTypeGy DicomDoseAccessor::getDoseAt(const VoxelGridID aID) const
+			DoseTypeGy DicomDoseAccessor::getValueAt(const VoxelGridID aID) const
 			{
 				return doseData.at(aID) * _doseGridScaling;
 			}
 
-			DoseTypeGy DicomDoseAccessor::getDoseAt(const VoxelGridIndex3D& aIndex) const
+			DoseTypeGy DicomDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 			{
 				VoxelGridID aVoxelGridID;
 
 				if (_geoInfo.convert(aIndex, aVoxelGridID))
 				{
-					return getDoseAt(aVoxelGridID);
+					return getValueAt(aVoxelGridID);
 				}
 				else
 				{

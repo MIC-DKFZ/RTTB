@@ -30,9 +30,9 @@
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
 #include "rttbDoseIteratorInterface.h"
-#include "rttbITKImageDoseAccessor.h"
-#include "rttbITKImageFileDoseAccessorGenerator.h"
-#include "rttbITKImageDoseAccessorGenerator.h"
+#include "rttbITKImageAccessorConverter.h"
+#include "rttbITKImageAccessorGenerator.h"
+#include "rttbITKImageFileAccessorGenerator.h"
 
 
 namespace rttb
@@ -65,7 +65,7 @@ namespace rttb
 			}
 
 			/* read dose in *.mhd file */
-			io::itk::ITKImageFileDoseAccessorGenerator doseAccessorGenerator1(RTDOSE_FILENAME.c_str());
+			io::itk::ITKImageFileAccessorGenerator doseAccessorGenerator1(RTDOSE_FILENAME.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
 
 			//1) test ITK dose import if geometric info was set correctly
@@ -90,31 +90,31 @@ namespace rttb
 			CHECK(!(doseAccessor1->getGeometricInfo().validIndex(VoxelGridIndex3D(
 			            doseAccessor1->getGridSize()))));
 
-			CHECK_EQUAL(0, doseAccessor1->getDoseAt(start));
-			CHECK_EQUAL(doseAccessor1->getDoseAt(start), doseAccessor1-> getDoseAt(start3D));
+			CHECK_EQUAL(0, doseAccessor1->getValueAt(start));
+			CHECK_EQUAL(doseAccessor1->getValueAt(start), doseAccessor1-> getValueAt(start3D));
 
 			inbetween = 204837;
 			doseAccessor1->getGeometricInfo().convert(inbetween, inbetween3D);
 			CHECK(doseAccessor1->getGeometricInfo().validID(inbetween));
 			CHECK(doseAccessor1->getGeometricInfo().validIndex(inbetween3D));
 
-			CHECK_EQUAL(242.0, doseAccessor1->getDoseAt(inbetween));
-			CHECK_EQUAL(doseAccessor1->getDoseAt(inbetween), doseAccessor1-> getDoseAt(inbetween3D));
+			CHECK_EQUAL(242.0, doseAccessor1->getValueAt(inbetween));
+			CHECK_EQUAL(doseAccessor1->getValueAt(inbetween), doseAccessor1-> getValueAt(inbetween3D));
 
 			inbetween2 = 283742;
 			doseAccessor1->getGeometricInfo().convert(inbetween2, inbetween23D);
 			CHECK(doseAccessor1->getGeometricInfo().validID(inbetween2));
 			CHECK(doseAccessor1->getGeometricInfo().validIndex(inbetween23D));
-			CHECK_EQUAL(111.0, doseAccessor1->getDoseAt(inbetween2));
-			CHECK_EQUAL(doseAccessor1->getDoseAt(inbetween2), doseAccessor1-> getDoseAt(inbetween23D));
+			CHECK_EQUAL(111.0, doseAccessor1->getValueAt(inbetween2));
+			CHECK_EQUAL(doseAccessor1->getValueAt(inbetween2), doseAccessor1-> getValueAt(inbetween23D));
 
 			end = doseAccessor1->getGridSize() - 1;
 			doseAccessor1->getGeometricInfo().convert(end, end3D);
 			CHECK(doseAccessor1->getGeometricInfo().validID(end));
 			CHECK(doseAccessor1->getGeometricInfo().validIndex(end3D));
 
-			CHECK_EQUAL(0, doseAccessor1->getDoseAt(end));
-			CHECK_EQUAL(doseAccessor1->getDoseAt(end), doseAccessor1-> getDoseAt(end3D));
+			CHECK_EQUAL(0, doseAccessor1->getValueAt(end));
+			CHECK_EQUAL(doseAccessor1->getValueAt(end), doseAccessor1-> getValueAt(end3D));
 
 			typedef itk::Image< DoseTypeGy, 3 >         DoseImageType;
 			typedef itk::ImageFileReader<DoseImageType> ReaderType;
@@ -124,7 +124,7 @@ namespace rttb
 			reader->SetFileName(RTDOSE_FILENAME);
 			//important to update the reader (won't work without)
 			reader->Update();
-			io::itk::ITKImageDoseAccessorGenerator doseAccessorGenerator2(reader->GetOutput());
+			io::itk::ITKImageAccessorGenerator doseAccessorGenerator2(reader->GetOutput());
 			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
 
 			//3) test ITK dose import accessing dose data and converting (ITKImageDoseAccessor)
@@ -135,28 +135,28 @@ namespace rttb
 			CHECK(!(doseAccessor2->getGeometricInfo().validIndex(VoxelGridIndex3D(
 			            doseAccessor2->getGridSize()))));
 
-			CHECK_EQUAL(0, doseAccessor2->getDoseAt(start));
-			CHECK_EQUAL(doseAccessor2->getDoseAt(start), doseAccessor2->getDoseAt(start3D));
+			CHECK_EQUAL(0, doseAccessor2->getValueAt(start));
+			CHECK_EQUAL(doseAccessor2->getValueAt(start), doseAccessor2->getValueAt(start3D));
 
 			CHECK(doseAccessor2->getGeometricInfo().validID(inbetween));
 			CHECK(doseAccessor2->getGeometricInfo().validIndex(inbetween3D));
 
-			CHECK_EQUAL(242.0, doseAccessor2->getDoseAt(inbetween));
-			CHECK_EQUAL(doseAccessor2->getDoseAt(inbetween), doseAccessor2->getDoseAt(inbetween3D));
+			CHECK_EQUAL(242.0, doseAccessor2->getValueAt(inbetween));
+			CHECK_EQUAL(doseAccessor2->getValueAt(inbetween), doseAccessor2->getValueAt(inbetween3D));
 
 			CHECK(doseAccessor2->getGeometricInfo().validID(inbetween2));
 			CHECK(doseAccessor2->getGeometricInfo().validIndex(inbetween23D));
 
-			CHECK_EQUAL(111.0, doseAccessor2->getDoseAt(inbetween2));
-			CHECK_EQUAL(doseAccessor2->getDoseAt(inbetween2), doseAccessor2->getDoseAt(inbetween23D));
+			CHECK_EQUAL(111.0, doseAccessor2->getValueAt(inbetween2));
+			CHECK_EQUAL(doseAccessor2->getValueAt(inbetween2), doseAccessor2->getValueAt(inbetween23D));
 
 			end = doseAccessor2->getGridSize() - 1;
 			doseAccessor2->getGeometricInfo().convert(end, end3D);
 			CHECK(doseAccessor2->getGeometricInfo().validID(end));
 			CHECK(doseAccessor2->getGeometricInfo().validIndex(end3D));
 
-			CHECK_EQUAL(0, doseAccessor2->getDoseAt(end));
-			CHECK_EQUAL(doseAccessor2->getDoseAt(end), doseAccessor2-> getDoseAt(end3D));
+			CHECK_EQUAL(0, doseAccessor2->getValueAt(end));
+			CHECK_EQUAL(doseAccessor2->getValueAt(end), doseAccessor2-> getValueAt(end3D));
 
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

@@ -92,15 +92,15 @@ namespace rttb
 			/*! @brief Returns the dose for a given VoxelGridID (convenience function that handles conversion VoxelGridID->VoxelGridIndex3D)
 				@sa getDoseAt(const VoxelGridIndex3D& aIndex)
 			*/
-			DoseTypeGy getDoseAt(const VoxelGridID aID) const = 0;
+			GenericValueType getValueAt(const VoxelGridID aID) const = 0;
 
 			/*! @brief Returns the dose for a given VoxelGridIndex3D
 			*/
-			virtual DoseTypeGy getDoseAt(const VoxelGridIndex3D& aIndex) const = 0 ;
+			virtual GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const = 0 ;
 
-			const IDType getDoseUID() const
+			const IDType getUID() const
 			{
-				return _spOriginalDoseDataMovingImage->getDoseUID();
+				return _spOriginalDoseDataMovingImage->getUID();
 			};
 		};
 	}

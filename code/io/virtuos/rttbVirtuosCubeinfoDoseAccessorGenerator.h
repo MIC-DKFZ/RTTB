@@ -26,16 +26,20 @@
 #include <exception>
 
 #include "rttbDoseAccessorGeneratorBase.h"
+#include "rttbDoseAccessorInterface.h"
 #include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
 
 #include "ncfile.h"
 
-namespace rttb{
-	namespace io{
-		namespace virtuos{
+namespace rttb
+{
+	namespace io
+	{
+		namespace virtuos
+		{
 
-			/*! @class VirtuosCubeinfoDoseAccessorGenerator         
+			/*! @class VirtuosCubeinfoDoseAccessorGenerator
 			@brief Generate DoseAccessor with Virtuos Cubeinfo
 			*/
 			class VirtuosCubeinfoDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
@@ -43,31 +47,32 @@ namespace rttb{
 			public:
 				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
 
-			private: 
-				Cubeinfo **_pPointerOnVirtuosCube;
+			private:
+				Cubeinfo** _pPointerOnVirtuosCube;
 				DoseTypeGy _normalizationDose;
 				DoseTypeGy _prescribedDose;
 
-				
+
 				VirtuosCubeinfoDoseAccessorGenerator();
 
 			protected:
-				
 
 
-			public: 
+
+			public:
 				~VirtuosCubeinfoDoseAccessorGenerator();
 
-				/*! @brief Constructor. Initialisation with a Cubeinfo*. 
+				/*! @brief Constructor. Initialisation with a Cubeinfo*.
 				@param normalizationDose is defined as (prescribedDose*1000)/maxDoseInGy. Default is 1 Gy.
 				@param prescribedDose the does that was planned in the reference point in Gy. Default is 1 Gy.
 				*/
-				VirtuosCubeinfoDoseAccessorGenerator(Cubeinfo *aPointerOnVirtuosCube, DoseTypeGy normalizationDose = 1, DoseTypeGy prescribedDose = 1);
-				/*! @brief Generate DoseAccessor 
-				@return Return shared pointer of DoseAccessor. 
+				VirtuosCubeinfoDoseAccessorGenerator(Cubeinfo* aPointerOnVirtuosCube, DoseTypeGy normalizationDose = 1,
+				                                     DoseTypeGy prescribedDose = 1);
+				/*! @brief Generate DoseAccessor
+				@return Return shared pointer of DoseAccessor.
 				*/
 				DoseAccessorPointer generateDoseAccessor() ;
-				
+
 			};
 		}
 	}

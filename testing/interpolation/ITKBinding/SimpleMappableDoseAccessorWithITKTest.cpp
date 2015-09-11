@@ -87,7 +87,7 @@ namespace rttb
 			NearestNeighborInterpolation::Pointer interpolationNN =
 			    NearestNeighborInterpolation::Pointer(new NearestNeighborInterpolation());
 			LinearInterpolation::Pointer interpolationLinear = LinearInterpolation::Pointer
-			                           (new LinearInterpolation());
+			        (new LinearInterpolation());
 
 			//auto transformITKIdentity = TransformationInterface::Pointer(new ITKTransformation(
 			//                                IdentityTransformType::New()));
@@ -101,7 +101,7 @@ namespace rttb
 			transformITKIdentityTemporary->Translate(translationIdentity);
 
 			TransformationInterface::Pointer transformITKIdentity = TransformationInterface::Pointer(new ITKTransformation(
-			                                transformITKIdentityTemporary));
+			            transformITKIdentityTemporary));
 
 			TranslationTransformType::Pointer transformITKTranslationTemporary =
 			    TranslationTransformType::New();
@@ -112,12 +112,14 @@ namespace rttb
 			transformITKTranslationTemporary->Translate(translation);
 
 			TransformationInterface::Pointer transformITKTranslation = TransformationInterface::Pointer(new ITKTransformation(
-			                                   transformITKTranslationTemporary));
+			            transformITKTranslationTemporary));
 
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorITKIdentity = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformITKIdentity, interpolationLinear));
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorITKTranslation = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
-			    doseAccessor1GeometricInfo, doseAccessor2, transformITKTranslation, interpolationLinear));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorITKIdentity = SimpleMappableDoseAccessor::Pointer(
+			            new SimpleMappableDoseAccessor(
+			                doseAccessor1GeometricInfo, doseAccessor2, transformITKIdentity, interpolationLinear));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorITKTranslation = SimpleMappableDoseAccessor::Pointer(
+			            new SimpleMappableDoseAccessor(
+			                doseAccessor1GeometricInfo, doseAccessor2, transformITKTranslation, interpolationLinear));
 
 			//1) Test constructor
 			CHECK_NO_THROW(SimpleMappableDoseAccessor(
@@ -148,11 +150,11 @@ namespace rttb
 				VoxelGridID currentId;
 				doseAccessor1GeometricInfo.convert(voxelsAsIndexToTest.at(i), currentId);
 				//test if the expected interpolation values are computed
-				CHECK_EQUAL(aSimpleMappableDoseAccessorITKIdentity->getDoseAt(voxelsAsIndexToTest.at(i)),
+				CHECK_EQUAL(aSimpleMappableDoseAccessorITKIdentity->getValueAt(voxelsAsIndexToTest.at(i)),
 				            expectedValues.at(i));
 				//test if getDoseAt(VoxelGridIndex3D) and getDoseAt(VoxelGridD) lead to the same results
-				CHECK_EQUAL(aSimpleMappableDoseAccessorITKIdentity->getDoseAt(voxelsAsIndexToTest.at(i)),
-				            aSimpleMappableDoseAccessorITKIdentity->getDoseAt(currentId));
+				CHECK_EQUAL(aSimpleMappableDoseAccessorITKIdentity->getValueAt(voxelsAsIndexToTest.at(i)),
+				            aSimpleMappableDoseAccessorITKIdentity->getValueAt(currentId));
 			}
 
 
@@ -171,11 +173,11 @@ namespace rttb
 				VoxelGridID currentId;
 				doseAccessor1GeometricInfo.convert(voxelsAsIndexToTest.at(i), currentId);
 				//test if the expected interpolation values are computed
-				CHECK_EQUAL(aSimpleMappableDoseAccessorITKTranslation->getDoseAt(voxelsAsIndexToTest.at(i)),
+				CHECK_EQUAL(aSimpleMappableDoseAccessorITKTranslation->getValueAt(voxelsAsIndexToTest.at(i)),
 				            expectedValues.at(i));
 				//test if getDoseAt(VoxelGridIndex3D) and getDoseAt(VoxelGridD) lead to the same results
-				CHECK_EQUAL(aSimpleMappableDoseAccessorITKTranslation->getDoseAt(voxelsAsIndexToTest.at(i)),
-				            aSimpleMappableDoseAccessorITKTranslation->getDoseAt(currentId));
+				CHECK_EQUAL(aSimpleMappableDoseAccessorITKTranslation->getValueAt(voxelsAsIndexToTest.at(i)),
+				            aSimpleMappableDoseAccessorITKTranslation->getValueAt(currentId));
 			}
 
 

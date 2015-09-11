@@ -300,18 +300,18 @@ namespace rttb
 				return true;
 			}
 
-			DoseTypeGy DicomHelaxDoseAccessor::getDoseAt(const VoxelGridID aID) const
+			DoseTypeGy DicomHelaxDoseAccessor::getValueAt(const VoxelGridID aID) const
 			{
 				return _doseData.at(aID) * _doseGridScaling;
 			}
 
-			DoseTypeGy DicomHelaxDoseAccessor::getDoseAt(const VoxelGridIndex3D& aIndex) const
+			DoseTypeGy DicomHelaxDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 			{
 				VoxelGridID aVoxelGridID;
 
 				if (_geoInfo.convert(aIndex, aVoxelGridID))
 				{
-					return getDoseAt(aVoxelGridID);
+					return getValueAt(aVoxelGridID);
 				}
 				else
 				{

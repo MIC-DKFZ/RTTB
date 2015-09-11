@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date $Date$ (last change date)
-// @author $Author$ (last changed by)
+// @version $Revision: 793 $ (last changed revision)
+// @date $Date: 2014-10-10 10:24:45 +0200 (Fr, 10 Okt 2014) $ (last change date)
+// @author $Author: hentsch $ (last changed by)
 */
 
 // this file defines the rttbCoreTests for the test driver
@@ -34,10 +34,14 @@
 
 #include "rttbBaseType.h"
 #include "rttbDoseIteratorInterface.h"
+#include "rttbAccessorInterface.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomDoseAccessor.h"
-#include "rttbITKImageAccessorConverter.h"
+#include "rttbLQModelAccessor.h"
+#include "rttbITKImageAccessor.h"
 #include "rttbITKImageFileAccessorGenerator.h"
+#include "rttbITKImageAccessorGenerator.h"
+#include "rttbITKImageAccessorConverter.h"
 #include "rttbDoseAccessorProcessorBase.h"
 #include "rttbDoseAccessorConversionSettingInterface.h"
 #include "rttbInvalidDoseException.h"
@@ -49,82 +53,53 @@ namespace rttb
 	namespace testing
 	{
 
-		/*!@brief ITKDoseAccessorConverterTest - test the conversion rttb dose accessor ->itk
+		/*!@brief ITKBioModelAccessorConverterTest - test the conversion rttb BioModel accessor ->itk
 		1) test with dicom file (DicomDoseAccessorGenerator)
-		2) test with mhd file (ITKImageFileDoseAccessorGenerator)
 		*/
 
-		int ITKDoseAccessorConverterTest(int argc, char* argv[])
+		int ITKBioModelAccessorConverterTest(int argc, char* argv[])
 		{
-			typedef core::DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
+			typedef core::AccessorInterface::AccessorPointer AccessorPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
-			//ARGUMENTS:
-			//           1: dose1 file name
-			//           2: dose2 file name
 
 			std::string RTDOSE_FILENAME;
-			std::string RTDOSE2_FILENAME;
 
 			if (argc > 1)
 			{
 				RTDOSE_FILENAME = argv[1];
 			}
 
-			if (argc > 2)
-			{
-				RTDOSE2_FILENAME = argv[2];
-			}
-
-			//1) Read dicomFile and test getITKImage()
+			//1) Read dicomFile and test process() and  getITKImage()
 
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator(RTDOSE_FILENAME.c_str());
-			DoseAccessorPointer doseAccessor(doseAccessorGenerator.generateDoseAccessor());
+			auto doseAccessor(doseAccessorGenerator.generateDoseAccessor());
 
-			io::itk::ITKImageAccessorConverter itkConverter(doseAccessor);
+			AccessorPointer LQWithConstantDose = boost::make_shared<models::LQModelAccessor>(doseAccessor, 0.2, 0.02);
+
+			io::itk::ITKImageAccessorConverter itkConverter(LQWithConstantDose);
 
 			CHECK_NO_THROW(itkConverter.process());
 			CHECK_NO_THROW(itkConverter.getITKImage());
 
-			io::itk::ITKImageAccessorConverter::ITKImageType::IndexType itkIndex;
+			io::itk::ITKImageAccessor::ITKImageType::IndexType itkIndex;
 			itkIndex[0] = itkIndex[1] = itkIndex[2] = 0;
 
 			VoxelGridIndex3D rttbIndex(0, 0, 0);
 
-			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), doseAccessor->getValueAt(rttbIndex));
+			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), LQWithConstantDose->getValueAt(rttbIndex));
 
 			itkIndex[0] = rttbIndex[0] = doseAccessor->getGeometricInfo().getNumColumns() / 2;
 			itkIndex[1] = rttbIndex[1] = doseAccessor->getGeometricInfo().getNumRows() / 2;
 			itkIndex[2] = rttbIndex[2] = doseAccessor->getGeometricInfo().getNumSlices() / 2;
 
-			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), doseAccessor->getValueAt(rttbIndex));
+			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), LQWithConstantDose->getValueAt(rttbIndex));
 
 			itkIndex[0] = rttbIndex[0] = doseAccessor->getGeometricInfo().getNumColumns() - 1;
 			itkIndex[1] = rttbIndex[1] = doseAccessor->getGeometricInfo().getNumRows() - 1;
 			itkIndex[2] = rttbIndex[2] = doseAccessor->getGeometricInfo().getNumSlices() - 1;
 
-			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), doseAccessor->getValueAt(rttbIndex));
-
-			//2) Read mhdFile and test getITKImage() with Litmus TestImageIO
-
-			io::itk::ITKImageFileAccessorGenerator doseAccessorGenerator2(RTDOSE2_FILENAME.c_str());
-			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
-
-			io::itk::ITKImageAccessorConverter itkConverter2(doseAccessor2);
-
-			CHECK_NO_THROW(itkConverter2.process());
-			CHECK_NO_THROW(itkConverter2.getITKImage());
-
-			io::itk::ITKImageAccessorConverter::ITKImageType::Pointer expectedImage =
-			    lit::TestImageIO<unsigned char, io::itk::ITKImageAccessorConverter::ITKImageType>::readImage(
-			        RTDOSE2_FILENAME);
-
-			::lit::ImageTester<io::itk::ITKImageAccessorConverter::ITKImageType, io::itk::ITKImageAccessorConverter::ITKImageType >
-			tester;
-			tester.setExpectedImage(expectedImage);
-			tester.setActualImage(itkConverter2.getITKImage());
-
-			CHECK_TESTER(tester);
+			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), LQWithConstantDose->getValueAt(rttbIndex));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

@@ -3,10 +3,10 @@ SET(CPP_FILES
 	rttbGenericImageReader.cpp
 	rttbImageWriter.cpp
 	rttbITKException.cpp
-	rttbITKImageDoseAccessor.cpp
-	rttbITKImageDoseAccessorConverter.cpp
-	rttbITKImageDoseAccessorGenerator.cpp
-	rttbITKImageFileDoseAccessorGenerator.cpp
+	rttbITKImageAccessor.cpp
+	rttbITKImageAccessorConverter.cpp
+	rttbITKImageAccessorGenerator.cpp
+	rttbITKImageFileAccessorGenerator.cpp
 	rttbITKImageFileMaskAccessorGenerator.cpp
 	rttbITKImageMaskAccessor.cpp
 	rttbITKImageMaskAccessorGenerator.cpp
@@ -24,10 +24,10 @@ SET(H_FILES
 	rttbImageReader.tpp
 	rttbImageWriter.h
 	rttbITKException.h
-	rttbITKImageDoseAccessor.h
-	rttbITKImageDoseAccessorConverter.h
-	rttbITKImageDoseAccessorGenerator.h
-	rttbITKImageFileDoseAccessorGenerator.h
+	rttbITKImageAccessor.h
+	rttbITKImageAccessorConverter.h
+	rttbITKImageAccessorGenerator.h
+	rttbITKImageFileAccessorGenerator.h
 	rttbITKImageFileMaskAccessorGenerator.h
 	rttbITKImageMaskAccessor.h
 	rttbITKImageMaskAccessorConverter.h

@@ -20,6 +20,9 @@ ADD_TEST(ITKIOTest ${ITKIO_TEST} ITKIOTest
 
 ADD_TEST(ITKDoseAccessorConverterTest ${ITKIO_TEST} ITKDoseAccessorConverterTest 
  "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm" "${TEST_DATA_ROOT}/MatchPointLogo.mhd" )
+ 
+ ADD_TEST(ITKBioModelAccessorConverterTest ${ITKIO_TEST} ITKBioModelAccessorConverterTest 
+ "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm")
 
 ADD_TEST(ITKMaskAccessorGeneratorTest ${ITKIO_TEST} ITKMaskAccessorGeneratorTest
 "${TEST_DATA_ROOT}/MatchPointLogo.mhd") 
@@ -28,5 +31,5 @@ ADD_TEST(ITKMaskAccessorConverterTest ${ITKIO_TEST} ITKMaskAccessorConverterTest
  "${TEST_DATA_ROOT}/MatchPointLogo.mhd")
 
 
-RTTB_CREATE_TEST_MODULE(rttbITKIO DEPENDS RTTBITKIO RTTBDicomIO RTTBMasks RTTBOTBMask PACKAGE_DEPENDS Boost Litmus MatchPoint ITK DCMTK)
+RTTB_CREATE_TEST_MODULE(rttbITKIO DEPENDS RTTBITKIO RTTBDicomIO RTTBMasks RTTBOTBMask RTTBModels PACKAGE_DEPENDS Boost Litmus MatchPoint ITK DCMTK)
 
