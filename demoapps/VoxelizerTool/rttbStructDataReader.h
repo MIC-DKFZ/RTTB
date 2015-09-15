@@ -49,26 +49,26 @@ namespace rttb
 				/**@brief read all labels an save it in a vector.
 				@return a vector of all labels
 				*/
-				std::vector<std::string> getAllLabels();
+				std::vector<std::string> getAllLabels() const;
 				/**@brief
 				@return the objekt _rtStructureSet
 				*/
-				StructureSetPointer getStructureSetPointer();
+				StructureSetPointer getStructureSetPointer() const;
 				/**@brief
 				@return the objekt _doseAccessor
 				*/
-				DoseAccessorPointer getDoseAccessorPointer();
+				DoseAccessorPointer getDoseAccessorPointer() const;
 
 			private:
 
 				/**@brief read a referencefile
 				@return the result as object
 				*/
-				DoseAccessorPointer readReferenceFile(const std::string& referencefile);
+				DoseAccessorPointer readReferenceFile(const std::string& referencefile) const;
 				/**@brief read a structfile
 				@return the result as object
 				*/
-				StructureSetPointer readStructFile(const std::string& structfile);
+				StructureSetPointer readStructFile(const std::string& structfile) const;
 
 				StructureSetPointer _rtStructureSet;
 				DoseAccessorPointer _doseAccessor;

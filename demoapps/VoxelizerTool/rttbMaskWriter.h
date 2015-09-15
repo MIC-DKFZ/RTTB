@@ -52,17 +52,17 @@ namespace rttb
 				/**@brief write the mask into the outputfile
 				@param Outputfilename
 				*/
-				void writeMaskToFile(const std::string& outputFileName);
+				void writeMaskToFile(const std::string& outputFileName) const;
 
 			private:
 
-				ITKImageTypeConstPointer AddMultipleStructsToImage();
-				ITKImageTypeConstPointer ApplyThresholdFilter(ITKImageTypeConstPointer itkImage);
-				void WriteITKImageToFile(ITKImageTypeConstPointer itkImage, const std::string& outputfilename);
+				ITKImageTypeConstPointer addMultipleStructsToImage() const;
+				ITKImageTypeConstPointer applyThresholdFilter(ITKImageTypeConstPointer itkImage) const;
+				void writeITKImageToFile(ITKImageTypeConstPointer itkImage, const std::string& outputfilename) const;
 
 				//MaskAccessorPointer _maskAccessorPtr;
 				bool _booleanvoxelization;
-				std::vector<MaskAccessorPointer> _MaskPointerList;
+				std::vector<MaskAccessorPointer> _maskPointerVector;
 			};
 		}
 	}

@@ -30,33 +30,54 @@ int main(int argc, char* argv[])
 {
 	typedef rttb::core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
 
-	boost::shared_ptr<rttb::apps::voxelizer::CommandOptions> CO =
+	boost::shared_ptr<rttb::apps::voxelizer::CommandOptions> co =
 	    boost::make_shared<rttb::apps::voxelizer::CommandOptions>();
 
-	if (!CO->command(argc, argv))
+	if (!co->command(argc, argv))
 	{
 		return EXIT_FAILURE;
 	}
 
-	rttb::apps::voxelizer::Parameters params = CO->getParameters();
+	rttb::apps::voxelizer::Parameters params = co->getParameters();
 
 	if (!params.structFile.empty() && !params.referenceFile.empty())
 	{
-		boost::shared_ptr<rttb::apps::voxelizer::StructDataReader> SDR =
-		    boost::make_shared<rttb::apps::voxelizer::StructDataReader>(params.structFile,
-		            params.referenceFile);
+		boost::shared_ptr<rttb::apps::voxelizer::StructDataReader> SDR;
 
-		std::vector<int> ListOfCorrectElements;
+		try
+		{
+			SDR = boost::make_shared<rttb::apps::voxelizer::StructDataReader>(params.structFile,
+			        params.referenceFile);
+		}
+		catch (rttb::core::Exception& e)
+		{
+			std::cerr << "RTTB Error!!!" << std::endl;
+			std::cerr << e.what() << std::endl;
+			return 1;
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << "Error!!!" << std::endl;
+			std::cerr << e.what() << std::endl;
+			return 1;
+		}
+		catch (...)
+		{
+			std::cerr << "Error!!! unknown error while reading input image." << std::endl;
+			return 1;
+		}
+
+		std::vector<int> listOfCorrectElements;
 
 		for (int i = 0; i < params.regEx.size(); i++)
 		{
-			std::vector<int> IndexOfCorrectElements;
-			IndexOfCorrectElements = rttb::apps::voxelizer::filterForExpression(SDR->getAllLabels(),
+			std::vector<int> indexOfCorrectElements;
+			indexOfCorrectElements = rttb::apps::voxelizer::filterForExpression(SDR->getAllLabels(),
 			                         params.regEx.at(i));
 
-			for (int k = 0 ; k < IndexOfCorrectElements.size() ; k++)
+			for (int k = 0 ; k < indexOfCorrectElements.size() ; k++)
 			{
-				ListOfCorrectElements.push_back(IndexOfCorrectElements.at(k));
+				listOfCorrectElements.push_back(indexOfCorrectElements.at(k));
 			}
 		}
 
@@ -65,60 +86,60 @@ int main(int argc, char* argv[])
 		            SDR->getDoseAccessorPointer(),
 		            params.legacyVoxelization);
 
-		if (!ListOfCorrectElements.empty())
+		if (!listOfCorrectElements.empty())
 		{
-			std::string FileName = rttb::apps::voxelizer::getFilenameWithoutEnding(
+			std::string fileName = rttb::apps::voxelizer::getFilenameWithoutEnding(
 			                           params.outputFilename);
-			std::string FileEnding = rttb::apps::voxelizer::getFileEnding(params.outputFilename);
+			std::string fileEnding = rttb::apps::voxelizer::getFileEnding(params.outputFilename);
 
-			std::vector<MaskAccessorPointer> MaskPointer;
+			std::vector<MaskAccessorPointer> maskPointer;
 
 			if (params.addStructures)
 			{
-				std::string LabelName;
+				std::string labelName;
 
-				for (int i = 0; i < ListOfCorrectElements.size(); i++)
+				for (int i = 0; i < listOfCorrectElements.size(); i++)
 				{
-					MaskPointer.push_back(MP->createMask(ListOfCorrectElements.at(i)));
+					maskPointer.push_back(MP->createMask(listOfCorrectElements.at(i)));
 
-					LabelName += "_" + rttb::apps::voxelizer::getLabelFromList(SDR->getAllLabels(),
-					             ListOfCorrectElements.at(i));
+					labelName += "_" + rttb::apps::voxelizer::getLabelFromList(SDR->getAllLabels(),
+					             listOfCorrectElements.at(i));
 				}
 
 				boost::shared_ptr<rttb::apps::voxelizer::MaskWriter> MW =
-				    boost::make_shared<rttb::apps::voxelizer::MaskWriter>(MaskPointer,
+				    boost::make_shared<rttb::apps::voxelizer::MaskWriter>(maskPointer,
 				            params.booleanVoxelization);
-				MW->writeMaskToFile(FileName  + LabelName + FileEnding);
+				MW->writeMaskToFile(fileName  + labelName + fileEnding);
 			}
 			else
 			{
 
-				std::string LabelName;
+				std::string labelName;
 
 				if (params.multipleStructs)
 				{
-					for (unsigned int i = 0; i < ListOfCorrectElements.size(); i++)
+					for (unsigned int i = 0; i < listOfCorrectElements.size(); i++)
 					{
-						MaskPointer.push_back(MP->createMask(ListOfCorrectElements.at(i)));
+						maskPointer.push_back(MP->createMask(listOfCorrectElements.at(i)));
 
-						LabelName = rttb::apps::voxelizer::getLabelFromList(SDR->getAllLabels(),
-						            ListOfCorrectElements.at(i));
+						labelName = rttb::apps::voxelizer::getLabelFromList(SDR->getAllLabels(),
+						            listOfCorrectElements.at(i));
 						boost::shared_ptr<rttb::apps::voxelizer::MaskWriter> MW =
-						    boost::make_shared<rttb::apps::voxelizer::MaskWriter>(MaskPointer,
+						    boost::make_shared<rttb::apps::voxelizer::MaskWriter>(maskPointer,
 						            params.booleanVoxelization);
-						MW->writeMaskToFile(FileName + "_" + LabelName + FileEnding);
+						MW->writeMaskToFile(fileName + "_" + labelName + fileEnding);
 					}
 				}
 				else
 				{
-					MaskPointer.push_back(MP->createMask(ListOfCorrectElements.at(0)));
+					maskPointer.push_back(MP->createMask(listOfCorrectElements.at(0)));
 
-					LabelName = rttb::apps::voxelizer::getLabelFromList(SDR->getAllLabels(),
-					            ListOfCorrectElements.at(0));
+					labelName = rttb::apps::voxelizer::getLabelFromList(SDR->getAllLabels(),
+					            listOfCorrectElements.at(0));
 					boost::shared_ptr<rttb::apps::voxelizer::MaskWriter> MW =
-					    boost::make_shared<rttb::apps::voxelizer::MaskWriter>(MaskPointer,
+					    boost::make_shared<rttb::apps::voxelizer::MaskWriter>(maskPointer,
 					            params.booleanVoxelization);
-					MW->writeMaskToFile(FileName + "_" + LabelName + FileEnding);
+					MW->writeMaskToFile(fileName + "_" + labelName + fileEnding);
 
 				}
 

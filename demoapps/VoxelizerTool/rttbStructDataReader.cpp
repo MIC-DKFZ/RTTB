@@ -31,16 +31,15 @@ namespace rttb
 		{
 			StructDataReader::StructDataReader(const std::string& structfile, const std::string& reference)
 			{
-
 				_doseAccessor = readReferenceFile(reference);
 				_rtStructureSet = readStructFile(structfile);
 			}
 
-			std::vector<std::string> StructDataReader::getAllLabels()
+			std::vector<std::string> StructDataReader::getAllLabels() const
 			{
 				std::vector<std::string> allLabels;
 
-				if (_rtStructureSet != NULL && _rtStructureSet->getNumberOfStructures() > 0)
+				if (_rtStructureSet != NULL)
 				{
 					for (int j = 0; j < _rtStructureSet->getNumberOfStructures(); j++)
 					{
@@ -51,48 +50,30 @@ namespace rttb
 				return allLabels;
 			}
 
-			StructDataReader::StructureSetPointer StructDataReader::getStructureSetPointer()
+			StructDataReader::StructureSetPointer StructDataReader::getStructureSetPointer() const
 			{
 				return _rtStructureSet;
 			}
 
-			StructDataReader::DoseAccessorPointer StructDataReader::getDoseAccessorPointer()
+			StructDataReader::DoseAccessorPointer StructDataReader::getDoseAccessorPointer() const
 			{
 				return _doseAccessor;
 			}
 
 			StructDataReader::DoseAccessorPointer StructDataReader::readReferenceFile(
-			    const std::string& referencefile)
+			    const std::string& referencefile) const
 			{
-				try
-				{
-					rttb::io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(referencefile.c_str());
-					DoseAccessorPointer doseAccessor(doseAccessorGenerator1.generateDoseAccessor());
-					return doseAccessor;
-				}
-				catch (rttb::core::InvalidParameterException& e)
-				{
-					std::cerr << "ExceptionObject caught !" << std::endl;
-					std::cerr << e.what() << std::endl;
-					return NULL;
-				}
+				rttb::io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(referencefile.c_str());
+				DoseAccessorPointer doseAccessor(doseAccessorGenerator1.generateDoseAccessor());
+				return doseAccessor;
 			}
 
 			StructDataReader::StructureSetPointer StructDataReader::readStructFile(
-			    const std::string& structfile)
+			    const std::string& structfile) const
 			{
-				try
-				{
-					StructureSetPointer rtStructureSet = rttb::io::dicom::DicomFileStructureSetGenerator(
-					        structfile.c_str()).generateStructureSet();
-					return rtStructureSet;
-				}
-				catch (rttb::core::InvalidParameterException& e)
-				{
-					std::cerr << "ExceptionObject caught !" << std::endl;
-					std::cerr << e.what() << std::endl;
-					return NULL;
-				}
+				StructureSetPointer rtStructureSet = rttb::io::dicom::DicomFileStructureSetGenerator(
+				        structfile.c_str()).generateStructureSet();
+				return rtStructureSet;
 			}
 
 		}

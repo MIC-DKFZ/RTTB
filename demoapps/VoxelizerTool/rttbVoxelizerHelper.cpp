@@ -23,6 +23,7 @@
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/regex.hpp>
 #include <boost/filesystem.hpp>
+#include <iostream>
 
 namespace rttb
 {
@@ -31,8 +32,8 @@ namespace rttb
 		namespace voxelizer
 		{
 
-			std::vector<int> filterForExpression(std::vector<std::string> listOfExpressions,
-			                                     std::string inputExpression)
+			std::vector<int> filterForExpression(const std::vector<std::string>& listOfExpressions,
+			                                     const std::string& inputExpression)
 			{
 
 				std::vector<int> listOfFoundElements;
@@ -40,9 +41,9 @@ namespace rttb
 				for (int j = 0; j < listOfExpressions.size(); j++)
 				{
 					boost::regex e(boost::algorithm::to_lower_copy(inputExpression));
-					std::string StringInList = boost::algorithm::to_lower_copy(listOfExpressions.at(j));
+					std::string s = boost::algorithm::to_lower_copy(listOfExpressions.at(j));
 
-					if (boost::regex_match(StringInList, e))
+					if (boost::regex_match(s, e))
 					{
 						listOfFoundElements.push_back(j);
 					}
@@ -53,32 +54,25 @@ namespace rttb
 
 			std::string getLabelFromList(std::vector<std::string> listOfExpressions, int j)
 			{
+				//Replace / to avoid problems with directories (struct "Magen/DD" --> Magen/DD.mhd), delete trailing . to avoid filenames with two trailing points (Niere re. --> Niere re..mhd)
+				listOfExpressions.at(j).replace(listOfExpressions.at(j).find("/"), 1, "_");
 
-				if (listOfExpressions.at(j).find("/") != std::string::npos)
+				if (listOfExpressions.at(j).substr(listOfExpressions.at(j).size() - 1) == ".")
 				{
-					/*has one of the label a "/" in string for example  "Magen/DD"
-					so the program thinks "Magen" is a directory and will create the file in it.
-					this method replace the "/" to "_"
-					*/
-					return listOfExpressions.at(j).replace(listOfExpressions.at(j).find("/"), 1, "_");
+					listOfExpressions.at(j).replace(listOfExpressions.at(j).size() - 1, 1, "");
 				}
-				else if (listOfExpressions.at(j).substr(listOfExpressions.at(j).size() - 1) == ".")
-				{
-					return listOfExpressions.at(j).replace(listOfExpressions.at(j).size() - 1, 1, "");
-				}
-				else
-				{
-					return listOfExpressions.at(j);
-				}
+
+				std::cout << listOfExpressions.at(j) << std::endl;
+				return listOfExpressions.at(j);
 			}
 
-			std::string getFilenameWithoutEnding(std::string outfilename)
+			std::string getFilenameWithoutEnding(const std::string& outfilename)
 			{
 				boost::filesystem::path p(outfilename);
 				return p.stem().string();
 			}
 
-			std::string getFileEnding(std::string outfilename)
+			std::string getFileEnding(const std::string& outfilename)
 			{
 				boost::filesystem::path p(outfilename);
 				return p.extension().string();

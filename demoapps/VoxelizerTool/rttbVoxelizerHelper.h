@@ -28,18 +28,17 @@ namespace rttb
 	{
 		namespace voxelizer
 		{
-			/**@brief ListofExpression contains inputexpression
+			/**@brief ListofExpression contains input expression
 			@return a vector of found labels
 			*/
-			std::vector<int> filterForExpression(std::vector<std::string> listOfExpressions,
-			                                     std::string inputExpression);
-			/**@brief Search the labe with the posion from index
-			@return a lable from the list as string
+			std::vector<int> filterForExpression(const std::vector<std::string>& listOfExpressions,
+			                                     const std::string& inputExpression);
+			/**@brief Search the label with the position from index
+			@return a label from the list as string
 			*/
 			std::string getLabelFromList(std::vector<std::string> listOfExpressions, int index);
-			std::string getFilenameWithoutEnding(std::string outfilename);
-			std::string getFileEnding(std::string outfilename);
-			bool checkFileEnding(const std::string& filename, const std::string& fileEnding);
+			std::string getFilenameWithoutEnding(const std::string& outfilename);
+			std::string getFileEnding(const std::string& outfilename);
 		}
 	}
 }

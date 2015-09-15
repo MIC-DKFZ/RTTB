@@ -79,7 +79,7 @@ namespace rttb
 
 				const Parameters& getParameters() const
 				{
-					return params;
+					return _params;
 				}
 
 			private:
@@ -103,14 +103,14 @@ namespace rttb
 				const std::string PARAM_REGEX;
 				const std::string PARAM_MULTISTRUCT;
 				const std::string PARAM_HELP;
-				const std::string PARAM_LEGACY;
-				const std::string PARAM_BOOST;
-				const std::string PARAM_BOOLEANVOXELIZATION;
+				const std::string PARAM_LEGACY_VOXELIZATION;
+				const std::string PARAM_BOOST_VOXELIZATION;
+				const std::string PARAM_BOOLEAN_VOXELIZATION;
 				const std::string PARAM_ADDSTRUCTURES;
 
 				/*! create description object */
-				po::options_description description;
-				Parameters params;
+				po::options_description _description;
+				Parameters _params;
 
 				/**@brief minimum arguments that must be present on the Command Line*/
 				int _minArguments;

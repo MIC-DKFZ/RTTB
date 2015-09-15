@@ -50,7 +50,7 @@ namespace rttb
 				/**@brief create a mask with _rtStructureSet and _doseAccessor object.
 				@return a mask object
 				*/
-				MaskAccessorPointer createMask(unsigned int numberOfStruktur);
+				MaskAccessorPointer createMask(unsigned int numberOfStructure) const;
 			private:
 				StructureSetPointer _rtStructureSet;
 				DoseAccessorPointer _doseAccessor;

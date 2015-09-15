@@ -36,31 +36,28 @@ namespace rttb
 			{
 			}
 
-			MaskProcess::MaskAccessorPointer MaskProcess::createMask(unsigned int indexOfStruktur)
+			MaskProcess::MaskAccessorPointer MaskProcess::createMask(unsigned int indexOfStructure) const
 			{
 				MaskAccessorPointer maskAccessorPtr;
 
-				if (_doseAccessor != NULL)
+				if (_doseAccessor != NULL && _rtStructureSet != NULL)
 				{
 					if (_legacyVoxelization)
 					{
 						maskAccessorPtr = boost::make_shared<rttb::masks::legacy::OTBMaskAccessor>
-						                  (_rtStructureSet->getStructure(indexOfStruktur), _doseAccessor->getGeometricInfo());
+						                  (_rtStructureSet->getStructure(indexOfStructure), _doseAccessor->getGeometricInfo());
 					}
 					else
 					{
 						maskAccessorPtr = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-						                  (_rtStructureSet->getStructure(indexOfStruktur), _doseAccessor->getGeometricInfo());
+						                  (_rtStructureSet->getStructure(indexOfStructure), _doseAccessor->getGeometricInfo());
 					}
 
 					maskAccessorPtr->updateMask();
-					return maskAccessorPtr;
+				}
 
-				}
-				else
-				{
-					return maskAccessorPtr;
-				}
+				return maskAccessorPtr;
+
 			}
 		}
 	}

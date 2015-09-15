@@ -32,43 +32,43 @@ namespace rttb
 		namespace voxelizer
 		{
 			MaskWriter::MaskWriter(std::vector<MaskAccessorPointer> maskPointer,
-			                       bool voxelization) : _MaskPointerList(maskPointer), _booleanvoxelization(voxelization)
+			                       bool voxelization) : _maskPointerVector(maskPointer), _booleanvoxelization(voxelization)
 			{
 			}
 
-			void MaskWriter::writeMaskToFile(const std::string& outputFileName)
+			void MaskWriter::writeMaskToFile(const std::string& outputFileName) const
 			{
-				if (!_MaskPointerList.empty())
+				if (!_maskPointerVector.empty())
 				{
 					ITKImageTypeConstPointer itkImage;
 
-					if (_MaskPointerList.size() > 1)
+					if (_maskPointerVector.size() > 1)
 					{
-						itkImage = AddMultipleStructsToImage();
+						itkImage = addMultipleStructsToImage();
 					}
 					else
 					{
-						io::itk::ITKImageMaskAccessorConverter maskAccessorConverter(_MaskPointerList.at(0));
+						io::itk::ITKImageMaskAccessorConverter maskAccessorConverter(_maskPointerVector.at(0));
 						maskAccessorConverter.process();
 						itkImage = maskAccessorConverter.getITKImage();
 					}
 
 					if (_booleanvoxelization)
 					{
-						itkImage = ApplyThresholdFilter(itkImage);
+						itkImage = applyThresholdFilter(itkImage);
 					}
 
-					WriteITKImageToFile(itkImage, outputFileName);
+					writeITKImageToFile(itkImage, outputFileName);
 				}
 			}
 
-			MaskWriter::ITKImageTypeConstPointer MaskWriter::AddMultipleStructsToImage()
+			MaskWriter::ITKImageTypeConstPointer MaskWriter::addMultipleStructsToImage() const
 			{
 				std::vector<ITKImageTypePointer> listOfITKImages;
 
-				for (int i = 0; i < _MaskPointerList.size(); i++)
+				for (int i = 0; i < _maskPointerVector.size(); i++)
 				{
-					io::itk::ITKImageMaskAccessorConverter maskAccessorConverter(_MaskPointerList.at(i));
+					io::itk::ITKImageMaskAccessorConverter maskAccessorConverter(_maskPointerVector.at(i));
 					maskAccessorConverter.process();
 					listOfITKImages.push_back(maskAccessorConverter.getITKImage());
 				}
@@ -99,6 +99,7 @@ namespace rttb
 					{
 						std::cerr << "ExceptionObject caught !" << std::endl;
 						std::cerr << err << std::endl;
+						return NULL;
 					}
 
 					filterResult = addFilter->GetOutput();
@@ -107,8 +108,8 @@ namespace rttb
 				return filterResult;
 			}
 
-			MaskWriter::ITKImageTypeConstPointer MaskWriter::ApplyThresholdFilter(
-			    ITKImageTypeConstPointer itkImage)
+			MaskWriter::ITKImageTypeConstPointer MaskWriter::applyThresholdFilter(
+			    ITKImageTypeConstPointer itkImage) const
 			{
 
 				typedef itk::BinaryThresholdImageFilter< ITKMaskImageType, ITKMaskImageType >  FilterType;
@@ -117,7 +118,6 @@ namespace rttb
 				filter->SetInput(itkImage);
 				filter->SetLowerThreshold(0.5);
 				filter->SetUpperThreshold(1.0);
-				filter->SetOutsideValue(0.0);
 				filter->SetInsideValue(1.0);
 
 				try
@@ -128,13 +128,14 @@ namespace rttb
 				{
 					std::cerr << "ExceptionObject caught !" << std::endl;
 					std::cerr << err << std::endl;
+					return NULL;
 				}
 
 				return filter->GetOutput();
 			}
 
-			void MaskWriter::WriteITKImageToFile(ITKImageTypeConstPointer itkImage,
-			                                     const std::string& outputfilename)
+			void MaskWriter::writeITKImageToFile(ITKImageTypeConstPointer itkImage,
+			                                     const std::string& outputfilename) const
 			{
 				typedef  itk::ImageFileWriter< ITKMaskImageType > WriterType;
 				WriterType::Pointer writer = WriterType::New();
@@ -150,7 +151,6 @@ namespace rttb
 				{
 					std::cerr << "ExceptionObject caught !" << std::endl;
 					std::cerr << err << std::endl;
-
 				}
 			}
 		}

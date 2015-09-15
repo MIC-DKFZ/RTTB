@@ -37,42 +37,41 @@ namespace rttb
 				PARAM_OUT_FILE("output"),
 				PARAM_REGEX("struct"),
 				PARAM_MULTISTRUCT("multipleStructs"),
-				PARAM_LEGACY("legacyVoxelization"),
-				PARAM_BOOST("boostVoxelization"),
-				PARAM_BOOLEANVOXELIZATION("booleanVoxelization"),
+				PARAM_LEGACY_VOXELIZATION("legacyVoxelization"),
+				PARAM_BOOST_VOXELIZATION("boostVoxelization"),
+				PARAM_BOOLEAN_VOXELIZATION("booleanVoxelization"),
 				PARAM_ADDSTRUCTURES("addStructures")
 			{
 
-				params.multipleStructs = false;
-				params.legacyVoxelization = false;
-				params.booleanVoxelization  = false;
-				params.addStructures = false;
+				_params.multipleStructs = false;
+				_params.legacyVoxelization = false;
+				_params.booleanVoxelization  = false;
+				_params.addStructures = false;
 
 				po::options_description required("Required arguments");
-				addOption(required, PARAM_STRUCT_FILE, "s", po::value<std::string>(&params.structFile),
+				addOption(required, PARAM_STRUCT_FILE, "s", po::value<std::string>(&_params.structFile)->required(),
 				          "Filename of the structfile (*.dcm)");
-				addOption(required, PARAM_REFERENCE_FILE, "r", po::value<std::string>(&params.referenceFile),
+				addOption(required, PARAM_REFERENCE_FILE, "r", po::value<std::string>(&_params.referenceFile)->required(),
 				          "Filename of the reference image (*.dcm)");
-
 				addOption(required, PARAM_REGEX, "e",
-				          po::value<std::vector<std::string>>(&params.regEx)->multitoken(),
+				          po::value<std::vector<std::string>>(&_params.regEx)->multitoken()->required(),
 				          "set a regular expression describing the structs of interest");
+				addOption(required, PARAM_OUT_FILE, "o",
+				          po::value<std::string>(&_params.outputFilename)->default_value("out.hdr")->required(), "set output file name ");
+				addOption(required, PARAM_BOOST_VOXELIZATION, "b", po::bool_switch()->default_value(true), "to use boost voxelization");
 
 				po::options_description optional("Optional arguments");
 				addOption(optional, PARAM_HELP, "h", nullptr, "Display help message");
-				addOption(optional, PARAM_OUT_FILE, "o",
-				          po::value<std::string>(&params.outputFilename)->default_value("out.hdr"), "set output file name ");
-				addOption(optional, PARAM_MULTISTRUCT, "m", nullptr,
-				          "if multiple structs are found, save all in files");
-				addOption(optional, PARAM_BOOST, "b", nullptr, "for boost voxelization");
-				addOption(optional, PARAM_LEGACY, "l", nullptr,
-				          "for legacy voxelization");
-				addOption(optional, PARAM_BOOLEANVOXELIZATION, "v", nullptr,
-				          "Determines if the voxelization should have only boolean values (0 or 1)");
-				addOption(optional, PARAM_ADDSTRUCTURES, "a", nullptr,
-				          "");
+				addOption(optional, PARAM_MULTISTRUCT, "m", po::bool_switch(&_params.multipleStructs)->default_value(false),
+				          "if multiple structs match the regular expression (--struct), save all in files");
+				addOption(optional, PARAM_LEGACY_VOXELIZATION, "l", po::bool_switch(&_params.legacyVoxelization)->default_value(false),
+				          "to use legacy voxelization");
+				addOption(optional, PARAM_BOOLEAN_VOXELIZATION, "v",
+				          po::bool_switch(&_params.booleanVoxelization)->default_value(false),
+				          "Determines if the voxelization should be binarized (only values 0 or 1)");
+				addOption(optional, PARAM_ADDSTRUCTURES, "a", nullptr, "");
 
-				description.add(required).add(optional);
+				_description.add(required).add(optional);
 			}
 
 			void CommandOptions::addOption(po::options_description& o, const std::string& name,
@@ -89,10 +88,10 @@ namespace rttb
 				}
 			}
 
-			void CommandOptions::showHelp()const
+			void CommandOptions::showHelp() const
 			{
-				std::cout << "Usage: VoxelizerTool -s <arg> -r <arg> [optional] \n";
-				std::cout << description << std::endl;
+				std::cout << "Usage: VoxelizerTool [options] \n";
+				std::cout << _description << std::endl;
 				std::cout << "Example: VoxelizerTool -s structFile.dcm -r referenceFile.dcm -e Kidney -o outputFile.mhd -m" <<
 				          std::endl;
 				std::cout <<
@@ -109,15 +108,7 @@ namespace rttb
 				try
 				{
 					po::variables_map var;
-					_minArguments = 7;
-					po::store(po::command_line_parser(argc, argv).options(description).run(), var);
-					po::notify(var);
-
-					if (argc < _minArguments)
-					{
-						showHelp();
-						return false;
-					}
+					po::store(po::command_line_parser(argc, argv).options(_description).run(), var);
 
 					if (var.count(PARAM_HELP))
 					{
@@ -125,62 +116,17 @@ namespace rttb
 						return true;
 					}
 
-					if (!var.count(PARAM_STRUCT_FILE))
-					{
-						throw std::runtime_error("Please use the parameter -s or --structfile");
-					}
-					else
-					{
-						if (getFileEnding(params.structFile) !=  ".dcm")
-						{
-							throw std::runtime_error("Please check your struct file: " + params.structFile);
-						}
-					}
+					po::notify(var);
 
-					if (!var.count(PARAM_REFERENCE_FILE))
+					if (var.count(PARAM_BOOST_VOXELIZATION))
 					{
-						throw std::runtime_error("Please use the parameter -r or --referencefile");
-					}
-					else
-					{
-						if (getFileEnding(params.referenceFile) != ".dcm")
-						{
-							throw std::runtime_error("Please check your reference file: " + params.referenceFile);
-						}
-					}
-
-					if (!var.count(PARAM_OUT_FILE))
-					{
-						params.outputFilename = "out.hdr";
-					}
-
-					if (var.count(PARAM_REGEX))
-					{
-
-						if (var.count(PARAM_MULTISTRUCT))
-						{
-							params.multipleStructs = true;
-						}
-						else
-						{
-							params.multipleStructs = false;
-						}
-					}
-
-					if (var.count(PARAM_LEGACY))
-					{
-						params.legacyVoxelization = true;
-					}
-
-					if (var.count(PARAM_BOOLEANVOXELIZATION))
-					{
-						params.booleanVoxelization = true;
+						_params.legacyVoxelization = false;
 					}
 
 					if (var.count(PARAM_ADDSTRUCTURES))
 					{
-						params.addStructures = true;
-						params.multipleStructs = false;
+						_params.addStructures = true;
+						_params.multipleStructs = false;
 					}
 				}
 				catch (const std::exception& e)
