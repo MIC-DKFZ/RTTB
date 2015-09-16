@@ -10,7 +10,7 @@ ENDIF(CMAKE_BACKWARDS_COMPATIBILITY GREATER 2.8.11.2)
 
 # RTToolbox version number.
 SET(RTToolbox_VERSION_MAJOR "4")
-SET(RTToolbox_VERSION_MINOR "0")
+SET(RTToolbox_VERSION_MINOR "1")
 SET(RTToolbox_VERSION_PATCH "0")
 
 # Version string should not include patch level.  The major.minor is
@@ -47,7 +47,6 @@ IF (NOT (CMAKE_MAJOR_VERSION LESS 3))
 	ENDIF(COMMAND CMAKE_POLICY)
 ENDIF()
 
-message(STATUS ${CMAKE_BUILD_TYPE})
 #-----------------------------------------------------------------------------
 # CMake Function(s) and Macro(s)
 #-----------------------------------------------------------------------------

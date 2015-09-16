@@ -9,7 +9,6 @@ namespace rttb{
 		typedef core::DVH::DVHPointer DVHPointer;
 		typedef std::map<BEDType, VoxelNumberType> BEDDVHType;
 		typedef std::map<LQEDType, VoxelNumberType> LQEDDVHType;
-		typedef double BioModelParameterType;
 
 		/*! @brief Get Equivalent Uniform Dose (EUD)  
 		@pre dvh data differential is not empty, 

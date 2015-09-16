@@ -30,56 +30,59 @@
 
 namespace rttb
 {
-	namespace testing
-	{
+  namespace testing
+  {
 
-		/*! @class DummyMutableDoseAccessor
-			@brief A dummy MutableDoseAccessor for testing filled with random dose values between 0 and 100.
-			The default grid size is [11,10,5]
-		*/
-		class DummyMutableDoseAccessor: public core::MutableDoseAccessorInterface
-		{
+    /*! @class DummyMutableDoseAccessor
+    	@brief A dummy MutableDoseAccessor for testing filled with random dose values between 0 and 100.
+    	The default grid size is [11,10,5]
+    */
+    class DummyMutableDoseAccessor: public core::MutableDoseAccessorInterface
+    {
 
-		private:
-			/*! vector of dose data(absolute Gy dose/doseGridScaling)*/
-			std::vector<DoseTypeGy> doseData;
+    private:
+      /*! vector of dose data(absolute Gy dose/doseGridScaling)*/
+      std::vector<DoseTypeGy> doseData;
 
-			IDType _doseUID;
+      IDType _doseUID;
 
+      core::GeometricInfo _geoInfo;
 
-		public:
-			~DummyMutableDoseAccessor();
+    public:
+      ~DummyMutableDoseAccessor();
 
-			/*! @brief A dummy DummyMutableDoseAccessor for testing filled with random dose values between 0 and 100.
-				    The default grid size is [11,10,5]
-			    */
-			DummyMutableDoseAccessor();
+      /*! @brief A dummy DummyMutableDoseAccessor for testing filled with random dose values between 0 and 100.
+      	    The default grid size is [11,10,5]
+          */
+      DummyMutableDoseAccessor();
 
-			/*! @brief Constructor.
-				Initialisation of dose with a given vector.
-			*/
-			DummyMutableDoseAccessor(const std::vector<DoseTypeGy>& aDoseVector,
-			                         const core::GeometricInfo& geoInfo);
+      /*! @brief Constructor.
+      	Initialisation of dose with a given vector.
+      */
+      DummyMutableDoseAccessor(const std::vector<DoseTypeGy>& aDoseVector,
+                               const core::GeometricInfo& geoInfo);
 
-			const std::vector<DoseTypeGy>* getDoseVector() const
-			{
-				return &doseData;
-			};
+      const std::vector<DoseTypeGy>* getDoseVector() const
+      {
+        return &doseData;
+      };
 
-			DoseTypeGy getDoseAt(const VoxelGridID aID) const;
+      virtual const core::GeometricInfo& getGeometricInfo() const;
 
-			DoseTypeGy getDoseAt(const VoxelGridIndex3D& aIndex) const;
+      DoseTypeGy getDoseAt(const VoxelGridID aID) const;
 
-			void setDoseAt(const VoxelGridID aID, DoseTypeGy value);
+      DoseTypeGy getDoseAt(const VoxelGridIndex3D& aIndex) const;
 
-			void setDoseAt(const VoxelGridIndex3D& aIndex, DoseTypeGy value);
+      void setDoseAt(const VoxelGridID aID, DoseTypeGy value);
 
-			const IDType getDoseUID() const
-			{
-				return _doseUID;
-			};
-		};
-	}
+      void setDoseAt(const VoxelGridIndex3D& aIndex, DoseTypeGy value);
+
+      const IDType getDoseUID() const
+      {
+        return _doseUID;
+      };
+    };
+  }
 }
 
 #endif

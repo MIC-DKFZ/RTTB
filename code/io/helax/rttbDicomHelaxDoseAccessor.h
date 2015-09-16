@@ -30,76 +30,76 @@
 #include "osconfig.h"    /* make sure OS specific configuration is included first */
 #include "drtdose.h"
 
-#include "rttbDoseAccessorInterface.h"
+#include "rttbDoseAccessorWithGeoInfoBase.h"
 #include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
 
 
 namespace rttb
 {
-	namespace io
-	{
-		namespace helax
-		{
+  namespace io
+  {
+    namespace helax
+    {
 
-			/*! @class DicomHelaxDoseAccessor
-			@brief Load dose data from a directory containing dicom dose files, each file describes the helax dose in one slice.
-			*/
-			class DicomHelaxDoseAccessor: public core::DoseAccessorInterface
-			{
-			public:
-				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
+      /*! @class DicomHelaxDoseAccessor
+      @brief Load dose data from a directory containing dicom dose files, each file describes the helax dose in one slice.
+      */
+      class DicomHelaxDoseAccessor: public core::DoseAccessorWithGeoInfoBase
+      {
+      public:
+        typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
 
-			private:
-				/*! vector of DRTDoseIOD shared pointers, each DRTDoseIOD pointer presents the dose in one slice*/
-				std::vector<DRTDoseIODPtr> _doseVector;
+      private:
+        /*! vector of DRTDoseIOD shared pointers, each DRTDoseIOD pointer presents the dose in one slice*/
+        std::vector<DRTDoseIODPtr> _doseVector;
 
-				/*! vector of dose data(absolute Gy dose/doseGridScaling)*/
-				std::vector<Uint16> _doseData;
+        /*! vector of dose data(absolute Gy dose/doseGridScaling)*/
+        std::vector<Uint16> _doseData;
 
-				double _doseGridScaling;
+        double _doseGridScaling;
 
-				IDType _doseUID;
+        IDType _doseUID;
 
-				DicomHelaxDoseAccessor();
+        DicomHelaxDoseAccessor();
 
-			protected:
-				/*! @brief Initialize dose data
-				@exception InvalidDoseException Thrown if any DRTDoseIOD pointer of _doseVector is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
-				@exception DcmrtException Throw if dcmrt error
-				@exception boost/bad_lexical_cast Thrown if the imported header tags are not numerical.
-				*/
-				bool begin();
+      protected:
+        /*! @brief Initialize dose data
+        @exception InvalidDoseException Thrown if any DRTDoseIOD pointer of _doseVector is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
+        @exception DcmrtException Throw if dcmrt error
+        @exception boost/bad_lexical_cast Thrown if the imported header tags are not numerical.
+        */
+        bool begin();
 
-				/*! @brief get all required data from dicom information contained in _dose
-				@exception boost/bad_lexical_cast Thrown if the imported header tags are not numerical.
-				*/
-				bool assembleGeometricInfo();
-
-
-			public:
-
-				~DicomHelaxDoseAccessor();
+        /*! @brief get all required data from dicom information contained in _dose
+        @exception boost/bad_lexical_cast Thrown if the imported header tags are not numerical.
+        */
+        bool assembleGeometricInfo();
 
 
-				/*! @brief Constructor. Initialisation with a vector of DRTDoseIOD pointers
-				@exception InvalidDoseException Thrown if any DRTDoseIOD pointer of _doseVector is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
-				@exception DcmrtException Throw if dcmrt error
-				*/
-				DicomHelaxDoseAccessor(std::vector<DRTDoseIODPtr> aDICOMRTDoseVector);
+      public:
+
+        ~DicomHelaxDoseAccessor();
 
 
-				DoseTypeGy getDoseAt(const VoxelGridID aID) const;
+        /*! @brief Constructor. Initialisation with a vector of DRTDoseIOD pointers
+        @exception InvalidDoseException Thrown if any DRTDoseIOD pointer of _doseVector is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
+        @exception DcmrtException Throw if dcmrt error
+        */
+        DicomHelaxDoseAccessor(std::vector<DRTDoseIODPtr> aDICOMRTDoseVector);
 
-				DoseTypeGy getDoseAt(const VoxelGridIndex3D& aIndex) const;
 
-				const IDType getDoseUID() const
-				{
-					return _doseUID;
-				};
-			};
-		}
-	}
+        DoseTypeGy getDoseAt(const VoxelGridID aID) const;
+
+        DoseTypeGy getDoseAt(const VoxelGridIndex3D& aIndex) const;
+
+        const IDType getDoseUID() const
+        {
+          return _doseUID;
+        };
+      };
+    }
+  }
 }
 
 #endif

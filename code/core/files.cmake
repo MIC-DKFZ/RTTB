@@ -3,6 +3,7 @@ SET(CPP_FILES
   rttbDVH.cpp
   rttbDVHCalculator.cpp
   rttbDVHSet.cpp
+  rttbDataNotAvailableException.cpp
   rttbException.cpp		
   rttbGenericDoseIterator.cpp
   rttbGenericMaskedDoseIterator.cpp
@@ -19,13 +20,16 @@ SET(CPP_FILES
   rttbStructure.cpp
   rttbStructureSet.cpp
   rttbStrVectorStructureSetGenerator.cpp
+  rttbDoseAccessorWithGeoInfoBase.cpp
   )
 
 SET(H_FILES 
   rttbBaseType.h
+  rttbDataNotAvailableException.h
   rttbDoseAccessorGeneratorBase.h
   rttbDoseAccessorGeneratorInterface.h
   rttbDoseAccessorInterface.h
+  rttbDoseAccessorWithGeoInfoBase.h
   rttbDoseIteratorInterface.h
   rttbDVH.h
   rttbDVHCalculator.h

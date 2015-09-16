@@ -91,8 +91,6 @@ namespace rttb
 			/* read dicom-rt dose */
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(RTDOSE_FILENAME.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
-			boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>
-			        (doseAccessor1->getGeometricInfo());
 
 			//create a vector of MaskAccessors (one for each structure)
 			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(
@@ -139,7 +137,7 @@ namespace rttb
 					clock_t start2(clock());
 					//create Boost MaskAccessor
 					MaskAccessorPointer boostMaskAccessorPtr = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-					        (rtStructureSet->getStructure(j), geometricPtr);
+					        (rtStructureSet->getStructure(j), doseAccessor1->getGeometricInfo());
 					CHECK_NO_THROW(boostMaskAccessorPtr->updateMask());
 
 					::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp2 =

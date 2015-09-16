@@ -150,8 +150,8 @@ namespace rttb
 			auto virtuosStructureSet = io::virtuos::VirtuosFileStructureSetGenerator(
 			                               structFilename.c_str(), doseFilename.c_str()).generateStructureSet();
 
-			boost::shared_ptr<masks::OTBMaskAccessor> spOTBMaskAccessorVirtuos =
-			    boost::make_shared<masks::OTBMaskAccessor>(virtuosStructureSet->getStructure(structureNr),
+			boost::shared_ptr<masks::legacy::OTBMaskAccessor> spOTBMaskAccessorVirtuos =
+			    boost::make_shared<masks::legacy::OTBMaskAccessor>(virtuosStructureSet->getStructure(structureNr),
 			            virtuosDoseAccessor->getGeometricInfo());
 
 			spOTBMaskAccessorVirtuos->updateMask();

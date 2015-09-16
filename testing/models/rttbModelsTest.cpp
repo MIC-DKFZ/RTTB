@@ -38,6 +38,7 @@ namespace rttb
 			LIT_REGISTER_TEST(BioModelTest);
 			LIT_REGISTER_TEST(BioModelScatterPlotTest);
 			LIT_REGISTER_TEST(DvhBasedModelsTest);
+			LIT_REGISTER_TEST(LQModelAccessorTest);
 		}
 	}
 }

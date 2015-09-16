@@ -126,7 +126,7 @@ namespace rttb
 			*/
 			void setAlpha(const BioModelParamType aAlphaMean, const BioModelParamType aAlphaVariance = 0);
 
-			const BioModelParamType getAlpahBeta();
+			const BioModelParamType getAlphaBeta();
 
 			void setAlphaBeta(const BioModelParamType aAlpha_Beta);
 

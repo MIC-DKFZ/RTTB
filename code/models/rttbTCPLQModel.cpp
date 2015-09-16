@@ -81,7 +81,7 @@ namespace rttb
 			_rho = aRho;
 		}
 
-		const BioModelParamType TCPLQModel::getAlpahBeta()
+		const BioModelParamType TCPLQModel::getAlphaBeta()
 		{
 			return _alpha_beta;
 		}
@@ -165,7 +165,7 @@ namespace rttb
 
 			if (_alphaVariance == 0)
 			{
-				if (_alphaMean <= 0 && _alpha_beta <= 0 && _rho <= 0)
+				if (_alphaMean <= 0 || _alpha_beta <= 0 || _rho <= 0)
 				{
 					throw core::InvalidParameterException("Parameter invalid: alpha, alpha/beta, rho and number of fractions must >0!");
 				}
@@ -184,7 +184,7 @@ namespace rttb
 			//if alpha normal distribution
 			else
 			{
-				if (this->_alpha_beta <= 0 && this->_alphaMean <= 0 && this->_alphaVariance < 0 && _rho <= 0 && _numberOfFractions <= 0)
+				if (this->_alpha_beta <= 0 || this->_alphaMean <= 0 || this->_alphaVariance < 0 || _rho <= 0)
 				{
 					throw core::InvalidParameterException("Parameter invalid: alpha/beta, alphaMean, rho and number of fractions must >0!");
 				}

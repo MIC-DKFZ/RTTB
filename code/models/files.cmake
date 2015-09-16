@@ -6,8 +6,10 @@ SET(CPP_FILES
   rttbNTCPRSModel.cpp
   rttbTCPModel.cpp
   rttbTCPLQModel.cpp
+  rttbDoseBasedModels.cpp
   rttbDvhBasedModels.cpp
   rttbIntegration.cpp
+  rttbLQModelAccessor.cpp
   )
 
 SET(H_FILES 
@@ -20,6 +22,9 @@ SET(H_FILES
   rttbNTCPRSModel.h
   rttbTCPModel.h
   rttbTCPLQModel.h  
+  rttbDoseBasedModels.cpp
   rttbDvhBasedModels.h
   rttbIntegration.h
+  rttbBioModelAccessorInterface.h
+  rttbLQModelAccessor.h
 )

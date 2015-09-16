@@ -29,53 +29,64 @@
 
 namespace rttb
 {
-	namespace core
-	{
+  namespace core
+  {
 
-		/*! @class IndexConversionInterface
-			@brief This class represents the conversion of 3D grid indices to 1D grid IDs.
-		*/
-		class DoseAccessorInterface: public IndexConversionInterface
-		{
-		public:
-			typedef boost::shared_ptr<DoseAccessorInterface> DoseAccessorPointer;
-		private:
-			DoseAccessorInterface(const DoseAccessorInterface&); //not implemented on purpose -> non-copyable
-			DoseAccessorInterface& operator=(const
-			                                 DoseAccessorInterface&);//not implemented on purpose -> non-copyable
+    /*! @class IndexConversionInterface
+    	@brief This class represents the conversion of 3D grid indices to 1D grid IDs.
+    */
+    class DoseAccessorInterface: public IndexConversionInterface
+    {
+    public:
+      typedef boost::shared_ptr<DoseAccessorInterface> DoseAccessorPointer;
+    private:
+      DoseAccessorInterface(const DoseAccessorInterface&); //not implemented on purpose -> non-copyable
+      DoseAccessorInterface& operator=(const
+                                       DoseAccessorInterface&);//not implemented on purpose -> non-copyable
 
-		public:
-			DoseAccessorInterface() {};
-			virtual ~DoseAccessorInterface() {};
+    public:
+      DoseAccessorInterface() {};
+      virtual ~DoseAccessorInterface() {};
 
-			inline const core::GeometricInfo& getGeometricInfo() const
-			{
-				return _geoInfo;
-			};
+      /*! @brief test if given ID is inside current dose grid
+      */
+      bool validID(const VoxelGridID aID) const
+      {
+        return this->getGeometricInfo().validID(aID);
+      };
 
-			inline GridSizeType getGridSize() const
-			{
-				return _geoInfo.getNumberOfVoxels();
-			};
 
-			virtual DoseTypeGy getDoseAt(const VoxelGridID aID) const = 0;
+      /*! @brief test if given index is inside current dose grid
+      */
+      bool validIndex(const VoxelGridIndex3D& aIndex) const
+      {
+        return this->getGeometricInfo().validIndex(aIndex);
+      };
 
-			virtual DoseTypeGy getDoseAt(const VoxelGridIndex3D& aIndex) const = 0;
+      virtual const core::GeometricInfo& getGeometricInfo() const = 0;
 
-			/*! @brief is true if dose is on a homogeneous grid
-				@remarks Inhomogeneous grids are not supported at the moment, but if they will be supported in the future
-				the interface does not need to change.
-			*/
-			virtual bool isGridHomogeneous() const
-			{
-				return true;
-			}
+      virtual GridSizeType getGridSize() const
+      {
+        return this->getGeometricInfo().getNumberOfVoxels();
+      };
 
-			virtual const IDType getDoseUID() const = 0;
-		protected:
-			core::GeometricInfo _geoInfo;
-		};
-	}
+      virtual DoseTypeGy getDoseAt(const VoxelGridID aID) const = 0;
+
+      virtual DoseTypeGy getDoseAt(const VoxelGridIndex3D& aIndex) const = 0;
+
+      /*! @brief is true if dose is on a homogeneous grid
+      	@remarks Inhomogeneous grids are not supported at the moment, but if they will be supported in the future
+      	the interface does not need to change.
+      */
+      virtual bool isGridHomogeneous() const
+      {
+        return true;
+      }
+
+      virtual const IDType getDoseUID() const = 0;
+
+    };
+  }
 }
 
 #endif

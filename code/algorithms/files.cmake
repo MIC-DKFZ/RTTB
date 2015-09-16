@@ -1,5 +1,6 @@
 SET(CPP_FILES 
   rttbDoseStatistics.cpp
+  rttbDoseStatisticsCalculator.cpp
   rttbArithmetic.cpp
   )
 
@@ -9,4 +10,5 @@ SET(H_FILES
   rttbArithmetic.tpp
   rttbBinaryFunctorDoseAccessor.h
   rttbBinaryFunctorDoseAccessor.tpp
+  rttbDoseStatisticsCalculator.h
 )
