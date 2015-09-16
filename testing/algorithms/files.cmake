@@ -1,5 +1,6 @@
 SET(CPP_FILES 
 	DoseStatisticsTest.cpp
+	DoseStatisticsCalculatorTest.cpp
 	ArithmeticTest.cpp
 	BinaryFunctorDoseAccessorTest.cpp
 	rttbAlgorithmsTests.cpp

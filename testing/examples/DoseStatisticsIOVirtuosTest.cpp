@@ -29,6 +29,7 @@
 
 #include "rttbBaseType.h"
 #include "rttbDoseStatistics.h"
+#include "rttbDoseStatisticsCalculator.h"
 #include "rttbDoseStatisticsXMLWriter.h"
 #include "rttbGenericMaskedDoseIterator.h"
 #include "rttbDoseIteratorInterface.h"
@@ -96,13 +97,13 @@ namespace rttb
 			    boost::make_shared<core::GenericMaskedDoseIterator>(maskAccessorPtr, doseAccessor);
 			DoseIteratorPointer spDoseIterator(spTestDoseIterator);
 
-			rttb::algorithms::DoseStatistics myDoseStats(spDoseIterator);
-			DoseStatisticsPtr myDoseStatsPtr = boost::make_shared<rttb::algorithms::DoseStatistics>
-			                                   (myDoseStats);
+			rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(spDoseIterator);
+			rttb::algorithms::DoseStatistics::DoseStatisticsPointer doseStatistics =
+			    myDoseStatsCalculator.calculateDoseStatistics();
 
 			/* test writing statistcs to xml file */
 			FileNameString fN = "doseStatisticsVirtuos.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsPtr, fN));
+			CHECK_NO_THROW(io::other::writeDoseStatistics(doseStatistics, fN));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
