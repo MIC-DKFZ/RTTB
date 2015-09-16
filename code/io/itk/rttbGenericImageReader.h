@@ -66,7 +66,7 @@ namespace rttb
 
 				typedef ::itk::ImageIOBase::IOComponentType LoadedComponentType;
 
-				typedef std::vector<::itk::MetaDataDictionary> MetaDataDictionaryArrayType;
+				typedef std::vector< ::itk::MetaDataDictionary> MetaDataDictionaryArrayType;
 
 			private:
 				/** Loaded Image.*/

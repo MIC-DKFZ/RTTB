@@ -29,7 +29,7 @@
 #include "litCheckMacros.h"
 
 #include "rttbBaseType.h"
-#include "rttbDoseStatisticsCalculator.h"
+#include "rttbDoseStatistics.h"
 #include "rttbDoseStatisticsXMLWriter.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbDoseIteratorInterface.h"
@@ -47,14 +47,14 @@ namespace rttb
 
 		/*! @brief OtherIOTest - test the IO for dose statistics
 		    1) test exception
-			2) test writing statistics to xml file
+			2) test writing statistcs to xml file
 		*/
 
 		int DoseStatisticsIOTest(int argc, char* argv[])
 		{
 			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
 			typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
-			typedef boost::shared_ptr<rttb::algorithms::DoseStatisticsCalculator> DoseStatisticsCalculatorPtr;
+			typedef boost::shared_ptr<rttb::algorithms::DoseStatistics> DoseStatisticsPtr;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 
@@ -66,36 +66,28 @@ namespace rttb
 			    boost::make_shared<core::GenericDoseIterator>(spDoseAccessor);
 			DoseIteratorPointer spDoseIterator(spTestDoseIterator);
 
-			rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(spDoseIterator);
-			auto myDoseStatsSimple = myDoseStatsCalculator.calculateDoseStatistics();
-			auto myDoseStatsComplex = myDoseStatsCalculator.calculateDoseStatistics(true);
+			rttb::algorithms::DoseStatistics myDoseStats(spDoseIterator);
+			DoseStatisticsPtr myDoseStatsPtr = boost::make_shared<rttb::algorithms::DoseStatistics>
+			                                   (myDoseStats);
 
 			/* test exception */
-			CHECK_THROW_EXPLICIT(io::other::writeDoseStatistics(myDoseStatsSimple, "test.test", 0),
+			CHECK_THROW_EXPLICIT(io::other::writeDoseStatistics(myDoseStatsPtr, "test.test", 0),
 			                     core::InvalidParameterException);
 
 
-			/* test writing statistics to xml file */
-			FileNameString filenameSimple = "testStatisticsSimple.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsSimple, filenameSimple));
+			/* test writing statistcs to xml file */
+			FileNameString fN = "testStatistics.xml";
+			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsPtr, fN));
 
-			FileNameString filenameComplex = "testStatisticsComplex.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsComplex, filenameComplex));
+			/* test writing statistcs to string */
+			boost::property_tree::ptree pt = io::other::writeDoseStatistics(myDoseStatsPtr);
+			XMLString str = io::other::writerDoseStatisticsToString(myDoseStatsPtr);
 
-			/* test writing statistics to string */
-			boost::property_tree::ptree ptSimple = io::other::writeDoseStatistics(myDoseStatsSimple);
-			XMLString strSimple = io::other::writerDoseStatisticsToString(myDoseStatsSimple);
+			std::stringstream sstr;
+			boost::property_tree::xml_parser::write_xml(sstr, pt);
+			CHECK_EQUAL(str, sstr.str());
 
-			boost::property_tree::ptree ptComplex = io::other::writeDoseStatistics(myDoseStatsComplex);
-			XMLString strComplex = io::other::writerDoseStatisticsToString(myDoseStatsComplex);
 
-			std::stringstream sstrSimple;
-			boost::property_tree::xml_parser::write_xml(sstrSimple, ptSimple);
-			CHECK_EQUAL(strSimple, sstrSimple.str());
-
-			std::stringstream sstrComplex;
-			boost::property_tree::xml_parser::write_xml(sstrComplex, ptComplex);
-			CHECK_EQUAL(strComplex, sstrComplex.str());
 
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

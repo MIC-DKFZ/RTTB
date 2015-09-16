@@ -8,8 +8,12 @@ SET(CPP_FILES
 	DVHCalculatorComparisonTest.cpp
 	../models/rttbScatterTester.cpp
 	rttbTestExamples.cpp
+	../masks/rttbMaskVoxelListTester.cpp
+	VoxelizationValidationTest.cpp
   )
 
 SET(H_FILES 
 	../models/rttbScatterTester.h
+	../masks/rttbMaskVoxelListTester.h
+
 )

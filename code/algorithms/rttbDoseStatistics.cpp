@@ -19,8 +19,18 @@
 // @author  $Author$ (last changed by)
 */
 
+#include <string>
+#include <vector>
+#include <exception>
+#include <math.h>
+#include <deque>
+#include <algorithm>
+#include <iostream>
+#include <map>
+
 #include "rttbDoseStatistics.h"
-#include "rttbDataNotAvailableException.h"
+#include "rttbNullPointerException.h"
+#include "rttbInvalidDoseException.h"
 
 namespace rttb
 {
@@ -42,105 +52,241 @@ namespace rttb
 			_MOHx(MOHx),
 			_MOCx(MOCx), _MaxOHx(MaxOHx), _MinOCx(MinOCx)
 		{
+			initSuccess = false;
+		}
 
+		DoseStatistics::DoseStatistics(DoseIteratorPointer aDoseIterator)
+		{
+			_doseIterator = aDoseIterator;
+			initSuccess = false;
+			this->init();
+		}
+
+		void DoseStatistics::setDoseIterator(DoseIteratorPointer aDoseIterator)
+		{
+			_doseIterator = aDoseIterator;
+			initSuccess = false;
+			this->init();
+		}
+
+		DoseStatistics::DoseIteratorPointer DoseStatistics::getDoseIterator() const
+		{
+			return _doseIterator;
 		}
 
 
-		DoseStatistics::~DoseStatistics()
+		bool DoseStatistics::init()
 		{
 
+			if (!_doseIterator)
+			{
+				throw core::NullPointerException("_doseIterator must not be NULL!");
+			}
+
+			doseVector.clear();
+			voxelProportionVector.clear();
+
+			std::multimap<double, int> doseValueVSIndexMap;
+			std::vector<double> voxelProportionVectorTemp;
+
+
+			this->_maximum = 0;
+			this->_mean = 0;
+			this->_stdDeviation = 0;
+			this->_variance = 0;
+
+			float sum = 0;
+			_numVoxels = 0;
+			float squareSum = 0;
+
+			_doseIterator->reset();
+			int i = 0;
+			DoseTypeGy doseValue = 0;
+
+			while (_doseIterator->isPositionValid())
+			{
+				doseValue = _doseIterator->getCurrentDoseValue();
+
+				if (i == 0)
+				{
+					_minimum = doseValue;
+				}
+
+				rttb::FractionType voxelProportion = _doseIterator->getCurrentRelevantVolumeFraction();
+				sum += doseValue * voxelProportion;
+				_numVoxels += voxelProportion;
+				squareSum += doseValue * doseValue * voxelProportion;
+
+				if (doseValue > this->_maximum)
+				{
+					_maximum = doseValue;
+				}
+				else if (doseValue < this->_minimum)
+				{
+					_minimum = doseValue;
+				}
+
+				voxelProportionVectorTemp.push_back(voxelProportion);
+				doseValueVSIndexMap.insert(std::pair<double, int>(doseValue, i));
+
+				i++;
+				_doseIterator->next();
+			}
+
+			if (_numVoxels != 0)
+			{
+				_mean = sum / _numVoxels;
+				_variance = (squareSum / _numVoxels - _mean * _mean);
+
+				if (_variance < errorConstant)
+				{
+					_stdDeviation = 0;
+				}
+				else
+				{
+					_stdDeviation = pow(_variance, 0.5);
+				}
+			}
+
+			//sort dose values and corresponding volume fractions in member variables
+			std::multimap<double, int>::iterator it;
+
+			for (it = doseValueVSIndexMap.begin(); it != doseValueVSIndexMap.end(); ++it)
+			{
+				doseVector.push_back((float)(*it).first);
+				voxelProportionVector.push_back(voxelProportionVectorTemp.at((*it).second));
+			}
+
+			initSuccess = true;
+
+			return true;
 		}
 
-
-		void DoseStatistics::setMinimumVoxelPositions(ResultListPointer minimumVoxelPositions)
+		double DoseStatistics::getNumberOfVoxels()
 		{
-			_minimumVoxelPositions = minimumVoxelPositions;
-		}
-
-		void DoseStatistics::setMaximumVoxelPositions(ResultListPointer maximumVoxelPositions)
-		{
-			_maximumVoxelPositions = maximumVoxelPositions;
-		}
-
-		void DoseStatistics::setDx(const DoseToVolumeFunctionType& DxValues)
-		{
-			_Dx = DxValues;
-		}
-
-		void DoseStatistics::setVx(const VolumeToDoseFunctionType& VxValues)
-		{
-			_Vx = VxValues;
-		}
-
-		void DoseStatistics::setMOHx(const VolumeToDoseFunctionType& MOHxValues)
-		{
-			_MOHx = MOHxValues;
-		}
-
-		void DoseStatistics::setMOCx(const VolumeToDoseFunctionType& MOCxValues)
-		{
-			_MOCx = MOCxValues;
-		}
-
-		void DoseStatistics::setMaxOHx(const VolumeToDoseFunctionType& MaxOHValues)
-		{
-			_MaxOHx = MaxOHValues;
-		}
-
-		void DoseStatistics::setMinOCx(const VolumeToDoseFunctionType& MinOCValues)
-		{
-			_MinOCx = MinOCValues;
-		}
+			if (!initSuccess)
+			{
+				throw core::InvalidDoseException("DoseStatistics is not initialized: set dose using setDoseIterator()! ");
+			}
 
 		VolumeType DoseStatistics::getNumberOfVoxels() const
 		{
 			return _numVoxels;
 		}
 
-
-		VolumeType DoseStatistics::getVolume() const
+		DoseStatisticType DoseStatistics::getMaximum(ResultListPointer maxVoxelVector) const
 		{
-			return _volume;
-		}
+			if (!initSuccess)
+			{
+				throw core::InvalidDoseException("DoseStatistics is not initialized: set dose using setDoseIterator()! ");
 
+			}
 
-		DoseStatisticType DoseStatistics::getMaximum() const
-		{
+			if (maxVoxelVector == NULL)
+			{
+				throw core::NullPointerException("resultsVector must not be NULL! ");
+			}
+
+			if (maxVoxelVector->size() == 0)
+			{
+				this->_doseIterator->reset();
+				DoseTypeGy doseValue = 0;
+
+				while (_doseIterator->isPositionValid())
+				{
+					doseValue = _doseIterator->getCurrentDoseValue();
+
+					if (doseValue == _maximum)
+					{
+						VoxelGridID currentID = _doseIterator->getCurrentVoxelGridID();
+						std::pair<DoseTypeGy, VoxelGridID> voxel(doseValue, currentID);
+						maxVoxelVector->push_back(voxel);
+					}
+
+					_doseIterator->next();
+				}
+			}
+
 			return _maximum;
 		}
 
-		DoseStatisticType DoseStatistics::getMinimum() const
+		DoseStatisticType DoseStatistics::getMinimum(ResultListPointer minVoxelVector, int number) const
 		{
+			if (!initSuccess)
+			{
+				throw core::InvalidDoseException("DoseStatistics is not initialized: set dose using setDoseIterator()! ");
+
+			}
+
+			if (minVoxelVector == NULL)
+			{
+				throw core::NullPointerException("resultsVector must not be NULL! ");
+			}
+
+			/*! @todo: Architecture Annotation:
+				Finding the positions for the minimum only once reduces computation time,
+				but will require sensible use by the programmers. To be save the output vector
+				minVoxelVector will be always cleared here to garantee that no false values are
+				presented. This change may be revoced to increase computation speed later on
+				(only compute if(minVoxelVector->size()==0)).
+			*/
+			minVoxelVector->clear();
+			int count = 0;
+			this->_doseIterator->reset();
+			DoseTypeGy doseValue = 0;
+
+			while (_doseIterator->isPositionValid() && count < number)
+			{
+				doseValue = _doseIterator->getCurrentDoseValue();
+
+				if (doseValue == _minimum)
+				{
+					VoxelGridID currentID = _doseIterator->getCurrentVoxelGridID();
+					std::pair<DoseTypeGy, VoxelGridID> voxel(doseValue, currentID);
+					minVoxelVector->push_back(voxel);
+					count++;
+				}
+
+				_doseIterator->next();
+			}
+
 			return _minimum;
 		}
 
 		DoseStatisticType DoseStatistics::getMean() const
 		{
+			if (!initSuccess)
+			{
+				throw core::InvalidDoseException("DoseStatistics is not initialized: set dose using setDoseIterator()! ");
+			}
+
 			return _mean;
 		}
 
 		DoseStatisticType DoseStatistics::getStdDeviation() const
 		{
+			if (!initSuccess)
+			{
+				throw core::InvalidDoseException("DoseStatistics is not initialized: set dose using setDoseIterator()! ");
+			}
+
 			return _stdDeviation;
 		}
 
 		DoseStatisticType DoseStatistics::getVariance() const
 		{
-			return _stdDeviation * _stdDeviation;
-		}
+			if (!initSuccess)
+			{
+				throw core::InvalidDoseException("DoseStatistics is not initialized: set dose using setDoseIterator()! ");
+			}
 
-		VolumeType DoseStatistics::getVx(DoseTypeGy xDoseAbsolute, bool findNearestValue,
-		                                 DoseTypeGy& nearestXDose) const
-		{
-			return getValue(_Vx, xDoseAbsolute, findNearestValue, nearestXDose);
-
+			return _variance;
 		}
 
 		VolumeType DoseStatistics::getVx(DoseTypeGy xDoseAbsolute) const
 		{
-			DoseTypeGy dummy;
-			return getValue(_Vx, xDoseAbsolute, false, dummy);
-		}
+			rttb::FractionType count = 0;
+			_doseIterator->reset();
 
 		DoseTypeGy DoseStatistics::getDx(VolumeType xVolumeAbsolute, bool findNearestValue,
 		                                 VolumeType& nearestXVolume) const
@@ -149,166 +295,181 @@ namespace rttb
 			return getValue(_Dx, xVolumeAbsolute, findNearestValue, nearestXVolume);
 		}
 
-		DoseTypeGy DoseStatistics::getDx(VolumeType xVolumeAbsolute) const
-		{
-			VolumeType dummy;
-			return getValue(_Dx, xVolumeAbsolute, false, dummy);
+			while (_doseIterator->isPositionValid())
+			{
+				currentDose = _doseIterator->getCurrentDoseValue();
+
+				if (currentDose >= xDoseAbsolute)
+				{
+					count += _doseIterator->getCurrentRelevantVolumeFraction();
+				}
+
+				_doseIterator->next();
+			}
+
+			return count * this->_doseIterator->getCurrentVoxelVolume();
 		}
 
-		DoseTypeGy DoseStatistics::getMOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
-		                                   VolumeType& nearestXVolume) const
+		DoseTypeGy DoseStatistics::getDx(DoseTypeGy xVolumeAbsolute) const
 		{
-			return getValue(_MOHx, xVolumeAbsolute, findNearestValue, nearestXVolume);
+			double noOfVoxel = xVolumeAbsolute / _doseIterator->getCurrentVoxelVolume();
+			DoseTypeGy resultDose = 0;
+
+			double countVoxels = 0;
+			int i = doseVector.size() - 1;
+
+			for (; i >= 0; i--)
+			{
+				countVoxels += voxelProportionVector.at(i);
+
+				if (countVoxels >= noOfVoxel)
+				{
+					break;
+				}
+			}
+
+			if (i >= 0)
+			{
+				resultDose = doseVector.at(i);
+			}
+			else
+			{
+				resultDose = _minimum;
+			}
+
+			return resultDose;
 		}
 
-		DoseTypeGy DoseStatistics::getMOHx(VolumeType xVolumeAbsolute) const
+		DoseTypeGy DoseStatistics::getMOHx(DoseTypeGy xVolumeAbsolute) const
 		{
-			VolumeType dummy;
-			return getValue(_MOHx, xVolumeAbsolute, false, dummy);
-		}
-
-		DoseTypeGy DoseStatistics::getMOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
-		                                   VolumeType& maximumDistanceFromOriginalVolume) const
-		{
-			return getValue(_MOCx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
-		}
-
-		DoseTypeGy DoseStatistics::getMOCx(VolumeType xVolumeAbsolute) const
-		{
-			VolumeType dummy;
-			return getValue(_MOCx, xVolumeAbsolute, false, dummy);
-		}
-
-		DoseTypeGy DoseStatistics::getMaxOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
-		                                     VolumeType& maximumDistanceFromOriginalVolume) const
-		{
-			return getValue(_MaxOHx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
-		}
-
-		DoseTypeGy DoseStatistics::getMaxOHx(VolumeType xVolumeAbsolute) const
-		{
-			VolumeType dummy;
-			return getValue(_MaxOHx, xVolumeAbsolute, false, dummy);
-		}
-
-		DoseTypeGy DoseStatistics::getMinOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
-		                                     VolumeType& maximumDistanceFromOriginalVolume) const
-		{
-			return getValue(_MinOCx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
-		}
-
-		DoseTypeGy DoseStatistics::getMinOCx(VolumeType xVolumeAbsolute) const
-		{
-			VolumeType dummy;
-			return getValue(_MinOCx, xVolumeAbsolute, false, dummy);
-		}
+			double noOfVoxel = xVolumeAbsolute / _doseIterator->getCurrentVoxelVolume();
 
 		double DoseStatistics::getValue(const std::map<double, double>& aMap, double key,
 		                                bool findNearestValueInstead, double& storedKey) const
 		{
 			if (aMap.find(key) != std::end(aMap))
 			{
-				return aMap.find(key)->second;
+				return 0;
 			}
 			else
 			{
-				//value not in map. We have to find the nearest value
-				if (aMap.empty())
+				double countVoxels = 0;
+				double sum = 0;
+
+				for (int i = doseVector.size() - 1; i >= 0; i--)
 				{
-					throw core::DataNotAvailableException("No Vx values are defined");
-				}
-				else
-				{
-					if (findNearestValueInstead)
+					double voxelProportion = voxelProportionVector.at(i);
+					countVoxels += voxelProportion;
+					sum += doseVector.at(i) * voxelProportion;
+
+					if (countVoxels >= noOfVoxel)
 					{
-						auto iterator = findNearestKeyInMap(aMap, key);
-						storedKey = iterator->first;
-						return iterator->second;
-					}
-					else
-					{
-						throw core::DataNotAvailableException("No Vx value with required dose is defined");
+						break;
 					}
 				}
+
+				return (DoseTypeGy)(sum / noOfVoxel);
 			}
 		}
 
 		std::map<double, double>::const_iterator DoseStatistics::findNearestKeyInMap(const std::map<double, double>& aMap,
 		        double key) const
 		{
-			double minDistance = 1e19;
-			double minDistanceLast = 1e20;
+			double noOfVoxel = xVolumeAbsolute / _doseIterator->getCurrentVoxelVolume();
 
-			auto iterator = std::begin(aMap);
 
-			while (iterator != std::end(aMap))
+			if (noOfVoxel == 0)
 			{
-				minDistanceLast = minDistance;
-				minDistance = fabs(iterator->first - key);
+				return 0;
+			}
+			else
+			{
+				double countVoxels = 0;
+				double sum = 0;
+				std::vector<DoseTypeGy>::const_iterator it = doseVector.begin();
+				std::vector<double>::const_iterator itD = voxelProportionVector.begin();
 
-				if (minDistanceLast > minDistance)
+				for (; it != doseVector.end(); ++it, ++itD)
 				{
-					++iterator;
+					double voxelProportion = *itD;
+					countVoxels += voxelProportion;
+					sum += (*it) * voxelProportion;
+
+					if (countVoxels >= noOfVoxel)
+					{
+						break;
+					}
 				}
-				else
+
+				return (DoseTypeGy)(sum / noOfVoxel);
+			}
+		}
+
+		DoseTypeGy DoseStatistics::getMaxOHx(DoseTypeGy xVolumeAbsolute) const
+		{
+			double noOfVoxel = xVolumeAbsolute / _doseIterator->getCurrentVoxelVolume();
+			DoseTypeGy resultDose = 0;
+
+			double countVoxels = 0;
+			int i = doseVector.size() - 1;
+
+			for (; i >= 0; i--)
+			{
+				countVoxels += voxelProportionVector.at(i);
+
+				if (countVoxels >= noOfVoxel)
 				{
-					if (iterator != std::begin(aMap))
-					{
-						--iterator;
-						return iterator;
-					}
-					else
-					{
-						return std::begin(aMap);
-					}
+					break;
 				}
 			}
 
-			--iterator;
-			return iterator;
+			if (i - 1 >= 0)
+			{
+				resultDose = doseVector.at(i - 1);
+			}
+
+			return resultDose;
 		}
 
-		DoseStatistics::ResultListPointer DoseStatistics::getMaximumPositions() const
+		DoseTypeGy DoseStatistics::getMinOCx(DoseTypeGy xVolumeAbsolute) const
 		{
-			return _maximumVoxelPositions;
+			double noOfVoxel = xVolumeAbsolute / _doseIterator->getCurrentVoxelVolume();
+			DoseTypeGy resultDose = 0;
+
+			double countVoxels = 0;
+			std::vector<DoseTypeGy>::const_iterator it = doseVector.begin();
+			std::vector<double>::const_iterator itD = voxelProportionVector.begin();
+
+			for (; itD != voxelProportionVector.end(); ++itD, ++it)
+			{
+				countVoxels += *itD;
+
+				if (countVoxels >= noOfVoxel)
+				{
+					break;
+				}
+			}
+
+			if (it != doseVector.end())
+			{
+				++it;
+
+				if (it != doseVector.end())
+				{
+					resultDose = *it;
+				}
+				else
+				{
+					resultDose = (DoseTypeGy)_maximum;
+				}
+			}
+			else
+			{
+				resultDose = (DoseTypeGy)_maximum;
+			}
+
+			return resultDose;
 		}
-
-		DoseStatistics::ResultListPointer DoseStatistics::getMinimumPositions() const
-		{
-			return _minimumVoxelPositions;
-		}
-
-		DoseStatistics::DoseToVolumeFunctionType DoseStatistics::getAllVx() const
-		{
-			return _Vx;
-		}
-
-		DoseStatistics::VolumeToDoseFunctionType DoseStatistics::getAllDx() const
-		{
-			return _Dx;
-		}
-
-		DoseStatistics::VolumeToDoseFunctionType DoseStatistics::getAllMOHx() const
-		{
-			return _MOHx;
-		}
-
-		DoseStatistics::VolumeToDoseFunctionType DoseStatistics::getAllMOCx() const
-		{
-			return _MOCx;
-		}
-
-		DoseStatistics::VolumeToDoseFunctionType DoseStatistics::getAllMaxOHx() const
-		{
-			return _MaxOHx;
-		}
-
-		DoseStatistics::VolumeToDoseFunctionType DoseStatistics::getAllMinOCx() const
-		{
-			return _MinOCx;
-		}
-
-
 
 	}//end namespace algorithms
 }//end namespace rttb

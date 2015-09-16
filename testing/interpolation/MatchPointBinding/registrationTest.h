@@ -40,6 +40,9 @@ namespace map
 			typedef itk::SmartPointer<Self> Pointer;
 			typedef itk::SmartPointer<const Self> ConstPointer;
 
+			typedef typename Registration<VMovingDimensions, VTargetDimensions>::TargetPointType TargetPointType;
+			typedef typename Registration<VMovingDimensions, VTargetDimensions>::MovingPointType MovingPointType;
+
 			itkTypeMacro(RegistrationTest, Registration);
 			itkNewMacro(Self);
 

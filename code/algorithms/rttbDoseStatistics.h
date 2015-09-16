@@ -22,31 +22,24 @@
 #ifndef __DOSE_STATISTICS_H
 #define __DOSE_STATISTICS_H
 
-#include <boost/make_shared.hpp>
 #include <vector>
-#include <map>
 
 #include "rttbBaseType.h"
 #include "rttbDoseIteratorInterface.h"
 
-namespace rttb
-{
+namespace rttb{
 
-	namespace algorithms
-	{
+	namespace algorithms{
 
 		/*! @class DoseStatistics
 		@brief Data class for storing different statistical values from a RT dose distribution
 		@details DoseStatisticsCalculator is used to compute the DoseStatistics
 		*/
 		class DoseStatistics
-		{
-		public:
-			enum complexStatistics { Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx};
-			typedef boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultListPointer;
-			typedef boost::shared_ptr<DoseStatistics> DoseStatisticsPointer;
-			typedef std::map<DoseTypeGy, VolumeType> DoseToVolumeFunctionType;
-			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
+			{
+			public:
+				typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
+				typedef boost::shared_ptr<std::vector<std::pair<DoseTypeGy,VoxelGridID> > > ResultListPointer;
 
 		private:
 			/*! @brief Returns the value of a map belonging to a key
@@ -103,7 +96,6 @@ namespace rttb
 			               VolumeToDoseFunctionType MaxOHx = VolumeToDoseFunctionType(),
 			               VolumeToDoseFunctionType MinOCx = VolumeToDoseFunctionType());
 
-			~DoseStatistics();
 
 			void setMinimumVoxelPositions(ResultListPointer minimumVoxelPositions);
 			void setMaximumVoxelPositions(ResultListPointer maximumVoxelPositions);
@@ -118,7 +110,9 @@ namespace rttb
 			*/
 			VolumeType getNumberOfVoxels() const;
 
-			VolumeType getVolume() const;
+				/*! @brief Constructor
+				*/
+				DoseStatistics(DoseIteratorPointer aDoseIterator);
 
 			/*! @brief Get the maximum of the current dose distribution.
 				@return the maximum dose in Gy
@@ -258,8 +252,19 @@ namespace rttb
 			VolumeToDoseFunctionType getAllMinOCx() const;
 		};
 
+				/*! @brief Get MaxOHx: Maximum outside of the hottest x voxels.
+					@return Return dose value in Gy.
+				*/
+				DoseTypeGy getMaxOHx(VolumeType xVolumeAbsolute) const;
+
+				/*! @brief Get MinOCx: Minimum outside of the coldest x voxels.
+					@return Return ose value in Gy.
+				*/
+				DoseTypeGy getMinOCx(VolumeType xVolumeAbsolute) const;
+			};
+
+		}
 	}
-}
 
 
 #endif

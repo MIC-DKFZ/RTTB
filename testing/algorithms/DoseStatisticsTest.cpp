@@ -25,194 +25,193 @@
 #include "litCheckMacros.h"
 
 #include "rttbBaseType.h"
+#include "rttbGenericDoseIterator.h"
+#include "rttbDoseIteratorInterface.h"
+#include "rttbNullPointerException.h"
 #include "rttbDoseStatistics.h"
-#include "rttbDataNotAvailableException.h"
+#include "rttbInvalidDoseException.h"
 
-namespace rttb
-{
-	namespace testing
-	{
+#include "../core/DummyDoseAccessor.h"
 
+namespace rttb{
+	namespace testing{
+
+		typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
+		typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
 		typedef rttb::algorithms::DoseStatistics::ResultListPointer ResultListPointer;
-		typedef rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType DoseToVolumeFunctionType;
-		typedef rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType VolumeToDoseFunctionType;
 
 		/*! @brief DoseStatisticsTest - test the API of DoseStatistics
-			1) test constructors
-			2) test setters
-			3) test getters of complex statistics (with stored key and without stored key)
+			1) test constructors 
+			2) test setDoseIterator
+			3) test getNumberOfVoxels
+			4) get statistical values
+			floating point accuracy requires this otherwise the test 4 fails!
 		*/
 
-		int DoseStatisticsTest(int argc, char* argv[])
-		{
+		int DoseStatisticsTest(int argc, char* argv[] )
+			{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
-			DoseStatisticType minimum = 1.0;
-			DoseStatisticType mean = 5.5;
-			DoseStatisticType maximum = 108.2;
-			DoseStatisticType stdDeviation = 10.1;
-			unsigned int numVoxels = 100000;
-			VolumeType volume = numVoxels * (0.5 * 0.5 * 0.5);
+			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor = boost::make_shared<DummyDoseAccessor>();
+			DoseAccessorPointer spDoseAccessor(spTestDoseAccessor);
+			const std::vector<DoseTypeGy>* doseVals = spTestDoseAccessor->getDoseVector();
 
-			std::vector<std::pair<DoseTypeGy, VoxelGridID> > minVoxels;
-			std::vector<std::pair<DoseTypeGy, VoxelGridID> > maxVoxels;
+			boost::shared_ptr<core::GenericDoseIterator> spTestDoseIterator = 
+				boost::make_shared<core::GenericDoseIterator>(spDoseAccessor);
+			DoseIteratorPointer spDoseIterator (spTestDoseIterator);
 
-			minVoxels.push_back(std::make_pair(1.0, 11));
-			minVoxels.push_back(std::make_pair(1.0, 22));
-			minVoxels.push_back(std::make_pair(1.0, 33));
-			minVoxels.push_back(std::make_pair(1.0, 44));
+			DoseIteratorPointer spDoseIteratorNull;
 
-			maxVoxels.push_back(std::make_pair(108.2, 5));
-			maxVoxels.push_back(std::make_pair(108.2, 6));
-			maxVoxels.push_back(std::make_pair(108.2, 7));
-			maxVoxels.push_back(std::make_pair(108.2, 8));
+			//1) test constructors 
+			// the values cannot be accessed from outside, therefore correct default values are not tested
+			CHECK_NO_THROW(rttb::algorithms::DoseStatistics myEmptyDoseStat);
+			rttb::algorithms::DoseStatistics myEmptyDoseStat;
+			rttb::algorithms::DoseStatistics myDoseStatToBeFilled;
 
-			ResultListPointer resultsMinVoxels = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >(minVoxels);
-			ResultListPointer resultsMaxVoxels = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >(maxVoxels);
+			CHECK_THROW_EXPLICIT(rttb::algorithms::DoseStatistics myDoseStats(spDoseIteratorNull),core::NullPointerException);
 
-			DoseToVolumeFunctionType Vx;
-			Vx.insert(std::make_pair(1.1, 1000));
-			Vx.insert(std::make_pair(106.9, 99000));
+			CHECK_NO_THROW(rttb::algorithms::DoseStatistics myDoseStats(spDoseIterator));
+			rttb::algorithms::DoseStatistics myDoseStats(spDoseIterator);
 
-			VolumeToDoseFunctionType Dx;
-			Dx.insert(std::make_pair(1000, 1.1));
-			Dx.insert(std::make_pair(99000, 106.9));
+			//2) test setDoseIterator
+			CHECK_THROW_EXPLICIT(myDoseStatToBeFilled.setDoseIterator(spDoseIteratorNull),core::NullPointerException);
+			CHECK_NO_THROW(myDoseStatToBeFilled.setDoseIterator(spDoseIterator));
 
-			VolumeToDoseFunctionType MOHx;
-			MOHx.insert(std::make_pair(1000, 5));
-			MOHx.insert(std::make_pair(99000, 105.5));
+			//3) test getNumberOfVoxels
+			CHECK_THROW_EXPLICIT(myEmptyDoseStat.getNumberOfVoxels(),core::InvalidDoseException);
+			CHECK_EQUAL(myDoseStats.getNumberOfVoxels(),doseVals->size());
+			CHECK_EQUAL(myDoseStatToBeFilled.getNumberOfVoxels(),doseVals->size());	  
 
-			VolumeToDoseFunctionType MOCx;
-			MOCx.insert(std::make_pair(1000, 10));
-			MOCx.insert(std::make_pair(99000, 99));
+			//4) get statistical values
+      CHECK_THROW_EXPLICIT(myEmptyDoseStat.getNumberOfVoxels(),core::InvalidDoseException);
+			CHECK_EQUAL(myDoseStats.getNumberOfVoxels(),doseVals->size());
+			CHECK_EQUAL(myDoseStatToBeFilled.getNumberOfVoxels(),doseVals->size());	
 
-			VolumeToDoseFunctionType MaxOHx;
-			MaxOHx.insert(std::make_pair(1000, 40));
-			MaxOHx.insert(std::make_pair(99000, 98.3));
+			//compute values for comparison
+			DoseStatisticType maximum = 0;
+			DoseStatisticType minimum = 1000000;
+			DoseStatisticType mean = 0;
+			std::vector<DoseTypeGy>::const_iterator doseIt = doseVals->begin(); 
+			while(doseIt != doseVals->end())
+				{
+				if (maximum < *doseIt)
+					{
+					maximum = *doseIt;
+					}
+				if (minimum > *doseIt)
+					{
+					minimum = *doseIt;
+					}
+				mean += *doseIt;
+				doseIt++;
+				}
+			mean /=doseVals->size();
+			float compMean = (int(mean*100))/100;
 
-			VolumeToDoseFunctionType MinOCx;
-			MinOCx.insert(std::make_pair(1000, 25.5));
-			MinOCx.insert(std::make_pair(99000, 102.7));
+			boost::shared_ptr< std::vector<std::pair<DoseTypeGy,VoxelGridID> > > myResultPairs = 
+				boost::make_shared< std::vector<std::pair<DoseTypeGy,VoxelGridID> > >();
+			ResultListPointer spMyResultPairs(myResultPairs);
+			boost::shared_ptr< std::vector<std::pair<DoseTypeGy,VoxelGridID> > > myResultPairs2 = 
+				boost::make_shared< std::vector<std::pair<DoseTypeGy,VoxelGridID> > >();
+			ResultListPointer spMyResultPairs2(myResultPairs2);
 
+      CHECK_THROW_EXPLICIT(myEmptyDoseStat.getMaximum(spMyResultPairs),core::InvalidDoseException);
+			CHECK_EQUAL(myDoseStats.getMaximum(spMyResultPairs),maximum);
+			CHECK_EQUAL(myDoseStatToBeFilled.getMaximum(spMyResultPairs2),maximum);
+			CHECK(spMyResultPairs->size()>0);
 
-			//1) test constructors
+			CHECK_EQUAL(spMyResultPairs->size(),spMyResultPairs2->size());
+			std::vector<std::pair<DoseTypeGy,VoxelGridID> >::iterator pairIt = spMyResultPairs->begin();
+			std::vector<std::pair<DoseTypeGy,VoxelGridID> >::iterator pairIt2 = spMyResultPairs2->begin();
 
-			CHECK_NO_THROW(rttb::algorithms::DoseStatistics aDoseStatistic(minimum, maximum, mean, stdDeviation, numVoxels,
-			               volume));
+			for (;pairIt != spMyResultPairs->end();++pairIt)
+				{
+				CHECK_EQUAL(pairIt->first,pairIt2->first);
+				CHECK_EQUAL(pairIt->second,pairIt2->second);
+				++pairIt2;
+				}
 
-			rttb::algorithms::DoseStatistics aDoseStatistic(minimum, maximum, mean, stdDeviation, numVoxels, volume);
-			CHECK_EQUAL(aDoseStatistic.getMinimum(), minimum);
-			CHECK_EQUAL(aDoseStatistic.getMaximum(), maximum);
-			CHECK_EQUAL(aDoseStatistic.getMean(), mean);
-			CHECK_EQUAL(aDoseStatistic.getStdDeviation(), stdDeviation);
-			CHECK_EQUAL(aDoseStatistic.getVariance(), stdDeviation * stdDeviation);
-			CHECK_EQUAL(aDoseStatistic.getNumberOfVoxels(), numVoxels);
-			CHECK_EQUAL(aDoseStatistic.getVolume(), volume);
+			spMyResultPairs = boost::make_shared< std::vector<std::pair<DoseTypeGy,VoxelGridID> > >();
+			spMyResultPairs2 = boost::make_shared< std::vector<std::pair<DoseTypeGy,VoxelGridID> > >();
+      CHECK_THROW_EXPLICIT(myEmptyDoseStat.getMinimum(spMyResultPairs),core::InvalidDoseException);
+			CHECK_EQUAL(myDoseStats.getMinimum(spMyResultPairs),minimum);
+			CHECK_EQUAL(myDoseStatToBeFilled.getMinimum(spMyResultPairs2),minimum);
+			CHECK(spMyResultPairs->size()>0);
 
-			//check default values for unset complex values
-			CHECK_EQUAL(aDoseStatistic.getMaximumPositions()->empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getMinimumPositions()->empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getAllDx().empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getAllVx().empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getAllMOHx().empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getAllMOCx().empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getAllMaxOHx().empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getAllMinOCx().empty(), true);
+			CHECK_EQUAL(spMyResultPairs->size(),spMyResultPairs2->size());
+			pairIt = spMyResultPairs->begin();
+			pairIt2 = spMyResultPairs2->begin();
 
-			CHECK_NO_THROW(rttb::algorithms::DoseStatistics aDoseStatisticComplex(minimum, maximum, mean, stdDeviation, numVoxels,
-			               volume,
-			               resultsMaxVoxels, resultsMinVoxels, Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx));
-			rttb::algorithms::DoseStatistics aDoseStatisticComplex(minimum, maximum, mean, stdDeviation, numVoxels, volume,
-			        resultsMaxVoxels, resultsMinVoxels, Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx);
+			for (;pairIt != spMyResultPairs->end();++pairIt)
+				{
+				CHECK_EQUAL(pairIt->first,pairIt2->first);
+				CHECK_EQUAL(pairIt->second,pairIt2->second);
+				++pairIt2;
+				}
 
-			CHECK_EQUAL(aDoseStatisticComplex.getMaximumPositions(), resultsMaxVoxels);
-			CHECK_EQUAL(aDoseStatisticComplex.getMinimumPositions(), resultsMinVoxels);
-			CHECK_EQUAL(aDoseStatisticComplex.getAllDx() == Dx, true);
-			CHECK_EQUAL(aDoseStatisticComplex.getAllVx() == Vx, true);
-			CHECK_EQUAL(aDoseStatisticComplex.getAllMOHx() == MOHx, true);
-			CHECK_EQUAL(aDoseStatisticComplex.getAllMOCx() == MOCx, true);
-			CHECK_EQUAL(aDoseStatisticComplex.getAllMaxOHx() == MaxOHx, true);
-			CHECK_EQUAL(aDoseStatisticComplex.getAllMinOCx() == MinOCx, true);
+      CHECK_THROW_EXPLICIT(myEmptyDoseStat.getMean(),core::InvalidDoseException);
+			float tmpMean = myDoseStats.getMean();
+			tmpMean = (int(tmpMean*100))/100;
+			CHECK_EQUAL(tmpMean,compMean);
+			tmpMean = myDoseStatToBeFilled.getMean();
+			tmpMean = (int(tmpMean*100))/100;
+			CHECK_EQUAL(tmpMean,compMean);
 
-			//2) test setters (only complex statistics have setters)
-			CHECK_NO_THROW(aDoseStatistic.setMaximumVoxelPositions(resultsMaxVoxels));
-			CHECK_NO_THROW(aDoseStatistic.setMinimumVoxelPositions(resultsMinVoxels));
-			CHECK_NO_THROW(aDoseStatistic.setDx(Dx));
-			CHECK_NO_THROW(aDoseStatistic.setVx(Vx));
-			CHECK_NO_THROW(aDoseStatistic.setMOHx(MOHx));
-			CHECK_NO_THROW(aDoseStatistic.setMOCx(MOCx));
-			CHECK_NO_THROW(aDoseStatistic.setMaxOHx(MaxOHx));
-			CHECK_NO_THROW(aDoseStatistic.setMinOCx(MinOCx));
+			//generate specific example dose
+			maximum = 9.5;
+			minimum = 2.5;
+			mean = 6;
+			int sizeTemplate = 500;
+			std::vector<DoseTypeGy> aDoseVector;
+			for (int i = 0; i < sizeTemplate; i++){	
+				aDoseVector.push_back(maximum);
+				aDoseVector.push_back(minimum);
+				}
 
-			CHECK_EQUAL(aDoseStatistic.getMaximumPositions(), resultsMaxVoxels);
-			CHECK_EQUAL(aDoseStatistic.getMinimumPositions(), resultsMinVoxels);
-			CHECK_EQUAL(aDoseStatistic.getAllDx() == Dx, true);
-			CHECK_EQUAL(aDoseStatistic.getAllVx() == Vx, true);
-			CHECK_EQUAL(aDoseStatistic.getAllMOHx() == MOHx, true);
-			CHECK_EQUAL(aDoseStatistic.getAllMOCx() == MOCx, true);
-			CHECK_EQUAL(aDoseStatistic.getAllMaxOHx() == MaxOHx, true);
-			CHECK_EQUAL(aDoseStatistic.getAllMinOCx() == MinOCx, true);
+			core::GeometricInfo geoInfo = spTestDoseAccessor->getGeometricInfo();
+			geoInfo.setNumRows(20);
+			geoInfo.setNumColumns(10);
+			geoInfo.setNumSlices(5);
 
-			//3) test getters of complex statistics(with stored key and without stored key)
-			//getAll*() already tested in (2)
-			Vx.clear();
-			Vx.insert(std::make_pair(1.1, 1000));
-			Vx.insert(std::make_pair(5.0, 2300));
-			Vx.insert(std::make_pair(90, 90500));
-			Vx.insert(std::make_pair(107, 99000));
+			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor2 = 
+				boost::make_shared<DummyDoseAccessor>(aDoseVector,geoInfo);
+			DoseAccessorPointer spDoseAccessor2(spTestDoseAccessor2);
 
-			Dx.clear();
-			Dx.insert(std::make_pair(1000, 1.1));
-			Dx.insert(std::make_pair(2000, 2.0));
-			Dx.insert(std::make_pair(5000, 10.8));
-			Dx.insert(std::make_pair(90000, 89.5));
-			Dx.insert(std::make_pair(98000, 104.4));
-			Dx.insert(std::make_pair(99000, 106.9));
+			boost::shared_ptr<core::GenericDoseIterator> spTestDoseIterator2 = 
+				boost::make_shared<core::GenericDoseIterator>(spDoseAccessor2);
+			DoseIteratorPointer spDoseIterator2 (spTestDoseIterator2);
 
-			rttb::algorithms::DoseStatistics aDoseStatisticNewValues(minimum, maximum, mean, stdDeviation, numVoxels, volume);
-			aDoseStatisticNewValues.setDx(Dx);
-			aDoseStatisticNewValues.setVx(Vx);
+			rttb::algorithms::DoseStatistics myDoseStats2(spDoseIterator2);
 
-			CHECK_NO_THROW(aDoseStatisticNewValues.getVx(1.1));
-			CHECK_NO_THROW(aDoseStatisticNewValues.getVx(90));
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(1000));
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(98000));
+			spMyResultPairs = boost::make_shared< std::vector<std::pair<DoseTypeGy,VoxelGridID> > >();
+			CHECK_EQUAL(myDoseStats2.getMaximum(spMyResultPairs),maximum);
+			CHECK(spMyResultPairs->size()>0);
 
-			CHECK_EQUAL(aDoseStatisticNewValues.getVx(1.1), Vx.find(1.1)->second);
-			CHECK_EQUAL(aDoseStatisticNewValues.getVx(90), Vx.find(90)->second);
-			CHECK_EQUAL(aDoseStatisticNewValues.getDx(1000), Dx.find(1000)->second);
-			CHECK_EQUAL(aDoseStatisticNewValues.getDx(98000), Dx.find(98000)->second);
+			CHECK_EQUAL(spMyResultPairs->size(),sizeTemplate);
+			pairIt = spMyResultPairs->begin();
 
-			//test if key-value combination NOT in map
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getDx(1001), core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getVx(10), core::DataNotAvailableException);
+			for (;pairIt != spMyResultPairs->end();++pairIt)
+				{
+				CHECK_EQUAL(pairIt->first,maximum);
+				}
 
-			double closestDxKey, closestVxKey;
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(900, true, closestDxKey));
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(99001, true, closestDxKey));
-			CHECK_NO_THROW(aDoseStatisticNewValues.getVx(10, true, closestVxKey));
-			CHECK_EQUAL(aDoseStatisticNewValues.getDx(900, true, closestDxKey), Dx.find(1000)->second);
-			CHECK_EQUAL(aDoseStatisticNewValues.getDx(99001, true, closestDxKey), Dx.find(99000)->second);
-			CHECK_EQUAL(aDoseStatisticNewValues.getVx(10, true, closestVxKey), Vx.find(5.0)->second);
-			CHECK_EQUAL(closestDxKey, 99000);
-			CHECK_EQUAL(closestVxKey, 5);
+			spMyResultPairs = boost::make_shared< std::vector<std::pair<DoseTypeGy,VoxelGridID> > >();
+			int maxmialFound = 200; 
+			CHECK_EQUAL(myDoseStats2.getMinimum(spMyResultPairs, maxmialFound),minimum);
+			CHECK(spMyResultPairs->size()>0);
 
-			//equal distance to two values. First value is returned.
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(1500, true, closestDxKey));
-			CHECK_NO_THROW(aDoseStatisticNewValues.getVx(98.5, true, closestVxKey));
-			CHECK_EQUAL(aDoseStatisticNewValues.getDx(1500, true, closestDxKey), Dx.find(1000)->second);
-			CHECK_EQUAL(aDoseStatisticNewValues.getVx(98.5, true, closestVxKey), Vx.find(90.0)->second);
-			CHECK_EQUAL(closestDxKey, 1000);
-			CHECK_EQUAL(closestVxKey, 90.0);
+			CHECK_EQUAL(spMyResultPairs->size(),maxmialFound);
+			pairIt = spMyResultPairs->begin();
 
-			double dummy;
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCx(25), core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx(9999), core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCx(25, true, dummy), core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx(9999, true, dummy), core::DataNotAvailableException);
+			for (;pairIt != spMyResultPairs->end();++pairIt)
+				{
+				CHECK_EQUAL(pairIt->first,minimum);
+				}
+
+			CHECK_EQUAL(myDoseStats2.getMean(),mean);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
-		}
+			}
 
-	}//end namespace testing
-}//end namespace rttb
+		}//end namespace testing
+	}//end namespace rttb

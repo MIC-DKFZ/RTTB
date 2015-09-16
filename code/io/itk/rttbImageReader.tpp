@@ -28,7 +28,7 @@
 
 #ifdef RTTB_DISABLE_ITK_IO_FACTORY_AUTO_REGISTER
 #undef ITK_IO_FACTORY_REGISTER_MANAGER
-#endif RTTB_DISABLE_ITK_IO_FACTORY_AUTO_REGISTER
+#endif
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"

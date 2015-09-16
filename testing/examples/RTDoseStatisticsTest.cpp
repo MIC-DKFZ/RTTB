@@ -93,15 +93,14 @@ namespace rttb
 			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
 			typedef core::GenericDoseIterator::DoseIteratorPointer DoseIteratorPointer;
 
-			typedef boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultsVectorPointer;
+			typedef ::boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultsVectorPointer;
 
-			::DRTDoseIOD rtdoseDKFZ;
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(doseFilename.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
 
 			//create corresponding DoseIterator
-			boost::shared_ptr<core::GenericDoseIterator> spDoseIteratorTmp =
-			    boost::make_shared<core::GenericDoseIterator>(doseAccessor1);
+			::boost::shared_ptr<core::GenericDoseIterator> spDoseIteratorTmp =
+			    ::boost::make_shared<core::GenericDoseIterator>(doseAccessor1);
 			DoseIteratorPointer spDoseIterator(spDoseIteratorTmp);
 			rttb::algorithms::DoseStatisticsCalculator doseStatisticsCalculator(spDoseIterator);
 

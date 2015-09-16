@@ -119,7 +119,7 @@ namespace rttb
 					unsigned int count = 0;
 
 					//now just get the values of all (dose) voxels and store them in values
-					for (auto cornerPointsIterator = std::begin(cornerPoints); cornerPointsIterator != std::end(cornerPoints);
+					for (auto cornerPointsIterator = cornerPoints.begin(); cornerPointsIterator != cornerPoints.end();
 					     ++cornerPointsIterator, ++count)
 					{
 						if (_spOriginalDose->getGeometricInfo().isInside(*cornerPointsIterator))

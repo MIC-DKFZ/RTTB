@@ -73,7 +73,7 @@ namespace rttb
 			typedef itk::Image< DoseTypeGy, 3 >         DoseImageType;
 			typedef itk::ImageFileReader<DoseImageType> ReaderType;
 
-			DoseImageType::ConstPointer invalidDose = DoseImageType::New();
+			DoseImageType::Pointer invalidDose = DoseImageType::New();
 
 			ReaderType::Pointer reader = ReaderType::New();
 

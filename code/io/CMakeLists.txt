@@ -1,7 +1,7 @@
 MESSAGE (STATUS "processing RTToolbox io")
 ADD_SUBDIRECTORY (other)
 
-OPTION(BUILD_IO_Dicom "Determine if the IO class wrappers for DICOM format will be generated." OFF)
+OPTION(BUILD_IO_Dicom "Determine if the IO class wrappers for DICOM format will be generated." ON)
 IF(BUILD_IO_Dicom)
 	ADD_SUBDIRECTORY(dicom)
 	OPTION(BUILD_IO_HELAX "Determine if the IO class wrappers for HELAX format will be generated." OFF)
@@ -19,9 +19,4 @@ OPTION(BUILD_IO_Virtuos "Determine if the IO class wrappers for Virtuos format w
 IF(BUILD_IO_Virtuos)
 	ADD_SUBDIRECTORY(virtuos)
 ENDIF(BUILD_IO_Virtuos)
-
-OPTION(BUILD_IO_Mask "Determine if the IO class wrappers for Mask Image will be generated." OFF)
-IF(BUILD_IO_Mask)
-	ADD_SUBDIRECTORY(mask)
-ENDIF(BUILD_IO_Mask)
 

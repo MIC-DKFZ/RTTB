@@ -23,7 +23,6 @@
 
 #include "rttbDoseStatisticsXMLWriter.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbDataNotAvailableException.h"
 
 namespace rttb
 {
@@ -43,30 +42,26 @@ namespace rttb
 				ptree pt;
 
 				pt.put(statisticsTag + ".numberOfVoxels", aDoseStatistics->getNumberOfVoxels());
-				pt.put(statisticsTag + ".volume", aDoseStatistics->getVolume());
-				pt.put(statisticsTag + ".minimum", aDoseStatistics->getMinimum());
-
-				auto minimumPositions = aDoseStatistics->getMinimumPositions();
-				std::vector<std::pair<DoseTypeGy, VoxelGridID> >::iterator pairItMin = minimumPositions->begin();
+				pt.put(statisticsTag + ".volume", aDoseStatistics->getVx(0));
+				pt.put(statisticsTag + ".minimum", aDoseStatistics->getMinimum(spMyResultPairs));
+				std::vector<std::pair<DoseTypeGy, VoxelGridID> >::iterator pairIt = spMyResultPairs->begin();
 				int count = 0;
 
-				for (; pairItMin != minimumPositions->end() && count < 100; ++pairItMin) //output max. 100 minimum
+				for (; pairIt != spMyResultPairs->end() && count < 100 ; ++pairIt) //output max. 100 minimum
 				{
-					VoxelGridID voxelID = pairItMin->second;
+					VoxelGridID voxelID = pairIt->second;
 					pt.add(statisticsTag + ".minimum.voxelGridID", voxelID);
 
 					count++;
 				}
 
-				pt.put(statisticsTag + ".maximum", aDoseStatistics->getMaximum());
-
-				auto maximumPositions = aDoseStatistics->getMaximumPositions();
-				std::vector<std::pair<DoseTypeGy, VoxelGridID> >::iterator pairItMax = maximumPositions->begin();
+				pt.put(statisticsTag + ".maximum", aDoseStatistics->getMaximum(spMyResultPairs2));
+				std::vector<std::pair<DoseTypeGy, VoxelGridID> >::iterator pairIt2 = spMyResultPairs2->begin();
 				count = 0;
 
-				for (; pairItMax != maximumPositions->end() && count < 100; ++pairItMax) //output max. 100 maximum
+				for (; pairIt2 != spMyResultPairs2->end() && count < 100; ++pairIt2) //output max. 100 maximum
 				{
-					VoxelGridID voxelID = pairItMax->second;
+					VoxelGridID voxelID = pairIt2->second;
 					pt.add(statisticsTag + ".maximum.voxelGridID", voxelID);
 
 					count ++;
@@ -76,43 +71,37 @@ namespace rttb
 				pt.put(statisticsTag + ".standardDeviation", aDoseStatistics->getStdDeviation());
 				pt.put(statisticsTag + ".variance", aDoseStatistics->getVariance());
 
-				double absoluteVolume = aDoseStatistics->getVolume();
+				/*to do: x should be defined based on the user's feedback*/
+				//Dx
+				boost::property_tree::ptree dxNode1;
+				boost::property_tree::ptree dxNode2;
+				boost::property_tree::ptree dxNode3;
+				boost::property_tree::ptree dxNode4;
+				boost::property_tree::ptree dxNode5;
+				boost::property_tree::ptree dxNode6;
 
-				try
-				{
-					//Dx
-					boost::property_tree::ptree dxNode1;
-					boost::property_tree::ptree dxNode2;
-					boost::property_tree::ptree dxNode3;
-					boost::property_tree::ptree dxNode4;
-					boost::property_tree::ptree dxNode5;
-					boost::property_tree::ptree dxNode6;
+				double absoluteVolume = aDoseStatistics->getVx(0);
 
-					dxNode1.put("", aDoseStatistics->getDx(absoluteVolume * 0.02));
-					dxNode2.put("", aDoseStatistics->getDx(absoluteVolume * 0.05));
-					dxNode3.put("", aDoseStatistics->getDx(absoluteVolume * 0.10));
-					dxNode4.put("", aDoseStatistics->getDx(absoluteVolume * 0.90));
-					dxNode5.put("", aDoseStatistics->getDx(absoluteVolume * 0.95));
-					dxNode6.put("", aDoseStatistics->getDx(absoluteVolume * 0.98));
+				dxNode1.put("", aDoseStatistics->getDx(absoluteVolume * 0.02));
+				dxNode2.put("", aDoseStatistics->getDx(absoluteVolume * 0.05));
+				dxNode3.put("", aDoseStatistics->getDx(absoluteVolume * 0.10));
+				dxNode4.put("", aDoseStatistics->getDx(absoluteVolume * 0.90));
+				dxNode5.put("", aDoseStatistics->getDx(absoluteVolume * 0.95));
+				dxNode6.put("", aDoseStatistics->getDx(absoluteVolume * 0.98));
 
-					dxNode1.put(xmlattrTag, 2);
-					dxNode2.put(xmlattrTag, 5);
-					dxNode3.put(xmlattrTag, 10);
-					dxNode4.put(xmlattrTag, 90);
-					dxNode5.put(xmlattrTag, 95);
-					dxNode6.put(xmlattrTag, 98);
+				dxNode1.put(xmlattrTag, 2);
+				dxNode2.put(xmlattrTag, 5);
+				dxNode3.put(xmlattrTag, 10);
+				dxNode4.put(xmlattrTag, 90);
+				dxNode5.put(xmlattrTag, 95);
+				dxNode6.put(xmlattrTag, 98);
 
-					pt.add_child(statisticsTag + ".Dx", dxNode1);
-					pt.add_child(statisticsTag + ".Dx", dxNode2);
-					pt.add_child(statisticsTag + ".Dx", dxNode3);
-					pt.add_child(statisticsTag + ".Dx", dxNode4);
-					pt.add_child(statisticsTag + ".Dx", dxNode5);
-					pt.add_child(statisticsTag + ".Dx", dxNode6);
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
+				pt.add_child(statisticsTag + ".Dx", dxNode1);
+				pt.add_child(statisticsTag + ".Dx", dxNode2);
+				pt.add_child(statisticsTag + ".Dx", dxNode3);
+				pt.add_child(statisticsTag + ".Dx", dxNode4);
+				pt.add_child(statisticsTag + ".Dx", dxNode5);
+				pt.add_child(statisticsTag + ".Dx", dxNode6);
 
 
 				if (aReferenceDose <= 0)
@@ -120,137 +109,103 @@ namespace rttb
 					throw core::InvalidParameterException("aReferenceDose should be >0!");
 				}
 
-				try
-				{
-					//Vx
-					boost::property_tree::ptree vxNode1;
-					boost::property_tree::ptree vxNode2;
-					boost::property_tree::ptree vxNode3;
-					boost::property_tree::ptree vxNode4;
-					boost::property_tree::ptree vxNode5;
-					boost::property_tree::ptree vxNode6;
+				//Vx
+				boost::property_tree::ptree vxNode1;
+				boost::property_tree::ptree vxNode2;
+				boost::property_tree::ptree vxNode3;
+				boost::property_tree::ptree vxNode4;
+				boost::property_tree::ptree vxNode5;
+				boost::property_tree::ptree vxNode6;
 
-					vxNode1.put("", aDoseStatistics->getVx(aReferenceDose * 0.02));
-					vxNode2.put("", aDoseStatistics->getVx(aReferenceDose * 0.05));
-					vxNode3.put("", aDoseStatistics->getVx(aReferenceDose * 0.10));
-					vxNode4.put("", aDoseStatistics->getVx(aReferenceDose * 0.90));
-					vxNode5.put("", aDoseStatistics->getVx(aReferenceDose * 0.95));
-					vxNode6.put("", aDoseStatistics->getVx(aReferenceDose * 0.98));
+				vxNode1.put("", aDoseStatistics->getVx(aReferenceDose * 0.02));
+				vxNode2.put("", aDoseStatistics->getVx(aReferenceDose * 0.05));
+				vxNode3.put("", aDoseStatistics->getVx(aReferenceDose * 0.10));
+				vxNode4.put("", aDoseStatistics->getVx(aReferenceDose * 0.90));
+				vxNode5.put("", aDoseStatistics->getVx(aReferenceDose * 0.95));
+				vxNode6.put("", aDoseStatistics->getVx(aReferenceDose * 0.98));
 
-					vxNode1.put(xmlattrTag, 2);
-					vxNode2.put(xmlattrTag, 5);
-					vxNode3.put(xmlattrTag, 10);
-					vxNode4.put(xmlattrTag, 90);
-					vxNode5.put(xmlattrTag, 95);
-					vxNode6.put(xmlattrTag, 98);
+				vxNode1.put(xmlattrTag, 2);
+				vxNode2.put(xmlattrTag, 5);
+				vxNode3.put(xmlattrTag, 10);
+				vxNode4.put(xmlattrTag, 90);
+				vxNode5.put(xmlattrTag, 95);
+				vxNode6.put(xmlattrTag, 98);
 
-					pt.add_child(statisticsTag + ".Vx", vxNode1);
-					pt.add_child(statisticsTag + ".Vx", vxNode2);
-					pt.add_child(statisticsTag + ".Vx", vxNode3);
-					pt.add_child(statisticsTag + ".Vx", vxNode4);
-					pt.add_child(statisticsTag + ".Vx", vxNode5);
-					pt.add_child(statisticsTag + ".Vx", vxNode6);
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
+				pt.add_child(statisticsTag + ".Vx", vxNode1);
+				pt.add_child(statisticsTag + ".Vx", vxNode2);
+				pt.add_child(statisticsTag + ".Vx", vxNode3);
+				pt.add_child(statisticsTag + ".Vx", vxNode4);
+				pt.add_child(statisticsTag + ".Vx", vxNode5);
+				pt.add_child(statisticsTag + ".Vx", vxNode6);
 
-				try
-				{
-					//MOHx
-					boost::property_tree::ptree mohxNode1;
-					boost::property_tree::ptree mohxNode2;
-					boost::property_tree::ptree mohxNode3;
+				//MOHx
+				boost::property_tree::ptree mohxNode1;
+				boost::property_tree::ptree mohxNode2;
+				boost::property_tree::ptree mohxNode3;
 
-					mohxNode1.put("", aDoseStatistics->getMOHx(absoluteVolume * 0.02));
-					mohxNode2.put("", aDoseStatistics->getMOHx(absoluteVolume * 0.05));
-					mohxNode3.put("", aDoseStatistics->getMOHx(absoluteVolume * 0.10));
+				mohxNode1.put("", aDoseStatistics->getMOHx(absoluteVolume * 0.02));
+				mohxNode2.put("", aDoseStatistics->getMOHx(absoluteVolume * 0.05));
+				mohxNode3.put("", aDoseStatistics->getMOHx(absoluteVolume * 0.10));
 
-					mohxNode1.put(xmlattrTag, 2);
-					mohxNode2.put(xmlattrTag, 5);
-					mohxNode3.put(xmlattrTag, 10);
+				mohxNode1.put(xmlattrTag, 2);
+				mohxNode2.put(xmlattrTag, 5);
+				mohxNode3.put(xmlattrTag, 10);
 
-					pt.add_child(statisticsTag + ".MOHx", mohxNode1);
-					pt.add_child(statisticsTag + ".MOHx", mohxNode2);
-					pt.add_child(statisticsTag + ".MOHx", mohxNode3);
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
+				pt.add_child(statisticsTag + ".MOHx", mohxNode1);
+				pt.add_child(statisticsTag + ".MOHx", mohxNode2);
+				pt.add_child(statisticsTag + ".MOHx", mohxNode3);
 
-				try
-				{
-					//MOCx
-					boost::property_tree::ptree mocxNode1;
-					boost::property_tree::ptree mocxNode2;
-					boost::property_tree::ptree mocxNode3;
+				//MOCx
+				boost::property_tree::ptree mocxNode1;
+				boost::property_tree::ptree mocxNode2;
+				boost::property_tree::ptree mocxNode3;
 
-					mocxNode1.put("", aDoseStatistics->getMOCx(absoluteVolume * 0.02));
-					mocxNode2.put("", aDoseStatistics->getMOCx(absoluteVolume * 0.05));
-					mocxNode3.put("", aDoseStatistics->getMOCx(absoluteVolume * 0.10));
+				mocxNode1.put("", aDoseStatistics->getMOCx(absoluteVolume * 0.02));
+				mocxNode2.put("", aDoseStatistics->getMOCx(absoluteVolume * 0.05));
+				mocxNode3.put("", aDoseStatistics->getMOCx(absoluteVolume * 0.10));
 
-					mocxNode1.put(xmlattrTag, 2);
-					mocxNode2.put(xmlattrTag, 5);
-					mocxNode3.put(xmlattrTag, 10);
+				mocxNode1.put(xmlattrTag, 2);
+				mocxNode2.put(xmlattrTag, 5);
+				mocxNode3.put(xmlattrTag, 10);
 
-					pt.add_child(statisticsTag + ".MOCx", mocxNode1);
-					pt.add_child(statisticsTag + ".MOCx", mocxNode2);
-					pt.add_child(statisticsTag + ".MOCx", mocxNode3);
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
+				pt.add_child(statisticsTag + ".MOCx", mocxNode1);
+				pt.add_child(statisticsTag + ".MOCx", mocxNode2);
+				pt.add_child(statisticsTag + ".MOCx", mocxNode3);
 
-				try
-				{
-					//MaxOHx
-					boost::property_tree::ptree maxohxNode1;
-					boost::property_tree::ptree maxohxNode2;
-					boost::property_tree::ptree maxohxNode3;
 
-					maxohxNode1.put("", aDoseStatistics->getMaxOHx(absoluteVolume * 0.02));
-					maxohxNode2.put("", aDoseStatistics->getMaxOHx(absoluteVolume * 0.05));
-					maxohxNode3.put("", aDoseStatistics->getMaxOHx(absoluteVolume * 0.10));
+				//MaxOHx
+				boost::property_tree::ptree maxohxNode1;
+				boost::property_tree::ptree maxohxNode2;
+				boost::property_tree::ptree maxohxNode3;
 
-					maxohxNode1.put(xmlattrTag, 2);
-					maxohxNode2.put(xmlattrTag, 5);
-					maxohxNode3.put(xmlattrTag, 10);
+				maxohxNode1.put("", aDoseStatistics->getMaxOHx(absoluteVolume * 0.02));
+				maxohxNode2.put("", aDoseStatistics->getMaxOHx(absoluteVolume * 0.05));
+				maxohxNode3.put("", aDoseStatistics->getMaxOHx(absoluteVolume * 0.10));
 
-					pt.add_child(statisticsTag + ".MaxOHx", maxohxNode1);
-					pt.add_child(statisticsTag + ".MaxOHx", maxohxNode2);
-					pt.add_child(statisticsTag + ".MaxOHx", maxohxNode3);
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
+				maxohxNode1.put(xmlattrTag, 2);
+				maxohxNode2.put(xmlattrTag, 5);
+				maxohxNode3.put(xmlattrTag, 10);
 
-				try
-				{
-					//MinOCx
-					boost::property_tree::ptree minocxNode1;
-					boost::property_tree::ptree minocxNode2;
-					boost::property_tree::ptree minocxNode3;
+				pt.add_child(statisticsTag + ".MaxOHx", maxohxNode1);
+				pt.add_child(statisticsTag + ".MaxOHx", maxohxNode2);
+				pt.add_child(statisticsTag + ".MaxOHx", maxohxNode3);
 
-					minocxNode1.put("", aDoseStatistics->getMinOCx(absoluteVolume * 0.02));
-					minocxNode2.put("", aDoseStatistics->getMinOCx(absoluteVolume * 0.05));
-					minocxNode3.put("", aDoseStatistics->getMinOCx(absoluteVolume * 0.10));
+				//MinOCx
+				boost::property_tree::ptree minocxNode1;
+				boost::property_tree::ptree minocxNode2;
+				boost::property_tree::ptree minocxNode3;
 
-					minocxNode1.put(xmlattrTag, 2);
-					minocxNode2.put(xmlattrTag, 5);
-					minocxNode3.put(xmlattrTag, 10);
+				minocxNode1.put("", aDoseStatistics->getMinOCx(absoluteVolume * 0.02));
+				minocxNode2.put("", aDoseStatistics->getMinOCx(absoluteVolume * 0.05));
+				minocxNode3.put("", aDoseStatistics->getMinOCx(absoluteVolume * 0.10));
 
-					pt.add_child(statisticsTag + ".MinOCx", minocxNode1);
-					pt.add_child(statisticsTag + ".MinOCx", minocxNode2);
-					pt.add_child(statisticsTag + ".MinOCx", minocxNode3);
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
+				minocxNode1.put(xmlattrTag, 2);
+				minocxNode2.put(xmlattrTag, 5);
+				minocxNode3.put(xmlattrTag, 10);
+
+				pt.add_child(statisticsTag + ".MinOCx", minocxNode1);
+				pt.add_child(statisticsTag + ".MinOCx", minocxNode2);
+				pt.add_child(statisticsTag + ".MinOCx", minocxNode3);
 
 				return pt;
 
@@ -295,9 +250,9 @@ namespace rttb
 
 				std::stringstream sstr;
 
-				sstr << aDoseStatistics->getVolume() * 1000 << columnSeparator; // cm3 to mm3
-				sstr << aDoseStatistics->getMaximum() << columnSeparator;
-				sstr << aDoseStatistics->getMinimum() << columnSeparator;
+				sstr << aDoseStatistics->getVx(0) * 1000 << columnSeparator; // cm3 to mm3
+				sstr << aDoseStatistics->getMaximum(spMyResultPairs2) << columnSeparator;
+				sstr << aDoseStatistics->getMinimum(spMyResultPairs) << columnSeparator;
 
 				sstr << aDoseStatistics->getMean() << columnSeparator;
 				sstr << aDoseStatistics->getStdDeviation() << columnSeparator;
@@ -311,85 +266,46 @@ namespace rttb
 
 				//Vx
 
-				try
-				{
-					sstr << aDoseStatistics->getVx(aReferenceDose * 0.02) * 1000 << columnSeparator; // cm3 to mm3
-					sstr << aDoseStatistics->getVx(aReferenceDose * 0.05) * 1000 << columnSeparator; // cm3 to mm3
-					sstr << aDoseStatistics->getVx(aReferenceDose * 0.10) * 1000 << columnSeparator; // cm3 to mm3
-					sstr << aDoseStatistics->getVx(aReferenceDose * 0.90) * 1000 << columnSeparator; // cm3 to mm3
-					sstr << aDoseStatistics->getVx(aReferenceDose * 0.95) * 1000 << columnSeparator; // cm3 to mm3
-					sstr << aDoseStatistics->getVx(aReferenceDose * 0.98) * 1000 << columnSeparator; // cm3 to mm3
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
+				sstr << aDoseStatistics->getVx(aReferenceDose * 0.02) * 1000 << columnSeparator; // cm3 to mm3
+				sstr << aDoseStatistics->getVx(aReferenceDose * 0.05) * 1000 << columnSeparator; // cm3 to mm3
+				sstr << aDoseStatistics->getVx(aReferenceDose * 0.10) * 1000 << columnSeparator; // cm3 to mm3
+				sstr << aDoseStatistics->getVx(aReferenceDose * 0.90) * 1000 << columnSeparator; // cm3 to mm3
+				sstr << aDoseStatistics->getVx(aReferenceDose * 0.95) * 1000 << columnSeparator; // cm3 to mm3
+				sstr << aDoseStatistics->getVx(aReferenceDose * 0.98) * 1000 << columnSeparator; // cm3 to mm3
 
 				//Dx
 
-				double absoluteVolume = aDoseStatistics->getVolume();
+				double absoluteVolume = aDoseStatistics->getVx(0);
 
-				try
-				{
-					sstr << aDoseStatistics->getDx(absoluteVolume * 0.02) << columnSeparator;
-					sstr << aDoseStatistics->getDx(absoluteVolume * 0.05) << columnSeparator;
-					sstr << aDoseStatistics->getDx(absoluteVolume * 0.10) << columnSeparator;
-					sstr << aDoseStatistics->getDx(absoluteVolume * 0.90) << columnSeparator;
-					sstr << aDoseStatistics->getDx(absoluteVolume * 0.95) << columnSeparator;
-					sstr << aDoseStatistics->getDx(absoluteVolume * 0.98) << columnSeparator;
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
+				sstr << aDoseStatistics->getDx(absoluteVolume * 0.02) << columnSeparator;
+				sstr << aDoseStatistics->getDx(absoluteVolume * 0.05) << columnSeparator;
+				sstr << aDoseStatistics->getDx(absoluteVolume * 0.10) << columnSeparator;
+				sstr << aDoseStatistics->getDx(absoluteVolume * 0.90) << columnSeparator;
+				sstr << aDoseStatistics->getDx(absoluteVolume * 0.95) << columnSeparator;
+				sstr << aDoseStatistics->getDx(absoluteVolume * 0.98) << columnSeparator;
 
-				try
-				{
-					//MOHx
-					sstr << aDoseStatistics->getMOHx(absoluteVolume * 0.02) << columnSeparator;
-					sstr << aDoseStatistics->getMOHx(absoluteVolume * 0.05) << columnSeparator;
-					sstr << aDoseStatistics->getMOHx(absoluteVolume * 0.10) << columnSeparator;
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
 
-				try
-				{
-					//MOCx
-					sstr << aDoseStatistics->getMOCx(absoluteVolume * 0.02) << columnSeparator;
-					sstr << aDoseStatistics->getMOCx(absoluteVolume * 0.05) << columnSeparator;
-					sstr << aDoseStatistics->getMOCx(absoluteVolume * 0.10) << columnSeparator;
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
+				//MOHx
+				sstr << aDoseStatistics->getMOHx(absoluteVolume * 0.02) << columnSeparator;
+				sstr << aDoseStatistics->getMOHx(absoluteVolume * 0.05) << columnSeparator;
+				sstr << aDoseStatistics->getMOHx(absoluteVolume * 0.10) << columnSeparator;
 
-				try
-				{
-					//MaxOHx
-					sstr << aDoseStatistics->getMaxOHx(absoluteVolume * 0.02) << columnSeparator;
-					sstr << aDoseStatistics->getMaxOHx(absoluteVolume * 0.05) << columnSeparator;
-					sstr << aDoseStatistics->getMaxOHx(absoluteVolume * 0.10) << columnSeparator;
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
 
-				try
-				{
-					//MinOCx
-					sstr << aDoseStatistics->getMinOCx(absoluteVolume * 0.02) << columnSeparator;
-					sstr << aDoseStatistics->getMinOCx(absoluteVolume * 0.05) << columnSeparator;
-					sstr << aDoseStatistics->getMinOCx(absoluteVolume * 0.10) << columnSeparator;
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
+				//MOCx
+				sstr << aDoseStatistics->getMOCx(absoluteVolume * 0.02) << columnSeparator;
+				sstr << aDoseStatistics->getMOCx(absoluteVolume * 0.05) << columnSeparator;
+				sstr << aDoseStatistics->getMOCx(absoluteVolume * 0.10) << columnSeparator;
+
+
+				//MaxOHx
+				sstr << aDoseStatistics->getMaxOHx(absoluteVolume * 0.02) << columnSeparator;
+				sstr << aDoseStatistics->getMaxOHx(absoluteVolume * 0.05) << columnSeparator;
+				sstr << aDoseStatistics->getMaxOHx(absoluteVolume * 0.10) << columnSeparator;
+
+				//MinOCx
+				sstr << aDoseStatistics->getMinOCx(absoluteVolume * 0.02) << columnSeparator;
+				sstr << aDoseStatistics->getMinOCx(absoluteVolume * 0.05) << columnSeparator;
+				sstr << aDoseStatistics->getMinOCx(absoluteVolume * 0.10) << columnSeparator;
 
 
 				return sstr.str();

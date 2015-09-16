@@ -5,7 +5,7 @@
 #-----------------------------------------------------------------------------
 # This part is based on the findDCMTK of CMake 2.8.8
 # it was patched because:
-# 1. the find_library statment had an incomplet set
+# 1. the find_library statement had an incomplete set
 #    of search paths. If building DCMTK with Visual
 #    Studio the libs are to be found in /lib/release
 #    or /lib/debug
@@ -21,8 +21,8 @@ if(NOT DCMTK_FOUND AND NOT DCMTK_DIR)
   set(DCMTK_DIR "/usr/include/dcmtk/")
 endif()
 
-#ensure that we always have the variable as cache, undependent from
-#setting it via gui or commandline
+#ensure that we always have the variable as cache, independent from
+#setting it via gui or command line
 set(DCMTK_DIR ${DCMTK_DIR} CACHE PATH "Root of DCMTK tree.")
 
 IF(DEFINED DCMTK_SOURCE_DIR)
@@ -35,8 +35,8 @@ if(NOT DCMTK_FOUND AND NOT DCMTK_SOURCE_DIR)
   set(DCMTK_SOURCE_DIR ${DCMTK_DIR})
 endif()
 
-#ensure that we always have the variable as cache, undependet from
-#setting it via gui or commandline
+#ensure that we always have the variable as cache, independent from
+#setting it via gui or command line
 set(DCMTK_SOURCE_DIR ${DCMTK_SOURCE_DIR} CACHE PATH "Root of DCMTK tree.")
 
 OPTION(RTTB_USE_ML_DCMTK "RTTB should use a DCMTK which is available in the MeVisLab package structure." OFF)
@@ -182,7 +182,7 @@ foreach(dir
 endforeach()
 
 if(WIN32)
-  list(APPEND DCMTK_LIBRARIES netapi32 wsock32)
+  list(APPEND DCMTK_LIBRARIES netapi32 wsock32 ws2_32)
 endif()
 
 if(UNIX)

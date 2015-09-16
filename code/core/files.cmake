@@ -3,7 +3,6 @@ SET(CPP_FILES
   rttbDVH.cpp
   rttbDVHCalculator.cpp
   rttbDVHSet.cpp
-  rttbDataNotAvailableException.cpp
   rttbException.cpp		
   rttbGenericDoseIterator.cpp
   rttbGenericMaskedDoseIterator.cpp
@@ -24,7 +23,6 @@ SET(CPP_FILES
 
 SET(H_FILES 
   rttbBaseType.h
-  rttbDataNotAvailableException.h
   rttbDoseAccessorGeneratorBase.h
   rttbDoseAccessorGeneratorInterface.h
   rttbDoseAccessorInterface.h
@@ -46,6 +44,8 @@ SET(H_FILES
   rttbMaskAccessorGeneratorBase.h
   rttbMaskAccessorGeneratorInterface.h
   rttbMaskAccessorInterface.h
+  rttbMaskAccessorProcessorBase.h
+  rttbMaskAccessorProcessorInterface.h
   rttbMaskedDoseIteratorInterface.h
   rttbMaskVoxel.h
   rttbMutableDoseAccessorInterface.h

@@ -76,7 +76,7 @@ namespace rttb
 				typedef ::itk::Image<TInputPixel, iDimension>  InputImageType;
 				typedef ::itk::Image<TOutputPixel, iDimension> OutputImageType;
 				typedef TInputPixel RescaleValueType;
-				typedef std::vector<::itk::MetaDataDictionary> MetaDataDictionaryArrayType;
+				typedef std::vector< ::itk::MetaDataDictionary> MetaDataDictionaryArrayType;
 
 				typedef std::string String;
 
@@ -118,7 +118,7 @@ namespace rttb
 
 				void load3D();
 
-				typedef std::vector<::itk::MetaDataDictionary*> ITKMetaDataDictionaryArray;
+				typedef std::vector< ::itk::MetaDataDictionary*> ITKMetaDataDictionaryArray;
 				void copyMetaDictionaryArray(const ITKMetaDataDictionaryArray* fromArray,
 											 MetaDataDictionaryArrayType& toArray);
 
