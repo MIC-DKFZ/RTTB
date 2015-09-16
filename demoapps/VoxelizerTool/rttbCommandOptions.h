@@ -81,6 +81,10 @@ namespace rttb
 				{
 					return _params;
 				}
+				bool isReturnAfterHelp() const
+				{
+					return _returnAfterHelp;
+				}
 
 			private:
 				/**
@@ -111,9 +115,7 @@ namespace rttb
 				/*! create description object */
 				po::options_description _description;
 				Parameters _params;
-
-				/**@brief minimum arguments that must be present on the Command Line*/
-				int _minArguments;
+				bool _returnAfterHelp;
 			};
 		}
 	}

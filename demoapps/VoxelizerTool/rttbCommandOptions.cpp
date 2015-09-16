@@ -47,6 +47,7 @@ namespace rttb
 				_params.legacyVoxelization = false;
 				_params.booleanVoxelization  = false;
 				_params.addStructures = false;
+				_returnAfterHelp = false;
 
 				po::options_description required("Required arguments");
 				addOption(required, PARAM_STRUCT_FILE, "s", po::value<std::string>(&_params.structFile)->required(),
@@ -113,6 +114,7 @@ namespace rttb
 					if (var.count(PARAM_HELP))
 					{
 						showHelp();
+						_returnAfterHelp = true;
 						return true;
 					}
 

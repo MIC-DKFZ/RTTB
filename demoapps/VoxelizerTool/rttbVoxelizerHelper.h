@@ -36,7 +36,7 @@ namespace rttb
 			/**@brief Search the label with the position from index
 			@return a label from the list as string
 			*/
-			std::string getLabelFromList(std::vector<std::string> listOfExpressions, int index);
+			void removeSpecialCharacters(std::string& label);
 			std::string getFilenameWithoutEnding(const std::string& outfilename);
 			std::string getFileEnding(const std::string& outfilename);
 		}

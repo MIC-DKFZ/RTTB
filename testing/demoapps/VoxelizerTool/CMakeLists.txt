@@ -17,11 +17,11 @@ ADD_TEST(rttbVoxelizerToolIncorrectCommandsTest ${VoxelizerTool_TESTS} Voxelizer
 ${REFERENCE_FILE} "${TEST_DATA_ROOT}/DICOM/TestDose/Wrong_Reference_file.dicom" "Rueckenmark" "blabla")
 ADD_TEST(rttbVoxelizerToolVoxelizerAllStructsTest ${VoxelizerTool_TESTS} VoxelizerToolVoxelizerAllStructsTest 
 "${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE} )
-#ADD_TEST(rttbVoxelizerToolDifferentCommandsTest ${VoxelizerTool_TESTS} VoxelizerToolDifferentCommandsTest 
-#"${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE})
-#ADD_TEST(rttbVoxelizerToolVoxelizerBoostLegacyTest ${VoxelizerTool_TESTS} VoxelizerToolVoxelizerBoostLegacy 
-#"${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE})
-#ADD_TEST(rttbVoxelizerToolVoxelValueTest  ${VoxelizerTool_TESTS} VoxelizerToolVoxelValue 
-#"${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE} "Leber")
+ADD_TEST(rttbVoxelizerToolDifferentCommandsTest ${VoxelizerTool_TESTS} VoxelizerToolDifferentCommandsTest 
+"${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE})
+ADD_TEST(rttbVoxelizerToolVoxelizerBoostLegacyTest ${VoxelizerTool_TESTS} VoxelizerToolVoxelizerBoostLegacy 
+"${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE})
+ADD_TEST(rttbVoxelizerToolVoxelValueTest  ${VoxelizerTool_TESTS} VoxelizerToolVoxelValue 
+"${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE} "Leber")
 
 RTTB_CREATE_TEST_MODULE(RTTBVoxelizerTool DEPENDS RTTBITKIO RTTBCore RTTBMasks RTTBOTBMask RTTBBoostMask RTTBDicomIO RTTBOtherIO PACKAGE_DEPENDS Litmus)

@@ -23,7 +23,6 @@
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/regex.hpp>
 #include <boost/filesystem.hpp>
-#include <iostream>
 
 namespace rttb
 {
@@ -52,18 +51,19 @@ namespace rttb
 				return listOfFoundElements;
 			}
 
-			std::string getLabelFromList(std::vector<std::string> listOfExpressions, int j)
+			void removeSpecialCharacters(std::string& label)
 			{
-				//Replace / to avoid problems with directories (struct "Magen/DD" --> Magen/DD.mhd), delete trailing . to avoid filenames with two trailing points (Niere re. --> Niere re..mhd)
-				listOfExpressions.at(j).replace(listOfExpressions.at(j).find("/"), 1, "_");
 
-				if (listOfExpressions.at(j).substr(listOfExpressions.at(j).size() - 1) == ".")
+				//Replace / to avoid problems with directories (struct "Magen/DD" --> Magen/DD.mhd), delete trailing . to avoid filenames with two trailing points (Niere re. --> Niere re..mhd)
+				while (label.find("/") != std::string::npos)
 				{
-					listOfExpressions.at(j).replace(listOfExpressions.at(j).size() - 1, 1, "");
+					label.replace(label.find("/"), 1, "_");
 				}
 
-				std::cout << listOfExpressions.at(j) << std::endl;
-				return listOfExpressions.at(j);
+				if (*label.rbegin() == '.')
+				{
+					label.replace(label.size() - 1, 1, "");
+				}
 			}
 
 			std::string getFilenameWithoutEnding(const std::string& outfilename)

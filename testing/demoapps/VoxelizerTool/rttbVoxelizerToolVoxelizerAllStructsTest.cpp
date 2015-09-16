@@ -55,7 +55,7 @@ namespace rttb
 			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + voxelizerToolExe;
 
 			std::vector<std::string> structNames;
-			structNames.push_back("Niere re.");
+			structNames.push_back("Niere.*");
 			structNames.push_back("Magen/DD");
 			structNames.push_back("PTV");
 
