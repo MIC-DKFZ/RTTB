@@ -188,12 +188,12 @@ namespace rttb
 			}
 
 
-			DoseTypeGy VirtuosDoseAccessor::getValueAt(const VoxelGridID aID) const
+			GenericValueType VirtuosDoseAccessor::getValueAt(const VoxelGridID aID) const
 			{
 				return doseData.at(aID);
 			}
 
-			DoseTypeGy VirtuosDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
+			GenericValueType VirtuosDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 			{
 				VoxelGridID aVoxelGridID;
 

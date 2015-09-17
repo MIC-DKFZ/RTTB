@@ -43,12 +43,12 @@ namespace rttb
 			assembleGeometricInfo();
 		}
 
-		BioModelValueType LQModelAccessor::getValueAt(const VoxelGridID aID) const
+		GenericValueType LQModelAccessor::getValueAt(const VoxelGridID aID) const
 		{
 			return calcLQ(_dose->getValueAt(aID), _alpha, _beta);
 		}
 
-		BioModelValueType LQModelAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
+		GenericValueType LQModelAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 		{
 			return calcLQ(_dose->getValueAt(aIndex), _alpha, _beta);
 		}

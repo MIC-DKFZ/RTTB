@@ -48,12 +48,12 @@ namespace rttb
 			_functor = functor;
 		}
 
-		template <class TDoseOperation> DoseTypeGy BinaryFunctorAccessor<TDoseOperation>::getValueAt(
+		template <class TDoseOperation> GenericValueType BinaryFunctorAccessor<TDoseOperation>::getValueAt(
 		    const VoxelGridID aID) const
 		{
 			if (getGeometricInfo().validID(aID))
 			{
-				DoseTypeGy value = _functor.calc(_spData1->getValueAt(aID), _spData2->getValueAt(aID));
+				GenericValueType value = _functor.calc(_spData1->getValueAt(aID), _spData2->getValueAt(aID));
 				return value;
 			}
 			else

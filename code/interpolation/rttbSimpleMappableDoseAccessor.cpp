@@ -46,7 +46,7 @@ namespace rttb
 			}
 		}
 
-		DoseTypeGy SimpleMappableDoseAccessor::getValueAt(const VoxelGridID aID) const
+		GenericValueType SimpleMappableDoseAccessor::getValueAt(const VoxelGridID aID) const
 		{
 			VoxelGridIndex3D aVoxelGridIndex3D;
 
@@ -68,7 +68,7 @@ namespace rttb
 			}
 		}
 
-		DoseTypeGy SimpleMappableDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
+		GenericValueType SimpleMappableDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 		{
 			//Transform requested voxel coordinates of original image into world coordinates with RTTB
 			WorldCoordinate3D worldCoordinateTarget;

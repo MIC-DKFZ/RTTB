@@ -20,7 +20,7 @@ namespace rttb
 				addPositionalOption(OPTION_DOSE_FILE, 1);
 				addPositionalOption(OPTION_OUTPUT_FILE, 1);
 				addOptionWithDefaultValue<std::string>(OPTION_MODEL, OPTION_GROUP_REQUIRED,
-				                                       "The used radiobiological model the dose should be analyzed with. Available models are:\n \"LQ\"", "LQ", 'm', "LQ");
+				                                       "The used radiobiological model the dose should be analyzed with. Available models are:\n \"LQ\"", "LQ", "LQ", 'm');
 				addOption<std::vector<double> >(OPTION_MODEL_PARAMETERS, OPTION_GROUP_REQUIRED,
 				                                "The parameters for the radiobiological model.", 'p', false, true);
 				std::vector<std::string> defaultLoadingStyle;
@@ -30,8 +30,8 @@ namespace rttb
 				        "\"dicom\": normal dicom dose\n"
 				        "\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--loadStyle virtuos myFavorite.pln\")\n"
 				        "\"itk\": use itk image loading\n\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).",
-				        defaultLoadingStyle,
-				        's', defaultLoadingStyle.at(0), true, true);
+				        defaultLoadingStyle, defaultLoadingStyle.at(0),
+				        's', true, true);
 
 				parse(argc, argv);
 			}

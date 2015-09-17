@@ -82,7 +82,7 @@ namespace rttb
 			return _geoInfo;
 		}
 
-		DoseTypeGy DummyMutableDoseAccessor::getValueAt(const VoxelGridID aID) const
+		GenericValueType DummyMutableDoseAccessor::getValueAt(const VoxelGridID aID) const
 		{
 			if (!_geoInfo.validID(aID))
 			{
@@ -92,7 +92,7 @@ namespace rttb
 			return doseData.at(aID);
 		}
 
-		DoseTypeGy DummyMutableDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
+		GenericValueType DummyMutableDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 		{
 			VoxelGridID gridID = 0;
 			_geoInfo.convert(aIndex, gridID);

@@ -270,12 +270,12 @@ namespace rttb
 				return true;
 			}
 
-			DoseTypeGy DicomDoseAccessor::getValueAt(const VoxelGridID aID) const
+			GenericValueType DicomDoseAccessor::getValueAt(const VoxelGridID aID) const
 			{
 				return doseData.at(aID) * _doseGridScaling;
 			}
 
-			DoseTypeGy DicomDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
+			GenericValueType DicomDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 			{
 				VoxelGridID aVoxelGridID;
 
