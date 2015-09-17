@@ -53,7 +53,7 @@ namespace rttb
 			*/
 			template <class TDoseOperation>
 			void arithmetic(const DoseAccessorPointer dose1, const DoseAccessorPointer dose2,
-							MutableDoseAccessorPointer result, TDoseOperation op);
+			                MutableDoseAccessorPointer result, TDoseOperation op);
 
 			///*! Applies the given dose operation to the mapped given doses (transformation given by MatchPoint) and stores the result in <i>result</i>
 			//     @pre pointers to accessors are not NULL.
@@ -71,7 +71,7 @@ namespace rttb
 			*/
 			template <class TDoseMaskOperation>
 			void arithmetic(const DoseAccessorPointer dose, const MaskAccessorPointer mask,
-							MutableDoseAccessorPointer result, TDoseMaskOperation op);
+			                MutableDoseAccessorPointer result, TDoseMaskOperation op);
 
 			/*! Applies the given mask operation to the given masks and stores the result in <i>result</i>
 			  @pre pointers to accessors are not NULL. The geometric Info of the individual accessors must be equal.
@@ -80,19 +80,19 @@ namespace rttb
 			*/
 			template <class TMaskOperation>
 			void arithmetic(const MaskAccessorPointer mask1, const MaskAccessorPointer mask2,
-							MutableMaskAccessorPointer result, TMaskOperation op);
+			                MutableMaskAccessorPointer result, TMaskOperation op);
 
 			//convenience functions
 			void add(const DoseAccessorPointer dose1, const DoseAccessorPointer dose2,
-					 MutableDoseAccessorPointer result);
+			         MutableDoseAccessorPointer result);
 			//void add(const DoseAccessorPointer dose1, const MappableDoseAccessorPointer dose2,
 			//	  MutableDoseAccessorPointer result);
 			void add(const MaskAccessorPointer mask1, const MaskAccessorPointer mask2,
-					 MutableMaskAccessorPointer result);
+			         MutableMaskAccessorPointer result);
 			void subtract(const MaskAccessorPointer mask1, const MaskAccessorPointer mask2,
-						  MutableMaskAccessorPointer result);
+			              MutableMaskAccessorPointer result);
 			void multiply(const DoseAccessorPointer dose, const MaskAccessorPointer mask,
-						  MutableDoseAccessorPointer result);
+			              MutableDoseAccessorPointer result);
 
 			/*all operation classes need to implement the function calc() that performs the entry wise operation
 			  The operations are sorted into name spaces according to useful application. If the input values are compatible
@@ -118,7 +118,11 @@ namespace rttb
 
 					DoseTypeGy calc(const DoseTypeGy dose1Val, const DoseTypeGy dose2Val) const;
 				};
-
+				class Multiply
+				{
+				public:
+					DoseTypeGy calc(const DoseTypeGy dose1Val, const DoseTypeGy dose2Val) const;
+				};
 			}
 
 			//Operations for binary-dose-mask-operation template
