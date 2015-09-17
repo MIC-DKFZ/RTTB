@@ -35,8 +35,8 @@ namespace rttb
 		namespace boost
 		{
 
-			BoostMaskAccessor::BoostMaskAccessor(StructTypePointer aStructurePointer, const core::GeometricInfo& aGeometricInfo)
-				: _spStructure(aStructurePointer), _geoInfo(aGeometricInfo)
+			BoostMaskAccessor::BoostMaskAccessor(StructTypePointer aStructurePointer, const core::GeometricInfo& aGeometricInfo, bool strict)
+				: _spStructure(aStructurePointer), _geoInfo(aGeometricInfo), _strict(strict)
 			{
 				_spRelevantVoxelVector = MaskVoxelListPointer();
 
@@ -63,8 +63,7 @@ namespace rttb
 					return; // already calculated
 				}
 
-
-				BoostMask mask(::boost::make_shared<core::GeometricInfo>(_geoInfo), _spStructure);
+				BoostMask mask(::boost::make_shared<core::GeometricInfo>(_geoInfo), _spStructure, _strict);
 
 				_spRelevantVoxelVector = mask.getRelevantVoxelVector();
 

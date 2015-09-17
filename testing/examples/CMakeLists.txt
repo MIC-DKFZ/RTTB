@@ -43,5 +43,5 @@ ADD_TEST(DoseStatisticsIOVirtuosTest ${CORE_TEST_EXAMPLES} DoseStatisticsIOVirtu
 "D:/data/Sarkom Daten anonymized and cleaned/0001663996_SarkomPatient2/0001663996_SarkomPatient2_108.dos.gz"
 "D:/data/Sarkom Daten anonymized and cleaned/0001663996_SarkomPatient2/0001663996_SarkomPatient2_108.pln" "RUECKENMARK")
 
-RTTB_CREATE_TEST_MODULE(rttbExamples DEPENDS RTTBCore RTTBAlgorithms RTTBMasks RTTBOTBMask RTTBBoostMask RTTBIndices RTTBDicomIO RTTBVirtuosIO RTTBOtherIO RTTBModels PACKAGE_DEPENDS Litmus)
+RTTB_CREATE_TEST_MODULE(rttbExamples DEPENDS RTTBCore RTTBAlgorithms RTTBMasks RTTBOTBMask RTTBBoostMask RTTBIndices RTTBDicomIO RTTBVirtuosIO RTTBITKIO RTTBOtherIO RTTBModels PACKAGE_DEPENDS Litmus)
 
