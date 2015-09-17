@@ -51,7 +51,7 @@ namespace rttb
 				@sa ITKImageFileAccessorGenerator
 			*/
 			core::DoseAccessorInterface::DoseAccessorPointer loadITKDose(const std::string& fileName);
-			/*! @brief loads a dicom dose from a file.
+			/*! @brief loads a virtuos dose from a file.
 			@details Throws an rttb::Exception if loading fails
 			@sa VirtuosPlanFileDoseAccessorGenerator
 			*/
