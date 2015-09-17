@@ -30,28 +30,28 @@ namespace rttb
 		{
 
 			void add(const DoseAccessorPointer dose1, const DoseAccessorPointer dose2,
-					 MutableDoseAccessorPointer result)
+			         MutableDoseAccessorPointer result)
 			{
 				doseOp::Add addOP;
 				arithmetic(dose1, dose2, result, addOP);
 			}
 
 			void add(const MaskAccessorPointer mask1, const MaskAccessorPointer mask2,
-					 MutableMaskAccessorPointer result)
+			         MutableMaskAccessorPointer result)
 			{
 				maskOp::Add addOP;
 				arithmetic(mask1, mask2, result, addOP);
 			}
 
 			void subtract(const MaskAccessorPointer mask1, const MaskAccessorPointer mask2,
-						  MutableMaskAccessorPointer result)
+			              MutableMaskAccessorPointer result)
 			{
 				maskOp::Subtract subOP;
 				arithmetic(mask1, mask2, result, subOP);
 			}
 
 			void multiply(const DoseAccessorPointer dose, const MaskAccessorPointer mask,
-						  MutableDoseAccessorPointer result)
+			              MutableDoseAccessorPointer result)
 			{
 				doseMaskOp::Multiply multOP;
 				arithmetic(dose, mask, result, multOP);
@@ -71,6 +71,12 @@ namespace rttb
 				{
 					return weight1 * dose1Val + weight2 * dose2Val;
 				}
+
+				rttb::DoseTypeGy Multiply::calc(const DoseTypeGy dose1Val, const DoseTypeGy dose2Val) const
+				{
+					return dose1Val * dose2Val;
+				}
+
 			}
 
 			namespace doseMaskOp

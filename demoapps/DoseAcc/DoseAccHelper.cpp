@@ -45,135 +45,135 @@ rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseAcc::loadDose(const std::string& fileName,
                               const rttb::apps::doseAcc::ApplicationData::LoadingStyleArgType& args)
 {
-  rttb::core::DoseAccessorInterface::DoseAccessorPointer result;
+	rttb::core::DoseAccessorInterface::DoseAccessorPointer result;
 
-  std::cout << std::endl << "read dose file... ";
+	std::cout << std::endl << "read dose file... ";
 
-  if (args.empty() || args[0] == "dicom")
-  {
-    std::cout << "use RTTB dicom IO... ";
-    result = loadDicomDose(fileName);
-  }
-  else if (args[0] == "helax")
-  {
-    std::cout << "use RTTB Helax IO... ";
-    result = loadHelaxDose(fileName);
-  }
-  else if (args[0] == "itk")
-  {
-    std::cout << "use RTTB itk IO... ";
-    result = loadITKDose(fileName);
-  }
-  else if (args[0] == "virtuos")
-  {
-    if (args.size() < 2)
-    {
-      rttbDefaultExceptionStaticMacro( <<
-                                       "Cannot load virtuos dose. Plan file is missing. Specify plan file as 2nd io stlye argument.");
-    }
+	if (args.empty() || args[0] == "dicom")
+	{
+		std::cout << "use RTTB dicom IO... ";
+		result = loadDicomDose(fileName);
+	}
+	else if (args[0] == "helax")
+	{
+		std::cout << "use RTTB Helax IO... ";
+		result = loadHelaxDose(fileName);
+	}
+	else if (args[0] == "itk")
+	{
+		std::cout << "use RTTB itk IO... ";
+		result = loadITKDose(fileName);
+	}
+	else if (args[0] == "virtuos")
+	{
+		if (args.size() < 2)
+		{
+			rttbDefaultExceptionStaticMacro( <<
+			                                 "Cannot load virtuos dose. Plan file is missing. Specify plan file as 2nd io stlye argument.");
+		}
 
-    std::cout << "use RTTB virtuos IO... " << std::endl;
-    std::cout << "                  virtuos plan file: " << args[1] << " ... ";
-    result = loadVirtuosDose(fileName, args[1]);
-  }
-  else
-  {
-    rttbDefaultExceptionStaticMacro( << "Unknown io style selected. Cannot load data. Selected style: "
-                                     << args[0]);
-  }
+		std::cout << "use RTTB virtuos IO... " << std::endl;
+		std::cout << "                  virtuos plan file: " << args[1] << " ... ";
+		result = loadVirtuosDose(fileName, args[1]);
+	}
+	else
+	{
+		rttbDefaultExceptionStaticMacro( << "Unknown io style selected. Cannot load data. Selected style: "
+		                                 << args[0]);
+	}
 
-  std::cout << "done." << std::endl;
+	std::cout << "done." << std::endl;
 
-  return result;
+	return result;
 };
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseAcc::loadDicomDose(const std::string& fileName)
 {
-  rttb::io::dicom::DicomFileDoseAccessorGenerator generator(fileName);
-  return generator.generateDoseAccessor();
+	rttb::io::dicom::DicomFileDoseAccessorGenerator generator(fileName);
+	return generator.generateDoseAccessor();
 };
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseAcc::loadHelaxDose(const std::string& path)
 {
-  rttb::io::helax::DicomHelaxFileDoseAccessorGenerator generator(path);
-  return generator.generateDoseAccessor();
+	rttb::io::helax::DicomHelaxFileDoseAccessorGenerator generator(path);
+	return generator.generateDoseAccessor();
 };
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseAcc::loadITKDose(const std::string& fileName)
 {
-  rttb::io::itk::ITKImageFileDoseAccessorGenerator generator(fileName);
-  return generator.generateDoseAccessor();
+	rttb::io::itk::ITKImageFileDoseAccessorGenerator generator(fileName);
+	return generator.generateDoseAccessor();
 };
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseAcc::loadVirtuosDose(const std::string& fileName, const std::string& planFileName)
 {
-  rttb::io::virtuos::VirtuosPlanFileDoseAccessorGenerator generator(fileName, planFileName);
-  return generator.generateDoseAccessor();
+	rttb::io::virtuos::VirtuosPlanFileDoseAccessorGenerator generator(fileName, planFileName);
+	return generator.generateDoseAccessor();
 };
 
 rttb::apps::doseAcc::ApplicationData::RegistrationType::Pointer
 rttb::apps::doseAcc::loadRegistration(const std::string& fileName)
 {
-  map::io::RegistrationFileReader::Pointer spRegReader = map::io::RegistrationFileReader::New();
+	map::io::RegistrationFileReader::Pointer spRegReader = map::io::RegistrationFileReader::New();
 
-  map::io::RegistrationFileReader::LoadedRegistrationPointer spReg;
+	map::io::RegistrationFileReader::LoadedRegistrationPointer spReg;
 
-  std::cout << std::endl << "read registration file... ";
-  spReg = spRegReader->read(fileName);
-  std::cout << "done." << std::endl;
+	std::cout << std::endl << "read registration file... ";
+	spReg = spRegReader->read(fileName);
+	std::cout << "done." << std::endl;
 
-  ApplicationData::RegistrationType::Pointer resultPtr =
-    dynamic_cast<ApplicationData::RegistrationType*>(spReg.GetPointer());
+	ApplicationData::RegistrationType::Pointer resultPtr =
+	    dynamic_cast<ApplicationData::RegistrationType*>(spReg.GetPointer());
 
-  if (resultPtr.IsNull())
-  {
-    mapDefaultExceptionStaticMacro( <<
-                                    "Loaded registration cannot be used. Only 3D 3D registrations are allowed.");
-  }
+	if (resultPtr.IsNull())
+	{
+		rttbDefaultExceptionStaticMacro( <<
+		                                 "Loaded registration cannot be used. Only 3D 3D registrations are allowed.");
+	}
 
-  return resultPtr;
+	return resultPtr;
 };
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer generateNNMappableAccessor(
-  const rttb::core::GeometricInfo& geoInfoTargetImage,
-  const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
-  const rttb::interpolation::TransformationInterface::Pointer aTransformation)
+    const rttb::core::GeometricInfo& geoInfoTargetImage,
+    const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
+    const rttb::interpolation::TransformationInterface::Pointer aTransformation)
 {
-  rttb::interpolation::InterpolationBase::Pointer interpolate =
-    rttb::interpolation::NearestNeighborInterpolation::Pointer(new
-        rttb::interpolation::NearestNeighborInterpolation());
+	rttb::interpolation::InterpolationBase::Pointer interpolate =
+	    rttb::interpolation::NearestNeighborInterpolation::Pointer(new
+	            rttb::interpolation::NearestNeighborInterpolation());
 
-  return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
-           new rttb::interpolation::SimpleMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
-               aTransformation, interpolate));
+	return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
+	           new rttb::interpolation::SimpleMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
+	                   aTransformation, interpolate));
 }
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer generateLinearMappableAccessor(
-  const rttb::core::GeometricInfo& geoInfoTargetImage,
-  const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
-  const rttb::interpolation::TransformationInterface::Pointer aTransformation)
+    const rttb::core::GeometricInfo& geoInfoTargetImage,
+    const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
+    const rttb::interpolation::TransformationInterface::Pointer aTransformation)
 {
-  rttb::interpolation::InterpolationBase::Pointer interpolate =
-    rttb::interpolation::LinearInterpolation::Pointer(new
-        rttb::interpolation::LinearInterpolation());
+	rttb::interpolation::InterpolationBase::Pointer interpolate =
+	    rttb::interpolation::LinearInterpolation::Pointer(new
+	            rttb::interpolation::LinearInterpolation());
 
-  return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
-           new rttb::interpolation::SimpleMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
-               aTransformation, interpolate));
+	return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
+	           new rttb::interpolation::SimpleMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
+	                   aTransformation, interpolate));
 }
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer generateRosuMappableAccessor(
-  const rttb::core::GeometricInfo& geoInfoTargetImage,
-  const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
-  const rttb::interpolation::TransformationInterface::Pointer aTransformation)
+    const rttb::core::GeometricInfo& geoInfoTargetImage,
+    const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
+    const rttb::interpolation::TransformationInterface::Pointer aTransformation)
 {
-  return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
-           new rttb::interpolation::RosuMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
-               aTransformation));
+	return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
+	           new rttb::interpolation::RosuMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
+	                   aTransformation));
 }
 
 /**Private helper function for processData(). Generates a suitable output accessor
@@ -183,65 +183,83 @@ rttb::core::DoseAccessorInterface::DoseAccessorPointer
 assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 {
 
-  rttb::core::DoseAccessorInterface::DoseAccessorPointer dose2Accessor = appData._Dose2;
+	rttb::core::DoseAccessorInterface::DoseAccessorPointer dose2Accessor = appData._Dose2;
 
-  if (appData._spReg.IsNotNull())
-  {
-    rttb::interpolation::TransformationInterface::Pointer transform =
-      rttb::interpolation::TransformationInterface::Pointer(new
-          rttb::interpolation::MatchPointTransformation(appData._spReg));
+	if (appData._spReg.IsNotNull())
+	{
+		rttb::interpolation::TransformationInterface::Pointer transform =
+		    rttb::interpolation::TransformationInterface::Pointer(new
+		            rttb::interpolation::MatchPointTransformation(appData._spReg));
 
-    if (appData._interpolatorName == "rosu")
-    {
-      dose2Accessor = generateRosuMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
-                      transform);
-    }
-    else if (appData._interpolatorName == "nn")
-    {
-      dose2Accessor = generateNNMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
-                      transform);
-    }
-    else if (appData._interpolatorName == "linear")
-    {
-      dose2Accessor = generateLinearMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
-                      transform);
-    }
-    else
-    {
-      mapDefaultExceptionStaticMacro( <<
-                                      "Unkown interpolation type selected. Cannot map dose. Interpolation type: " <<
-                                      appData._interpolatorName);
-    }
-  }
+		if (appData._interpolatorName == "rosu")
+		{
+			dose2Accessor = generateRosuMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
+			                transform);
+		}
+		else if (appData._interpolatorName == "nn")
+		{
+			dose2Accessor = generateNNMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
+			                transform);
+		}
+		else if (appData._interpolatorName == "linear")
+		{
+			dose2Accessor = generateLinearMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
+			                transform);
+		}
+		else
+		{
+			rttbDefaultExceptionStaticMacro( <<
+			                                 "Unkown interpolation type selected. Cannot map dose. Interpolation type: " <<
+			                                 appData._interpolatorName);
+		}
+	}
 
-  rttb::algorithms::arithmetic::doseOp::AddWeighted addOp(appData._weightDose1, appData._weightDose2);
-  rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor =
-    rttb::core::DoseAccessorInterface::DoseAccessorPointer(new
-        rttb::algorithms::BinaryFunctorDoseAccessor<rttb::algorithms::arithmetic::doseOp::AddWeighted>
-        (appData._Dose1, dose2Accessor, addOp));
+	rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor;
 
-  return outputAccessor;
+	if (appData._operator == "+")
+	{
+		rttb::algorithms::arithmetic::doseOp::AddWeighted addOp(appData._weightDose1, appData._weightDose2);
+		outputAccessor =
+		    rttb::core::DoseAccessorInterface::DoseAccessorPointer(new
+		            rttb::algorithms::BinaryFunctorDoseAccessor<rttb::algorithms::arithmetic::doseOp::AddWeighted>
+		            (appData._Dose1, dose2Accessor, addOp));
+	}
+	else if (appData._operator == "*")
+	{
+		outputAccessor =
+		    rttb::core::DoseAccessorInterface::DoseAccessorPointer(new
+		            rttb::algorithms::BinaryFunctorDoseAccessor<rttb::algorithms::arithmetic::doseOp::Multiply>
+		            (appData._Dose1, dose2Accessor, rttb::algorithms::arithmetic::doseOp::Multiply()));
+	}
+	else
+	{
+		rttbDefaultExceptionStaticMacro( <<
+		                                 "Unkown operator selected. Cannot map dose. Operator: " <<
+		                                 appData._interpolatorName);
+	}
+
+	return outputAccessor;
 }
 
 void
 rttb::apps::doseAcc::processData(rttb::apps::doseAcc::ApplicationData& appData)
 {
-  rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor = assembleOutputAccessor(
-        appData);
+	rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor = assembleOutputAccessor(
+	            appData);
 
-  std::cout << std::endl << "generate output image... ";
-  io::itk::ITKImageDoseAccessorConverter converter(outputAccessor);
-  converter.setFailOnInvalidIDs(true);
-  converter.process();
-  io::itk::ITKDoseImageType::Pointer itkImage = converter.getITKImage();
-  std::cout << "done." << std::endl;
+	std::cout << std::endl << "generate output image... ";
+	io::itk::ITKImageDoseAccessorConverter converter(outputAccessor);
+	converter.setFailOnInvalidIDs(true);
+	converter.process();
+	io::itk::ITKDoseImageType::Pointer itkImage = converter.getITKImage();
+	std::cout << "done." << std::endl;
 
-  typedef ::itk::ImageFileWriter<io::itk::ITKDoseImageType> WriterType;
+	typedef ::itk::ImageFileWriter<io::itk::ITKDoseImageType> WriterType;
 
-  std::cout << std::endl << "write output image... ";
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput(itkImage);
-  writer->SetFileName(appData._outputFileName);
-  writer->Write();
-  std::cout << "done." << std::endl;
+	std::cout << std::endl << "write output image... ";
+	WriterType::Pointer writer = WriterType::New();
+	writer->SetInput(itkImage);
+	writer->SetFileName(appData._outputFileName);
+	writer->Write();
+	std::cout << "done." << std::endl;
 };
