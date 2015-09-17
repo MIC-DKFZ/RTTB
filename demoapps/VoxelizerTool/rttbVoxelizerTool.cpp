@@ -20,6 +20,8 @@
 */
 #include <iostream>
 
+#include "itkMacro.h"
+
 #include "rttbVoxelizerHelper.h"
 #include "rttbMaskProcess.h"
 #include "rttbMaskWriter.h"
@@ -35,39 +37,39 @@ int main(int argc, char* argv[])
 
 	if (!co->command(argc, argv))
 	{
-		return EXIT_FAILURE;
+		return 1;
 	}
 
 	if (co->isReturnAfterHelp())
 	{
-		return EXIT_SUCCESS;
+		return 0;
 	}
 
 	rttb::apps::voxelizer::Parameters params = co->getParameters();
 
-	boost::shared_ptr<rttb::apps::voxelizer::StructDataReader> SDR;
+	boost::shared_ptr<rttb::apps::voxelizer::StructDataReader> reader;
 
 	try
 	{
-		SDR = boost::make_shared<rttb::apps::voxelizer::StructDataReader>(params.structFile,
-		        params.referenceFile);
+		reader = boost::make_shared<rttb::apps::voxelizer::StructDataReader>(params.structFile,
+		         params.referenceFile);
 	}
 	catch (rttb::core::Exception& e)
 	{
 		std::cerr << "RTTB Error!!!" << std::endl;
 		std::cerr << e.what() << std::endl;
-		return 1;
+		return 2;
 	}
 	catch (const std::exception& e)
 	{
 		std::cerr << "Error!!!" << std::endl;
 		std::cerr << e.what() << std::endl;
-		return 1;
+		return 2;
 	}
 	catch (...)
 	{
 		std::cerr << "Error!!! unknown error while reading input image." << std::endl;
-		return 1;
+		return 2;
 	}
 
 	std::vector<int> listOfCorrectElements;
@@ -75,14 +77,14 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < params.regEx.size(); i++)
 	{
 		std::vector<int> indexOfCorrectElements;
-		indexOfCorrectElements = rttb::apps::voxelizer::filterForExpression(SDR->getAllLabels(),
+		indexOfCorrectElements = rttb::apps::voxelizer::filterForExpression(reader->getAllLabels(),
 		                         params.regEx.at(i));
 		std::copy(indexOfCorrectElements.begin(), indexOfCorrectElements.end(), std::back_inserter(listOfCorrectElements));
 	}
 
-	boost::shared_ptr<rttb::apps::voxelizer::MaskProcess> MP =
-	    boost::make_shared<rttb::apps::voxelizer::MaskProcess>(SDR->getStructureSetPointer(),
-	            SDR->getDoseAccessorPointer(),
+	boost::shared_ptr<rttb::apps::voxelizer::MaskProcess> maskProcessor =
+	    boost::make_shared<rttb::apps::voxelizer::MaskProcess>(reader->getStructureSetPointer(),
+	            reader->getDoseAccessorPointer(),
 	            params.legacyVoxelization);
 
 	if (!listOfCorrectElements.empty())
@@ -99,19 +101,19 @@ int main(int argc, char* argv[])
 
 			for (int i = 0; i < listOfCorrectElements.size(); i++)
 			{
-				maskVector.push_back(MP->createMask(listOfCorrectElements.at(i)));
 				int labelIndex = listOfCorrectElements.at(i);
-				std::vector<std::string> labelVector = SDR->getAllLabels();
+				maskVector.push_back(maskProcessor->createMask(labelIndex));
+				std::vector<std::string> labelVector = reader->getAllLabels();
 				std::string labelOfInterest = labelVector.at(labelIndex);
 				rttb::apps::voxelizer::removeSpecialCharacters(labelOfInterest);
 				labelName += "_" + labelOfInterest;
 
 			}
 
-			boost::shared_ptr<rttb::apps::voxelizer::MaskWriter> MW =
+			boost::shared_ptr<rttb::apps::voxelizer::MaskWriter> writer =
 			    boost::make_shared<rttb::apps::voxelizer::MaskWriter>(maskVector,
 			            params.booleanVoxelization);
-			MW->writeMaskToFile(fileName  + labelName + fileEnding);
+			writer->writeMaskToFile(fileName  + labelName + fileEnding);
 
 		}
 		else
@@ -125,15 +127,36 @@ int main(int argc, char* argv[])
 
 			for (unsigned int i = 0; i < maxIterationCount; i++)
 			{
-				maskVector.push_back(MP->createMask(listOfCorrectElements.at(i)));
+				maskVector.push_back(maskProcessor->createMask(listOfCorrectElements.at(i)));
 				int labelIndex = listOfCorrectElements.at(i);
-				std::vector<std::string> labelVector = SDR->getAllLabels();
+				std::vector<std::string> labelVector = reader->getAllLabels();
 				std::string labelOfInterest = labelVector.at(labelIndex);
 				rttb::apps::voxelizer::removeSpecialCharacters(labelOfInterest);
 				boost::shared_ptr<rttb::apps::voxelizer::MaskWriter> MW =
 				    boost::make_shared<rttb::apps::voxelizer::MaskWriter>(maskVector,
 				            params.booleanVoxelization);
-				MW->writeMaskToFile(fileName + "_" + labelOfInterest + fileEnding);
+
+				try
+				{
+					MW->writeMaskToFile(fileName + "_" + labelOfInterest + fileEnding);
+				}
+				catch (itk::ExceptionObject& err)
+				{
+					std::cerr << "ExceptionObject caught !" << std::endl;
+					std::cerr << err << std::endl;
+					return 3;
+				}
+				catch (const std::exception& e)
+				{
+					std::cerr << "Error!!!" << std::endl;
+					std::cerr << e.what() << std::endl;
+					return 3;
+				}
+				catch (...)
+				{
+					std::cerr << "Error!!! unknown error while reading input image." << std::endl;
+					return 3;
+				}
 			}
 
 		}
@@ -143,6 +166,6 @@ int main(int argc, char* argv[])
 		std::cout << "No struct found" << std::endl;
 	}
 
-	return EXIT_SUCCESS;
+	return 0;
 }
 

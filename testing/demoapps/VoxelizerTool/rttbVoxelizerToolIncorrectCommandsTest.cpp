@@ -60,26 +60,50 @@ namespace rttb
 			boost::filesystem::path callingPath(_callingAppPath);
 			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + voxelizerToolExe;
 
-			std::string StructCommand = voxelizerToolExeWithPath;
-			StructCommand += " -s " + invalidStructFile;
-			StructCommand += " -r " + referenceFile;
-			StructCommand += " -e " + structureName;
-			std::cout << "Command line call: " + StructCommand << std::endl;
-			CHECK_EQUAL(system(StructCommand.c_str()), 1);
+			std::string tooFewArgumentsCommand = voxelizerToolExeWithPath;
+			tooFewArgumentsCommand += " -s " + invalidStructFile;
+			tooFewArgumentsCommand += " -r " + referenceFile;
+			std::cout << "Command line call: " + tooFewArgumentsCommand << std::endl;
+			CHECK_EQUAL(system(tooFewArgumentsCommand.c_str()), 1);
 
-			std::string ReferenceCommand = voxelizerToolExeWithPath;
-			ReferenceCommand += " -s " + structFile;
-			ReferenceCommand += " -r " + invalidReferenceFile;
-			ReferenceCommand += " -e " + structureName;
-			std::cout << "Command line call: " + ReferenceCommand << std::endl;
-			CHECK_EQUAL(system(ReferenceCommand.c_str()), 1);
+			tooFewArgumentsCommand = voxelizerToolExeWithPath;
+			tooFewArgumentsCommand += " -s " + invalidStructFile;
+			tooFewArgumentsCommand += " -e " + structureName;
+			std::cout << "Command line call: " + tooFewArgumentsCommand << std::endl;
+			CHECK_EQUAL(system(tooFewArgumentsCommand.c_str()), 1);
 
-			std::string Structure = voxelizerToolExeWithPath;
-			Structure += " -s " + structFile;
-			Structure += " -r " + referenceFile;
-			Structure += +" -e " + invalidStructureName;
-			std::cout << "Command line call: " + Structure << std::endl;
-			CHECK_EQUAL(system(Structure.c_str()), 0);
+			tooFewArgumentsCommand = voxelizerToolExeWithPath;
+			std::cout << "Command line call: " + tooFewArgumentsCommand << std::endl;
+			CHECK_EQUAL(system(tooFewArgumentsCommand.c_str()), 1);
+
+			std::string noOutputEndingCommand = voxelizerToolExeWithPath;
+			noOutputEndingCommand += " -s " + invalidStructFile;
+			noOutputEndingCommand += " -r " + referenceFile;
+			noOutputEndingCommand += " -e " + structureName;
+			noOutputEndingCommand += " -o bla";
+			std::cout << "Command line call: " + noOutputEndingCommand << std::endl;
+			CHECK_EQUAL(system(noOutputEndingCommand.c_str()), 1);
+
+			std::string structCommand = voxelizerToolExeWithPath;
+			structCommand += " -s " + invalidStructFile;
+			structCommand += " -r " + referenceFile;
+			structCommand += " -e " + structureName;
+			std::cout << "Command line call: " + structCommand << std::endl;
+			CHECK_EQUAL(system(structCommand.c_str()), 2);
+
+			std::string referenceCommand = voxelizerToolExeWithPath;
+			referenceCommand += " -s " + structFile;
+			referenceCommand += " -r " + invalidReferenceFile;
+			referenceCommand += " -e " + structureName;
+			std::cout << "Command line call: " + referenceCommand << std::endl;
+			CHECK_EQUAL(system(referenceCommand.c_str()), 2);
+
+			std::string structureNameCommand = voxelizerToolExeWithPath;
+			structureNameCommand += " -s " + structFile;
+			structureNameCommand += " -r " + referenceFile;
+			structureNameCommand += +" -e " + invalidStructureName;
+			std::cout << "Command line call: " + structureNameCommand << std::endl;
+			CHECK_EQUAL(system(structureNameCommand.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

@@ -40,14 +40,13 @@ namespace rttb
 				PARAM_LEGACY_VOXELIZATION("legacyVoxelization"),
 				PARAM_BOOST_VOXELIZATION("boostVoxelization"),
 				PARAM_BOOLEAN_VOXELIZATION("booleanVoxelization"),
-				PARAM_ADDSTRUCTURES("addStructures")
+				PARAM_ADDSTRUCTURES("addStructures"), _returnAfterHelp(false)
 			{
 
 				_params.multipleStructs = false;
 				_params.legacyVoxelization = false;
 				_params.booleanVoxelization  = false;
 				_params.addStructures = false;
-				_returnAfterHelp = false;
 
 				po::options_description required("Required arguments");
 				addOption(required, PARAM_STRUCT_FILE, "s", po::value<std::string>(&_params.structFile)->required(),
@@ -58,7 +57,7 @@ namespace rttb
 				          po::value<std::vector<std::string>>(&_params.regEx)->multitoken()->required(),
 				          "set a regular expression describing the structs of interest");
 				addOption(required, PARAM_OUT_FILE, "o",
-				          po::value<std::string>(&_params.outputFilename)->default_value("out.hdr")->required(), "set output file name ");
+				          po::value<std::string>(&_params.outputFilename)->default_value("out.hdr"), "set output file name ");
 				addOption(required, PARAM_BOOST_VOXELIZATION, "b", po::bool_switch()->default_value(true), "to use boost voxelization");
 
 				po::options_description optional("Optional arguments");
@@ -70,7 +69,7 @@ namespace rttb
 				addOption(optional, PARAM_BOOLEAN_VOXELIZATION, "v",
 				          po::bool_switch(&_params.booleanVoxelization)->default_value(false),
 				          "Determines if the voxelization should be binarized (only values 0 or 1)");
-				addOption(optional, PARAM_ADDSTRUCTURES, "a", nullptr, "");
+				addOption(optional, PARAM_ADDSTRUCTURES, "a", nullptr, "Voxelizes multiple structs in one result file.");
 
 				_description.add(required).add(optional);
 			}
@@ -123,6 +122,13 @@ namespace rttb
 					if (var.count(PARAM_BOOST_VOXELIZATION))
 					{
 						_params.legacyVoxelization = false;
+					}
+
+					if (_params.outputFilename.find('.') == std::string::npos)
+					{
+						std::cout << "--output has to specify a file format (e.g. output.hdr). None is given: " << _params.outputFilename <<
+						          std::endl;
+						return false;
 					}
 
 					if (var.count(PARAM_ADDSTRUCTURES))

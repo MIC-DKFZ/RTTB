@@ -91,16 +91,7 @@ namespace rttb
 
 					addFilter->SetInput2(listOfITKImages.at(k));
 
-					try
-					{
-						addFilter->Update();
-					}
-					catch (itk::ExceptionObject& err)
-					{
-						std::cerr << "ExceptionObject caught !" << std::endl;
-						std::cerr << err << std::endl;
-						return NULL;
-					}
+					addFilter->Update();
 
 					filterResult = addFilter->GetOutput();
 				}
@@ -120,16 +111,7 @@ namespace rttb
 				filter->SetUpperThreshold(1.0);
 				filter->SetInsideValue(1.0);
 
-				try
-				{
-					filter->Update();
-				}
-				catch (itk::ExceptionObject& err)
-				{
-					std::cerr << "ExceptionObject caught !" << std::endl;
-					std::cerr << err << std::endl;
-					return NULL;
-				}
+				filter->Update();
 
 				return filter->GetOutput();
 			}
@@ -143,15 +125,7 @@ namespace rttb
 
 				writer->SetInput(itkImage);
 
-				try
-				{
-					writer->Update();
-				}
-				catch (itk::ExceptionObject& err)
-				{
-					std::cerr << "ExceptionObject caught !" << std::endl;
-					std::cerr << err << std::endl;
-				}
+				writer->Update();
 			}
 		}
 	}
