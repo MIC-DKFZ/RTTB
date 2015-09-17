@@ -91,7 +91,7 @@ namespace rttb
 			               VolumeToDoseFunctionType MaxOHx = VolumeToDoseFunctionType(),
 			               VolumeToDoseFunctionType MinOCx = VolumeToDoseFunctionType());
 
-			DoseStatistics::~DoseStatistics();
+			~DoseStatistics();
 
 
 			void setMinimumVoxelPositions(ResultListPointer minimumVoxelPositions);

@@ -18,4 +18,7 @@ ADD_TEST(ArithmeticTest ${ALGORITHMS_TESTS} ArithmeticTest)
 ADD_TEST(BinaryFunctorDoseAccessorTest ${ALGORITHMS_TESTS} BinaryFunctorDoseAccessorTest "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/dicompylerTestDose.dcm")
 
 RTTB_CREATE_TEST_MODULE(rttbAlgorithms DEPENDS RTTBAlgorithms RTTBMasks RTTBDicomIO PACKAGE_DEPENDS Boost Litmus DCMTK)
-
+IF (NOT WIN32)
+	#CMake 3.1 provides target_compile_features(RTTB_Interpolation cxx_auto_type cxx_nullptr cxx_override) to 			automatically add required compiler flags
+	set(CMAKE_CXX_FLAGS "-std=c++11")
+ENDIF()

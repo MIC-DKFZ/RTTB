@@ -66,10 +66,6 @@ namespace rttb
         throw e_;
       }
 
-
-      ::boost::regex optionalNamesREG("([^\|]*)([\|\|][^\|]*)+");
-      ::boost::smatch what;
-
       typedef std::vector< std::string > OptionalVectorType;
       OptionalVectorType optionalVois;
       ::boost::split(optionalVois, name, ::boost::is_any_of("||"));
