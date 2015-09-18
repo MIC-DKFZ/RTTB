@@ -114,8 +114,8 @@ int main(int argc, char** argv)
   {
     try
     {
-      appData._inputDose = rttb::apps::doseMap::loadDose(appData._refDoseFileName,
-                           appData._refDoseLoadStyle);
+      appData._refDose = rttb::apps::doseMap::loadDose(appData._refDoseFileName,
+                         appData._refDoseLoadStyle);
     }
     catch (::itk::ExceptionObject& e)
     {
