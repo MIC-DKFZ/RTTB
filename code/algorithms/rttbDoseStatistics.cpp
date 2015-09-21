@@ -19,6 +19,8 @@
 // @author  $Author$ (last changed by)
 */
 
+#include <boost/make_shared.hpp>
+
 #include "rttbDoseStatistics.h"
 #include "rttbDataNotAvailableException.h"
 
@@ -27,7 +29,8 @@ namespace rttb
 
 	namespace algorithms
 	{
-		DoseStatistics::DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum, DoseStatisticType mean,
+		DoseStatistics::DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum,
+		                               DoseStatisticType mean,
 		                               DoseStatisticType stdDeviation, unsigned int numVoxels, VolumeType volume,
 		                               ResultListPointer maximumVoxelPositions /*= ResultListPointer()*/,
 		                               ResultListPointer minimumVoxelPositions /*= ResultListPointer()*/,
@@ -38,11 +41,22 @@ namespace rttb
 		                               VolumeToDoseFunctionType MaxOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MinOCx /*= std::map<VolumeType, DoseTypeGy>()*/) : _minimum(minimum),
 			_maximum(maximum), _mean(mean), _stdDeviation(stdDeviation), _numVoxels(numVoxels), _volume(volume),
-			_maximumVoxelPositions(maximumVoxelPositions), _minimumVoxelPositions(minimumVoxelPositions), _Dx(Dx), _Vx(Vx),
+			_maximumVoxelPositions(maximumVoxelPositions), _minimumVoxelPositions(minimumVoxelPositions),
+			_Dx(Dx), _Vx(Vx),
 			_MOHx(MOHx),
 			_MOCx(MOCx), _MaxOHx(MaxOHx), _MinOCx(MinOCx)
 		{
+			if (maximumVoxelPositions == nullptr)
+			{
+				_maximumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
+				                         (std::vector<std::pair<DoseTypeGy, VoxelGridID> >());
+			}
 
+			if (minimumVoxelPositions == nullptr)
+			{
+				_minimumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
+				                         (std::vector<std::pair<DoseTypeGy, VoxelGridID> >());
+			}
 		}
 
 
@@ -233,8 +247,9 @@ namespace rttb
 			}
 		}
 
-		std::map<double, double>::const_iterator DoseStatistics::findNearestKeyInMap(const std::map<double, double>& aMap,
-		        double key) const
+		std::map<double, double>::const_iterator DoseStatistics::findNearestKeyInMap(
+		    const std::map<double, double>& aMap,
+		    double key) const
 		{
 			double minDistance = 1e19;
 			double minDistanceLast = 1e20;

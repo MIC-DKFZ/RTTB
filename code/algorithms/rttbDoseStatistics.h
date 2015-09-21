@@ -25,8 +25,6 @@
 #include <vector>
 #include <map>
 
-#include <boost/make_shared.hpp>
-
 #include "rttbBaseType.h"
 #include "rttbDoseIteratorInterface.h"
 
@@ -53,7 +51,8 @@ namespace rttb
 			double getValue(const std::map<double, double>& aMap, double key, bool findNearestValueInstead,
 			                double& storedKey) const;
 
-			std::map<double, double>::const_iterator findNearestKeyInMap(const std::map<double, double>& aMap, double key) const;
+			std::map<double, double>::const_iterator findNearestKeyInMap(const std::map<double, double>& aMap,
+			        double key) const;
 
 			DoseStatisticType _maximum;
 			DoseStatisticType _minimum;
@@ -80,10 +79,8 @@ namespace rttb
 			*/
 			DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum, DoseStatisticType mean,
 			               DoseStatisticType stdDeviation, unsigned int numVoxels, VolumeType volume,
-			               ResultListPointer minimumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
-			               (std::vector<std::pair<DoseTypeGy, VoxelGridID> >()),
-			               ResultListPointer maximumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
-			               (std::vector<std::pair<DoseTypeGy, VoxelGridID> >()),
+			               ResultListPointer minimumVoxelPositions = nullptr,
+			               ResultListPointer maximumVoxelPositions = nullptr,
 			               VolumeToDoseFunctionType Dx = VolumeToDoseFunctionType(),
 			               DoseToVolumeFunctionType Vx = DoseToVolumeFunctionType(),
 			               VolumeToDoseFunctionType MOHx = VolumeToDoseFunctionType(),
