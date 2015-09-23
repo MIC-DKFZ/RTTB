@@ -18,33 +18,33 @@
 // @date    $Date: 2015-01-09 10:51:10 +0100 (Fr, 09 Jan 2015) $ (last change date)
 // @author  $Author: hentsch $ (last changed by)
 */
-#ifndef __DOSE_ACCESSOR_WITH_GEO_INFO_BASE_H
-#define __DOSE_ACCESSOR_WITH_GEO_INFO_BASE_H
+#ifndef __ACCESSOR_WITH_GEO_INFO_BASE_H
+#define __ACCESSOR_WITH_GEO_INFO_BASE_H
 
-#include "rttbDoseAccessorInterface.h"
+#include "rttbAccessorInterface.h"
 
 namespace rttb
 {
-  namespace core
-  {
+	namespace core
+	{
 
-    /*! @class DoseAccessorWithGeoInfoBase
-    @brief Base class for all accessor implementations that have there own geometric info.
-    */
-    class DoseAccessorWithGeoInfoBase: public core::DoseAccessorInterface
-    {
-    protected:
-      core::GeometricInfo _geoInfo;
+		/*! @class AccessorWithGeoInfoBase
+		@brief Base class for all accessor implementations that have there own geometric info.
+		*/
+		class AccessorWithGeoInfoBase: public core::AccessorInterface
+		{
+		protected:
+			core::GeometricInfo _geoInfo;
 
-    public:
-      ~DoseAccessorWithGeoInfoBase();
+		public:
+			~AccessorWithGeoInfoBase();
 
-      DoseAccessorWithGeoInfoBase();
+			AccessorWithGeoInfoBase();
 
-      virtual const core::GeometricInfo& getGeometricInfo() const;
+			virtual const core::GeometricInfo& getGeometricInfo() const;
 
-    };
-  }
+		};
+	}
 }
 
 #endif

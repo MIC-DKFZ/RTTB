@@ -154,7 +154,7 @@ namespace rttb
 					rtStructSetMaskAccessorVec.push_back(spMaskAccessor);
 
 					rttb::core::DVHCalculator calc(spMaskedDoseIterator, (rtStructureSet->getStructure(j))->getUID(),
-					                               doseAccessor1->getDoseUID());
+					                               doseAccessor1->getUID());
 					std::string dvhFileName = "dvh1";
 					std::string label = (rtStructureSet->getStructure(j))->getLabel();
 					dvhFileName.append(label);
@@ -221,7 +221,7 @@ namespace rttb
 				DoseIteratorPointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
 
 				rttb::core::DVHCalculator calc(spMaskedDoseIterator, (rtStructureSet->getStructure(j))->getUID(),
-				                               doseAccessor2->getDoseUID());
+				                               doseAccessor2->getUID());
 				std::string dvhFileName = "dvh2";
 				std::string label = (rtStructureSet->getStructure(j))->getLabel();
 				dvhFileName.append(label);
@@ -294,7 +294,7 @@ namespace rttb
 				DoseIteratorPointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
 
 				rttb::core::DVHCalculator calc(spMaskedDoseIterator, (rtStructureSet->getStructure(j))->getUID(),
-				                               doseAccessor3->getDoseUID());
+				                               doseAccessor3->getUID());
 				std::string dvhFileName = "dvh3";
 				std::string label = (rtStructureSet->getStructure(j))->getLabel();
 				dvhFileName.append(label);

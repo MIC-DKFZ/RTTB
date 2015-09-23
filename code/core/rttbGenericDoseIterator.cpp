@@ -82,7 +82,7 @@ namespace rttb
 		{
 			if (isPositionValid())
 			{
-				return _spDoseAccessor->getDoseAt(_currentDoseVoxelGridID);
+				return _spDoseAccessor->getValueAt(_currentDoseVoxelGridID);
 			}
 			else
 			{

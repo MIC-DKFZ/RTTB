@@ -21,7 +21,7 @@
 #ifndef __LQ_MODEL_ACCESSOR_H
 #define __LQ_MODEL_ACCESSOR_H
 
-#include "rttbBioModelAccessorInterface.h"
+#include "rttbAccessorWithGeoInfoBase.h"
 #include "rttbDoseAccessorInterface.h"
 #include "rttbBaseTypeModels.h"
 
@@ -32,7 +32,7 @@ namespace rttb
 		/*! @class LQModelAccessor
 		@brief This class gives access to the LQ Model information in an image
 		*/
-		class LQModelAccessor: public core::BioModelAccessorInterface
+		class LQModelAccessor: public core::AccessorWithGeoInfoBase
 		{
 		public:
 			typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
@@ -61,13 +61,13 @@ namespace rttb
 
 			/*! @brief returns the LQ Model value for an id
 			*/
-			BioModelValueType getBioModelValueAt(const VoxelGridID aID) const;
+			GenericValueType getValueAt(const VoxelGridID aID) const;
 
 			/*! @brief returns the LQ Model value for an index
 			*/
-			BioModelValueType getBioModelValueAt(const VoxelGridIndex3D& aIndex) const;
+			GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const;
 
-			const IDType getBioModelUID() const
+			const IDType getUID() const
 			{
 				return _bioModelUID;
 			};

@@ -30,72 +30,72 @@
 #include "osconfig.h"    /* make sure OS specific configuration is included first */
 #include "drtdose.h"
 
-#include "rttbDoseAccessorWithGeoInfoBase.h"
+#include "rttbAccessorWithGeoInfoBase.h"
 #include "rttbBaseType.h"
 
 
 namespace rttb
 {
-  namespace io
-  {
-    namespace dicom
-    {
+	namespace io
+	{
+		namespace dicom
+		{
 
-      /*! @class DicomDoseAccessor
-      @brief This class gives access to dose information from DRTDoseIOD and DcmItem
-      */
-      class DicomDoseAccessor: public core::DoseAccessorWithGeoInfoBase
-      {
-      public:
-        typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
-        typedef boost::shared_ptr<DcmItem> DcmItemPtr;
+			/*! @class DicomDoseAccessor
+			@brief This class gives access to dose information from DRTDoseIOD and DcmItem
+			*/
+			class DicomDoseAccessor: public core::AccessorWithGeoInfoBase
+			{
+			public:
+				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
+				typedef boost::shared_ptr<DcmItem> DcmItemPtr;
 
-      private:
-        DRTDoseIODPtr _dose;
-        DcmItemPtr _dataSet;
+			private:
+				DRTDoseIODPtr _dose;
+				DcmItemPtr _dataSet;
 
-        /*! vector of dose data(absolute Gy dose/doseGridScaling)*/
-        std::vector<Uint16> doseData;
+				/*! vector of dose data(absolute Gy dose/doseGridScaling)*/
+				std::vector<Uint16> doseData;
 
-        double _doseGridScaling;
+				double _doseGridScaling;
 
-        IDType _doseUID;
+				IDType _doseUID;
 
-        DicomDoseAccessor();
+				DicomDoseAccessor();
 
-      protected:
-        /*! @brief Initialize dose data
-        @exception InvalidDoseException Thrown if _dose is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
-        @exception DcmrtException Throw if dcmrt error
-        @exception boost/bad_lexical_cast Thrown if the imported header tags are not numerical.
-        */
-        bool begin();
+			protected:
+				/*! @brief Initialize dose data
+				@exception InvalidDoseException Thrown if _dose is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
+				@exception DcmrtException Throw if dcmrt error
+				@exception boost/bad_lexical_cast Thrown if the imported header tags are not numerical.
+				*/
+				bool begin();
 
-        /*! @brief get all required data from dicom information contained in _dose
-        @exception boost/bad_lexical_cast Thrown if the imported header tags are not numerical.
-        */
-        bool assembleGeometricInfo();
+				/*! @brief get all required data from dicom information contained in _dose
+				@exception boost/bad_lexical_cast Thrown if the imported header tags are not numerical.
+				*/
+				bool assembleGeometricInfo();
 
 
-      public:
-        ~DicomDoseAccessor();
+			public:
+				~DicomDoseAccessor();
 
-        /*! @brief Constructor. Initialisation with a boost::shared_ptr of DRTDoseIOD and of DcmItem to get the pixel data
-        @exception DcmrtException Throw if dcmrt error
-        */
-        DicomDoseAccessor(DRTDoseIODPtr aDRTDoseIODP, DcmItemPtr aDcmDataset);
+				/*! @brief Constructor. Initialisation with a boost::shared_ptr of DRTDoseIOD and of DcmItem to get the pixel data
+				@exception DcmrtException Throw if dcmrt error
+				*/
+				DicomDoseAccessor(DRTDoseIODPtr aDRTDoseIODP, DcmItemPtr aDcmDataset);
 
-        DoseTypeGy getDoseAt(const VoxelGridID aID) const;
+				GenericValueType getValueAt(const VoxelGridID aID) const;
 
-        DoseTypeGy getDoseAt(const VoxelGridIndex3D& aIndex) const;
+				GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const;
 
-        const IDType getDoseUID() const
-        {
-          return _doseUID;
-        };
-      };
-    }
-  }
+				const IDType getUID() const
+				{
+					return _doseUID;
+				};
+			};
+		}
+	}
 }
 
 #endif

@@ -24,30 +24,31 @@
 
 #include "rttbMaskAccessorGeneratorInterface.h"
 
-namespace rttb{
+namespace rttb
+{
 	namespace core
-		{
+	{
 		/*! @class MaskAccessorGeneratorBase
 			@brief Abstract class for all DoseAccessor generating classes
 		*/
 		class MaskAccessorGeneratorBase: public MaskAccessorGeneratorInterface
-			{
-			public:
-				typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
-
-			
-			private:
-				
-				
-			protected:	
-				/*! @brief Mask accessor which should be generated */
-				MaskAccessorPointer _maskAccessor;
+		{
+		public:
+			typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
 
 
-			public: 
-				
-			};
-		}
+		private:
+
+
+		protected:
+			/*! @brief Mask accessor which should be generated */
+			MaskAccessorPointer _maskAccessor;
+
+
+		public:
+
+		};
 	}
+}
 
 #endif

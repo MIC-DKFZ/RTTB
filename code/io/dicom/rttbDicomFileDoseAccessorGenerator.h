@@ -32,40 +32,43 @@
 #include "rttbBaseType.h"
 
 
-namespace rttb{
-	namespace io{
-		namespace dicom{
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
 
-			/*! @class DicomFileDoseAccessorGenerator         
+			/*! @class DicomFileDoseAccessorGenerator
 			@brief Load dose data from dicom file and generate DicomDoseAccessor.
 			*/
 			class DicomFileDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
-			public: 							
+			public:
 				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
 				typedef boost::shared_ptr<DcmItem> DcmItemPtr;
-				
+
 			private:
 				FileNameType _dicomDoseFileName;
-				
-				DicomFileDoseAccessorGenerator(); 
+
+				DicomFileDoseAccessorGenerator();
 
 
 			protected:
 
 
-			public: 
+			public:
 				~DicomFileDoseAccessorGenerator();
 
 				/*! @brief Constructor. Initialisation with a DICOM-RT dose file or a directory name
 				@param aDICOMRTDoseFileName a DICOM-RT dose file name or a directory name
 				@exception InvalidParameterException thrown if the file does not exist or the directory has no dicom dose file
-				@exception DcmrtException thrown if load and read file failed	
+				@exception DcmrtException thrown if load and read file failed
 				*/
 				DicomFileDoseAccessorGenerator(FileNameType aDICOMRTDoseFileName);
 
-				/*! @brief Generate DoseAccessor 
-				@return Return shared pointer of DoseAccessor. 
+				/*! @brief Generate DoseAccessor
+				@return Return shared pointer of DoseAccessor.
 				@exception InvalidDoseException Thrown if the loaded dose is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
 				@exception DcmrtException Throw if dcmrt error
 				*/

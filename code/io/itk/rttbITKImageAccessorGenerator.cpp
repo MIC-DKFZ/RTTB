@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 793 $ (last changed revision)
+// @date    $Date: 2014-10-10 10:24:45 +0200 (Fr, 10 Okt 2014) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
 
 #include <assert.h>
@@ -24,25 +24,32 @@
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "rttbITKImageDoseAccessorGenerator.h"
+#include "rttbITKImageAccessor.h"
+#include "rttbITKImageAccessorGenerator.h"
 #include "rttbException.h"
 #include "rttbInvalidDoseException.h"
 
 
-namespace rttb{
-	namespace io{
-		namespace itk{
+namespace rttb
+{
+	namespace io
+	{
+		namespace itk
+		{
 
-			ITKImageDoseAccessorGenerator::ITKImageDoseAccessorGenerator(const ITKDoseImageType* aDoseImage){
-				if (aDoseImage == NULL){
+			ITKImageAccessorGenerator::ITKImageAccessorGenerator(const ITKImageType* aDoseImage)
+			{
+				if (aDoseImage == NULL)
+				{
 					throw core::InvalidDoseException("doseImage is NULL");
 				}
 
 				_dosePtr = aDoseImage;
 			}
 
-			core::DoseAccessorGeneratorBase::DoseAccessorPointer ITKImageDoseAccessorGenerator::generateDoseAccessor(){
-				_doseAccessor=boost::make_shared<ITKImageDoseAccessor>(_dosePtr);
+			core::DoseAccessorGeneratorBase::DoseAccessorPointer ITKImageAccessorGenerator::generateDoseAccessor()
+			{
+				_doseAccessor = boost::make_shared<ITKImageAccessor>(_dosePtr);
 				return _doseAccessor;
 			}
 

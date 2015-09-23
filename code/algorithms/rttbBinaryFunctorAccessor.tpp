@@ -14,46 +14,46 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 747 $ (last changed revision)
+// @date    $Date: 2014-09-17 12:01:00 +0200 (Mi, 17 Sep 2014) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
 
-#include "rttbBinaryFunctorDoseAccessor.h"
+#include "rttbBinaryFunctorAccessor.h"
 
-#ifndef __BINARY_FUNCTOR_DOSE_ACCESSOR_TPP
-#define __BINARY_FUNCTOR_DOSE_ACCESSOR_TPP
+#ifndef __BINARY_FUNCTOR_ACCESSOR_TPP
+#define __BINARY_FUNCTOR_ACCESSOR_TPP
 
 namespace rttb
 {
 	namespace algorithms
 	{
 		template <class TDoseOperation>
-		BinaryFunctorDoseAccessor<TDoseOperation>::BinaryFunctorDoseAccessor(const DoseAccessorPointer
-		        dose1, const DoseAccessorPointer dose2,
+		BinaryFunctorAccessor<TDoseOperation>::BinaryFunctorAccessor(const AccessorPointer
+		        data1, const AccessorPointer data2,
 		        const TDoseOperation& functor)
 		{
-			if (dose1 == NULL || dose2 == NULL)
+			if (data1 == NULL || data2 == NULL)
 			{
 				throw core::NullPointerException("Pointers to input accessors cannot be NULL.");
 			}
 
-			if (!(dose1->getGeometricInfo() == dose2->getGeometricInfo()))
+			if (!(data1->getGeometricInfo() == data2->getGeometricInfo()))
 			{
 				throw core::InvalidParameterException("The geometricInfo of all given accessors needs to be equal.");
 			}
 
-			_spDose1 = dose1;
-			_spDose2 = dose2;
+			_spData1 = data1;
+			_spData2 = data2;
 			_functor = functor;
 		}
 
-		template <class TDoseOperation> DoseTypeGy BinaryFunctorDoseAccessor<TDoseOperation>::getDoseAt(
+		template <class TDoseOperation> GenericValueType BinaryFunctorAccessor<TDoseOperation>::getValueAt(
 		    const VoxelGridID aID) const
 		{
 			if (getGeometricInfo().validID(aID))
 			{
-				DoseTypeGy value = _functor.calc(_spDose1->getDoseAt(aID), _spDose2->getDoseAt(aID));
+				GenericValueType value = _functor.calc(_spData1->getValueAt(aID), _spData2->getValueAt(aID));
 				return value;
 			}
 			else
@@ -62,14 +62,14 @@ namespace rttb
 			}
 		}
 
-		template <class TDoseOperation> DoseTypeGy BinaryFunctorDoseAccessor<TDoseOperation>::getDoseAt(
+		template <class TDoseOperation> DoseTypeGy BinaryFunctorAccessor<TDoseOperation>::getValueAt(
 		    const VoxelGridIndex3D& aIndex) const
 		{
 			VoxelGridID aVoxelGridID;
 
-			if (_spDose1->getGeometricInfo().convert(aIndex, aVoxelGridID))
+			if (_spData1->getGeometricInfo().convert(aIndex, aVoxelGridID))
 			{
-				return getDoseAt(aVoxelGridID);
+				return getValueAt(aVoxelGridID);
 			}
 			else
 			{

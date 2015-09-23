@@ -30,91 +30,91 @@
 
 namespace rttb
 {
-  namespace testing
-  {
+	namespace testing
+	{
 
-    DummyMutableDoseAccessor::~DummyMutableDoseAccessor() {}
+		DummyMutableDoseAccessor::~DummyMutableDoseAccessor() {}
 
-    DummyMutableDoseAccessor::DummyMutableDoseAccessor()
-    {
-      boost::uuids::uuid id;
-      boost::uuids::random_generator generator;
-      id = generator();
-      std::stringstream ss;
-      ss << id;
-      _doseUID = "DummyMutableDoseAccessor_" + ss.str();
+		DummyMutableDoseAccessor::DummyMutableDoseAccessor()
+		{
+			boost::uuids::uuid id;
+			boost::uuids::random_generator generator;
+			id = generator();
+			std::stringstream ss;
+			ss << id;
+			_doseUID = "DummyMutableDoseAccessor_" + ss.str();
 
-      SpacingVectorType3D aVector(2.5);
-      _geoInfo.setSpacing(aVector);
-      WorldCoordinate3D anOtherVector(-25, -2, 35);
-      _geoInfo.setImagePositionPatient(anOtherVector);
-      _geoInfo.setNumRows(11);
-      _geoInfo.setNumColumns(10);
-      _geoInfo.setNumSlices(5);
+			SpacingVectorType3D aVector(2.5);
+			_geoInfo.setSpacing(aVector);
+			WorldCoordinate3D anOtherVector(-25, -2, 35);
+			_geoInfo.setImagePositionPatient(anOtherVector);
+			_geoInfo.setNumRows(11);
+			_geoInfo.setNumColumns(10);
+			_geoInfo.setNumSlices(5);
 
-      OrientationMatrix unit = OrientationMatrix();
-      _geoInfo.setOrientationMatrix(unit);
+			OrientationMatrix unit = OrientationMatrix();
+			_geoInfo.setOrientationMatrix(unit);
 
-      for (int i = 0; i < _geoInfo.getNumberOfVoxels(); i++)
-      {
-        doseData.push_back((double(rand()) / RAND_MAX) * 1000);
-      }
-    }
+			for (int i = 0; i < _geoInfo.getNumberOfVoxels(); i++)
+			{
+				doseData.push_back((double(rand()) / RAND_MAX) * 1000);
+			}
+		}
 
-    DummyMutableDoseAccessor::DummyMutableDoseAccessor(const std::vector<DoseTypeGy>& aDoseVector,
-        const core::GeometricInfo& geoInfo)
-    {
-      boost::uuids::uuid id;
-      boost::uuids::random_generator generator;
-      id = generator();
-      std::stringstream ss;
-      ss << id;
-      _doseUID = "DummyMutableDoseAccessor_" + ss.str();
+		DummyMutableDoseAccessor::DummyMutableDoseAccessor(const std::vector<DoseTypeGy>& aDoseVector,
+		        const core::GeometricInfo& geoInfo)
+		{
+			boost::uuids::uuid id;
+			boost::uuids::random_generator generator;
+			id = generator();
+			std::stringstream ss;
+			ss << id;
+			_doseUID = "DummyMutableDoseAccessor_" + ss.str();
 
-      doseData = aDoseVector;
-      _geoInfo = geoInfo;
-    }
+			doseData = aDoseVector;
+			_geoInfo = geoInfo;
+		}
 
-    const core::GeometricInfo&
-    DummyMutableDoseAccessor::
-    getGeometricInfo() const
-    {
-      return _geoInfo;
-    }
+		const core::GeometricInfo&
+		DummyMutableDoseAccessor::
+		getGeometricInfo() const
+		{
+			return _geoInfo;
+		}
 
-    DoseTypeGy DummyMutableDoseAccessor::getDoseAt(const VoxelGridID aID) const
-    {
-      if (!_geoInfo.validID(aID))
-      {
-        throw core::IndexOutOfBoundsException("Not a valid Position!");
-      }
+		GenericValueType DummyMutableDoseAccessor::getValueAt(const VoxelGridID aID) const
+		{
+			if (!_geoInfo.validID(aID))
+			{
+				throw core::IndexOutOfBoundsException("Not a valid Position!");
+			}
 
-      return doseData.at(aID);
-    }
+			return doseData.at(aID);
+		}
 
-    DoseTypeGy DummyMutableDoseAccessor::getDoseAt(const VoxelGridIndex3D& aIndex) const
-    {
-      VoxelGridID gridID = 0;
-      _geoInfo.convert(aIndex, gridID);
-      return getDoseAt(gridID);
-    }
+		GenericValueType DummyMutableDoseAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
+		{
+			VoxelGridID gridID = 0;
+			_geoInfo.convert(aIndex, gridID);
+			return getValueAt(gridID);
+		}
 
-    void DummyMutableDoseAccessor::setDoseAt(const VoxelGridID aID, DoseTypeGy value)
-    {
-      if (!_geoInfo.validID(aID))
-      {
-        throw core::IndexOutOfBoundsException("Not a valid Position!");
-      }
+		void DummyMutableDoseAccessor::setDoseAt(const VoxelGridID aID, DoseTypeGy value)
+		{
+			if (!_geoInfo.validID(aID))
+			{
+				throw core::IndexOutOfBoundsException("Not a valid Position!");
+			}
 
-      doseData.at(aID) = value;
-    }
+			doseData.at(aID) = value;
+		}
 
-    void DummyMutableDoseAccessor::setDoseAt(const VoxelGridIndex3D& aIndex, DoseTypeGy value)
-    {
-      VoxelGridID gridID = 0;
-      _geoInfo.convert(aIndex, gridID);
-      setDoseAt(gridID, value);
-    }
+		void DummyMutableDoseAccessor::setDoseAt(const VoxelGridIndex3D& aIndex, DoseTypeGy value)
+		{
+			VoxelGridID gridID = 0;
+			_geoInfo.convert(aIndex, gridID);
+			setDoseAt(gridID, value);
+		}
 
-  }//end namespace testing
+	}//end namespace testing
 }//end namespace rttb

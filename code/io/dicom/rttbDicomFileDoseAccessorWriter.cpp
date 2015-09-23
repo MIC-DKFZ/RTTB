@@ -64,7 +64,7 @@ namespace rttb
 				/* ----------------------------------------------------------------- */
 				/*     Part 1  -- General header                                     */
 				/* ----------------------------------------------------------------- */
-				OFString CreationUID(_doseAccessor->getDoseUID().c_str());
+				OFString CreationUID(_doseAccessor->getUID().c_str());
 				_dataset->putAndInsertString(DCM_ImageType,
 				                             "DERIVED\\SECONDARY\\REFORMATTED");
 				_dataset->putAndInsertOFStringArray(DCM_InstanceCreationDate,
@@ -75,7 +75,7 @@ namespace rttb
 				                                    CreationUID);
 				_dataset->putAndInsertString(DCM_SOPClassUID, UID_RTDoseStorage);
 				_dataset->putAndInsertString(DCM_SOPInstanceUID,
-				                             _doseAccessor->getDoseUID().c_str());
+				                             _doseAccessor->getUID().c_str());
 				_dataset->putAndInsertOFStringArray(DCM_StudyDate,
 				                                    "");
 				_dataset->putAndInsertOFStringArray(DCM_StudyTime,
@@ -220,7 +220,7 @@ namespace rttb
 
 				for (unsigned int i = 0; i < pixelCount; ++i)
 				{
-					double doseValue = _doseAccessor->getDoseAt(i);
+					double doseValue = _doseAccessor->getValueAt(i);
 					double pixelValue = doseValue / dose_scale;
 
 					if (pixelValue > PixelDataMaxValue)

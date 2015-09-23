@@ -33,19 +33,25 @@
 #include "rttbIndexOutOfBoundsException.h"
 #include "rttbInvalidParameterException.h"
 
-namespace rttb{
-	namespace io{
-		namespace helax{
+namespace rttb
+{
+	namespace io
+	{
+		namespace helax
+		{
 
-			DicomHelaxIODVecDoseAccessorGenerator::~DicomHelaxIODVecDoseAccessorGenerator(){}
+			DicomHelaxIODVecDoseAccessorGenerator::~DicomHelaxIODVecDoseAccessorGenerator() {}
 
-			DicomHelaxIODVecDoseAccessorGenerator::DicomHelaxIODVecDoseAccessorGenerator(std::vector<DRTDoseIODPtr>& aDICOMRTDoseVector){
-				_dosePtrVector=aDICOMRTDoseVector;
-				
+			DicomHelaxIODVecDoseAccessorGenerator::DicomHelaxIODVecDoseAccessorGenerator(std::vector<DRTDoseIODPtr>&
+			        aDICOMRTDoseVector)
+			{
+				_dosePtrVector = aDICOMRTDoseVector;
+
 			}
 
-			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomHelaxIODVecDoseAccessorGenerator::generateDoseAccessor() {
-				_doseAccessor=boost::make_shared<io::helax::DicomHelaxDoseAccessor>(_dosePtrVector);
+			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomHelaxIODVecDoseAccessorGenerator::generateDoseAccessor()
+			{
+				_doseAccessor = boost::make_shared<io::helax::DicomHelaxDoseAccessor>(_dosePtrVector);
 				return _doseAccessor;
 			}
 

@@ -20,28 +20,28 @@
 */
 
 
-#include "rttbDoseAccessorWithGeoInfoBase.h"
+#include "rttbAccessorWithGeoInfoBase.h"
 
 namespace rttb
 {
-  namespace core
-  {
+	namespace core
+	{
 
-    const core::GeometricInfo&
-    DoseAccessorWithGeoInfoBase::
-    getGeometricInfo() const
-    {
-      return _geoInfo;
-    }
+		const core::GeometricInfo&
+		AccessorWithGeoInfoBase::
+		getGeometricInfo() const
+		{
+			return _geoInfo;
+		}
 
-    DoseAccessorWithGeoInfoBase::~DoseAccessorWithGeoInfoBase()
-    {
-    }
+		AccessorWithGeoInfoBase::~AccessorWithGeoInfoBase()
+		{
+		}
 
-    DoseAccessorWithGeoInfoBase::DoseAccessorWithGeoInfoBase()
-    {
-    }
+		AccessorWithGeoInfoBase::AccessorWithGeoInfoBase()
+		{
+		}
 
-  }
+	}
 }
 

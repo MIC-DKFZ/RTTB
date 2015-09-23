@@ -87,10 +87,12 @@ namespace rttb
 			LinearInterpolation::Pointer interpolationLinear = LinearInterpolation::Pointer(new LinearInterpolation());
 			boost::shared_ptr<NearestNeighborInterpolation> interpolationNull;
 
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorDefault = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
-			    doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear));
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorNoPadding = SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
-			    doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear, false));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorDefault = SimpleMappableDoseAccessor::Pointer(
+			            new SimpleMappableDoseAccessor(
+			                doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorNoPadding = SimpleMappableDoseAccessor::Pointer(
+			            new SimpleMappableDoseAccessor(
+			                doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear, false));
 
 			//1) Test constructor
 
@@ -118,7 +120,7 @@ namespace rttb
 			            doseAccessor1->getGeometricInfo());
 			CHECK_EQUAL(aSimpleMappableDoseAccessorDefault->getGridSize(),
 			            doseAccessor1->getGeometricInfo().getNumberOfVoxels());
-			CHECK_EQUAL(aSimpleMappableDoseAccessorDefault->getDoseUID(), doseAccessor2->getDoseUID());
+			CHECK_EQUAL(aSimpleMappableDoseAccessorDefault->getUID(), doseAccessor2->getUID());
 
 			//3) test getDoseAt()
 
@@ -139,22 +141,22 @@ namespace rttb
 				VoxelGridID currentId;
 				doseAccessor1GeometricInfo.convert(voxelsAsIndexToTest.at(i), currentId);
 				//test if the expected interpolation values are computed
-				CHECK_EQUAL(aSimpleMappableDoseAccessorDefault->getDoseAt(currentId),
+				CHECK_EQUAL(aSimpleMappableDoseAccessorDefault->getValueAt(currentId),
 				            expectedValues.at(i));
 				//test if getDoseAt(VoxelGridIndex3D) and getDoseAt(VoxelGridD) lead to the same results
-				CHECK_EQUAL(aSimpleMappableDoseAccessorDefault->getDoseAt(currentId),
-				            aSimpleMappableDoseAccessorDefault->getDoseAt(voxelsAsIndexToTest.at(i)));
+				CHECK_EQUAL(aSimpleMappableDoseAccessorDefault->getValueAt(currentId),
+				            aSimpleMappableDoseAccessorDefault->getValueAt(voxelsAsIndexToTest.at(i)));
 			}
 
 			//test invalid voxels
 			VoxelGridID invalidID(doseAccessor1GeometricInfo.getNumberOfVoxels() + 1);
 			VoxelGridIndex3D invalidIndex(doseAccessor1GeometricInfo.getNumColumns() + 1,
 			                              doseAccessor1GeometricInfo.getNumRows() + 1, doseAccessor1GeometricInfo.getNumSlices() + 1);
-			CHECK_EQUAL(aSimpleMappableDoseAccessorDefault->getDoseAt(invalidID), 0.0);
-			CHECK_EQUAL(aSimpleMappableDoseAccessorDefault->getDoseAt(invalidIndex), 0.0);
-			CHECK_THROW_EXPLICIT(aSimpleMappableDoseAccessorNoPadding->getDoseAt(invalidID),
+			CHECK_EQUAL(aSimpleMappableDoseAccessorDefault->getValueAt(invalidID), 0.0);
+			CHECK_EQUAL(aSimpleMappableDoseAccessorDefault->getValueAt(invalidIndex), 0.0);
+			CHECK_THROW_EXPLICIT(aSimpleMappableDoseAccessorNoPadding->getValueAt(invalidID),
 			                     core::MappingOutsideOfImageException);
-			CHECK_THROW_EXPLICIT(aSimpleMappableDoseAccessorNoPadding->getDoseAt(invalidIndex),
+			CHECK_THROW_EXPLICIT(aSimpleMappableDoseAccessorNoPadding->getValueAt(invalidIndex),
 			                     core::MappingOutsideOfImageException);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

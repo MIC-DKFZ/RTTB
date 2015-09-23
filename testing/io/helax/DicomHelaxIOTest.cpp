@@ -92,17 +92,17 @@ namespace rttb
 
 			//2) test dicom dose import accessing dose data and converting
 
-			CHECK_EQUAL(doseAccessor1->getDoseAt(start), doseAccessor1-> getDoseAt(start3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(start), doseAccessor1-> getValueAt(start3D));
 
 			inbetween = int(std::floor(doseAccessor1->getGridSize() / 2.0));
 			doseAccessor1->getGeometricInfo().convert(inbetween, inbetween3D);
 
-			CHECK_EQUAL(doseAccessor1->getDoseAt(inbetween), doseAccessor1-> getDoseAt(inbetween3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(inbetween), doseAccessor1-> getValueAt(inbetween3D));
 
 			end = doseAccessor1->getGridSize() - 1;
 			doseAccessor1->getGeometricInfo().convert(end, end3D);
 
-			CHECK_EQUAL(doseAccessor1->getDoseAt(end), doseAccessor1-> getDoseAt(end3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(end), doseAccessor1-> getValueAt(end3D));
 
 
 			/* structure set */

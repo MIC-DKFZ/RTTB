@@ -33,8 +33,9 @@ namespace rttb
 		namespace itk
 		{
 
-			ITKDoseImageType::Pointer readITKDoubleImage(FileNameType aITKImageFile){
-				ITKDoseImageType::Pointer itkDoubleImage;
+			ITKImageType::Pointer readITKDoubleImage(FileNameType aITKImageFile)
+			{
+				ITKImageType::Pointer itkDoubleImage;
 
 				GenericImageReader::Pointer spReader = GenericImageReader::New();
 
@@ -42,7 +43,7 @@ namespace rttb
 
 				GenericImageReader::GenericOutputImageType::Pointer itkGenericImage;
 
-				ITKDoseImageType::ConstPointer itkDoubleImageConst;
+				ITKImageType::ConstPointer itkDoubleImageConst;
 
 				try
 				{
@@ -63,7 +64,7 @@ namespace rttb
 
 					if (loadedComponentType == ::itk::ImageIOBase::DOUBLE)
 					{
-						itkDoubleImage = dynamic_cast<ITKDoseImageType*>(itkGenericImage.GetPointer());
+						itkDoubleImage = dynamic_cast<ITKImageType*>(itkGenericImage.GetPointer());
 					}
 					else
 					{
@@ -85,79 +86,80 @@ namespace rttb
 				return itkDoubleImage;
 			}
 
-			ITKDoseImageType::Pointer handleGenericImage(
-				GenericImageReader::GenericOutputImageType* itkGenericImage,
-				::itk::ImageIOBase::IOComponentType& loadedComponentType)
+			ITKImageType::Pointer handleGenericImage(
+			    GenericImageReader::GenericOutputImageType* itkGenericImage,
+			    ::itk::ImageIOBase::IOComponentType& loadedComponentType)
 			{
-				ITKDoseImageType::Pointer itkDoubleImage;
+				ITKImageType::Pointer itkDoubleImage;
 
 				switch (loadedComponentType)
 				{
-				case ::itk::ImageIOBase::UCHAR:
+					case ::itk::ImageIOBase::UCHAR:
 					{
 						itkDoubleImage = doCasting<unsigned char>(itkGenericImage);
 						break;
 					}
 
-				case ::itk::ImageIOBase::CHAR:
+					case ::itk::ImageIOBase::CHAR:
 					{
 						itkDoubleImage = doCasting<char>(itkGenericImage);
 						break;
 					}
 
-				case ::itk::ImageIOBase::USHORT:
+					case ::itk::ImageIOBase::USHORT:
 					{
 						itkDoubleImage = doCasting<unsigned short>(itkGenericImage);
 						break;
 					}
 
-				case ::itk::ImageIOBase::SHORT:
+					case ::itk::ImageIOBase::SHORT:
 					{
 						itkDoubleImage = doCasting<short>(itkGenericImage);
 						break;
 					}
 
-				case ::itk::ImageIOBase::UINT:
+					case ::itk::ImageIOBase::UINT:
 					{
 						itkDoubleImage = doCasting<unsigned int>(itkGenericImage);
 						break;
 					}
 
-				case ::itk::ImageIOBase::INT:
+					case ::itk::ImageIOBase::INT:
 					{
 						itkDoubleImage = doCasting<int>(itkGenericImage);
 						break;
 					}
 
-				case ::itk::ImageIOBase::ULONG:
+					case ::itk::ImageIOBase::ULONG:
 					{
 						itkDoubleImage = doCasting<unsigned long>(itkGenericImage);
 						break;
 					}
 
-				case ::itk::ImageIOBase::LONG:
+					case ::itk::ImageIOBase::LONG:
 					{
 						itkDoubleImage = doCasting<long>(itkGenericImage);
 						break;
 					}
 
-				case ::itk::ImageIOBase::FLOAT:
+					case ::itk::ImageIOBase::FLOAT:
 					{
 						itkDoubleImage = doCasting<float>(itkGenericImage);
 						break;
 					}
 
-				case ::itk::ImageIOBase::DOUBLE:
+					case ::itk::ImageIOBase::DOUBLE:
 					{
 						itkDoubleImage = doCasting<double>(itkGenericImage);
 						break;
 					}
 
-				default:
+					default:
 					{
 						throw core::InvalidParameterException("image type unknown");
 					}
 				}
+
 				return itkDoubleImage;
 			}
 

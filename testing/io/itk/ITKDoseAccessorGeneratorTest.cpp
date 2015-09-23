@@ -31,9 +31,9 @@
 #include "itkImageFileReader.h"
 
 #include "rttbBaseType.h"
-#include "rttbITKImageDoseAccessor.h"
-#include "rttbITKImageFileDoseAccessorGenerator.h"
-#include "rttbITKImageDoseAccessorGenerator.h"
+#include "rttbITKImageAccessorConverter.h"
+#include "rttbITKImageAccessorGenerator.h"
+#include "rttbITKImageFileAccessorGenerator.h"
 #include "rttbInvalidDoseException.h"
 
 
@@ -64,9 +64,9 @@ namespace rttb
 
 
 			/* test ITKFileDoseAccessorGenerator generateDoseAccessor()*/
-			CHECK_THROW_EXPLICIT(io::itk::ITKImageFileDoseAccessorGenerator("test.test").generateDoseAccessor(),
+			CHECK_THROW_EXPLICIT(io::itk::ITKImageFileAccessorGenerator("test.test").generateDoseAccessor(),
 			                     core::InvalidDoseException);
-			CHECK_NO_THROW(io::itk::ITKImageFileDoseAccessorGenerator(
+			CHECK_NO_THROW(io::itk::ITKImageFileAccessorGenerator(
 			                   RTDOSE_FILENAME.c_str()).generateDoseAccessor());
 
 			/* test ITKDoseAccessorGenerator generateDoseAccessor()*/
@@ -77,14 +77,14 @@ namespace rttb
 
 			ReaderType::Pointer reader = ReaderType::New();
 
-			CHECK_THROW_EXPLICIT(io::itk::ITKImageDoseAccessorGenerator(
+			CHECK_THROW_EXPLICIT(io::itk::ITKImageAccessorGenerator(
 			                         invalidDose.GetPointer()).generateDoseAccessor(), core::InvalidDoseException);
 
 			reader->SetFileName(RTDOSE_FILENAME);
 			//important to update the reader (won't work without)
 			reader->Update();
 
-			CHECK_NO_THROW(io::itk::ITKImageDoseAccessorGenerator(reader->GetOutput()).generateDoseAccessor());
+			CHECK_NO_THROW(io::itk::ITKImageAccessorGenerator(reader->GetOutput()).generateDoseAccessor());
 
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

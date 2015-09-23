@@ -82,18 +82,18 @@ namespace rttb
 					return false;
 				}
 
-				if ((_referenceDose-> getDoseAt(id) != _referenceDose-> getDoseAt(id3D))
-				    || (_compareDose->getDoseAt(id) != _compareDose-> getDoseAt(id3D)))
+				if ((_referenceDose-> getValueAt(id) != _referenceDose-> getValueAt(id3D))
+				    || (_compareDose->getValueAt(id) != _compareDose-> getValueAt(id3D)))
 				{
 					_conversionFailed = true;
 					_failedID = id;
 					return false;
 				}
 
-				if ((_referenceDose->getDoseAt(id) != _compareDose->getDoseAt(id))
-				    || (_referenceDose->getDoseAt(id3D) != _compareDose->getDoseAt(id3D)))
+				if ((_referenceDose->getValueAt(id) != _compareDose->getValueAt(id))
+				    || (_referenceDose->getValueAt(id3D) != _compareDose->getValueAt(id3D)))
 				{
-					float tmpDifference = abs(_referenceDose->getDoseAt(id) - _compareDose->getDoseAt(id));
+					float tmpDifference = abs(_referenceDose->getValueAt(id) - _compareDose->getValueAt(id));
 
 					if (tmpDifference > _maxDifference)
 					{

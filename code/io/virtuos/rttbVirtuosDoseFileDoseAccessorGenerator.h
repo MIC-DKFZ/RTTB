@@ -26,6 +26,7 @@
 #include <exception>
 
 #include "rttbDoseAccessorGeneratorBase.h"
+#include "rttbDoseAccessorInterface.h"
 #include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
 
@@ -38,7 +39,7 @@ namespace rttb
 		namespace virtuos
 		{
 
-			/*! @class VirtuosDoseFileDoseAccessorGenerator         
+			/*! @class VirtuosDoseFileDoseAccessorGenerator
 			@brief Load dose data from a Virtuos dose file and generate DoseAccessor.
 			@warning Manual dose normalization is done as no virtuos plan file is given! I.e., the DoseAccessor returns pixels having no physical unit (!= Gy) in case of wrong values. It's the responsibility of the user to specify the correct values. Consider using VirtuosPlanFileDoseAccessorGenerator instead!
 			*/
@@ -47,11 +48,11 @@ namespace rttb
 			public:
 				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
 
-			private: 
+			private:
 				FileNameType _doseFileName;
 				DoseTypeGy _normalizationDose;
 				DoseTypeGy _prescribedDose;
-				Cubeinfo **_pPointerOnVirtuosCube;
+				Cubeinfo** _pPointerOnVirtuosCube;
 
 				/*! prepare virtuos dose cube for data import. Actual data import is performed in importPixelData()
 				and assembleGeometricInfo().
@@ -64,26 +65,26 @@ namespace rttb
 
 
 			protected:
-				
 
 
-			public: 
+
+			public:
 
 				~VirtuosDoseFileDoseAccessorGenerator();
 
-				/*! @brief Constructor. Initialisation with a Virtuos-RT dose file with name aVirtuosDoseFileName. 
+				/*! @brief Constructor. Initialisation with a Virtuos-RT dose file with name aVirtuosDoseFileName.
 				@param normalizationDose is defined as (prescribedDose*1000)/maxDoseInGy.
 				@param prescribedDose the does that was planned in the reference point in Gy.
 				*/
 				VirtuosDoseFileDoseAccessorGenerator(const FileNameType aVirtuosDoseFileName,
 				                                     DoseTypeGy normalizationDose, DoseTypeGy prescribedDose);
 
-				/*@brief Generate DoseAccessor 
-				@return Return shared pointer of DoseAccessor. 
+				/*@brief Generate DoseAccessor
+				@return Return shared pointer of DoseAccessor.
 				@throw InvalidParameterException Thrown if one of the file names is empty.
 				*/
 				DoseAccessorPointer generateDoseAccessor() ;
-				
+
 			};
 		}
 	}

@@ -80,19 +80,19 @@ namespace rttb
 			//doseAccessor1 is used as dose image
 			boost::shared_ptr<NearestNeighborInterpolation> interpolationNN =
 			    boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
-			interpolationNN->setDoseAccessorPointer(doseAccessor1);
+			interpolationNN->setAccessorPointer(doseAccessor1);
 			boost::shared_ptr<LinearInterpolation> interpolationLinear = boost::shared_ptr<LinearInterpolation>
 			        (new LinearInterpolation());
-			interpolationLinear->setDoseAccessorPointer(doseAccessor1);
+			interpolationLinear->setAccessorPointer(doseAccessor1);
 
 			//doseAccessor2 is used as dose image.
 			//RTDOSE_FILENAME_INCREASE_X and RTDOSE_FILENAME_CONSTANT_TWO have the same GeometricInfo
 			boost::shared_ptr<NearestNeighborInterpolation> interpolationNN2 =
 			    boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
-			interpolationNN2->setDoseAccessorPointer(doseAccessor2);
+			interpolationNN2->setAccessorPointer(doseAccessor2);
 			boost::shared_ptr<LinearInterpolation> interpolationLinear2 =
 			    boost::shared_ptr<LinearInterpolation>(new LinearInterpolation());
-			interpolationLinear2->setDoseAccessorPointer(doseAccessor2);
+			interpolationLinear2->setAccessorPointer(doseAccessor2);
 
 			boost::shared_ptr<NearestNeighborInterpolation> interpolationNullNN =
 			    boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
@@ -205,9 +205,9 @@ namespace rttb
 			                     core::MappingOutsideOfImageException);
 
 			//Check that core::NullPointerException is thrown if Null Pointers are given to interpolator
-			CHECK_THROW_EXPLICIT(interpolationNullLinear->setDoseAccessorPointer(doseAccessorNull),
+			CHECK_THROW_EXPLICIT(interpolationNullLinear->setAccessorPointer(doseAccessorNull),
 			                     core::NullPointerException);
-			CHECK_THROW_EXPLICIT(interpolationNullNN->setDoseAccessorPointer(doseAccessorNull),
+			CHECK_THROW_EXPLICIT(interpolationNullNN->setAccessorPointer(doseAccessorNull),
 			                     core::NullPointerException);
 			CHECK_THROW_EXPLICIT(interpolationNullLinear->getValue(coordinatesToCheck.front()),
 			                     core::NullPointerException);

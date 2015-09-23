@@ -25,36 +25,38 @@
 
 #include "rttbDoseAccessorInterface.h"
 
-namespace rttb{
+namespace rttb
+{
 	namespace core
-		{
+	{
 		/*! @class DoseAccessorGeneratorInterface
-			@brief Interface for all DoseAccessor generating classes
+			@brief Interface for all Dose Accessor generating classes
 		*/
 		class DoseAccessorGeneratorInterface
-			{
-			public:
-				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+		{
+		public:
+			typedef core::AccessorInterface::AccessorPointer DoseAccessorPointer;
 
-			
-			private:
-				DoseAccessorGeneratorInterface(const DoseAccessorGeneratorInterface&); //not implemented on purpose -> non-copyable
-				DoseAccessorGeneratorInterface& operator=(const DoseAccessorGeneratorInterface&);//not implemented on purpose -> non-copyable
-				
-				
-			protected:	
-				DoseAccessorGeneratorInterface() {};
-				virtual ~DoseAccessorGeneratorInterface() {};
 
-			public: 
-				
-				
-				/*! @brief Generate DoseAccessor 
-					@return Return shared pointer of DoseAccessor. 
-				*/
-				virtual DoseAccessorPointer generateDoseAccessor() = 0;
-			};
-		}
+		private:
+			DoseAccessorGeneratorInterface(const DoseAccessorGeneratorInterface&); //not implemented on purpose -> non-copyable
+			DoseAccessorGeneratorInterface& operator=(const
+			        DoseAccessorGeneratorInterface&);//not implemented on purpose -> non-copyable
+
+
+		protected:
+			DoseAccessorGeneratorInterface() {};
+			virtual ~DoseAccessorGeneratorInterface() {};
+
+		public:
+
+
+			/*! @brief Generate DoseAccessor
+				@return Return shared pointer of DoseAccessor.
+			*/
+			virtual DoseAccessorPointer generateDoseAccessor() = 0;
+		};
 	}
+}
 
 #endif

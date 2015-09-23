@@ -25,30 +25,20 @@
 
 #include "rttbDoseAccessorGeneratorInterface.h"
 
-namespace rttb{
+namespace rttb
+{
 	namespace core
-		{
+	{
 		/*! @class DoseAccessorGeneratorBase
-			@brief Abstract class for all DoseAccessor generating classes
+			@brief Abstract class for all Dose Accessor generating classes
 		*/
 		class DoseAccessorGeneratorBase: public DoseAccessorGeneratorInterface
-			{
-			public:
-				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
-
-			
-			private:
-				
-				
-			protected:	
-				/*! @brief Dose accessor which should be generated */
-				DoseAccessorPointer _doseAccessor;
-
-
-			public: 
-				
-			};
-		}
+		{
+		protected:
+			/*! @brief Dose accessor which should be generated */
+			DoseAccessorPointer _doseAccessor;
+		};
 	}
+}
 
 #endif

@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 741 $ (last changed revision)
+// @date    $Date: 2014-09-16 16:34:22 +0200 (Di, 16 Sep 2014) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
 
 #include <boost/make_shared.hpp>
@@ -31,24 +31,24 @@
 #include "rttbArithmetic.h"
 #include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbBinaryFunctorDoseAccessor.h"
+#include "rttbBinaryFunctorAccessor.h"
 
 namespace rttb
 {
 	namespace testing
 	{
 		typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
-		typedef  algorithms::BinaryFunctorDoseAccessor<algorithms::arithmetic::doseOp::Add>
-		BinaryFunctorDoseAccessorAddType;
-		typedef  algorithms::BinaryFunctorDoseAccessor<algorithms::arithmetic::doseOp::AddWeighted>
-		BinaryFunctorDoseAccessorAddWeightedType;
+		typedef  algorithms::BinaryFunctorAccessor<algorithms::arithmetic::doseOp::Add>
+		BinaryFunctorAccessorAddType;
+		typedef  algorithms::BinaryFunctorAccessor<algorithms::arithmetic::doseOp::AddWeighted>
+		BinaryFunctorAccessorAddWeightedType;
 
-		/*! @brief BinaryFunctorDoseAccessorTest - tests functors of dose-dose accessors
+		/*! @brief BinaryFunctorAccessorTest - tests functors of two accessors
 				1) test constructor
 				2) test getDoseAt
 			*/
 
-		int BinaryFunctorDoseAccessorTest(int argc, char* argv[])
+		int BinaryFunctorAccessorTest(int argc, char* argv[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
@@ -81,26 +81,26 @@ namespace rttb
 
 			//1) Check constructor
 
-			CHECK_THROW_EXPLICIT(BinaryFunctorDoseAccessorAddType(spDoseAccessorNull, spDoseAccessor, addOP),
+			CHECK_THROW_EXPLICIT(BinaryFunctorAccessorAddType(spDoseAccessorNull, spDoseAccessor, addOP),
 			                     core::NullPointerException);
-			CHECK_THROW_EXPLICIT(BinaryFunctorDoseAccessorAddType(spDoseAccessor, spDoseAccessorNull, addOP),
+			CHECK_THROW_EXPLICIT(BinaryFunctorAccessorAddType(spDoseAccessor, spDoseAccessorNull, addOP),
 			                     core::NullPointerException);
-			CHECK_THROW_EXPLICIT(BinaryFunctorDoseAccessorAddType(spDoseAccessorNull, spDoseAccessorNull,
+			CHECK_THROW_EXPLICIT(BinaryFunctorAccessorAddType(spDoseAccessorNull, spDoseAccessorNull,
 			                     addOP), core::NullPointerException);
-			CHECK_THROW_EXPLICIT(BinaryFunctorDoseAccessorAddType(spDoseAccessor, spDoseAccessor2, addOP),
+			CHECK_THROW_EXPLICIT(BinaryFunctorAccessorAddType(spDoseAccessor, spDoseAccessor2, addOP),
 			                     core::InvalidParameterException);
 
 
-			CHECK_NO_THROW(BinaryFunctorDoseAccessorAddType(spDoseAccessor, spDoseAccessor, addOP));
-			CHECK_NO_THROW(BinaryFunctorDoseAccessorAddWeightedType(spDoseAccessor, spDoseAccessor,
+			CHECK_NO_THROW(BinaryFunctorAccessorAddType(spDoseAccessor, spDoseAccessor, addOP));
+			CHECK_NO_THROW(BinaryFunctorAccessorAddWeightedType(spDoseAccessor, spDoseAccessor,
 			               addWeightedOP));
 
-			boost::shared_ptr<BinaryFunctorDoseAccessorAddType> spBinaryFunctorDoseAccessorAdd(
-			    new BinaryFunctorDoseAccessorAddType(spDoseAccessor, spDoseAccessor, addOP));
-			boost::shared_ptr<BinaryFunctorDoseAccessorAddWeightedType> spBinaryFunctorDoseAccessorAddWeighted(
-			    new BinaryFunctorDoseAccessorAddWeightedType(spDoseAccessor, spDoseAccessor, addWeightedOP));
-			boost::shared_ptr<BinaryFunctorDoseAccessorAddWeightedType>
-			spBinaryFunctorDoseAccessorAddWeightedTwo(new BinaryFunctorDoseAccessorAddWeightedType(
+			boost::shared_ptr<BinaryFunctorAccessorAddType> spBinaryFunctorDoseAccessorAdd(
+			    new BinaryFunctorAccessorAddType(spDoseAccessor, spDoseAccessor, addOP));
+			boost::shared_ptr<BinaryFunctorAccessorAddWeightedType> spBinaryFunctorDoseAccessorAddWeighted(
+			    new BinaryFunctorAccessorAddWeightedType(spDoseAccessor, spDoseAccessor, addWeightedOP));
+			boost::shared_ptr<BinaryFunctorAccessorAddWeightedType>
+			spBinaryFunctorDoseAccessorAddWeightedTwo(new BinaryFunctorAccessorAddWeightedType(
 			            spDoseAccessor, spDoseAccessor, addWeightedTwoOP));
 
 			//2) Test getDoseAt()
@@ -109,24 +109,24 @@ namespace rttb
 
 			for (int i = 0; i < 3; ++i)
 			{
-				CHECK_EQUAL(spBinaryFunctorDoseAccessorAdd->getDoseAt(aId[i]), 4.0);
-				CHECK_EQUAL(spBinaryFunctorDoseAccessorAddWeighted->getDoseAt(aId[i]), 22.0);
-				CHECK_EQUAL(spBinaryFunctorDoseAccessorAdd->getDoseAt(aIndex[i]),
-				            spBinaryFunctorDoseAccessorAdd->getDoseAt(aId[i]));
-				CHECK_EQUAL(spBinaryFunctorDoseAccessorAddWeighted->getDoseAt(aIndex[i]),
-				            spBinaryFunctorDoseAccessorAddWeighted->getDoseAt(aId[i]));
-				CHECK_EQUAL(spBinaryFunctorDoseAccessorAdd->getDoseAt(aId[i]) * 2.0,
-				            spBinaryFunctorDoseAccessorAddWeightedTwo->getDoseAt(aId[i]));
+				CHECK_EQUAL(spBinaryFunctorDoseAccessorAdd->getValueAt(aId[i]), 4.0);
+				CHECK_EQUAL(spBinaryFunctorDoseAccessorAddWeighted->getValueAt(aId[i]), 22.0);
+				CHECK_EQUAL(spBinaryFunctorDoseAccessorAdd->getValueAt(aIndex[i]),
+				            spBinaryFunctorDoseAccessorAdd->getValueAt(aId[i]));
+				CHECK_EQUAL(spBinaryFunctorDoseAccessorAddWeighted->getValueAt(aIndex[i]),
+				            spBinaryFunctorDoseAccessorAddWeighted->getValueAt(aId[i]));
+				CHECK_EQUAL(spBinaryFunctorDoseAccessorAdd->getValueAt(aId[i]) * 2.0,
+				            spBinaryFunctorDoseAccessorAddWeightedTwo->getValueAt(aId[i]));
 			}
 
 			VoxelGridID aIdInvalid(spBinaryFunctorDoseAccessorAdd->getGeometricInfo().getNumberOfVoxels());
 			VoxelGridIndex3D aIndexInvalid(spBinaryFunctorDoseAccessorAdd->getGeometricInfo().getNumColumns(),
 			                               spBinaryFunctorDoseAccessorAdd->getGeometricInfo().getNumRows(),
 			                               spBinaryFunctorDoseAccessorAdd->getGeometricInfo().getNumSlices());
-			CHECK_EQUAL(spBinaryFunctorDoseAccessorAdd->getDoseAt(aIdInvalid), -1.0);
-			CHECK_EQUAL(spBinaryFunctorDoseAccessorAdd->getDoseAt(aIndexInvalid), -1.0);
-			CHECK_EQUAL(spBinaryFunctorDoseAccessorAddWeighted->getDoseAt(aIdInvalid), -1.0);
-			CHECK_EQUAL(spBinaryFunctorDoseAccessorAddWeighted->getDoseAt(aIndexInvalid), -1.0);
+			CHECK_EQUAL(spBinaryFunctorDoseAccessorAdd->getValueAt(aIdInvalid), -1.0);
+			CHECK_EQUAL(spBinaryFunctorDoseAccessorAdd->getValueAt(aIndexInvalid), -1.0);
+			CHECK_EQUAL(spBinaryFunctorDoseAccessorAddWeighted->getValueAt(aIdInvalid), -1.0);
+			CHECK_EQUAL(spBinaryFunctorDoseAccessorAddWeighted->getValueAt(aIndexInvalid), -1.0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

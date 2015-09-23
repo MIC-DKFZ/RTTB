@@ -31,15 +31,15 @@
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomHelaxFileDoseAccessorGenerator.h"
 
-#include "rttbITKImageFileDoseAccessorGenerator.h"
+#include "rttbITKImageAccessorConverter.h"
 #include "rttbSimpleMappableDoseAccessor.h"
 #include "rttbMatchPointTransformation.h"
 #include "rttbLinearInterpolation.h"
 #include "rttbNearestNeighborInterpolation.h"
 #include "rttbRosuMappableDoseAccessor.h"
-#include "rttbITKImageDoseAccessorConverter.h"
+#include "rttbITKImageFileAccessorGenerator.h"
 #include "rttbArithmetic.h"
-#include "rttbBinaryFunctorDoseAccessor.h"
+#include "rttbBinaryFunctorAccessor.h"
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseAcc::loadDose(const std::string& fileName,
@@ -104,7 +104,7 @@ rttb::apps::doseAcc::loadHelaxDose(const std::string& path)
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseAcc::loadITKDose(const std::string& fileName)
 {
-	rttb::io::itk::ITKImageFileDoseAccessorGenerator generator(fileName);
+	rttb::io::itk::ITKImageFileAccessorGenerator generator(fileName);
 	return generator.generateDoseAccessor();
 };
 
@@ -219,16 +219,16 @@ assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 	if (appData._operator == "+")
 	{
 		rttb::algorithms::arithmetic::doseOp::AddWeighted addOp(appData._weightDose1, appData._weightDose2);
-		outputAccessor =
+		rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor =
 		    rttb::core::DoseAccessorInterface::DoseAccessorPointer(new
-		            rttb::algorithms::BinaryFunctorDoseAccessor<rttb::algorithms::arithmetic::doseOp::AddWeighted>
+		            rttb::algorithms::BinaryFunctorAccessor<rttb::algorithms::arithmetic::doseOp::AddWeighted>
 		            (appData._Dose1, dose2Accessor, addOp));
 	}
 	else if (appData._operator == "*")
 	{
 		outputAccessor =
 		    rttb::core::DoseAccessorInterface::DoseAccessorPointer(new
-		            rttb::algorithms::BinaryFunctorDoseAccessor<rttb::algorithms::arithmetic::doseOp::Multiply>
+		            rttb::algorithms::BinaryFunctorAccessor<rttb::algorithms::arithmetic::doseOp::Multiply>
 		            (appData._Dose1, dose2Accessor, rttb::algorithms::arithmetic::doseOp::Multiply()));
 	}
 	else
@@ -248,13 +248,13 @@ rttb::apps::doseAcc::processData(rttb::apps::doseAcc::ApplicationData& appData)
 	            appData);
 
 	std::cout << std::endl << "generate output image... ";
-	io::itk::ITKImageDoseAccessorConverter converter(outputAccessor);
+	io::itk::ITKImageAccessorConverter converter(outputAccessor);
 	converter.setFailOnInvalidIDs(true);
 	converter.process();
-	io::itk::ITKDoseImageType::Pointer itkImage = converter.getITKImage();
+	io::itk::ITKImageAccessorConverter::ITKImageType::Pointer itkImage = converter.getITKImage();
 	std::cout << "done." << std::endl;
 
-	typedef ::itk::ImageFileWriter<io::itk::ITKDoseImageType> WriterType;
+	typedef ::itk::ImageFileWriter<io::itk::ITKImageAccessorConverter::ITKImageType> WriterType;
 
 	std::cout << std::endl << "write output image... ";
 	WriterType::Pointer writer = WriterType::New();

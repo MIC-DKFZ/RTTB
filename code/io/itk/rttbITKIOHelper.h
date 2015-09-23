@@ -23,7 +23,7 @@
 
 #include "rttbDoseAccessorGeneratorBase.h"
 #include "rttbBaseType.h"
-#include "rttbITKImageDoseAccessor.h"
+#include "rttbITKImageAccessorConverter.h"
 #include "rttbGenericImageReader.h"
 
 #include "itkImage.h"
@@ -36,25 +36,26 @@ namespace rttb
 	{
 		namespace itk
 		{
-			
-				/*! @brief Read a itk image file into itkImage<DoseTypeGy,3>
-				*/
-				ITKDoseImageType::Pointer readITKDoubleImage(FileNameType aITKImageFile);
+			typedef ::itk::Image<GenericValueType, 3> ITKImageType;
+			/*! @brief Read a itk image file into itkImage<DoseTypeGy,3>
+			*/
+			ITKImageType::Pointer readITKDoubleImage(FileNameType aITKImageFile);
 
-				/*! @brief Converts a generic image to itkImage<DoseTypeGy,3>
-				@param itkGenericImage the image read by GenericImageReader
-				@param loadedComponentType the component type (used for casting later on)
-				@exception InvalidParameterException if component type is not supported
-				@sa GenericImageReader
-				*/
-				ITKDoseImageType::Pointer handleGenericImage(GenericImageReader::GenericOutputImageType* itkGenericImage,
-				                        ::itk::ImageIOBase::IOComponentType& loadedComponentType);
+			/*! @brief Converts a generic image to itkImage<DoseTypeGy,3>
+			@param itkGenericImage the image read by GenericImageReader
+			@param loadedComponentType the component type (used for casting later on)
+			@exception InvalidParameterException if component type is not supported
+			@sa GenericImageReader
+			*/
+			ITKImageType::Pointer handleGenericImage(GenericImageReader::GenericOutputImageType* itkGenericImage,
+			        ::itk::ImageIOBase::IOComponentType& loadedComponentType);
 
-				/*! @brief Casts into itkImage<DoseTypeGy,3>
-				*/
-				template <typename TPixelType> ITKDoseImageType::Pointer doCasting(GenericImageReader::GenericOutputImageType* genericImage);
+			/*! @brief Casts into itkImage<DoseTypeGy,3>
+			*/
+			template <typename TPixelType> ITKImageType::Pointer doCasting(GenericImageReader::GenericOutputImageType*
+			        genericImage);
 
-		
+
 		}//end namespace itk
 	}//end namespace io
 }//end namespace rttb

@@ -32,7 +32,7 @@ namespace rttb
 
 			template <class TDoseOperation>
 			void arithmetic(const DoseAccessorPointer dose1, const DoseAccessorPointer dose2,
-							MutableDoseAccessorPointer result, TDoseOperation op)
+			                MutableDoseAccessorPointer result, TDoseOperation op)
 			{
 				//handle null pointers
 				if (dose1 == NULL || dose2 == NULL || result == NULL)
@@ -42,7 +42,7 @@ namespace rttb
 
 				//handle differences in geometricInfo
 				if (!(dose1->getGeometricInfo() == dose2->getGeometricInfo()
-					  && dose1->getGeometricInfo() == result->getGeometricInfo()))
+				      && dose1->getGeometricInfo() == result->getGeometricInfo()))
 				{
 					throw core::InvalidParameterException("The geometricInfo of all given accessors needs to be equal.");
 				}
@@ -52,14 +52,14 @@ namespace rttb
 
 				for (VoxelGridID id = 0; id < numVoxels; ++id)
 				{
-					DoseTypeGy opVal = op.calc(dose1->getDoseAt(id), dose2->getDoseAt(id));
+					DoseTypeGy opVal = op.calc(dose1->getValueAt(id), dose2->getValueAt(id));
 					result->setDoseAt(id, opVal);
 				}
 			}
 
 			template <class TDoseMaskOperation>
 			void arithmetic(const DoseAccessorPointer dose, const MaskAccessorPointer mask,
-							MutableDoseAccessorPointer result, TDoseMaskOperation op)
+			                MutableDoseAccessorPointer result, TDoseMaskOperation op)
 			{
 				//handle null pointers
 				if (dose == NULL || mask == NULL || result == NULL)
@@ -69,7 +69,7 @@ namespace rttb
 
 				//handle differences in geometricInfo
 				if (!(dose->getGeometricInfo() == mask->getGeometricInfo()
-					  && dose->getGeometricInfo() == result->getGeometricInfo()))
+				      && dose->getGeometricInfo() == result->getGeometricInfo()))
 				{
 					throw core::InvalidParameterException("The geometricInfo of all given accessors needs to be equal.");
 				}
@@ -81,14 +81,14 @@ namespace rttb
 				for (VoxelGridID id = 0; id < numVoxels; ++id)
 				{
 					mask->getMaskAt(id, mVoxel);
-					DoseTypeGy opVal = op.calc(dose->getDoseAt(id), mVoxel.getRelevantVolumeFraction());
+					DoseTypeGy opVal = op.calc(dose->getValueAt(id), mVoxel.getRelevantVolumeFraction());
 					result->setDoseAt(id, opVal);
 				}
 			}
 
 			template <class TMaskOperation>
 			void arithmetic(const MaskAccessorPointer mask1, const MaskAccessorPointer mask2,
-							MutableMaskAccessorPointer result, TMaskOperation op)
+			                MutableMaskAccessorPointer result, TMaskOperation op)
 			{
 				//handle null pointers
 				if (mask1 == NULL || mask2 == NULL || result == NULL)
@@ -98,7 +98,7 @@ namespace rttb
 
 				//handle differences in geometricInfo
 				if (!(mask1->getGeometricInfo() == mask2->getGeometricInfo()
-					  && mask1->getGeometricInfo() == result->getGeometricInfo()))
+				      && mask1->getGeometricInfo() == result->getGeometricInfo()))
 				{
 					throw core::InvalidParameterException("The geometricInfo of all given accessors needs to be equal.");
 				}

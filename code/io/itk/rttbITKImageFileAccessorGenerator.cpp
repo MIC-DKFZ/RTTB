@@ -14,18 +14,16 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 995 $ (last changed revision)
+// @date    $Date: 2015-06-17 12:58:33 +0200 (Mi, 17 Jun 2015) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
 
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "rttbITKImageFileDoseAccessorGenerator.h"
-#include "rttbException.h"
-#include "rttbInvalidDoseException.h"
-#include "rttbInvalidParameterException.h"
+#include "rttbITKImageFileAccessorGenerator.h"
+#include "rttbITKImageAccessorConverter.h"
 #include "rttbITKIOHelper.h"
 
 
@@ -35,22 +33,22 @@ namespace rttb
 	{
 		namespace itk
 		{
-			ITKImageFileDoseAccessorGenerator::~ITKImageFileDoseAccessorGenerator()
+			ITKImageFileAccessorGenerator::~ITKImageFileAccessorGenerator()
 			{
 
 			}
 
-			ITKImageFileDoseAccessorGenerator::ITKImageFileDoseAccessorGenerator(const FileNameType& fileName)
+			ITKImageFileAccessorGenerator::ITKImageFileAccessorGenerator(const FileNameType& fileName)
 			{
-				_dicomDoseFileName = fileName;
+				_fileName = fileName;
 			}
 
 			rttb::core::DoseAccessorGeneratorBase::DoseAccessorPointer
-			ITKImageFileDoseAccessorGenerator::generateDoseAccessor()
+			ITKImageFileAccessorGenerator::generateDoseAccessor()
 			{
-				_itkDoubleImage = readITKDoubleImage(_dicomDoseFileName);
+				_itkDoubleImage = readITKDoubleImage(_fileName);
 
-				_doseAccessor = boost::make_shared<ITKImageDoseAccessor>(_itkDoubleImage.GetPointer());
+				_doseAccessor = boost::make_shared<ITKImageAccessor>(_itkDoubleImage.GetPointer());
 				return _doseAccessor;
 			}
 

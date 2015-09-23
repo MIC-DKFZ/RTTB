@@ -97,7 +97,8 @@ namespace rttb
 			{
 				RTDOSE4_FILENAME = argv[5];
 			}
-			if(argc > 6)
+
+			if (argc > 6)
 			{
 				RTDOSE5_FILENAME = argv[6];
 			}
@@ -127,7 +128,7 @@ namespace rttb
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator5(RTDOSE5_FILENAME.c_str());
 			DoseAccessorPointer doseAccessor5(doseAccessorGenerator5.generateDoseAccessor());
 
-			SpacingVectorType3D pixelSpacing5(2,3,2);
+			SpacingVectorType3D pixelSpacing5(2, 3, 2);
 			CHECK_EQUAL(pixelSpacing5, doseAccessor5->getGeometricInfo().getSpacing());
 
 			const VoxelGridID start = 0;
@@ -138,23 +139,23 @@ namespace rttb
 
 			//2) test dicom dose import accessing dose data and converting
 
-			CHECK_EQUAL(2, doseAccessor1->getDoseAt(start));
-			CHECK_EQUAL(2, doseAccessor1-> getDoseAt(start3D));
-			CHECK_EQUAL(doseAccessor1->getDoseAt(start), doseAccessor1-> getDoseAt(start3D));
+			CHECK_EQUAL(2, doseAccessor1->getValueAt(start));
+			CHECK_EQUAL(2, doseAccessor1-> getValueAt(start3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(start), doseAccessor1-> getValueAt(start3D));
 
 			inbetween = int(std::floor(doseAccessor1->getGridSize() / 2.0));
 			doseAccessor1->getGeometricInfo().convert(inbetween, inbetween3D);
 
-			CHECK_EQUAL(2, doseAccessor1->getDoseAt(inbetween));
-			CHECK_EQUAL(2, doseAccessor1-> getDoseAt(inbetween3D));
-			CHECK_EQUAL(doseAccessor1->getDoseAt(inbetween), doseAccessor1-> getDoseAt(inbetween3D));
+			CHECK_EQUAL(2, doseAccessor1->getValueAt(inbetween));
+			CHECK_EQUAL(2, doseAccessor1-> getValueAt(inbetween3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(inbetween), doseAccessor1-> getValueAt(inbetween3D));
 
 			end = doseAccessor1->getGridSize() - 1;
 			doseAccessor1->getGeometricInfo().convert(end, end3D);
 
-			CHECK_EQUAL(2, doseAccessor1->getDoseAt(end));
-			CHECK_EQUAL(2, doseAccessor1-> getDoseAt(end3D));
-			CHECK_EQUAL(doseAccessor1->getDoseAt(end), doseAccessor1-> getDoseAt(end3D));
+			CHECK_EQUAL(2, doseAccessor1->getValueAt(end));
+			CHECK_EQUAL(2, doseAccessor1-> getValueAt(end3D));
+			CHECK_EQUAL(doseAccessor1->getValueAt(end), doseAccessor1-> getValueAt(end3D));
 
 			::DRTDoseIOD rtdose2;
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator2(RTDOSE2_FILENAME.c_str());
@@ -162,23 +163,23 @@ namespace rttb
 
 			//2) test dicom dose import accessing dose data and converting
 
-			CHECK_EQUAL(50, doseAccessor2->getDoseAt(start));
-			CHECK_EQUAL(50, doseAccessor2-> getDoseAt(start3D));
-			CHECK_EQUAL(doseAccessor2->getDoseAt(start), doseAccessor2-> getDoseAt(start3D));
+			CHECK_EQUAL(50, doseAccessor2->getValueAt(start));
+			CHECK_EQUAL(50, doseAccessor2-> getValueAt(start3D));
+			CHECK_EQUAL(doseAccessor2->getValueAt(start), doseAccessor2-> getValueAt(start3D));
 
 			inbetween = int(std::floor(doseAccessor2->getGridSize() / 2.0));
 			doseAccessor2->getGeometricInfo().convert(inbetween, inbetween3D);
 
-			CHECK_EQUAL(50, doseAccessor2->getDoseAt(inbetween));
-			CHECK_EQUAL(50, doseAccessor2-> getDoseAt(inbetween3D));
-			CHECK_EQUAL(doseAccessor2->getDoseAt(inbetween), doseAccessor2-> getDoseAt(inbetween3D));
+			CHECK_EQUAL(50, doseAccessor2->getValueAt(inbetween));
+			CHECK_EQUAL(50, doseAccessor2-> getValueAt(inbetween3D));
+			CHECK_EQUAL(doseAccessor2->getValueAt(inbetween), doseAccessor2-> getValueAt(inbetween3D));
 
 			end = doseAccessor2->getGridSize() - 1;
 			doseAccessor2->getGeometricInfo().convert(end, end3D);
 
-			CHECK_EQUAL(50, doseAccessor2->getDoseAt(end));
-			CHECK_EQUAL(50, doseAccessor2-> getDoseAt(end3D));
-			CHECK_EQUAL(doseAccessor2->getDoseAt(end), doseAccessor2-> getDoseAt(end3D));
+			CHECK_EQUAL(50, doseAccessor2->getValueAt(end));
+			CHECK_EQUAL(50, doseAccessor2-> getValueAt(end3D));
+			CHECK_EQUAL(doseAccessor2->getValueAt(end), doseAccessor2-> getValueAt(end3D));
 
 
 			::DRTDoseIOD rtdose3;
@@ -187,23 +188,23 @@ namespace rttb
 
 			//2) test dicom dose import accessing dose data and converting
 
-			CHECK_EQUAL(0, doseAccessor3->getDoseAt(start));
-			CHECK_EQUAL(0, doseAccessor3-> getDoseAt(start3D));
-			CHECK_EQUAL(doseAccessor3->getDoseAt(start), doseAccessor3-> getDoseAt(start3D));
+			CHECK_EQUAL(0, doseAccessor3->getValueAt(start));
+			CHECK_EQUAL(0, doseAccessor3-> getValueAt(start3D));
+			CHECK_EQUAL(doseAccessor3->getValueAt(start), doseAccessor3-> getValueAt(start3D));
 
 			inbetween = int(std::floor(doseAccessor3->getGridSize() / 2.0));
 			doseAccessor3->getGeometricInfo().convert(inbetween, inbetween3D);
 
-			CHECK_EQUAL(0, doseAccessor3->getDoseAt(inbetween));
-			CHECK_EQUAL(0, doseAccessor3-> getDoseAt(inbetween3D));
-			CHECK_EQUAL(doseAccessor3->getDoseAt(inbetween), doseAccessor3-> getDoseAt(inbetween3D));
+			CHECK_EQUAL(0, doseAccessor3->getValueAt(inbetween));
+			CHECK_EQUAL(0, doseAccessor3-> getValueAt(inbetween3D));
+			CHECK_EQUAL(doseAccessor3->getValueAt(inbetween), doseAccessor3-> getValueAt(inbetween3D));
 
 			end = doseAccessor3->getGridSize() - 1;
 			doseAccessor3->getGeometricInfo().convert(end, end3D);
 
-			CHECK_CLOSE(1.46425, doseAccessor3->getDoseAt(end), errorConstant);
-			CHECK_CLOSE(1.46425, doseAccessor3-> getDoseAt(end3D), errorConstant);
-			CHECK_EQUAL(doseAccessor3->getDoseAt(end), doseAccessor3-> getDoseAt(end3D));
+			CHECK_CLOSE(1.46425, doseAccessor3->getValueAt(end), errorConstant);
+			CHECK_CLOSE(1.46425, doseAccessor3-> getValueAt(end3D), errorConstant);
+			CHECK_EQUAL(doseAccessor3->getValueAt(end), doseAccessor3-> getValueAt(end3D));
 
 			/* structure set */
 			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(

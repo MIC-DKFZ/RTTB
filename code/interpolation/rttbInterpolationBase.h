@@ -27,7 +27,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/array.hpp>
 
-#include "rttbDoseAccessorInterface.h"
+#include "rttbAccessorInterface.h"
 #include "rttbBaseType.h"
 
 namespace rttb
@@ -43,7 +43,7 @@ namespace rttb
 		{
 		public:
 			typedef boost::shared_ptr<InterpolationBase> Pointer;
-			typedef rttb::core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+			typedef rttb::core::AccessorInterface::AccessorPointer AccessorPointer;
 
 			/*! @brief Constructor
 			*/
@@ -53,18 +53,18 @@ namespace rttb
 			*/
 			virtual ~InterpolationBase() {};
 
-			/*! @brief Sets the DoseAccessPointer
-				@pre originalDose initialized
-				@exception core::NullPointerException if originalDose==NULL
+			/*! @brief Sets the AccessorPointer
+				@pre originalData initialized
+				@exception core::NullPointerException if originalData==NULL
 			*/
-			void setDoseAccessorPointer(const DoseAccessorPointer originalDose);
+			void setAccessorPointer(const AccessorPointer originalData);
 
 			/*! @brief Returns the interpolated value for the given world coordinate
 			*/
 			virtual DoseTypeGy getValue(const WorldCoordinate3D& aWorldCoordinate) const = 0;
 
 		protected:
-			DoseAccessorPointer _spOriginalDose;
+			AccessorPointer _spOriginalData;
 			/*! @brief determines voxels in a certain neighborhood of a physical based coordinate and converts in a standard cube with corner points [0 0 0], [1 0 0], [0 1 0], [1 1 0], [0 0 1], [1 0 1], [0 1 1], [1 1 1].
 				@param aWorldCoordinate the coordinate where to start
 				@param neighborhood voxel around coordinate (currently only 0 and 8 implemented)

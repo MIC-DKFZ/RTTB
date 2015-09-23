@@ -36,10 +36,8 @@
 #include "rttbDoseIteratorInterface.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomDoseAccessor.h"
-#include "rttbITKImageDoseAccessor.h"
-#include "rttbITKImageFileDoseAccessorGenerator.h"
-#include "rttbITKImageDoseAccessorGenerator.h"
-#include "rttbITKImageDoseAccessorConverter.h"
+#include "rttbITKImageAccessorConverter.h"
+#include "rttbITKImageFileAccessorGenerator.h"
 #include "rttbDoseAccessorProcessorBase.h"
 #include "rttbDoseAccessorConversionSettingInterface.h"
 #include "rttbInvalidDoseException.h"
@@ -83,45 +81,45 @@ namespace rttb
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator(RTDOSE_FILENAME.c_str());
 			DoseAccessorPointer doseAccessor(doseAccessorGenerator.generateDoseAccessor());
 
-			io::itk::ITKImageDoseAccessorConverter itkConverter(doseAccessor);
+			io::itk::ITKImageAccessorConverter itkConverter(doseAccessor);
 
 			CHECK_NO_THROW(itkConverter.process());
 			CHECK_NO_THROW(itkConverter.getITKImage());
 
-			io::itk::ITKDoseImageType::IndexType itkIndex;
+			io::itk::ITKImageAccessorConverter::ITKImageType::IndexType itkIndex;
 			itkIndex[0] = itkIndex[1] = itkIndex[2] = 0;
 
 			VoxelGridIndex3D rttbIndex(0, 0, 0);
 
-			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), doseAccessor->getDoseAt(rttbIndex));
+			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), doseAccessor->getValueAt(rttbIndex));
 
 			itkIndex[0] = rttbIndex[0] = doseAccessor->getGeometricInfo().getNumColumns() / 2;
 			itkIndex[1] = rttbIndex[1] = doseAccessor->getGeometricInfo().getNumRows() / 2;
 			itkIndex[2] = rttbIndex[2] = doseAccessor->getGeometricInfo().getNumSlices() / 2;
 
-			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), doseAccessor->getDoseAt(rttbIndex));
+			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), doseAccessor->getValueAt(rttbIndex));
 
 			itkIndex[0] = rttbIndex[0] = doseAccessor->getGeometricInfo().getNumColumns() - 1;
 			itkIndex[1] = rttbIndex[1] = doseAccessor->getGeometricInfo().getNumRows() - 1;
 			itkIndex[2] = rttbIndex[2] = doseAccessor->getGeometricInfo().getNumSlices() - 1;
 
-			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), doseAccessor->getDoseAt(rttbIndex));
+			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), doseAccessor->getValueAt(rttbIndex));
 
 			//2) Read mhdFile and test getITKImage() with Litmus TestImageIO
 
-			io::itk::ITKImageFileDoseAccessorGenerator doseAccessorGenerator2(RTDOSE2_FILENAME.c_str());
+			io::itk::ITKImageFileAccessorGenerator doseAccessorGenerator2(RTDOSE2_FILENAME.c_str());
 			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
 
-			io::itk::ITKImageDoseAccessorConverter itkConverter2(doseAccessor2);
+			io::itk::ITKImageAccessorConverter itkConverter2(doseAccessor2);
 
 			CHECK_NO_THROW(itkConverter2.process());
 			CHECK_NO_THROW(itkConverter2.getITKImage());
 
-			io::itk::ITKDoseImageType::Pointer expectedImage =
-			    lit::TestImageIO<unsigned char, io::itk::ITKDoseImageType>::readImage(
+			io::itk::ITKImageAccessorConverter::ITKImageType::Pointer expectedImage =
+			    lit::TestImageIO<unsigned char, io::itk::ITKImageAccessorConverter::ITKImageType>::readImage(
 			        RTDOSE2_FILENAME);
 
-			::lit::ImageTester<io::itk::ITKDoseImageType, io::itk::ITKDoseImageType >
+			::lit::ImageTester<io::itk::ITKImageAccessorConverter::ITKImageType, io::itk::ITKImageAccessorConverter::ITKImageType >
 			tester;
 			tester.setExpectedImage(expectedImage);
 			tester.setActualImage(itkConverter2.getITKImage());

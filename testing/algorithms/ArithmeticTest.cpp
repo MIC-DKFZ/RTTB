@@ -153,11 +153,11 @@ namespace rttb
 			CHECK_NO_THROW(algorithms::arithmetic::arithmetic(spDoseAccessor1, spDoseAccessor2,
 			               spMutableDoseAccessor, addOP));
 			VoxelGridID id = 5;
-			CHECK(spMutableDoseAccessor->getDoseAt(id) > 100);
-			CHECK_EQUAL(spDoseAccessor1->getDoseAt(id) + valFix, spMutableDoseAccessor->getDoseAt(id));
+			CHECK(spMutableDoseAccessor->getValueAt(id) > 100);
+			CHECK_EQUAL(spDoseAccessor1->getValueAt(id) + valFix, spMutableDoseAccessor->getValueAt(id));
 			id = 10;
-			CHECK(spMutableDoseAccessor->getDoseAt(id) > 100);
-			CHECK_EQUAL(spDoseAccessor1->getDoseAt(id) + valFix, spMutableDoseAccessor->getDoseAt(id));
+			CHECK(spMutableDoseAccessor->getValueAt(id) > 100);
+			CHECK_EQUAL(spDoseAccessor1->getValueAt(id) + valFix, spMutableDoseAccessor->getValueAt(id));
 			//@todo add MappableDoseAccessor Tests
 
 
@@ -188,22 +188,22 @@ namespace rttb
 			CHECK_NO_THROW(algorithms::arithmetic::arithmetic(spDoseAccessor1, spDoseAccessor2,
 			               spMutableDoseAccessor, addWOP));
 			id = 5;
-			CHECK(spMutableDoseAccessor->getDoseAt(id) > 201);
-			CHECK_EQUAL(spDoseAccessor1->getDoseAt(id) + 2 * valFix, spMutableDoseAccessor->getDoseAt(id));
+			CHECK(spMutableDoseAccessor->getValueAt(id) > 201);
+			CHECK_EQUAL(spDoseAccessor1->getValueAt(id) + 2 * valFix, spMutableDoseAccessor->getValueAt(id));
 			id = 10;
-			CHECK(spMutableDoseAccessor->getDoseAt(id) > 201);
-			CHECK_EQUAL(spDoseAccessor1->getDoseAt(id) + 2 * valFix, spMutableDoseAccessor->getDoseAt(id));
+			CHECK(spMutableDoseAccessor->getValueAt(id) > 201);
+			CHECK_EQUAL(spDoseAccessor1->getValueAt(id) + 2 * valFix, spMutableDoseAccessor->getValueAt(id));
 
 			//MULTIPLY
 			algorithms::arithmetic::doseOp::Multiply multiplyOP;
 			CHECK_NO_THROW(algorithms::arithmetic::arithmetic(spDoseAccessor1, spDoseAccessor2,
 			               spMutableDoseAccessor, multiplyOP));
 			id = 5;
-			CHECK(spMutableDoseAccessor->getDoseAt(id) > 201);
-			CHECK_EQUAL(spDoseAccessor1->getDoseAt(id) * valFix, spMutableDoseAccessor->getDoseAt(id));
+			CHECK(spMutableDoseAccessor->getValueAt(id) > 201);
+			CHECK_EQUAL(spDoseAccessor1->getValueAt(id) * valFix, spMutableDoseAccessor->getValueAt(id));
 			id = 10;
-			CHECK(spMutableDoseAccessor->getDoseAt(id) > 201);
-			CHECK_EQUAL(spDoseAccessor1->getDoseAt(id) * valFix, spMutableDoseAccessor->getDoseAt(id));
+			CHECK(spMutableDoseAccessor->getValueAt(id) > 201);
+			CHECK_EQUAL(spDoseAccessor1->getValueAt(id) * valFix, spMutableDoseAccessor->getValueAt(id));
 			//@todo add MappableDoseAccessor Tests
 
 			// 2) test dose-mask operations
@@ -214,13 +214,13 @@ namespace rttb
 
 			core::MaskVoxel mVoxel(0);
 			id = 5;
-			CHECK_EQUAL(0, spMutableDoseAccessor->getDoseAt(id));
+			CHECK_EQUAL(0, spMutableDoseAccessor->getValueAt(id));
 			spMaskAccessor1->getMaskAt(id, mVoxel);
-			CHECK_EQUAL(spMutableDoseAccessor->getDoseAt(id), mVoxel.getRelevantVolumeFraction());
+			CHECK_EQUAL(spMutableDoseAccessor->getValueAt(id), mVoxel.getRelevantVolumeFraction());
 			id = 15;
-			CHECK_EQUAL(valFix, spMutableDoseAccessor->getDoseAt(id));
+			CHECK_EQUAL(valFix, spMutableDoseAccessor->getValueAt(id));
 			id = 35;
-			CHECK_EQUAL(0, spMutableDoseAccessor->getDoseAt(id));
+			CHECK_EQUAL(0, spMutableDoseAccessor->getValueAt(id));
 			//@todo add MappableDoseAccessor Tests
 
 			//handling exceptions is tested once for dose-dose operations, because this does not change if the operation changes.
@@ -310,11 +310,11 @@ namespace rttb
 			CHECK_NO_THROW(algorithms::arithmetic::add(spDoseAccessor1, spDoseAccessor2,
 			               spMutableDoseAccessor));
 			id = 5;
-			CHECK(spMutableDoseAccessor->getDoseAt(id) > 100);
-			CHECK_EQUAL(spDoseAccessor1->getDoseAt(id) + valFix, spMutableDoseAccessor->getDoseAt(id));
+			CHECK(spMutableDoseAccessor->getValueAt(id) > 100);
+			CHECK_EQUAL(spDoseAccessor1->getValueAt(id) + valFix, spMutableDoseAccessor->getValueAt(id));
 			id = 10;
-			CHECK(spMutableDoseAccessor->getDoseAt(id) > 100);
-			CHECK_EQUAL(spDoseAccessor1->getDoseAt(id) + valFix, spMutableDoseAccessor->getDoseAt(id));
+			CHECK(spMutableDoseAccessor->getValueAt(id) > 100);
+			CHECK_EQUAL(spDoseAccessor1->getValueAt(id) + valFix, spMutableDoseAccessor->getValueAt(id));
 
 			CHECK_NO_THROW(algorithms::arithmetic::add(spMaskAccessor1, spMaskAccessor2, spMutableMask));
 			id = 5;
@@ -348,13 +348,13 @@ namespace rttb
 			CHECK_NO_THROW(algorithms::arithmetic::multiply(spDoseAccessor2, spMaskAccessor1,
 			               spMutableDoseAccessor));
 			id = 5;
-			CHECK_EQUAL(0, spMutableDoseAccessor->getDoseAt(id));
+			CHECK_EQUAL(0, spMutableDoseAccessor->getValueAt(id));
 			spMaskAccessor1->getMaskAt(id, mVoxel);
-			CHECK_EQUAL(spMutableDoseAccessor->getDoseAt(id), mVoxel.getRelevantVolumeFraction());
+			CHECK_EQUAL(spMutableDoseAccessor->getValueAt(id), mVoxel.getRelevantVolumeFraction());
 			id = 15;
-			CHECK_EQUAL(valFix, spMutableDoseAccessor->getDoseAt(id));
+			CHECK_EQUAL(valFix, spMutableDoseAccessor->getValueAt(id));
 			id = 35;
-			CHECK_EQUAL(0, spMutableDoseAccessor->getDoseAt(id));
+			CHECK_EQUAL(0, spMutableDoseAccessor->getValueAt(id));
 
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

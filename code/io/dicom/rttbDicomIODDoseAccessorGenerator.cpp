@@ -29,35 +29,41 @@
 #include "rttbDcmrtException.h"
 #include "rttbIndexOutOfBoundsException.h"
 
-namespace rttb{
-	namespace io{
-		namespace dicom{
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
 
 
-			DicomIODDoseAccessorGenerator::~DicomIODDoseAccessorGenerator(){}
+			DicomIODDoseAccessorGenerator::~DicomIODDoseAccessorGenerator() {}
 
-			DicomIODDoseAccessorGenerator::DicomIODDoseAccessorGenerator(DRTDoseIODPtr aDRTDoseIODP){
-				_doseIODPtr=aDRTDoseIODP;	
-				
+			DicomIODDoseAccessorGenerator::DicomIODDoseAccessorGenerator(DRTDoseIODPtr aDRTDoseIODP)
+			{
+				_doseIODPtr = aDRTDoseIODP;
+
 			}
 
-			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomIODDoseAccessorGenerator::generateDoseAccessor() {
+			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomIODDoseAccessorGenerator::generateDoseAccessor()
+			{
 				DcmItem doseitem;
 				OFCondition status;
 
 				status = _doseIODPtr->write(doseitem);//write DoseIOD to DcmItem to get pixel data
 
-				if(status.good()){
+				if (status.good())
+				{
 					DcmItemPtr dataSetPtr = boost::make_shared<DcmItem>(doseitem);
-					_doseAccessor=boost::make_shared<io::dicom::DicomDoseAccessor>(_doseIODPtr, dataSetPtr);
-				return _doseAccessor;
-			}
+					_doseAccessor = boost::make_shared<io::dicom::DicomDoseAccessor>(_doseIODPtr, dataSetPtr);
+					return _doseAccessor;
+				}
 				else
 				{
 					throw io::dicom::DcmrtException("Write DICOM RT Dose to DcmItem failed!");
 				}
 			}
-			
+
 
 		}
 	}

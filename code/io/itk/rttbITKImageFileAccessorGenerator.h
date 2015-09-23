@@ -14,19 +14,19 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 995 $ (last changed revision)
+// @date    $Date: 2015-06-17 12:58:33 +0200 (Mi, 17 Jun 2015) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
-#ifndef __ITK_IMAGE_DOSE_FILE_ACCESSOR_GENERATOR_H
-#define __ITK_IMAGE_DOSE_FILE_ACCESSOR_GENERATOR_H
+#ifndef __ITK_IMAGE_FILE_ACCESSOR_GENERATOR_H
+#define __ITK_IMAGE_FILE_ACCESSOR_GENERATOR_H
 
 #include <string>
 #include <exception>
 
 #include "rttbDoseAccessorGeneratorBase.h"
 #include "rttbBaseType.h"
-#include "rttbITKImageDoseAccessor.h"
+#include "rttbITKImageAccessorConverter.h"
 #include "rttbGenericImageReader.h"
 
 #include "itkImage.h"
@@ -40,28 +40,29 @@ namespace rttb
 		namespace itk
 		{
 
-			/*! @class ITKImageFileDoseAccessorGenerator
-			@brief Load dose data using the itk loading methods and wraps the resulting itk image in a ITKImageDoseAccessor.
-			* this is normally used if dose distributions are stored in formats like meta image, nrrd...
+			/*! @class ITKImageFileAccessorGenerator
+			@brief Load image data using the itk loading methods and wraps the resulting itk image in a ITKImageAccessor.
+			* this can be used if dose distributions are stored in formats like meta image, nrrd...
 			* @note it implies that the dose information is stored in absolute Gy values.
 			*/
-			class ITKImageFileDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
+			class ITKImageFileAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
 			public:
+				typedef ::itk::Image<GenericValueType, 3> ITKImageType;
 				typedef DoseAccessorGeneratorBase::DoseAccessorPointer DoseAccessorPointer;
 
 			private:
-				FileNameType _dicomDoseFileName;
+				FileNameType _fileName;
 				/** @brief The dose as itkImage */
-				ITKDoseImageType::Pointer _itkDoubleImage;
+				ITKImageType::Pointer _itkDoubleImage;
 
-				ITKImageFileDoseAccessorGenerator();
+				ITKImageFileAccessorGenerator();
 
-				
+
 			public:
-				~ITKImageFileDoseAccessorGenerator();
+				~ITKImageFileAccessorGenerator();
 
-				ITKImageFileDoseAccessorGenerator(const FileNameType& fileName);
+				ITKImageFileAccessorGenerator(const FileNameType& fileName);
 
 				/*! @brief Generate DoseAccessor
 				@return Return shared pointer of DoseAccessor.

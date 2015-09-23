@@ -34,44 +34,51 @@
 #include "rttbInvalidParameterException.h"
 #include "rttbDicomFileReaderHelper.h"
 
-namespace rttb{
-	namespace io{
-		namespace helax{
-			DicomHelaxFileDoseAccessorGenerator::~DicomHelaxFileDoseAccessorGenerator(){}
+namespace rttb
+{
+	namespace io
+	{
+		namespace helax
+		{
+			DicomHelaxFileDoseAccessorGenerator::~DicomHelaxFileDoseAccessorGenerator() {}
 
-			DicomHelaxFileDoseAccessorGenerator::DicomHelaxFileDoseAccessorGenerator(FileNameType aDICOMRTDoseDirName){
-				_doseDirName=aDICOMRTDoseDirName;
-				
+			DicomHelaxFileDoseAccessorGenerator::DicomHelaxFileDoseAccessorGenerator(FileNameType aDICOMRTDoseDirName)
+			{
+				_doseDirName = aDICOMRTDoseDirName;
+
 
 			}
 
-			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomHelaxFileDoseAccessorGenerator::generateDoseAccessor() {
-				rttb::io::dicom::Modality doseModality= {rttb::io::dicom::Modality::RTDOSE};
+			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomHelaxFileDoseAccessorGenerator::generateDoseAccessor()
+			{
+				rttb::io::dicom::Modality doseModality = {rttb::io::dicom::Modality::RTDOSE};
 				std::vector<FileNameType> fileVector = rttb::io::dicom::getFileNamesWithSameUID(_doseDirName, doseModality);
 				OFCondition status;
 				DcmFileFormat fileformat;
 				std::vector<DRTDoseIODPtr> doseVector;
 
-				for(int i=0; i<fileVector.size(); i++)
-					{
-								DRTDoseIODPtr dose= boost::make_shared<DRTDoseIOD>();
+				for (int i = 0; i < fileVector.size(); i++)
+				{
+					DRTDoseIODPtr dose = boost::make_shared<DRTDoseIOD>();
 
 					status = fileformat.loadFile(fileVector.at(i).c_str());
-								if (!status.good())
-								{
-									throw core::InvalidDoseException("Error: load dose fileformat.loadFile failed!");
-								}
-              
-								status = dose->read(*fileformat.getDataset());
-								if(!status.good())
-								{
-									throw core::InvalidDoseException("Error: read DRTDoseIOD failed!");
-								}
 
-									doseVector.push_back(dose);
-								}
+					if (!status.good())
+					{
+						throw core::InvalidDoseException("Error: load dose fileformat.loadFile failed!");
+					}
 
-				_doseAccessor=boost::make_shared<io::helax::DicomHelaxDoseAccessor>(doseVector);
+					status = dose->read(*fileformat.getDataset());
+
+					if (!status.good())
+					{
+						throw core::InvalidDoseException("Error: read DRTDoseIOD failed!");
+					}
+
+					doseVector.push_back(dose);
+				}
+
+				_doseAccessor = boost::make_shared<io::helax::DicomHelaxDoseAccessor>(doseVector);
 				return _doseAccessor;
 
 			}

@@ -126,11 +126,11 @@ namespace rttb
 			for (int i = 0; i < voxelsAsIndexToTest.size(); i++)
 			{
 				//test if the expected interpolation values are computed
-				CHECK_CLOSE(aRosuMappableDoseAccessorDefault->getDoseAt(voxelsAsIndexToTest.at(i)),
+				CHECK_CLOSE(aRosuMappableDoseAccessorDefault->getValueAt(voxelsAsIndexToTest.at(i)),
 				            expectedValues.at(i), errorConstant);
 				//test if getDoseAt(VoxelGridIndex3D) and getDoseAt(VoxelGridD) lead to the same results
-				CHECK_EQUAL(aRosuMappableDoseAccessorDefault->getDoseAt(voxelsAsIndexToTest.at(i)),
-				            aRosuMappableDoseAccessorDefault->getDoseAt(voxelsAsIdToTest.at(i)));
+				CHECK_EQUAL(aRosuMappableDoseAccessorDefault->getValueAt(voxelsAsIndexToTest.at(i)),
+				            aRosuMappableDoseAccessorDefault->getValueAt(voxelsAsIdToTest.at(i)));
 			}
 
 			//test invalid voxels
@@ -138,11 +138,11 @@ namespace rttb
 			VoxelGridIndex3D invalidIndex(doseAccessor1->getGeometricInfo().getNumColumns() + 1,
 			                              doseAccessor1->getGeometricInfo().getNumRows() + 1,
 			                              doseAccessor1->getGeometricInfo().getNumSlices() + 1);
-			CHECK_EQUAL(aRosuMappableDoseAccessorDefault->getDoseAt(invalidID), 0.0);
-			CHECK_EQUAL(aRosuMappableDoseAccessorDefault->getDoseAt(invalidIndex), 0.0);
-			CHECK_THROW_EXPLICIT(aRosuMappableDoseAccessorNoPadding->getDoseAt(invalidID),
+			CHECK_EQUAL(aRosuMappableDoseAccessorDefault->getValueAt(invalidID), 0.0);
+			CHECK_EQUAL(aRosuMappableDoseAccessorDefault->getValueAt(invalidIndex), 0.0);
+			CHECK_THROW_EXPLICIT(aRosuMappableDoseAccessorNoPadding->getValueAt(invalidID),
 			                     core::MappingOutsideOfImageException);
-			CHECK_THROW_EXPLICIT(aRosuMappableDoseAccessorNoPadding->getDoseAt(invalidIndex),
+			CHECK_THROW_EXPLICIT(aRosuMappableDoseAccessorNoPadding->getValueAt(invalidIndex),
 			                     core::MappingOutsideOfImageException);
 
 
