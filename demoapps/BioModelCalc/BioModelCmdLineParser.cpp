@@ -62,6 +62,14 @@ namespace rttb
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style:" + loadStyleAbbreviation +
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
+
+				if (loadStyleAbbreviation == "virtuos")
+				{
+					if (loadStyle.size() < 2)
+					{
+						throw cmdlineparsing::InvalidConstraintException("Cannot load virtuos dose. Plan file is missing. Specify plan file as 2nd io style argument.");
+					}
+				}
 			}
 
 			void BioModelCmdLineParser::printHelp() const
