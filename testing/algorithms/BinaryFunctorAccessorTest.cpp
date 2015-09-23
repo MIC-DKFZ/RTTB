@@ -104,7 +104,8 @@ namespace rttb
 			            spDoseAccessor, spDoseAccessor, addWeightedTwoOP));
 
 			//2) Test getDoseAt()
-			VoxelGridID aId[3] = {5, 6067, spBinaryFunctorDoseAccessorAdd->getGeometricInfo().getNumberOfVoxels() - 1};
+			int lastIndex = spBinaryFunctorDoseAccessorAdd->getGeometricInfo().getNumberOfVoxels() - 1;
+			VoxelGridID aId[3] = { 5, 6067, lastIndex };
 			VoxelGridIndex3D aIndex[3] = {VoxelGridIndex3D(5, 0, 0), VoxelGridIndex3D(37, 0, 2), VoxelGridIndex3D(spBinaryFunctorDoseAccessorAdd->getGeometricInfo().getNumColumns() - 1, spBinaryFunctorDoseAccessorAdd->getGeometricInfo().getNumRows() - 1, spBinaryFunctorDoseAccessorAdd->getGeometricInfo().getNumSlices() - 1)};
 
 			for (int i = 0; i < 3; ++i)
