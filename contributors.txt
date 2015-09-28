@@ -3,3 +3,4 @@
 * Ralf Floca
 * Martina Hub
 * Clemens Hentschke
+* Simon Strubel

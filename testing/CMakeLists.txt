@@ -34,6 +34,7 @@ OPTION(BUILD_RTToolbox_models_Tester "build project on/off" OFF)
 OPTION(BUILD_RTToolbox_io_Tester "build project on/off" OFF)
 OPTION(BUILD_RTToolbox_masks_Tester "build project on/off" OFF)
 OPTION(BUILD_RTToolbox_interpolation_Tester "build project on/off" OFF)
+OPTION(BUILD_RTToolbox_demoapps_VoxelizerTool_Tester "build project on/off" OFF)
 
 IF(${BUILD_RTToolbox_core_Tester} STREQUAL ON)
 ADD_SUBDIRECTORY(core)
@@ -63,5 +64,7 @@ IF(${BUILD_RTToolbox_interpolation_Tester} STREQUAL ON)
 ADD_SUBDIRECTORY(interpolation)
 ENDIF(${BUILD_RTToolbox_interpolation_Tester} STREQUAL ON)
 
-
+IF(${BUILD_RTToolbox_demoapps_VoxelizerTool_Tester} STREQUAL ON)
+ADD_SUBDIRECTORY(demoapps/VoxelizerTool)
+ENDIF(${BUILD_RTToolbox_demoapps_VoxelizerTool_Tester} STREQUAL ON)
 
