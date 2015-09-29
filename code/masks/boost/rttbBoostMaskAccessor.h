@@ -39,7 +39,7 @@ namespace rttb
 		{
 			/*! @class BoostMaskAccessor
 			*   @brief Using the voxelization based on boost::geometry and generate the mask accessor.
-			*   !Important! If "strict" is set to true, an exception will be thrown when the given structure has self intersection.
+			*   @attention  If "strict" is set to true, an exception will be thrown when the given structure has self intersection.
 			*   (A structure without self interseciton means all contours of the structure have no self intersection, and
 			*   the polygons on the same slice have no intersection between each other, unless the case of a donut. A donut is accepted.)   
 			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored 

@@ -43,7 +43,7 @@ namespace rttb
 		{
 			/*! @class BoostMask
 			*   @brief Implementation of voxelization using boost::geometry. 
-			*  !Important! If "strict" is set to true, an exception will be thrown when the given structure has self intersection.
+			*   @attention If "strict" is set to true, an exception will be thrown when the given structure has self intersection.
 			*   (A structure without self interseciton means all contours of the structure have no self intersection, and
 			*   the polygons on the same slice have no intersection between each other, unless the case of a donut. A donut is accepted.)   
 			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored 
@@ -138,6 +138,9 @@ namespace rttb
 
 				/*! @brief Get the voxel 2d contour polygon*/
 				BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D);
+
+				/*! @brief If 2 rings in the vector build a donut, convert the 2 rings to a donut polygon, other rings unchanged*/
+				BoostPolygonVector checkDonutAndConvert(const BoostRingVector& aRingVector);
 
 			};
 
