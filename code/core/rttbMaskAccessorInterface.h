@@ -87,7 +87,7 @@ namespace rttb
 			virtual bool getMaskAt(const VoxelGridIndex3D& gridIndex, MaskVoxel& voxel) const = 0;
 
 			/* @brief Is true if dose is on a homogeneous grid.
-			   @todo Inhomogeneous grids are not supported at the moment, but if they will
+			   @note Inhomogeneous grids are not supported at the moment, but if they will
 			   be supported in the future the interface does not need to change.
 			*/
 			virtual bool isGridHomogeneous() const

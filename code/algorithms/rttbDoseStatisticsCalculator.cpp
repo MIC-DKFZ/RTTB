@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 877 $ (last changed revision)
-// @date    $Date: 2015-01-09 10:51:10 +0100 (Fr, 09 Jan 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 #include "rttbDoseStatisticsCalculator.h"
@@ -285,9 +285,9 @@ namespace rttb
 
 			/*! @todo: Architecture Annotation:
 				Finding the positions for the minimum only once reduces computation time,
-				but will require sensible use by the programmers. To be save the output vector
-				minVoxelVector will be always cleared here to garantee that no false values are
-				presented. This change may be revoced to increase computation speed later on
+				but will require sensible use by the programmers. To be safe the output vector
+				minVoxelVector will be always cleared here to guarantee that no false values are
+				presented. This change may be revoked to increase computation speed later on
 				(only compute if(minVoxelVector->size()==0)).
 			*/
 			unsigned int count = 0;

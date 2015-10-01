@@ -24,25 +24,29 @@
 #include "rttbDVHDicomFileReader.h"
 #include "rttbException.h"
 
-namespace rttb{
-	namespace io{
-		namespace dicom{
-		DVHDicomFileReader::DVHDicomFileReader(FileNameString aFileName){
-			this->setFileName(aFileName);
-			this->createDVH();		
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
+			DVHDicomFileReader::DVHDicomFileReader(FileNameString aFileName)
+			{
+				this->setFileName(aFileName);
+				this->createDVH();
 			}
 
-		void DVHDicomFileReader::setFileName(FileNameString aFileName){
-			_fileName=aFileName;
-			this->createDVH();
+			void DVHDicomFileReader::setFileName(FileNameString aFileName)
+			{
+				_fileName = aFileName;
+				this->createDVH();
 			}
 
-        void DVHDicomFileReader::createDVH()
-        {
-            /**@TODO Implementation needed*/
-            assert(false);
-            throw rttb::core::Exception("DICOM DVH reader currently not implemented.");
-        };
+			void DVHDicomFileReader::createDVH()
+			{
+				assert(false);
+				throw rttb::core::Exception("DICOM DVH reader currently not implemented.");
+			};
 
 		}
 	}

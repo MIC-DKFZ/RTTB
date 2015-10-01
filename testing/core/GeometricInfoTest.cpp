@@ -83,7 +83,7 @@ namespace rttb
 
 			//4) test set/getSpacing
 			//negative spacing does not make sense!
-			/*!@todo: Should negative values be prohibited/set to zero?*/
+			/*!@is related to #2028 Should SpacingTypeVector/GridVolumeType/OrientationMatrix be forced to be non-negative?*/
 			expectedSpacing(0) = 4.15;
 			expectedSpacing(1) = 2.35;
 			expectedSpacing(2) = 100;
@@ -189,7 +189,6 @@ namespace rttb
 			CHECK(!(geoInfo.worldCoordinateToIndex(insideTestWC3, testConvert)));
 			//CHECK_EQUAL(VoxelGridIndex3D(0),testConvert); //if value is in a negative grid position it will be converted
 			//to a very large unrelated number.
-			/*! @todo Should VoxelGridIndex3D assign a special value to negative indices? */
 			CHECK(!(geoInfo.isInside(testConvert)));
 			CHECK(!(geoInfo.worldCoordinateToIndex(insideTestWC4, testConvert)));
 			CHECK_EQUAL(expectedVoxelDims, testConvert);
@@ -279,11 +278,8 @@ namespace rttb
 			CHECK_NO_THROW(geoInfo.setSpacing(SpacingVectorType3D(1)));
 
 			//values for testing were generated with a dedicated MeVisLab routine
-			//expected worldcoordinates need to accomodate the half voxel shift
+			//expected world coordinates need to accommodate the half voxel shift
 			//caused by the use of the central position in the voxel for conversion.
-			/*!@todo Should the conversion always use the centroid of the current voxel?*/
-			/*!@todo Should it be prohibited to define negative VoxelGridIndices, because conversion
-			generates strange values?*/
 			insideTest1 = VoxelGridIndex3D(0, 0, 0); //origin (inside)
 			const WorldCoordinate3D expectedIndex1(19.75, 101.5, -1000.5);
 			insideTest2 = VoxelGridIndex3D(6, 0, 2); //inside

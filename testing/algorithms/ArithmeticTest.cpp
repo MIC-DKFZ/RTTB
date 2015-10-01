@@ -158,8 +158,6 @@ namespace rttb
 			id = 10;
 			CHECK(spMutableDoseAccessor->getValueAt(id) > 100);
 			CHECK_EQUAL(spDoseAccessor1->getValueAt(id) + valFix, spMutableDoseAccessor->getValueAt(id));
-			//@todo add MappableDoseAccessor Tests
-
 
 			//handling exceptions is tested once for dose-dose operations, because this does not change if the operation changes.
 			//handling null pointers
@@ -204,7 +202,6 @@ namespace rttb
 			id = 10;
 			CHECK(spMutableDoseAccessor->getValueAt(id) > 201);
 			CHECK_EQUAL(spDoseAccessor1->getValueAt(id) * valFix, spMutableDoseAccessor->getValueAt(id));
-			//@todo add MappableDoseAccessor Tests
 
 			// 2) test dose-mask operations
 			//MULTIPLY
@@ -221,7 +218,6 @@ namespace rttb
 			CHECK_EQUAL(valFix, spMutableDoseAccessor->getValueAt(id));
 			id = 35;
 			CHECK_EQUAL(0, spMutableDoseAccessor->getValueAt(id));
-			//@todo add MappableDoseAccessor Tests
 
 			//handling exceptions is tested once for dose-dose operations, because this does not change if the operation changes.
 			//handling null pointers
@@ -306,7 +302,6 @@ namespace rttb
 
 			// 4) test convenience functions
 			// tests are similar to explicit calls
-			//@todo if convenience functions are implemented: add MappableDoseAccessor Tests
 			CHECK_NO_THROW(algorithms::arithmetic::add(spDoseAccessor1, spDoseAccessor2,
 			               spMutableDoseAccessor));
 			id = 5;

@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 880 $ (last changed revision)
-// @date    $Date: 2015-01-13 14:14:24 +0100 (Di, 13 Jan 2015) $ (last change date)
-// @author  $Author: zhangl $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 #include <boost/make_shared.hpp>

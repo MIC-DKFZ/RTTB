@@ -39,9 +39,6 @@ namespace rttb
 		/*! @brief GeometricInfo objects contain all the information required for transformations between voxel grid
 			coordinates and world coordinates. Corresponding converter functions are also available.
 			@note ITK Pixel Indexing used (http://www.itk.org/Doxygen45/html/classitk_1_1Image.html): The Index type reverses the order so that with Index[0] = col, Index[1] = row, Index[2] = slice.
-			@todo Similarity for core::GeometricInfo needs to be defined. Orientation of the world matrix needs to be the same,
-			but the extend of the grid may differ. This is for example the case if the slice thickness is different in
-			Dose and Mask. This may cause a difference in the grid extend.
 
 		*/
 		class GeometricInfo
@@ -130,8 +127,6 @@ namespace rttb
 			const VoxelGridDimensionType getNumSlices() const;
 
 			/*! @brief determines equality of two GeometricInfo objects.
-				@todo Should equality be less restrictive and allow similar Orientation (different values)
-				or equal orientation and different extend in world coordinates/different grid size
 			*/
 			friend bool operator==(const GeometricInfo& gInfo, const GeometricInfo& gInfo1);
 

@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 5603 $ (last changed revision)
-// @date    $Date: 2015-08-24 15:17:30 +0200 (Mo, 24 Aug 2015) $ (last change date)
-// @author  $Author: strubel $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 #ifndef __MaskWriter_h
 #define __MaskWriter_h

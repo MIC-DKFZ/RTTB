@@ -23,23 +23,26 @@
 #include "rttbNullPointerException.h"
 #include "rttbException.h"
 
-namespace rttb{
+namespace rttb
+{
 	namespace core
-		{
+	{
 		MaskedDoseIteratorInterface::MaskedDoseIteratorInterface(MaskAccessorPointer aMaskAccessor,
-			DoseAccessorPointer aDoseAccessor):DoseIteratorInterface(aDoseAccessor){
-				if(! aMaskAccessor)
-					{
-					throw NullPointerException(" mask pointer must not be NULL!");
-					}
-				else 
-					{
-					_spMask = aMaskAccessor;
-					}
-				if (!(_spMask->getGeometricInfo()==_spDoseAccessor->getGeometricInfo()))
-					{
-					throw Exception("Mask and Dose need to be defined on the same grid");
-					}
+		        DoseAccessorPointer aDoseAccessor): DoseIteratorInterface(aDoseAccessor)
+		{
+			if (! aMaskAccessor)
+			{
+				throw NullPointerException(" mask pointer must not be NULL!");
+			}
+			else
+			{
+				_spMask = aMaskAccessor;
+			}
+
+			if (!(_spMask->getGeometricInfo() == _spDoseAccessor->getGeometricInfo()))
+			{
+				throw Exception("Mask and Dose need to be defined on the same grid");
 			}
 		}
 	}
+}

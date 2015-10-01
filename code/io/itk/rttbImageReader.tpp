@@ -153,7 +153,6 @@ namespace rttb
 			{
 				//ITK > v4.3.x  removed old DICOMSeriesFileNames. Thus currently only support GDCM as source by default
 				return prepareGDCMSource();
-				/**@TODO Add support for DCMTKSeriesFileNames too*/
 			};
 
 			template <typename TInputPixel, typename TOutputPixel, unsigned int iDimension>

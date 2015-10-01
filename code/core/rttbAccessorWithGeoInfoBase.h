@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 877 $ (last changed revision)
-// @date    $Date: 2015-01-09 10:51:10 +0100 (Fr, 09 Jan 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 #ifndef __ACCESSOR_WITH_GEO_INFO_BASE_H
 #define __ACCESSOR_WITH_GEO_INFO_BASE_H

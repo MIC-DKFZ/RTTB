@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1095 $ (last changed revision)
-// @date    $Date: 2015-09-11 11:12:40 +0200 (Fr, 11 Sep 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 

@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 856 $ (last changed revision)
-// @date $Date: 2014-11-27 13:39:53 +0100 (Do, 27 Nov 2014) $ (last change date)
-// @author $Author: zhangl $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date $Date$ (last change date)
+// @author $Author$ (last changed by)
 */
 
 // this file defines the rttbCoreTests for the test driver

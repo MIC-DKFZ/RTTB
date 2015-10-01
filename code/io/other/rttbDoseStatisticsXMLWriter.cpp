@@ -303,7 +303,6 @@ namespace rttb
 				sstr << aDoseStatistics->getStdDeviation() << columnSeparator;
 				sstr << aDoseStatistics->getVariance() << columnSeparator;
 
-				/*to do: x should be defined based on the user's feedback*/
 				if (aReferenceDose <= 0)
 				{
 					throw core::InvalidParameterException("aReferenceDose should be >0!");

@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 747 $ (last changed revision)
-// @date    $Date: 2014-09-17 12:01:00 +0200 (Mi, 17 Sep 2014) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 #ifndef __BINARY_FUNCTOR_ACCESSOR_H
 #define __BINARY_FUNCTOR_ACCESSOR_H
@@ -90,7 +90,6 @@ namespace rttb
 			*/
 			GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const;
 
-			//@todo: which UID should be used here?
 			const IDType getUID() const
 			{
 				return IDType();

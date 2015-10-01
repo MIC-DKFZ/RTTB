@@ -31,9 +31,11 @@
 #include "DummyDoseAccessor.h"
 #include "DummyMaskAccessor.h"
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace testing{
+	namespace testing
+	{
 
 		typedef core::DVH::DataDifferentialType DataDifferentialType;
 
@@ -44,7 +46,7 @@ namespace rttb{
 		4) test set/get<Values>
 		5) test equality
 		*/
-		int DVHTest(int argc, char* argv[] )
+		int DVHTest(int argc, char* argv[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
@@ -57,48 +59,57 @@ namespace rttb{
 			DataDifferentialType aDataDifferential2;
 			DataDifferentialType aDataDifferentialRelative;
 			DoseStatisticType maximum = 0;
-			DoseStatisticType minimum = 0;	
+			DoseStatisticType minimum = 0;
 			double sum = 0;
 			double squareSum = 0;
 			DoseCalcType value = 0;
 			DVHVoxelNumber numberOfVoxels = 0;
+
 			// creat default values [0,100)
-			for(int i = 0; i < 100; i++){
-				value = DoseCalcType((double(rand())/RAND_MAX)*1000);
-				numberOfVoxels+=value;
-				aDataDifferential.push_back( value );
-				aDataDifferential2.push_back( value*10 );
-				if (value > 0){
-					maximum = (i+0.5)*binSize;
-					if (minimum==0){
-						minimum = (i+0.5)*binSize;
+			for (int i = 0; i < 100; i++)
+			{
+				value = DoseCalcType((double(rand()) / RAND_MAX) * 1000);
+				numberOfVoxels += value;
+				aDataDifferential.push_back(value);
+				aDataDifferential2.push_back(value * 10);
+
+				if (value > 0)
+				{
+					maximum = (i + 0.5) * binSize;
+
+					if (minimum == 0)
+					{
+						minimum = (i + 0.5) * binSize;
 					}
 				}
-				sum+=value*(i+0.5)*binSize;
-				squareSum+=value*pow((i+0.5)*binSize,2);
+
+				sum += value * (i + 0.5) * binSize;
+				squareSum += value * pow((i + 0.5) * binSize, 2);
 			}
-			DoseStatisticType mean = sum/numberOfVoxels;
-			DoseStatisticType variance=(squareSum/numberOfVoxels-mean*mean);
-			DoseStatisticType stdDeviation=pow(variance,0.5);
+
+			DoseStatisticType mean = sum / numberOfVoxels;
+			DoseStatisticType variance = (squareSum / numberOfVoxels - mean * mean);
+			DoseStatisticType stdDeviation = pow(variance, 0.5);
 
 			std::deque<DoseCalcType>::iterator it;
-			for(it=aDataDifferential.begin();it!=aDataDifferential.end();it++)
+
+			for (it = aDataDifferential.begin(); it != aDataDifferential.end(); it++)
 			{
-				aDataDifferentialRelative.push_back((*it)/numberOfVoxels);
+				aDataDifferentialRelative.push_back((*it) / numberOfVoxels);
 			}
 
 			const IDType structureID = "myStructure";
 			const IDType doseID = "myDose";
-			const IDType voxelizationID = "myVoxelization";  
+			const IDType voxelizationID = "myVoxelization";
 
 			//1) test default constructor (values as expected?)
-			CHECK_THROW(core::DVH(anEmptyDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID));	
+			CHECK_THROW(core::DVH(anEmptyDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID));
 			CHECK_THROW(core::DVH(anEmptyDataDifferential, binSize, voxelVolume, structureID, doseID));
-			CHECK_NO_THROW(core::DVH(aDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID));	
+			CHECK_NO_THROW(core::DVH(aDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID));
 			CHECK_NO_THROW(core::DVH(aDataDifferential, binSize, voxelVolume, structureID, doseID));
-			CHECK_THROW(core::DVH(aDataDifferential, 0, voxelVolume, structureID, doseID, voxelizationID));	
+			CHECK_THROW(core::DVH(aDataDifferential, 0, voxelVolume, structureID, doseID, voxelizationID));
 			CHECK_THROW(core::DVH(aDataDifferential, 0, voxelVolume, structureID, doseID));
-			CHECK_THROW(core::DVH(aDataDifferential, binSize, 0, structureID, doseID, voxelizationID));	
+			CHECK_THROW(core::DVH(aDataDifferential, binSize, 0, structureID, doseID, voxelizationID));
 			CHECK_THROW(core::DVH(aDataDifferential, binSize, 0, structureID, doseID));
 
 			//2) test asignement
@@ -107,7 +118,7 @@ namespace rttb{
 
 			const core::DVH myOtherDVH = myTestDVH;
 
-			CHECK_NO_THROW(core::DVH aDVH(myOtherDVH));	  
+			CHECK_NO_THROW(core::DVH aDVH(myOtherDVH));
 
 			//3) test set/getLabel
 			core::DVH myDVH(aDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID);
@@ -124,19 +135,19 @@ namespace rttb{
 			CHECK_NO_THROW(myDVH.setLabel(label));
 			CHECK_NO_THROW(myDVH.setLabel(label));
 			CHECK_EQUAL(myDVH.getLabel(), label);
-			CHECK_EQUAL(myDVH.getLabel(), label);	  
+			CHECK_EQUAL(myDVH.getLabel(), label);
 
 			//4) test set/get<Values>
 			//IDs
 			CHECK_EQUAL(myDVH.getStructureID(), structureID);
 			CHECK_EQUAL(myDVH.getDoseID(), doseID);
 			CHECK_EQUAL(myDVH.getVoxelizationID(), voxelizationID);
-			/*! @todo Should you be able to set the DoseID?*/
+			/*! is related to #2029*/
 			myDVH.setDoseID("somethingElse");
 			CHECK_EQUAL(myDVH.getDoseID(), "somethingElse");
 			CHECK_EQUAL(myDVH.getVoxelizationID(), voxelizationID);
 			CHECK_EQUAL(myDVH.getStructureID(), structureID);
-			/*! @todo Should you be able to set the DoseID?*/
+			/*! is related to #2029*/
 			myDVH.setStructureID("somethingOther");
 			CHECK_EQUAL(myDVH.getDoseID(), "somethingElse");
 			CHECK_EQUAL(myDVH.getVoxelizationID(), voxelizationID);
@@ -144,9 +155,9 @@ namespace rttb{
 
 
 			//dataDifferential
-			CHECK(myDVH.getDataDifferential()==aDataDifferential);
+			CHECK(myDVH.getDataDifferential() == aDataDifferential);
 			CHECK(myDVH.getDataDifferential(false) == aDataDifferential);
-			CHECK(myDVH.getDataDifferential(true)==aDataDifferentialRelative);
+			CHECK(myDVH.getDataDifferential(true) == aDataDifferentialRelative);
 
 			CHECK_EQUAL(myDVH.getNumberOfVoxels(), numberOfVoxels);
 			CHECK_EQUAL(myDVH.getDeltaV(), voxelVolume);
@@ -160,16 +171,16 @@ namespace rttb{
 
 
 			int percentage = 20;
-			VolumeType absVol = VolumeType(percentage*numberOfVoxels*voxelVolume/100.0);
+			VolumeType absVol = VolumeType(percentage * numberOfVoxels * voxelVolume / 100.0);
 			CHECK_EQUAL(myDVH.getAbsoluteVolume(percentage), absVol);
 
 			//5) test equality
 			core::DVH myDVH2(aDataDifferential2, binSize, voxelVolume, structureID, doseID);
 
-			CHECK(!(myDVH==myDVH2));
-			CHECK_EQUAL(myDVH,myDVH);
+			CHECK(!(myDVH == myDVH2));
+			CHECK_EQUAL(myDVH, myDVH);
 			core::DVH aDVH(myOtherDVH);
-			CHECK_EQUAL(aDVH,myOtherDVH);	  	  
+			CHECK_EQUAL(aDVH, myOtherDVH);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

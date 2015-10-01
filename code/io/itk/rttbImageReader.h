@@ -31,7 +31,8 @@ namespace rttb
 {
 	namespace io
 	{
-		namespace itk {
+		namespace itk
+		{
 			struct ImageSeriesReadStyle
 			{
 				enum Type
@@ -66,7 +67,6 @@ namespace rttb
 			*			  file name is already masked by %d for the increasing index within
 			*			  the file name.
 			* .
-			* @todo implement Reader as an ::itk::ImageSource in the behavior.
 			* @note code copied from MatchPoint, see documentation (http://sourceforge.net/projects/matchpoint/)
 			*/
 			template <typename TInputPixel, typename TOutputPixel, unsigned int iDimension = 2>
@@ -120,7 +120,7 @@ namespace rttb
 
 				typedef std::vector< ::itk::MetaDataDictionary*> ITKMetaDataDictionaryArray;
 				void copyMetaDictionaryArray(const ITKMetaDataDictionaryArray* fromArray,
-											 MetaDataDictionaryArrayType& toArray);
+				                             MetaDataDictionaryArrayType& toArray);
 
 			public:
 				/** Function to access the member variable _FileName. _FileName represents the filename of the
@@ -208,13 +208,13 @@ namespace rttb
 			template <typename TInputPixel, typename TOutputPixel, unsigned int iDimension>
 			typename ImageReader<TInputPixel, TOutputPixel, iDimension>::OutputImageType::Pointer
 			readImage(const std::string& fileName,
-					  ImageSeriesReadStyle::Type readStyle = ImageSeriesReadStyle::Default,
-					  bool rescaleImage = false,
-					  typename ImageReader<TInputPixel, TOutputPixel, iDimension>::RescaleValueType rescaleMin = 0,
-					  typename ImageReader<TInputPixel, TOutputPixel, iDimension>::RescaleValueType rescaleMax = 255,
-					  unsigned int upperNumericSeriesLimit = 100,
-					  typename ImageReader<TInputPixel, TOutputPixel, iDimension>::MetaDataDictionaryArrayType*
-					  pLoadedDictArray = NULL);
+			          ImageSeriesReadStyle::Type readStyle = ImageSeriesReadStyle::Default,
+			          bool rescaleImage = false,
+			          typename ImageReader<TInputPixel, TOutputPixel, iDimension>::RescaleValueType rescaleMin = 0,
+			          typename ImageReader<TInputPixel, TOutputPixel, iDimension>::RescaleValueType rescaleMax = 255,
+			          unsigned int upperNumericSeriesLimit = 100,
+			          typename ImageReader<TInputPixel, TOutputPixel, iDimension>::MetaDataDictionaryArrayType*
+			          pLoadedDictArray = NULL);
 		}//end namespace itk
 	}//end namespace io
 }//end namespace rttb

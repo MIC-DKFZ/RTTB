@@ -43,7 +43,6 @@ namespace rttb
 
 	/*! @class UnsignedIndex2D
 		@brief 2D index.
-		@todo Both UnsignedIndex2D and VoxelGridIndex2D required?
 	*/
 	class UnsignedIndex2D: public boost::numeric::ublas::vector<UnsignedIndex1D>
 	{
@@ -64,7 +63,6 @@ namespace rttb
 
 	/*! @class UnsignedIndex3D
 		@brief 3D index.
-		@todo Both UnsignedIndex3D and VoxelGridIndex3D required?
 	*/
 	class UnsignedIndex3D: public boost::numeric::ublas::vector<UnsignedIndex1D>
 	{
@@ -310,7 +308,6 @@ namespace rttb
 	/*! @class SpacingVectorType3D
 		@brief 3D spacing vector.
 		@pre values of this vector may not be negative.
-		@todo should SpacingVectorType/GridVolumeType be forced to be non-negative? If yes add corresponding tests
 	*/
 	class SpacingVectorType3D: public boost::numeric::ublas::vector<GridVolumeType>
 	{
@@ -405,7 +402,6 @@ namespace rttb
 
 	/*!	@class OrientationMatrix
 		@brief Used to store image orientation information
-		@todo should OrientationMatrix be forced to be non-negative? If yes add corresponding tests
 	*/
 	class OrientationMatrix : public boost::numeric::ublas::matrix<WorldCoordinate>
 	{

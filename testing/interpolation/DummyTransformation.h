@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 3987 $ (last changed revision)
-// @date $Date: 2012-10-08 09:50:17 +0200 (Mo, 08 Okt 2012) $ (last change date)
-// @author $Author: mang $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date $Date$ (last change date)
+// @author $Author$ (last changed by)
 */
 #ifndef __DUMMY_TRANSFORMATION_H
 #define __DUMMY_TRANSFORMATION_H

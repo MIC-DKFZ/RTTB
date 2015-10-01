@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 995 $ (last changed revision)
-// @date    $Date: 2015-06-17 12:58:33 +0200 (Mi, 17 Jun 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 #ifndef __ITK_IMAGE_FILE_ACCESSOR_GENERATOR_H
 #define __ITK_IMAGE_FILE_ACCESSOR_GENERATOR_H

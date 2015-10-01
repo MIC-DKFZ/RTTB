@@ -101,7 +101,6 @@ namespace rttb
 				//Virtuos: voi create voi model
 				int errorcode = voi_create_voi_model_dirolab(patientName.c_str(), patientDataPath.c_str(), 0, this->_patient);
 
-				//@todo soll wohl trotz Fehler weiter laufen (vgl. alte Implementierung)
 				if (errorcode != 0)
 				{
 					//throw std::string ("Virtuos Routines unable to create VOI Model! ");
@@ -111,7 +110,6 @@ namespace rttb
 				//Virtuos: voi read vdx
 				errorcode = voi_read_vdx_version_2_for_DIROlab(patientFileName.c_str(), patientDataPath.c_str(), this->_patient);
 
-				//@todo soll wohl trotz Fehler weiter laufen (vgl. alte Implementierung)
 				if (errorcode != 0)
 				{
 					//throw std::string ("voi_read_vdx_version_2_for_DIROlab failed! ");

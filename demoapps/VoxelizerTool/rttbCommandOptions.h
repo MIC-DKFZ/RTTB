@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 5506 $ (last changed revision)
-// @date    $Date: 2015-07-30 14:45:24 +0200 (Do, 30 Jul 2015) $ (last change date)
-// @author  $Author: strubel $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 #ifndef __CommandOptions_h
 #define __CommandOptions_h

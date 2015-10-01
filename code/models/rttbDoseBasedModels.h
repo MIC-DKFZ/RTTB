@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 798 $ (last changed revision)
-// @date    $Date: 2014-10-10 15:27:43 +0200 (Fr, 10 Okt 2014) $ (last change date)
-// @author  $Author: zhangl $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 #include "rttbBaseType.h"
 #include "rttbBaseTypeModels.h"
