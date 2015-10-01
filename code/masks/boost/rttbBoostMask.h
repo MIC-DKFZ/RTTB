@@ -41,6 +41,14 @@ namespace rttb
 	{
 		namespace boost
 		{
+			/*! @class BoostMask
+			*   @brief Implementation of voxelization using boost::geometry. 
+			*   @attention If "strict" is set to true, an exception will be thrown when the given structure has self intersection.
+			*   (A structure without self interseciton means all contours of the structure have no self intersection, and
+			*   the polygons on the same slice have no intersection between each other, unless the case of a donut. A donut is accepted.)   
+			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored 
+			*   and the mask will be calculated, however, it may cause errors in the mask results. 
+			*/
 			class BoostMask
 			{
 
@@ -52,8 +60,10 @@ namespace rttb
 
 				/*! @brief Constructor
 				* @exception rttb::core::NullPointerException thrown if aDoseGeoInfo or aStructure is NULL
+				* @param strict indicates whether to allow self intersection in the structure. If it is set to true, an exception will be thrown when the given structure has self intersection.
+				* @exception InvalidParameterException thrown if strict is true and the structure has self intersections
 				*/
-				BoostMask(GeometricInfoPointer aDoseGeoInfo, StructPointer aStructure);
+				BoostMask(GeometricInfoPointer aDoseGeoInfo, StructPointer aStructure, bool strict = true);
 
 				/*! @brief Generate mask and return the voxels in the mask
 				* @exception rttb::core::InvalidParameterException thrown if the structure has self intersections
@@ -65,12 +75,15 @@ namespace rttb
 				typedef ::boost::geometry::model::polygon< ::boost::geometry::model::d2::point_xy<double> > BoostPolygon2D;
 				typedef ::boost::geometry::model::ring< ::boost::geometry::model::d2::point_xy<double> > BoostRing2D;
 				typedef std::deque<BoostPolygon2D> BoostPolygonDeque;
-				typedef std::vector<BoostRing2D> BoostRingVector;
+				typedef std::vector<BoostRing2D> BoostRingVector;//polygon without holes
+				typedef std::vector<BoostPolygon2D> BoostPolygonVector;//polygon with or without holes
 				typedef std::vector<rttb::VoxelGridIndex3D> VoxelIndexVector;
 
 				GeometricInfoPointer _geometricInfo;
 
 				StructPointer _structure;
+
+				bool _strict;
 
 				//vector of the MaskVoxel inside the structure
 				MaskVoxelListPointer _voxelInStructure;
@@ -92,7 +105,7 @@ namespace rttb
 				 * @exception InvalidParameterException thrown if sliceNumber < 0 or sliceNumber >=  _geometricInfo->getNumSlices()
 				 * @return Return the 4 voxel index of the bounding box
 				*/
-				VoxelIndexVector getBoundingBox(unsigned int sliceNumber, const BoostRingVector& intersectionSlicePolygons);
+				VoxelIndexVector getBoundingBox(unsigned int sliceNumber, const BoostPolygonVector& intersectionSlicePolygons);
 
 				/*! @brief Get intersection polygons of the contour and a voxel polygon
 				 * @param aVoxelIndex3D The 3d grid index of the voxel
@@ -100,7 +113,7 @@ namespace rttb
 				 * @return Return all intersetion polygons of the structure and the voxel
 				*/
 				BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D,
-				                                   const BoostRingVector& intersectionSlicePolygons);
+					const BoostPolygonVector& intersectionSlicePolygons);
 
 				/*! @brief Calculate the area of all polygons
 				 * @param aPolygonDeque The deque of polygons
@@ -117,14 +130,17 @@ namespace rttb
 				/*! @brief Convert RTTB polygon to boost polygon*/
 				BoostRing2D convert(const rttb::PolygonType& aRTTBPolygon);
 
-				/*! @brief Get the intersection slice of the voxel, return the polygons in the slice
+				/*! @brief Get the intersection slice of the voxel, return the polygons (with (donut) or without holes) in the slice
 				 * @param aVoxelGridIndexZ The z grid index (slice number) of the voxel
 				 * @return Return the structure polygons intersecting the slice
 				*/
-				BoostRingVector getIntersectionSlicePolygons(const rttb::GridIndexType aVoxelGridIndexZ);
+				BoostPolygonVector getIntersectionSlicePolygons(const rttb::GridIndexType aVoxelGridIndexZ);
 
 				/*! @brief Get the voxel 2d contour polygon*/
 				BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D);
+
+				/*! @brief If 2 rings in the vector build a donut, convert the 2 rings to a donut polygon, other rings unchanged*/
+				BoostPolygonVector checkDonutAndConvert(const BoostRingVector& aRingVector);
 
 			};
 

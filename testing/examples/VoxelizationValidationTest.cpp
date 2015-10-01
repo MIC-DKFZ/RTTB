@@ -41,8 +41,8 @@
 #include "rttbOTBMaskAccessor.h"
 #include "rttbDVHTxtFileReader.h"
 #include "rttbBoostMaskAccessor.h"
-//#include "rttbITKImageMaskAccessorConverter.h"
-//#include "rttbImageWriter.h"
+#include "rttbITKImageMaskAccessorConverter.h"
+#include "rttbImageWriter.h"
 
 
 namespace rttb
@@ -71,7 +71,7 @@ namespace rttb
 			//           4: directory name to write OTB mask of all structures
 
 
-			std::string RTSTRUCT_FILENAME ;
+			std::string RTSTRUCT_FILENAME;
 			std::string RTDOSE_FILENAME;
 			std::string BoostMask_DIRNAME;
 			std::string OTBMask_DIRNAME;
@@ -129,15 +129,17 @@ namespace rttb
 					/*rttb::io::itk::ITKImageMaskAccessorConverter itkConverter(spOTBMaskAccessor);
 					CHECK(itkConverter.process());
 					std::stringstream fileNameSstr;
-					fileNameSstr<<OTBMask_DIRNAME<<j<<".mhd";
+					fileNameSstr << OTBMask_DIRNAME << j << ".mhd";
 					rttb::io::itk::ImageWriter writer(fileNameSstr.str(), itkConverter.getITKImage());
 					CHECK(writer.writeFile());*/
+
 
 
 					clock_t start2(clock());
 					//create Boost MaskAccessor
 					MaskAccessorPointer boostMaskAccessorPtr = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
 					        (rtStructureSet->getStructure(j), doseAccessor1->getGeometricInfo());
+
 					CHECK_NO_THROW(boostMaskAccessorPtr->updateMask());
 
 					::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp2 =
@@ -154,12 +156,14 @@ namespace rttb
 					/*! It takes a long time to write all mask files so that RUN_TESTS causes a timeout error.
 						To write all mask files, please use the outcommented code and call the .exe directly!
 					*/
+
 					/*rttb::io::itk::ITKImageMaskAccessorConverter itkConverter2(boostMaskAccessorPtr);
 					CHECK(itkConverter2.process());
 					std::stringstream fileNameSstr2;
-					fileNameSstr2<<BoostMask_DIRNAME<<j<<".mhd";
+					fileNameSstr2 << BoostMask_DIRNAME << j << ".mhd";
 					rttb::io::itk::ImageWriter writer2(fileNameSstr2.str(), itkConverter2.getITKImage());
 					CHECK(writer2.writeFile());*/
+
 
 
 					//check close of 2 voxelizatin: OTB and Boost
