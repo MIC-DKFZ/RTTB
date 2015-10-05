@@ -145,6 +145,7 @@ namespace rttb
 			        const std::vector<double>& precomputeVolumeValues = std::vector<double>(), unsigned int maxNumberMinimaPositions = 100,
 			        unsigned int maxNumberMaximaPositions = 100);
 
+
 		};
 
 	}

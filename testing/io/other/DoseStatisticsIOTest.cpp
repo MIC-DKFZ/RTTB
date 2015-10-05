@@ -77,24 +77,28 @@ namespace rttb
 
 			/* test writing statistics to xml file */
 			FileNameString filenameSimple = "testStatisticsSimple.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsSimple, filenameSimple));
+			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsSimple, filenameSimple, 100));
 
 			FileNameString filenameComplex = "testStatisticsComplex.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsComplex, filenameComplex));
+			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsComplex, filenameComplex, 100));
 
 			/* test writing statistics to string */
-			boost::property_tree::ptree ptSimple = io::other::writeDoseStatistics(myDoseStatsSimple);
-			XMLString strSimple = io::other::writerDoseStatisticsToString(myDoseStatsSimple);
+			boost::property_tree::ptree ptSimple = io::other::writeDoseStatistics(myDoseStatsSimple, 100);
+			XMLString strSimple = io::other::writerDoseStatisticsToString(myDoseStatsSimple, 100);
 
-			boost::property_tree::ptree ptComplex = io::other::writeDoseStatistics(myDoseStatsComplex);
-			XMLString strComplex = io::other::writerDoseStatisticsToString(myDoseStatsComplex);
+			boost::property_tree::ptree ptComplex = io::other::writeDoseStatistics(myDoseStatsComplex, 100);
+			XMLString strComplex = io::other::writerDoseStatisticsToString(myDoseStatsComplex, 100);
 
 			std::stringstream sstrSimple;
-			boost::property_tree::xml_parser::write_xml(sstrSimple, ptSimple);
+			boost::property_tree::xml_parser::write_xml(sstrSimple, ptSimple,
+			        boost::property_tree::xml_writer_make_settings<std::string>('\t',
+			                1));
 			CHECK_EQUAL(strSimple, sstrSimple.str());
 
 			std::stringstream sstrComplex;
-			boost::property_tree::xml_parser::write_xml(sstrComplex, ptComplex);
+			boost::property_tree::xml_parser::write_xml(sstrComplex, ptComplex,
+			        boost::property_tree::xml_writer_make_settings<std::string>('\t',
+			                1));
 			CHECK_EQUAL(strComplex, sstrComplex.str());
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

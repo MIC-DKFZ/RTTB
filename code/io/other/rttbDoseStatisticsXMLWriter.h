@@ -47,7 +47,7 @@ namespace rttb
 			@pre aReferenceDose must >0
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			*/
-			boost::property_tree::ptree writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, DoseTypeGy aReferenceDose = 100);
+			boost::property_tree::ptree writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, DoseTypeGy aReferenceDose);
 
 			/*! @brief Write statistics to String.
 			@param aReferenceDose A reference dose for the calculation of Vx
@@ -55,7 +55,7 @@ namespace rttb
 			@pre aReferenceDose must >0
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			*/
-			XMLString writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics, DoseTypeGy aReferenceDose = 100);
+			XMLString writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics, DoseTypeGy aReferenceDose);
 
 			/*! @brief Write statistics to xml file, including
 			numberOfVoxels,
@@ -77,15 +77,20 @@ namespace rttb
 			@pre aReferenceDose must >0
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			*/
-			void writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName, DoseTypeGy aReferenceDose = 100);
+			void writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName, DoseTypeGy aReferenceDose);
 
-			/*! @brief Write statistics to String to generate a table: "Volume mm3@Max@Min@Mean@Std.Dev.@Variance@V2@V5@V10@V90@V95@V98@D2@D5@D10@D90@D95@D98@MOH2@MOH5@MOH10@MOC2@MOC5@MOC10@MaxOH2@MaxOH5@MaxOH10@MinOC2@MinOC5@MinOC10"
+			boost::property_tree::ptree createNodeWithNameAttribute(DoseTypeGy doseValue, const std::string& attributeName);
+			boost::property_tree::ptree createNodeWithNameAndXAttribute(DoseTypeGy doseValue, const std::string& attributeName,
+			        int xValue);
+
+			/*! @brief Write statistics to String to generate a table: "Volume mm3@Max@Min@Mean@Std.Dev.@Variance@D2@D5@D10@D90@D95@D98@V2@V5@V10@V90@V95@V98@MOH2@MOH5@MOH10@MOC2@MOC5@MOC10@MaxOH2@MaxOH5@MaxOH10@MinOC2@MinOC5@MinOC10"
 			@param aReferenceDose A reference dose for the calculation of Vx
 			@param aDoseStatistics DoseStatistics to write
 			@pre aReferenceDose must >0
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
+			@note is used for the Mevislab-Linking of RTTB
 			*/
-			StatisticsString writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics, DoseTypeGy aReferenceDose = 100);
+			StatisticsString writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics, DoseTypeGy aReferenceDose);
 		}
 	}
 }

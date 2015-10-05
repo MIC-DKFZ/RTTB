@@ -99,11 +99,11 @@ namespace rttb
 
 			rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(spDoseIterator);
 			rttb::algorithms::DoseStatistics::DoseStatisticsPointer doseStatistics =
-			    myDoseStatsCalculator.calculateDoseStatistics();
+			    myDoseStatsCalculator.calculateDoseStatistics(true);
 
 			/* test writing statistcs to xml file */
-			FileNameString fN = "doseStatisticsVirtuos.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(doseStatistics, fN));
+			FileNameString fN = "doseStatisticsVirtuosComplex.xml";
+			CHECK_NO_THROW(io::other::writeDoseStatistics(doseStatistics, fN, 100));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

@@ -285,9 +285,9 @@ namespace rttb
 
 			/*! @todo: Architecture Annotation:
 				Finding the positions for the minimum only once reduces computation time,
-				but will require sensible use by the programmers. To be safe the output vector
-				minVoxelVector will be always cleared here to guarantee that no false values are
-				presented. This change may be revoked to increase computation speed later on
+				but will require sensible use by the programmers. To be save the output vector
+				minVoxelVector will be always cleared here to garantee that no false values are
+				presented. This change may be revoced to increase computation speed later on
 				(only compute if(minVoxelVector->size()==0)).
 			*/
 			unsigned int count = 0;
@@ -503,6 +503,10 @@ namespace rttb
 				{
 					VxMulti.insert(std::pair<DoseTypeGy, VolumeType>(precomputeDoseValues.at(i),
 					               computeVx(precomputeDoseValues.at(i))));
+				}
+				else
+				{
+					throw core::InvalidParameterException("unknown DoseStatistics name!");
 				}
 			}
 
