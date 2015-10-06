@@ -219,7 +219,7 @@ assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 	if (appData._operator == "+")
 	{
 		rttb::algorithms::arithmetic::doseOp::AddWeighted addOp(appData._weightDose1, appData._weightDose2);
-		rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor =
+		outputAccessor =
 		    rttb::core::DoseAccessorInterface::DoseAccessorPointer(new
 		            rttb::algorithms::BinaryFunctorAccessor<rttb::algorithms::arithmetic::doseOp::AddWeighted>
 		            (appData._Dose1, dose2Accessor, addOp));
@@ -260,6 +260,7 @@ rttb::apps::doseAcc::processData(rttb::apps::doseAcc::ApplicationData& appData)
 	WriterType::Pointer writer = WriterType::New();
 	writer->SetInput(itkImage);
 	writer->SetFileName(appData._outputFileName);
+	writer->SetUseCompression(true);
 	writer->Write();
 	std::cout << "done." << std::endl;
 };
