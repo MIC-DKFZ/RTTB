@@ -1,6 +1,6 @@
 SET(CPP_FILES
 	SimpleMappableDoseAccessorWithITKTest.cpp
-	rttbITKBindingTests.cpp
+	rttbInterpolationITKTransformationTests.cpp
    )
 
 SET(H_FILES

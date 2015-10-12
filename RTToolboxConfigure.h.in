@@ -35,30 +35,30 @@
   #define SIDT_CONTAINS_EXPERIMENTAL_CODE 1
 #endif
 
-#ifndef __RTT_CONFIGURE_H
-#define __RTT_CONFIGURE_H
+#ifndef __RTTB_CONFIGURE_H
+#define __RTTB_CONFIGURE_H
 
 
-/*! @def RTT_ENFORCE_MATURE_CODE
+/*! @def RTTB_ENFORCE_MATURE_CODE
  * This define controls if RTToolbox should force the whole build to be mature code.
  * Mature code convention is part of the SIDT coding styles.
  * Projects that use RTToolbox are able to ensure with SIDT_ENFORCE_MATURE_CODE
  * that used code is guaranteed to be tested and reviewed regarding the strict
  * SIDT coding styles.\n
- * RTT_ENFORCE_MATURE_CODE can be used to ensure that strictness when prebuilding
+ * RTTB_ENFORCE_MATURE_CODE can be used to ensure that strictness when prebuilding
  * static or dynamic libraries.
  * @remark This definition should by configured via the advance options in CMake.
 */
-#cmakedefine RTT_ENFORCE_MATURE_CODE
-#ifdef RTT_ENFORCE_MATURE_CODE
+#cmakedefine RTTB_ENFORCE_MATURE_CODE
+#ifdef RTTB_ENFORCE_MATURE_CODE
 	#define SIDT_ENFORCE_MATURE_CODE
 #endif
 
-#define RTT_VERSION_MAJOR @RTToolbox_VERSION_MAJOR@
-#define RTT_VERSION_MINOR @RTToolbox_VERSION_MINOR@
-#define RTT_VERSION_PATCH @RTToolbox_VERSION_PATCH@
-#define RTT_VERSION_STRING "@RTToolbox_VERSION_STRING@"
-#define RTT_FULL_VERSION_STRING "@RTToolbox_FULL_VERSION_STRING@"
+#define RTTB_VERSION_MAJOR @RTToolbox_VERSION_MAJOR@
+#define RTTB_VERSION_MINOR @RTToolbox_VERSION_MINOR@
+#define RTTB_VERSION_PATCH @RTToolbox_VERSION_PATCH@
+#define RTTB_VERSION_STRING "@RTToolbox_VERSION_STRING@"
+#define RTTB_FULL_VERSION_STRING "@RTToolbox_FULL_VERSION_STRING@"
 
 
 #endif

@@ -1,6 +1,6 @@
 SET(CPP_FILES
 	SimpleMappableDoseAccessorWithMatchPointTest.cpp
-	rttbMatchPointBindingTests.cpp
+	rttbInterpolationMatchPointTests.cpp
 	registrationHelper.cpp
 	simpleRegistrationWorkflow.cpp
    )

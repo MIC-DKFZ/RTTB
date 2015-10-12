@@ -18,7 +18,9 @@ IF(DEFINED DCMTK_DIR)
 ENDIF(DEFINED DCMTK_DIR)
 
 if(NOT DCMTK_FOUND AND NOT DCMTK_DIR)
-  set(DCMTK_DIR "/usr/include/dcmtk/")
+	IF (NOT WIN32)
+		set(DCMTK_DIR "/usr/include/dcmtk/")
+	ENDIF(NOT WIN32)
 endif()
 
 #ensure that we always have the variable as cache, independent from

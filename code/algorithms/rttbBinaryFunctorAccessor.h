@@ -21,8 +21,6 @@
 #ifndef __BINARY_FUNCTOR_ACCESSOR_H
 #define __BINARY_FUNCTOR_ACCESSOR_H
 
-#include <boost/shared_ptr.hpp>
-
 #include "rttbAccessorInterface.h"
 #include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
