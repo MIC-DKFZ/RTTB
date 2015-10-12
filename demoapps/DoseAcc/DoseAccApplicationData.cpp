@@ -185,7 +185,7 @@ namespace rttb
 
 				if (appData._showVersion)
 				{
-					std::cout << std::endl << "Version: " << RTT_FULL_VERSION_STRING;
+					std::cout << std::endl << "Version: " << RTTB_FULL_VERSION_STRING;
 					return 1;
 				}
 

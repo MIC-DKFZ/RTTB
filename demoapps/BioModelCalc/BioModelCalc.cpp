@@ -41,7 +41,7 @@ int main(int argc, const char** argv)
 	try
 	{
 		std::string appName = "BioModelCalc";
-		std::string appVersion = RTT_FULL_VERSION_STRING;
+		std::string appVersion = RTTB_FULL_VERSION_STRING;
 
 		argParser = boost::make_shared<rttb::apps::bioModelCalc::BioModelCmdLineParser>(argc, argv, appName, appVersion);
 	}
