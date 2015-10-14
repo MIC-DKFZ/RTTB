@@ -39,8 +39,9 @@ namespace rttb
 		                               VolumeToDoseFunctionType MOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MaxOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
-		                               VolumeToDoseFunctionType MinOCx /*= std::map<VolumeType, DoseTypeGy>()*/) : _minimum(minimum),
-			_maximum(maximum), _mean(mean), _stdDeviation(stdDeviation), _numVoxels(numVoxels), _volume(volume),
+		                               VolumeToDoseFunctionType MinOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
+									   DoseTypeGy referenceDose /*=-1*/):
+		    _minimum(minimum), _maximum(maximum), _mean(mean), _stdDeviation(stdDeviation), _numVoxels(numVoxels), _volume(volume),
 			_maximumVoxelPositions(maximumVoxelPositions), _minimumVoxelPositions(minimumVoxelPositions),
 			_Dx(Dx), _Vx(Vx),
 			_MOHx(MOHx),
@@ -56,6 +57,13 @@ namespace rttb
 			{
 				_minimumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
 				                         (std::vector<std::pair<DoseTypeGy, VoxelGridID> >());
+			}
+
+			if (referenceDose <= 0){
+				_referenceDose = _maximum;
+			}
+			else{
+				_referenceDose = referenceDose;
 			}
 		}
 
@@ -115,6 +123,11 @@ namespace rttb
 		VolumeType DoseStatistics::getVolume() const
 		{
 			return _volume;
+		}
+
+		DoseTypeGy DoseStatistics::getReferenceDose() const
+		{
+			return _referenceDose;
 		}
 
 

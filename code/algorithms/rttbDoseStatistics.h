@@ -62,12 +62,14 @@ namespace rttb
 			DoseStatisticType _stdDeviation;
 			unsigned int _numVoxels;
 			VolumeType _volume;
+			DoseTypeGy _referenceDose; //for Vx computation
 			VolumeToDoseFunctionType _Dx;
 			DoseToVolumeFunctionType _Vx;
 			VolumeToDoseFunctionType _MOHx;
 			VolumeToDoseFunctionType _MOCx;
 			VolumeToDoseFunctionType _MaxOHx;
 			VolumeToDoseFunctionType _MinOCx;
+			
 
 		public:
 			/*! @brief Standard Constructor
@@ -86,7 +88,8 @@ namespace rttb
 			               VolumeToDoseFunctionType MOHx = VolumeToDoseFunctionType(),
 			               VolumeToDoseFunctionType MOCx = VolumeToDoseFunctionType(),
 			               VolumeToDoseFunctionType MaxOHx = VolumeToDoseFunctionType(),
-			               VolumeToDoseFunctionType MinOCx = VolumeToDoseFunctionType());
+			               VolumeToDoseFunctionType MinOCx = VolumeToDoseFunctionType(),
+						   DoseTypeGy referenceDose = -1);
 
 			~DoseStatistics();
 
@@ -104,7 +107,13 @@ namespace rttb
 			*/
 			unsigned int getNumberOfVoxels() const;
 
+			/*! @brief Get the volume of the voxels in doseIterator, with sub-voxel accuracy
+			*/
 			VolumeType getVolume() const;
+
+			/*! @brief Get the reference dose for Vx computation
+			*/
+			DoseTypeGy getReferenceDose() const;
 
 			/*! @brief Get the maximum of the current dose distribution.
 				@return Return the maximum dose in Gy

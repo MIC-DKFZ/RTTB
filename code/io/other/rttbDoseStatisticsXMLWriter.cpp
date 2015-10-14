@@ -39,8 +39,7 @@ namespace rttb
 			static const std::string propertyTag = "property";
 			static const std::string columnSeparator = "@";
 
-			boost::property_tree::ptree writeDoseStatistics(DoseStatisticsPtr aDoseStatistics,
-			        DoseTypeGy aReferenceDose)
+			boost::property_tree::ptree writeDoseStatistics(DoseStatisticsPtr aDoseStatistics)
 			{
 
 				using boost::property_tree::ptree;
@@ -97,15 +96,23 @@ namespace rttb
 				pt.add_child(statisticsTag + "." + propertyTag, varianceNode);
 
 				double absoluteVolume = aDoseStatistics->getVolume();
+				double referenceDose = aDoseStatistics->getReferenceDose();
+				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType AllVx = aDoseStatistics->getAllVx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getAllDx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getAllMOHx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getAllMOCx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx = aDoseStatistics->getAllMaxOHx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMinOCx = aDoseStatistics->getAllMinOCx();
 
-				std::vector<double> DxVxOutputX = boost::assign::list_of(0.02)(0.05)(0.1)(0.9)(0.95)(0.98);
 
+				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType::iterator it;
 				try
 				{
-					for (int i = 0; i < DxVxOutputX.size(); i++)
+					for (it = AllDx.begin(); it != AllDx.end(); it++)
 					{
-						ptree DxNode = createNodeWithNameAndXAttribute(aDoseStatistics->getDx(absoluteVolume * DxVxOutputX.at(i)), "Dx",
-						               static_cast<int>(DxVxOutputX.at(i) * 100));
+						ptree DxNode = createNodeWithNameAndXAttribute((*it).second, "Dx",
+							static_cast<int>((*it).first / absoluteVolume * 100));
 						pt.add_child(statisticsTag + "." + propertyTag, DxNode);
 					}
 				}
@@ -115,17 +122,12 @@ namespace rttb
 				}
 
 
-				if (aReferenceDose <= 0)
-				{
-					throw core::InvalidParameterException("aReferenceDose should be >0!");
-				}
-
 				try
 				{
-					for (int i = 0; i < DxVxOutputX.size(); i++)
+					for (vxIt = AllVx.begin(); vxIt != AllVx.end(); vxIt++)
 					{
-						ptree VxNode = createNodeWithNameAndXAttribute(aDoseStatistics->getVx(aReferenceDose * DxVxOutputX.at(i)), "Vx",
-						               static_cast<int>(DxVxOutputX.at(i) * 100));
+						ptree VxNode = createNodeWithNameAndXAttribute((*vxIt).second, "Vx",
+							static_cast<int>((*vxIt).first /referenceDose * 100));
 						pt.add_child(statisticsTag + "." + propertyTag, VxNode);
 					}
 				}
@@ -134,14 +136,13 @@ namespace rttb
 					//as data is not available (was not computed by doseStatistics), it cannot be written
 				}
 
-				std::vector<double> OHOCOutputX = boost::assign::list_of(0.02)(0.05)(0.1);
 
 				try
 				{
-					for (int i = 0; i < OHOCOutputX.size(); i++)
+					for (it = AllMOHx.begin(); it != AllMOHx.end(); it++)
 					{
-						ptree mohxNode = createNodeWithNameAndXAttribute(aDoseStatistics->getMOHx(absoluteVolume * OHOCOutputX.at(i)), "MOHx",
-						                 static_cast<int>(OHOCOutputX.at(i) * 100));
+						ptree mohxNode = createNodeWithNameAndXAttribute((*it).second, "MOHx",
+							static_cast<int>((*it).first / absoluteVolume * 100));
 						pt.add_child(statisticsTag + "." + propertyTag, mohxNode);
 					}
 				}
@@ -152,10 +153,10 @@ namespace rttb
 
 				try
 				{
-					for (int i = 0; i < OHOCOutputX.size(); i++)
+					for (it = AllMOCx.begin(); it != AllMOCx.end(); it++)
 					{
-						ptree mocxNode = createNodeWithNameAndXAttribute(aDoseStatistics->getMOCx(absoluteVolume * OHOCOutputX.at(i)), "MOCx",
-						                 static_cast<int>(OHOCOutputX.at(i) * 100));
+						ptree mocxNode = createNodeWithNameAndXAttribute((*it).second, "MOCx",
+							static_cast<int>((*it).first / absoluteVolume * 100));
 						pt.add_child(statisticsTag + "." + propertyTag, mocxNode);
 					}
 				}
@@ -166,11 +167,10 @@ namespace rttb
 
 				try
 				{
-					for (int i = 0; i < OHOCOutputX.size(); i++)
+					for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); it++)
 					{
-						ptree maxOhxNode = createNodeWithNameAndXAttribute(aDoseStatistics->getMaxOHx(absoluteVolume * OHOCOutputX.at(i)),
-						                   "MaxOHx",
-						                   static_cast<int>(OHOCOutputX.at(i) * 100));
+						ptree maxOhxNode = createNodeWithNameAndXAttribute((*it).second, "MaxOHx",
+							static_cast<int>((*it).first / absoluteVolume * 100));
 						pt.add_child(statisticsTag + "." + propertyTag, maxOhxNode);
 					}
 				}
@@ -181,11 +181,10 @@ namespace rttb
 
 				try
 				{
-					for (int i = 0; i < OHOCOutputX.size(); i++)
+					for (it = AllMinOCx.begin(); it != AllMinOCx.end(); it++)
 					{
-						ptree minOCxNode = createNodeWithNameAndXAttribute(aDoseStatistics->getMinOCx(absoluteVolume * OHOCOutputX.at(i)),
-						                   "MinOCx",
-						                   static_cast<int>(OHOCOutputX.at(i) * 100));
+						ptree minOCxNode = createNodeWithNameAndXAttribute((*it).second, "MinOCx",
+							static_cast<int>((*it).first / absoluteVolume * 100));
 						pt.add_child(statisticsTag + "." + propertyTag, minOCxNode);
 					}
 				}
@@ -198,10 +197,9 @@ namespace rttb
 
 			}
 
-			void writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName,
-			                         DoseTypeGy aReferenceDose)
+			void writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName)
 			{
-				boost::property_tree::ptree pt = writeDoseStatistics(aDoseStatistics, aReferenceDose);
+				boost::property_tree::ptree pt = writeDoseStatistics(aDoseStatistics);
 
 				try
 				{
@@ -214,9 +212,9 @@ namespace rttb
 				}
 			}
 
-			XMLString writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics, DoseTypeGy aReferenceDose)
+			XMLString writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics)
 			{
-				boost::property_tree::ptree pt = writeDoseStatistics(aDoseStatistics, aReferenceDose);
+				boost::property_tree::ptree pt = writeDoseStatistics(aDoseStatistics);
 				std::stringstream sstr;
 
 				try
@@ -233,8 +231,7 @@ namespace rttb
 			}
 
 
-			StatisticsString writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics,
-			        DoseTypeGy aReferenceDose)
+			StatisticsString writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics)
 			{
 
 				std::stringstream sstr;
@@ -247,21 +244,24 @@ namespace rttb
 				sstr << aDoseStatistics->getStdDeviation() << columnSeparator;
 				sstr << aDoseStatistics->getVariance() << columnSeparator;
 
-				/*todo: x should be defined based on the user's feedback*/
-				if (aReferenceDose <= 0)
-				{
-					throw core::InvalidParameterException("aReferenceDose should be >0!");
-				}
-
-				std::vector<double> DxVxOutputX = boost::assign::list_of(0.02)(0.05)(0.1)(0.9)(0.95)(0.98);
-
 				double absoluteVolume = aDoseStatistics->getVolume();
+				double referenceDose = aDoseStatistics->getReferenceDose();
+				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType AllVx = aDoseStatistics->getAllVx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getAllDx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getAllMOHx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getAllMOCx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx = aDoseStatistics->getAllMaxOHx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMinOCx = aDoseStatistics->getAllMinOCx();
+
+
+				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType::iterator it;
 
 				try
 				{
-					for (int i = 0; i < DxVxOutputX.size(); i++)
+					for (it = AllDx.begin(); it != AllDx.end(); it++)
 					{
-						sstr << aDoseStatistics->getDx(absoluteVolume * DxVxOutputX.at(i)) << columnSeparator;
+						sstr << (*it).second << columnSeparator;
 					}
 				}
 				catch (core::DataNotAvailableException)
@@ -271,10 +271,10 @@ namespace rttb
 
 				try
 				{
-					for (int i = 0; i < DxVxOutputX.size(); i++)
+					for (vxIt = AllVx.begin(); vxIt != AllVx.end(); vxIt++)
 					{
 						// *1000 because of conversion cm3 to mm3
-						sstr << aDoseStatistics->getVx(aReferenceDose * DxVxOutputX.at(i)) * 1000 << columnSeparator;
+						sstr << (*vxIt).second * 1000 << columnSeparator;
 					}
 				}
 				catch (core::DataNotAvailableException)
@@ -282,25 +282,12 @@ namespace rttb
 					//as data is not available (was not computed by doseStatistics), it cannot be written
 				}
 
-				std::vector<double> OHOCOutputX = boost::assign::list_of(0.02)(0.05)(0.1);
 
 				try
 				{
-					for (int i = 0; i < OHOCOutputX.size(); i++)
+					for (it = AllMOHx.begin(); it != AllMOHx.end(); it++)
 					{
-						sstr << aDoseStatistics->getMOHx(absoluteVolume * OHOCOutputX.at(i)) << columnSeparator;
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
-				}
-
-				try
-				{
-					for (int i = 0; i < OHOCOutputX.size(); i++)
-					{
-						sstr << aDoseStatistics->getMOCx(absoluteVolume * OHOCOutputX.at(i)) << columnSeparator;
+						sstr << (*it).second << columnSeparator;
 					}
 				}
 				catch (core::DataNotAvailableException)
@@ -310,9 +297,9 @@ namespace rttb
 
 				try
 				{
-					for (int i = 0; i < OHOCOutputX.size(); i++)
+					for (it = AllMOCx.begin(); it != AllMOCx.end(); it++)
 					{
-						sstr << aDoseStatistics->getMaxOHx(absoluteVolume * OHOCOutputX.at(i)) << columnSeparator;
+						sstr << (*it).second << columnSeparator;
 					}
 				}
 				catch (core::DataNotAvailableException)
@@ -322,9 +309,9 @@ namespace rttb
 
 				try
 				{
-					for (int i = 0; i < OHOCOutputX.size(); i++)
+					for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); it++)
 					{
-						sstr << aDoseStatistics->getMinOCx(absoluteVolume * OHOCOutputX.at(i)) << columnSeparator;
+						sstr << (*it).second << columnSeparator;
 					}
 				}
 				catch (core::DataNotAvailableException)
@@ -332,6 +319,17 @@ namespace rttb
 					//as data is not available (was not computed by doseStatistics), it cannot be written
 				}
 
+				try
+				{
+					for (it = AllMinOCx.begin(); it != AllMinOCx.end(); it++)
+					{
+						sstr << (*it).second << columnSeparator;
+					}
+				}
+				catch (core::DataNotAvailableException)
+				{
+					//as data is not available (was not computed by doseStatistics), it cannot be written
+				}
 
 				return sstr.str();
 

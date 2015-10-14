@@ -116,7 +116,7 @@ namespace rttb
 			precomputeVolumeValues.push_back(0.95 * theStatistics->getVolume());
 			precomputeVolumeValues.push_back(0.99 * theStatistics->getVolume());
 
-			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(true, precomputeDoseValues,
+			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(precomputeDoseValues,
 			                               precomputeVolumeValues));
 			CHECK_NO_THROW(theStatistics->getVx(0.01 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getVx(0.02 * theStatistics->getMaximum()));

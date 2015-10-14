@@ -103,7 +103,7 @@ namespace rttb
 
 			/* test writing statistcs to xml file */
 			FileNameString fN = "doseStatisticsVirtuosComplex.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(doseStatistics, fN, 100));
+			CHECK_NO_THROW(io::other::writeDoseStatistics(doseStatistics, fN));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

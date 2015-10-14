@@ -61,12 +61,8 @@ namespace rttb
 		}
 
 
-		DoseStatisticsCalculator::DoseStatisticsPointer DoseStatisticsCalculator::calculateDoseStatistics(
-		    bool computeComplexMeasures, const std::vector<double>& precomputeDoseValues,
-		    const std::vector<double>& precomputeVolumeValues, unsigned int maxNumberMinimaPositions,
-		    unsigned int maxNumberMaximaPositions)
-		{
-
+		DoseStatisticsCalculator::DoseStatisticsPointer DoseStatisticsCalculator::calculateDoseStatistics(bool computeComplexMeasures, unsigned int maxNumberMinimaPositions,
+			unsigned int maxNumberMaximaPositions){
 			if (!_doseIterator)
 			{
 				throw core::NullPointerException("_doseIterator must not be NULL!");
@@ -75,16 +71,62 @@ namespace rttb
 			//"simple" dose statistics are mandatory
 			calculateSimpleDoseStatistics(maxNumberMinimaPositions, maxNumberMaximaPositions);
 
-			if (computeComplexMeasures)
-			{
-				//more complex dose statistics are optional
-				calculateComplexDoseStatistics(precomputeDoseValues, precomputeVolumeValues);
+			if (computeComplexMeasures){
+				//more complex dose statistics are optional with default maximum dose and default relative x values
+				calculateComplexDoseStatistics(_statistics->getMaximum(), std::vector<double>(), std::vector<double>());
 			}
+
+			return _statistics;
+		}
+
+
+		DoseStatisticsCalculator::DoseStatisticsPointer DoseStatisticsCalculator::calculateDoseStatistics(DoseTypeGy referenceDose, unsigned int maxNumberMinimaPositions,
+			unsigned int maxNumberMaximaPositions){
+			if (!_doseIterator)
+			{
+				throw core::NullPointerException("_doseIterator must not be NULL!");
+			}
+
+			if (referenceDose <= 0){
+				throw rttb::core::InvalidParameterException("Reference dose must be > 0 !");
+			}
+
+			//simple dose statistics
+			calculateSimpleDoseStatistics(maxNumberMinimaPositions, maxNumberMaximaPositions);
+
+
+			//more complex dose statistics with given reference dose and default x values
+			calculateComplexDoseStatistics(referenceDose, std::vector<double>(), std::vector<double>());
+
+			return _statistics;
+		}
+
+		DoseStatisticsCalculator::DoseStatisticsPointer DoseStatisticsCalculator::calculateDoseStatistics(const std::vector<double>& precomputeDoseValues,
+			const std::vector<double>& precomputeVolumeValues, DoseTypeGy referenceDose, unsigned int maxNumberMinimaPositions,
+			unsigned int maxNumberMaximaPositions)
+		{
+
+			if (!_doseIterator)
+			{
+				throw core::NullPointerException("_doseIterator must not be NULL!");
+			}
+
+			//"simple" dose statistics 
+			calculateSimpleDoseStatistics(maxNumberMinimaPositions, maxNumberMaximaPositions);
+
+			if (referenceDose <= 0){
+				//more complex dose statistics with default maximum dose and relative x values
+				calculateComplexDoseStatistics(_statistics->getMaximum(), precomputeDoseValues, precomputeVolumeValues);
+			}
+			else{
+				//more complex dose statistics with given reference dose and relative x values
+				calculateComplexDoseStatistics(referenceDose, precomputeDoseValues, precomputeVolumeValues);
+			}
+
 
 			return _statistics;
 
 		}
-
 
 		void DoseStatisticsCalculator::calculateSimpleDoseStatistics(unsigned int maxNumberMinimaPositions,
 		        unsigned int maxNumberMaximaPositions)
@@ -191,7 +233,7 @@ namespace rttb
 		}
 
 
-		void DoseStatisticsCalculator::calculateComplexDoseStatistics(const std::vector<double>& precomputeDoseValues,
+		void DoseStatisticsCalculator::calculateComplexDoseStatistics(DoseTypeGy referenceDose, const std::vector<double>& precomputeDoseValues,
 		        const std::vector<double>& precomputeVolumeValues)
 		{
 			if (!_simpleDoseStatisticsCalculated)
@@ -205,23 +247,17 @@ namespace rttb
 			//set default values
 			if (precomputeDoseValues.empty())
 			{
-				DoseTypeGy maxDose = _statistics->getMaximum();
-				std::vector<double> defaultPrecomputeDoseValues = boost::assign::list_of(0.02 * maxDose)(0.05 * maxDose)(0.1 * maxDose)(
-				            0.9 * maxDose)(
-				            0.95 * maxDose)(0.98 * maxDose);
+				std::vector<double> defaultPrecomputeDoseValues = boost::assign::list_of(0.02)(0.05)(0.1)(0.9)(0.95)(0.98);
 				precomputeDoseValuesNonConst = defaultPrecomputeDoseValues;
 			}
 
 			if (precomputeVolumeValues.empty())
 			{
-				VolumeType volume = _statistics->getVolume();
-				std::vector<double> defaultPrecomputeVolumeValues = boost::assign::list_of(0.02 * volume)(
-				            0.05 * volume)(0.1 * volume)(0.9 * volume)
-				        (0.95 * volume)(0.98 * volume);
+				std::vector<double> defaultPrecomputeVolumeValues = boost::assign::list_of(0.02)(0.05)(0.1)(0.9)(0.95)(0.98);
 				precomputeVolumeValuesNonConst = defaultPrecomputeVolumeValues;
 			}
 
-			DoseToVolumeFunctionType Vx = computeDoseToVolumeFunctionMulti(precomputeDoseValuesNonConst, DoseStatistics::Vx);
+			DoseToVolumeFunctionType Vx = computeDoseToVolumeFunctionMulti(referenceDose, precomputeDoseValuesNonConst, DoseStatistics::Vx);
 			VolumeToDoseFunctionType Dx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst, DoseStatistics::Dx);
 			VolumeToDoseFunctionType MOHx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst, DoseStatistics::MOHx);
 			VolumeToDoseFunctionType MOCx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst, DoseStatistics::MOCx);
@@ -492,7 +528,7 @@ namespace rttb
 			return resultDose;
 		}
 
-		DoseStatisticsCalculator::DoseToVolumeFunctionType DoseStatisticsCalculator::computeDoseToVolumeFunctionMulti(
+		DoseStatisticsCalculator::DoseToVolumeFunctionType DoseStatisticsCalculator::computeDoseToVolumeFunctionMulti(DoseTypeGy referenceDose,
 		    const std::vector<double>& precomputeDoseValues, DoseStatistics::complexStatistics name) const
 		{
 			DoseToVolumeFunctionType VxMulti;
@@ -501,8 +537,9 @@ namespace rttb
 			{
 				if (name == DoseStatistics::Vx)
 				{
-					VxMulti.insert(std::pair<DoseTypeGy, VolumeType>(precomputeDoseValues.at(i),
-					               computeVx(precomputeDoseValues.at(i))));
+					double xAbsolue = precomputeDoseValues.at(i) * referenceDose;
+					VxMulti.insert(std::pair<DoseTypeGy, VolumeType>(xAbsolue,
+						computeVx(xAbsolue)));
 				}
 				else
 				{
@@ -517,34 +554,36 @@ namespace rttb
 		    const std::vector<double>& precomputeVolumeValues, DoseStatistics::complexStatistics name) const
 		{
 			VolumeToDoseFunctionType multiValues;
+			VolumeType volume = _statistics->getVolume();
 
 			for (int i = 0; i < precomputeVolumeValues.size(); ++i)
 			{
+				double xAbsolute = precomputeVolumeValues.at(i) * volume;
 				switch (name)
 				{
 					case DoseStatistics::Dx:
-						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(precomputeVolumeValues.at(i),
-						                   computeDx(precomputeVolumeValues.at(i))));
+						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
+							computeDx(xAbsolute)));
 						break;
 
 					case DoseStatistics::MOHx:
-						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(precomputeVolumeValues.at(i),
-						                   computeMOHx(precomputeVolumeValues.at(i))));
+						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
+							computeMOHx(xAbsolute)));
 						break;
 
 					case DoseStatistics::MOCx:
-						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(precomputeVolumeValues.at(i),
-						                   computeMOCx(precomputeVolumeValues.at(i))));
+						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
+							computeMOCx(xAbsolute)));
 						break;
 
 					case DoseStatistics::MaxOHx:
-						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(precomputeVolumeValues.at(i),
-						                   computeMaxOHx(precomputeVolumeValues.at(i))));
+						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
+							computeMaxOHx(xAbsolute)));
 						break;
 
 					case DoseStatistics::MinOCx:
-						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(precomputeVolumeValues.at(i),
-						                   computeMinOCx(precomputeVolumeValues.at(i))));
+						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
+							computeMinOCx(xAbsolute)));
 						break;
 
 					default:

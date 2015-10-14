@@ -51,6 +51,7 @@ namespace rttb
 
 		const double reducedErrorConstant = 0.0001;
 		const double expectedVal = 5.64477e-005;
+		const double volume = 24120.;
 
 		void testWithDummyDoseData(const std::string& doseFilename);
 		void testWithRealVirtuosDoseDataAndStructure(const std::string& doseFilename, const std::string& structFilename,
@@ -106,20 +107,21 @@ namespace rttb
 
 			std::vector<double> precomputedDoseValues;
 			precomputedDoseValues.push_back(0);
-			precomputedDoseValues.push_back(expectedVal);
-			precomputedDoseValues.push_back(expectedVal + reducedErrorConstant);
+			precomputedDoseValues.push_back(0.5);
+			precomputedDoseValues.push_back(1);
 			std::vector<double> precomputedVolumeValues;
-			precomputedVolumeValues.push_back(20000);
-			precomputedVolumeValues.push_back(24120);
+			precomputedVolumeValues.push_back(20000/volume);
+			precomputedVolumeValues.push_back(1);
 
 			rttb::algorithms::DoseStatistics::DoseStatisticsPointer doseStatistics =
-			    doseStatisticsCalculator.calculateDoseStatistics(true, precomputedDoseValues, precomputedVolumeValues);
+			    doseStatisticsCalculator.calculateDoseStatistics(precomputedDoseValues, precomputedVolumeValues);
 
 			CHECK_CLOSE(doseStatistics->getMean(), expectedVal, errorConstant);
 			CHECK_CLOSE(doseStatistics->getStdDeviation(), 0, errorConstant);
 			CHECK_CLOSE(doseStatistics->getVariance(), 0, errorConstant);
 
-			DoseTypeGy vx = doseStatistics->getVx(expectedVal);
+			double dummy;
+			DoseTypeGy vx = doseStatistics->getVx(expectedVal,true,dummy);
 			CHECK_EQUAL(vx, doseStatistics->getVx(0));
 			CHECK_CLOSE(expectedVal, doseStatistics->getDx(vx), reducedErrorConstant);
 
@@ -128,8 +130,8 @@ namespace rttb
 			CHECK_CLOSE(doseStatistics->getMinimum(), expectedVal, errorConstant);
 			auto minListPtr = doseStatistics->getMinimumPositions();
 			auto maxListPtr = doseStatistics->getMaximumPositions();
-			CHECK_EQUAL(maxListPtr->size(), 100);
-			CHECK_EQUAL(minListPtr->size(), 100);
+			CHECK_EQUAL(maxListPtr->size(), 10);
+			CHECK_EQUAL(minListPtr->size(), 10);
 
 			CHECK_CLOSE(doseStatistics->getDx(24120), doseStatistics->getMinimum(), 0.001);
 			CHECK_CLOSE(doseStatistics->getMOHx(24120), doseStatistics->getMean(), reducedErrorConstant);
@@ -179,7 +181,7 @@ namespace rttb
 			auto maxPositions = doseStatisticsVirtuos->getMaximumPositions();
 			auto minPositions = doseStatisticsVirtuos->getMinimumPositions();
 			CHECK_EQUAL(maxPositions->size(), 1);
-			CHECK_EQUAL(minPositions->size(), 100);
+			CHECK_EQUAL(minPositions->size(), 10);
 			CHECK_EQUAL(maxPositions->begin()->first, doseStatisticsVirtuos->getMaximum());
 			CHECK_EQUAL(maxPositions->begin()->second, 2138227);
 			CHECK_EQUAL(minPositions->begin()->first, doseStatisticsVirtuos->getMinimum());
