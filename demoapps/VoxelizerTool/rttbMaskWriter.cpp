@@ -117,12 +117,12 @@ namespace rttb
 			}
 
 			void MaskWriter::writeITKImageToFile(ITKImageTypeConstPointer itkImage,
-			                                     const std::string& outputfilename) const
+			                                     const std::string& outputfilename, bool useCompression) const
 			{
 				typedef  itk::ImageFileWriter< ITKMaskImageType > WriterType;
 				WriterType::Pointer writer = WriterType::New();
 				writer->SetFileName(outputfilename);
-
+				writer->SetUseCompression(useCompression);
 				writer->SetInput(itkImage);
 
 				writer->Update();

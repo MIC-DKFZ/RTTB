@@ -40,38 +40,47 @@ namespace rttb
 				typedef rttb::core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
 				typedef rttb::core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
 
-				/*!@brief Constructor
-				@details calls readStructFile and readReferenceFile method and save the result in _rtStructureSet and _doseAccessor
-				@param structfile
-				@param referencefile
-				*/
-				StructDataReader(const std::string& structfile, const std::string& referencefile);
+				StructDataReader(const std::string& structFileName, const std::string& referenceFileName,
+				                 const std::vector<std::string>& referenceFileLoadingStyle);
+
+				/*!@brief Reads structure and reference file and saves the result in variables */
+				void read();
+
 				/**@brief read all labels an save it in a vector.
 				@return a vector of all labels
 				*/
 				std::vector<std::string> getAllLabels() const;
 				/**@brief
-				@return the objekt _rtStructureSet
+				@return the object _rtStructureSet
 				*/
 				StructureSetPointer getStructureSetPointer() const;
 				/**@brief
-				@return the objekt _doseAccessor
+				@return the object _doseAccessor
 				*/
 				DoseAccessorPointer getDoseAccessorPointer() const;
 
 			private:
 
-				/**@brief read a referencefile
+				/**@brief read a reference file
 				@return the result as object
 				*/
-				DoseAccessorPointer readReferenceFile(const std::string& referencefile) const;
-				/**@brief read a structfile
+				DoseAccessorPointer readReferenceFile(const std::string& filename,
+				                                      const std::vector<std::string>& fileLoadingStyle) const;
+
+				DoseAccessorPointer readDicomFile(const std::string& filename) const;
+				DoseAccessorPointer readITKFile(const std::string& filename) const;
+
+				/**@brief read a struct file
 				@return the result as object
 				*/
-				StructureSetPointer readStructFile(const std::string& structfile) const;
+				StructureSetPointer readStructFile(const std::string& filename) const;
 
 				StructureSetPointer _rtStructureSet;
 				DoseAccessorPointer _doseAccessor;
+
+				std::string _structFilename;
+				std::string _referenceFilename;
+				std::vector<std::string> _referenceFileLoadingStyle;
 			};
 		}
 	}

@@ -40,7 +40,9 @@ namespace rttb
 				PARAM_LEGACY_VOXELIZATION("legacyVoxelization"),
 				PARAM_BOOST_VOXELIZATION("boostVoxelization"),
 				PARAM_BOOLEAN_VOXELIZATION("booleanVoxelization"),
-				PARAM_ADDSTRUCTURES("addStructures"), _returnAfterHelp(false)
+				PARAM_ADDSTRUCTURES("addStructures"),
+				PARAM_ALLOW_SELF_INTERSECTIONS("selfIntersections"),
+				_returnAfterHelp(false)
 			{
 
 				_params.multipleStructs = false;
@@ -48,11 +50,21 @@ namespace rttb
 				_params.booleanVoxelization  = false;
 				_params.addStructures = false;
 
+				std::vector<std::string> defaultRefLoadingStyle;
+				defaultRefLoadingStyle.push_back("dicom");
+
+
 				po::options_description required("Required arguments");
 				addOption(required, PARAM_STRUCT_FILE, "s", po::value<std::string>(&_params.structFile)->required(),
 				          "Filename of the structfile (*.dcm)");
 				addOption(required, PARAM_REFERENCE_FILE, "r", po::value<std::string>(&_params.referenceFile)->required(),
 				          "Filename of the reference image (*.dcm)");
+				addOption(required, PARAM_REFERENCE_FILE_LOAD_STYLE, "y",
+				          po::value<std::vector<std::string> >(&_params.referenceFileLoadStyle)->required()->default_value(
+				              defaultRefLoadingStyle, "dicom"),
+				          "set the load style for the reference file. Available styles are:\n"
+				          "\"dicom\": normal dicom dose\n"
+				          "\"itk\": use itk image loading.");
 				addOption(required, PARAM_REGEX, "e",
 				          po::value<std::vector<std::string>>(&_params.regEx)->multitoken()->required(),
 				          "set a regular expression describing the structs of interest");
@@ -70,6 +82,9 @@ namespace rttb
 				          po::bool_switch(&_params.booleanVoxelization)->default_value(false),
 				          "Determines if the voxelization should be binarized (only values 0 or 1)");
 				addOption(optional, PARAM_ADDSTRUCTURES, "a", nullptr, "Voxelizes multiple structs in one result file.");
+				addOption(optional, PARAM_ALLOW_SELF_INTERSECTIONS, "i",
+				          po::bool_switch(&_params.allowSelfIntersections)->default_value(false),
+				          "If self intersections of polygons should be tolerated.");
 
 				_description.add(required).add(optional);
 			}
@@ -128,6 +143,14 @@ namespace rttb
 					{
 						std::cout << "--output has to specify a file format (e.g. output.hdr). None is given: " << _params.outputFilename <<
 						          std::endl;
+						return false;
+					}
+
+					if (_params.referenceFileLoadStyle.empty() || (_params.referenceFileLoadStyle.at(0) != "dicom"
+					        && _params.referenceFileLoadStyle.at(0) != "itk"))
+					{
+						std::cout << "Unknown load style:" + _params.referenceFileLoadStyle.at(0) +
+						          ".\nPlease refer to the help for valid loading style settings." << std::endl;
 						return false;
 					}
 
