@@ -111,7 +111,7 @@ namespace rttb
 
 			DoseIteratorPointer getDoseIterator() const;
 
-			/*! @brief Compute simple or complex dose statistics with default relative x values
+			/*! @brief Compute simple or complex dose statistics with default relative x values and the maximum dose as default reference dose (for Vx computation)
 			@details The following statistics are calculated always (i.e. also if computeComplexMeasures=false):
 			<ul>
 			<li>minimum dose
@@ -132,57 +132,27 @@ namespace rttb
 			</ul>
 			Default x values for Vx are 0.02, 0.05, 0.1, 0.9, 0.95 and 0.98, with respect to maxDose.
 			Default x values for Dx, MOHx, MOCx, MaxOHx and MinOCx are 0.02, 0.05, 0.1, 0.9, 0.95 and 0.98, with respect to volume.
-			@param computeComplexMeasures should complex statistics be calculated?
+			@param computeComplexMeasures should complex statistics be calculated? If it is true, the complex dose statistics will be calculated with default relative x values and the maximum dose as reference dose
 			@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed
 			@param maxNumberMaximaPositions the maximal amount of computed positions where the dose has its maximum that is computed
 			@warning If computeComplexMeasures==true, computations can take quite long (>1 min) for large structures as many statistics are precomputed
+			@note The complex dose statistics are precomputed and cannot be computed "on the fly" lateron! Only the default x values can be requested in DoseStatistics!
 			*/
 			DoseStatisticsPointer calculateDoseStatistics(bool computeComplexMeasures = false, unsigned int maxNumberMinimaPositions = 10,
 				unsigned int maxNumberMaximaPositions = 10);
 
 			/*! @brief Compute complex dose statistics with given reference dose and default relative x values
-			@details The following statistics are calculated
-			<ul>
-			<li>minimum dose
-			<li>mean dose
-			<li>maximum dose
-			<li>standard deviation dose
-			<li>voxel positions of minimum dose
-			<li>voxel positions of maximum dose
-			<li>Dx (the minimal dose delivered to a volume >= x)
-			<li>Vx (the volume irradiated with a dose >= x)
-			<li>MOHx (mean dose of the hottest x volume)
-			<li>MOCx (mean dose of the coldest x volume)
-			<li>MaxOHx (Maximum outside of the hottest x volume)
-			<li>MinOCx (Minimum outside of the coldest x volume)
-			</ul>
-			Default x values for Vx are 0.02, 0.05, 0.1, 0.9, 0.95 and 0.98, with respect to given reference dose.
-			Default x values for Dx, MOHx, MOCx, MaxOHx and MinOCx are 0.02, 0.05, 0.1, 0.9, 0.95 and 0.98, with respect to volume.
 			@param referenceDose the reference dose to compute Vx, normally it should be the prescribed dose
 			@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed
 			@param maxNumberMaximaPositions the maximal amount of computed positions where the dose has its maximum that is computed
 			@exception InvalidParameterException thrown if referenceDose <= 0
 			@warning Computations can take quite long (>1 min) for large structures as many statistics are precomputed
+			@note The complex dose statistics are precomputed and cannot be computed "on the fly" lateron! Only the default x values can be requested in DoseStatistics!
 			*/
 			DoseStatisticsPointer calculateDoseStatistics(DoseTypeGy referenceDose, unsigned int maxNumberMinimaPositions = 10,
 				unsigned int maxNumberMaximaPositions = 10);
 
-			/*! @brief Calculatues complex dose statistics with given relative x values and reference dose
-			@details The following statistics are calculated:
-			<ul>
-			<li>minimum dose
-			<li>mean dose
-			<li>maximum dose
-			<li>standard deviation dose
-			<li>voxel positions of minimum dose
-			<li>voxel positions of maximum dose
-			<li>Dx (the minimal dose delivered to a volume >= x)
-			<li>Vx (the volume irradiated with a dose >= x)
-			<li>MOHx (mean dose of the hottest x volume)
-			<li>MOCx (mean dose of the coldest x volume)
-			<li>MaxOHx (Maximum outside of the hottest x volume)
-			<li>MinOCx (Minimum outside of the coldest x volume)
-			</ul>
+			/*! @brief Compute complex dose statistics with given relative x values and reference dose
 			@param precomputeDoseValues the relative dose values for Vx precomputation, e.g. 0.02, 0.05, 0.95...
 			@param precomputeVolumeValues the relative volume values for Dx, MOHx, MOCx, MaxOHx and MinOCx precomputation, e.g. 0.02, 0.05, 0.95...
 			@param referenceDose the reference dose to compute Vx, normally it should be the prescribed dose. Default value is the maximum dose.

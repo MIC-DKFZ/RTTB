@@ -107,90 +107,47 @@ namespace rttb
 
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType::iterator it;
-				try
+
+				for (it = AllDx.begin(); it != AllDx.end(); it++)
 				{
-					for (it = AllDx.begin(); it != AllDx.end(); it++)
-					{
-						ptree DxNode = createNodeWithNameAndXAttribute((*it).second, "Dx",
-							static_cast<int>((*it).first / absoluteVolume * 100));
-						pt.add_child(statisticsTag + "." + propertyTag, DxNode);
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					ptree DxNode = createNodeWithNameAndXAttribute((*it).second, "Dx",
+						static_cast<int>((*it).first / absoluteVolume * 100));
+					pt.add_child(statisticsTag + "." + propertyTag, DxNode);
 				}
 
-
-				try
+				for (vxIt = AllVx.begin(); vxIt != AllVx.end(); vxIt++)
 				{
-					for (vxIt = AllVx.begin(); vxIt != AllVx.end(); vxIt++)
-					{
-						ptree VxNode = createNodeWithNameAndXAttribute((*vxIt).second, "Vx",
-							static_cast<int>((*vxIt).first /referenceDose * 100));
-						pt.add_child(statisticsTag + "." + propertyTag, VxNode);
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					ptree VxNode = createNodeWithNameAndXAttribute((*vxIt).second, "Vx",
+						static_cast<int>((*vxIt).first / referenceDose * 100));
+					pt.add_child(statisticsTag + "." + propertyTag, VxNode);
 				}
 
-
-				try
+				for (it = AllMOHx.begin(); it != AllMOHx.end(); it++)
 				{
-					for (it = AllMOHx.begin(); it != AllMOHx.end(); it++)
-					{
-						ptree mohxNode = createNodeWithNameAndXAttribute((*it).second, "MOHx",
-							static_cast<int>((*it).first / absoluteVolume * 100));
-						pt.add_child(statisticsTag + "." + propertyTag, mohxNode);
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					ptree mohxNode = createNodeWithNameAndXAttribute((*it).second, "MOHx",
+						static_cast<int>((*it).first / absoluteVolume * 100));
+					pt.add_child(statisticsTag + "." + propertyTag, mohxNode);
 				}
 
-				try
+				for (it = AllMOCx.begin(); it != AllMOCx.end(); it++)
 				{
-					for (it = AllMOCx.begin(); it != AllMOCx.end(); it++)
-					{
-						ptree mocxNode = createNodeWithNameAndXAttribute((*it).second, "MOCx",
-							static_cast<int>((*it).first / absoluteVolume * 100));
-						pt.add_child(statisticsTag + "." + propertyTag, mocxNode);
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					ptree mocxNode = createNodeWithNameAndXAttribute((*it).second, "MOCx",
+						static_cast<int>((*it).first / absoluteVolume * 100));
+					pt.add_child(statisticsTag + "." + propertyTag, mocxNode);
 				}
 
-				try
+				for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); it++)
 				{
-					for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); it++)
-					{
-						ptree maxOhxNode = createNodeWithNameAndXAttribute((*it).second, "MaxOHx",
-							static_cast<int>((*it).first / absoluteVolume * 100));
-						pt.add_child(statisticsTag + "." + propertyTag, maxOhxNode);
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					ptree maxOhxNode = createNodeWithNameAndXAttribute((*it).second, "MaxOHx",
+						static_cast<int>((*it).first / absoluteVolume * 100));
+					pt.add_child(statisticsTag + "." + propertyTag, maxOhxNode);
 				}
 
-				try
+				for (it = AllMinOCx.begin(); it != AllMinOCx.end(); it++)
 				{
-					for (it = AllMinOCx.begin(); it != AllMinOCx.end(); it++)
-					{
-						ptree minOCxNode = createNodeWithNameAndXAttribute((*it).second, "MinOCx",
-							static_cast<int>((*it).first / absoluteVolume * 100));
-						pt.add_child(statisticsTag + "." + propertyTag, minOCxNode);
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					ptree minOCxNode = createNodeWithNameAndXAttribute((*it).second, "MinOCx",
+						static_cast<int>((*it).first / absoluteVolume * 100));
+					pt.add_child(statisticsTag + "." + propertyTag, minOCxNode);
 				}
 
 				return pt;
@@ -204,7 +161,7 @@ namespace rttb
 				try
 				{
 					boost::property_tree::xml_parser::write_xml(aFileName, pt, std::locale(),
-					        boost::property_tree::xml_writer_make_settings<std::string>('\t', 1));
+						boost::property_tree::xml_writer_make_settings<std::string>('\t', 1));
 				}
 				catch (boost::property_tree::xml_parser_error& /*e*/)
 				{
@@ -220,7 +177,7 @@ namespace rttb
 				try
 				{
 					boost::property_tree::xml_parser::write_xml(sstr, pt, boost::property_tree::xml_writer_make_settings<std::string>('\t',
-					        1));
+						1));
 				}
 				catch (boost::property_tree::xml_parser_error& /*e*/)
 				{
@@ -245,7 +202,6 @@ namespace rttb
 				sstr << aDoseStatistics->getVariance() << columnSeparator;
 
 				double absoluteVolume = aDoseStatistics->getVolume();
-				double referenceDose = aDoseStatistics->getReferenceDose();
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType AllVx = aDoseStatistics->getAllVx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getAllDx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getAllMOHx();
@@ -257,78 +213,35 @@ namespace rttb
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType::iterator it;
 
-				try
+				for (it = AllDx.begin(); it != AllDx.end(); it++)
 				{
-					for (it = AllDx.begin(); it != AllDx.end(); it++)
-					{
-						sstr << (*it).second << columnSeparator;
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					sstr << (*it).second << columnSeparator;
 				}
 
-				try
+				for (vxIt = AllVx.begin(); vxIt != AllVx.end(); vxIt++)
 				{
-					for (vxIt = AllVx.begin(); vxIt != AllVx.end(); vxIt++)
-					{
-						// *1000 because of conversion cm3 to mm3
-						sstr << (*vxIt).second * 1000 << columnSeparator;
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					// *1000 because of conversion cm3 to mm3
+					sstr << (*vxIt).second * 1000 << columnSeparator;
 				}
 
-
-				try
+				for (it = AllMOHx.begin(); it != AllMOHx.end(); it++)
 				{
-					for (it = AllMOHx.begin(); it != AllMOHx.end(); it++)
-					{
-						sstr << (*it).second << columnSeparator;
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					sstr << (*it).second << columnSeparator;
 				}
 
-				try
+				for (it = AllMOCx.begin(); it != AllMOCx.end(); it++)
 				{
-					for (it = AllMOCx.begin(); it != AllMOCx.end(); it++)
-					{
-						sstr << (*it).second << columnSeparator;
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					sstr << (*it).second << columnSeparator;
 				}
 
-				try
+				for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); it++)
 				{
-					for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); it++)
-					{
-						sstr << (*it).second << columnSeparator;
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					sstr << (*it).second << columnSeparator;
 				}
 
-				try
+				for (it = AllMinOCx.begin(); it != AllMinOCx.end(); it++)
 				{
-					for (it = AllMinOCx.begin(); it != AllMinOCx.end(); it++)
-					{
-						sstr << (*it).second << columnSeparator;
-					}
-				}
-				catch (core::DataNotAvailableException)
-				{
-					//as data is not available (was not computed by doseStatistics), it cannot be written
+					sstr << (*it).second << columnSeparator;
 				}
 
 				return sstr.str();
@@ -344,7 +257,7 @@ namespace rttb
 			}
 
 			boost::property_tree::ptree createNodeWithNameAndXAttribute(DoseTypeGy doseValue, const std::string& attributeName,
-			        int xValue)
+				int xValue)
 			{
 				boost::property_tree::ptree node;
 				node.put("", doseValue);

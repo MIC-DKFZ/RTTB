@@ -107,7 +107,7 @@ namespace rttb
 			*/
 			unsigned int getNumberOfVoxels() const;
 
-			/*! @brief Get the volume of the voxels in doseIterator, with sub-voxel accuracy
+			/*! @brief Get the volume of the voxels in doseIterator (in cm3), with sub-voxel accuracy
 			*/
 			VolumeType getVolume() const;
 

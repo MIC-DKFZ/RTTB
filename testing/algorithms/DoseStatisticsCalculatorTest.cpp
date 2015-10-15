@@ -79,6 +79,7 @@ namespace rttb
 
 			//3) test calculateDoseStatistics
 			DoseStatisticsPointer theStatistics;
+			//simple dose statistics
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics());
 			CHECK_EQUAL(theStatistics->getMinimumPositions()->empty(), false);
 			CHECK_EQUAL(theStatistics->getMaximumPositions()->empty(), false);
@@ -106,7 +107,17 @@ namespace rttb
 			CHECK_NO_THROW(theStatisticsDefault->getDx(0.95 * theStatisticsDefault->getVolume()));
 			CHECK_NO_THROW(theStatisticsDefault->getDx(0.98 * theStatisticsDefault->getVolume()));
 
-			//check manually set values for omputeComplexMeasures=true
+			//check manually set reference dose and the default x values
+			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(100.0));
+			CHECK_NO_THROW(theStatistics->getVx(0.1 * theStatisticsDefault->getMaximum()));
+			CHECK_NO_THROW(theStatistics->getVx(0.9 * theStatisticsDefault->getMaximum()));
+			CHECK_NO_THROW(theStatistics->getDx(0.1 * theStatisticsDefault->getVolume()));
+			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatisticsDefault->getVolume()));
+			CHECK_NO_THROW(theStatistics->getMOHx(0.95 * theStatisticsDefault->getVolume()));
+			CHECK_NO_THROW(theStatistics->getMOCx(0.98 * theStatisticsDefault->getVolume()));
+			CHECK_EQUAL(theStatistics->getReferenceDose(), 100.0);
+
+			//check manually set x values
 			std::vector<double> precomputeDoseValues, precomputeVolumeValues;
 			precomputeDoseValues.push_back(0.01 * theStatistics->getMaximum());
 			precomputeDoseValues.push_back(0.02 * theStatistics->getMaximum());
@@ -134,6 +145,13 @@ namespace rttb
 			            theStatisticsDefault->getDx(0.9 * theStatistics->getVolume()));
 			CHECK_EQUAL(theStatistics->getDx(0.95 * theStatistics->getVolume()),
 			            theStatisticsDefault->getDx(0.95 * theStatistics->getVolume()));
+
+			//check manually set reference dose and x values
+			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(precomputeDoseValues,
+				precomputeVolumeValues, 100.0));
+			CHECK_NO_THROW(theStatistics->getVx(0.01 * theStatistics->getMaximum()));
+			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatistics->getVolume()));
+			CHECK_EQUAL(theStatistics->getReferenceDose(), 100.0);
 
 			//MOHx, MOCx, MaxOHx and MinOCx are computed analogous to Dx, they will not be checked.
 
