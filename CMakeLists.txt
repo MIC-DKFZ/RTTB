@@ -59,6 +59,7 @@ include(cmake/rttbMacroCheckModule.cmake)
 include(cmake/rttbMacroUseModule.cmake)
 include(cmake/rttbMacroCreateTestModule.cmake)
 include(cmake/rttbFunctionOrganizeSources.cmake)
+include(cmake/rttbMacroCreateApplicationTests.cmake)
 
 #-----------------------------------------------------------------------------
 # Basis config RTTB module infrastructure
