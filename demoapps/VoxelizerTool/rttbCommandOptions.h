@@ -38,6 +38,7 @@ namespace rttb
 				std::string structFile;
 				/**	@brief Filename of the ReferenceFile*/
 				std::string referenceFile;
+				std::vector<std::string> referenceFileLoadStyle;
 				/**	@brief  Output Filename*/
 				std::string outputFilename;
 				/**	@brief  Expressions from User*/
@@ -50,6 +51,9 @@ namespace rttb
 				bool booleanVoxelization ;
 				/** @brief multiple structures voxelization should be combined in one file*/
 				bool addStructures;
+				/** @brief requests a strict voxelization (non-strict: polygon intersections are tolerated)*/
+				bool allowSelfIntersections;
+
 
 			};
 
@@ -103,6 +107,7 @@ namespace rttb
 
 				const std::string PARAM_STRUCT_FILE;
 				const std::string PARAM_REFERENCE_FILE;
+				const std::string PARAM_REFERENCE_FILE_LOAD_STYLE;
 				const std::string PARAM_OUT_FILE;
 				const std::string PARAM_REGEX;
 				const std::string PARAM_MULTISTRUCT;
@@ -111,6 +116,7 @@ namespace rttb
 				const std::string PARAM_BOOST_VOXELIZATION;
 				const std::string PARAM_BOOLEAN_VOXELIZATION;
 				const std::string PARAM_ADDSTRUCTURES;
+				const std::string PARAM_ALLOW_SELF_INTERSECTIONS;
 
 				/*! create description object */
 				po::options_description _description;

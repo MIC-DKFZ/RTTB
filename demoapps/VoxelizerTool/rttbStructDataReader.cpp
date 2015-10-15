@@ -21,6 +21,7 @@
 
 #include "rttbStructDataReader.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
+#include "rttbITKImageFileAccessorGenerator.h"
 #include "rttbInvalidParameterException.h"
 
 namespace rttb
@@ -29,10 +30,16 @@ namespace rttb
 	{
 		namespace voxelizer
 		{
-			StructDataReader::StructDataReader(const std::string& structfile, const std::string& reference)
+			StructDataReader::StructDataReader(const std::string& structFileName, const std::string& referenceFileName,
+			                                   const std::vector<std::string>& referenceFileLoadingStyle) : _referenceFilename(referenceFileName),
+				_structFilename(structFileName), _referenceFileLoadingStyle(referenceFileLoadingStyle)
 			{
-				_doseAccessor = readReferenceFile(reference);
-				_rtStructureSet = readStructFile(structfile);
+			}
+
+			void StructDataReader::read()
+			{
+				_doseAccessor = readReferenceFile(_referenceFilename, _referenceFileLoadingStyle);
+				_rtStructureSet = readStructFile(_structFilename);
 			}
 
 			std::vector<std::string> StructDataReader::getAllLabels() const
@@ -61,20 +68,46 @@ namespace rttb
 			}
 
 			StructDataReader::DoseAccessorPointer StructDataReader::readReferenceFile(
-			    const std::string& referencefile) const
+			    const std::string& filename, const std::vector<std::string>& fileLoadingStyle) const
 			{
-				rttb::io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(referencefile.c_str());
-				DoseAccessorPointer doseAccessor(doseAccessorGenerator1.generateDoseAccessor());
-				return doseAccessor;
+				if (fileLoadingStyle.at(0) == "dicom")
+				{
+					return readDicomFile(filename);
+				}
+				else if (fileLoadingStyle.at(0) == "itk")
+				{
+					return readITKFile(filename);
+				}
+				else
+				{
+					return NULL;
+				}
+
+			}
+
+			StructDataReader::DoseAccessorPointer StructDataReader::readDicomFile(const std::string& filename) const
+			{
+				rttb::io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator(filename.c_str());
+				return doseAccessorGenerator.generateDoseAccessor();
+			}
+
+			StructDataReader::DoseAccessorPointer StructDataReader::readITKFile(const std::string& filename) const
+			{
+				rttb::io::itk::ITKImageFileAccessorGenerator generator(filename);
+				return generator.generateDoseAccessor();
 			}
 
 			StructDataReader::StructureSetPointer StructDataReader::readStructFile(
-			    const std::string& structfile) const
+			    const std::string& filename) const
 			{
 				StructureSetPointer rtStructureSet = rttb::io::dicom::DicomFileStructureSetGenerator(
-				        structfile.c_str()).generateStructureSet();
+				        filename.c_str()).generateStructureSet();
 				return rtStructureSet;
 			}
+
+
+
+
 
 		}
 	}

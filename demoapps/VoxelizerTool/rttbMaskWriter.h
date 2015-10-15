@@ -58,7 +58,8 @@ namespace rttb
 
 				ITKImageTypeConstPointer addMultipleStructsToImage() const;
 				ITKImageTypeConstPointer applyThresholdFilter(ITKImageTypeConstPointer itkImage) const;
-				void writeITKImageToFile(ITKImageTypeConstPointer itkImage, const std::string& outputfilename) const;
+				void writeITKImageToFile(ITKImageTypeConstPointer itkImage, const std::string& outputfilename,
+				                         bool useCompression = true) const;
 
 				//MaskAccessorPointer _maskAccessorPtr;
 				bool _booleanvoxelization;

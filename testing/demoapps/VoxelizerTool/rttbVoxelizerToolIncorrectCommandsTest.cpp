@@ -105,6 +105,14 @@ namespace rttb
 			std::cout << "Command line call: " + structureNameCommand << std::endl;
 			CHECK_EQUAL(system(structureNameCommand.c_str()), 0);
 
+			std::string referenceLoadingStyleCommand = voxelizerToolExeWithPath;
+			referenceLoadingStyleCommand += " -s " + structFile;
+			referenceLoadingStyleCommand += " -r " + referenceFile;
+			referenceLoadingStyleCommand += +" -e " + invalidStructureName;
+			referenceLoadingStyleCommand += +" -y nonsense";
+			std::cout << "Command line call: " + referenceLoadingStyleCommand << std::endl;
+			CHECK_EQUAL(system(referenceLoadingStyleCommand.c_str()), 1);
+
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
 

@@ -22,64 +22,74 @@
 #include "rttbMaskVoxel.h"
 #include "rttbInvalidParameterException.h"
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
-		MaskVoxel::MaskVoxel(const rttb::VoxelGridID &aVoxelGridID){
-			if(aVoxelGridID<0)
-				{
-				std::cout << aVoxelGridID<<std::endl;
+		MaskVoxel::MaskVoxel(const rttb::VoxelGridID& aVoxelGridID)
+		{
+			if (aVoxelGridID < 0)
+			{
+				std::cout << aVoxelGridID << std::endl;
 				throw InvalidParameterException("VoxelGridID is not valid!");
-				}		
-			else
-				{
-				_voxelGridID=aVoxelGridID;
-				_volumeFraction=1;
-				}
 			}
+			else
+			{
+				_voxelGridID = aVoxelGridID;
+				_volumeFraction = 1;
+			}
+		}
 
-		MaskVoxel::MaskVoxel(const rttb::VoxelGridID &aVoxelGridID, FractionType aVolumeFraction){
-			if(aVoxelGridID<0)
-				{
-				std::cout << aVoxelGridID<<std::endl;
+		MaskVoxel::MaskVoxel(const rttb::VoxelGridID& aVoxelGridID, FractionType aVolumeFraction)
+		{
+			if (aVoxelGridID < 0)
+			{
+				std::cout << aVoxelGridID << std::endl;
 				throw InvalidParameterException("VoxelGridID is not valid!");
-				}
-			else if(aVolumeFraction<0 || aVolumeFraction>1)
-				{
-				std::cout << aVolumeFraction<<std::endl;
+			}
+			else if (aVolumeFraction < 0 || aVolumeFraction > 1)
+			{
+				std::cout << aVolumeFraction << std::endl;
 				throw InvalidParameterException("Volume fraction needs to be between 0 and 1!");
-				}			
+			}
 			else
-				{
-				_voxelGridID=aVoxelGridID;
-				_volumeFraction=aVolumeFraction;
-				}
+			{
+				_voxelGridID = aVoxelGridID;
+				_volumeFraction = aVolumeFraction;
 			}
+		}
 
-		bool MaskVoxel::operator==(const MaskVoxel& voxel) const{ 
-			return ( (_voxelGridID==voxel.getVoxelGridID()) && (_volumeFraction==voxel.getRelevantVolumeFraction()) );
-			}
+		bool MaskVoxel::operator==(const MaskVoxel& voxel) const
+		{
+			return ((_voxelGridID == voxel.getVoxelGridID()) && (_volumeFraction == voxel.getRelevantVolumeFraction()));
+		}
 
-		bool MaskVoxel::operator<(const MaskVoxel& maskVoxel) const{
+		bool MaskVoxel::operator<(const MaskVoxel& maskVoxel) const
+		{
 			return (_voxelGridID < maskVoxel.getVoxelGridID());
 		}
 
-		const VoxelGridID& MaskVoxel::getVoxelGridID() const{
+		const VoxelGridID& MaskVoxel::getVoxelGridID() const
+		{
 			return _voxelGridID;
-			}
+		}
 
-		void MaskVoxel::setRelevantVolumeFraction(FractionType aVolumeFraction){
-			if(aVolumeFraction<0 || aVolumeFraction>1)
-				{
-				std::cout << aVolumeFraction<<std::endl;
+		void MaskVoxel::setRelevantVolumeFraction(FractionType aVolumeFraction)
+		{
+			if (aVolumeFraction < 0 || aVolumeFraction > 1)
+			{
+				std::cout << aVolumeFraction << std::endl;
 				throw InvalidParameterException("Volume fraction needs to be between 0 and 1!");
-				}			
-			_volumeFraction=aVolumeFraction;
 			}
 
-		FractionType MaskVoxel::getRelevantVolumeFraction() const{
+			_volumeFraction = aVolumeFraction;
+		}
+
+		FractionType MaskVoxel::getRelevantVolumeFraction() const
+		{
 			return _volumeFraction;
-			}
+		}
 
-		}//end namespace core
+	}//end namespace core
 }//end namespace rttb

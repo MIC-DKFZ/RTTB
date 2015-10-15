@@ -47,12 +47,14 @@ int main(int argc, char* argv[])
 
 	rttb::apps::voxelizer::Parameters params = co->getParameters();
 
-	boost::shared_ptr<rttb::apps::voxelizer::StructDataReader> reader;
+	boost::shared_ptr<rttb::apps::voxelizer::StructDataReader> reader =
+	    boost::make_shared<rttb::apps::voxelizer::StructDataReader>(params.structFile,
+	            params.referenceFile, params.referenceFileLoadStyle);
+	std::cout << "reading reference and structure file...";
 
 	try
 	{
-		reader = boost::make_shared<rttb::apps::voxelizer::StructDataReader>(params.structFile,
-		         params.referenceFile);
+		reader->read();
 	}
 	catch (rttb::core::Exception& e)
 	{
@@ -72,6 +74,9 @@ int main(int argc, char* argv[])
 		return 2;
 	}
 
+	std::cout << "done." << std::endl;
+
+	std::cout << "searching for structs...";
 	std::vector<int> listOfCorrectElements;
 
 	for (int i = 0; i < params.regEx.size(); i++)
@@ -82,10 +87,12 @@ int main(int argc, char* argv[])
 		std::copy(indexOfCorrectElements.begin(), indexOfCorrectElements.end(), std::back_inserter(listOfCorrectElements));
 	}
 
+	std::cout << "done." << std::endl;
+
 	boost::shared_ptr<rttb::apps::voxelizer::MaskProcess> maskProcessor =
 	    boost::make_shared<rttb::apps::voxelizer::MaskProcess>(reader->getStructureSetPointer(),
 	            reader->getDoseAccessorPointer(),
-	            params.legacyVoxelization);
+	            params.legacyVoxelization, params.allowSelfIntersections);
 
 	if (!listOfCorrectElements.empty())
 	{
@@ -127,7 +134,9 @@ int main(int argc, char* argv[])
 
 			for (unsigned int i = 0; i < maxIterationCount; i++)
 			{
+				std::cout << "creating mask...";
 				maskVector.push_back(maskProcessor->createMask(listOfCorrectElements.at(i)));
+				std::cout << "done" << std::endl;
 				int labelIndex = listOfCorrectElements.at(i);
 				std::vector<std::string> labelVector = reader->getAllLabels();
 				std::string labelOfInterest = labelVector.at(labelIndex);

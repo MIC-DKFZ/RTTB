@@ -46,7 +46,7 @@ namespace rttb
 				* doseAccessor (referencefile) object into _doseAccessor
 				*/
 				MaskProcess(StructureSetPointer rtStructureSet, DoseAccessorPointer doseAccessor,
-				            bool legacyVoxelization);
+				            bool legacyVoxelization, bool allowSelfIntersection);
 				/**@brief create a mask with _rtStructureSet and _doseAccessor object.
 				@return a mask object
 				*/
@@ -55,6 +55,7 @@ namespace rttb
 				StructureSetPointer _rtStructureSet;
 				DoseAccessorPointer _doseAccessor;
 				bool _legacyVoxelization;
+				bool _allowSelfIntersection;
 			};
 		}
 	}
