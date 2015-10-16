@@ -49,8 +49,8 @@ namespace rttb
 				core::DoseAccessorInterface::DoseAccessorPointer _dose;
 				core::StructureSetGeneratorInterface::StructureSetPointer _struct;
 				std::string _structNameRegex;
-				std::string _structNameActual;
-				unsigned int _structIndex;
+				std::vector<unsigned int> _structIndices;
+				std::vector<std::string> _structNames;
 				std::string  _doseFileName;
 				std::string  _structFileName;
 				LoadingStyleArgType _doseLoadStyle;
@@ -59,6 +59,7 @@ namespace rttb
 				DoseTypeGy _prescribedDose;
 				std::string  _outputFileName;
 				bool _allowSelfIntersection;
+				bool _multipleStructsMode;
 
 				/*! @brief Resets the variables. _prescribedDose is set to 1.0 because it produces no exception then (as it is not needed). Consistency checks are done in DoseToolCmdLineParser::validateInput()
 				*/

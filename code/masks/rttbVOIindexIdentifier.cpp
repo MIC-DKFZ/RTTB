@@ -21,11 +21,10 @@
 
 
 #include "rttbVOIindexIdentifier.h"
-#include "rttbStructureSet.h"
-#include "rttbStructure.h"
-#include "rttbExceptionMacros.h"
+
 #include <boost/regex.hpp>
-#include <boost/algorithm/string.hpp>
+
+#include "rttbExceptionMacros.h"
 
 
 
@@ -34,91 +33,46 @@ namespace rttb
 	namespace masks
 	{
 
-		const unsigned int VOIindexIdentifier::getIndexByVoiName(StructSetTypePointer spStructSet,
-		        const std::string& name)
+		const std::vector<unsigned int> VOIindexIdentifier::getIndicesByVoiRegex(StructSetTypePointer spStructSet,
+		        const std::string& nameAsRegEx)
 		{
-
 			if (!spStructSet)
 			{
-				rttbDefaultExceptionStaticMacro("invalid method call spStructSet invalid");
+				rttbDefaultExceptionStaticMacro("spStructSet is NULL");
 			}
 
-
-			VoiLabelList voiLabelList;
+			std::vector<std::string> voiLabelList;
+			std::vector<unsigned int> resultVOiIndices;
 
 			for (int i = 0; i < spStructSet->getNumberOfStructures(); i++)
 			{
 				voiLabelList.push_back(spStructSet->getStructure(i)->getLabel());
-			}
+				boost::regex e(nameAsRegEx);
+				std::string s = spStructSet->getStructure(i)->getLabel();
 
-
-
-			int returnValue = -1;
-
-			if (voiLabelList.empty())
-			{
-				rttbDefaultExceptionStaticMacro("invalid method call, object state invalid, voiLabelList empty");
-			}
-
-			typedef std::vector< std::string > OptionalVectorType;
-			OptionalVectorType optionalVois;
-			::boost::split(optionalVois, name, ::boost::is_any_of("||"));
-
-			for (OptionalVectorType::iterator i = optionalVois.begin(); i != optionalVois.end(); i++)
-			{
-				int counter = 0;
-
-				/*
-				  Searches for valid entries in the voi list.
-				  Takes the first matching entry!
-				*/
-				for (VoiLabelList::const_iterator iter = voiLabelList.begin();
-				     iter != voiLabelList.end(); iter++)
+				if (boost::regex_match(s, e))
 				{
-					if ((*iter).compare(*i) == 0)
-					{
-						returnValue = counter;
-					}
-
-					counter++;
+					resultVOiIndices.push_back(i);
 				}
-
 			}
 
-			if (returnValue == -1)
-			{
-				rttbDefaultExceptionStaticMacro("specified voi name not found!");
-			}
-
-			return returnValue;
+			return resultVOiIndices;
 		}
 
 		const std::string VOIindexIdentifier::getVoiNameByIndex(StructSetTypePointer spStructSet,
-		        const unsigned int& index)
+		        unsigned int index)
 		{
 			if (!spStructSet)
 			{
-				rttbDefaultExceptionStaticMacro("invalid method call, spStructSet invalid");
+				rttbDefaultExceptionStaticMacro("spStructSet is NULL!");
 			}
 
-			VoiLabelList voiLabelList;
-
-			for (int i = 0; i < spStructSet->getNumberOfStructures(); i++)
+			if (index >= spStructSet->getNumberOfStructures())
 			{
-				voiLabelList.push_back(spStructSet->getStructure(i)->getLabel());
+				rttbDefaultExceptionStaticMacro("invalid index, voiLabelList out of range");
 			}
 
-			if (voiLabelList.empty())
-			{
-				rttbDefaultExceptionStaticMacro("invalid method call, object state invalid, voiLabelList empty");
-			}
-
-			if (index >= voiLabelList.size())
-			{
-				rttbDefaultExceptionStaticMacro("invalid index, index out of range");
-			}
-
-			return  voiLabelList[index];
+			return  spStructSet->getStructure(index)->getLabel();
 		}
 	}
 }

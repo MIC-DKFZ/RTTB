@@ -38,18 +38,18 @@ namespace rttb
 
 		static std::string readFile(const std::string& filename);
 
-		int DoseToolVirtuosDoseTest(int argc, char* argv[])
+		int DoseToolRegexTest(int argc, char* argv[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
 			const std::string doseToolExe = "DoseTool.exe";
 			std::string doseFilename;
-			std::string planFilename;
+			std::string doseLoadStyle;
 			std::string structFilename;
-			std::string ctxFilename;
+			std::string structLoadStyle;
 			std::string structName;
 			std::string referenceXMLFilename;
-			std::string referenceXMLComplexFilename;
+			std::string referenceXMLFilename2;
 
 			boost::filesystem::path callingPath(_callingAppPath);
 			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExe;
@@ -57,40 +57,44 @@ namespace rttb
 			if (argc > 7)
 			{
 				doseFilename = argv[1];
-				planFilename = argv[2];
+				doseLoadStyle = argv[2];
 				structFilename = argv[3];
-				ctxFilename = argv[4];
+				structLoadStyle = argv[4];
 				structName = argv[5];
 				referenceXMLFilename = argv[6];
-				referenceXMLComplexFilename = argv[7];
+				referenceXMLFilename2 = argv[7];
 			}
 
-			std::string defaultOutputFilename = "virtuosOutput.xml";
-			std::string complexOutputFilename = "virtuosOutputComplex.xml";
+			std::string defaultOutputFilename = "regexOutput.xml";
+			std::string defaultExpectedOutputFilename = "regexOutput_Nodes.xml";
+			std::string defaultExpectedOutputFilename2 = "regexOutput_Heart.xml";
 
 			std::string baseCommand = doseToolExeWithPath;
 			baseCommand += " -d " + doseFilename;
-			baseCommand += " -t virtuos " + planFilename;
+			baseCommand += " -t " + doseLoadStyle;
 			baseCommand += " -s " + structFilename;
-			baseCommand += " -u virtuos " + ctxFilename;
-			baseCommand += " -n " + structName;
-			std::string defaultDoseStatisticsCommand = baseCommand + " -o " + defaultOutputFilename;
+			baseCommand += " -u " + structLoadStyle;
+			baseCommand += " -n \"" + structName + "\"";
+			baseCommand += " -o " + defaultOutputFilename;
+
+			std::cout << "Command line call: " + baseCommand << std::endl;
+			CHECK_EQUAL(system(baseCommand.c_str()), 0);
+
+			CHECK_EQUAL(boost::filesystem::exists(defaultOutputFilename), true);
+			CHECK_EQUAL(boost::filesystem::exists(defaultExpectedOutputFilename), false);
+			CHECK_EQUAL(boost::filesystem::exists(defaultExpectedOutputFilename2), false);
+			CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
+
+			std::string defaultDoseStatisticsCommand = baseCommand + " -m";
 			std::cout << "Command line call: " + defaultDoseStatisticsCommand << std::endl;
 			CHECK_EQUAL(system(defaultDoseStatisticsCommand.c_str()), 0);
 
-			std::string complexDoseStatisticsCommand = baseCommand + " -o " + complexOutputFilename;
-			//prescribed dose is 50 Gy
-			complexDoseStatisticsCommand += " -x -p 50";
-
-			std::cout << "Command line call: " + complexDoseStatisticsCommand << std::endl;
-			CHECK_EQUAL(system(complexDoseStatisticsCommand.c_str()), 0);
-
-			//check if file exists
-			CHECK_EQUAL(boost::filesystem::exists(defaultOutputFilename), true);
-			CHECK_EQUAL(boost::filesystem::exists(complexOutputFilename), true);
+			//check if two file were written
+			CHECK_EQUAL(boost::filesystem::exists(defaultExpectedOutputFilename), true);
+			CHECK_EQUAL(boost::filesystem::exists(defaultExpectedOutputFilename2), true);
 
 			//check if file is the same than reference file
-			std::string defaultAsIs = readFile(defaultOutputFilename);
+			std::string defaultAsIs = readFile(defaultExpectedOutputFilename);
 			std::string defaultExpected = readFile(referenceXMLFilename);
 			//add doseFile and structFile
 			std::string emptyDoseFileTag = "<doseFile></doseFile>";
@@ -101,20 +105,28 @@ namespace rttb
 			std::string validStructFileTag = "<structFile>" + structFilename + "</structFile>";
 			boost::replace_all(defaultExpected, emptyStructFileTag, validStructFileTag);
 
+			std::string requestedStructRegexTag = "<requestedStructRegex>Nodes</requestedStructRegex>";
+			std::string validStructRegexTag = "<requestedStructRegex>" + structName + "</requestedStructRegex>";
+			boost::replace_all(defaultExpected, requestedStructRegexTag, validStructRegexTag);
+
 			CHECK_EQUAL(defaultAsIs, defaultExpected);
 
 			//add doseFile and structFile
-			std::string complexAsIs = readFile(complexOutputFilename);
-			std::string complexExpected = readFile(referenceXMLComplexFilename);
+			std::string default2AsIs = readFile(defaultExpectedOutputFilename2);
+			std::string default2Expected = readFile(referenceXMLFilename2);
 
-			boost::replace_all(complexExpected, emptyDoseFileTag, validDoseFileTag);
-			boost::replace_all(complexExpected, emptyStructFileTag, validStructFileTag);
+			boost::replace_all(default2Expected, emptyDoseFileTag, validDoseFileTag);
+			boost::replace_all(default2Expected, emptyStructFileTag, validStructFileTag);
 
-			CHECK_EQUAL(complexAsIs, complexExpected);
+			requestedStructRegexTag = "<requestedStructRegex>Heart</requestedStructRegex>";
+			validStructRegexTag = "<requestedStructRegex>" + structName + "</requestedStructRegex>";
+			boost::replace_all(default2Expected, requestedStructRegexTag, validStructRegexTag);
+
+			CHECK_EQUAL(default2AsIs, default2Expected);
 
 			//delete file again
-			CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
-			CHECK_EQUAL(std::remove(complexOutputFilename.c_str()), 0);
+			CHECK_EQUAL(std::remove(defaultExpectedOutputFilename.c_str()), 0);
+			CHECK_EQUAL(std::remove(defaultExpectedOutputFilename2.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

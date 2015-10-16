@@ -74,6 +74,9 @@ namespace rttb
 				addOption(OPTION_ALLOW_SELF_INTERSECTION_STRUCT, OPTION_GROUP_OPTIONAL,
 				          "If a struct file contains self intersecting contours: Allow the processing of these structures and ignore potential problems."
 				          "WARNING: only use this parameter if you know what you are doing.", 'a');
+				addOption(OPTION_MULTIPLE_STRUCTS_MODE, OPTION_GROUP_OPTIONAL,
+				          "If the regex agrees with multiple structs: write a dose statistic for every struct file."
+				          "The struct name will be appended to the chosen output filename.", 'm');
 
 				parse(argc, argv);
 			}

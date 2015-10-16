@@ -25,6 +25,7 @@
 #include "boost/make_shared.hpp"
 #include "boost/shared_ptr.hpp"
 #include "boost/property_tree/ptree.hpp"
+#include "boost/filesystem.hpp"
 
 #include "rttbExceptionMacros.h"
 
@@ -163,51 +164,82 @@ rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::dose
 void
 rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData)
 {
-	std::cout << std::endl << "generating mask... ";
-	core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPtr = generateMask(appData);
+	std::cout << std::endl << "generating masks... ";
+	std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskAccessorPtrVector = generateMasks(appData);
 
-	core::DoseIteratorInterface::DoseIteratorPointer spDoseIterator(generateMaskedDoseIterator(maskAccessorPtr,
-	        appData._dose));
-	std::cout << "done." << std::endl;
+	for (int i = 0; i < maskAccessorPtrVector.size(); i++)
+	{
+		core::DoseIteratorInterface::DoseIteratorPointer spDoseIterator(generateMaskedDoseIterator(maskAccessorPtrVector.at(i),
+		        appData._dose));
+		std::cout << "done." << std::endl;
 
-	std::cout << std::endl << "computing dose statistics... ";
-	algorithms::DoseStatistics::DoseStatisticsPointer statistics = computeDoseStatistics(spDoseIterator,
-	        appData._computeComplexDoseStatistics);
-	std::cout << "done." << std::endl;
+		std::cout << std::endl << "computing dose statistics... ";
+		algorithms::DoseStatistics::DoseStatisticsPointer statistics = computeDoseStatistics(spDoseIterator,
+		        appData._computeComplexDoseStatistics);
+		std::cout << "done." << std::endl;
 
-	std::cout << std::endl << "writing dose statistics to file... ";
-	writeDoseStatisticsFile(statistics, appData);
-	std::cout << "done." << std::endl;
+		std::cout << std::endl << "writing dose statistics to file... ";
+
+		std::string outputFilename;
+
+		if (appData._multipleStructsMode)
+		{
+			outputFilename = assembleFilenameWithStruct(appData._outputFileName, appData._structNames.at(i));
+		}
+		else
+		{
+			outputFilename = appData._outputFileName;
+		}
+
+		writeDoseStatisticsFile(statistics, outputFilename, appData._structNames.at(i), appData);
+		std::cout << "done." << std::endl;
+	}
 };
 
-void rttb::apps::doseTool::determineStructIndex(rttb::apps::doseTool::ApplicationData& appData)
-{
-	unsigned int index = rttb::masks::VOIindexIdentifier::getIndexByVoiName(appData._struct, appData._structNameRegex);
-	appData._structIndex = index;
-	appData._structNameActual = appData._struct->getStructure(index)->getLabel();
-}
 
-
-rttb::core::MaskAccessorInterface::MaskAccessorPointer rttb::apps::doseTool::generateMask(
+std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer> rttb::apps::doseTool::generateMasks(
     rttb::apps::doseTool::ApplicationData& appData)
 {
-	core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPtr;
+	std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskAccessorPtrVector;
 
 	if (appData._structLoadStyle.front() == "itk")
 	{
-		maskAccessorPtr = rttb::io::itk::ITKImageFileMaskAccessorGenerator(appData._structFileName).generateMaskAccessor();
+		maskAccessorPtrVector.push_back(rttb::io::itk::ITKImageFileMaskAccessorGenerator(
+		                                    appData._structFileName).generateMaskAccessor());
 	}
 	else
 	{
-		determineStructIndex(appData);
+		std::vector<unsigned int> foundIndices = rttb::masks::VOIindexIdentifier::getIndicesByVoiRegex(appData._struct,
+		        appData._structNameRegex);
+		std::vector<unsigned int> relevantIndices;
+
+		if (appData._multipleStructsMode)
+		{
+			relevantIndices = foundIndices;
+		}
+		else
+		{
+			if (!foundIndices.empty())
+			{
+				relevantIndices.push_back(foundIndices.front());
+			}
+		}
+
+		appData._structIndices = relevantIndices;
+
 		bool strict = !appData._allowSelfIntersection;
-		maskAccessorPtr =
-		    boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-		    (appData._struct->getStructure(appData._structIndex), appData._dose->getGeometricInfo(), strict);
+
+		for (int i = 0; i < appData._structIndices.size(); i++)
+		{
+			maskAccessorPtrVector.push_back(
+			    boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+			    (appData._struct->getStructure(appData._structIndices.at(i)), appData._dose->getGeometricInfo(), strict));
+			maskAccessorPtrVector.at(i)->updateMask();
+			appData._structNames.push_back(appData._struct->getStructure(appData._structIndices.at(i))->getLabel());
+		}
 	}
 
-	maskAccessorPtr->updateMask();
-	return maskAccessorPtr;
+	return maskAccessorPtrVector;
 }
 
 rttb::core::DoseIteratorInterface::DoseIteratorPointer rttb::apps::doseTool::generateMaskedDoseIterator(
@@ -228,13 +260,14 @@ rttb::algorithms::DoseStatistics::DoseStatisticsPointer rttb::apps::doseTool::co
 }
 
 void rttb::apps::doseTool::writeDoseStatisticsFile(rttb::algorithms::DoseStatistics::DoseStatisticsPointer statistics,
+        const std::string& filename, const std::string structName,
         rttb::apps::doseTool::ApplicationData& appData)
 {
 	boost::property_tree::ptree originalTree = rttb::io::other::writeDoseStatistics(statistics, appData._prescribedDose);
 
 	//add config part to xml
 	originalTree.add("statistics.config.requestedStructRegex", appData._structNameRegex);
-	originalTree.add("statistics.config.structName", appData._structNameActual);
+	originalTree.add("statistics.config.structName", structName);
 	originalTree.add("statistics.config.doseUID", appData._dose->getUID());
 	originalTree.add("statistics.config.doseFile", appData._doseFileName);
 	originalTree.add("statistics.config.structFile", appData._structFileName);
@@ -245,7 +278,16 @@ void rttb::apps::doseTool::writeDoseStatisticsFile(rttb::algorithms::DoseStatist
 	reorderedTree.add_child("statistics.config", configTree);
 	reorderedTree.add_child("statistics.results", resultsTree);
 
-	boost::property_tree::write_xml(appData._outputFileName, reorderedTree, std::locale(),
+	boost::property_tree::write_xml(filename, reorderedTree, std::locale(),
 	                                boost::property_tree::xml_writer_make_settings<std::string>('\t', 1));
 
+}
+
+std::string rttb::apps::doseTool::assembleFilenameWithStruct(const std::string& originalFilename,
+        const std::string& structName)
+{
+	boost::filesystem::path originalFile(originalFilename);
+	std::string newFilename = originalFile.stem().string() + "_" + structName + originalFile.extension().string();
+	boost::filesystem::path newFile(originalFile.parent_path() / newFilename);
+	return newFile.string();
 }

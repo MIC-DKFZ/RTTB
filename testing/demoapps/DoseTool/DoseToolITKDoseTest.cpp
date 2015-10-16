@@ -44,15 +44,14 @@ namespace rttb
 
 			const std::string doseToolExe = "DoseTool.exe";
 			std::string doseFilename;
-			std::string planFilename;
 			std::string structFilename;
-			std::string ctxFilename;
 			std::string structName;
+			std::string ctxFilename;
 			std::string referenceXMLFilename;
 			std::string referenceXMLComplexFilename;
 
 			boost::filesystem::path callingPath(_callingAppPath);
-			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExe;
+			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExe;
 
 			if (argc > 6)
 			{
@@ -67,7 +66,7 @@ namespace rttb
 			std::string defaultOutputFilename = "itkOutput.xml";
 			std::string complexOutputFilename = "itkOutputComplex.xml";
 
-			std::string baseCommand = voxelizerToolExeWithPath;
+			std::string baseCommand = doseToolExeWithPath;
 			baseCommand += " -d " + doseFilename;
 			baseCommand += " -s " + structFilename;
 			baseCommand += " -t itk ";
