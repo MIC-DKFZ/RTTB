@@ -272,6 +272,7 @@ namespace rttb
 			_statistics->setMOCx(MOCx);
 			_statistics->setMaxOHx(MaxOHx);
 			_statistics->setMinOCx(MinOCx);
+			_statistics->setReferenceDose(referenceDose);
 		}
 
 

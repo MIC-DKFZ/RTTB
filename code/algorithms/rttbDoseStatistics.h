@@ -102,6 +102,7 @@ namespace rttb
 			void setMOCx(const VolumeToDoseFunctionType& MOCxValues);
 			void setMaxOHx(const VolumeToDoseFunctionType& MaxOHxValues);
 			void setMinOCx(const VolumeToDoseFunctionType& MinOCxValues);
+			void setReferenceDose(DoseTypeGy referenceDose);
 
 			/*! @brief Get number of voxels in doseIterator, with sub-voxel accuracy.
 			*/

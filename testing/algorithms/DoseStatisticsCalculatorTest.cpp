@@ -109,23 +109,23 @@ namespace rttb
 
 			//check manually set reference dose and the default x values
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(100.0));
-			CHECK_NO_THROW(theStatistics->getVx(0.1 * theStatisticsDefault->getMaximum()));
-			CHECK_NO_THROW(theStatistics->getVx(0.9 * theStatisticsDefault->getMaximum()));
-			CHECK_NO_THROW(theStatistics->getDx(0.1 * theStatisticsDefault->getVolume()));
-			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatisticsDefault->getVolume()));
-			CHECK_NO_THROW(theStatistics->getMOHx(0.95 * theStatisticsDefault->getVolume()));
-			CHECK_NO_THROW(theStatistics->getMOCx(0.98 * theStatisticsDefault->getVolume()));
+			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.1 * theStatistics->getMaximum()), core::DataNotAvailableException);
+			CHECK_NO_THROW(theStatistics->getVx(0.1 * 100.0));
+			CHECK_NO_THROW(theStatistics->getDx(0.1 * theStatistics->getVolume()));
+			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatistics->getVolume()));
+			CHECK_NO_THROW(theStatistics->getMOHx(0.95 * theStatistics->getVolume()));
+			CHECK_NO_THROW(theStatistics->getMOCx(0.98 * theStatistics->getVolume()));
 			CHECK_EQUAL(theStatistics->getReferenceDose(), 100.0);
 
 			//check manually set x values
 			std::vector<double> precomputeDoseValues, precomputeVolumeValues;
-			precomputeDoseValues.push_back(0.01 * theStatistics->getMaximum());
-			precomputeDoseValues.push_back(0.02 * theStatistics->getMaximum());
-			precomputeDoseValues.push_back(0.05 * theStatistics->getMaximum());
+			precomputeDoseValues.push_back(0.01);
+			precomputeDoseValues.push_back(0.02);
+			precomputeDoseValues.push_back(0.05);
 
-			precomputeVolumeValues.push_back(0.9 * theStatistics->getVolume());
-			precomputeVolumeValues.push_back(0.95 * theStatistics->getVolume());
-			precomputeVolumeValues.push_back(0.99 * theStatistics->getVolume());
+			precomputeVolumeValues.push_back(0.9);
+			precomputeVolumeValues.push_back(0.95);
+			precomputeVolumeValues.push_back(0.99);
 
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(precomputeDoseValues,
 			                               precomputeVolumeValues));
@@ -138,18 +138,19 @@ namespace rttb
 			CHECK_NO_THROW(theStatistics->getDx(0.99 * theStatistics->getVolume()));
 			CHECK_THROW_EXPLICIT(theStatistics->getDx(0.03 * theStatistics->getVolume()), core::DataNotAvailableException);
 			CHECK_EQUAL(theStatistics->getVx(0.02 * theStatistics->getMaximum()),
-			            theStatisticsDefault->getVx(0.02 * theStatistics->getMaximum()));
+				theStatisticsDefault->getVx(0.02 * theStatistics->getMaximum()));
 			CHECK_EQUAL(theStatistics->getVx(0.05 * theStatistics->getMaximum()),
-			            theStatisticsDefault->getVx(0.05 * theStatistics->getMaximum()));
+				theStatisticsDefault->getVx(0.05 * theStatistics->getMaximum()));
 			CHECK_EQUAL(theStatistics->getDx(0.9 * theStatistics->getVolume()),
-			            theStatisticsDefault->getDx(0.9 * theStatistics->getVolume()));
+				theStatisticsDefault->getDx(0.9 * theStatistics->getVolume()));
 			CHECK_EQUAL(theStatistics->getDx(0.95 * theStatistics->getVolume()),
-			            theStatisticsDefault->getDx(0.95 * theStatistics->getVolume()));
+				theStatisticsDefault->getDx(0.95 * theStatistics->getVolume()));
 
 			//check manually set reference dose and x values
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(precomputeDoseValues,
 				precomputeVolumeValues, 100.0));
-			CHECK_NO_THROW(theStatistics->getVx(0.01 * theStatistics->getMaximum()));
+			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.01 * theStatistics->getMaximum()), core::DataNotAvailableException);
+			CHECK_NO_THROW(theStatistics->getVx(0.01 * 100.0));
 			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatistics->getVolume()));
 			CHECK_EQUAL(theStatistics->getReferenceDose(), 100.0);
 

@@ -114,6 +114,15 @@ namespace rttb
 			_MinOCx = MinOCValues;
 		}
 
+		void DoseStatistics::setReferenceDose(DoseTypeGy referenceDose){
+			if (referenceDose <= 0){
+				_referenceDose = _maximum;
+			}
+			else{
+				_referenceDose = referenceDose;
+			}
+		}
+
 		unsigned int DoseStatistics::getNumberOfVoxels() const
 		{
 			return _numVoxels;
