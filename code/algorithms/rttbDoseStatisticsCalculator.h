@@ -84,7 +84,7 @@ namespace rttb
 			DoseTypeGy computeMaxOHx(DoseTypeGy xVolumeAbsolute) const;
 			DoseTypeGy computeMinOCx(DoseTypeGy xVolumeAbsolute) const;
 
-			DoseToVolumeFunctionType computeDoseToVolumeFunctionMulti(const std::vector<double>& precomputeDoseValues,
+			DoseToVolumeFunctionType computeDoseToVolumeFunctionMulti(DoseTypeGy referenceDose, const std::vector<double>& precomputeDoseValues,
 			        DoseStatistics::complexStatistics name) const;
 			VolumeToDoseFunctionType computeVolumeToDoseFunctionMulti(const std::vector<double>& precomputeVolumeValues,
 			        DoseStatistics::complexStatistics name) const;
@@ -97,7 +97,7 @@ namespace rttb
 			/*! @brief Calculates complex dose statistics (Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx)
 				@warning computations can take quite long (>1 min) for large structures as many statistics are precomputed
 			*/
-			void calculateComplexDoseStatistics(const std::vector<double>& precomputeDoseValues,
+			void calculateComplexDoseStatistics(DoseTypeGy referenceDose, const std::vector<double>& precomputeDoseValues,
 			                                    const std::vector<double>& precomputeVolumeValues);
 
 
@@ -111,39 +111,59 @@ namespace rttb
 
 			DoseIteratorPointer getDoseIterator() const;
 
-			/*! @brief Calculatues dose statistics
-				@details The following statistics are calculated always (i.e. also if computeComplexMeasures=false):
-						<ul>
-							<li>minimum dose
-							<li>mean dose
-							<li>maximum dose
-							<li>standard deviation dose
-							<li>voxel positions of minimum dose
-							<li>voxel positions of maximum dose
-						</ul>
-						Additionally, these statistics are computed if computeComplexMeasures=true:
-						<ul>
-							<li>Dx (the minimal dose delivered to part x of the current volume)
-							<li>Vx (the volume irradiated with a dose >= x)
-							<li>MOHx (mean dose of the hottest x voxels)
-							<li>MOCx (mean dose of the coldest x voxels)
-							<li>MaxOHx (Maximum outside of the hottest x voxels)
-							<li>MinOCx (Minimum outside of the coldest x voxels)
-						</ul>
-						Default values for precomputeDoseValues are 0.02, 0.05, 0.1, 0.9, 0.95 and 0.98 with respect to maxDose.
-						Default values for precomputeVolumeValues are 0.02, 0.05, 0.1, 0.9, 0.95 and 0.98 with respect to volume.
-				@param computeComplexMeasures should complex statistics be calculated?
-				@param precomputeDoseValues the dose values for Vx precomputation
-				@param precomputeVolumeValues the volume values for Dx, MOHx, MOCx, MaxOHx and MinOCx precomputation
-				@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed
-				@param maxNumberMaximaPositions the maximal amount of computed positions where the dose has its maximum that is computed
-				@warning if computeComplexMeasures==true, computations can take quite long (>1 min) for large structures as many statistics are precomputed
-				@note the complex dose statistics are precomputed and cannot be computed "on the fly" lateron! The doses/volumes that should be used for precomputation have to be set by in precomputeDoseValues and precomputeVolumeValues. Only these values can be requested in DoseStatistics!
+			/*! @brief Compute simple or complex dose statistics with default relative x values and the maximum dose as default reference dose (for Vx computation)
+			@details The following statistics are calculated always (i.e. also if computeComplexMeasures=false):
+			<ul>
+			<li>minimum dose
+			<li>mean dose
+			<li>maximum dose
+			<li>standard deviation dose
+			<li>voxel positions of minimum dose
+			<li>voxel positions of maximum dose
+			</ul>
+			Additionally, these statistics are computed if computeComplexMeasures=true:
+			<ul>
+			<li>Dx (the minimal dose delivered to a volume >= x)
+			<li>Vx (the volume irradiated with a dose >= x)
+			<li>MOHx (mean dose of the hottest x volume)
+			<li>MOCx (mean dose of the coldest x volume)
+			<li>MaxOHx (Maximum outside of the hottest x volume)
+			<li>MinOCx (Minimum outside of the coldest x volume)
+			</ul>
+			Default x values for Vx are 0.02, 0.05, 0.1, 0.9, 0.95 and 0.98, with respect to maxDose.
+			Default x values for Dx, MOHx, MOCx, MaxOHx and MinOCx are 0.02, 0.05, 0.1, 0.9, 0.95 and 0.98, with respect to volume.
+			@param computeComplexMeasures should complex statistics be calculated? If it is true, the complex dose statistics will be calculated with default relative x values and the maximum dose as reference dose
+			@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed
+			@param maxNumberMaximaPositions the maximal amount of computed positions where the dose has its maximum that is computed
+			@warning If computeComplexMeasures==true, computations can take quite long (>1 min) for large structures as many statistics are precomputed
+			@note The complex dose statistics are precomputed and cannot be computed "on the fly" lateron! Only the default x values can be requested in DoseStatistics!
 			*/
-			DoseStatisticsPointer calculateDoseStatistics(bool computeComplexMeasures = false,
-			        const std::vector<double>& precomputeDoseValues = std::vector<double>(),
-			        const std::vector<double>& precomputeVolumeValues = std::vector<double>(), unsigned int maxNumberMinimaPositions = 100,
-			        unsigned int maxNumberMaximaPositions = 100);
+			DoseStatisticsPointer calculateDoseStatistics(bool computeComplexMeasures = false, unsigned int maxNumberMinimaPositions = 10,
+				unsigned int maxNumberMaximaPositions = 10);
+
+			/*! @brief Compute complex dose statistics with given reference dose and default relative x values
+			@param referenceDose the reference dose to compute Vx, normally it should be the prescribed dose
+			@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed
+			@param maxNumberMaximaPositions the maximal amount of computed positions where the dose has its maximum that is computed
+			@exception InvalidParameterException thrown if referenceDose <= 0
+			@warning Computations can take quite long (>1 min) for large structures as many statistics are precomputed
+			@note The complex dose statistics are precomputed and cannot be computed "on the fly" lateron! Only the default x values can be requested in DoseStatistics!
+			*/
+			DoseStatisticsPointer calculateDoseStatistics(DoseTypeGy referenceDose, unsigned int maxNumberMinimaPositions = 10,
+				unsigned int maxNumberMaximaPositions = 10);
+
+			/*! @brief Compute complex dose statistics with given relative x values and reference dose
+			@param precomputeDoseValues the relative dose values for Vx precomputation, e.g. 0.02, 0.05, 0.95...
+			@param precomputeVolumeValues the relative volume values for Dx, MOHx, MOCx, MaxOHx and MinOCx precomputation, e.g. 0.02, 0.05, 0.95...
+			@param referenceDose the reference dose to compute Vx, normally it should be the prescribed dose. Default value is the maximum dose.
+			@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed
+			@param maxNumberMaximaPositions the maximal amount of computed positions where the dose has its maximum that is computed
+			@warning Computations can take quite long (>1 min) for large structures as many statistics are precomputed
+			@note The complex dose statistics are precomputed and cannot be computed "on the fly" lateron! The doses/volumes that should be used for precomputation have to be set by in precomputeDoseValues and precomputeVolumeValues. Only these values can be requested in DoseStatistics!
+			*/
+			DoseStatisticsPointer calculateDoseStatistics(const std::vector<double>& precomputeDoseValues,
+				const std::vector<double>& precomputeVolumeValues, DoseTypeGy referenceDose = -1, unsigned int maxNumberMinimaPositions = 10,
+				unsigned int maxNumberMaximaPositions = 10);
 
 
 		};

@@ -47,7 +47,7 @@ namespace rttb
 			@pre aReferenceDose must >0
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			*/
-			boost::property_tree::ptree writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, DoseTypeGy aReferenceDose);
+			boost::property_tree::ptree writeDoseStatistics(DoseStatisticsPtr aDoseStatistics);
 
 			/*! @brief Write statistics to String.
 			@param aReferenceDose A reference dose for the calculation of Vx
@@ -55,7 +55,7 @@ namespace rttb
 			@pre aReferenceDose must >0
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			*/
-			XMLString writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics, DoseTypeGy aReferenceDose);
+			XMLString writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics);
 
 			/*! @brief Write statistics to xml file, including
 			numberOfVoxels,
@@ -77,7 +77,7 @@ namespace rttb
 			@pre aReferenceDose must >0
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			*/
-			void writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName, DoseTypeGy aReferenceDose);
+			void writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName);
 
 			boost::property_tree::ptree createNodeWithNameAttribute(DoseTypeGy doseValue, const std::string& attributeName);
 			boost::property_tree::ptree createNodeWithNameAndXAttribute(DoseTypeGy doseValue, const std::string& attributeName,
@@ -90,7 +90,7 @@ namespace rttb
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			@note is used for the Mevislab-Linking of RTTB
 			*/
-			StatisticsString writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics, DoseTypeGy aReferenceDose);
+			StatisticsString writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics);
 		}
 	}
 }
