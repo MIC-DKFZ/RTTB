@@ -62,26 +62,14 @@ namespace rttb
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//           1: plan  file name (virtuos)		.../testing/data/Virtuos/prostate_ac/prostate_ac101.pln
 			//           2: dose1 file name (virtuos)		.../testing/data/Virtuos/prostate_ac/prostate_ac101.dos.gz
-			//           3: dose2 file name (trip):		.../testing/data/Virtuos/prostate_ac/prostate_ac101.dos
-			// WARNING: Test will fail if dose2 does not contain the same dose as dose1!
 
 			std::string RTPLAN_FILENAME;
 			std::string RTDOSE_FILENAME;
-			std::string RTDOSE2_FILENAME;
-
-			if (argc > 1)
-			{
-				RTPLAN_FILENAME = argv[1];
-			}
 
 			if (argc > 2)
 			{
+				RTPLAN_FILENAME = argv[1];
 				RTDOSE_FILENAME = argv[2];
-			}
-
-			if (argc > 3)
-			{
-				RTDOSE2_FILENAME = argv[3];
 			}
 
 			//1) test getPrescribedDose() and getNormalizationDose()
@@ -143,7 +131,7 @@ namespace rttb
 			CHECK_EQUAL(0, doseAccessor1-> getValueAt(end3D));
 
 			/* Dose without plan */
-			io::virtuos::VirtuosDoseFileDoseAccessorGenerator doseAccessorGenerator2(RTDOSE2_FILENAME.c_str(),
+			io::virtuos::VirtuosDoseFileDoseAccessorGenerator doseAccessorGenerator2(RTDOSE_FILENAME.c_str(),
 			        doseAccessor1->getNormalizationDose(),
 			        doseAccessor1->getPrescribedDose());
 			boost::shared_ptr<io::virtuos::VirtuosDoseAccessor> doseAccessor2 =
@@ -182,42 +170,7 @@ namespace rttb
 			CHECK_EQUAL(doseAccessor1-> getValueAt(end3D), doseAccessor2-> getValueAt(end3D));
 			CHECK_EQUAL(doseAccessor2->getValueAt(end), doseAccessor2-> getValueAt(end3D));
 
-			/* Import Trip dose */
-			io::virtuos::VirtuosDoseFileDoseAccessorGenerator doseAccessorGenerator3(RTDOSE2_FILENAME.c_str(),
-			        doseAccessor1->getNormalizationDose(),
-			        doseAccessor1->getPrescribedDose());
-			boost::shared_ptr<io::virtuos::VirtuosDoseAccessor> doseAccessor3 =
-			    boost::static_pointer_cast<io::virtuos::VirtuosDoseAccessor>
-			    (doseAccessorGenerator3.generateDoseAccessor());
 
-
-			CHECK_EQUAL(doseAccessor1->getPrescribedDose(), doseAccessor3->getPrescribedDose());
-			CHECK_EQUAL(doseAccessor1->getNormalizationDose(), doseAccessor3->getNormalizationDose());
-
-
-			//2) test dose import if geometric info was set correctly
-			core::GeometricInfo geoInfo3 = doseAccessor3->getGeometricInfo();
-			CHECK_EQUAL(geoInfo.getNumRows(), geoInfo3.getNumRows());
-			CHECK_EQUAL(geoInfo.getNumColumns(), geoInfo3.getNumColumns());
-			CHECK_EQUAL(geoInfo.getNumSlices(), geoInfo3.getNumSlices());
-			CHECK_EQUAL(doseAccessor1->getGridSize(), doseAccessor3->getGridSize());
-			CHECK_EQUAL(geoInfo.getOrientationMatrix(), geoInfo3.getOrientationMatrix());
-
-			//3) test dose import accessing dose data and converting
-
-			CHECK_EQUAL(doseAccessor1->getValueAt(start), doseAccessor3->getValueAt(start));
-			CHECK_EQUAL(doseAccessor1-> getValueAt(start3D), doseAccessor3-> getValueAt(start3D));
-			CHECK_EQUAL(doseAccessor3->getValueAt(start), doseAccessor3-> getValueAt(start3D));
-
-			inbetween = int(doseAccessor3->getGridSize() / 2.0);
-			doseAccessor3->getGeometricInfo().convert(inbetween, inbetween3D);
-
-			CHECK_EQUAL(doseAccessor1->getValueAt(inbetween), doseAccessor3->getValueAt(inbetween));
-			CHECK_EQUAL(doseAccessor1-> getValueAt(inbetween3D), doseAccessor3-> getValueAt(inbetween3D));
-			CHECK_EQUAL(doseAccessor3->getValueAt(inbetween), doseAccessor3-> getValueAt(inbetween3D));
-
-			DoseAccessorTester doseCompare(doseAccessor1, doseAccessor3);
-			CHECK_TESTER(doseCompare);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
