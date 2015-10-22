@@ -55,26 +55,14 @@ namespace rttb
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//           1: plan  file name (virtuos)		.../testing/data/Virtuos/prostate_ac/prostate_ac101.pln
 			//           2: dose1 file name (virtuos)		.../testing/data/Virtuos/prostate_ac/prostate_ac101.dos.gz
-			//           3: dose2 file name (trip):		.../testing/data/Virtuos/prostate_ac/prostate_ac101.dos
-			// WARNING: Test will fail if dose2 does not contain the same dose as dose1!
 
 			std::string RTPLAN_FILENAME;
 			std::string RTDOSE_FILENAME;
-			std::string RTDOSE2_FILENAME;
-
-			if (argc > 1)
-			{
-				RTPLAN_FILENAME = argv[1];
-			}
 
 			if (argc > 2)
 			{
+				RTPLAN_FILENAME = argv[1];
 				RTDOSE_FILENAME = argv[2];
-			}
-
-			if (argc > 3)
-			{
-				RTDOSE2_FILENAME = argv[3];
 			}
 
 			//1) test virtuos accessor generator with only dose file
@@ -136,10 +124,6 @@ namespace rttb
 			nc_init_cubeinfo(*pPointerOnVirtuosCube);
 			CHECK_THROW_EXPLICIT(io::virtuos::VirtuosCubeinfoDoseAccessorGenerator(
 			                         *pPointerOnVirtuosCube).generateDoseAccessor(), core::InvalidDoseException);
-
-			opencube(RTDOSE2_FILENAME.c_str() , *pPointerOnVirtuosCube);
-			CHECK_NO_THROW(io::virtuos::VirtuosCubeinfoDoseAccessorGenerator(
-			                   *pPointerOnVirtuosCube).generateDoseAccessor());
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

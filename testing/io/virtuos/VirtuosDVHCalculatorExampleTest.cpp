@@ -29,16 +29,11 @@
 
 #include "litCheckMacros.h"
 
-
-
-
 #include "rttbBaseType.h"
 #include "rttbDVHCalculator.h"
 #include "rttbGenericMaskedDoseIterator.h"
 #include "rttbGenericDoseIterator.h"
-#include "rttbNullPointerException.h"
-#include "rttbInvalidParameterException.h"
-#include "rttbOTBMaskAccessor.h"
+#include "rttbBoostMaskAccessor.h"
 #include "rttbVirtuosPlanFileDoseAccessorGenerator.h"
 #include "rttbVirtuosDoseAccessor.h"
 #include "rttbVirtuosFileStructureSetGenerator.h"
@@ -62,8 +57,7 @@ namespace rttb
 			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
 			typedef core::GenericMaskedDoseIterator::MaskAccessorPointer MaskAccessorPointer;
 			typedef core::DVHCalculator::DoseIteratorPointer DoseIteratorPointer;
-			typedef core::DVHCalculator::MaskedDoseIteratorPointer MaskedDoseIteratorPointer;
-			typedef masks::legacy::OTBMaskAccessor::StructTypePointer StructTypePointer;
+			typedef masks::boost::BoostMaskAccessor::StructTypePointer StructTypePointer;
 			typedef core::DVH::DVHPointer DVHPointer;
 			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
 
@@ -78,23 +72,11 @@ namespace rttb
 			std::string Virtuos_Plan_File;
 			std::string Virtuos_CT_File;
 
-			if (argc > 1)
-			{
-				Virtuos_Dose_File = argv[1];
-			}
-
-			if (argc > 2)
-			{
-				Virtuos_Structure_File = argv[2];
-			}
-
-			if (argc > 3)
-			{
-				Virtuos_Plan_File = argv[3];
-			}
-
 			if (argc > 4)
 			{
+				Virtuos_Dose_File = argv[1];
+				Virtuos_Structure_File = argv[2];
+				Virtuos_Plan_File = argv[3];
 				Virtuos_CT_File = argv[4];
 			}
 
@@ -108,72 +90,38 @@ namespace rttb
 			StructureSetPointer rtStructureSetVirtuos = io::virtuos::VirtuosFileStructureSetGenerator(
 			            Virtuos_Structure_File, Virtuos_CT_File).generateStructureSet();
 
-			for (int i = 1; i < rtStructureSetVirtuos->getNumberOfStructures(); i++)
-			{
-				//if(i=6 || i==8){//todo: assertion bug!
-				if (i == 8)
-				{
 
-					//create MaskAccessor for each structure
-					boost::shared_ptr<masks::legacy::OTBMaskAccessor> spOTBMaskAccessorVirtuos =
-					    boost::make_shared<masks::legacy::OTBMaskAccessor>(rtStructureSetVirtuos->getStructure(i),
-					            doseAccessorVirtuos->getGeometricInfo());
+			//create MaskAccessor for structure DARM
+			boost::shared_ptr<masks::boost::BoostMaskAccessor> spMaskAccessorVirtuos =
+			    boost::make_shared<masks::boost::BoostMaskAccessor>(rtStructureSetVirtuos->getStructure(4),
+			            doseAccessorVirtuos->getGeometricInfo());
 
-					spOTBMaskAccessorVirtuos->updateMask();
+			spMaskAccessorVirtuos->updateMask();
 
-					MaskAccessorPointer spMaskAccessor(spOTBMaskAccessorVirtuos);
+			MaskAccessorPointer spMaskAccessor(spMaskAccessorVirtuos);
 
-					//create corresponding MaskedDoseIterator
+			//create corresponding MaskedDoseIterator
 
-					boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
-					    boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, doseAccessorVirtuos);
+			boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
+			    boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, doseAccessorVirtuos);
 
-					DoseIteratorPointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
+			DoseIteratorPointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
 
-					std::cout << "dvh calc" << std::endl;
-					rttb::core::DVHCalculator* calc;
+			rttb::core::DVHCalculator* calc;
+			CHECK_NO_THROW(calc = new rttb::core::DVHCalculator(spMaskedDoseIterator,
+			        (rtStructureSetVirtuos->getStructure(4))->getUID(), doseAccessorVirtuos->getUID()));
 
-					if (i == 6)
-					{
-						calc = new rttb::core::DVHCalculator(spMaskedDoseIterator,
-						                                     (rtStructureSetVirtuos->getStructure(i))->getUID(), doseAccessorVirtuos->getUID(), 0.367944);
-					}
-					else
-					{
-						calc = new rttb::core::DVHCalculator(spMaskedDoseIterator,
-						                                     (rtStructureSetVirtuos->getStructure(i))->getUID(), doseAccessorVirtuos->getUID(), 0.510107);
-					}
+			DVHPointer dvhPtr;
+			CHECK_NO_THROW(dvhPtr = calc->generateDVH());
 
-
-					DVHPointer dvhPtr = calc->generateDVH();
-
-					if (i == 6)
-					{
-						CHECK_CLOSE(42.497532, dvhPtr->getMaximum(), errorConstant);
-						CHECK_CLOSE(2.7595800000000001, dvhPtr->getMinimum(), errorConstant);
-						CHECK_CLOSE(7.4752642058590695, dvhPtr->getMean(), errorConstant);
-						CHECK_CLOSE(6.4390200000000002, dvhPtr->getMedian(), errorConstant);
-						CHECK_CLOSE(5.7031320000000001, dvhPtr->getModal(), errorConstant);
-						CHECK_CLOSE(3.5065188466477824, dvhPtr->getStdDeviation(), errorConstant);
-						CHECK_CLOSE(12.295674421896095, dvhPtr->getVariance(), errorConstant);
-						CHECK_CLOSE(177218.04900734947, dvhPtr->getNumberOfVoxels(), 1e-2);
-					}
-
-					if (i == 8)
-					{
-						CHECK_CLOSE(68.099284499999996, dvhPtr->getMaximum(), errorConstant);
-						CHECK_CLOSE(24.7401895, dvhPtr->getMinimum(), errorConstant);
-						CHECK_CLOSE(54.384709827101481, dvhPtr->getMean(), errorConstant);
-						CHECK_CLOSE(54.836502499999995, dvhPtr->getMedian(), errorConstant);
-						CHECK_CLOSE(54.836502499999995, dvhPtr->getModal(), errorConstant);
-						CHECK_CLOSE(3.3345924130915088, dvhPtr->getStdDeviation(), errorConstant);
-						CHECK_CLOSE(11.119506561447452, dvhPtr->getVariance(), errorConstant);
-						CHECK_CLOSE(338856.04793872859, dvhPtr->getNumberOfVoxels(), 1e-2);
-					}
-
-				}
-
-			}
+			CHECK_CLOSE(4.08178, dvhPtr->getMaximum(), errorConstant);
+			CHECK_CLOSE(0.0151739, dvhPtr->getMinimum(), errorConstant);
+			CHECK_CLOSE(0.755342, dvhPtr->getMean(), errorConstant);
+			CHECK_CLOSE(0.440044, dvhPtr->getMedian(), errorConstant);
+			CHECK_CLOSE(0.0151739, dvhPtr->getModal(), errorConstant);
+			CHECK_CLOSE(0.835792, dvhPtr->getStdDeviation(), errorConstant);
+			CHECK_CLOSE(0.698549, dvhPtr->getVariance(), errorConstant);
+			CHECK_CLOSE(46573.0193175, dvhPtr->getNumberOfVoxels(), errorConstant);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

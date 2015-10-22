@@ -230,7 +230,7 @@ rttb::algorithms::DoseStatistics::DoseStatisticsPointer rttb::apps::doseTool::co
 void rttb::apps::doseTool::writeDoseStatisticsFile(rttb::algorithms::DoseStatistics::DoseStatisticsPointer statistics,
         rttb::apps::doseTool::ApplicationData& appData)
 {
-	boost::property_tree::ptree originalTree = rttb::io::other::writeDoseStatistics(statistics, appData._prescribedDose);
+	boost::property_tree::ptree originalTree = rttb::io::other::writeDoseStatistics(statistics);
 
 	//add config part to xml
 	originalTree.add("statistics.config.requestedStructRegex", appData._structNameRegex);

@@ -1,4 +1,4 @@
-SET(CPP_FILES 
+SET(CPP_FILES
 	RTBioModelExampleTest.cpp
 	RTBioModelScatterPlotExampleTest.cpp
 	RTDoseIndexTest.cpp
@@ -8,13 +8,10 @@ SET(CPP_FILES
 	DVHCalculatorComparisonTest.cpp
 	../models/rttbScatterTester.cpp
 	rttbTestExamples.cpp
-	../masks/rttbMaskVoxelListTester.cpp
 	VoxelizationValidationTest.cpp
-	DoseStatisticsIOVirtuosTest.cpp
   )
 
-SET(H_FILES 
+SET(H_FILES
 	../models/rttbScatterTester.h
-	../masks/rttbMaskVoxelListTester.h
 
 )
