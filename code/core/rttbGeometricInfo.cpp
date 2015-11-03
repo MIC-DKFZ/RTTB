@@ -180,43 +180,70 @@ namespace rttb
 			        && gInfo.getNumRows() == gInfo1.getNumRows() && gInfo.getNumSlices() == gInfo1.getNumSlices());
 		}
 
-		bool GeometricInfo::worldCoordinateToIndex(const WorldCoordinate3D& aWorldCoordinate,
-		        VoxelGridIndex3D& aIndex)
-		const
+		bool GeometricInfo::worldCoordinateToDoubleGridIndex(const WorldCoordinate3D& aWorldCoordinate,
+			DoubleVoxelGridIndex3D& aIndex)
+			const
 		{
 			WorldCoordinate3D temp;
 			temp = aWorldCoordinate - _imagePositionPatient;
 
 			boost::numeric::ublas::vector<WorldCoordinate> temp2 = boost::numeric::ublas::prod(
-			            _invertedOrientationMatrix,
-			            temp);
+				_invertedOrientationMatrix,
+				temp);
 
 			boost::numeric::ublas::vector<WorldCoordinate> resultS = boost::numeric::ublas::element_div(temp2,
-			        _spacing);
+				_spacing);
 
-			aIndex = VoxelGridIndex3D(GridIndexType(resultS(0) + 0.5), GridIndexType(resultS(1) + 0.5),
-			                          GridIndexType(resultS(2) + 0.5));
+			aIndex = DoubleVoxelGridIndex3D(resultS(0), resultS(1), resultS(2));
 
-			return isInside(aIndex);
+			//check if it is inside
+			VoxelGridIndex3D indexInt = VoxelGridIndex3D(GridIndexType(aIndex(0)+0.5), GridIndexType(aIndex(1)+0.5),
+				GridIndexType(aIndex(2)+0.5));
+
+			return isInside(indexInt);
 		}
 
-		bool GeometricInfo::indexToWorldCoordinate(const VoxelGridIndex3D& aIndex,
-		        WorldCoordinate3D& aWorldCoordinate)
+		bool GeometricInfo::worldCoordinateToIndex(const WorldCoordinate3D& aWorldCoordinate,
+		        VoxelGridIndex3D& aIndex)
 		const
 		{
-			WorldCoordinate3D centerVoxel(aIndex(0) - 0.5, aIndex(1) - 0.5, aIndex(2) - 0.5);
+			DoubleVoxelGridIndex3D doubleIndex;
+			bool inside = worldCoordinateToDoubleGridIndex(aWorldCoordinate, doubleIndex);
+
+			aIndex = VoxelGridIndex3D(GridIndexType(doubleIndex(0)+0.5), GridIndexType(doubleIndex(1)+0.5),
+			                          GridIndexType(doubleIndex(2)+0.5));
+
+			return inside;
+		}
+
+
+		bool GeometricInfo::DoubleGridIndexToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
+			WorldCoordinate3D& aWorldCoordinate)
+			const
+		{
 
 			boost::numeric::ublas::vector<WorldCoordinate> resultS = boost::numeric::ublas::element_prod(
-			            centerVoxel,
-			            _spacing);
+				aIndex,
+				_spacing);
 
 			boost::numeric::ublas::vector<WorldCoordinate> result = boost::numeric::ublas::prod(
-			            _orientationMatrix,
-			            resultS);
+				_orientationMatrix,
+				resultS);
 
 			aWorldCoordinate = result + _imagePositionPatient;
 
-			return isInside(aIndex);
+			VoxelGridIndex3D indexInt = VoxelGridIndex3D(GridIndexType(aIndex(0)+0.5), GridIndexType(aIndex(1)+0.5),
+				GridIndexType(aIndex(2)+0.5));
+			return isInside(indexInt);
+		}
+
+
+		bool GeometricInfo::indexToWorldCoordinate(const VoxelGridIndex3D& aIndex,
+			WorldCoordinate3D& aWorldCoordinate)
+			const
+		{
+			DoubleVoxelGridIndex3D indexDouble = DoubleVoxelGridIndex3D(aIndex(0) - 0.5, aIndex(1) - 0.5, aIndex(2) - 0.5);
+			return DoubleGridIndexToWorldCoordinate(indexDouble, aWorldCoordinate);
 		}
 
 		bool GeometricInfo::isInside(const VoxelGridIndex3D& aIndex) const
