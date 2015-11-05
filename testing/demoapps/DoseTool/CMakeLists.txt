@@ -19,14 +19,14 @@ ENDIF()
 
 ADD_TEST(DoseToolBasicUsageTest ${DOSETOOL_TEST} DoseToolBasicUsageTest)
 ADD_TEST(DoseToolInvalidParametersTest ${DOSETOOL_TEST} DoseToolInvalidParametersTest)
-ADD_TEST(DoseToolVirtuosDoseVirtuosStructTest ${DOSETOOL_TEST} DoseToolVirtuosDoseTest "${TEST_DATA_ROOT}/Virtuos/MPM_LR_aa/MPM_LR_aa101.dos.gz" "${TEST_DATA_ROOT}/Virtuos/MPM_LR_aa/MPM_LR_aa101.pln"
-	"${TEST_DATA_ROOT}/Virtuos/MPM_LR_aa/MPM_LR_aa000.vdx" "${TEST_DATA_ROOT}/Virtuos/MPM_LR_aa/MPM_LR_aa000.ctx.gz" "HERZ"
+ADD_TEST(DoseToolVirtuosDoseVirtuosStructTest ${DOSETOOL_TEST} DoseToolVirtuosDoseTest "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac101.dos.gz" "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac101.pln"
+	"${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.vdx" "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.ctx.gz" "DARM"
 	 "${TEST_DATA_ROOT}/DoseStatistics/virtuos.xml" "${TEST_DATA_ROOT}/DoseStatistics/virtuosComplex.xml")
 ADD_TEST(DoseToolDicomDoseDicomStructTest ${DOSETOOL_TEST} DoseToolDicomDoseTest "${TEST_DATA_ROOT}/DICOM/TestDose/dicompylerTestDose.dcm" "${TEST_DATA_ROOT}/DICOM/StructureSet/rtss.dcm" "Nodes"
 "${TEST_DATA_ROOT}/DoseStatistics/dicom.xml" "${TEST_DATA_ROOT}/DoseStatistics/dicomComplex.xml")
 ADD_TEST(DoseToolITKDoseDicomStructTest ${DOSETOOL_TEST} DoseToolITKDoseTest "${TEST_DATA_ROOT}/ITK/dicompylerTestDose.mhd" "${TEST_DATA_ROOT}/DICOM/StructureSet/rtss.dcm" "" "Nodes"
 "${TEST_DATA_ROOT}/DoseStatistics/itkDicomStruct.xml" "${TEST_DATA_ROOT}/DoseStatistics/itkDicomStructComplex.xml")
-ADD_TEST(DoseToolITKDoseVirtuosStructTest ${DOSETOOL_TEST} DoseToolITKDoseTest "${TEST_DATA_ROOT}/ITK/virtuosTestDose.mhd" "${TEST_DATA_ROOT}/Virtuos/MPM_LR_aa/MPM_LR_aa000.vdx"
-	"${TEST_DATA_ROOT}/Virtuos/MPM_LR_aa/MPM_LR_aa000.ctx.gz"  "HERZ" "${TEST_DATA_ROOT}/DoseStatistics/itkVirtuosStruct.xml" "${TEST_DATA_ROOT}/DoseStatistics/itkVirtuosStructComplex.xml")
+ADD_TEST(DoseToolITKDoseVirtuosStructTest ${DOSETOOL_TEST} DoseToolITKDoseTest "${TEST_DATA_ROOT}/ITK/virtuosTestDose.mhd" "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.vdx"
+	"${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.ctx.gz"  "DARM" "${TEST_DATA_ROOT}/DoseStatistics/itkVirtuosStruct.xml" "${TEST_DATA_ROOT}/DoseStatistics/itkVirtuosStructComplex.xml")
 
 RTTB_CREATE_APPLICATION_TESTS(DoseTool PACKAGE_DEPENDS Litmus BoostBinaries)
