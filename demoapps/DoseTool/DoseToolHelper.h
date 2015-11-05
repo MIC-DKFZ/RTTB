@@ -96,8 +96,9 @@ namespace rttb
 			*/
 			core::MaskAccessorInterface::MaskAccessorPointer generateMask(ApplicationData& appData);
 
-			algorithms::DoseStatistics::DoseStatisticsPointer computeDoseStatistics(core::DoseIteratorInterface::DoseIteratorPointer
-			        doseIterator, bool computeComplexDoseStatistics);
+			algorithms::DoseStatistics::DoseStatisticsPointer calculateDoseStatistics(
+			    core::DoseIteratorInterface::DoseIteratorPointer
+			    doseIterator, bool calculateComplexDoseStatistics, DoseTypeGy prescribedDose);
 
 			/*! @brief Writes the dose statistics as XML to a file
 				@details adds a <config>....</config> part to the RTTB generated xml where the used files and struct names are stored.
