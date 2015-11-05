@@ -276,25 +276,25 @@ namespace rttb
 
 			//test double index to world coordinate
 			WorldCoordinate3D test;
-			geoInfo.DoubleGridIndexToWorldCoordinate(doubleIndex1, test);
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex1, test);
 			CHECK_EQUAL(test, expectedDoubleIndex1);
-			geoInfo.DoubleGridIndexToWorldCoordinate(doubleIndex2, test);
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex2, test);
 			CHECK_EQUAL(test, expectedDoubleIndex2);
-			geoInfo.DoubleGridIndexToWorldCoordinate(doubleIndex3, test);
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex3, test);
 			CHECK_EQUAL(test, expectedDoubleIndex3);
-			geoInfo.DoubleGridIndexToWorldCoordinate(doubleIndex4, test);
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex4, test);
 			CHECK_EQUAL(test, expectedDoubleIndex4);
 
 			DoubleVoxelGridIndex3D testDoubleIndex;
-			geoInfo.worldCoordinateToDoubleGridIndex(expectedDoubleIndex4, testDoubleIndex);
+			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex4, testDoubleIndex);
 			CHECK_EQUAL(testDoubleIndex, doubleIndex4);
-			geoInfo.worldCoordinateToDoubleGridIndex(expectedDoubleIndex3, testDoubleIndex);
+			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex3, testDoubleIndex);
 			CHECK_CLOSE(testDoubleIndex(0), doubleIndex3(0), errorConstant);
 			CHECK_CLOSE(testDoubleIndex(1), doubleIndex3(1), errorConstant);
 			CHECK_CLOSE(testDoubleIndex(2), doubleIndex3(2), errorConstant);
-			geoInfo.worldCoordinateToDoubleGridIndex(expectedDoubleIndex2, testDoubleIndex);
+			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex2, testDoubleIndex);
 			CHECK_EQUAL(testDoubleIndex, doubleIndex2);
-			geoInfo.worldCoordinateToDoubleGridIndex(expectedDoubleIndex1, testDoubleIndex);
+			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex1, testDoubleIndex);
 			CHECK_CLOSE(testDoubleIndex(0), doubleIndex1(0), errorConstant);
 			CHECK_CLOSE(testDoubleIndex(1), doubleIndex1(1), errorConstant);
 			CHECK_CLOSE(testDoubleIndex(2), doubleIndex1(2), errorConstant);
@@ -356,8 +356,7 @@ namespace rttb
 			CHECK(!(geoInfo.indexToWorldCoordinate(insideTest4, testInside)));
 			CHECK(!(geoInfo.isInside(testInside)));
 			CHECK_EQUAL(expectedIndex4, testInside);
-
-			
+	
 			//11) test getNumberOfVoxels
 			CHECK_EQUAL(expectedVoxelDims(0)*expectedVoxelDims(1)*expectedVoxelDims(2),
 			            geoInfo.getNumberOfVoxels());

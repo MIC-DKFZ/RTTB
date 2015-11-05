@@ -180,18 +180,18 @@ namespace rttb
 			        && gInfo.getNumRows() == gInfo1.getNumRows() && gInfo.getNumSlices() == gInfo1.getNumSlices());
 		}
 
-		bool GeometricInfo::worldCoordinateToDoubleGridIndex(const WorldCoordinate3D& aWorldCoordinate,
+		bool GeometricInfo::worldCoordinateToGeometryCoordinate(const WorldCoordinate3D& aWorldCoordinate,
 			DoubleVoxelGridIndex3D& aIndex)
 			const
 		{
-			WorldCoordinate3D temp;
-			temp = aWorldCoordinate - _imagePositionPatient;
+			WorldCoordinate3D distanceToIP;
+			distanceToIP = aWorldCoordinate - _imagePositionPatient;
 
-			boost::numeric::ublas::vector<WorldCoordinate> temp2 = boost::numeric::ublas::prod(
+			boost::numeric::ublas::vector<WorldCoordinate> result = boost::numeric::ublas::prod(
 				_invertedOrientationMatrix,
-				temp);
+				distanceToIP);
 
-			boost::numeric::ublas::vector<WorldCoordinate> resultS = boost::numeric::ublas::element_div(temp2,
+			boost::numeric::ublas::vector<WorldCoordinate> resultS = boost::numeric::ublas::element_div(result,
 				_spacing);
 
 			aIndex = DoubleVoxelGridIndex3D(resultS(0), resultS(1), resultS(2));
@@ -208,7 +208,7 @@ namespace rttb
 		const
 		{
 			DoubleVoxelGridIndex3D doubleIndex;
-			bool inside = worldCoordinateToDoubleGridIndex(aWorldCoordinate, doubleIndex);
+			bool inside = worldCoordinateToGeometryCoordinate(aWorldCoordinate, doubleIndex);
 
 			aIndex = VoxelGridIndex3D(GridIndexType(doubleIndex(0)+0.5), GridIndexType(doubleIndex(1)+0.5),
 			                          GridIndexType(doubleIndex(2)+0.5));
@@ -217,7 +217,7 @@ namespace rttb
 		}
 
 
-		bool GeometricInfo::DoubleGridIndexToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
+		bool GeometricInfo::geometryCoordinateToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
 			WorldCoordinate3D& aWorldCoordinate)
 			const
 		{
@@ -243,7 +243,7 @@ namespace rttb
 			const
 		{
 			DoubleVoxelGridIndex3D indexDouble = DoubleVoxelGridIndex3D(aIndex(0) - 0.5, aIndex(1) - 0.5, aIndex(2) - 0.5);
-			return DoubleGridIndexToWorldCoordinate(indexDouble, aWorldCoordinate);
+			return geometryCoordinateToWorldCoordinate(indexDouble, aWorldCoordinate);
 		}
 
 		bool GeometricInfo::isInside(const VoxelGridIndex3D& aIndex) const

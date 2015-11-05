@@ -137,18 +137,18 @@ namespace rttb
 			bool worldCoordinateToIndex(const WorldCoordinate3D& aWorldCoordinate,
 			                            VoxelGridIndex3D& aIndex) const;
 
-			/*! @brief convert world coordinates to double voxel grid index. The world coordinate of the image position patient (center of the first voxel) will be convert to the double voxel (0.0, 0.0, 0.0)
+			/*! @brief convert world coordinates to double geometry coordinate. The world coordinate of the image position patient (center of the first voxel) will be convert to the double voxel (0.0, 0.0, 0.0)
 			The conversion of values is done even if the target index is not inside the given voxel grid (return false).
 			If the target is inside the grid return true.
 			*/
-			bool worldCoordinateToDoubleGridIndex(const WorldCoordinate3D& aWorldCoordinate,
+			bool worldCoordinateToGeometryCoordinate(const WorldCoordinate3D& aWorldCoordinate,
 				DoubleVoxelGridIndex3D& aIndex) const;
 
-			/*! @brief convert double voxel grid index to world coordinates. The double voxel index (0.0, 0.0, 0.0) will be convert to the world coordinate of the image postion patient (center of the first voxel) 
+			/*! @brief convert double geometry coordinate to world coordinates. The double voxel index (0.0, 0.0, 0.0) will be convert to the world coordinate of the image postion patient (center of the first voxel) 
 			The conversion of values is done even if the target is not inside the given voxel grid (return false).
 			If the target is inside the voxel grid return true.
 			*/
-			bool DoubleGridIndexToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
+			bool geometryCoordinateToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
 				WorldCoordinate3D& aWorldCoordinate) const;
 
 			/*! @brief convert int voxel grid index to world coordinates.
