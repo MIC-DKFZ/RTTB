@@ -130,6 +130,8 @@ namespace rttb
 			*/
 			friend bool operator==(const GeometricInfo& gInfo, const GeometricInfo& gInfo1);
 
+			bool equalsAlmost(const GeometricInfo& another, double errorConstant = 1e-5) const;
+
 			/*! @brief convert world coordinates to voxel grid index.
 				The conversion of values is done even if the target index is not inside the given voxel grid (return false).
 				If the target is inside the grid return true.

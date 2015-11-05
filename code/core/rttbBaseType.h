@@ -287,6 +287,17 @@ namespace rttb
 			return true;
 		}
 
+		bool equalsAlmost(const WorldCoordinate3D& another, double errorConstant = 1e-5) const
+		{
+			if (size() != another.size())
+			{
+				return false;
+			}
+
+			double dist = norm_2(*this - another);
+			return dist < errorConstant;
+		}
+
 		friend std::ostream& operator<<(std::ostream& s, const WorldCoordinate3D& aVector)
 		{
 			s << "[ " << aVector(0) << ", " << aVector(1) << ", " << aVector(2) << " ]";
@@ -393,6 +404,17 @@ namespace rttb
 			return true;
 		}
 
+		bool equalsAlmost(const SpacingVectorType3D& another, double errorConstant) const
+		{
+			if ((*this).size() != another.size())
+			{
+				return false;
+			}
+
+			double dist = norm_2(*this - another);
+			return dist < errorConstant;
+		}
+
 		friend std::ostream& operator<<(std::ostream& s, const SpacingVectorType3D& aVector)
 		{
 			s << "[ " << aVector(0) << ", " << aVector(1) << ", " << aVector(2) << " ]";
@@ -418,7 +440,7 @@ namespace rttb
 		OrientationMatrix(const WorldCoordinate value) : boost::numeric::ublas::matrix<WorldCoordinate>(3,
 			        3, value) {}
 
-		bool equal(const OrientationMatrix& anOrientationMatrix) const
+		bool equalsAlmost(const OrientationMatrix& anOrientationMatrix, double errorConstant) const
 		{
 			if (anOrientationMatrix.size1() == (*this).size1())
 			{
@@ -428,7 +450,7 @@ namespace rttb
 					{
 						for (std::size_t n = 0; n < anOrientationMatrix.size2(); n++)
 						{
-							if (!((*this)(m, n) == anOrientationMatrix(m, n)))
+							if ((abs((*this)(m, n) - anOrientationMatrix(m, n)) > errorConstant))
 							{
 								return false;
 							}
@@ -450,7 +472,7 @@ namespace rttb
 
 		friend bool operator==(const OrientationMatrix& om1, const OrientationMatrix& om2)
 		{
-			return om1.equal(om2);
+			return om1.equalsAlmost(om2, 0.0);
 		}
 
 		friend std::ostream& operator<<(std::ostream& s, const OrientationMatrix& anOrientationMatrix)
