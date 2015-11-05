@@ -41,8 +41,8 @@ namespace rttb
 				}
 
 				//handle differences in geometricInfo
-				if (!(dose1->getGeometricInfo() == dose2->getGeometricInfo()
-				      && dose1->getGeometricInfo() == result->getGeometricInfo()))
+				if (!(dose1->getGeometricInfo().equalsAlmost(dose2->getGeometricInfo())
+				      && dose1->getGeometricInfo().equalsAlmost(result->getGeometricInfo())))
 				{
 					throw core::InvalidParameterException("The geometricInfo of all given accessors needs to be equal.");
 				}
@@ -68,8 +68,8 @@ namespace rttb
 				}
 
 				//handle differences in geometricInfo
-				if (!(dose->getGeometricInfo() == mask->getGeometricInfo()
-				      && dose->getGeometricInfo() == result->getGeometricInfo()))
+				if (!(dose->getGeometricInfo().equalsAlmost(mask->getGeometricInfo())
+				      && dose->getGeometricInfo().equalsAlmost(result->getGeometricInfo())))
 				{
 					throw core::InvalidParameterException("The geometricInfo of all given accessors needs to be equal.");
 				}
@@ -97,8 +97,8 @@ namespace rttb
 				}
 
 				//handle differences in geometricInfo
-				if (!(mask1->getGeometricInfo() == mask2->getGeometricInfo()
-				      && mask1->getGeometricInfo() == result->getGeometricInfo()))
+				if (!(mask1->getGeometricInfo().equalsAlmost(mask2->getGeometricInfo())
+				      && mask1->getGeometricInfo().equalsAlmost(result->getGeometricInfo())))
 				{
 					throw core::InvalidParameterException("The geometricInfo of all given accessors needs to be equal.");
 				}

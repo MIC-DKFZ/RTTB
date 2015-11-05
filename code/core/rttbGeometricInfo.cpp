@@ -180,6 +180,16 @@ namespace rttb
 			        && gInfo.getNumRows() == gInfo1.getNumRows() && gInfo.getNumSlices() == gInfo1.getNumSlices());
 		}
 
+
+		bool GeometricInfo::equalsAlmost(const GeometricInfo& another, double errorConstant /*= 1e-5*/) const
+		{
+			return (getImagePositionPatient().equalsAlmost(another.getImagePositionPatient(), errorConstant)
+			        && getOrientationMatrix().equalsAlmost(another.getOrientationMatrix(), errorConstant)
+			        && getSpacing().equalsAlmost(another.getSpacing(), errorConstant) && getNumColumns() == another.getNumColumns()
+			        && getNumRows() == another.getNumRows() && getNumSlices() == another.getNumSlices());
+		}
+
+
 		bool GeometricInfo::worldCoordinateToIndex(const WorldCoordinate3D& aWorldCoordinate,
 		        VoxelGridIndex3D& aIndex)
 		const
