@@ -306,6 +306,8 @@ namespace rttb
 
 	};
 
+	typedef WorldCoordinate3D DoubleVoxelGridIndex3D;
+
 	typedef UnsignedIndex3D ImageSize;
 
 	/*! @deprecated Use OrientationMatrix instead.

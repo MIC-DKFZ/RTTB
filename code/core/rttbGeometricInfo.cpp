@@ -73,7 +73,7 @@ namespace rttb
 			}
 
 			_invertedOrientationMatrix.assign(boost::numeric::ublas::identity_matrix<WorldCoordinate>
-			                                  (A.size1()));
+				(A.size1()));
 
 			// backsubstitute to get the inverse
 			boost::numeric::ublas::lu_substitute(A, pm, _invertedOrientationMatrix);
@@ -175,66 +175,92 @@ namespace rttb
 		bool operator==(const GeometricInfo& gInfo, const GeometricInfo& gInfo1)
 		{
 			return (gInfo.getImagePositionPatient() == gInfo1.getImagePositionPatient()
-			        && gInfo.getOrientationMatrix() == gInfo1.getOrientationMatrix()
-			        && gInfo.getSpacing() == gInfo1.getSpacing() && gInfo.getNumColumns() == gInfo1.getNumColumns()
-			        && gInfo.getNumRows() == gInfo1.getNumRows() && gInfo.getNumSlices() == gInfo1.getNumSlices());
+				&& gInfo.getOrientationMatrix() == gInfo1.getOrientationMatrix()
+				&& gInfo.getSpacing() == gInfo1.getSpacing() && gInfo.getNumColumns() == gInfo1.getNumColumns()
+				&& gInfo.getNumRows() == gInfo1.getNumRows() && gInfo.getNumSlices() == gInfo1.getNumSlices());
 		}
 
 
 		bool GeometricInfo::equalsAlmost(const GeometricInfo& another, double errorConstant /*= 1e-5*/) const
 		{
 			return (getImagePositionPatient().equalsAlmost(another.getImagePositionPatient(), errorConstant)
-			        && getOrientationMatrix().equalsAlmost(another.getOrientationMatrix(), errorConstant)
-			        && getSpacing().equalsAlmost(another.getSpacing(), errorConstant) && getNumColumns() == another.getNumColumns()
-			        && getNumRows() == another.getNumRows() && getNumSlices() == another.getNumSlices());
+				&& getOrientationMatrix().equalsAlmost(another.getOrientationMatrix(), errorConstant)
+				&& getSpacing().equalsAlmost(another.getSpacing(), errorConstant) && getNumColumns() == another.getNumColumns()
+				&& getNumRows() == another.getNumRows() && getNumSlices() == another.getNumSlices());
 		}
 
-
-		bool GeometricInfo::worldCoordinateToIndex(const WorldCoordinate3D& aWorldCoordinate,
-		        VoxelGridIndex3D& aIndex)
-		const
+		bool GeometricInfo::worldCoordinateToGeometryCoordinate(const WorldCoordinate3D& aWorldCoordinate,
+			DoubleVoxelGridIndex3D& aIndex)
+			const
 		{
-			WorldCoordinate3D temp;
-			temp = aWorldCoordinate - _imagePositionPatient;
-
-			boost::numeric::ublas::vector<WorldCoordinate> temp2 = boost::numeric::ublas::prod(
-			            _invertedOrientationMatrix,
-			            temp);
-
-			boost::numeric::ublas::vector<WorldCoordinate> resultS = boost::numeric::ublas::element_div(temp2,
-			        _spacing);
-
-			aIndex = VoxelGridIndex3D(GridIndexType(resultS(0) + 0.5), GridIndexType(resultS(1) + 0.5),
-			                          GridIndexType(resultS(2) + 0.5));
-
-			return isInside(aIndex);
-		}
-
-		bool GeometricInfo::indexToWorldCoordinate(const VoxelGridIndex3D& aIndex,
-		        WorldCoordinate3D& aWorldCoordinate)
-		const
-		{
-			WorldCoordinate3D centerVoxel(aIndex(0) - 0.5, aIndex(1) - 0.5, aIndex(2) - 0.5);
-
-			boost::numeric::ublas::vector<WorldCoordinate> resultS = boost::numeric::ublas::element_prod(
-			            centerVoxel,
-			            _spacing);
+			WorldCoordinate3D distanceToIP;
+			distanceToIP = aWorldCoordinate - _imagePositionPatient;
 
 			boost::numeric::ublas::vector<WorldCoordinate> result = boost::numeric::ublas::prod(
-			            _orientationMatrix,
-			            resultS);
+				_invertedOrientationMatrix,
+				distanceToIP);
+
+			boost::numeric::ublas::vector<WorldCoordinate> resultS = boost::numeric::ublas::element_div(result,
+				_spacing);
+
+			aIndex = DoubleVoxelGridIndex3D(resultS(0), resultS(1), resultS(2));
+
+			//check if it is inside
+			VoxelGridIndex3D indexInt = VoxelGridIndex3D(GridIndexType(aIndex(0) + 0.5), GridIndexType(aIndex(1) + 0.5),
+				GridIndexType(aIndex(2) + 0.5));
+
+			return isInside(indexInt);
+		}
+
+		bool GeometricInfo::worldCoordinateToIndex(const WorldCoordinate3D& aWorldCoordinate,
+			VoxelGridIndex3D& aIndex)
+			const
+		{
+			DoubleVoxelGridIndex3D doubleIndex;
+			bool inside = worldCoordinateToGeometryCoordinate(aWorldCoordinate, doubleIndex);
+
+			aIndex = VoxelGridIndex3D(GridIndexType(doubleIndex(0) + 0.5), GridIndexType(doubleIndex(1) + 0.5),
+				GridIndexType(doubleIndex(2) + 0.5));
+
+			return inside;
+		}
+
+
+		bool GeometricInfo::geometryCoordinateToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
+			WorldCoordinate3D& aWorldCoordinate)
+			const
+		{
+
+			boost::numeric::ublas::vector<WorldCoordinate> resultS = boost::numeric::ublas::element_prod(
+				aIndex,
+				_spacing);
+
+			boost::numeric::ublas::vector<WorldCoordinate> result = boost::numeric::ublas::prod(
+				_orientationMatrix,
+				resultS);
 
 			aWorldCoordinate = result + _imagePositionPatient;
 
-			return isInside(aIndex);
+			VoxelGridIndex3D indexInt = VoxelGridIndex3D(GridIndexType(aIndex(0) + 0.5), GridIndexType(aIndex(1) + 0.5),
+				GridIndexType(aIndex(2) + 0.5));
+			return isInside(indexInt);
+		}
+
+
+		bool GeometricInfo::indexToWorldCoordinate(const VoxelGridIndex3D& aIndex,
+			WorldCoordinate3D& aWorldCoordinate)
+			const
+		{
+			DoubleVoxelGridIndex3D indexDouble = DoubleVoxelGridIndex3D(aIndex(0) - 0.5, aIndex(1) - 0.5, aIndex(2) - 0.5);
+			return geometryCoordinateToWorldCoordinate(indexDouble, aWorldCoordinate);
 		}
 
 		bool GeometricInfo::isInside(const VoxelGridIndex3D& aIndex) const
 		{
 			return (aIndex(0) >= 0 && aIndex(1) >= 0 && aIndex(2) >= 0
-			        && aIndex(0) < static_cast<unsigned int>(_numberOfColumns)
-			        && aIndex(1) < static_cast<unsigned int>(_numberOfRows)
-			        && aIndex(2) < static_cast<unsigned int>(_numberOfFrames));
+				&& aIndex(0) < static_cast<unsigned int>(_numberOfColumns)
+				&& aIndex(1) < static_cast<unsigned int>(_numberOfRows)
+				&& aIndex(2) < static_cast<unsigned int>(_numberOfFrames));
 		}
 
 		bool GeometricInfo::isInside(const WorldCoordinate3D& aWorldCoordinate)
@@ -265,16 +291,16 @@ namespace rttb
 		bool GeometricInfo::convert(const VoxelGridIndex3D& gridIndex, VoxelGridID& gridID) const
 		{
 			if ((gridIndex.x() >= static_cast<unsigned int>(getNumColumns()))
-			    || (gridIndex.y() >= static_cast<unsigned int>(getNumRows()))
-			    || (gridIndex.z() >= static_cast<unsigned int>(getNumSlices())))
+				|| (gridIndex.y() >= static_cast<unsigned int>(getNumRows()))
+				|| (gridIndex.z() >= static_cast<unsigned int>(getNumSlices())))
 			{
 				return false;
 			}
 			else
 			{
 				gridID = gridIndex.z() * getNumColumns() * getNumRows() + gridIndex.y() *
-				         getNumColumns()
-				         + gridIndex.x();
+					getNumColumns()
+					+ gridIndex.x();
 				return validID(gridID);
 			}
 		}
@@ -301,9 +327,9 @@ namespace rttb
 		std::ostream& operator<<(std::ostream& s, const GeometricInfo& anGeometricInfo)
 		{
 			s << "[ " << anGeometricInfo.getImagePositionPatient() << "; " <<
-			  anGeometricInfo.getOrientationMatrix()
-			  << "; " << anGeometricInfo.getSpacing() << "; " << "; " << anGeometricInfo.getNumColumns()
-			  << "; " << anGeometricInfo.getNumRows() << "; " << anGeometricInfo.getNumSlices() << " ]";
+				anGeometricInfo.getOrientationMatrix()
+				<< "; " << anGeometricInfo.getSpacing() << "; " << "; " << anGeometricInfo.getNumColumns()
+				<< "; " << anGeometricInfo.getNumRows() << "; " << anGeometricInfo.getNumSlices() << " ]";
 			return s;
 		}
 
