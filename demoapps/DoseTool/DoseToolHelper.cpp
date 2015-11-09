@@ -174,8 +174,8 @@ rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData
 		std::cout << "done." << std::endl;
 
 		std::cout << std::endl << "computing dose statistics... ";
-		algorithms::DoseStatistics::DoseStatisticsPointer statistics = computeDoseStatistics(spDoseIterator,
-		        appData._computeComplexDoseStatistics);
+		algorithms::DoseStatistics::DoseStatisticsPointer statistics = calculateDoseStatistics(spDoseIterator,
+		        appData._computeComplexDoseStatistics, appData._prescribedDose);
 		std::cout << "done." << std::endl;
 
 		std::cout << std::endl << "writing dose statistics to file... ";
@@ -252,18 +252,27 @@ rttb::core::DoseIteratorInterface::DoseIteratorPointer rttb::apps::doseTool::gen
 	return doseIterator;
 }
 
-rttb::algorithms::DoseStatistics::DoseStatisticsPointer rttb::apps::doseTool::computeDoseStatistics(
-    core::DoseIteratorInterface::DoseIteratorPointer doseIterator, bool computeComplexDoseStatistics)
+rttb::algorithms::DoseStatistics::DoseStatisticsPointer rttb::apps::doseTool::calculateDoseStatistics(
+    core::DoseIteratorInterface::DoseIteratorPointer doseIterator, bool calculateComplexDoseStatistics,
+    DoseTypeGy prescribedDose)
 {
 	rttb::algorithms::DoseStatisticsCalculator doseStatsCalculator(doseIterator);
-	return doseStatsCalculator.calculateDoseStatistics(computeComplexDoseStatistics);
+
+	if (calculateComplexDoseStatistics)
+	{
+		return doseStatsCalculator.calculateDoseStatistics(prescribedDose);
+	}
+	else
+	{
+		return doseStatsCalculator.calculateDoseStatistics();
+	}
 }
 
 void rttb::apps::doseTool::writeDoseStatisticsFile(rttb::algorithms::DoseStatistics::DoseStatisticsPointer statistics,
         const std::string& filename, const std::string structName,
         rttb::apps::doseTool::ApplicationData& appData)
 {
-	boost::property_tree::ptree originalTree = rttb::io::other::writeDoseStatistics(statistics, appData._prescribedDose);
+	boost::property_tree::ptree originalTree = rttb::io::other::writeDoseStatistics(statistics);
 
 	//add config part to xml
 	originalTree.add("statistics.config.requestedStructRegex", appData._structNameRegex);

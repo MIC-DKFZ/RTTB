@@ -39,9 +39,11 @@ namespace rttb
 			6) test get/setOrientationMatrix
 			7) test getImageOrientationRow/Column
 			8) test operators "=="
-			9) test world to index coordinate conversion
-			10) test isInside and index to world coordinate conversion
-			11) test getNumberOfVoxels
+			9) test equalsAlmost
+			10) test world to index coordinate conversion
+			11) test isInside and index to world coordinate conversion
+			12) test getNumberOfVoxels
+			13) Test convert, validID and validIndex
 		*/
 
 		int GeometricInfoTest(int argc, char* argv[])
@@ -158,7 +160,33 @@ namespace rttb
 			CHECK_EQUAL(geoInfo.getOrientationMatrix(), testOM);
 			CHECK(!(geoInfo.getOrientationMatrix() == testNullOM));
 
-			//9) test world to index coordinate converion
+			//9) test equalsALmost
+			OrientationMatrix testOM2 = testOM;
+			SpacingVectorType3D testSPV2 = expectedSpacing;
+			WorldCoordinate3D testIPP2 = testIPP;
+
+			core::GeometricInfo testGI2, testGIEmpty;
+			testGI2.setImagePositionPatient(testIPP2);
+			testGI2.setOrientationMatrix(testOM2);
+			testGI2.setSpacing(testSPV2);
+
+			double smallValue = 0.000000001;
+			testOM(0, 0) += smallValue;
+			testSPV2(2) += smallValue;
+			testIPP2(1) += smallValue;
+
+			core::GeometricInfo testGI2similar;
+			testGI2similar.setImagePositionPatient(testIPP2);
+			testGI2similar.setOrientationMatrix(testOM2);
+			testGI2similar.setSpacing(testSPV2);
+
+			CHECK_EQUAL(testGI2.equalsAlmost(testGI2similar), true);
+			CHECK_EQUAL(testGI2similar.equalsAlmost(testGI2), true);
+			CHECK_EQUAL(testGI2.equalsAlmost(testGI2similar, smallValue * 0.001), false);
+			CHECK_EQUAL(testGIEmpty.equalsAlmost(testGI2), false);
+			CHECK_EQUAL(testGI2.equalsAlmost(testGIEmpty), false);
+
+			//10) test world to index coordinate conversion
 			//use unit matrix as orientation matrix
 			CHECK_NO_THROW(geoInfo.setOrientationMatrix(OrientationMatrix()));
 
@@ -241,7 +269,7 @@ namespace rttb
 			CHECK(!(geoInfo.isInside(testConvert)));
 			CHECK_EQUAL(expectedIndexWC4, testConvert);
 
-			//10) test isInside and index to world coordinate converion
+			//11) test isInside and index to world coordinate conversion
 			//use unit matrix as orientation matrix
 			CHECK_NO_THROW(geoInfo.setOrientationMatrix(OrientationMatrix()));
 
@@ -264,6 +292,49 @@ namespace rttb
 			CHECK(!(geoInfo.isInside(testInside)));
 			CHECK(!(geoInfo.indexToWorldCoordinate(insideTest4, testInside)));
 			CHECK(!(geoInfo.isInside(testInside)));
+	
+			DoubleVoxelGridIndex3D doubleIndex1 = DoubleVoxelGridIndex3D(0.1, 0, -0.3); 
+			const WorldCoordinate3D expectedDoubleIndex1(20.1, 100, -1000.3);
+			DoubleVoxelGridIndex3D doubleIndex2 = DoubleVoxelGridIndex3D(11, 6, 15); //outside
+			const WorldCoordinate3D expectedDoubleIndex2(31, 106, -985);
+			DoubleVoxelGridIndex3D doubleIndex3 = DoubleVoxelGridIndex3D(9.6, 5.0, 3.0); // outside: Grid dimension = [10,5,3]
+			const WorldCoordinate3D expectedDoubleIndex3(29.6, 105, -997);
+			DoubleVoxelGridIndex3D doubleIndex4 = DoubleVoxelGridIndex3D(0.0, 0.0, 0.0); 
+			const WorldCoordinate3D expectedDoubleIndex4 = geoInfo.getImagePositionPatient();
+
+			//test double index to world coordinate
+			WorldCoordinate3D test;
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex1, test);
+			CHECK_EQUAL(test, expectedDoubleIndex1);
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex2, test);
+			CHECK_EQUAL(test, expectedDoubleIndex2);
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex3, test);
+			CHECK_EQUAL(test, expectedDoubleIndex3);
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex4, test);
+			CHECK_EQUAL(test, expectedDoubleIndex4);
+
+			DoubleVoxelGridIndex3D testDoubleIndex;
+			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex4, testDoubleIndex);
+			CHECK_EQUAL(testDoubleIndex, doubleIndex4);
+			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex3, testDoubleIndex);
+			CHECK_CLOSE(testDoubleIndex(0), doubleIndex3(0), errorConstant);
+			CHECK_CLOSE(testDoubleIndex(1), doubleIndex3(1), errorConstant);
+			CHECK_CLOSE(testDoubleIndex(2), doubleIndex3(2), errorConstant);
+			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex2, testDoubleIndex);
+			CHECK_EQUAL(testDoubleIndex, doubleIndex2);
+			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex1, testDoubleIndex);
+			CHECK_CLOSE(testDoubleIndex(0), doubleIndex1(0), errorConstant);
+			CHECK_CLOSE(testDoubleIndex(1), doubleIndex1(1), errorConstant);
+			CHECK_CLOSE(testDoubleIndex(2), doubleIndex1(2), errorConstant);
+
+			VoxelGridIndex3D testIntIndex;
+			geoInfo.worldCoordinateToIndex(expectedDoubleIndex4, testIntIndex);
+			CHECK_EQUAL(testIntIndex, insideTest1);
+			geoInfo.worldCoordinateToIndex(expectedDoubleIndex1, testIntIndex);
+			CHECK_EQUAL(testIntIndex, insideTest1);
+			geoInfo.worldCoordinateToIndex(expectedDoubleIndex3, testIntIndex);
+			CHECK_EQUAL(testIntIndex, expectedVoxelDims);
+
 
 			//use a more complicated orientation matrix
 			newOrientation = OrientationMatrix(0);
@@ -313,12 +384,12 @@ namespace rttb
 			CHECK(!(geoInfo.indexToWorldCoordinate(insideTest4, testInside)));
 			CHECK(!(geoInfo.isInside(testInside)));
 			CHECK_EQUAL(expectedIndex4, testInside);
-
-			//11) test getNumberOfVoxels
+	
+			//12) test getNumberOfVoxels
 			CHECK_EQUAL(expectedVoxelDims(0)*expectedVoxelDims(1)*expectedVoxelDims(2),
 			            geoInfo.getNumberOfVoxels());
 
-			//12) Test convert, validID and validIndex
+			//13) Test convert, validID and validIndex
 			geoInfo.setNumColumns(50);
 			geoInfo.setNumRows(30);
 			geoInfo.setNumSlices(40);

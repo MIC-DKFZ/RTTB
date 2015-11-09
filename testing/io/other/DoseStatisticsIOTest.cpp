@@ -70,24 +70,19 @@ namespace rttb
 			auto myDoseStatsSimple = myDoseStatsCalculator.calculateDoseStatistics();
 			auto myDoseStatsComplex = myDoseStatsCalculator.calculateDoseStatistics(true);
 
-			/* test exception */
-			CHECK_THROW_EXPLICIT(io::other::writeDoseStatistics(myDoseStatsSimple, "test.test", 0),
-			                     core::InvalidParameterException);
-
-
 			/* test writing statistics to xml file */
 			FileNameString filenameSimple = "testStatisticsSimple.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsSimple, filenameSimple, 100));
+			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsSimple, filenameSimple));
 
 			FileNameString filenameComplex = "testStatisticsComplex.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsComplex, filenameComplex, 100));
+			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsComplex, filenameComplex));
 
 			/* test writing statistics to string */
-			boost::property_tree::ptree ptSimple = io::other::writeDoseStatistics(myDoseStatsSimple, 100);
-			XMLString strSimple = io::other::writerDoseStatisticsToString(myDoseStatsSimple, 100);
+			boost::property_tree::ptree ptSimple = io::other::writeDoseStatistics(myDoseStatsSimple);
+			XMLString strSimple = io::other::writerDoseStatisticsToString(myDoseStatsSimple);
 
-			boost::property_tree::ptree ptComplex = io::other::writeDoseStatistics(myDoseStatsComplex, 100);
-			XMLString strComplex = io::other::writerDoseStatisticsToString(myDoseStatsComplex, 100);
+			boost::property_tree::ptree ptComplex = io::other::writeDoseStatistics(myDoseStatsComplex);
+			XMLString strComplex = io::other::writerDoseStatisticsToString(myDoseStatsComplex);
 
 			std::stringstream sstrSimple;
 			boost::property_tree::xml_parser::write_xml(sstrSimple, ptSimple,

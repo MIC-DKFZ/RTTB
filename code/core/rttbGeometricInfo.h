@@ -130,18 +130,35 @@ namespace rttb
 			*/
 			friend bool operator==(const GeometricInfo& gInfo, const GeometricInfo& gInfo1);
 
+			bool equalsAlmost(const GeometricInfo& another, double errorConstant = 1e-5) const;
+
 			/*! @brief convert world coordinates to voxel grid index.
 				The conversion of values is done even if the target index is not inside the given voxel grid (return false).
 				If the target is inside the grid return true.
 			*/
 			bool worldCoordinateToIndex(const WorldCoordinate3D& aWorldCoordinate,
 			                            VoxelGridIndex3D& aIndex) const;
-			/*! @brief voxel grid index to convert world coordinates.
+
+			/*! @brief convert world coordinates to double geometry coordinate. The world coordinate of the image position patient (center of the first voxel) will be convert to the double voxel (0.0, 0.0, 0.0)
+			The conversion of values is done even if the target index is not inside the given voxel grid (return false).
+			If the target is inside the grid return true.
+			*/
+			bool worldCoordinateToGeometryCoordinate(const WorldCoordinate3D& aWorldCoordinate,
+				DoubleVoxelGridIndex3D& aIndex) const;
+
+			/*! @brief convert double geometry coordinate to world coordinates. The double voxel index (0.0, 0.0, 0.0) will be convert to the world coordinate of the image postion patient (center of the first voxel) 
 				The conversion of values is done even if the target is not inside the given voxel grid (return false).
 				If the target is inside the voxel grid return true.
 			*/
-			bool indexToWorldCoordinate(const VoxelGridIndex3D& aIndex ,
+			bool geometryCoordinateToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
 			                            WorldCoordinate3D& aWorldCoordinate) const;
+
+			/*! @brief convert int voxel grid index to world coordinates.
+			The conversion of values is done even if the target is not inside the given voxel grid (return false).
+			If the target is inside the voxel grid return true.
+			*/
+			bool indexToWorldCoordinate(const VoxelGridIndex3D& aIndex,
+				WorldCoordinate3D& aWorldCoordinate) const;
 
 			/*! @brief check if a given voxel grid index is inside the given voxel grid.*/
 			bool isInside(const VoxelGridIndex3D& aIndex) const;

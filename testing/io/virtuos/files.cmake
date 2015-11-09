@@ -9,6 +9,6 @@ SET(CPP_FILES 	rttbVirtuosIOTests.cpp
 	../rttbDoseAccessorTester.cpp
   )
 
-SET(H_FILES 
+SET(H_FILES
 	../rttbDoseAccessorTester.h
 )

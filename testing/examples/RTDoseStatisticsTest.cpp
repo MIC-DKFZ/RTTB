@@ -33,7 +33,7 @@
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbVirtuosPlanFileDoseAccessorGenerator.h"
 #include "rttbVirtuosFileStructureSetGenerator.h"
-#include "rttbOTBMaskAccessor.h"
+#include "rttbBoostMaskAccessor.h"
 #include "rttbGenericMaskedDoseIterator.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbBaseType.h"
@@ -51,6 +51,7 @@ namespace rttb
 
 		const double reducedErrorConstant = 0.0001;
 		const double expectedVal = 5.64477e-005;
+		const double volume = 24120.;
 
 		void testWithDummyDoseData(const std::string& doseFilename);
 		void testWithRealVirtuosDoseDataAndStructure(const std::string& doseFilename, const std::string& structFilename,
@@ -58,10 +59,6 @@ namespace rttb
 
 		int RTDoseStatisticsTest(int argc, char* argv[])
 		{
-
-			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
-			typedef core::GenericDoseIterator::DoseIteratorPointer DoseIteratorPointer;
-			typedef algorithms::DoseStatistics::ResultListPointer ResultListPointer;
 
 			std::string RTDOSE_FILENAME;
 			std::string RTDOSE2_FILENAME;
@@ -93,8 +90,6 @@ namespace rttb
 			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
 			typedef core::GenericDoseIterator::DoseIteratorPointer DoseIteratorPointer;
 
-			typedef ::boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultsVectorPointer;
-
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(doseFilename.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
 
@@ -106,20 +101,21 @@ namespace rttb
 
 			std::vector<double> precomputedDoseValues;
 			precomputedDoseValues.push_back(0);
-			precomputedDoseValues.push_back(expectedVal);
-			precomputedDoseValues.push_back(expectedVal + reducedErrorConstant);
+			precomputedDoseValues.push_back(0.5);
+			precomputedDoseValues.push_back(1);
 			std::vector<double> precomputedVolumeValues;
-			precomputedVolumeValues.push_back(20000);
-			precomputedVolumeValues.push_back(24120);
+			precomputedVolumeValues.push_back(20000/volume);
+			precomputedVolumeValues.push_back(1);
 
 			rttb::algorithms::DoseStatistics::DoseStatisticsPointer doseStatistics =
-			    doseStatisticsCalculator.calculateDoseStatistics(true, precomputedDoseValues, precomputedVolumeValues);
+			    doseStatisticsCalculator.calculateDoseStatistics(precomputedDoseValues, precomputedVolumeValues);
 
 			CHECK_CLOSE(doseStatistics->getMean(), expectedVal, errorConstant);
 			CHECK_CLOSE(doseStatistics->getStdDeviation(), 0, errorConstant);
 			CHECK_CLOSE(doseStatistics->getVariance(), 0, errorConstant);
 
-			DoseTypeGy vx = doseStatistics->getVx(expectedVal);
+			double dummy;
+			DoseTypeGy vx = doseStatistics->getVx(expectedVal,true,dummy);
 			CHECK_EQUAL(vx, doseStatistics->getVx(0));
 			CHECK_CLOSE(expectedVal, doseStatistics->getDx(vx), reducedErrorConstant);
 
@@ -128,8 +124,8 @@ namespace rttb
 			CHECK_CLOSE(doseStatistics->getMinimum(), expectedVal, errorConstant);
 			auto minListPtr = doseStatistics->getMinimumPositions();
 			auto maxListPtr = doseStatistics->getMaximumPositions();
-			CHECK_EQUAL(maxListPtr->size(), 100);
-			CHECK_EQUAL(minListPtr->size(), 100);
+			CHECK_EQUAL(maxListPtr->size(), 10);
+			CHECK_EQUAL(minListPtr->size(), 10);
 
 			CHECK_CLOSE(doseStatistics->getDx(24120), doseStatistics->getMinimum(), 0.001);
 			CHECK_CLOSE(doseStatistics->getMOHx(24120), doseStatistics->getMean(), reducedErrorConstant);
@@ -141,7 +137,6 @@ namespace rttb
 		        const std::string& planFilename, unsigned int structureNr)
 		{
 			typedef core::GenericDoseIterator::DoseIteratorPointer DoseIteratorPointer;
-
 			typedef core::GenericMaskedDoseIterator::MaskAccessorPointer MaskAccessorPointer;
 			typedef rttb::algorithms::DoseStatistics::DoseStatisticsPointer DoseStatisticsPointer;
 
@@ -150,8 +145,8 @@ namespace rttb
 			auto virtuosStructureSet = io::virtuos::VirtuosFileStructureSetGenerator(
 			                               structFilename.c_str(), doseFilename.c_str()).generateStructureSet();
 
-			boost::shared_ptr<masks::legacy::OTBMaskAccessor> spOTBMaskAccessorVirtuos =
-			    boost::make_shared<masks::legacy::OTBMaskAccessor>(virtuosStructureSet->getStructure(structureNr),
+			boost::shared_ptr<masks::boost::BoostMaskAccessor> spOTBMaskAccessorVirtuos =
+			    boost::make_shared<masks::boost::BoostMaskAccessor>(virtuosStructureSet->getStructure(structureNr),
 			            virtuosDoseAccessor->getGeometricInfo());
 
 			spOTBMaskAccessorVirtuos->updateMask();
@@ -171,30 +166,30 @@ namespace rttb
 			DoseStatisticsPointer doseStatisticsVirtuos = doseStatisticsCalculatorVirtuos.calculateDoseStatistics(true);
 
 			//comparison values computed with "old" DoseStatistics implementation
-			CHECK_EQUAL(doseStatisticsVirtuos->getMinimum(), 0);
-			CHECK_CLOSE(doseStatisticsVirtuos->getMaximum(), 35.3075, reducedErrorConstant);
-			CHECK_CLOSE(doseStatisticsVirtuos->getMean(), 16.1803, reducedErrorConstant);
-			CHECK_CLOSE(doseStatisticsVirtuos->getStdDeviation(), 9.84436, reducedErrorConstant);
+			CHECK_CLOSE(doseStatisticsVirtuos->getMinimum(), 6.4089, reducedErrorConstant);
+			CHECK_CLOSE(doseStatisticsVirtuos->getMaximum(), 39.0734, reducedErrorConstant);
+			CHECK_CLOSE(doseStatisticsVirtuos->getMean(), 22.5779, reducedErrorConstant);
+			CHECK_CLOSE(doseStatisticsVirtuos->getStdDeviation(), 6.28857, reducedErrorConstant);
 
 			auto maxPositions = doseStatisticsVirtuos->getMaximumPositions();
 			auto minPositions = doseStatisticsVirtuos->getMinimumPositions();
 			CHECK_EQUAL(maxPositions->size(), 1);
-			CHECK_EQUAL(minPositions->size(), 100);
+			CHECK_EQUAL(minPositions->size(), 1);
 			CHECK_EQUAL(maxPositions->begin()->first, doseStatisticsVirtuos->getMaximum());
-			CHECK_EQUAL(maxPositions->begin()->second, 2138227);
+			CHECK_EQUAL(maxPositions->begin()->second, 3570772);
 			CHECK_EQUAL(minPositions->begin()->first, doseStatisticsVirtuos->getMinimum());
-			CHECK_EQUAL(minPositions->begin()->second, 39026);
+			CHECK_EQUAL(minPositions->begin()->second, 3571264);
 
-			CHECK_CLOSE(doseStatisticsVirtuos->getDx(0.02 * doseStatisticsVirtuos->getVolume()), 30.1528, reducedErrorConstant);
-			CHECK_CLOSE(doseStatisticsVirtuos->getVx(0.9 * doseStatisticsVirtuos->getMaximum()), 0.483529,
+			CHECK_CLOSE(doseStatisticsVirtuos->getDx(0.02 * doseStatisticsVirtuos->getVolume()), 31.8358, reducedErrorConstant);
+			CHECK_CLOSE(doseStatisticsVirtuos->getVx(0.9 * doseStatisticsVirtuos->getMaximum()), 0.471747,
 			            reducedErrorConstant);
-			CHECK_CLOSE(doseStatisticsVirtuos->getMOHx(0.1 * doseStatisticsVirtuos->getVolume()), 28.7019,
+			CHECK_CLOSE(doseStatisticsVirtuos->getMOHx(0.1 * doseStatisticsVirtuos->getVolume()), 31.3266,
 			            reducedErrorConstant);
-			CHECK_CLOSE(doseStatisticsVirtuos->getMOCx(0.05 * doseStatisticsVirtuos->getVolume()), 0,
+			CHECK_CLOSE(doseStatisticsVirtuos->getMOCx(0.05 * doseStatisticsVirtuos->getVolume()), 9.01261,
 			            reducedErrorConstant);
-			CHECK_CLOSE(doseStatisticsVirtuos->getMaxOHx(0.95 * doseStatisticsVirtuos->getVolume()), 0,
+			CHECK_CLOSE(doseStatisticsVirtuos->getMaxOHx(0.95 * doseStatisticsVirtuos->getVolume()), 10.3764,
 			            reducedErrorConstant);
-			CHECK_CLOSE(doseStatisticsVirtuos->getMinOCx(0.98 * doseStatisticsVirtuos->getVolume()), 30.1756,
+			CHECK_CLOSE(doseStatisticsVirtuos->getMinOCx(0.98 * doseStatisticsVirtuos->getVolume()), 31.8373,
 			            reducedErrorConstant);
 		}
 

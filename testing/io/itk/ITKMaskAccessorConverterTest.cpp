@@ -41,6 +41,7 @@
 #include "rttbITKImageMaskAccessorConverter.h"
 #include "rttbITKImageFileMaskAccessorGenerator.h"
 #include "rttbOTBMaskAccessor.h"
+#include "rttbBoostMaskAccessor.h"
 
 
 
@@ -86,8 +87,9 @@ namespace rttb
 			        RTStr_FILENAME.c_str()).generateStructureSet();
 
 
-			MaskAccessorPointer maskAccessorPtr = boost::make_shared<rttb::masks::legacy::OTBMaskAccessor>(rtStructureSet->getStructure(0), doseAccessor1->getGeometricInfo());
-			
+			MaskAccessorPointer maskAccessorPtr = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+			                                      (rtStructureSet->getStructure(9), doseAccessor1->getGeometricInfo());
+
 			maskAccessorPtr->updateMask();//!Important: Update the mask before conversion.
 
 			io::itk::ITKImageMaskAccessorConverter maskAccessorConverter(maskAccessorPtr);
@@ -96,7 +98,8 @@ namespace rttb
 			CHECK_NO_THROW(maskAccessorConverter.getITKImage());
 
 			//2) Read itk image, generate mask and convert it back to itk image, check equal
-			MaskAccessorPointer maskAccessorPtr2 = io::itk::ITKImageFileMaskAccessorGenerator(Mask_FILENAME.c_str()).generateMaskAccessor();
+			MaskAccessorPointer maskAccessorPtr2 = io::itk::ITKImageFileMaskAccessorGenerator(
+			        Mask_FILENAME.c_str()).generateMaskAccessor();
 			maskAccessorPtr2->updateMask();//!Important: Update the mask before conversion.
 			io::itk::ITKImageMaskAccessorConverter maskAccessorConverter2(maskAccessorPtr2);
 			maskAccessorConverter2.process();
@@ -118,37 +121,51 @@ namespace rttb
 			CHECK_EQUAL(convertedImagePtr->GetSpacing()[1], expectedImage->GetSpacing()[1]);
 			CHECK_EQUAL(convertedImagePtr->GetSpacing()[2], expectedImage->GetSpacing()[2]);
 
+			CHECK_EQUAL(convertedImagePtr->GetLargestPossibleRegion().GetSize()[0],
+			            expectedImage->GetLargestPossibleRegion().GetSize()[0]);
+			CHECK_EQUAL(convertedImagePtr->GetLargestPossibleRegion().GetSize()[1],
+			            expectedImage->GetLargestPossibleRegion().GetSize()[1]);
+			CHECK_EQUAL(convertedImagePtr->GetLargestPossibleRegion().GetSize()[2],
+			            expectedImage->GetLargestPossibleRegion().GetSize()[2]);
+
 			int sizeX = convertedImagePtr->GetLargestPossibleRegion().GetSize()[0];
 			int sizeY = convertedImagePtr->GetLargestPossibleRegion().GetSize()[1];
 			int sizeZ = convertedImagePtr->GetLargestPossibleRegion().GetSize()[2];
 
 			io::itk::ITKImageMaskAccessor::ITKMaskImageType::IndexType index;
 
-			for(unsigned int i=0; i<20 && i<sizeX && i<sizeY && i<sizeZ; i++){
+			for (unsigned int i = 0; i < 20 && i < sizeX && i < sizeY && i < sizeZ; i++)
+			{
 				index[0] = i;
 				index[1] = i;
 				index[2] = i;
-				if(expectedImage->GetPixel(index) >= 0 && expectedImage->GetPixel(index)<=1){
+
+				if (expectedImage->GetPixel(index) >= 0 && expectedImage->GetPixel(index) <= 1)
+				{
 					CHECK_EQUAL(convertedImagePtr->GetPixel(index), expectedImage->GetPixel(index));
 				}
 			}
 
-			for(unsigned int i=0; i<20; i++){
-				index[0] = sizeX -1-i;
-				index[1] = sizeY -1-i;
-				index[2] = sizeZ -1-i;
+			for (unsigned int i = 0; i < 20; i++)
+			{
+				index[0] = sizeX - 1 - i;
+				index[1] = sizeY - 1 - i;
+				index[2] = sizeZ - 1 - i;
 
-				if(expectedImage->GetPixel(index) >= 0 && expectedImage->GetPixel(index)<=1){
+				if (expectedImage->GetPixel(index) >= 0 && expectedImage->GetPixel(index) <= 1)
+				{
 					CHECK_EQUAL(convertedImagePtr->GetPixel(index), expectedImage->GetPixel(index));
 				}
 			}
 
-			for(unsigned int i=0; i<20 && (sizeX/2 -i) < sizeX && (sizeY/2 -i) < sizeY && (sizeZ/2 -i) < sizeZ; i++){
-				index[0] = sizeX/2 -i;
-				index[1] = sizeY/2 -i;
-				index[2] = sizeZ/2 -i;
+			for (unsigned int i = 0; i < 20 && (sizeX / 2 - i) < sizeX && (sizeY / 2 - i) < sizeY && (sizeZ / 2 - i) < sizeZ; i++)
+			{
+				index[0] = sizeX / 2 - i;
+				index[1] = sizeY / 2 - i;
+				index[2] = sizeZ / 2 - i;
 
-				if(expectedImage->GetPixel(index) >= 0 && expectedImage->GetPixel(index)<=1){
+				if (expectedImage->GetPixel(index) >= 0 && expectedImage->GetPixel(index) <= 1)
+				{
 					CHECK_EQUAL(convertedImagePtr->GetPixel(index), expectedImage->GetPixel(index));
 				}
 			}
