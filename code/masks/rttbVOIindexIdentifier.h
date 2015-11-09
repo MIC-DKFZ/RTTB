@@ -44,16 +44,26 @@ namespace rttb
 			virtual ~VOIindexIdentifier() {}
 
 
-			/*!@brief get the index of the corresponding VOI
+			/*!@brief get indices of all VOI that agree with the regex
+			* @details if the regex does not agree with any VOI, the returning vector is empty.
+			* @pre spStructSet must point to a valid structure set.
+			* @param spStructSet Pointer to the structure set that should be checked for the named VOI.
+			* @param name Regular expression of the VOI
+			* @exception  ::rttb::core::Exception on invalid spStructSet
+			* @return a vector of all found indices */
+			static const std::vector<unsigned int> getIndicesByVoiRegex(StructSetTypePointer spStructSet,
+			        const std::string& name);
+
+			/*!@brief get the index of the corresponding VOI name
+			* @details only if the exact name is found, the index will be given.
 			* @pre name must contain a valid VOI name
 			* @pre spStructSet must point to a valid structure set.
 			* @param spStructSet Pointer to the structure set that should be checked for the named VOI.
 			* @param name Name of the VOI
 			* @exception  ::rttb::core::Exception on invalid spStructSet
-			              ::rttb::core::Exception on invalid spStructSet
+			* @exception  ::rttb::core::Exception on invalid name (not found in structure set)
 			* @return the index */
-			static const std::vector<unsigned int> getIndicesByVoiRegex(StructSetTypePointer spStructSet,
-			        const std::string& name);
+			static const unsigned int getIndexByVoiName(StructSetTypePointer spStructSet, const std::string& name);
 
 			/*!@brief get the VOI of the corresponding index
 			* @pre index must specify a valid index value

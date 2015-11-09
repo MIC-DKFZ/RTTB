@@ -59,6 +59,27 @@ namespace rttb
 			return resultVOiIndices;
 		}
 
+
+		const unsigned int VOIindexIdentifier::getIndexByVoiName(StructSetTypePointer spStructSet, const std::string& name)
+		{
+			if (!spStructSet)
+			{
+				rttbDefaultExceptionStaticMacro("spStructSet is NULL");
+			}
+
+			for (unsigned int i = 0; i < spStructSet->getNumberOfStructures(); i++)
+			{
+				if (spStructSet->getStructure(i)->getLabel() == name)
+				{
+					return i;
+				}
+			}
+
+			rttbDefaultExceptionStaticMacro("no VOI was found with the given name");
+		}
+
+
+
 		const std::string VOIindexIdentifier::getVoiNameByIndex(StructSetTypePointer spStructSet,
 		        unsigned int index)
 		{
