@@ -74,11 +74,11 @@ namespace rttb
 			baseCommand += " -s " + structFilename;
 			baseCommand += " -u virtuos " + ctxFilename;
 			baseCommand += " -n " + structName;
-			std::string defaultDoseStatisticsCommand = baseCommand + " -o " + defaultOutputFilename;
+			std::string defaultDoseStatisticsCommand = baseCommand + " -y " + defaultOutputFilename;
 			std::cout << "Command line call: " + defaultDoseStatisticsCommand << std::endl;
 			CHECK_EQUAL(system(defaultDoseStatisticsCommand.c_str()), 0);
 
-			std::string complexDoseStatisticsCommand = baseCommand + " -o " + complexOutputFilename;
+			std::string complexDoseStatisticsCommand = baseCommand + " -y " + complexOutputFilename;
 			//prescribed dose is 50 Gy
 			complexDoseStatisticsCommand += " -x -p 50";
 

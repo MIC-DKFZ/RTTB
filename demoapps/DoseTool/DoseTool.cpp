@@ -64,9 +64,25 @@ int main(int argc, const char** argv)
 	std::cout << std::endl << "*******************************************" << std::endl;
 	std::cout << "Dose file:   " << appData._doseFileName << std::endl;
 	std::cout << "Struct file: " << appData._structFileName << std::endl;
-	std::cout << "Output file: " << appData._outputFileName << std::endl;
 	std::cout << "Struct name: " << appData._structNameRegex << std::endl;
 
+	if (appData._computeDoseStatistics)
+	{
+		std::cout << "Dose Statistic output file: " << appData._doseStatisticOutputFileName << std::endl;
+		std::cout << "Compute complex statistics: " << appData._computeComplexDoseStatistics << std::endl;
+
+		if (appData._computeComplexDoseStatistics)
+		{
+			std::cout << "Prescribed dose: " << appData._prescribedDose << std::endl;
+		}
+
+		std::cout << "Allow self intersections: " << appData._allowSelfIntersection << std::endl;
+	}
+
+	if (appData._computeDVH)
+	{
+		std::cout << "DVH output file: " << appData._dvhOutputFilename << std::endl;
+	}
 
 	try
 	{

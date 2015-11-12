@@ -27,6 +27,7 @@
 #include "rttbDoseIteratorInterface.h"
 #include "rttbMaskAccessorInterface.h"
 #include "rttbDoseStatistics.h"
+#include "rttbDVH.h"
 
 namespace rttb
 {
@@ -100,11 +101,16 @@ namespace rttb
 			    core::DoseIteratorInterface::DoseIteratorPointer
 			    doseIterator, bool calculateComplexDoseStatistics, DoseTypeGy prescribedDose);
 
+			core::DVH::DVHPointer calculateDVH(core::DoseIteratorInterface::DoseIteratorPointer doseIterator, IDType structUID,
+			                                   IDType doseUID);
+
 			/*! @brief Writes the dose statistics as XML to a file
 				@details adds a <config>....</config> part to the RTTB generated xml where the used files and struct names are stored.
 			*/
 			void writeDoseStatisticsFile(algorithms::DoseStatistics::DoseStatisticsPointer statistics,
 			                             rttb::apps::doseTool::ApplicationData& appData);
+
+			void writeDVHFile(core::DVH::DVHPointer dvh, const std::string& filename);
 
 			core::DoseIteratorInterface::DoseIteratorPointer generateMaskedDoseIterator(
 			    core::MaskAccessorInterface::MaskAccessorPointer

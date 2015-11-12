@@ -36,6 +36,8 @@
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbVirtuosFileStructureSetGenerator.h"
 #include "rttbITKImageFileMaskAccessorGenerator.h"
+#include "rttbDVHCalculator.h"
+#include "rttbDVHXMLFileWriter.h"
 #include "rttbDoseStatisticsCalculator.h"
 #include "rttbBoostMaskAccessor.h"
 #include "rttbGenericMaskedDoseIterator.h"
@@ -170,14 +172,29 @@ rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData
 	        appData._dose));
 	std::cout << "done." << std::endl;
 
-	std::cout << std::endl << "computing dose statistics... ";
-	algorithms::DoseStatistics::DoseStatisticsPointer statistics = calculateDoseStatistics(spDoseIterator,
-	        appData._computeComplexDoseStatistics, appData._prescribedDose);
-	std::cout << "done." << std::endl;
+	if (appData._computeDoseStatistics)
+	{
+		std::cout << std::endl << "computing dose statistics... ";
+		algorithms::DoseStatistics::DoseStatisticsPointer statistics = calculateDoseStatistics(spDoseIterator,
+		        appData._computeComplexDoseStatistics, appData._prescribedDose);
+		std::cout << "done." << std::endl;
 
-	std::cout << std::endl << "writing dose statistics to file... ";
-	writeDoseStatisticsFile(statistics, appData);
-	std::cout << "done." << std::endl;
+		std::cout << std::endl << "writing dose statistics to file... ";
+		writeDoseStatisticsFile(statistics, appData);
+		std::cout << "done." << std::endl;
+	}
+
+	if (appData._computeDVH)
+	{
+		std::cout << std::endl << "computing DVH... ";
+		core::DVH::DVHPointer dvh = calculateDVH(spDoseIterator, appData._struct->getUID(), appData._dose->getUID());
+		std::cout << "done." << std::endl;
+
+		std::cout << std::endl << "writing DVH to file... ";
+		writeDVHFile(dvh, appData._dvhOutputFilename);
+		std::cout << "done." << std::endl;
+
+	}
 };
 
 void rttb::apps::doseTool::determineStructIndex(rttb::apps::doseTool::ApplicationData& appData)
@@ -236,6 +253,16 @@ rttb::algorithms::DoseStatistics::DoseStatisticsPointer rttb::apps::doseTool::ca
 	}
 }
 
+
+rttb::core::DVH::DVHPointer rttb::apps::doseTool::calculateDVH(core::DoseIteratorInterface::DoseIteratorPointer
+        doseIterator, IDType structUID, IDType doseUID)
+{
+	rttb::core::DVHCalculator calc(doseIterator, structUID, doseUID);
+	rttb::core::DVH::DVHPointer dvh = calc.generateDVH();
+	return dvh;
+}
+
+
 void rttb::apps::doseTool::writeDoseStatisticsFile(rttb::algorithms::DoseStatistics::DoseStatisticsPointer statistics,
         rttb::apps::doseTool::ApplicationData& appData)
 {
@@ -254,7 +281,14 @@ void rttb::apps::doseTool::writeDoseStatisticsFile(rttb::algorithms::DoseStatist
 	reorderedTree.add_child("statistics.config", configTree);
 	reorderedTree.add_child("statistics.results", resultsTree);
 
-	boost::property_tree::write_xml(appData._outputFileName, reorderedTree, std::locale(),
+	boost::property_tree::write_xml(appData._doseStatisticOutputFileName, reorderedTree, std::locale(),
 	                                boost::property_tree::xml_writer_make_settings<std::string>('\t', 1));
 
+}
+
+void rttb::apps::doseTool::writeDVHFile(core::DVH::DVHPointer dvh, const std::string& filename)
+{
+	DVHType typeCum = { DVHType::Cumulative };
+	rttb::io::other::DVHXMLFileWriter dvhWriter(filename, typeCum);
+	dvhWriter.writeDVH(dvh);
 }

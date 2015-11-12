@@ -48,7 +48,8 @@ namespace rttb
 				const std::string OPTION_DOSE_FILE = "doseFile";
 				const std::string OPTION_STRUCT_FILE = "structFile";
 				const std::string OPTION_STRUCT_NAME = "structName";
-				const std::string OPTION_OUTPUT_FILE = "outputFile";
+				const std::string OPTION_DOSE_STATISTICS = "doseStatistics";
+				const std::string OPTION_DVH = "DVH";
 				const std::string OPTION_DOSE_LOAD_STYLE = "doseLoadStyle";
 				const std::string OPTION_STRUCT_LOAD_STYLE = "structLoadStyle";
 				const std::string OPTION_COMPLEX_STATISTICS = "complexStatistics";

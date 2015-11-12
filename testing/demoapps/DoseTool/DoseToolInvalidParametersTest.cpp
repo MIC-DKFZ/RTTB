@@ -61,6 +61,13 @@ namespace rttb
 			std::cout << "Command line call: " + toofewParametersCommand << std::endl;
 			CHECK_EQUAL(system(toofewParametersCommand.c_str()), -1);
 
+			toofewParametersCommand = voxelizerToolExeWithPath;
+			toofewParametersCommand += " -d test";
+			toofewParametersCommand += " -s test";
+			toofewParametersCommand += " -n test";
+			std::cout << "Command line call: " + toofewParametersCommand << std::endl;
+			CHECK_EQUAL(system(toofewParametersCommand.c_str()), -1);
+
 			//call with invalid dose load option
 			std::string minimalCLI = voxelizerToolExeWithPath + " test test test ";
 			std::string invalidDoseLoadOption = minimalCLI;

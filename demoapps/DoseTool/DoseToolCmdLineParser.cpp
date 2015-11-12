@@ -39,33 +39,39 @@ namespace rttb
 				addOption<std::string>(OPTION_STRUCT_FILE, OPTION_GROUP_REQUIRED,
 				                       "The name of the struct file. Can be omitted if used as "
 				                       "positional argument (see above).", 's', true);
-				addOptionWithDefaultValue<std::string>(OPTION_OUTPUT_FILE, OPTION_GROUP_REQUIRED,
-				                                       "The name of the output file. Can be omitted if used as "
-				                                       "positional argument (see above).", "output.xml", "output.xml", 'o', true);
 				addOptionWithDefaultValue<std::string>(OPTION_STRUCT_NAME, OPTION_GROUP_REQUIRED,
 				                                       "The name of the struct as regular expression. Can be omitted if used as "
 				                                       "positional argument or with itk struct loadingStyle (see above).", "", "", 'n', true);
 				addPositionalOption(OPTION_DOSE_FILE, 1);
 				addPositionalOption(OPTION_STRUCT_FILE, 1);
 				addPositionalOption(OPTION_STRUCT_NAME, 1);
-				addPositionalOption(OPTION_OUTPUT_FILE, 1);
+				addPositionalOption(OPTION_DOSE_STATISTICS, 1);
 
 				std::vector<std::string> defaultLoadingStyle;
 				defaultLoadingStyle.push_back("dicom");
 				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_DOSE_LOAD_STYLE, OPTION_GROUP_REQUIRED,
 				        "The loading style for the dose. Available styles are:\n"
 				        "\"dicom\": normal dicom dose\n"
-				        "\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--loadStyle virtuos myFavorite.pln\")\n"
+				        "\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--"
+				        + OPTION_DOSE_LOAD_STYLE + " virtuos myFavorite.pln\")\n"
 				        "\"itk\": use itk image loading\n\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).",
 				        defaultLoadingStyle, defaultLoadingStyle.at(0),
 				        't', true, true);
 				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_STRUCT_LOAD_STYLE, OPTION_GROUP_REQUIRED,
 				        "The loading style for the dose. Available styles are:\n"
 				        "\"dicom\": normal dicom dose\n"
-				        "\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--loadStyle virtuos myFavorite.pln\")\n"
+				        "\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--"
+				        + OPTION_DOSE_LOAD_STYLE + " virtuos myFavorite.pln\")\n"
 				        "\"itk\": use itk image loading.",
 				        defaultLoadingStyle, defaultLoadingStyle.at(0),
 				        'u', true, true);
+
+				addOption<std::string>(OPTION_DOSE_STATISTICS, OPTION_GROUP_OPTIONAL,
+				                       "If dose statistics should be computed. The argument is the output file. Can be omitted if used as "
+				                       "positional argument (see above).", 'y');
+
+				addOption<std::string>(OPTION_DVH, OPTION_GROUP_OPTIONAL,
+				                       "If the DVH should be computed. The argument is the output file", 'z');
 
 				addOption(OPTION_COMPLEX_STATISTICS, OPTION_GROUP_OPTIONAL,
 				          "If the complex dose statistics (Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx) should be computed.", 'x');
@@ -113,7 +119,8 @@ namespace rttb
 				{
 					if (get<std::string>(OPTION_STRUCT_NAME) == "")
 					{
-						throw cmdlineparsing::InvalidConstraintException("The struct name (--name) has to be defined for dicom, virtuos or helax struct files.");
+						throw cmdlineparsing::InvalidConstraintException("The struct name (--" + OPTION_STRUCT_NAME +
+						        ") has to be defined for dicom, virtuos or helax struct files.");
 					}
 				}
 
@@ -125,17 +132,25 @@ namespace rttb
 					}
 				}
 
-				if (isSet(OPTION_COMPLEX_STATISTICS))
+				if (!isSet(OPTION_DVH) && !isSet(OPTION_DOSE_STATISTICS))
+				{
+					throw cmdlineparsing::InvalidConstraintException("Neither the Dose statistics (--" + OPTION_DOSE_STATISTICS +
+					        "), nor the DVH (--" + OPTION_DVH + ") option was used.");
+				}
+
+				if (isSet(OPTION_DOSE_STATISTICS) && isSet(OPTION_COMPLEX_STATISTICS))
 				{
 					if (!isSet(OPTION_PRESCRIBED_DOSE))
 					{
-						throw cmdlineparsing::InvalidConstraintException("The prescribed dose (--prescribedDose) has to be set for computation of complex dose statistics.");
+						throw cmdlineparsing::InvalidConstraintException("The prescribed dose (--" + OPTION_PRESCRIBED_DOSE +
+						        ") has to be set for computation of complex dose statistics.");
 					}
 					else
 					{
 						if (get<double>(OPTION_PRESCRIBED_DOSE) <= 0)
 						{
-							throw cmdlineparsing::InvalidConstraintException("The prescribed dose (--prescribedDose) has to be >0!");
+							throw cmdlineparsing::InvalidConstraintException("The prescribed dose (--" + OPTION_PRESCRIBED_DOSE +
+							        ") has to be >0!");
 						}
 					}
 				}
@@ -146,10 +161,11 @@ namespace rttb
 				cmdlineparsing::CmdLineParserBase::printHelp();
 				std::cout << "Example:" << std::endl << std::endl;
 				std::cout << m_programName <<
-				          " dose.dcm struct.dcm Liver result.xml" <<
+				          " dose.dcm struct.dcm Liver result.xml --" + OPTION_DVH + " dvh.xml" <<
 				          std::endl << std::endl;
 				std::cout <<
-				          "This will calculate the Dose statistic for liver using \"dose.dcm\" and the struct file \"struct.dcm\" and will write the result to \"result.xml\". "
+				          "This will calculate the Dose statistic for liver using \"dose.dcm\" and the struct file \"struct.dcm\" and will write the dose statistics to \"result.xml\". "
+				          " The DVH is computed as well, its values are written to \"dvh.xml\". "
 				          << std::endl;
 			}
 
