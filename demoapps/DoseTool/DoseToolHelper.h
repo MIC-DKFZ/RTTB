@@ -88,13 +88,9 @@ namespace rttb
 			*/
 			void processData(ApplicationData& appData);
 
-			/*! @brief Searches for the struct index based on the regex
-			*/
-			void determineStructIndex(ApplicationData& appData);
-
 			/*! @brief Generates a mask from the struct file by using the boostAccessor. In case of itk image, it directly loads the voxelized image.
 			*/
-			core::MaskAccessorInterface::MaskAccessorPointer generateMask(ApplicationData& appData);
+			std::vector<core::MaskAccessorInterface::MaskAccessorPointer> generateMasks(ApplicationData& appData);
 
 			algorithms::DoseStatistics::DoseStatisticsPointer calculateDoseStatistics(
 			    core::DoseIteratorInterface::DoseIteratorPointer
@@ -103,13 +99,15 @@ namespace rttb
 			/*! @brief Writes the dose statistics as XML to a file
 				@details adds a <config>....</config> part to the RTTB generated xml where the used files and struct names are stored.
 			*/
-			void writeDoseStatisticsFile(algorithms::DoseStatistics::DoseStatisticsPointer statistics,
+			void writeDoseStatisticsFile(algorithms::DoseStatistics::DoseStatisticsPointer statistics, const std::string& filename,
+			                             const std::string& structName,
 			                             rttb::apps::doseTool::ApplicationData& appData);
 
 			core::DoseIteratorInterface::DoseIteratorPointer generateMaskedDoseIterator(
 			    core::MaskAccessorInterface::MaskAccessorPointer
 			    maskAccessorPtr, core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPtr);
 
+			std::string assembleFilenameWithStruct(const std::string& originalFilename, const std::string& structName);
 		}
 	}
 }

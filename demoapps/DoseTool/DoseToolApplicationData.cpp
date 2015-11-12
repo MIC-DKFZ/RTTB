@@ -40,10 +40,13 @@ namespace rttb
 				_doseFileName = "";
 				_structFileName = "";
 				_structNameRegex = "";
-				_structNameActual = "";
 				_outputFileName = "";
 				_computeComplexDoseStatistics = false;
 				_allowSelfIntersection = false;
+				_structIndices.clear();
+				_structNames.clear();
+				_prescribedDose = 1.0;
+				_multipleStructsMode = false;
 			}
 
 			void populateAppData(boost::shared_ptr<DoseToolCmdLineParser> argParser, ApplicationData& appData)
@@ -56,14 +59,11 @@ namespace rttb
 				appData._outputFileName = argParser->get<std::string>(argParser->OPTION_OUTPUT_FILE);
 				appData._computeComplexDoseStatistics = argParser->isSet(argParser->OPTION_COMPLEX_STATISTICS);
 				appData._allowSelfIntersection = argParser->isSet(argParser->OPTION_ALLOW_SELF_INTERSECTION_STRUCT);
+				appData._multipleStructsMode = argParser->isSet(argParser->OPTION_MULTIPLE_STRUCTS_MODE);
 
 				if (argParser->isSet(argParser->OPTION_PRESCRIBED_DOSE))
 				{
 					appData._prescribedDose = argParser->get<DoseTypeGy>(argParser->OPTION_PRESCRIBED_DOSE);
-				}
-				else
-				{
-					appData._prescribedDose = 1.0;
 				}
 			}
 

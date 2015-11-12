@@ -55,29 +55,56 @@ namespace rttb
 
 			StructureSetPointer emptyPointer = StructureSetPointer();
 
-			/* getIndexByVoiName */
 			CHECK_NO_THROW(::rttb::masks::VOIindexIdentifier testVOIindexId = ::rttb::masks::VOIindexIdentifier());
 			::rttb::masks::VOIindexIdentifier testVOIindexId = ::rttb::masks::VOIindexIdentifier();
+
+			/* getIndexByVoiName */
 			CHECK_THROW_EXPLICIT(testVOIindexId.getIndexByVoiName(emptyPointer, "Leber"),
 			                     ::rttb::core::Exception);
+			CHECK_THROW_EXPLICIT(testVOIindexId.getIndexByVoiName(rtStructureSet, "Invalid"), ::rttb::core::Exception);
 
-			CHECK_NO_THROW(testVOIindexId.getIndexByVoiName(rtStructureSet, "Leber"));
-			int intVoi = 5;
-			CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet, "Leber"), intVoi);
+			unsigned int indexActual;
+			unsigned int indexExpected = 5;
 
-			CHECK_NO_THROW(testVOIindexId.getIndexByVoiName(rtStructureSet, "Leber||Leb"));
+			CHECK_NO_THROW(indexActual = testVOIindexId.getIndexByVoiName(rtStructureSet, "Leber"));
+			CHECK_EQUAL(indexActual, indexExpected);
 
-			CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet, "Leber"), intVoi);
-			CHECK_EQUAL(testVOIindexId.getIndexByVoiName(rtStructureSet, "Leber||Leb"), intVoi);
 
-			CHECK_THROW_EXPLICIT(testVOIindexId.getIndexByVoiName(rtStructureSet, "Herz"), ::rttb::core::Exception);
+			/*getIndicesByVoiRegex*/
+			CHECK_THROW_EXPLICIT(testVOIindexId.getIndicesByVoiRegex(emptyPointer, "Leber"),
+			                     ::rttb::core::Exception);
+
+			std::vector<unsigned int> vectorActual;
+			std::vector<unsigned int> vectorExpected;
+			vectorExpected.push_back(5);
+			CHECK_NO_THROW(vectorActual = testVOIindexId.getIndicesByVoiRegex(rtStructureSet, "Leber"));
+			CHECK_EQUAL(vectorActual.size(), vectorExpected.size());
+			CHECK_EQUAL(vectorActual.at(0), vectorExpected.at(0));
+
+			vectorExpected.clear();
+			vectorExpected.push_back(2);
+			vectorExpected.push_back(3);
+			CHECK_NO_THROW(vectorActual = testVOIindexId.getIndicesByVoiRegex(rtStructureSet, "Niere.*"));
+
+			CHECK_EQUAL(vectorActual.size(), vectorExpected.size());
+			CHECK_EQUAL(vectorActual.at(0), vectorExpected.at(0));
+			CHECK_EQUAL(vectorActual.at(1), vectorExpected.at(1));
+
+			CHECK_NO_THROW(vectorActual = testVOIindexId.getIndicesByVoiRegex(rtStructureSet, ".*"));
+			CHECK_EQUAL(vectorActual.size(), 10);
+
+			for (unsigned int index = 0; index < vectorActual.size(); index++)
+			{
+				CHECK_EQUAL(vectorActual.at(index), index);
+			}
 
 			/* getVoiNameByIndex */
 			CHECK_THROW_EXPLICIT(testVOIindexId.getVoiNameByIndex(emptyPointer, 5),
 			                     ::rttb::core::Exception);
-			CHECK_EQUAL(testVOIindexId.getVoiNameByIndex(rtStructureSet, 5), "Leber");
-			std::string voiName = "Herz";
 			CHECK_THROW_EXPLICIT(testVOIindexId.getVoiNameByIndex(rtStructureSet, 20), ::rttb::core::Exception);
+
+			CHECK_EQUAL(testVOIindexId.getVoiNameByIndex(rtStructureSet, 5), "Leber");
+
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

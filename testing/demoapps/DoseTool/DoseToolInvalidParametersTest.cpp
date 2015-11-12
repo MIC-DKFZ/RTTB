@@ -40,29 +40,29 @@ namespace rttb
 			const std::string doseToolExe = "DoseTool.exe";
 
 			boost::filesystem::path callingPath(_callingAppPath);
-			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExe;
+			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExe;
 
 			//call with too few parameters
-			std::string toofewParametersCommand = voxelizerToolExeWithPath;
+			std::string toofewParametersCommand = doseToolExeWithPath;
 			toofewParametersCommand += " -d test";
 			toofewParametersCommand += " -s test";
 			std::cout << "Command line call: " + toofewParametersCommand << std::endl;
 			CHECK_EQUAL(system(toofewParametersCommand.c_str()), -1);
 
-			toofewParametersCommand = voxelizerToolExeWithPath;
+			toofewParametersCommand = doseToolExeWithPath;
 			toofewParametersCommand += " -s test";
 			toofewParametersCommand += " -n test";
 			std::cout << "Command line call: " + toofewParametersCommand << std::endl;
 			CHECK_EQUAL(system(toofewParametersCommand.c_str()), -1);
 
-			toofewParametersCommand = voxelizerToolExeWithPath;
+			toofewParametersCommand = doseToolExeWithPath;
 			toofewParametersCommand += " test";
 			toofewParametersCommand += " test";
 			std::cout << "Command line call: " + toofewParametersCommand << std::endl;
 			CHECK_EQUAL(system(toofewParametersCommand.c_str()), -1);
 
 			//call with invalid dose load option
-			std::string minimalCLI = voxelizerToolExeWithPath + " test test test ";
+			std::string minimalCLI = doseToolExeWithPath + " test test test ";
 			std::string invalidDoseLoadOption = minimalCLI;
 			invalidDoseLoadOption += "-t wrongOption";
 			std::cout << "Command line call: " + invalidDoseLoadOption << std::endl;

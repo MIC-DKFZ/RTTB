@@ -28,5 +28,7 @@ ADD_TEST(DoseToolITKDoseDicomStructTest ${DOSETOOL_TEST} DoseToolITKDoseTest "${
 "${TEST_DATA_ROOT}/DoseStatistics/itkDicomStruct.xml" "${TEST_DATA_ROOT}/DoseStatistics/itkDicomStructComplex.xml")
 ADD_TEST(DoseToolITKDoseVirtuosStructTest ${DOSETOOL_TEST} DoseToolITKDoseTest "${TEST_DATA_ROOT}/ITK/virtuosTestDose.mhd" "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.vdx"
 	"${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.ctx.gz"  "DARM" "${TEST_DATA_ROOT}/DoseStatistics/itkVirtuosStruct.xml" "${TEST_DATA_ROOT}/DoseStatistics/itkVirtuosStructComplex.xml")
+ADD_TEST(DoseToolDicomDoseDicomStructRegexTest ${DOSETOOL_TEST} DoseToolRegexTest "${TEST_DATA_ROOT}/DICOM/TestDose/dicompylerTestDose.dcm" "dicom" "${TEST_DATA_ROOT}/DICOM/StructureSet/rtss.dcm" "dicom" "Nodes|Heart"
+"${TEST_DATA_ROOT}/DoseStatistics/dicom.xml" "${TEST_DATA_ROOT}/DoseStatistics/dicom_heart.xml")
 
 RTTB_CREATE_APPLICATION_TESTS(DoseTool PACKAGE_DEPENDS Litmus BoostBinaries)

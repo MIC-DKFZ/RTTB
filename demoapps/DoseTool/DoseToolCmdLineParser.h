@@ -54,6 +54,7 @@ namespace rttb
 				const std::string OPTION_COMPLEX_STATISTICS = "complexStatistics";
 				const std::string OPTION_PRESCRIBED_DOSE = "prescribedDose";
 				const std::string OPTION_ALLOW_SELF_INTERSECTION_STRUCT = "allowSelfIntersection";
+				const std::string OPTION_MULTIPLE_STRUCTS_MODE = "multipleStructsMode";
 			};
 
 		}
