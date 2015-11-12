@@ -102,6 +102,8 @@ namespace rttb
 				}
 
 				sort(_voxelInStructure->begin(), _voxelInStructure->end());
+
+				_isUpToDate = true;
 			}
 
 			bool BoostMask::hasSelfIntersections(){
