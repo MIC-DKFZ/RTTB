@@ -100,6 +100,10 @@ namespace rttb
 
 				_globalBoundingBox.push_back(globalMinGridIndex);
 				_globalBoundingBox.push_back(globalMaxGridIndex);
+				rttb::VoxelGridIndex3D minIndex = VoxelGridIndex3D(GridIndexType(globalMinGridIndex(0) + 0.5), GridIndexType(globalMinGridIndex(1) + 0.5), GridIndexType(globalMinGridIndex(1) + 0.5));
+				rttb::VoxelGridIndex3D maxIndex = VoxelGridIndex3D(GridIndexType(globalMaxGridIndex(0) + 0.5), GridIndexType(globalMaxGridIndex(1) + 0.5), GridIndexType(globalMaxGridIndex(1) + 0.5));
+				_globalBoundingBoxSize0 = maxIndex(0) - minIndex(0) + 1;
+				_globalBoundingBoxSize1 = maxIndex(1) - minIndex(1) + 1;
 
 				//convert rttb polygon sequence to a map of z index and a vector of boost ring 2d (without holes)
 				BoostRingMap ringMap = convertRTTBPolygonSequenceToBoostRingMap(geometryCoordinatePolygonVector);
@@ -111,6 +115,21 @@ namespace rttb
 					BoostPolygonVector polygonVector = checkDonutAndConvert((*itMap).second);
 					_geometryCoordinateBoostPolygonMap.insert(std::pair<double, BoostPolygonVector>((*itMap).first, polygonVector));
 				}
+			}
+
+			void BoostMask::voxelization(){
+				BoostPolygonMap::iterator it;
+				for (it = _geometryCoordinateBoostPolygonMap.begin(); it != _geometryCoordinateBoostPolygonMap.end(); ++it){
+					BoostArray2D maskArray(boost::extents[_globalBoundingBoxSize0][_globalBoundingBoxSize1]);
+
+					
+					
+					
+					
+					//insert into voxelization map
+					_voxelizationMap.insert(std::pair<double, BoostArray2D>((*it).first, maskArray));
+				}
+				
 			}
 
 			rttb::PolygonType BoostMask::worldCoordinateToGeometryCoordinatePolygon(const rttb::PolygonType& aRTTBPolygon){

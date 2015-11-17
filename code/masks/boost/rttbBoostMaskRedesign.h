@@ -34,6 +34,7 @@
 #include <boost/geometry/geometries/polygon.hpp>
 #include <boost/geometry/geometries/ring.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/multi_array.hpp>
 
 namespace rttb
 {
@@ -80,6 +81,8 @@ namespace rttb
 				typedef std::vector<rttb::VoxelGridIndex3D> VoxelIndexVector;
 				typedef std::map<double, BoostPolygonVector> BoostPolygonMap;//map of the z index with the vector of boost 2d polygon
 				typedef std::map<double, BoostRingVector> BoostRingMap;//map of the z index with the vector of boost 2d ring
+				typedef boost::multi_array<double, 2> BoostArray2D;
+				typedef std::map<double, BoostArray2D> BoostArrayMap;
 
 				GeometricInfoPointer _geometricInfo;
 
@@ -96,6 +99,17 @@ namespace rttb
 				*	The second index has the maximum for x/y/z of the global bounding index.
 				*/
 				std::vector<rttb::DoubleVoxelGridIndex3D> _globalBoundingBox;
+
+				/*! @brief The bounding box x/y size*/
+				int _globalBoundingBoxSize0;
+				int _globalBoundingBoxSize1;
+
+				/*! @brief The voxelization map
+				*	key: the double z grid index
+				*	value: the 2d mask, array[i][j] = the mask value of the position (i,j) in the global bounding box, 
+				*			i: 0 - (_globalBoundingBoxSize0-1), j: 0 - (_globalBoundingBoxSize1-1)
+				*/
+				BoostArrayMap _voxelizationMap;
 
 				bool _strict;
 
@@ -119,6 +133,15 @@ namespace rttb
 					*3) Get struct-bounding-box: get x_min_struct, y_min_struct, x_max_struct, y_max_struct to define the bounding box that containes all contours of a struct in x-y-dimensions.
 				*/
 				void preprocessing();
+
+				/*! @brief The voxelization step, wich computes the voxelization planes (in x/y) for all contours of an struct.
+
+					*For each contour (that is in the z-Range of the reference geometry) of the struct:
+					*1) Allocate result array (voxelization plane) based on the bounding box (see Proprocessing Step 3)
+					*2) Generate voxelization plane for the contour (based on the x-y-raster of the reference geometry). 
+					*3) Add result Array (key is the z-Value of the contoure)
+				*/
+				void voxelization();
 
 				/*! @brief Convert the rttb polygon with world corrdinate to the rttb polygon with double geometry coordinate
 				*/
