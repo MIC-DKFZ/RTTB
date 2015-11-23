@@ -19,7 +19,8 @@ namespace rttb
 		namespace boostRedesign
 		{
 			BoostMask::BoostMask(BoostMask::GeometricInfoPointer aDoseGeoInfo, BoostMask::StructPointer aStructure, bool strict)
-				:_geometricInfo(aDoseGeoInfo), _structure(aStructure), _strict(strict), _voxelInStructure(::boost::make_shared<MaskVoxelList>()){
+				:_geometricInfo(aDoseGeoInfo), _structure(aStructure), _strict(strict), _voxelInStructure(::boost::make_shared<MaskVoxelList>())
+			{
 
 				_isUpToDate = false;
 				if (!_geometricInfo){
@@ -31,71 +32,41 @@ namespace rttb
 
 			}
 
-			BoostMask::MaskVoxelListPointer BoostMask::getRelevantVoxelVector(){
+			BoostMask::MaskVoxelListPointer BoostMask::getRelevantVoxelVector()
+			{
 				if (!_isUpToDate){
 					calcMask();
 				}
 				return _voxelInStructure;
 			}
 
-			void BoostMask::calcMask(){
+			void BoostMask::calcMask()
+			{
 				preprocessing();
 				_isUpToDate = true;
 			}
 
-			void BoostMask::preprocessing(){
-
+			void BoostMask::preprocessing()
+			{
 				rttb::PolygonSequenceType polygonSequence = _structure->getStructureVector();
 
 				//Convert world coordinate polygons to the polygons with geometry coordinate
 				rttb::PolygonSequenceType geometryCoordinatePolygonVector;
 				rttb::PolygonSequenceType::iterator it;
-				for (it = polygonSequence.begin(); it != polygonSequence.end(); ++it){
-					PolygonType rttbPolygon = *it;
-					PolygonType geometryCoordinatePolygon = worldCoordinateToGeometryCoordinatePolygon(rttbPolygon);
-					geometryCoordinatePolygonVector.push_back(geometryCoordinatePolygon);
-
-				}
-
-				//Get global bounding box
 				rttb::DoubleVoxelGridIndex3D globalMaxGridIndex(0.0, 0.0, 0);
 				rttb::DoubleVoxelGridIndex3D globalMinGridIndex(_geometricInfo->getNumColumns(), _geometricInfo->getNumRows(), 0);
-				for (it = geometryCoordinatePolygonVector.begin(); it != geometryCoordinatePolygonVector.end(); ++it){
-					PolygonType geometryCoordinatePolygon = *it;
-					rttb::DoubleVoxelGridIndex3D maxGridIndex;
-					rttb::DoubleVoxelGridIndex3D minGridIndex;
+				for (it = polygonSequence.begin(); it != polygonSequence.end(); ++it){
+					PolygonType rttbPolygon = *it;
+					PolygonType geometryCoordinatePolygon;
 
-					//get min/max for x/y/z of the contour
-					calcMinMax(geometryCoordinatePolygon, minGridIndex, maxGridIndex);
-
-					//check tilt, if more than the error constant throw exception
-					if (checkTilt(minGridIndex, maxGridIndex, errorConstant)){
+					//1. convert polygon to geometry coordinate polygons
+					//2. calculate global min/max
+					//3. check if polygon is planar
+					if (!preprocessingPolygon(rttbPolygon, geometryCoordinatePolygon, globalMinGridIndex, globalMaxGridIndex, errorConstant))
+					{
 						throw rttb::core::Exception("TiltedMaskPlaneException");
 					}
-
-					//get global min/max for x/y/z of all contours
-					//min and max for x
-					if (minGridIndex(0) < globalMinGridIndex(0)){
-						globalMinGridIndex(0) = minGridIndex(0);
-					}
-					if (maxGridIndex(0) > globalMaxGridIndex(0)){
-						globalMaxGridIndex(0) = maxGridIndex(0);
-					}
-					//min and max for y
-					if (minGridIndex(1) < globalMinGridIndex(1)){
-						globalMinGridIndex(1) = minGridIndex(1);
-					}
-					if (maxGridIndex(1) > globalMaxGridIndex(1)){
-						globalMaxGridIndex(1) = maxGridIndex(1);
-					}
-					//min and max for z
-					if (minGridIndex(2) < globalMinGridIndex(2)){
-						globalMinGridIndex(2) = minGridIndex(2);
-					}
-					if (maxGridIndex(2) > globalMaxGridIndex(2)){
-						globalMaxGridIndex(2) = maxGridIndex(2);
-					}
-					
+					geometryCoordinatePolygonVector.push_back(geometryCoordinatePolygon);
 				}
 
 				_globalBoundingBox.push_back(globalMinGridIndex);
@@ -113,36 +84,21 @@ namespace rttb
 				}
 			}
 
-			rttb::PolygonType BoostMask::worldCoordinateToGeometryCoordinatePolygon(const rttb::PolygonType& aRTTBPolygon){
-				rttb::PolygonType geometryCoordinatePolygon;
+			bool BoostMask::preprocessingPolygon(const rttb::PolygonType& aRTTBPolygon, rttb::PolygonType& geometryCoordinatePolygon, rttb::DoubleVoxelGridIndex3D& minimum, rttb::DoubleVoxelGridIndex3D& maximum, double aErrorConstant)
+			{
+				
+				double minZ = _geometricInfo->getNumSlices();
+				double maxZ =  0.0;
 				for (unsigned int i = 0; i < aRTTBPolygon.size(); i++){
 					rttb::WorldCoordinate3D worldCoordinatePoint = aRTTBPolygon.at(i);
 
+					//convert to geometry coordinate polygon
 					rttb::DoubleVoxelGridIndex3D geometryCoordinatePoint;
 					_geometricInfo->worldCoordinateToGeometryCoordinate(worldCoordinatePoint, geometryCoordinatePoint);
 
 					geometryCoordinatePolygon.push_back(geometryCoordinatePoint);
 
-				}
-				return geometryCoordinatePolygon;
-			}
-
-			bool BoostMask::checkTilt(const rttb::DoubleVoxelGridIndex3D& minimum, const rttb::DoubleVoxelGridIndex3D& maximum, double aErrorConstant){				
-				return (abs(maximum(2) - minimum(2)) > aErrorConstant);
-			}
-
-			void BoostMask::calcMinMax(const rttb::PolygonType& aRTTBPolygon, rttb::DoubleVoxelGridIndex3D minimum, rttb::DoubleVoxelGridIndex3D maximum){
-				maximum(0) = 0.0;
-				maximum(1) = 0.0;
-				maximum(2) = 0.0;
-				minimum(0) = _geometricInfo->getNumColumns();
-				minimum(1) = _geometricInfo->getNumRows();
-				minimum(2) = _geometricInfo->getNumSlices();
-
-				//get min and max for x/y/z of a contour
-				PolygonType::const_iterator polygonIt;
-				for (polygonIt = aRTTBPolygon.begin(); polygonIt < aRTTBPolygon.end(); ++polygonIt){
-					rttb::DoubleVoxelGridIndex3D geometryCoordinatePoint = *polygonIt;
+					//calculate the current global min/max
 					//min and max for x
 					if (geometryCoordinatePoint(0) < minimum(0)){
 						minimum(0) = geometryCoordinatePoint(0);
@@ -164,11 +120,23 @@ namespace rttb
 					if (geometryCoordinatePoint(2) > maximum(2)){
 						maximum(2) = geometryCoordinatePoint(2);
 					}
+
+					//check planar
+					if (geometryCoordinatePoint(2) < minZ){
+						minZ = geometryCoordinatePoint(2);
+					}
+					if (geometryCoordinatePoint(2) > maxZ){
+						maxZ = geometryCoordinatePoint(2);
+					}
+
 				}
+
+				return (abs(maxZ - minZ) <= aErrorConstant);
 			}
 
 
-			BoostMask::BoostRing2D BoostMask::convertRTTBPolygonToBoostRing(const rttb::PolygonType& aRTTBPolygon){
+			BoostMask::BoostRing2D BoostMask::convertRTTBPolygonToBoostRing(const rttb::PolygonType& aRTTBPolygon)
+			{
 				BoostMask::BoostRing2D polygon2D;
 				BoostPoint2D firstPoint;
 				for (unsigned int i = 0; i < aRTTBPolygon.size(); i++){
@@ -183,29 +151,77 @@ namespace rttb
 				return polygon2D;
 			}
 
-			BoostMask::BoostRingMap BoostMask::convertRTTBPolygonSequenceToBoostRingMap(const rttb::PolygonSequenceType& aRTTBPolygonVector){
+			BoostMask::BoostRingMap BoostMask::convertRTTBPolygonSequenceToBoostRingMap(const rttb::PolygonSequenceType& aRTTBPolygonVector)
+			{
 				rttb::PolygonSequenceType::const_iterator it;
 				BoostMask::BoostRingMap aRingMap;
 				for (it = aRTTBPolygonVector.begin(); it != aRTTBPolygonVector.end(); ++it){
 					rttb::PolygonType rttbPolygon = *it;
 					double zIndex = rttbPolygon.at(0)[2];//get the first z index of the polygon
-					BoostMask::BoostRingMap::iterator findIt = aRingMap.find(zIndex);
-					//if the z index is found (same slice), add the polygon to vector
-					if (findIt != aRingMap.end()){
-						BoostRingVector ringVector = (*findIt).second;
-						ringVector.push_back(convertRTTBPolygonToBoostRing(rttbPolygon));
+					if (!aRingMap.empty())
+					{
+						BoostMask::BoostRingMap::const_iterator findIt = findNearestKey(aRingMap, zIndex, errorConstant);
+
+						//if the z index is found (same slice), add the polygon to vector
+						if (findIt != aRingMap.end()){
+							BoostRingVector ringVector = (*findIt).second;
+							ringVector.push_back(convertRTTBPolygonToBoostRing(rttbPolygon));
+						}					
 					}
+
 					//if it is the first z index in the map, insert vector with the polygon
-					else{
-						BoostRingVector ringVector;
-						ringVector.push_back(convertRTTBPolygonToBoostRing(rttbPolygon));
-						aRingMap.insert(std::pair<double, BoostRingVector>(zIndex, ringVector));
-					}
+					BoostRingVector ringVector;
+					ringVector.push_back(convertRTTBPolygonToBoostRing(rttbPolygon));
+					aRingMap.insert(std::pair<double, BoostRingVector>(zIndex, ringVector));
+
 				}
 				return aRingMap;
 			}
 
-			BoostMask::BoostPolygonVector BoostMask::checkDonutAndConvert(const BoostMask::BoostRingVector& aRingVector){
+			BoostMask::BoostRingMap::const_iterator BoostMask::findNearestKey(const BoostMask::BoostRingMap& aBoostRingMap, double aIndex, double aErrorConstant)
+			{
+				BoostMask::BoostRingMap::const_iterator find = aBoostRingMap.find(aIndex);
+				//if find a key equivalent to aIndex, found
+				if (find != aBoostRingMap.end())
+				{
+					return find;
+				}
+				else
+				{
+					BoostMask::BoostRingMap::const_iterator lowerBound = aBoostRingMap.lower_bound(aIndex);
+					//if the lower bound very close to aIndex, found
+					if (abs((*lowerBound).first - aIndex) <= aErrorConstant)
+					{
+						return lowerBound;
+					}
+					else
+					{
+						//if the lower bound is the beginning, not found
+						if (lowerBound == aBoostRingMap.begin())
+						{
+							return aBoostRingMap.end();
+						}
+						else
+						{
+							BoostMask::BoostRingMap::const_iterator lowerBound1 = --lowerBound;//the key before the lower bound
+							//if the key before the lower bound very close to a Index, found
+							if (abs((*lowerBound1).first - aIndex) <= aErrorConstant)
+							{
+								return lowerBound1;
+							}
+							//else, not found
+							else
+							{
+								return aBoostRingMap.end();
+							}
+						}
+					}
+					
+				}
+			}
+
+			BoostMask::BoostPolygonVector BoostMask::checkDonutAndConvert(const BoostMask::BoostRingVector& aRingVector)
+			{
 				//check donut
 				BoostMask::BoostRingVector::const_iterator it1;
 				BoostMask::BoostRingVector::const_iterator it2;

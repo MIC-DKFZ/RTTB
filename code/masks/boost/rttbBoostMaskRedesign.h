@@ -111,36 +111,34 @@ namespace rttb
 				void calcMask();
 
 				/*! @brief The preprocessing step, wich consists of the following logic and Sub setps:
-					*For all contours in a struct:
-					*1) Transfer the contour polygons into boost::geometry structures
-						*1a) Convert the contur points from world coordinates into geometry coordinates. 
-						*1b) get min and max for x/y/z of a contour
-					*2) Tilt check: if difference of z_min and z_max is larger then a tolerance value -> there is a tilt. Throw rttb::TiltedMaskPlaneException.
-					*3) Get struct-bounding-box: get x_min_struct, y_min_struct, x_max_struct, y_max_struct to define the bounding box that containes all contours of a struct in x-y-dimensions.
+				*	For all contours in a struct:
+				*	1) Transfer the contour polygons into boost::geometry structures
+				*		1a) Convert the contur points from world coordinates into geometry coordinates. 
+				*		1b) get min and max for x/y/z of a contour
+				*	2) Tilt check: if difference of z_min and z_max is larger then a tolerance value -> there is a tilt. Throw rttb::TiltedMaskPlaneException.
+				*	3) Get struct-bounding-box: get x_min_struct, y_min_struct, x_max_struct, y_max_struct to define the bounding box that containes all contours of a struct in x-y-dimensions.
 				*/
 				void preprocessing();
 
-				/*! @brief Convert the rttb polygon with world corrdinate to the rttb polygon with double geometry coordinate
+				/*! @brief Convert the rttb polygon with world corrdinate to the rttb polygon with double geometry coordinate, calculate the current min/max
+				*			and check if the polygon is planar
+				*	@param minimum the current global minimum
+				*	@param maximum the current global maximum
+				*	@return Return true if the polygon is planar, which means that the minminal and maximal z-coordinate of the polygon is not larger than a error constant
 				*/
-				rttb::PolygonType worldCoordinateToGeometryCoordinatePolygon(const rttb::PolygonType& aRTTBPolygon);
-
-				/*! @brief Check if the polygon with the minimum and maximum is tilted more than a error constant
-				@return Return true if tilted > aErrorConstant
-				*/
-				bool checkTilt(const rttb::DoubleVoxelGridIndex3D& minimum, const rttb::DoubleVoxelGridIndex3D& maximum, double aErrorConstant);
-
-				/*! @brief Calculate minimum and maximum for x/y/z of the polygon
-				*/
-				void calcMinMax(const rttb::PolygonType& aRTTBPolygon, rttb::DoubleVoxelGridIndex3D minimum, rttb::DoubleVoxelGridIndex3D maximum);
-
-				/*! @brief If 2 rttb polygons in the vector build a donut, convert the 2 rttb polygons to a donut boost polygon, other rttb polygons unchanged convert to boost ring*/
-				
+				bool preprocessingPolygon(const rttb::PolygonType& aRTTBPolygon, rttb::PolygonType& geometryCoordinatePolygon, rttb::DoubleVoxelGridIndex3D& minimum, rttb::DoubleVoxelGridIndex3D& maximum, double aErrorConstant);
 
 				/*! @brief Convert a rttb 3d polygon to a 2d boost ring*/
 				BoostRing2D convertRTTBPolygonToBoostRing(const rttb::PolygonType& aRTTBPolygon);
 
 				/*! @brief Convert a rttb 3d polygon to a map of z index with a vector of boost 2d ring, because of tilt check use the first z index of the polygon as the map key*/
 				BoostRingMap convertRTTBPolygonSequenceToBoostRingMap(const rttb::PolygonSequenceType& aRTTBPolygonVector);
+
+				/*! @brief Find the key with error constant to aIndex
+				*	@pre aBoostRingMap should not be empty
+				*	@return Return aBoostRingMap.end() if the key is not found
+				*/
+				BoostMask::BoostRingMap::const_iterator findNearestKey(const BoostMask::BoostRingMap& aBoostRingMap, double aIndex, double aErrorConstant);
 				
 				/*! @brief If 2 rings in the vector build a donut, convert the 2 rings to a donut polygon, other rings unchanged*/
 				BoostPolygonVector checkDonutAndConvert(const BoostRingVector& aRingVector);
