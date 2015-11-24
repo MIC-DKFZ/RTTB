@@ -45,6 +45,7 @@ namespace rttb
 			{
 				appData._doseFileName = argParser->get<std::string>(argParser->OPTION_DOSE_FILE);
 				appData._doseLoadStyle = argParser->get<std::vector<std::string> >(argParser->OPTION_LOAD_STYLE);
+				appData._doseScaling = argParser->get<double>(argParser->OPTION_DOSE_SCALING);
 				appData._outputFileName = argParser->get<std::string>(argParser->OPTION_OUTPUT_FILE);
 				appData._model = argParser->get<std::string>(argParser->OPTION_MODEL);
 				appData._modelParameters = argParser->get<std::vector<double> >(argParser->OPTION_MODEL_PARAMETERS);

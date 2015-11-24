@@ -29,6 +29,7 @@ namespace rttb
 				const std::string OPTION_MODEL = "model";
 				const std::string OPTION_MODEL_PARAMETERS = "modelParameters";
 				const std::string OPTION_LOAD_STYLE = "loadStyle";
+				const std::string OPTION_DOSE_SCALING = "doseScaling";
 			};
 
 		}

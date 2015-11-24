@@ -22,6 +22,7 @@
 #include "rttbLQModelAccessor.h"
 #include "rttbDoseBasedModels.h"
 #include "rttbInvalidDoseException.h"
+#include "rttbInvalidParameterException.h"
 
 namespace rttb
 {
@@ -32,12 +33,18 @@ namespace rttb
 
 		}
 
-		LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, BioModelParamType alpha, BioModelParamType beta) :
-			_dose(dose), _alpha(alpha), _beta(beta)
+		LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, BioModelParamType alpha, BioModelParamType beta,
+		                                 double doseScaling) :
+			_dose(dose), _alpha(alpha), _beta(beta), _doseScaling(doseScaling)
 		{
 			if (_dose == NULL)
 			{
 				throw core::InvalidDoseException("Dose is NULL");
+			}
+
+			if (_doseScaling < 0)
+			{
+				throw core::InvalidParameterException("Dose Scaling must be >0");
 			}
 
 			assembleGeometricInfo();
@@ -45,12 +52,12 @@ namespace rttb
 
 		GenericValueType LQModelAccessor::getValueAt(const VoxelGridID aID) const
 		{
-			return calcLQ(_dose->getValueAt(aID), _alpha, _beta);
+			return calcLQ(_dose->getValueAt(aID) * _doseScaling, _alpha, _beta);
 		}
 
 		GenericValueType LQModelAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 		{
-			return calcLQ(_dose->getValueAt(aIndex), _alpha, _beta);
+			return calcLQ(_dose->getValueAt(aIndex) * _doseScaling, _alpha, _beta);
 		}
 
 		bool LQModelAccessor::assembleGeometricInfo()

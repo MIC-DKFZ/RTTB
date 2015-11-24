@@ -45,9 +45,11 @@ namespace rttb
 				 * Virtuos plan file for the Virtuos IO style).
 				 */
 				typedef std::vector<std::string> LoadingStyleArgType;
+
 				core::DoseAccessorInterface::DoseAccessorPointer _dose;
 				std::string  _doseFileName;
 				LoadingStyleArgType _doseLoadStyle;
+				double _doseScaling;
 
 				std::string  _outputFileName;
 

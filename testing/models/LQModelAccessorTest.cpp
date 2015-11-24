@@ -26,6 +26,7 @@
 #include "rttbGenericDoseIterator.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbInvalidDoseException.h"
+#include "rttbInvalidParameterException.h"
 
 namespace rttb
 {
@@ -74,13 +75,17 @@ namespace rttb
 			DoseAccessorPointer doseAccessorNull;
 
 			core::AccessorInterface::AccessorPointer LQWithConstantDose;
+			core::AccessorInterface::AccessorPointer LQWithConstantDoseDoseScalingTwo;
 			core::AccessorInterface::AccessorPointer LQWithIncreaseXDose;
 
 			//1) test constructor
 			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessorNull, 0, 0), core::InvalidDoseException);
+			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessor1, 0.2, 0.02, -1), core::InvalidParameterException);
 
 			CHECK_NO_THROW(LQWithConstantDose = boost::make_shared<models::LQModelAccessor>(doseAccessor1,
 			                                    0.2, 0.02));
+			CHECK_NO_THROW(LQWithConstantDoseDoseScalingTwo = boost::make_shared<models::LQModelAccessor>(doseAccessor1,
+			               0.2, 0.02, 2.0));
 			CHECK_NO_THROW(LQWithIncreaseXDose = boost::make_shared<models::LQModelAccessor>(doseAccessor2,
 			                                     0.3, 0.01));
 
@@ -95,9 +100,20 @@ namespace rttb
 			CHECK_EQUAL(LQWithConstantDose->getValueAt(LQWithConstantDose->getGridSize() - 1), expectedLQWithDoseTwo);
 			CHECK_EQUAL(LQWithConstantDose->getValueAt(VoxelGridIndex3D(1, 2, 6)), expectedLQWithDoseTwo);
 			CHECK_EQUAL(LQWithConstantDose->getValueAt(VoxelGridIndex3D(65, 40, 60)), expectedLQWithDoseTwo);
-			CHECK_EQUAL(LQWithIncreaseXDose->getValueAt(0), 1);
+
+			models::BioModelParamType expectedLQWithDoseFour = exp(-(0.2 * 4 + (0.02 * 4 * 4)));
+			CHECK_EQUAL(LQWithConstantDoseDoseScalingTwo->getValueAt(0), expectedLQWithDoseFour);
+			CHECK_EQUAL(LQWithConstantDoseDoseScalingTwo->getValueAt(LQWithConstantDose->getGridSize() - 1),
+			            expectedLQWithDoseFour);
+			CHECK_EQUAL(LQWithConstantDoseDoseScalingTwo->getValueAt(VoxelGridIndex3D(1, 2, 6)),
+			            expectedLQWithDoseFour);
+			CHECK_EQUAL(LQWithConstantDoseDoseScalingTwo->getValueAt(VoxelGridIndex3D(65, 40, 60)),
+			            expectedLQWithDoseFour);
+
+
 			models::BioModelParamType expectedLQWithIncreaseX = exp(-(0.3 * 66 * 2.822386e-5 + (0.01 * 66 * 2.822386e-5 * 66 *
 			        2.822386e-5)));
+			CHECK_EQUAL(LQWithIncreaseXDose->getValueAt(0), 1);
 			CHECK_CLOSE(LQWithIncreaseXDose->getValueAt(LQWithIncreaseXDose->getGridSize() - 1), expectedLQWithIncreaseX,
 			            errorConstant);
 			expectedLQWithIncreaseX = exp(-(0.3 * 1 * 2.822386e-5 + (0.01 * 1 * 2.822386e-5 * 1 * 2.822386e-5)));

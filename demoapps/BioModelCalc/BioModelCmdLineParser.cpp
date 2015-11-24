@@ -22,7 +22,9 @@ namespace rttb
 				addOptionWithDefaultValue<std::string>(OPTION_MODEL, OPTION_GROUP_REQUIRED,
 				                                       "The used radiobiological model the dose should be analyzed with. Available models are:\n \"LQ\"", "LQ", "LQ", 'm');
 				addOption<std::vector<double> >(OPTION_MODEL_PARAMETERS, OPTION_GROUP_REQUIRED,
-				                                "The parameters for the radiobiological model.", 'p', false, true);
+				                                "The parameters for the radiobiological model.", 'p', true, true);
+				addOptionWithDefaultValue<double>(OPTION_DOSE_SCALING, OPTION_GROUP_REQUIRED,
+				                                  "Dose scaling that should be applied.", 1.0, "1.0", 'c');
 				std::vector<std::string> defaultLoadingStyle;
 				defaultLoadingStyle.push_back("itk");
 				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_LOAD_STYLE, OPTION_GROUP_REQUIRED,
@@ -62,13 +64,19 @@ namespace rttb
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style:" + loadStyleAbbreviation +
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
-
-				if (loadStyleAbbreviation == "virtuos")
+				else if (loadStyleAbbreviation == "virtuos")
 				{
 					if (loadStyle.size() < 2)
 					{
 						throw cmdlineparsing::InvalidConstraintException("Cannot load virtuos dose. Plan file is missing. Specify plan file as 2nd io style argument.");
 					}
+				}
+
+				double doseScaling = get<double>(OPTION_DOSE_SCALING);
+
+				if (doseScaling <= 0)
+				{
+					throw cmdlineparsing::InvalidConstraintException("Negative dose scaling is invalid. Dose scaling has to be >0.");
 				}
 			}
 

@@ -67,6 +67,7 @@ int main(int argc, const char** argv)
 	std::cout << "Model:                 " << appData._model << std::endl;
 	std::cout << "Model parameters:      ";
 
+
 	for (unsigned int i = 0; i < appData._modelParameters.size(); i++)
 	{
 		if (i != 0)
@@ -76,6 +77,9 @@ int main(int argc, const char** argv)
 
 		std::cout << appData._modelParameters.at(i);
 	}
+
+	std::cout << std::endl;
+	std::cout << "Dose scaling:          " << appData._doseScaling << std::endl;
 
 	std::cout << std::endl;
 
@@ -122,8 +126,6 @@ int main(int argc, const char** argv)
 		std::cerr << "Error!!! unknown error while calculating the bioModel or writing the image." << std::endl;
 		return 2;
 	}
-
-	std::cout << "ENDE" << std::endl;
 
 	return result;
 }

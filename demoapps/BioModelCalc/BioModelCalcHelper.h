@@ -65,7 +65,7 @@ namespace rttb
 
 			core::AccessorInterface::AccessorPointer generateBioModel(
 			    core::DoseAccessorInterface::DoseAccessorPointer dose, const std::string& model,
-			    const std::vector<double>& modelParameters);
+			    const std::vector<double>& modelParameters, double doseScaling = 1.0);
 
 		}
 	}
