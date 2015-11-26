@@ -68,7 +68,7 @@ int main(int argc, const char** argv)
 
 	if (appData._computeDoseStatistics)
 	{
-		std::cout << "Dose Statistic output file: " << appData._doseStatisticOutputFileName << std::endl;
+		std::cout << "Dose statistic output file: " << appData._doseStatisticOutputFileName << std::endl;
 		std::cout << "Compute complex statistics: " << appData._computeComplexDoseStatistics << std::endl;
 
 		if (appData._computeComplexDoseStatistics)
