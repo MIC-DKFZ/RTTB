@@ -64,17 +64,17 @@ namespace rttb
 			tooFewArgumentsCommand += " -s " + invalidStructFile;
 			tooFewArgumentsCommand += " -r " + referenceFile;
 			std::cout << "Command line call: " + tooFewArgumentsCommand << std::endl;
-			CHECK_EQUAL(system(tooFewArgumentsCommand.c_str()), 1);
+			CHECK_EQUAL(system(tooFewArgumentsCommand.c_str())!=0, true);
 
 			tooFewArgumentsCommand = voxelizerToolExeWithPath;
 			tooFewArgumentsCommand += " -s " + invalidStructFile;
 			tooFewArgumentsCommand += " -e " + structureName;
 			std::cout << "Command line call: " + tooFewArgumentsCommand << std::endl;
-			CHECK_EQUAL(system(tooFewArgumentsCommand.c_str()), 1);
+			CHECK_EQUAL(system(tooFewArgumentsCommand.c_str())!=0, true);
 
 			tooFewArgumentsCommand = voxelizerToolExeWithPath;
 			std::cout << "Command line call: " + tooFewArgumentsCommand << std::endl;
-			CHECK_EQUAL(system(tooFewArgumentsCommand.c_str()), 1);
+			CHECK_EQUAL(system(tooFewArgumentsCommand.c_str())!=0, true);
 
 			std::string noOutputEndingCommand = voxelizerToolExeWithPath;
 			noOutputEndingCommand += " -s " + invalidStructFile;
@@ -82,21 +82,21 @@ namespace rttb
 			noOutputEndingCommand += " -e " + structureName;
 			noOutputEndingCommand += " -o bla";
 			std::cout << "Command line call: " + noOutputEndingCommand << std::endl;
-			CHECK_EQUAL(system(noOutputEndingCommand.c_str()), 1);
+			CHECK_EQUAL(system(noOutputEndingCommand.c_str())!=0, true);
 
 			std::string structCommand = voxelizerToolExeWithPath;
 			structCommand += " -s " + invalidStructFile;
 			structCommand += " -r " + referenceFile;
 			structCommand += " -e " + structureName;
 			std::cout << "Command line call: " + structCommand << std::endl;
-			CHECK_EQUAL(system(structCommand.c_str()), 2);
+			CHECK_EQUAL(system(structCommand.c_str())!=0, true);
 
 			std::string referenceCommand = voxelizerToolExeWithPath;
 			referenceCommand += " -s " + structFile;
 			referenceCommand += " -r " + invalidReferenceFile;
 			referenceCommand += " -e " + structureName;
 			std::cout << "Command line call: " + referenceCommand << std::endl;
-			CHECK_EQUAL(system(referenceCommand.c_str()), 2);
+			CHECK_EQUAL(system(referenceCommand.c_str())!=0, true);
 
 			std::string structureNameCommand = voxelizerToolExeWithPath;
 			structureNameCommand += " -s " + structFile;
@@ -111,7 +111,7 @@ namespace rttb
 			referenceLoadingStyleCommand += +" -e " + invalidStructureName;
 			referenceLoadingStyleCommand += +" -y nonsense";
 			std::cout << "Command line call: " + referenceLoadingStyleCommand << std::endl;
-			CHECK_EQUAL(system(referenceLoadingStyleCommand.c_str()), 1);
+			CHECK_EQUAL(system(referenceLoadingStyleCommand.c_str())!=0, true);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

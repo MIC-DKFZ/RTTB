@@ -48,7 +48,7 @@ int main(int argc, const char** argv)
 	catch (const std::exception& e)
 	{
 		std::cerr << e.what() << std::endl;
-		return -1;
+		return 5;
 	}
 
 	// This is vital. The application needs to exit if the "help" or "version" parameter is set

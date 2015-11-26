@@ -98,7 +98,7 @@ namespace rttb
 				reader->SetFileName(filenameHDRWithVoxelization);
 				reader->Update();
 
-				auto image = reader->GetOutput();
+				ReaderType::OutputImageType::ConstPointer image = reader->GetOutput();
 
 				for (int i = 0; i < voxelIndices.size(); i++)
 				{

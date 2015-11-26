@@ -37,26 +37,31 @@ namespace rttb
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
-			const std::string doseToolExe = "DoseTool.exe";
+			std::string doseToolExecutable;
+
+			if (argc > 1)
+			{
+				doseToolExecutable = argv[1];
+			}
 
 			boost::filesystem::path callingPath(_callingAppPath);
-			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExe;
+			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExecutable;
 
 			//call without parameters
-			std::cout << "Command line call: " + voxelizerToolExeWithPath << std::endl;
-			CHECK_EQUAL(system(voxelizerToolExeWithPath.c_str()), -1);
+			std::cout << "Command line call: " + doseToolExeWithPath << std::endl;
+			CHECK_EQUAL(system(doseToolExeWithPath.c_str())!=0, true);
 
 			//call with help parameters
-			std::string helpCommandShort = voxelizerToolExeWithPath + " -h";
-			std::string helpCommandLong = voxelizerToolExeWithPath + " --help";
+			std::string helpCommandShort = doseToolExeWithPath + " -h";
+			std::string helpCommandLong = doseToolExeWithPath + " --help";
 			std::cout << "Command line call: " + helpCommandShort << std::endl;
 			CHECK_EQUAL(system(helpCommandShort.c_str()), 0);
 			std::cout << "Command line call: " + helpCommandLong << std::endl;
 			CHECK_EQUAL(system(helpCommandLong.c_str()), 0);
 
 			//call with version parameter
-			std::string versionCommandShort = voxelizerToolExeWithPath + " -v";
-			std::string versionCommandLong = voxelizerToolExeWithPath + " --version";
+			std::string versionCommandShort = doseToolExeWithPath + " -v";
+			std::string versionCommandLong = doseToolExeWithPath + " --version";
 			std::cout << "Command line call: " + versionCommandShort << std::endl;
 			CHECK_EQUAL(system(versionCommandShort.c_str()), 0);
 			std::cout << "Command line call: " + versionCommandLong << std::endl;

@@ -42,7 +42,7 @@ namespace rttb
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
-			const std::string doseToolExe = "DoseTool.exe";
+			std::string doseToolExecutable;
 			std::string doseFilename;
 			std::string doseLoadStyle;
 			std::string structFilename;
@@ -51,19 +51,20 @@ namespace rttb
 			std::string referenceXMLFilename;
 			std::string referenceXMLFilename2;
 
-			boost::filesystem::path callingPath(_callingAppPath);
-			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExe;
+			boost::filesystem::path callingPath(_callingAppPath);	
 
-			if (argc > 7)
+			if (argc > 8)
 			{
-				doseFilename = argv[1];
-				doseLoadStyle = argv[2];
-				structFilename = argv[3];
-				structLoadStyle = argv[4];
-				structName = argv[5];
-				referenceXMLFilename = argv[6];
-				referenceXMLFilename2 = argv[7];
+				doseToolExecutable = argv[1];
+				doseFilename = argv[2];
+				doseLoadStyle = argv[3];
+				structFilename = argv[4];
+				structLoadStyle = argv[5];
+				structName = argv[6];
+				referenceXMLFilename = argv[7];
+				referenceXMLFilename2 = argv[8];
 			}
+			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExecutable;
 
 			std::string defaultOutputFilename = "regexOutput.xml";
 			std::string defaultExpectedOutputFilename = "regexOutput_Nodes.xml";
@@ -133,7 +134,7 @@ namespace rttb
 
 		std::string readFile(const std::string& filename)
 		{
-			std::ifstream fileStream(filename);
+			std::ifstream fileStream(filename.c_str());
 			std::string content((std::istreambuf_iterator<char>(fileStream)),
 			                    (std::istreambuf_iterator<char>()));
 			return content;

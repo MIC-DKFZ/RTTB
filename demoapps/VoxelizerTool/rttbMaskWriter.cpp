@@ -96,7 +96,8 @@ namespace rttb
 					filterResult = addFilter->GetOutput();
 				}
 
-				return filterResult;
+				ITKImageTypeConstPointer filterResultConst(filterResult);
+				return filterResultConst;
 			}
 
 			MaskWriter::ITKImageTypeConstPointer MaskWriter::applyThresholdFilter(

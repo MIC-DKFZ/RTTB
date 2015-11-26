@@ -39,4 +39,3 @@ ADD_TEST(VoxelizationValidationTest ${CORE_TEST_EXAMPLES} VoxelizationValidation
 "${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncrease3D.dcm" "${TEST_DATA_ROOT}/boostMask/" "${TEST_DATA_ROOT}/OTBMask/")
 
 RTTB_CREATE_TEST_MODULE(rttbExamples DEPENDS RTTBCore RTTBAlgorithms RTTBMasks RTTBOTBMask RTTBBoostMask RTTBIndices RTTBDicomIO RTTBVirtuosIO RTTBITKIO RTTBOtherIO RTTBModels PACKAGE_DEPENDS Litmus)
-

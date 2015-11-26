@@ -42,7 +42,7 @@ namespace rttb
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
-			const std::string doseToolExe = "DoseTool.exe";
+			std::string doseToolExecutable;
 			std::string doseFilename;
 			std::string planFilename;
 			std::string structFilename;
@@ -52,18 +52,21 @@ namespace rttb
 			std::string referenceXMLComplexFilename;
 
 			boost::filesystem::path callingPath(_callingAppPath);
-			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExe;
+			
 
-			if (argc > 7)
+			if (argc > 8)
 			{
-				doseFilename = argv[1];
-				planFilename = argv[2];
-				structFilename = argv[3];
-				ctxFilename = argv[4];
-				structName = argv[5];
-				referenceXMLFilename = argv[6];
-				referenceXMLComplexFilename = argv[7];
+				doseToolExecutable = argv[1];
+				doseFilename = argv[2];
+				planFilename = argv[3];
+				structFilename = argv[4];
+				ctxFilename = argv[5];
+				structName = argv[6];
+				referenceXMLFilename = argv[7];
+				referenceXMLComplexFilename = argv[8];
 			}
+
+			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExecutable;
 
 			std::string defaultOutputFilename = "virtuosOutput.xml";
 			std::string complexOutputFilename = "virtuosOutputComplex.xml";
@@ -121,7 +124,7 @@ namespace rttb
 
 		std::string readFile(const std::string& filename)
 		{
-			std::ifstream fileStream(filename);
+			std::ifstream fileStream(filename.c_str());
 			std::string content((std::istreambuf_iterator<char>(fileStream)),
 			                    (std::istreambuf_iterator<char>()));
 			return content;

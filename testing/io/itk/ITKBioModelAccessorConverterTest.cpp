@@ -60,6 +60,7 @@ namespace rttb
 		int ITKBioModelAccessorConverterTest(int argc, char* argv[])
 		{
 			typedef core::AccessorInterface::AccessorPointer AccessorPointer;
+			typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 
@@ -73,7 +74,7 @@ namespace rttb
 			//1) Read dicomFile and test process() and  getITKImage()
 
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator(RTDOSE_FILENAME.c_str());
-			auto doseAccessor(doseAccessorGenerator.generateDoseAccessor());
+			DoseAccessorPointer doseAccessor(doseAccessorGenerator.generateDoseAccessor());
 
 			AccessorPointer LQWithConstantDose = boost::make_shared<models::LQModelAccessor>(doseAccessor, 0.2, 0.02);
 

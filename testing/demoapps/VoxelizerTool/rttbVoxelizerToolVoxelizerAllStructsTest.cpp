@@ -43,7 +43,7 @@ namespace rttb
 			std::string structFile;
 			std::string referenceFile;
 
-			if (argc > 3)
+			if (argc > 4)
 			{
 				voxelizerToolExe = argv[1];
 				tempDirectory = argv[2];
@@ -79,10 +79,12 @@ namespace rttb
 				CHECK_EQUAL(returnValue, 0);
 
 				const std::string HDRfileName = tempDirectory + "/out_" + filenames.at(i) + ".hdr";
-				boost::filesystem::path HDRFile(HDRfileName);
+				boost::filesystem::path HDRFile(tempDirectory);
+				HDRFile/="out_" + filenames.at(i) + ".hdr";
 
 				const std::string IMGfileName = tempDirectory + "/out_" + filenames.at(i) + ".img";
-				boost::filesystem::path IMGFile(IMGfileName);
+				boost::filesystem::path IMGFile(tempDirectory);
+				IMGFile/="out_" + filenames.at(i) + ".img";
 
 				CHECK_EQUAL(
 				    boost::filesystem::exists(HDRFile),

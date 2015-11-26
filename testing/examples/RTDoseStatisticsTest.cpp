@@ -89,6 +89,7 @@ namespace rttb
 		{
 			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
 			typedef core::GenericDoseIterator::DoseIteratorPointer DoseIteratorPointer;
+			typedef algorithms::DoseStatisticsCalculator::ResultListPointer ResultListPointer;
 
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(doseFilename.c_str());
 			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
@@ -122,8 +123,8 @@ namespace rttb
 			CHECK_CLOSE(doseStatistics->getMaximum(), expectedVal, errorConstant);
 
 			CHECK_CLOSE(doseStatistics->getMinimum(), expectedVal, errorConstant);
-			auto minListPtr = doseStatistics->getMinimumPositions();
-			auto maxListPtr = doseStatistics->getMaximumPositions();
+			ResultListPointer minListPtr = doseStatistics->getMinimumPositions();
+			ResultListPointer maxListPtr = doseStatistics->getMaximumPositions();
 			CHECK_EQUAL(maxListPtr->size(), 10);
 			CHECK_EQUAL(minListPtr->size(), 10);
 
@@ -139,10 +140,13 @@ namespace rttb
 			typedef core::GenericDoseIterator::DoseIteratorPointer DoseIteratorPointer;
 			typedef core::GenericMaskedDoseIterator::MaskAccessorPointer MaskAccessorPointer;
 			typedef rttb::algorithms::DoseStatistics::DoseStatisticsPointer DoseStatisticsPointer;
+			typedef core::DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
+			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+			typedef algorithms::DoseStatisticsCalculator::ResultListPointer ResultListPointer;
 
-			auto virtuosDoseAccessor = io::virtuos::VirtuosPlanFileDoseAccessorGenerator(doseFilename.c_str(),
+			DoseAccessorPointer virtuosDoseAccessor = io::virtuos::VirtuosPlanFileDoseAccessorGenerator(doseFilename.c_str(),
 			                           planFilename.c_str()).generateDoseAccessor();
-			auto virtuosStructureSet = io::virtuos::VirtuosFileStructureSetGenerator(
+			StructureSetPointer virtuosStructureSet = io::virtuos::VirtuosFileStructureSetGenerator(
 			                               structFilename.c_str(), doseFilename.c_str()).generateStructureSet();
 
 			boost::shared_ptr<masks::boost::BoostMaskAccessor> spOTBMaskAccessorVirtuos =
@@ -171,8 +175,8 @@ namespace rttb
 			CHECK_CLOSE(doseStatisticsVirtuos->getMean(), 22.5779, reducedErrorConstant);
 			CHECK_CLOSE(doseStatisticsVirtuos->getStdDeviation(), 6.28857, reducedErrorConstant);
 
-			auto maxPositions = doseStatisticsVirtuos->getMaximumPositions();
-			auto minPositions = doseStatisticsVirtuos->getMinimumPositions();
+			ResultListPointer maxPositions = doseStatisticsVirtuos->getMaximumPositions();
+			ResultListPointer minPositions = doseStatisticsVirtuos->getMinimumPositions();
 			CHECK_EQUAL(maxPositions->size(), 1);
 			CHECK_EQUAL(minPositions->size(), 1);
 			CHECK_EQUAL(maxPositions->begin()->first, doseStatisticsVirtuos->getMaximum());

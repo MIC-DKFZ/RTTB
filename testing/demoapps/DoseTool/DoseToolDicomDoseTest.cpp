@@ -42,7 +42,7 @@ namespace rttb
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
-			const std::string doseToolExe = "DoseTool.exe";
+			std::string doseToolExecutable;
 			std::string doseFilename;
 			std::string structFilename;
 			std::string structName;
@@ -50,16 +50,19 @@ namespace rttb
 			std::string referenceXMLComplexFilename;
 
 			boost::filesystem::path callingPath(_callingAppPath);
-			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExe;
 
-			if (argc > 5)
+
+			if (argc > 6)
 			{
-				doseFilename = argv[1];
-				structFilename = argv[2];
-				structName = argv[3];
-				referenceXMLFilename = argv[4];
-				referenceXMLComplexFilename = argv[5];
+				doseToolExecutable = argv[1];
+				doseFilename = argv[2];
+				structFilename = argv[3];
+				structName = argv[4];
+				referenceXMLFilename = argv[5];
+				referenceXMLComplexFilename = argv[6];
 			}
+
+			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExecutable;
 
 			std::string defaultOutputFilename = "dicomOutput.xml";
 			std::string complexOutputFilename = "dicomOutputComplex.xml";
@@ -124,7 +127,7 @@ namespace rttb
 
 		std::string readFile(const std::string& filename)
 		{
-			std::ifstream fileStream(filename);
+			std::ifstream fileStream(filename.c_str());
 			std::string content((std::istreambuf_iterator<char>(fileStream)),
 			                    (std::istreambuf_iterator<char>()));
 			return content;

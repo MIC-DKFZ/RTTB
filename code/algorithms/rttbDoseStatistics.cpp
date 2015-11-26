@@ -19,8 +19,6 @@
 // @author  $Author$ (last changed by)
 */
 
-#include <boost/make_shared.hpp>
-
 #include "rttbDoseStatistics.h"
 #include "rttbDataNotAvailableException.h"
 
@@ -47,18 +45,6 @@ namespace rttb
 			_MOHx(MOHx),
 			_MOCx(MOCx), _MaxOHx(MaxOHx), _MinOCx(MinOCx)
 		{
-			if (maximumVoxelPositions == nullptr)
-			{
-				_maximumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
-				                         (std::vector<std::pair<DoseTypeGy, VoxelGridID> >());
-			}
-
-			if (minimumVoxelPositions == nullptr)
-			{
-				_minimumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
-				                         (std::vector<std::pair<DoseTypeGy, VoxelGridID> >());
-			}
-
 			if (referenceDose <= 0){
 				_referenceDose = _maximum;
 			}
