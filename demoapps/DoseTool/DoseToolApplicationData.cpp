@@ -40,13 +40,15 @@ namespace rttb
 				_doseFileName = "";
 				_structFileName = "";
 				_structNameRegex = "";
-				_outputFileName = "";
+				_doseStatisticOutputFileName = "";
 				_computeComplexDoseStatistics = false;
 				_allowSelfIntersection = false;
 				_structIndices.clear();
 				_structNames.clear();
 				_prescribedDose = 1.0;
 				_multipleStructsMode = false;
+				_computeDVH = false;
+				_computeDoseStatistics = false;
 			}
 
 			void populateAppData(boost::shared_ptr<DoseToolCmdLineParser> argParser, ApplicationData& appData)
@@ -56,12 +58,25 @@ namespace rttb
 				appData._structFileName = argParser->get<std::string>(argParser->OPTION_STRUCT_FILE);
 				appData._structLoadStyle = argParser->get<std::vector<std::string> >(argParser->OPTION_STRUCT_LOAD_STYLE);
 				appData._structNameRegex = argParser->get<std::string >(argParser->OPTION_STRUCT_NAME);
-				appData._outputFileName = argParser->get<std::string>(argParser->OPTION_OUTPUT_FILE);
-				appData._computeComplexDoseStatistics = argParser->isSet(argParser->OPTION_COMPLEX_STATISTICS);
-				appData._allowSelfIntersection = argParser->isSet(argParser->OPTION_ALLOW_SELF_INTERSECTION_STRUCT);
 				appData._multipleStructsMode = argParser->isSet(argParser->OPTION_MULTIPLE_STRUCTS_MODE);
 
-				if (argParser->isSet(argParser->OPTION_PRESCRIBED_DOSE))
+				if (argParser->isSet(argParser->OPTION_DOSE_STATISTICS))
+				{
+					appData._computeDoseStatistics = true;
+					appData._doseStatisticOutputFileName = argParser->get<std::string >(argParser->OPTION_DOSE_STATISTICS);
+				appData._computeComplexDoseStatistics = argParser->isSet(argParser->OPTION_COMPLEX_STATISTICS);
+				appData._allowSelfIntersection = argParser->isSet(argParser->OPTION_ALLOW_SELF_INTERSECTION_STRUCT);
+				
+				}
+
+				if (argParser->isSet(argParser->OPTION_DVH))
+				{
+					appData._computeDVH = true;
+					appData._dvhOutputFilename = argParser->get<std::string >(argParser->OPTION_DVH);
+				}
+
+
+				if (argParser->isSet(argParser->OPTION_DOSE_STATISTICS) && argParser->isSet(argParser->OPTION_PRESCRIBED_DOSE))
 				{
 					appData._prescribedDose = argParser->get<DoseTypeGy>(argParser->OPTION_PRESCRIBED_DOSE);
 				}

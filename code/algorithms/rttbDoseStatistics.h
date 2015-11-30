@@ -71,7 +71,7 @@ namespace rttb
 			VolumeToDoseFunctionType _MOCx;
 			VolumeToDoseFunctionType _MaxOHx;
 			VolumeToDoseFunctionType _MinOCx;
-			
+
 
 		public:
 			/*! @brief Standard Constructor
@@ -93,7 +93,7 @@ namespace rttb
 			               VolumeToDoseFunctionType MOCx = VolumeToDoseFunctionType(),
 			               VolumeToDoseFunctionType MaxOHx = VolumeToDoseFunctionType(),
 			               VolumeToDoseFunctionType MinOCx = VolumeToDoseFunctionType(),
-						   DoseTypeGy referenceDose = -1);
+			               DoseTypeGy referenceDose = -1);
 
 			~DoseStatistics();
 

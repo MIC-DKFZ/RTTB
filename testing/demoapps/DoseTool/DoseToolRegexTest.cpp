@@ -51,7 +51,7 @@ namespace rttb
 			std::string referenceXMLFilename;
 			std::string referenceXMLFilename2;
 
-			boost::filesystem::path callingPath(_callingAppPath);	
+			boost::filesystem::path callingPath(_callingAppPath);
 
 			if (argc > 8)
 			{
@@ -64,6 +64,7 @@ namespace rttb
 				referenceXMLFilename = argv[7];
 				referenceXMLFilename2 = argv[8];
 			}
+
 			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExecutable;
 
 			std::string defaultOutputFilename = "regexOutput.xml";
@@ -76,7 +77,7 @@ namespace rttb
 			baseCommand += " -s " + structFilename;
 			baseCommand += " -u " + structLoadStyle;
 			baseCommand += " -n \"" + structName + "\"";
-			baseCommand += " -o " + defaultOutputFilename;
+			baseCommand += " -y " + defaultOutputFilename;
 
 			std::cout << "Command line call: " + baseCommand << std::endl;
 			CHECK_EQUAL(system(baseCommand.c_str()), 0);

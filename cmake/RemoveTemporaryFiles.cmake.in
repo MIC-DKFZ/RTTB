@@ -3,14 +3,14 @@
 # cmake configure and testing
 #
 # Cleanup old dashboard submissions
-FILE(GLOB OLD_DASHBOARDS "@RTToolbox_BINARY_DIR@/testing/20*")
+FILE(GLOB OLD_DASHBOARDS "@RTToolbox_BINARY_DIR@/Testing/20*")
 FOREACH(OLD ${OLD_DASHBOARDS})
   MESSAGE(" Removing old submission in ${OLD}")
   FILE(REMOVE_RECURSE "${OLD}")
 ENDFOREACH(OLD ${OLD_DASHBOARDS})
 
 # Cleanup the Testing/Temporary directory
-FILE(REMOVE_RECURSE "@RTToolbox_BINARY_DIR@/Testing/Temporary")
+FILE(REMOVE_RECURSE "@RTToolbox_BINARY_DIR@/Testing/temporary")
 
 # Cleanup the CMake Error and Output logs
 FILE(REMOVE "@RTToolbox_BINARY_DIR@${CMAKE_FILES_DIRECTORY}/CMakeOutput.log")

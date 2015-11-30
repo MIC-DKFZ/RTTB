@@ -5,6 +5,7 @@ SET(CPP_FILES
 	DoseToolDicomDoseTest.cpp
 	DoseToolITKDoseTest.cpp
 	DoseToolRegexTest.cpp
+	DoseToolDVHTest.cpp
 	DoseToolTests.cpp
   )
 

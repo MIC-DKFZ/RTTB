@@ -42,6 +42,7 @@ namespace rttb
 			LIT_REGISTER_TEST(DoseToolDicomDoseTest);
 			LIT_REGISTER_TEST(DoseToolITKDoseTest);
 			LIT_REGISTER_TEST(DoseToolRegexTest);
+			LIT_REGISTER_TEST(DoseToolDVHTest);
 		}
 
 	} //namespace testing

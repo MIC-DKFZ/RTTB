@@ -19,7 +19,7 @@ ENDIF(Litmus_FOUND)
 #-----------------------------------------------------------------------------
 # Configure Testing branch
 #-----------------------------------------------------------------------------
-MAKE_DIRECTORY(${RTTBTesting_BINARY_DIR}/temporary)
+MAKE_DIRECTORY(${RTTBTesting_BINARY_DIR}/Temporary)
 
 
 MESSAGE(STATUS "Process All Tests...")

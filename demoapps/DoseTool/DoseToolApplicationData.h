@@ -57,9 +57,12 @@ namespace rttb
 				LoadingStyleArgType _structLoadStyle;
 				bool _computeComplexDoseStatistics;
 				DoseTypeGy _prescribedDose;
-				std::string  _outputFileName;
+				std::string  _doseStatisticOutputFileName;
 				bool _allowSelfIntersection;
 				bool _multipleStructsMode;
+				bool _computeDVH;
+				bool _computeDoseStatistics;
+				std::string _dvhOutputFilename;
 
 				/*! @brief Resets the variables. _prescribedDose is set to 1.0 because it produces no exception then (as it is not needed). Consistency checks are done in DoseToolCmdLineParser::validateInput()
 				*/
@@ -70,7 +73,6 @@ namespace rttb
 			/*! @brief Reads the necessary arguments from the DoseToolCmdLineParser and writes them in the respective variables of ApplicationData.
 			*/
 			void populateAppData(boost::shared_ptr<DoseToolCmdLineParser> argParser, ApplicationData& appData);
-
 		}
 	}
 }

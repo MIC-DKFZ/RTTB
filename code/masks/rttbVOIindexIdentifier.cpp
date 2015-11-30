@@ -43,11 +43,12 @@ namespace rttb
 
 			std::vector<std::string> voiLabelList;
 			std::vector<unsigned int> resultVOiIndices;
+			boost::regex e(nameAsRegEx);
 
 			for (int i = 0; i < spStructSet->getNumberOfStructures(); i++)
 			{
 				voiLabelList.push_back(spStructSet->getStructure(i)->getLabel());
-				boost::regex e(nameAsRegEx);
+
 				std::string s = spStructSet->getStructure(i)->getLabel();
 
 				if (boost::regex_match(s, e))
