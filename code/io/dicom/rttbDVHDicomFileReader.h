@@ -25,21 +25,24 @@
 #include "rttbDVH.h"
 #include "rttbDVHGeneratorInterface.h"
 
-namespace rttb{
-	namespace io{
-		namespace dicom{
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
 
 			/*! @class DVHDicomFileReader
 			@brief Read DVH data from a dicom file and create corresponding DVH object.
 			*/
 			class DVHDicomFileReader: public core::DVHGeneratorInterface
 			{
-			private: 
+			private:
 				FileNameString _fileName;
 				void createDVH();
 
 			public:
-				/*! @brief DVHDicomFileReader Constructor 
+				/*! @brief DVHDicomFileReader Constructor
 				@param aFileName the dicom dvh file name
 				*/
 				DVHDicomFileReader(FileNameString aFileName);

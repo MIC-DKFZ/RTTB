@@ -24,8 +24,10 @@
 
 #include "rttbDVH.h"
 
-namespace rttb{
-	namespace io{
+namespace rttb
+{
+	namespace io
+	{
 		/*! @class DVHWriterInterface
 		@brief Interface for classes that write DVH data to files.
 		*/
@@ -34,7 +36,8 @@ namespace rttb{
 			typedef core::DVH::DVHPointer DVHPointer;
 			/*! @brief Write aDvh
 			*/
-		public: virtual void writeDVH(DVHPointer aDvh) = 0;
+		public:
+			virtual void writeDVH(DVHPointer aDvh) = 0;
 		};
 	}
 

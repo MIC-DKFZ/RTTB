@@ -27,36 +27,38 @@
 #include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
 
-namespace rttb{
+namespace rttb
+{
 
-  namespace indices{
-    /*! @class HomogeneityIndex
-		@brief This class representing a HomogeneityIndex Object. Homogeneity Index (HI) = (Dmax(PTV)-Dmin(PTV))/Dref
-		@ingroup indices
-    */
+	namespace indices
+	{
+		/*! @class HomogeneityIndex
+			@brief This class representing a HomogeneityIndex Object. Homogeneity Index (HI) = (Dmax(PTV)-Dmin(PTV))/Dref
+			@ingroup indices
+		*/
 		class HomogeneityIndex: public DvhBasedDoseIndex
-    {
-    protected: 
-      /*! @brief Calculate Conformity index
-		  @exception InvalidParameterException Thrown if aDoseReference invalid
-      */
-      bool calcIndex();  
+		{
+		protected:
+			/*! @brief Calculate Conformity index
+			  @exception InvalidParameterException Thrown if aDoseReference invalid
+			*/
+			bool calcIndex();
 
-    public: 
-      /*! @brief Constructor
-      */
+		public:
+			/*! @brief Constructor
+			*/
 			HomogeneityIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference);
 
-      /*! @brief Dose index calculation for tvIndex-th treated volume
-          @param tvIndex index in the DVH in the current set of tv-DVHs
-          @return Return index value  
-          @exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
-      */
+			/*! @brief Dose index calculation for tvIndex-th treated volume
+			    @param tvIndex index in the DVH in the current set of tv-DVHs
+			    @return Return index value
+			    @exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
+			*/
 			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex);
 
-    };
+		};
 
-  }
+	}
 }
 
 

@@ -79,20 +79,24 @@ namespace rttb
 
 			DoseAccessorPointer doseAccessorNull;
 
-			TransformationInterface::Pointer transformDummy = TransformationInterface::Pointer(new DummyTransformation());
+			TransformationInterface::Pointer transformDummy = TransformationInterface::Pointer(
+			            new DummyTransformation());
 			TransformationInterface::Pointer transformNull;
 
 			NearestNeighborInterpolation::Pointer interpolationNN =
 			    NearestNeighborInterpolation::Pointer(new NearestNeighborInterpolation());
-			LinearInterpolation::Pointer interpolationLinear = LinearInterpolation::Pointer(new LinearInterpolation());
+			LinearInterpolation::Pointer interpolationLinear = LinearInterpolation::Pointer(
+			            new LinearInterpolation());
 			boost::shared_ptr<NearestNeighborInterpolation> interpolationNull;
 
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorDefault = SimpleMappableDoseAccessor::Pointer(
-			            new SimpleMappableDoseAccessor(
-			                doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear));
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorNoPadding = SimpleMappableDoseAccessor::Pointer(
-			            new SimpleMappableDoseAccessor(
-			                doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear, false));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorDefault =
+			    SimpleMappableDoseAccessor::Pointer(
+			        new SimpleMappableDoseAccessor(
+			            doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorNoPadding =
+			    SimpleMappableDoseAccessor::Pointer(
+			        new SimpleMappableDoseAccessor(
+			            doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear, false));
 
 			//1) Test constructor
 

@@ -79,8 +79,10 @@ namespace rttb
 			*/
 			void writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName);
 
-			boost::property_tree::ptree createNodeWithNameAttribute(DoseTypeGy doseValue, const std::string& attributeName);
-			boost::property_tree::ptree createNodeWithNameAndXAttribute(DoseTypeGy doseValue, const std::string& attributeName,
+			boost::property_tree::ptree createNodeWithNameAttribute(DoseTypeGy doseValue,
+			        const std::string& attributeName);
+			boost::property_tree::ptree createNodeWithNameAndXAttribute(DoseTypeGy doseValue,
+			        const std::string& attributeName,
 			        int xValue);
 
 			/*! @brief Write statistics to String to generate a table: "Volume mm3@Max@Min@Mean@Std.Dev.@Variance@D2@D5@D10@D90@D95@D98@V2@V5@V10@V90@V95@V98@MOH2@MOH5@MOH10@MOC2@MOC5@MOC10@MaxOH2@MaxOH5@MaxOH10@MinOC2@MinOC5@MinOC10"

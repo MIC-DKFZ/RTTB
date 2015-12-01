@@ -137,8 +137,9 @@ namespace rttb
 
 					clock_t start2(clock());
 					//create Boost MaskAccessor
-					MaskAccessorPointer boostMaskAccessorPtr = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-					        (rtStructureSet->getStructure(j), doseAccessor1->getGeometricInfo());
+					MaskAccessorPointer boostMaskAccessorPtr
+					    = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+					      (rtStructureSet->getStructure(j), doseAccessor1->getGeometricInfo());
 
 					CHECK_NO_THROW(boostMaskAccessorPtr->updateMask());
 
@@ -150,7 +151,8 @@ namespace rttb
 					rttb::core::DVH dvh2 = *(calc2.generateDVH());
 
 					clock_t finish2(clock());
-					std::cout << "Boost Mask Calculation and write file time: " << finish2 - start2 << " ms" << std::endl;
+					std::cout << "Boost Mask Calculation and write file time: " << finish2 - start2 << " ms" <<
+					          std::endl;
 
 					//Write the mask image to a file.
 					/*! It takes a long time to write all mask files so that RUN_TESTS causes a timeout error.

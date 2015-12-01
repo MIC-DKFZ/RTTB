@@ -61,7 +61,7 @@ namespace rttb
 				Mask_FILENAME = argv[1];
 			}
 
-			
+
 			/* test ITKImageFileMaskAccessorGenerator generateDoseAccessor()*/
 			CHECK_THROW_EXPLICIT(io::itk::ITKImageFileMaskAccessorGenerator("test.test").generateMaskAccessor(),
 			                     core::InvalidDoseException);
@@ -84,10 +84,11 @@ namespace rttb
 			reader->Update();
 
 			CHECK_NO_THROW(io::itk::ITKImageMaskAccessorGenerator(reader->GetOutput()).generateMaskAccessor());
-			
-			io::itk::ITKImageMaskAccessorGenerator::MaskAccessorPointer maskAcc = io::itk::ITKImageMaskAccessorGenerator(reader->GetOutput()).generateMaskAccessor();
 
-			CHECK_NO_THROW( maskAcc->getRelevantVoxelVector());
+			io::itk::ITKImageMaskAccessorGenerator::MaskAccessorPointer maskAcc =
+			    io::itk::ITKImageMaskAccessorGenerator(reader->GetOutput()).generateMaskAccessor();
+
+			CHECK_NO_THROW(maskAcc->getRelevantVoxelVector());
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

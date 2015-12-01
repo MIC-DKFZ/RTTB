@@ -27,41 +27,43 @@
 #include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
 
-namespace rttb{
+namespace rttb
+{
 
-  namespace indices{
+	namespace indices
+	{
 
-    /*! @class ConformationNumber
-		@brief This class representing a ConformationNumber Object. Conformation Number (CN)= (TVref/TV) * (TVref/Vref)
-		@ingroup indices
-    */
+		/*! @class ConformationNumber
+			@brief This class representing a ConformationNumber Object. Conformation Number (CN)= (TVref/TV) * (TVref/Vref)
+			@ingroup indices
+		*/
 		class ConformationNumber: public DvhBasedDoseIndex
-    {
-    protected: 
-      /*! @brief Calculate conformation number
-          @exception InvalidParameterException Thrown if dvhSet or aDoseReference invalid
-      */
-      bool calcIndex();
+		{
+		protected:
+			/*! @brief Calculate conformation number
+			    @exception InvalidParameterException Thrown if dvhSet or aDoseReference invalid
+			*/
+			bool calcIndex();
 
 
-    public: 
+		public:
 
-      /*! @brief Constructor
-      */
+			/*! @brief Constructor
+			*/
 			ConformationNumber(DVHSetPtr dvhSet, DoseTypeGy aDoseReference);
 
-			
-      /*! @brief Dose index calculation for tvIndex-th treated volume
-          @param tvIndex index in the DVH in the current set of tv-DVHs
-          @return Return index value 
-          @exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
-      */
+
+			/*! @brief Dose index calculation for tvIndex-th treated volume
+			    @param tvIndex index in the DVH in the current set of tv-DVHs
+			    @return Return index value
+			    @exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
+			*/
 			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex);
 
 
 
-    };
-  }
+		};
+	}
 }
 
 #endif

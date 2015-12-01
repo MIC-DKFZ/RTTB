@@ -44,7 +44,8 @@ namespace rttb
 
 		private:
 			DoseIteratorInterface(const DoseIteratorInterface&); //not implemented on purpose -> non-copyable
-			DoseIteratorInterface& operator=(const DoseIteratorInterface&);//not implemented on purpose -> non-copyable
+			DoseIteratorInterface& operator=(const
+			                                 DoseIteratorInterface&);//not implemented on purpose -> non-copyable
 			DoseIteratorInterface() {};
 
 		protected:

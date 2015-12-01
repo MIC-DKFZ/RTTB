@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 771 $ (last changed revision)
-// @date    $Date: 2014-09-25 14:41:34 +0200 (Do, 25 Sep 2014) $ (last change date)
-// @author  $Author: zhangl $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 #include <iostream>
@@ -87,7 +87,8 @@ namespace rttb
 			std::cout << "Command line call: " + defaultDoseStatisticsCommand << std::endl;
 			CHECK_EQUAL(system(defaultDoseStatisticsCommand.c_str()), 0);
 
-			std::string defaultDoseStatisticsAndDVHCommand = defaultDoseStatisticsCommand + " -z " + defaultDVHOutputFilename;
+			std::string defaultDoseStatisticsAndDVHCommand = defaultDoseStatisticsCommand + " -z " +
+			        defaultDVHOutputFilename;
 			std::cout << "Command line call: " + defaultDoseStatisticsAndDVHCommand << std::endl;
 			CHECK_EQUAL(system(defaultDoseStatisticsAndDVHCommand.c_str()), 0);
 

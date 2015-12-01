@@ -26,7 +26,7 @@
 #include "../itk/rttbDoseAccessorConversionSettingInterface.h"
 #include "rttbDicomDoseAccessor.h"
 
-//pixel data max value ‘UINT16_MAX’ 
+//pixel data max value ‘UINT16_MAX’
 #define PixelDataMaxValue 0xffff
 
 namespace rttb
@@ -53,7 +53,7 @@ namespace rttb
 				virtual ~DicomFileDoseAccessorWriter() {};
 
 				/*! Set a file name to write the dose
-				@param aFileName a file name to write the dose 
+				@param aFileName a file name to write the dose
 				*/
 				void setFileName(DICOMRTFileNameString aFileName);
 
@@ -62,18 +62,18 @@ namespace rttb
 				*/
 				bool process();
 
-				
-				
+
+
 			private:
 				DicomFileDoseAccessorWriter(const
-				                              DicomFileDoseAccessorWriter&); //not implemented on purpose -> non-copyable
+				                            DicomFileDoseAccessorWriter&); //not implemented on purpose -> non-copyable
 				DicomFileDoseAccessorWriter& operator=(const
-				        DicomFileDoseAccessorWriter&);//not implemented on purpose -> non-copyable
+				                                       DicomFileDoseAccessorWriter&);//not implemented on purpose -> non-copyable
 
 				DRTDoseIODPointer _doseIOD;
 				DICOMRTFileNameString _fileName;
 				DcmFileFormat _fileformat;
-				DcmDataset *_dataset;
+				DcmDataset* _dataset;
 
 			};
 		}

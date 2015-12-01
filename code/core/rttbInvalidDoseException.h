@@ -27,29 +27,31 @@
 
 #include "rttbException.h"
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
 		/*! @class InvalidDoseException
 			@brief This exception will be thrown if dose is invalid.
 		*/
 		class InvalidDoseException: public Exception
-			{
-			public: 
-				InvalidDoseException(const std::string& aWhat):Exception(aWhat){}
+		{
+		public:
+			InvalidDoseException(const std::string& aWhat): Exception(aWhat) {}
 
-				virtual ~InvalidDoseException() throw() {}
+			virtual ~InvalidDoseException() throw() {}
 
-				/*! @brief Get the exception description
-				*/
-				virtual const char * what() const throw();
+			/*! @brief Get the exception description
+			*/
+			virtual const char* what() const throw();
 
-				/*! @brief Get the name of the exception class
-				*/
-				virtual const char* GetNameOfClass() const;
-			};
+			/*! @brief Get the name of the exception class
+			*/
+			virtual const char* GetNameOfClass() const;
+		};
 
-		}
 	}
+}
 
 #endif

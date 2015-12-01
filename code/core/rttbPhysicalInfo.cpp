@@ -21,9 +21,17 @@
 
 #include "rttbPhysicalInfo.h"
 
-namespace rttb{
-	namespace core{
-		void PhysicalInfo::setFullPath(PathType aPath){_fullPath=aPath;}
-		PathType PhysicalInfo::getFullPath(){return _fullPath;}
+namespace rttb
+{
+	namespace core
+	{
+		void PhysicalInfo::setFullPath(PathType aPath)
+		{
+			_fullPath = aPath;
+		}
+		PathType PhysicalInfo::getFullPath()
+		{
+			return _fullPath;
 		}
 	}
+}

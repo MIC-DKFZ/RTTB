@@ -27,25 +27,28 @@
 
 #include "rttbException.h"
 
-namespace rttb{
-	namespace io{
-		namespace itk{
+namespace rttb
+{
+	namespace io
+	{
+		namespace itk
+		{
 
 			/*! @class ITKException
 			@brief This class represents a ITKException. Any itk error will throw this exception.
 			*/
 			class ITKException: public core::Exception
 			{
-			public: 
-				ITKException(const std::string& aWhat):Exception(aWhat){}
+			public:
+				ITKException(const std::string& aWhat): Exception(aWhat) {}
 
 				virtual ~ITKException() throw() {}
 
 				/*! @brief Get the exception description
 				*/
-				const char * what() const throw();
+				const char* what() const throw();
 
-				/*! @brief Get the name of the class that was thrown 
+				/*! @brief Get the name of the class that was thrown
 				*/
 				const char* GetNameOfClass() const;
 			};

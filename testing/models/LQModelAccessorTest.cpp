@@ -80,12 +80,14 @@ namespace rttb
 
 			//1) test constructor
 			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessorNull, 0, 0), core::InvalidDoseException);
-			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessor1, 0.2, 0.02, -1), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessor1, 0.2, 0.02, -1),
+			                     core::InvalidParameterException);
 
 			CHECK_NO_THROW(LQWithConstantDose = boost::make_shared<models::LQModelAccessor>(doseAccessor1,
 			                                    0.2, 0.02));
-			CHECK_NO_THROW(LQWithConstantDoseDoseScalingTwo = boost::make_shared<models::LQModelAccessor>(doseAccessor1,
-			               0.2, 0.02, 2.0));
+			CHECK_NO_THROW(LQWithConstantDoseDoseScalingTwo = boost::make_shared<models::LQModelAccessor>
+			               (doseAccessor1,
+			                0.2, 0.02, 2.0));
 			CHECK_NO_THROW(LQWithIncreaseXDose = boost::make_shared<models::LQModelAccessor>(doseAccessor2,
 			                                     0.3, 0.01));
 
@@ -97,7 +99,8 @@ namespace rttb
 
 			models::BioModelParamType expectedLQWithDoseTwo = exp(-(0.2 * 2 + (0.02 * 2 * 2)));
 			CHECK_EQUAL(LQWithConstantDose->getValueAt(0), expectedLQWithDoseTwo);
-			CHECK_EQUAL(LQWithConstantDose->getValueAt(LQWithConstantDose->getGridSize() - 1), expectedLQWithDoseTwo);
+			CHECK_EQUAL(LQWithConstantDose->getValueAt(LQWithConstantDose->getGridSize() - 1),
+			            expectedLQWithDoseTwo);
 			CHECK_EQUAL(LQWithConstantDose->getValueAt(VoxelGridIndex3D(1, 2, 6)), expectedLQWithDoseTwo);
 			CHECK_EQUAL(LQWithConstantDose->getValueAt(VoxelGridIndex3D(65, 40, 60)), expectedLQWithDoseTwo);
 
@@ -111,13 +114,16 @@ namespace rttb
 			            expectedLQWithDoseFour);
 
 
-			models::BioModelParamType expectedLQWithIncreaseX = exp(-(0.3 * 66 * 2.822386e-5 + (0.01 * 66 * 2.822386e-5 * 66 *
-			        2.822386e-5)));
+			models::BioModelParamType expectedLQWithIncreaseX = exp(-(0.3 * 66 * 2.822386e-5 +
+			        (0.01 * 66 * 2.822386e-5 * 66 *
+			         2.822386e-5)));
 			CHECK_EQUAL(LQWithIncreaseXDose->getValueAt(0), 1);
-			CHECK_CLOSE(LQWithIncreaseXDose->getValueAt(LQWithIncreaseXDose->getGridSize() - 1), expectedLQWithIncreaseX,
+			CHECK_CLOSE(LQWithIncreaseXDose->getValueAt(LQWithIncreaseXDose->getGridSize() - 1),
+			            expectedLQWithIncreaseX,
 			            errorConstant);
 			expectedLQWithIncreaseX = exp(-(0.3 * 1 * 2.822386e-5 + (0.01 * 1 * 2.822386e-5 * 1 * 2.822386e-5)));
-			CHECK_CLOSE(LQWithIncreaseXDose->getValueAt(VoxelGridIndex3D(1, 2, 6)), expectedLQWithIncreaseX, errorConstant);
+			CHECK_CLOSE(LQWithIncreaseXDose->getValueAt(VoxelGridIndex3D(1, 2, 6)), expectedLQWithIncreaseX,
+			            errorConstant);
 			expectedLQWithIncreaseX = exp(-(0.3 * 45 * 2.822386e-5 + (0.01 * 45 * 2.822386e-5 * 45 * 2.822386e-5)));
 			CHECK_CLOSE(LQWithIncreaseXDose->getValueAt(VoxelGridIndex3D(45, 40, 60)), expectedLQWithIncreaseX,
 			            errorConstant);

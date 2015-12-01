@@ -27,89 +27,102 @@
 #include "rttbInvalidParameterException.h"
 #include "rttbException.h"
 
-namespace rttb{
-	namespace io{
-		namespace other{
+namespace rttb
+{
+	namespace io
+	{
+		namespace other
+		{
 
-			DVHTxtFileWriter::DVHTxtFileWriter(FileNameString aFileName, DVHType aDVHType){
-			this->setFileName(aFileName); 
-			this->setDVHType(aDVHType);
+			DVHTxtFileWriter::DVHTxtFileWriter(FileNameString aFileName, DVHType aDVHType)
+			{
+				this->setFileName(aFileName);
+				this->setDVHType(aDVHType);
 			}
 
-			void DVHTxtFileWriter::setDVHType(DVHType aDVHType){
-			_dvhType=aDVHType;
+			void DVHTxtFileWriter::setDVHType(DVHType aDVHType)
+			{
+				_dvhType = aDVHType;
 			}
 
-		FileNameString DVHTxtFileWriter::getFileName() const{
-			return _fileName;
+			FileNameString DVHTxtFileWriter::getFileName() const
+			{
+				return _fileName;
 			}
 
-		void DVHTxtFileWriter::setFileName(FileNameString aFileName){
-			_fileName=aFileName;
+			void DVHTxtFileWriter::setFileName(FileNameString aFileName)
+			{
+				_fileName = aFileName;
 			}
 
-			DVHType DVHTxtFileWriter::getDVHType() const{
-			return _dvhType;
+			DVHType DVHTxtFileWriter::getDVHType() const
+			{
+				return _dvhType;
 			}
 
-		void DVHTxtFileWriter::writeDVH(DVHPointer aDvh) {
-			if(!aDvh)
+			void DVHTxtFileWriter::writeDVH(DVHPointer aDvh)
+			{
+				if (!aDvh)
 				{
 					throw core::NullPointerException("aDvh must not be NULL! ");
 				}
-			std::ofstream out_dvh_ofstream(this->_fileName.c_str(),std::ios::out);
 
-			if (!out_dvh_ofstream.is_open() || !out_dvh_ofstream.good())
+				std::ofstream out_dvh_ofstream(this->_fileName.c_str(), std::ios::out);
+
+				if (!out_dvh_ofstream.is_open() || !out_dvh_ofstream.good())
 				{
 					throw core::InvalidParameterException("Invalid dvh file name: could not open write file");
 				}
-			else{
-                //setting string stream precission explicitly is mandatory to guarantee that tests
-                //run sucessfully on different systems!
-                out_dvh_ofstream.precision(10);
+				else
+				{
+					//setting string stream precission explicitly is mandatory to guarantee that tests
+					//run sucessfully on different systems!
+					out_dvh_ofstream.precision(10);
 
-					if(_dvhType.Type != DVHType::Differential && _dvhType.Type != DVHType::Cumulative)
+					if (_dvhType.Type != DVHType::Differential && _dvhType.Type != DVHType::Cumulative)
 					{
 						throw core::InvalidParameterException("DVH Type not acceptable: Only: DIFFERENTIAL/CUMULATIVE!");
 					}
 
-					if(_dvhType.Type == DVHType::Differential)
+					if (_dvhType.Type == DVHType::Differential)
 					{
 						out_dvh_ofstream << "DVH Type: DIFFERENTIAL\n";
 					}
-					else if(_dvhType.Type == DVHType::Cumulative)
+					else if (_dvhType.Type == DVHType::Cumulative)
 					{
 						out_dvh_ofstream << "DVH Type: CUMULATIVE\n";
 					}
 
-					out_dvh_ofstream << "DeltaD: "<<aDvh->getDeltaD() << "\n";
-					out_dvh_ofstream << "DeltaV: "<<aDvh->getDeltaV() << "\n";
-					out_dvh_ofstream << "StructureID: "<<aDvh->getStructureID()<< "\n";
-					out_dvh_ofstream << "DoseID: "<<aDvh->getDoseID()<< "\n";
-					out_dvh_ofstream << "DVH Data: "<< "\n";
+					out_dvh_ofstream << "DeltaD: " << aDvh->getDeltaD() << "\n";
+					out_dvh_ofstream << "DeltaV: " << aDvh->getDeltaV() << "\n";
+					out_dvh_ofstream << "StructureID: " << aDvh->getStructureID() << "\n";
+					out_dvh_ofstream << "DoseID: " << aDvh->getDoseID() << "\n";
+					out_dvh_ofstream << "DVH Data: " << "\n";
 
-					if(_dvhType.Type == DVHType::Differential)
+					if (_dvhType.Type == DVHType::Differential)
 					{
-						DataDifferentialType dataDifferential=aDvh->getDataDifferential();
-						int numberOfBins=dataDifferential.size();
-					for(int i=0; i<numberOfBins; i++)
-						{				
-						out_dvh_ofstream << i << ","  <<  dataDifferential[i] <<"\n";
-						}
-					}
-					else if(_dvhType.Type == DVHType::Cumulative)
-					{
-					DataDifferentialType dataCumulative=aDvh->calcCumulativeDVH();
-						int numberOfBins=dataCumulative.size();
-					for(int i=0; i<numberOfBins; i++)
+						DataDifferentialType dataDifferential = aDvh->getDataDifferential();
+						int numberOfBins = dataDifferential.size();
+
+						for (int i = 0; i < numberOfBins; i++)
 						{
-						out_dvh_ofstream << i << "," << dataCumulative[i] <<"\n";
+							out_dvh_ofstream << i << ","  <<  dataDifferential[i] << "\n";
+						}
+					}
+					else if (_dvhType.Type == DVHType::Cumulative)
+					{
+						DataDifferentialType dataCumulative = aDvh->calcCumulativeDVH();
+						int numberOfBins = dataCumulative.size();
+
+						for (int i = 0; i < numberOfBins; i++)
+						{
+							out_dvh_ofstream << i << "," << dataCumulative[i] << "\n";
 						}
 					}
 
-					
-					}
+
 				}
 			}
 		}
+	}
 }

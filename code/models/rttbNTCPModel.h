@@ -30,32 +30,40 @@
 
 
 
-namespace rttb{
-	namespace models{
+namespace rttb
+{
+	namespace models
+	{
 
 		/*! @class NTCPModel
 			@brief This is the interface class for NTCP(Normal Tissue Complication Probability) models
 		*/
 		class NTCPModel: public BioModel
+		{
+		public:
+			typedef BioModel::ParamVectorType ParamVectorType;
+			typedef BioModel::DVHPointer DVHPointer;
+
+		protected:
+			BioModelParamType _d50;
+
+		public:
+			NTCPModel(): BioModel(), _d50(0) {}
+			NTCPModel(const BioModelParamType aD50): BioModel(), _d50(aD50) {}
+			NTCPModel(DVHPointer aDvh, const BioModelParamType aD50): BioModel(aDvh), _d50(aD50) {}
+
+			const BioModelParamType getD50()
 			{
-			public:
-				typedef BioModel::ParamVectorType ParamVectorType;
-				typedef BioModel::DVHPointer DVHPointer;
+				return _d50;
+			}
 
-			protected:
-				BioModelParamType _d50;
+			void setD50(const BioModelParamType aD50)
+			{
+				_d50 = aD50;
+			}
+		};
 
-			public: 
-				NTCPModel(): BioModel(), _d50(0){}
-				NTCPModel(const BioModelParamType aD50): BioModel(), _d50(aD50){}
-				NTCPModel(DVHPointer aDvh, const BioModelParamType aD50): BioModel(aDvh), _d50(aD50){}
-
-				const BioModelParamType getD50(){return _d50;}
-
-				void setD50(const BioModelParamType aD50){_d50=aD50;}
-			};
-
-		}//end namespace models
-	}//end namespace rttb
+	}//end namespace models
+}//end namespace rttb
 
 #endif

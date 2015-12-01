@@ -26,9 +26,12 @@
 #include "../rttbDVHWriterInterface.h"
 #include "rttbBaseType.h"
 
-namespace rttb{
-	namespace io{
-		namespace other{
+namespace rttb
+{
+	namespace io
+	{
+		namespace other
+		{
 
 			/*! @class DVHTxtFileWriter
 			@brief Writes DVHs to simple text files.
@@ -39,11 +42,11 @@ namespace rttb{
 				typedef core::DVH::DataDifferentialType DataDifferentialType;
 				typedef core::DVH::DVHPointer DVHPointer;
 
-			private: 
+			private:
 				FileNameString _fileName;
 				DVHType _dvhType;
 
-			public: 
+			public:
 				/*! @brief Constructor
 				@param aFileName a .txt file name to write the DVH to aDVHType: DIFFERENTIAL or CUMULATIVE.
 				*/
@@ -57,8 +60,8 @@ namespace rttb{
 
 				/*! @brief Write aDvh to txt file with the name: _fileName
 				@exception NullPointerException Thrown if _aDvh is NULL
-				@exception InvalidParameterException Thrown if _fileName invalid: could not open; 
-				or if _dvhType invalid: only DIFFERENTIAL or CUMULATIVE is accepted! 
+				@exception InvalidParameterException Thrown if _fileName invalid: could not open;
+				or if _dvhType invalid: only DIFFERENTIAL or CUMULATIVE is accepted!
 				@exception Exception thrown if dvh init error
 				*/
 				void writeDVH(DVHPointer aDvh);

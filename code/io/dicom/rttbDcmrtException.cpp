@@ -23,16 +23,21 @@
 
 #include "rttbDcmrtException.h"
 
-namespace rttb{
-	namespace io{
-		namespace dicom{
-			const char* DcmrtException::what() const throw() {
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
+			const char* DcmrtException::what() const throw()
+			{
 				return rttb_what.c_str();
 			}
 
-			const char* DcmrtException::GetNameOfClass() const{
-				return "DcmrtException"; 
-			}        
+			const char* DcmrtException::GetNameOfClass() const
+			{
+				return "DcmrtException";
+			}
 		}
 
 	}//end namespace io

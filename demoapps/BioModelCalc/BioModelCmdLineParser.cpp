@@ -20,7 +20,8 @@ namespace rttb
 				addPositionalOption(OPTION_DOSE_FILE, 1);
 				addPositionalOption(OPTION_OUTPUT_FILE, 1);
 				addOptionWithDefaultValue<std::string>(OPTION_MODEL, OPTION_GROUP_REQUIRED,
-				                                       "The used radiobiological model the dose should be analyzed with. Available models are:\n \"LQ\"", "LQ", "LQ", 'm');
+				                                       "The used radiobiological model the dose should be analyzed with. Available models are:\n \"LQ\"",
+				                                       "LQ", "LQ", 'm');
 				addOption<std::vector<double> >(OPTION_MODEL_PARAMETERS, OPTION_GROUP_REQUIRED,
 				                                "The parameters for the radiobiological model.", 'p', true, true);
 				addOptionWithDefaultValue<double>(OPTION_DOSE_SCALING, OPTION_GROUP_REQUIRED,
@@ -58,7 +59,8 @@ namespace rttb
 				std::vector<std::string> loadStyle = get<std::vector<std::string> >(OPTION_LOAD_STYLE);
 				std::string loadStyleAbbreviation = loadStyle.at(0);
 
-				if (loadStyleAbbreviation != "dicom" && loadStyleAbbreviation != "virtuos" && loadStyleAbbreviation != "itk"
+				if (loadStyleAbbreviation != "dicom" && loadStyleAbbreviation != "virtuos"
+				    && loadStyleAbbreviation != "itk"
 				    && loadStyleAbbreviation != "helax")
 				{
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style:" + loadStyleAbbreviation +

@@ -23,20 +23,25 @@
 #include "rttbStrVectorStructureSetGenerator.h"
 
 
-namespace rttb{
-	namespace core{		
+namespace rttb
+{
+	namespace core
+	{
 
 
-		StrVectorStructureSetGenerator::StrVectorStructureSetGenerator(std::vector<StructTypePointer>& aStructureVector,IDType aPatientUID)
+		StrVectorStructureSetGenerator::StrVectorStructureSetGenerator(std::vector<StructTypePointer>&
+		        aStructureVector, IDType aPatientUID)
 		{
-			
-			_patientUID= aPatientUID;
-			_strVector=aStructureVector;
-			
+
+			_patientUID = aPatientUID;
+			_strVector = aStructureVector;
+
 		}
 
-		StrVectorStructureSetGenerator::StructureSetPointer StrVectorStructureSetGenerator::generateStructureSet(){
-			return boost::make_shared<core::StructureSet>(_strVector,_patientUID);
+		StrVectorStructureSetGenerator::StructureSetPointer
+		StrVectorStructureSetGenerator::generateStructureSet()
+		{
+			return boost::make_shared<core::StructureSet>(_strVector, _patientUID);
 		}
 	}
 }//end namespace rttb

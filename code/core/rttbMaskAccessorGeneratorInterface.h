@@ -24,36 +24,39 @@
 
 #include "rttbMaskAccessorInterface.h"
 
-namespace rttb{
+namespace rttb
+{
 	namespace core
-		{
+	{
 		/*! @class MaskAccessorGeneratorInterface
 			@brief Interface for all MaskAccessor generating classes
 		*/
 		class MaskAccessorGeneratorInterface
-			{
-			public:
-				typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
+		{
+		public:
+			typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
 
-			
-			private:
-				MaskAccessorGeneratorInterface(const MaskAccessorGeneratorInterface&); //not implemented on purpose -> non-copyable
-				MaskAccessorGeneratorInterface& operator=(const MaskAccessorGeneratorInterface&);//not implemented on purpose -> non-copyable
-				
-				
-			protected:	
-				MaskAccessorGeneratorInterface() {};
-				virtual ~MaskAccessorGeneratorInterface() {};
 
-			public: 
-				
-				
-				/*! @brief Generate MaskAccessor 
-					@return Return shared pointer of MaskAccessor. 
-				*/
-				virtual MaskAccessorPointer generateMaskAccessor() = 0;
-			};
-		}
+		private:
+			MaskAccessorGeneratorInterface(const
+			                               MaskAccessorGeneratorInterface&); //not implemented on purpose -> non-copyable
+			MaskAccessorGeneratorInterface& operator=(const
+			        MaskAccessorGeneratorInterface&);//not implemented on purpose -> non-copyable
+
+
+		protected:
+			MaskAccessorGeneratorInterface() {};
+			virtual ~MaskAccessorGeneratorInterface() {};
+
+		public:
+
+
+			/*! @brief Generate MaskAccessor
+				@return Return shared pointer of MaskAccessor.
+			*/
+			virtual MaskAccessorPointer generateMaskAccessor() = 0;
+		};
 	}
+}
 
 #endif

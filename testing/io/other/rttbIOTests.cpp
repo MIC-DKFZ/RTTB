@@ -26,10 +26,12 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-#include "litMultiTestsMain.h" 
+#include "litMultiTestsMain.h"
 
-namespace rttb{
-	namespace testing{
+namespace rttb
+{
+	namespace testing
+	{
 
 		void registerTests()
 		{
@@ -48,10 +50,10 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		result = lit::multiTestsMain(argc,argv);
+		result = lit::multiTestsMain(argc, argv);
 	}
 
-	catch(...)
+	catch (...)
 	{
 		result = -1;
 	}

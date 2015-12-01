@@ -84,7 +84,8 @@ int main(int argc, char* argv[])
 		std::vector<int> indexOfCorrectElements;
 		indexOfCorrectElements = rttb::apps::voxelizer::filterForExpression(reader->getAllLabels(),
 		                         params.regEx.at(i));
-		std::copy(indexOfCorrectElements.begin(), indexOfCorrectElements.end(), std::back_inserter(listOfCorrectElements));
+		std::copy(indexOfCorrectElements.begin(), indexOfCorrectElements.end(),
+		          std::back_inserter(listOfCorrectElements));
 	}
 
 	std::cout << "done." << std::endl;

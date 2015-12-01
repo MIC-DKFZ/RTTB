@@ -41,17 +41,19 @@
 #include "../../core/DummyDVHGenerator.h"
 
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace testing{
+	namespace testing
+	{
 
 		/*! @brief OtherIOTest - test the IO for DVH txt data
 			1) test writing dvh to text file
-			2) test reading DVH from text file 
+			2) test reading DVH from text file
 			3) test reading and writing the same dvh
 		*/
 
-		int OtherIOTest(int argc, char* argv[] )
+		int OtherIOTest(int argc, char* argv[])
 		{
 			typedef core::DVHSet::DVHSetType DVHSetType;
 			typedef core::DVH::DVHPointer DVHPointer;
@@ -60,7 +62,7 @@ namespace rttb{
 
 			std::string DVHTXT_FILENAME;
 
-			if (argc>1)
+			if (argc > 1)
 			{
 				DVHTXT_FILENAME = argv[1];
 			}
@@ -69,9 +71,10 @@ namespace rttb{
 			const IDType structureIDPrefix = "myStructure";
 			const IDType doseID = "myDose";
 
-			DummyDVHGenerator dvhGenerator;	  
+			DummyDVHGenerator dvhGenerator;
 
-			DVHPointer spMyDVH = boost::make_shared<core::DVH>(dvhGenerator.generateDVH(structureIDPrefix,doseID));		
+			DVHPointer spMyDVH = boost::make_shared<core::DVH>(dvhGenerator.generateDVH(structureIDPrefix,
+			                     doseID));
 
 			// 1) test writing DVH to text file
 			DVHType typeCum = {DVHType::Cumulative};
@@ -81,7 +84,7 @@ namespace rttb{
 			CHECK_NO_THROW(io::other::DVHTxtFileWriter(fN1, typeCum));
 
 
-			io::other::DVHTxtFileWriter dvhWriter (fN1, typeCum);
+			io::other::DVHTxtFileWriter dvhWriter(fN1, typeCum);
 
 			CHECK_EQUAL(fN1, dvhWriter.getFileName());
 
@@ -94,14 +97,14 @@ namespace rttb{
 			CHECK_EQUAL(DVHType::Differential, dvhWriter.getDVHType().Type);
 
 			DVHPointer emptyDvh;
-			CHECK_THROW_EXPLICIT(dvhWriter.writeDVH(emptyDvh),core::NullPointerException);
+			CHECK_THROW_EXPLICIT(dvhWriter.writeDVH(emptyDvh), core::NullPointerException);
 			CHECK_NO_THROW(dvhWriter.setDVHType(typeDiff));
 			CHECK_NO_THROW(dvhWriter.writeDVH(spMyDVH));
 
-			// 2) test reading DVH from text file 
+			// 2) test reading DVH from text file
 			CHECK_NO_THROW(io::other::DVHTxtFileReader dvhReader(fN1));
 			io::other::DVHTxtFileReader dvhReaderTest(fN1);
-			CHECK_THROW_EXPLICIT(dvhReaderTest.generateDVH(),core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(dvhReaderTest.generateDVH(), core::InvalidParameterException);
 			CHECK_NO_THROW(io::other::DVHTxtFileReader dvhReader(fN2));
 
 			io::other::DVHTxtFileReader dvhReader(fN2);
@@ -111,7 +114,7 @@ namespace rttb{
 			CHECK_NO_THROW(dvhReader.resetFileName(fN2));
 
 			CHECK_NO_THROW(dvhReader.generateDVH());
-			
+
 			DVHPointer importedDVH = dvhReader.generateDVH();
 
 			CHECK_EQUAL(*importedDVH, *spMyDVH);
@@ -121,7 +124,7 @@ namespace rttb{
 			io::other::DVHTxtFileReader dvhReader_R(DVHTXT_FILENAME);
 			rttb::core::DVHGeneratorInterface::DVHPointer dvhP_R = dvhReader_R.generateDVH();
 
-			//write the dvh to another file as cumulative		
+			//write the dvh to another file as cumulative
 			io::other::DVHTxtFileWriter dvhWriter_R_Cum("test_Cum.txt", typeCum);
 			dvhWriter_R_Cum.writeDVH(dvhP_R);
 
@@ -139,12 +142,15 @@ namespace rttb{
 			CHECK_CLOSE(dvhP_R->getMinimum(), dvhP_W_Cum->getMinimum(), errorConstant);
 			CHECK_CLOSE(dvhP_R->getMean(), dvhP_W_Cum->getMean(), errorConstant);
 			CHECK(dvhP_R->getDataDifferential().size() == dvhP_W_Cum->getDataDifferential().size());
-			for(int i=0; i<dvhP_R->getDataDifferential().size(); i++){
-				CHECK_CLOSE(dvhP_R->getDataDifferential().at(i), dvhP_W_Cum->getDataDifferential().at(i), errorConstant);
+
+			for (int i = 0; i < dvhP_R->getDataDifferential().size(); i++)
+			{
+				CHECK_CLOSE(dvhP_R->getDataDifferential().at(i), dvhP_W_Cum->getDataDifferential().at(i),
+				            errorConstant);
 			}
 
 
-			//write the dvh to another file as differential		
+			//write the dvh to another file as differential
 			io::other::DVHTxtFileWriter dvhWriter_R_Diff("test_Diff.txt", typeDiff);
 			dvhWriter_R_Diff.writeDVH(dvhP_R);
 
@@ -161,8 +167,11 @@ namespace rttb{
 			CHECK_CLOSE(dvhP_R->getMinimum(), dvhP_W_Diff->getMinimum(), errorConstant);
 			CHECK_CLOSE(dvhP_R->getMean(), dvhP_W_Diff->getMean(), errorConstant);
 			CHECK(dvhP_R->getDataDifferential().size() == dvhP_W_Diff->getDataDifferential().size());
-			for(int i=0; i<dvhP_R->getDataDifferential().size(); i++){
-				CHECK_CLOSE(dvhP_R->getDataDifferential().at(i), dvhP_W_Diff->getDataDifferential().at(i), errorConstant);
+
+			for (int i = 0; i < dvhP_R->getDataDifferential().size(); i++)
+			{
+				CHECK_CLOSE(dvhP_R->getDataDifferential().at(i), dvhP_W_Diff->getDataDifferential().at(i),
+				            errorConstant);
 			}
 
 

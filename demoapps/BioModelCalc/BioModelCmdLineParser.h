@@ -15,7 +15,8 @@ namespace rttb
 			class BioModelCmdLineParser : public cmdlineparsing::CmdLineParserBase
 			{
 			public:
-				BioModelCmdLineParser(int argc, const char** argv, const std::string& name, const std::string& version);
+				BioModelCmdLineParser(int argc, const char** argv, const std::string& name,
+				                      const std::string& version);
 				void validateInput() const;
 				void printHelp() const;
 

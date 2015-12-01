@@ -24,16 +24,20 @@
 
 #include "rttbSelfIntersectingStructureException.h"
 
-namespace rttb{
-	namespace masks{
+namespace rttb
+{
+	namespace masks
+	{
 
-        const char* SelfIntersectingStructureException::what() const throw() {
+		const char* SelfIntersectingStructureException::what() const throw()
+		{
 			return rttb_what.c_str();
-			}
+		}
 
-		const char* SelfIntersectingStructureException::GetNameOfClass() const{ 
-			return "SelfIntersectingStructureException"; 
-			}
-		
-		}//end namespace masks
-	}//end namespace rttb
+		const char* SelfIntersectingStructureException::GetNameOfClass() const
+		{
+			return "SelfIntersectingStructureException";
+		}
+
+	}//end namespace masks
+}//end namespace rttb

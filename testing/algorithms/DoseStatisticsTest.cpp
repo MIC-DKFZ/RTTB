@@ -67,8 +67,10 @@ namespace rttb
 			maxVoxels.push_back(std::make_pair(108.2, 7));
 			maxVoxels.push_back(std::make_pair(108.2, 8));
 
-			ResultListPointer resultsMinVoxels = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >(minVoxels);
-			ResultListPointer resultsMaxVoxels = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >(maxVoxels);
+			ResultListPointer resultsMinVoxels =
+			    boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >(minVoxels);
+			ResultListPointer resultsMaxVoxels =
+			    boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >(maxVoxels);
 
 			DoseToVolumeFunctionType Vx;
 			Vx.insert(std::make_pair(1.1, 1000));
@@ -97,10 +99,12 @@ namespace rttb
 
 			//1) test constructors
 
-			CHECK_NO_THROW(rttb::algorithms::DoseStatistics aDoseStatistic(minimum, maximum, mean, stdDeviation, numVoxels,
+			CHECK_NO_THROW(rttb::algorithms::DoseStatistics aDoseStatistic(minimum, maximum, mean, stdDeviation,
+			               numVoxels,
 			               volume));
 
-			rttb::algorithms::DoseStatistics aDoseStatistic(minimum, maximum, mean, stdDeviation, numVoxels, volume);
+			rttb::algorithms::DoseStatistics aDoseStatistic(minimum, maximum, mean, stdDeviation, numVoxels,
+			        volume);
 			CHECK_EQUAL(aDoseStatistic.getMinimum(), minimum);
 			CHECK_EQUAL(aDoseStatistic.getMaximum(), maximum);
 			CHECK_EQUAL(aDoseStatistic.getMean(), mean);
@@ -119,10 +123,12 @@ namespace rttb
 			CHECK_EQUAL(aDoseStatistic.getAllMaxOHx().empty(), true);
 			CHECK_EQUAL(aDoseStatistic.getAllMinOCx().empty(), true);
 
-			CHECK_NO_THROW(rttb::algorithms::DoseStatistics aDoseStatisticComplex(minimum, maximum, mean, stdDeviation, numVoxels,
+			CHECK_NO_THROW(rttb::algorithms::DoseStatistics aDoseStatisticComplex(minimum, maximum, mean,
+			               stdDeviation, numVoxels,
 			               volume,
 			               resultsMaxVoxels, resultsMinVoxels, Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx));
-			rttb::algorithms::DoseStatistics aDoseStatisticComplex(minimum, maximum, mean, stdDeviation, numVoxels, volume,
+			rttb::algorithms::DoseStatistics aDoseStatisticComplex(minimum, maximum, mean, stdDeviation,
+			        numVoxels, volume,
 			        resultsMaxVoxels, resultsMinVoxels, Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx);
 
 			CHECK_EQUAL(aDoseStatisticComplex.getMaximumPositions(), resultsMaxVoxels);
@@ -169,7 +175,8 @@ namespace rttb
 			Dx.insert(std::make_pair(98000, 104.4));
 			Dx.insert(std::make_pair(99000, 106.9));
 
-			rttb::algorithms::DoseStatistics aDoseStatisticNewValues(minimum, maximum, mean, stdDeviation, numVoxels, volume);
+			rttb::algorithms::DoseStatistics aDoseStatisticNewValues(minimum, maximum, mean, stdDeviation,
+			        numVoxels, volume);
 			aDoseStatisticNewValues.setDx(Dx);
 			aDoseStatisticNewValues.setVx(Vx);
 
@@ -208,8 +215,10 @@ namespace rttb
 			double dummy;
 			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCx(25), core::DataNotAvailableException);
 			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx(9999), core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCx(25, true, dummy), core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx(9999, true, dummy), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCx(25, true, dummy),
+			                     core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx(9999, true, dummy),
+			                     core::DataNotAvailableException);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

@@ -42,17 +42,19 @@
 
 #include "CompareDVH.h"
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace testing{
+	namespace testing
+	{
 
 		/*! @brief DVHXMLIOTest - test the IO for DVH xml data
 		1) test writing dvh to xml file
-		2) test reading DVH from xml file 
+		2) test reading DVH from xml file
 		3) test reading dvh from txt file and writing to xml, check equal
 		*/
 
-		int DVHXMLIOTest(int argc, char* argv[] )
+		int DVHXMLIOTest(int argc, char* argv[])
 		{
 			typedef core::DVHSet::DVHSetType DVHSetType;
 			typedef core::DVH::DVHPointer DVHPointer;
@@ -61,7 +63,7 @@ namespace rttb{
 
 			std::string DVHTXT_FILENAME;
 
-			if (argc>1)
+			if (argc > 1)
 			{
 				DVHTXT_FILENAME = argv[1];
 			}
@@ -70,9 +72,10 @@ namespace rttb{
 			const IDType structureIDPrefix = "myStructure";
 			const IDType doseID = "myDose";
 
-			DummyDVHGenerator dvhGenerator;	  
+			DummyDVHGenerator dvhGenerator;
 
-			DVHPointer spMyDVH = boost::make_shared<core::DVH>(dvhGenerator.generateDVH(structureIDPrefix,doseID));		
+			DVHPointer spMyDVH = boost::make_shared<core::DVH>(dvhGenerator.generateDVH(structureIDPrefix,
+			                     doseID));
 
 			// 1) test writing DVH to xml file
 			DVHType typeCum = {DVHType::Cumulative};
@@ -81,7 +84,7 @@ namespace rttb{
 			CHECK_NO_THROW(io::other::DVHXMLFileWriter(fN1, typeDiff));
 			CHECK_NO_THROW(io::other::DVHXMLFileWriter(fN1, typeCum));
 
-			io::other::DVHXMLFileWriter dvhWriter (fN1, typeCum);
+			io::other::DVHXMLFileWriter dvhWriter(fN1, typeCum);
 
 			CHECK_EQUAL(fN1, dvhWriter.getFileName());
 
@@ -99,14 +102,14 @@ namespace rttb{
 			CHECK_NO_THROW(dvhWriter.setDVHType(typeDiff));
 			CHECK_NO_THROW(dvhWriter.writeDVH(spMyDVH));
 
-			// 2) test reading DVH from xml file 
+			// 2) test reading DVH from xml file
 			io::other::DVHXMLFileReader dvhReader(fN2);
 
 			DVHPointer importedDVH = dvhReader.generateDVH();
 
 			CHECK_EQUAL(*importedDVH, *spMyDVH);
 
-			//3) test reading dvh from txt file and writing to xml 
+			//3) test reading dvh from txt file and writing to xml
 			io::other::DVHTxtFileReader dvhReader2(DVHTXT_FILENAME);
 			DVHPointer importedDVH2 = dvhReader2.generateDVH();
 

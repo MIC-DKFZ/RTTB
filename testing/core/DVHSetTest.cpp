@@ -64,7 +64,8 @@ namespace rttb
 
 			for (int i = 0; i < 3; i++)
 			{
-				tvSet.push_back(dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>(i), doseID));
+				tvSet.push_back(dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>(i),
+				                doseID));
 			}
 
 			DVHSetType htSet;
@@ -72,7 +73,8 @@ namespace rttb
 
 			for (int i = 0; i < 5; i++)
 			{
-				htSet.push_back(dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>(i), doseID));
+				htSet.push_back(dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>(i),
+				                doseID));
 			}
 
 			DVHSetType wvSet;
@@ -80,7 +82,8 @@ namespace rttb
 
 			for (int i = 0; i < 1; i++)
 			{
-				wvSet.push_back(dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>(i), doseID));
+				wvSet.push_back(dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>(i),
+				                doseID));
 			}
 
 			//1) test constructors (values as expected?)
@@ -116,7 +119,8 @@ namespace rttb
 			//4) test insert/retrieve individual DVHs
 			DVHRole roleTV = {DVHRole::TargetVolume};
 			structureID = structureIDPrefix + "_TV_";
-			core::DVH tv = dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>(tvSet.size()), doseID);
+			core::DVH tv = dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>
+			                                        (tvSet.size()), doseID);
 			CHECK_EQUAL(myDvhSet1.size(), 0);
 			CHECK_NO_THROW(myDvhSet1.insert(tv, roleTV));
 			CHECK_EQUAL(myDvhSet1.size(), 1);
@@ -126,7 +130,8 @@ namespace rttb
 
 			DVHRole roleHT = {DVHRole::HealthyTissue};
 			structureID = structureIDPrefix + "_HT_";
-			core::DVH ht = dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>(htSet.size()), doseID);
+			core::DVH ht = dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>
+			                                        (htSet.size()), doseID);
 			CHECK_EQUAL(myDvhSet1.size(), 1);
 			CHECK_NO_THROW(myDvhSet1.insert(ht, roleHT));
 			CHECK_EQUAL(myDvhSet1.size(), 2);
@@ -137,7 +142,8 @@ namespace rttb
 			DVHRole roleWV = {DVHRole::WholeVolume};
 			structureID = structureIDPrefix + "_wv_";
 			IDType testID = structureID + boost::lexical_cast<std::string>(wvSet.size());
-			core::DVH wv = dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>(wvSet.size()), doseID);
+			core::DVH wv = dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>
+			                                        (wvSet.size()), doseID);
 			CHECK_EQUAL(myDvhSet1.size(), 2);
 			CHECK_NO_THROW(myDvhSet1.insert(wv, roleWV));
 			CHECK_EQUAL(myDvhSet1.size(), 3);

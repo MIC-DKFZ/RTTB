@@ -47,7 +47,8 @@ namespace rttb
 
 			}
 
-			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomFileDoseAccessorGenerator::generateDoseAccessor()
+			core::DoseAccessorGeneratorInterface::DoseAccessorPointer
+			DicomFileDoseAccessorGenerator::generateDoseAccessor()
 			{
 				std::vector<FileNameString> fileVector;
 

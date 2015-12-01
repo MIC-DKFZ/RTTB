@@ -26,38 +26,40 @@
 #include "rttbBioModel.h"
 #include "rttbBaseTypeModels.h"
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace models{
+	namespace models
+	{
 
 
 		/*! @class TCPModel
 			@brief This is the interface class for TCP(Tumor Control Probability) models
 		*/
 		class TCPModel: public BioModel
-			{
-			public:
-				typedef BioModel::ParamVectorType ParamVectorType;
-				typedef BioModel::DVHPointer DVHPointer;
+		{
+		public:
+			typedef BioModel::ParamVectorType ParamVectorType;
+			typedef BioModel::DVHPointer DVHPointer;
 
-			protected: 
-				int _numberOfFractions;
+		protected:
+			int _numberOfFractions;
 
-			public: 
+		public:
 
-				TCPModel(): BioModel(), _numberOfFractions(0){};
+			TCPModel(): BioModel(), _numberOfFractions(0) {};
 
-				TCPModel(int aNum): BioModel(), _numberOfFractions(aNum){};
+			TCPModel(int aNum): BioModel(), _numberOfFractions(aNum) {};
 
-				TCPModel(DVHPointer aDvh, int aNum): BioModel(aDvh), _numberOfFractions(aNum){};
+			TCPModel(DVHPointer aDvh, int aNum): BioModel(aDvh), _numberOfFractions(aNum) {};
 
-				void setNumberOfFractions(const int aNumberOfFractions);
+			void setNumberOfFractions(const int aNumberOfFractions);
 
-				const int getNumberOfFractions();
+			const int getNumberOfFractions();
 
-			};
+		};
 
-		}//end namespace models
-	}//end namespace rttb
+	}//end namespace models
+}//end namespace rttb
 
 #endif

@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 741 $ (last changed revision)
-// @date    $Date: 2014-09-16 16:34:22 +0200 (Di, 16 Sep 2014) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 #ifndef __REGISTRATION_TEST_H
 #define __REGISTRATION_TEST_H
@@ -40,8 +40,10 @@ namespace map
 			typedef itk::SmartPointer<Self> Pointer;
 			typedef itk::SmartPointer<const Self> ConstPointer;
 
-			typedef typename Registration<VMovingDimensions, VTargetDimensions>::TargetPointType TargetPointType;
-			typedef typename Registration<VMovingDimensions, VTargetDimensions>::MovingPointType MovingPointType;
+			typedef typename Registration<VMovingDimensions, VTargetDimensions>::TargetPointType
+			TargetPointType;
+			typedef typename Registration<VMovingDimensions, VTargetDimensions>::MovingPointType
+			MovingPointType;
 
 			itkTypeMacro(RegistrationTest, Registration);
 			itkNewMacro(Self);

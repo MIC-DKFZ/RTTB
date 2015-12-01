@@ -35,7 +35,8 @@ namespace rttb
 		namespace itk
 		{
 
-			template <typename TPixelType> ITKImageType::Pointer doCasting(GenericImageReader::GenericOutputImageType* genericImage)
+			template <typename TPixelType> ITKImageType::Pointer doCasting(
+			    GenericImageReader::GenericOutputImageType* genericImage)
 			{
 				ITKImageType::Pointer itkDoubleImage;
 				typedef ::itk::Image<TPixelType, 3> InputImageType;

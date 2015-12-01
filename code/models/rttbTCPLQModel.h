@@ -98,7 +98,8 @@ namespace rttb
 			@pre aRho > 0
 			@pre aNumberOfFractions > 1
 			*/
-			TCPLQModel(DVHPointer aDVH, BioModelParamType aAlphaMean, BioModelParamType aBeta, BioModelParamType aRho,
+			TCPLQModel(DVHPointer aDVH, BioModelParamType aAlphaMean, BioModelParamType aBeta,
+			           BioModelParamType aRho,
 			           int aNumberOfFractions);
 
 			/*! @brief Constructor for alpha distribution initializes member variables with given parameters.
@@ -108,7 +109,8 @@ namespace rttb
 			@pre aRho > 0
 			@pre aNumberOfFractions > 1
 			*/
-			TCPLQModel(DVHPointer aDVH, BioModelParamType aRho, int aNumberOfFractions, BioModelParamType aAlpha_Beta,
+			TCPLQModel(DVHPointer aDVH, BioModelParamType aRho, int aNumberOfFractions,
+			           BioModelParamType aAlpha_Beta,
 			           BioModelParamType aAlphaMean, BioModelParamType aAlphaVariance);
 
 			const BioModelParamType getRho();

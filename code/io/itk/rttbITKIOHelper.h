@@ -47,13 +47,15 @@ namespace rttb
 			@exception InvalidParameterException if component type is not supported
 			@sa GenericImageReader
 			*/
-			ITKImageType::Pointer handleGenericImage(GenericImageReader::GenericOutputImageType* itkGenericImage,
+			ITKImageType::Pointer handleGenericImage(GenericImageReader::GenericOutputImageType*
+			        itkGenericImage,
 			        ::itk::ImageIOBase::IOComponentType& loadedComponentType);
 
 			/*! @brief Casts into itkImage<DoseTypeGy,3>
 			*/
-			template <typename TPixelType> ITKImageType::Pointer doCasting(GenericImageReader::GenericOutputImageType*
-			        genericImage);
+			template <typename TPixelType> ITKImageType::Pointer doCasting(
+			    GenericImageReader::GenericOutputImageType*
+			    genericImage);
 
 
 		}//end namespace itk

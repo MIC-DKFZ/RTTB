@@ -36,8 +36,10 @@
 #include <sstream>
 #include <fstream>
 
-namespace rttb{
-	namespace testing{
+namespace rttb
+{
+	namespace testing
+	{
 
 		typedef models::ScatterPlotType ScatterPlotType;
 
@@ -45,7 +47,7 @@ namespace rttb{
 		1) test if parameters are set correctly
 		2) test if scatterData contain each model value exactly once
 		*/
-		int BioModelScatterPlotTest(int argc, char* argv[] )
+		int BioModelScatterPlotTest(int argc, char* argv[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
@@ -59,7 +61,8 @@ namespace rttb{
 			const IDType structureID = "myStructure";
 			const IDType doseID = "myDose";
 
-			core::DVH::DVHPointer dvhPtr = boost::make_shared<core::DVH>(dummyDVH.generateDVH(structureID, doseID, 0,2000));
+			core::DVH::DVHPointer dvhPtr = boost::make_shared<core::DVH>(dummyDVH.generateDVH(structureID,
+			                               doseID, 0, 2000));
 
 			//test Dummy Model
 			models::BioModelParamType param1 = 0.35;
@@ -72,62 +75,74 @@ namespace rttb{
 			rttb::models::DummyModel model(dvhPtr);
 			model.resetCounters();
 
-			//default number of points is 100 
+			//default number of points is 100
 			CHECK_NO_THROW(models::getScatterPlotVary1Parameter(model, 0, param1, 0.5, normalisationDose));
 			model.resetCounters();
-			ScatterPlotType scatter = models::getScatterPlotVary1Parameter(model, 0, param1, 0.5, normalisationDose);	
+			ScatterPlotType scatter = models::getScatterPlotVary1Parameter(model, 0, param1, 0.5,
+			                          normalisationDose);
 			//only 1st parameter should gave been changed
-			CHECK_EQUAL(100,model.getSetParam1Count());
-			CHECK_EQUAL(0,model.getSetParam2Count());
-			CHECK_EQUAL(0,model.getSetParam3Count());
-			CHECK_EQUAL(100,model.getCalcCount());
+			CHECK_EQUAL(100, model.getSetParam1Count());
+			CHECK_EQUAL(0, model.getSetParam2Count());
+			CHECK_EQUAL(0, model.getSetParam3Count());
+			CHECK_EQUAL(100, model.getCalcCount());
 
 			// all model values should match the corresponding dose/normalizationDose
 			ScatterPlotType::iterator iter;
-			for (iter = scatter.begin(); iter != scatter.end(); ++iter){
+
+			for (iter = scatter.begin(); iter != scatter.end(); ++iter)
+			{
 				double currentKey = iter->first;
-				if ((currentKey/normalisationDose) != iter->second.first){
-					CHECK_EQUAL((currentKey/normalisationDose), iter->second.first);
+
+				if ((currentKey / normalisationDose) != iter->second.first)
+				{
+					CHECK_EQUAL((currentKey / normalisationDose), iter->second.first);
 				}
 			}
 
 			model.resetCounters();
 
-			//number of points is 50 
-			CHECK_NO_THROW(models::getScatterPlotVary1Parameter(model, 1, param2, 0.25, normalisationDose,50));
+			//number of points is 50
+			CHECK_NO_THROW(models::getScatterPlotVary1Parameter(model, 1, param2, 0.25, normalisationDose, 50));
 			model.resetCounters();
-			scatter = models::getScatterPlotVary1Parameter(model, 1, param2, 0.25, normalisationDose,50);	
+			scatter = models::getScatterPlotVary1Parameter(model, 1, param2, 0.25, normalisationDose, 50);
 			//only 1st parameter should gave been changed
-			CHECK_EQUAL(0,model.getSetParam1Count());
-			CHECK_EQUAL(50,model.getSetParam2Count());
-			CHECK_EQUAL(0,model.getSetParam3Count());
-			CHECK_EQUAL(50,model.getCalcCount());
+			CHECK_EQUAL(0, model.getSetParam1Count());
+			CHECK_EQUAL(50, model.getSetParam2Count());
+			CHECK_EQUAL(0, model.getSetParam3Count());
+			CHECK_EQUAL(50, model.getCalcCount());
 
 			// all model values should match the corresponding dose/normalizationDose
-			for (iter = scatter.begin(); iter != scatter.end(); ++iter){
+			for (iter = scatter.begin(); iter != scatter.end(); ++iter)
+			{
 				double currentKey = iter->first;
-				if ((currentKey/normalisationDose) != iter->second.first){
-					CHECK_EQUAL((currentKey/normalisationDose), iter->second.first);
+
+				if ((currentKey / normalisationDose) != iter->second.first)
+				{
+					CHECK_EQUAL((currentKey / normalisationDose), iter->second.first);
 				}
 			}
 
 			model.resetCounters();
 
-			//number of points is 150 
-			CHECK_NO_THROW(models::getScatterPlotVary1Parameter(model, 2, param3, 0.75, normalisationDose,150));
+			//number of points is 150
+			CHECK_NO_THROW(models::getScatterPlotVary1Parameter(model, 2, param3, 0.75, normalisationDose,
+			               150));
 			model.resetCounters();
-			scatter = models::getScatterPlotVary1Parameter(model, 2, param3, 0.75, normalisationDose,150);	
+			scatter = models::getScatterPlotVary1Parameter(model, 2, param3, 0.75, normalisationDose, 150);
 			//only 1st parameter should gave been changed
-			CHECK_EQUAL(0,model.getSetParam1Count());
-			CHECK_EQUAL(0,model.getSetParam2Count());
-			CHECK_EQUAL(150,model.getSetParam3Count());
-			CHECK_EQUAL(150,model.getCalcCount());
+			CHECK_EQUAL(0, model.getSetParam1Count());
+			CHECK_EQUAL(0, model.getSetParam2Count());
+			CHECK_EQUAL(150, model.getSetParam3Count());
+			CHECK_EQUAL(150, model.getCalcCount());
 
 			// all model values should match the corresponding dose/normalizationDose
-			for (iter = scatter.begin(); iter != scatter.end(); ++iter){
+			for (iter = scatter.begin(); iter != scatter.end(); ++iter)
+			{
 				double currentKey = iter->first;
-				if ((currentKey/normalisationDose) != iter->second.first){
-					CHECK_EQUAL((currentKey/normalisationDose), iter->second.first);
+
+				if ((currentKey / normalisationDose) != iter->second.first)
+				{
+					CHECK_EQUAL((currentKey / normalisationDose), iter->second.first);
 				}
 			}
 
@@ -136,33 +151,45 @@ namespace rttb{
 			models::BioModel::ParamVectorType meanVec;
 			models::BioModel::ParamVectorType varianceVec;
 
-			paramIDVec.push_back(0); meanVec.push_back(1); varianceVec.push_back(0.6);
-			paramIDVec.push_back(1); meanVec.push_back(10); varianceVec.push_back(0.5);
-			paramIDVec.push_back(2); meanVec.push_back(100); varianceVec.push_back(0.4);
+			paramIDVec.push_back(0);
+			meanVec.push_back(1);
+			varianceVec.push_back(0.6);
+			paramIDVec.push_back(1);
+			meanVec.push_back(10);
+			varianceVec.push_back(0.5);
+			paramIDVec.push_back(2);
+			meanVec.push_back(100);
+			varianceVec.push_back(0.4);
 
-			//number of points is 50 
-			CHECK_NO_THROW(models::getScatterPlotVaryParameters(model, paramIDVec, meanVec, varianceVec, normalisationDose,50));
+			//number of points is 50
+			CHECK_NO_THROW(models::getScatterPlotVaryParameters(model, paramIDVec, meanVec, varianceVec,
+			               normalisationDose, 50));
 			model.resetCounters();
-			scatter = models::getScatterPlotVaryParameters(model, paramIDVec, meanVec, varianceVec, normalisationDose,50);	
+			scatter = models::getScatterPlotVaryParameters(model, paramIDVec, meanVec, varianceVec,
+			          normalisationDose, 50);
 			//only 1st parameter should gave been changed
-			CHECK_EQUAL(50,model.getSetParam1Count());
-			CHECK_EQUAL(50,model.getSetParam2Count());
-			CHECK_EQUAL(50,model.getSetParam3Count());
-			CHECK_EQUAL(50,model.getCalcCount());
+			CHECK_EQUAL(50, model.getSetParam1Count());
+			CHECK_EQUAL(50, model.getSetParam2Count());
+			CHECK_EQUAL(50, model.getSetParam3Count());
+			CHECK_EQUAL(50, model.getCalcCount());
 
 			// all model values should match the corresponding dose/normalizationDose
-			for (iter = scatter.begin(); iter != scatter.end(); ++iter){
+			for (iter = scatter.begin(); iter != scatter.end(); ++iter)
+			{
 				double currentKey = iter->first;
-				if ((currentKey/normalisationDose) != iter->second.first){
-					CHECK_EQUAL((currentKey/normalisationDose), iter->second.first);
+
+				if ((currentKey / normalisationDose) != iter->second.first)
+				{
+					CHECK_EQUAL((currentKey / normalisationDose), iter->second.first);
 				}
 			}
 
 			model.resetCounters();
 
 			//test 2000 points
-			CHECK_NO_THROW(models::getScatterPlotVaryParameters(model, paramIDVec, meanVec, varianceVec, normalisationDose,10000));
-			
+			CHECK_NO_THROW(models::getScatterPlotVaryParameters(model, paramIDVec, meanVec, varianceVec,
+			               normalisationDose, 10000));
+
 			//test iterativeIntegration
 			/*std::string bedFileName="d:/Temp/bed.txt";
 			std::ifstream dvh_ifstr(bedFileName,std::ios::in);
@@ -170,7 +197,7 @@ namespace rttb{
 			std::vector<DoseTypeGy> bedV2;
 
 			//std::cout  << "iterative integration"<< std::endl;
-			if ( !dvh_ifstr.is_open() ) 
+			if ( !dvh_ifstr.is_open() )
 			{
 				std::cerr<< "DVH file name invalid: could not open the dvh file!"<<std::endl;
 			}
@@ -185,7 +212,7 @@ namespace rttb{
 					if(found1!= std::string::npos && found2!=std::string::npos && found3!=std::string::npos){
 						std::string lineSub1 = line.substr(found1+1,found2-found1-1);
 						std::stringstream ss(lineSub1);
-						double volume; 
+						double volume;
 						ss >> volume;
 						volumeV2.push_back(volume);
 						//std::cout  << "("<< volume << ",";

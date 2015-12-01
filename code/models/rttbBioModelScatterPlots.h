@@ -53,7 +53,8 @@ namespace rttb
 		@exception InvalidParameterException Thrown if aNormalisationDose<=0 or aMinDose<=aMaxiDose
 		*/
 		ScatterPlotType getScatterPlotVary1Parameter(BioModel& aModel, int aParamId,
-		        BioModelParamType aMean, BioModelParamType aVariance, DoseTypeGy aNormalisationDose, int numberOfPoints = 100,
+		        BioModelParamType aMean, BioModelParamType aVariance, DoseTypeGy aNormalisationDose,
+		        int numberOfPoints = 100,
 		        DoseTypeGy aMinDose = 0, DoseTypeGy aMaxDose = 150);
 
 		/*! @brief Get the points (TCP/NTCP Value, probability of the value) if >=1 parameter vary from a normal-
@@ -80,7 +81,8 @@ namespace rttb
 		*/
 		ScatterPlotType getScatterPlotVaryParameters(BioModel& aModel, std::vector<int> aParamIdVec,
 		        BioModel::ParamVectorType aMeanVec, BioModel::ParamVectorType aVarianceVec,
-		        DoseTypeGy aNormalisationDose, int numberOfPoints = 50, DoseTypeGy aMinDose = 0, DoseTypeGy aMaxDose = 150);
+		        DoseTypeGy aNormalisationDose, int numberOfPoints = 50, DoseTypeGy aMinDose = 0,
+		        DoseTypeGy aMaxDose = 150);
 
 		/*! Compute normal probability density function for zero mean at aValue with aVariance.
 		*/

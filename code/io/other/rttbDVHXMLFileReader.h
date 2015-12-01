@@ -25,16 +25,19 @@
 #include "rttbDVH.h"
 #include "rttbDVHGeneratorInterface.h"
 
-namespace rttb{
-	namespace io{
-		namespace other{
+namespace rttb
+{
+	namespace io
+	{
+		namespace other
+		{
 
 			/*! @class DVHXMLFileReader
 			@brief Reads DVH data from xml files.
 			*/
 			class DVHXMLFileReader: public core::DVHGeneratorInterface
 			{
-			private: 
+			private:
 				FileNameString _fileName;
 				bool _resetFile;
 
@@ -43,19 +46,19 @@ namespace rttb{
 				*/
 				void createDVH();
 
-			public: 
-				/*! @brief Constructor. 
+			public:
+				/*! @brief Constructor.
 				*/
 				DVHXMLFileReader(FileNameString aFileName);
 
 				~DVHXMLFileReader();
 
-				/*! @brief Change file name. 
+				/*! @brief Change file name.
 				*/
 				void resetFileName(FileNameString aFileName);
 
-				/*! @brief Generate DVH, createDVH() will be called 
-					@return Return new shared pointer of DVH. 
+				/*! @brief Generate DVH, createDVH() will be called
+					@return Return new shared pointer of DVH.
 					@exception InvalidParameterException Thrown if _fileName invalid
 				*/
 				DVHPointer generateDVH();

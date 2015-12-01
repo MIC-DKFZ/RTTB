@@ -27,7 +27,8 @@ namespace rttb
 {
 	namespace models
 	{
-		rttb::models::BioModelValueType calcLQ(const DoseTypeGy dose, const DoseCalcType alpha, const DoseCalcType beta)
+		rttb::models::BioModelValueType calcLQ(const DoseTypeGy dose, const DoseCalcType alpha,
+		                                       const DoseCalcType beta)
 		{
 			if (dose < 0 || alpha < 0 || beta < 0)
 			{

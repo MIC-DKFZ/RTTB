@@ -24,41 +24,57 @@
 #include "rttbInvalidParameterException.h"
 #include "rttbExceptionMacros.h"
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace indices{
+	namespace indices
+	{
 
 		CoverageIndex::CoverageIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference)
-			:DvhBasedDoseIndex(dvhSet, aDoseReference)
-		{	
+			: DvhBasedDoseIndex(dvhSet, aDoseReference)
+		{
 			init();
-			}
+		}
 
 		bool CoverageIndex::calcIndex()
+		{
+			VolumeType TV = _dvhSet->getTargetVolume(0);
+
+			if (TV != 0)
 			{
-			VolumeType TV=_dvhSet->getTargetVolume(0);
-			if(TV!=0)
-				_value=_dvhSet->getTargetVolume(this->_doseReference)/TV;
-			else{
+				_value = _dvhSet->getTargetVolume(this->_doseReference) / TV;
+			}
+			else
+			{
 				throw core::InvalidParameterException("DVH Set invalid: Target volume should not be 0!");
-				}
+			}
+
 			return true;
+		}
+
+		IndexValueType CoverageIndex::getValueAt(core::DVHSet::IndexType tvIndex)
+		{
+			std::vector<core::DVH> dvhTVSet = this->_dvhSet->getTargetVolumeSet();
+			VolumeType Vref = _dvhSet->getWholeVolume(_doseReference);
+
+			if (tvIndex >= dvhTVSet.size())
+			{
+				rttbExceptionMacro(core::InvalidParameterException,
+				                   << "tvIndex invalid: it should be <" << dvhTVSet.size() << "!");
 			}
 
-		IndexValueType CoverageIndex::getValueAt(core::DVHSet::IndexType tvIndex){
-			std::vector<core::DVH> dvhTVSet=this->_dvhSet->getTargetVolumeSet();
-			VolumeType Vref=_dvhSet->getWholeVolume(_doseReference);
-			if(tvIndex>=dvhTVSet.size()){
-				rttbExceptionMacro(core::InvalidParameterException, <<"tvIndex invalid: it should be <"<<dvhTVSet.size()<<"!");
-				}
-			core::DVH dvh=dvhTVSet.at(tvIndex);
-			VolumeType TV=dvh.getVx(0);
-			if(TV==0){
+			core::DVH dvh = dvhTVSet.at(tvIndex);
+			VolumeType TV = dvh.getVx(0);
+
+			if (TV == 0)
+			{
 				throw core::InvalidParameterException("DVH invalid: Volume of tvIndex should not be 0!");
-				}
-			IndexValueType value=dvh.getVx(_doseReference)/TV;//the irradiation factor of i-th treated volume
-			return value;
 			}
 
-		}//end namespace indices
+			IndexValueType value = dvh.getVx(_doseReference) /
+			                       TV; //the irradiation factor of i-th treated volume
+			return value;
+		}
+
+	}//end namespace indices
 }//end namespace rttb

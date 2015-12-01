@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1066 $ (last changed revision)
-// @date    $Date: 2015-08-19 11:47:07 +0200 (Mi, 19 Aug 2015) $ (last change date)
-// @author  $Author: floca $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 #ifndef __DOSETOOL_HELPER_H
@@ -75,14 +75,16 @@ namespace rttb
 			@exception Throws an rttb::Exception if loading fails
 			@sa DicomFileStructureSetGenerator
 			*/
-			core::StructureSetGeneratorInterface::StructureSetPointer loadDicomStruct(const std::string& fileName);
+			core::StructureSetGeneratorInterface::StructureSetPointer loadDicomStruct(
+			    const std::string& fileName);
 
 			/*! @brief loads a virtuos struct from a file.
 			@exception Throws an rttb::Exception if loading fails
 			@sa VirtuosPlanFileDoseAccessorGenerator
 			*/
-			core::StructureSetGeneratorInterface::StructureSetPointer loadVirtuosStruct(const std::string& fileName,
-			        const std::string& ctxFileName);
+			core::StructureSetGeneratorInterface::StructureSetPointer loadVirtuosStruct(
+			    const std::string& fileName,
+			    const std::string& ctxFileName);
 
 			/*! @brief Contains the business logic of processing all information to calculate the dose statistics and writing them to an xml file.
 			@details Uses appData for the input data and the correct configuration.
@@ -91,19 +93,22 @@ namespace rttb
 
 			/*! @brief Generates a mask from the struct file by using the boostAccessor. In case of itk image, it directly loads the voxelized image.
 			*/
-			std::vector<core::MaskAccessorInterface::MaskAccessorPointer> generateMasks(ApplicationData& appData);
+			std::vector<core::MaskAccessorInterface::MaskAccessorPointer> generateMasks(
+			    ApplicationData& appData);
 
 			algorithms::DoseStatistics::DoseStatisticsPointer calculateDoseStatistics(
 			    core::DoseIteratorInterface::DoseIteratorPointer
 			    doseIterator, bool calculateComplexDoseStatistics, DoseTypeGy prescribedDose);
 
-			core::DVH::DVHPointer calculateDVH(core::DoseIteratorInterface::DoseIteratorPointer doseIterator, IDType structUID,
+			core::DVH::DVHPointer calculateDVH(core::DoseIteratorInterface::DoseIteratorPointer doseIterator,
+			                                   IDType structUID,
 			                                   IDType doseUID);
 
 			/*! @brief Writes the dose statistics as XML to a file
 				@details adds a <config>....</config> part to the RTTB generated xml where the used files and struct names are stored.
 			*/
-			void writeDoseStatisticsFile(algorithms::DoseStatistics::DoseStatisticsPointer statistics, const std::string& filename,
+			void writeDoseStatisticsFile(algorithms::DoseStatistics::DoseStatisticsPointer statistics,
+			                             const std::string& filename,
 			                             const std::string& structName,
 			                             rttb::apps::doseTool::ApplicationData& appData);
 
@@ -113,7 +118,8 @@ namespace rttb
 			    core::MaskAccessorInterface::MaskAccessorPointer
 			    maskAccessorPtr, core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPtr);
 
-			std::string assembleFilenameWithStruct(const std::string& originalFilename, const std::string& structName);
+			std::string assembleFilenameWithStruct(const std::string& originalFilename,
+			                                       const std::string& structName);
 		}
 	}
 }

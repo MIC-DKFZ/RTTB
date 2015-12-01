@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 4047 $ (last changed revision)
-// @date    $Date: 2012-10-29 16:19:15 +0100 (Mo, 29 Okt 2012) $ (last change date)
-// @author  $Author: zhang $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 
@@ -27,61 +27,63 @@
 
 namespace itk
 {
-  /**
-  * Constructor
-  */
-  DoseAccessorImageFilter
-    ::DoseAccessorImageFilter()
-  {
-    this->SetNumberOfRequiredInputs(1);
-  }
+	/**
+	* Constructor
+	*/
+	DoseAccessorImageFilter
+	::DoseAccessorImageFilter()
+	{
+		this->SetNumberOfRequiredInputs(1);
+	}
 
-  void
-    DoseAccessorImageFilter
-    ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-    ThreadIdType threadId)
-  {
-    ProgressReporter progress( this, threadId,
-      outputRegionForThread.GetNumberOfPixels() );
+	void
+	DoseAccessorImageFilter
+	::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+	                       ThreadIdType threadId)
+	{
+		ProgressReporter progress(this, threadId,
+		                          outputRegionForThread.GetNumberOfPixels());
 
-    const unsigned int numberOfInputImages =
-      static_cast< unsigned int >( this->GetNumberOfIndexedInputs() );
+		const unsigned int numberOfInputImages =
+		    static_cast< unsigned int >(this->GetNumberOfIndexedInputs());
 
-    const unsigned int numberOfOutputImages =
-      static_cast< unsigned int >( this->GetNumberOfIndexedOutputs() );
+		const unsigned int numberOfOutputImages =
+		    static_cast< unsigned int >(this->GetNumberOfIndexedOutputs());
 
-    typedef ImageRegionConstIteratorWithIndex< InputImageType > ImageRegionConstIteratorType;
-    typedef ImageRegionIterator< OutputImageType > OutputImageRegionIteratorType;
+		typedef ImageRegionConstIteratorWithIndex< InputImageType > ImageRegionConstIteratorType;
+		typedef ImageRegionIterator< OutputImageType > OutputImageRegionIteratorType;
 
-    InputImagePointer inputPtr = dynamic_cast< InputImageType * >( ProcessObject::GetInput(0) );
-    ImageRegionConstIteratorType inputItr;
-    if ( inputPtr )
-    {
-      inputItr = ImageRegionConstIteratorType(inputPtr, outputRegionForThread);
-    }
+		InputImagePointer inputPtr = dynamic_cast< InputImageType* >(ProcessObject::GetInput(0));
+		ImageRegionConstIteratorType inputItr;
 
-    OutputImagePointer outputPtr = dynamic_cast< OutputImageType * >( ProcessObject::GetOutput(0) );
-    OutputImageRegionIteratorType outputItr;
-    if ( outputPtr )
-    {
-      outputItr = OutputImageRegionIteratorType(outputPtr, outputRegionForThread);
-    }
+		if (inputPtr)
+		{
+			inputItr = ImageRegionConstIteratorType(inputPtr, outputRegionForThread);
+		}
 
-    if ( inputPtr && outputPtr )
-    {
-      while ( !(outputItr.IsAtEnd()) )
-      {
-        ImageRegionConstIteratorType::IndexType index = inputItr.GetIndex();
-        rttb::VoxelGridIndex3D doseIndex(index[0],index[1],index[2]);
+		OutputImagePointer outputPtr = dynamic_cast< OutputImageType* >(ProcessObject::GetOutput(0));
+		OutputImageRegionIteratorType outputItr;
 
-        outputItr.Set(m_Accessor->getValueAt(doseIndex));
+		if (outputPtr)
+		{
+			outputItr = OutputImageRegionIteratorType(outputPtr, outputRegionForThread);
+		}
 
-        ++outputItr;
-        ++inputItr;
+		if (inputPtr && outputPtr)
+		{
+			while (!(outputItr.IsAtEnd()))
+			{
+				ImageRegionConstIteratorType::IndexType index = inputItr.GetIndex();
+				rttb::VoxelGridIndex3D doseIndex(index[0], index[1], index[2]);
 
-        progress.CompletedPixel();
-      }
-    }
-  }
+				outputItr.Set(m_Accessor->getValueAt(doseIndex));
+
+				++outputItr;
+				++inputItr;
+
+				progress.CompletedPixel();
+			}
+		}
+	}
 } // end namespace itk
 

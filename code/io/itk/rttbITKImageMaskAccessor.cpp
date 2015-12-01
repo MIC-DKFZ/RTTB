@@ -52,15 +52,16 @@ namespace rttb
 				_geoInfo =  boost::make_shared<core::GeometricInfo>();
 
 				_geoInfo->setSpacing(SpacingVectorType3D(_mask->GetSpacing()[0], _mask->GetSpacing()[1],
-				                                        _mask->GetSpacing()[2]));
+				                     _mask->GetSpacing()[2]));
 
-				if (_geoInfo->getSpacing()[0] == 0 || _geoInfo->getSpacing()[1] == 0 || _geoInfo->getSpacing()[2] == 0)
+				if (_geoInfo->getSpacing()[0] == 0 || _geoInfo->getSpacing()[1] == 0
+				    || _geoInfo->getSpacing()[2] == 0)
 				{
 					throw core::InvalidDoseException("Pixel spacing = 0!");
 				}
 
 				_geoInfo->setImagePositionPatient(WorldCoordinate3D(_mask->GetOrigin()[0], _mask->GetOrigin()[1],
-				                                 _mask->GetOrigin()[2]));
+				                                  _mask->GetOrigin()[2]));
 				OrientationMatrix OM(0);
 
 				for (int col = 0; col < 3; ++col)
@@ -98,16 +99,22 @@ namespace rttb
 				return _relevantVoxelVector;
 			}
 
-			ITKImageMaskAccessor::MaskVoxelListPointer ITKImageMaskAccessor::getRelevantVoxelVector(float lowerThreshold)
+			ITKImageMaskAccessor::MaskVoxelListPointer ITKImageMaskAccessor::getRelevantVoxelVector(
+			    float lowerThreshold)
 			{
 				MaskVoxelListPointer filteredVoxelVectorPointer(new MaskVoxelList);
 				updateMask();
-				int size =  _geoInfo->getNumColumns()*_geoInfo->getNumRows()*_geoInfo->getNumSlices();
+				int size =  _geoInfo->getNumColumns() * _geoInfo->getNumRows() * _geoInfo->getNumSlices();
 				filteredVoxelVectorPointer->reserve(size);
-				for(int gridIndex =0 ; gridIndex < size; gridIndex++){
+
+				for (int gridIndex = 0 ; gridIndex < size; gridIndex++)
+				{
 					core::MaskVoxel currentVoxel = core::MaskVoxel(gridIndex);
-					if(getMaskAt(gridIndex, currentVoxel)){
-						if(currentVoxel.getRelevantVolumeFraction() > lowerThreshold){
+
+					if (getMaskAt(gridIndex, currentVoxel))
+					{
+						if (currentVoxel.getRelevantVolumeFraction() > lowerThreshold)
+						{
 							filteredVoxelVectorPointer->push_back(currentVoxel);
 						}
 					}
@@ -141,11 +148,14 @@ namespace rttb
 					double value = _mask->GetPixel(pixelIndex);
 					VoxelGridID gridId;
 					_geoInfo->convert(aIndex, gridId);
-					if(value >= 0 && value <=1 ){
+
+					if (value >= 0 && value <= 1)
+					{
 						voxel.setRelevantVolumeFraction(value);
 					}
-					else{
-						std::cerr << "The pixel value of the mask should be >=0 and <=1!"<<std::endl;
+					else
+					{
+						std::cerr << "The pixel value of the mask should be >=0 and <=1!" << std::endl;
 						return false;
 					}
 				}

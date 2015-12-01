@@ -24,24 +24,26 @@
 #include "rttbDoseAccessorInterface.h"
 #include "rttbBaseType.h"
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
 		/*! @class MutableAccessorInterface
 			@brief Extends the DoseAccessorInterface to provide writing access to the data.
 		*/
 		class MutableDoseAccessorInterface: public DoseAccessorInterface
-			{
+		{
 
-      public:
-        typedef boost::shared_ptr<MutableDoseAccessorInterface> MutableDoseAccessorPointer;
+		public:
+			typedef boost::shared_ptr<MutableDoseAccessorInterface> MutableDoseAccessorPointer;
 
-        virtual void setDoseAt(const VoxelGridID aID, DoseTypeGy value) = 0;
+			virtual void setDoseAt(const VoxelGridID aID, DoseTypeGy value) = 0;
 
-				virtual void setDoseAt(const VoxelGridIndex3D& aIndex, DoseTypeGy value) = 0;
+			virtual void setDoseAt(const VoxelGridIndex3D& aIndex, DoseTypeGy value) = 0;
 
-    };
-  }
+		};
+	}
 }
 
 #endif

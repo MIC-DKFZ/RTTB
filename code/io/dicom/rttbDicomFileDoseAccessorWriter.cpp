@@ -117,7 +117,8 @@ namespace rttb
 
 				/* GCS FIX: PatientOrientation */
 				std::ostringstream sstr;
-				sstr << geometricInfo.getImagePositionPatient().x() << "\\" << geometricInfo.getImagePositionPatient().y()
+				sstr << geometricInfo.getImagePositionPatient().x() << "\\" <<
+				     geometricInfo.getImagePositionPatient().y()
 				     << "\\" << geometricInfo.getImagePositionPatient().z();
 				_dataset->putAndInsertString(DCM_PatientOrientation, "L/P");
 				_dataset->putAndInsertString(DCM_ImagePositionPatient, sstr.str().c_str());
@@ -215,7 +216,8 @@ namespace rttb
 
 				/* Convert image bytes to integer, then add to _dataset */
 				Uint16* pixelData;
-				int pixelCount = geometricInfo.getNumRows() * geometricInfo.getNumColumns() * geometricInfo.getNumSlices();
+				int pixelCount = geometricInfo.getNumRows() * geometricInfo.getNumColumns() *
+				                 geometricInfo.getNumSlices();
 				pixelData = new Uint16[pixelCount];
 
 				for (unsigned int i = 0; i < pixelCount; ++i)

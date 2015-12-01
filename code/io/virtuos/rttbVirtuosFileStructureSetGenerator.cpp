@@ -94,12 +94,14 @@ namespace rttb
 
 				//get patientFileName, patientDataPath for Virtuos function
 				std::string patientFileName, patientName, patientDataPath;
-				patientFileName.assign(aVirtuosVDXFileName, aVirtuosVDXFileName.find_last_of("/") + 1, aVirtuosVDXFileName.length());
+				patientFileName.assign(aVirtuosVDXFileName, aVirtuosVDXFileName.find_last_of("/") + 1,
+				                       aVirtuosVDXFileName.length());
 				patientName.assign(patientFileName, 0, patientFileName.find_first_of("."));
 				patientDataPath.assign(aVirtuosVDXFileName, 0, aVirtuosVDXFileName.find_last_of("/") + 1);
 
 				//Virtuos: voi create voi model
-				int errorcode = voi_create_voi_model_dirolab(patientName.c_str(), patientDataPath.c_str(), 0, this->_patient);
+				int errorcode = voi_create_voi_model_dirolab(patientName.c_str(), patientDataPath.c_str(), 0,
+				                this->_patient);
 
 				if (errorcode != 0)
 				{
@@ -108,7 +110,8 @@ namespace rttb
 				}
 
 				//Virtuos: voi read vdx
-				errorcode = voi_read_vdx_version_2_for_DIROlab(patientFileName.c_str(), patientDataPath.c_str(), this->_patient);
+				errorcode = voi_read_vdx_version_2_for_DIROlab(patientFileName.c_str(), patientDataPath.c_str(),
+				            this->_patient);
 
 				if (errorcode != 0)
 				{
@@ -156,14 +159,16 @@ namespace rttb
 						y_axis_point.z = z;
 						*pNoOFContours = 100000; //<-- reason is the next function call
 
-						voi_get_CT_contours_dirolab(voiName.c_str(), origin,  x_axis_point, y_axis_point, pNoOFContours, &contours, 1,
+						voi_get_CT_contours_dirolab(voiName.c_str(), origin,  x_axis_point, y_axis_point, pNoOFContours,
+						                            &contours, 1,
 						                            this->_patient);
 
 						for (int i = 0; i < *pNoOFContours; i++)
 						{
 							PolygonType polygon;
 
-							for (int j = 0; j < contours[i].used - 1; j++) //Virtuos polygon the last point is the same as the first point
+							for (int j = 0; j < contours[i].used - 1;
+							     j++) //Virtuos polygon the last point is the same as the first point
 							{
 								WorldCoordinate3D point;
 								point(0) = contours[i].points[j].x;
@@ -210,8 +215,9 @@ namespace rttb
 
 					opencubeErrorCodeAsStringStream << opencubeErrorCode;
 
-					throw core::InvalidParameterException(std::string(std::string("VirtuosIO::openCube returned error Code: ") +
-					                                      opencubeErrorCodeAsStringStream.str()));
+					throw core::InvalidParameterException(std::string(
+					        std::string("VirtuosIO::openCube returned error Code: ") +
+					        opencubeErrorCodeAsStringStream.str()));
 				}
 
 				if ((*_pPointerOnVirtuosCube)->dimx == 0 || (*_pPointerOnVirtuosCube)->dimy == 0
@@ -221,7 +227,8 @@ namespace rttb
 				}
 			}
 
-			VirtuosFileStructureSetGenerator::StructureSetPointer VirtuosFileStructureSetGenerator::generateStructureSet()
+			VirtuosFileStructureSetGenerator::StructureSetPointer
+			VirtuosFileStructureSetGenerator::generateStructureSet()
 			{
 
 				this->importStructureSet(_VDXFileName, _CTXFileName);

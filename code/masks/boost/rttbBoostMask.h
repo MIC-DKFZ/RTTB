@@ -42,12 +42,12 @@ namespace rttb
 		namespace boost
 		{
 			/*! @class BoostMask
-			*   @brief Implementation of voxelization using boost::geometry. 
+			*   @brief Implementation of voxelization using boost::geometry.
 			*   @attention If "strict" is set to true, an exception will be thrown when the given structure has self intersection.
 			*   (A structure without self interseciton means all contours of the structure have no self intersection, and
-			*   the polygons on the same slice have no intersection between each other, unless the case of a donut. A donut is accepted.)   
-			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored 
-			*   and the mask will be calculated, however, it may cause errors in the mask results. 
+			*   the polygons on the same slice have no intersection between each other, unless the case of a donut. A donut is accepted.)
+			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored
+			*   and the mask will be calculated, however, it may cause errors in the mask results.
 			*/
 			class BoostMask
 			{
@@ -72,8 +72,10 @@ namespace rttb
 
 			private:
 				typedef ::boost::geometry::model::d2::point_xy<double> BoostPoint2D;
-				typedef ::boost::geometry::model::polygon< ::boost::geometry::model::d2::point_xy<double> > BoostPolygon2D;
-				typedef ::boost::geometry::model::ring< ::boost::geometry::model::d2::point_xy<double> > BoostRing2D;
+				typedef ::boost::geometry::model::polygon< ::boost::geometry::model::d2::point_xy<double> >
+				BoostPolygon2D;
+				typedef ::boost::geometry::model::ring< ::boost::geometry::model::d2::point_xy<double> >
+				BoostRing2D;
 				typedef std::deque<BoostPolygon2D> BoostPolygonDeque;
 				typedef std::vector<BoostRing2D> BoostRingVector;//polygon without holes
 				typedef std::vector<BoostPolygon2D> BoostPolygonVector;//polygon with or without holes
@@ -105,7 +107,8 @@ namespace rttb
 				 * @exception InvalidParameterException thrown if sliceNumber < 0 or sliceNumber >=  _geometricInfo->getNumSlices()
 				 * @return Return the 4 voxel index of the bounding box
 				*/
-				VoxelIndexVector getBoundingBox(unsigned int sliceNumber, const BoostPolygonVector& intersectionSlicePolygons);
+				VoxelIndexVector getBoundingBox(unsigned int sliceNumber,
+				                                const BoostPolygonVector& intersectionSlicePolygons);
 
 				/*! @brief Get intersection polygons of the contour and a voxel polygon
 				 * @param aVoxelIndex3D The 3d grid index of the voxel
@@ -113,7 +116,7 @@ namespace rttb
 				 * @return Return all intersetion polygons of the structure and the voxel
 				*/
 				BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D,
-					const BoostPolygonVector& intersectionSlicePolygons);
+				                                   const BoostPolygonVector& intersectionSlicePolygons);
 
 				/*! @brief Calculate the area of all polygons
 				 * @param aPolygonDeque The deque of polygons

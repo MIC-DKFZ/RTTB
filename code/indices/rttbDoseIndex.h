@@ -25,23 +25,25 @@
 #include "rttbBaseType.h"
 #include "rttbDVHSet.h"
 
-namespace rttb{
+namespace rttb
+{
 
 
-  namespace indices{
-    /*! @class DoseIndex
-		@brief This is the interface for dose/plan comparison indices.
-		@ingroup indices
-    */
-    class DoseIndex
-    {
-    protected: 
+	namespace indices
+	{
+		/*! @class DoseIndex
+			@brief This is the interface for dose/plan comparison indices.
+			@ingroup indices
+		*/
+		class DoseIndex
+		{
+		protected:
 
-      IndexValueType _value;
+			IndexValueType _value;
 
-      DoseTypeGy _doseReference;
+			DoseTypeGy _doseReference;
 
-      /*! @brief If init() successful*/
+			/*! @brief If init() successful*/
 			bool _initSuccess;
 
 			/*! @brief Initialize the calculation. It should be called in constructor or if any parameter of the calcualtion is changed.
@@ -50,37 +52,37 @@ namespace rttb{
 			*/
 			bool init();
 
-      /*! @brief Dose index calculation */
-      virtual bool calcIndex()=0;
+			/*! @brief Dose index calculation */
+			virtual bool calcIndex() = 0;
 
 			/*! @brief Check all inputs for the index calculation*/
-			virtual bool checkInputs()=0;
+			virtual bool checkInputs() = 0;
 
-    public:
+		public:
 
 			/*! @brief Constructor with the referece dose*/
 			DoseIndex(DoseTypeGy aDoseReference);
-	
-      /*! @brief Set the reference dose
-      */
-      void setDoseReference(DoseTypeGy aDoseReference);
 
-      /*! @brief Get the reference dose
-      */
-      DoseTypeGy getDoseReference() const;
+			/*! @brief Set the reference dose
+			*/
+			void setDoseReference(DoseTypeGy aDoseReference);
 
-      /*! @brief Get the value of dose/plan comparison index 
-		  @return Return the value of this index 
-      @exception Exception Thrown if the class was not initialized previously.
-      */
-      IndexValueType getValue() const;
+			/*! @brief Get the reference dose
+			*/
+			DoseTypeGy getDoseReference() const;
 
-			/*! @brief Get the value of dose/plan comparison index for a treated volume with the index in the DVH treated volume set 
+			/*! @brief Get the value of dose/plan comparison index
+			  @return Return the value of this index
+			@exception Exception Thrown if the class was not initialized previously.
+			*/
+			IndexValueType getValue() const;
+
+			/*! @brief Get the value of dose/plan comparison index for a treated volume with the index in the DVH treated volume set
 			@param tvIndex index in the DVH in the current set of DVH subset for target volume: use DVHSet.getTargetVolumeSet()
-      */
-			virtual IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex)=0;
-    };
-  }
+			*/
+			virtual IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex) = 0;
+		};
+	}
 }
 
 

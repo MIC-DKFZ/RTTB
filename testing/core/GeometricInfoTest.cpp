@@ -292,14 +292,15 @@ namespace rttb
 			CHECK(!(geoInfo.isInside(testInside)));
 			CHECK(!(geoInfo.indexToWorldCoordinate(insideTest4, testInside)));
 			CHECK(!(geoInfo.isInside(testInside)));
-	
-			DoubleVoxelGridIndex3D doubleIndex1 = DoubleVoxelGridIndex3D(0.1, 0, -0.3); 
+
+			DoubleVoxelGridIndex3D doubleIndex1 = DoubleVoxelGridIndex3D(0.1, 0, -0.3);
 			const WorldCoordinate3D expectedDoubleIndex1(20.1, 100, -1000.3);
 			DoubleVoxelGridIndex3D doubleIndex2 = DoubleVoxelGridIndex3D(11, 6, 15); //outside
 			const WorldCoordinate3D expectedDoubleIndex2(31, 106, -985);
-			DoubleVoxelGridIndex3D doubleIndex3 = DoubleVoxelGridIndex3D(9.6, 5.0, 3.0); // outside: Grid dimension = [10,5,3]
+			DoubleVoxelGridIndex3D doubleIndex3 = DoubleVoxelGridIndex3D(9.6, 5.0,
+			                                      3.0); // outside: Grid dimension = [10,5,3]
 			const WorldCoordinate3D expectedDoubleIndex3(29.6, 105, -997);
-			DoubleVoxelGridIndex3D doubleIndex4 = DoubleVoxelGridIndex3D(0.0, 0.0, 0.0); 
+			DoubleVoxelGridIndex3D doubleIndex4 = DoubleVoxelGridIndex3D(0.0, 0.0, 0.0);
 			const WorldCoordinate3D expectedDoubleIndex4 = geoInfo.getImagePositionPatient();
 
 			//test double index to world coordinate
@@ -384,7 +385,7 @@ namespace rttb
 			CHECK(!(geoInfo.indexToWorldCoordinate(insideTest4, testInside)));
 			CHECK(!(geoInfo.isInside(testInside)));
 			CHECK_EQUAL(expectedIndex4, testInside);
-	
+
 			//12) test getNumberOfVoxels
 			CHECK_EQUAL(expectedVoxelDims(0)*expectedVoxelDims(1)*expectedVoxelDims(2),
 			            geoInfo.getNumberOfVoxels());

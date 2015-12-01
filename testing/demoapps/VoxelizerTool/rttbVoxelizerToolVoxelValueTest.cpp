@@ -82,10 +82,12 @@ namespace rttb
 			ImageType::IndexType voxelBorder1 =  {{12, 23, 27}};
 			ImageType::IndexType voxelBorder2 =  {{34, 21, 31}};
 
-			std::vector<ImageType::IndexType> voxelIndices = boost::assign::list_of(voxelInside1)(voxelInside2)(voxelOutside1)(
+			std::vector<ImageType::IndexType> voxelIndices = boost::assign::list_of(voxelInside1)(voxelInside2)(
+			            voxelOutside1)(
 			            voxelOutside2)(voxelBorder1)(voxelBorder2);
 
-			std::vector<ImageType::PixelType> expectedVoxelValues = boost::assign::list_of(1.0)(1.0)(0.0)(0.0)(0.265865)(0.819613);
+			std::vector<ImageType::PixelType> expectedVoxelValues = boost::assign::list_of(1.0)(1.0)(0.0)(0.0)(
+			            0.265865)(0.819613);
 
 			std::string filenameHDRWithVoxelization = tempDirectory + "/out_" + structName + ".hdr";
 			std::string filenameIMGWithVoxelization = tempDirectory + "/out_" + structName + ".img";

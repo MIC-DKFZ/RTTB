@@ -54,7 +54,8 @@ namespace rttb
 		const double volume = 24120.;
 
 		void testWithDummyDoseData(const std::string& doseFilename);
-		void testWithRealVirtuosDoseDataAndStructure(const std::string& doseFilename, const std::string& structFilename,
+		void testWithRealVirtuosDoseDataAndStructure(const std::string& doseFilename,
+		        const std::string& structFilename,
 		        const std::string& planFilename, unsigned int structureNr);
 
 		int RTDoseStatisticsTest(int argc, char* argv[])
@@ -105,7 +106,7 @@ namespace rttb
 			precomputedDoseValues.push_back(0.5);
 			precomputedDoseValues.push_back(1);
 			std::vector<double> precomputedVolumeValues;
-			precomputedVolumeValues.push_back(20000/volume);
+			precomputedVolumeValues.push_back(20000 / volume);
 			precomputedVolumeValues.push_back(1);
 
 			rttb::algorithms::DoseStatistics::DoseStatisticsPointer doseStatistics =
@@ -116,7 +117,7 @@ namespace rttb
 			CHECK_CLOSE(doseStatistics->getVariance(), 0, errorConstant);
 
 			double dummy;
-			DoseTypeGy vx = doseStatistics->getVx(expectedVal,true,dummy);
+			DoseTypeGy vx = doseStatistics->getVx(expectedVal, true, dummy);
 			CHECK_EQUAL(vx, doseStatistics->getVx(0));
 			CHECK_CLOSE(expectedVal, doseStatistics->getDx(vx), reducedErrorConstant);
 
@@ -134,7 +135,8 @@ namespace rttb
 			CHECK_CLOSE(doseStatistics->getMinOCx(20000), doseStatistics->getMean(), reducedErrorConstant);
 		}
 
-		void testWithRealVirtuosDoseDataAndStructure(const std::string& doseFilename, const std::string& structFilename,
+		void testWithRealVirtuosDoseDataAndStructure(const std::string& doseFilename,
+		        const std::string& structFilename,
 		        const std::string& planFilename, unsigned int structureNr)
 		{
 			typedef core::GenericDoseIterator::DoseIteratorPointer DoseIteratorPointer;
@@ -144,10 +146,11 @@ namespace rttb
 			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
 			typedef algorithms::DoseStatisticsCalculator::ResultListPointer ResultListPointer;
 
-			DoseAccessorPointer virtuosDoseAccessor = io::virtuos::VirtuosPlanFileDoseAccessorGenerator(doseFilename.c_str(),
-			                           planFilename.c_str()).generateDoseAccessor();
+			DoseAccessorPointer virtuosDoseAccessor = io::virtuos::VirtuosPlanFileDoseAccessorGenerator(
+			            doseFilename.c_str(),
+			            planFilename.c_str()).generateDoseAccessor();
 			StructureSetPointer virtuosStructureSet = io::virtuos::VirtuosFileStructureSetGenerator(
-			                               structFilename.c_str(), doseFilename.c_str()).generateStructureSet();
+			            structFilename.c_str(), doseFilename.c_str()).generateStructureSet();
 
 			boost::shared_ptr<masks::boost::BoostMaskAccessor> spOTBMaskAccessorVirtuos =
 			    boost::make_shared<masks::boost::BoostMaskAccessor>(virtuosStructureSet->getStructure(structureNr),
@@ -167,7 +170,8 @@ namespace rttb
 			rttb::algorithms::DoseStatisticsCalculator doseStatisticsCalculatorVirtuos(spMaskedDoseIterator);
 
 
-			DoseStatisticsPointer doseStatisticsVirtuos = doseStatisticsCalculatorVirtuos.calculateDoseStatistics(true);
+			DoseStatisticsPointer doseStatisticsVirtuos =
+			    doseStatisticsCalculatorVirtuos.calculateDoseStatistics(true);
 
 			//comparison values computed with "old" DoseStatistics implementation
 			CHECK_CLOSE(doseStatisticsVirtuos->getMinimum(), 6.4089, reducedErrorConstant);
@@ -184,7 +188,8 @@ namespace rttb
 			CHECK_EQUAL(minPositions->begin()->first, doseStatisticsVirtuos->getMinimum());
 			CHECK_EQUAL(minPositions->begin()->second, 3571264);
 
-			CHECK_CLOSE(doseStatisticsVirtuos->getDx(0.02 * doseStatisticsVirtuos->getVolume()), 31.8358, reducedErrorConstant);
+			CHECK_CLOSE(doseStatisticsVirtuos->getDx(0.02 * doseStatisticsVirtuos->getVolume()), 31.8358,
+			            reducedErrorConstant);
 			CHECK_CLOSE(doseStatisticsVirtuos->getVx(0.9 * doseStatisticsVirtuos->getMaximum()), 0.471747,
 			            reducedErrorConstant);
 			CHECK_CLOSE(doseStatisticsVirtuos->getMOHx(0.1 * doseStatisticsVirtuos->getVolume()), 31.3266,

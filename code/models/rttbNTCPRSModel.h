@@ -71,7 +71,8 @@ namespace rttb
 
 			/*!@brief Constructor initializing all member variables with given parameters.
 			*/
-			NTCPRSModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aGamma, BioModelParamType aS);
+			NTCPRSModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aGamma,
+			            BioModelParamType aS);
 
 			void setGamma(const BioModelParamType aGamma);
 

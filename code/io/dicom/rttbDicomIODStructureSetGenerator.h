@@ -39,9 +39,12 @@ This class should only provide general structure functionality.
 #include "rttbStructure.h"
 
 
-namespace rttb{
-	namespace io{
-		namespace dicom{
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
 
 			/*! @class DicomIODStructureSetGenerator
 			@brief Generate a structure set from a DRTStructureSetIOD pointer.
@@ -57,8 +60,8 @@ namespace rttb{
 				DRTStrSetIODPtr _drtStrSetIOD;
 				IDType _UID;
 
-				
-				
+
+
 				/*!	Import Structure data from file.
 				@exception InvalidParameterException Thrown if the imported header tags are not numerical.
 				*/
@@ -66,13 +69,13 @@ namespace rttb{
 
 			public:
 
-				/*! @brief Structure Constructor 
+				/*! @brief Structure Constructor
 				Get the vector of structures from DRTStructureSetIOD object
 				@exception NullPointerException Thrown if structureSet is NULL
 				*/
 				DicomIODStructureSetGenerator(DRTStrSetIODPtr aDRTStructureSetIOD);
 
-				/*! @brief Destructor 
+				/*! @brief Destructor
 				*/
 				~DicomIODStructureSetGenerator();
 
@@ -81,7 +84,7 @@ namespace rttb{
 				@exception InvalidParameterException throw if the imported header tags are not numerical.
 				*/
 				StructureSetPointer generateStructureSet();
-				
+
 			};
 		}
 	}

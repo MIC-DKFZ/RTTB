@@ -34,59 +34,66 @@
 #include "rttbDcmrtException.h"
 
 
-namespace rttb{
-	namespace io{		
-		namespace dicom{		
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
 			DicomIODStructureSetGenerator::DicomIODStructureSetGenerator(DRTStrSetIODPtr aDRTStructureSetIOD)
 			{
-				_drtStrSetIOD=aDRTStructureSetIOD;	
+				_drtStrSetIOD = aDRTStructureSetIOD;
 			}
 
 
-			void DicomIODStructureSetGenerator::readStrSet(){
+			void DicomIODStructureSetGenerator::readStrSet()
+			{
 				OFString uid;
 				_drtStrSetIOD->getSeriesInstanceUID(uid);
-				_UID=uid.c_str();
+				_UID = uid.c_str();
 
 				OFString uid2;
 				_drtStrSetIOD->getPatientID(uid2);
-				_patientUID=uid2.c_str();
+				_patientUID = uid2.c_str();
 
-				DRTStructureSetROISequence* rois=&_drtStrSetIOD->getStructureSetROISequence();
+				DRTStructureSetROISequence* rois = &_drtStrSetIOD->getStructureSetROISequence();
 
 				/*A structure is a DRTROIContourSequence::Item. Each Item defines a roi. Each ROI contains a sequence
 				of one or more contours, where a contour is either a single point (for a point ROI) or more than
 				one point (representing an open or closed polygon).
 				*/
-				DRTROIContourSequence *rcs;
-				rcs=&_drtStrSetIOD->getROIContourSequence();
-				DRTROIContourSequence::Item *rcsItem;
+				DRTROIContourSequence* rcs;
+				rcs = &_drtStrSetIOD->getROIContourSequence();
+				DRTROIContourSequence::Item* rcsItem;
 
-				long numberOfStructures=rcs->getNumberOfItems();
-				bool isEmpty=rcs->isEmpty();
+				long numberOfStructures = rcs->getNumberOfItems();
+				bool isEmpty = rcs->isEmpty();
 
-				if(numberOfStructures==0 || isEmpty){
+				if (numberOfStructures == 0 || isEmpty)
+				{
 					throw core::InvalidParameterException("Empty Structure Set!") ;
 				}
 
-				int structureNo=0;
-				for (rcs->gotoFirstItem();(rcs->getCurrentItem(rcsItem)).good(); rcs->gotoNextItem()) 
+				int structureNo = 0;
+
+				for (rcs->gotoFirstItem(); (rcs->getCurrentItem(rcsItem)).good(); rcs->gotoNextItem())
 				{
 					OFString refROINumber;
 					rcsItem->getReferencedROINumber(refROINumber);
-					DRTContourSequence *cs;
-					cs=&rcsItem->getContourSequence();
-					long no2=cs->getNumberOfItems();
+					DRTContourSequence* cs;
+					cs = &rcsItem->getContourSequence();
+					long no2 = cs->getNumberOfItems();
 
 					PolygonSequenceType structureVector;
 
-					for(int j=0; j< no2; j++){
+					for (int j = 0; j < no2; j++)
+					{
 						/*DRTContourSequence::Item represents a contour (either a single point (for a point ROI) or more than
 						one point (representing an open or closed polygon))*/
-						DRTContourSequence::Item *csItem;
-						csItem=&cs->getItem(j);
+						DRTContourSequence::Item* csItem;
+						csItem = &cs->getItem(j);
 						OFString contourData;
-						OFString numberOfContourPoints; 
+						OFString numberOfContourPoints;
 						csItem->getNumberOfContourPoints(numberOfContourPoints);
 
 						int numberOfContourPointsInt;
@@ -97,53 +104,65 @@ namespace rttb{
 
 						PolygonType contourVector;
 						char* pEnd;
-						for(int k=0; k<numberOfContourPointsInt; k++){
-							WorldCoordinate3D point;
-							for(int i=0; i<3; i++){
-								csItem->getContourData(contourData,k*3+i);
 
-								WorldCoordinate value=strtod(contourData.c_str(),&pEnd);
-								if( *pEnd != '\0'){
+						for (int k = 0; k < numberOfContourPointsInt; k++)
+						{
+							WorldCoordinate3D point;
+
+							for (int i = 0; i < 3; i++)
+							{
+								csItem->getContourData(contourData, k * 3 + i);
+
+								WorldCoordinate value = strtod(contourData.c_str(), &pEnd);
+
+								if (*pEnd != '\0')
+								{
 									throw core::InvalidParameterException("Contour data not readable!") ;
 								}
 
-								if(i==0)
+								if (i == 0)
 								{
-									point(0)=value;
+									point(0) = value;
 								}
-								else if(i==1)
+								else if (i == 1)
 								{
-									point(1)=value;
+									point(1) = value;
 								}
-								else{
-									point(2)=value;
+								else
+								{
+									point(2) = value;
 								}
 							}
+
 							contourVector.push_back(point);
 						}
+
 						structureVector.push_back(contourVector);
 					}
 
 					boost::shared_ptr<core::Structure> spStruct = boost::make_shared<core::Structure>(structureVector);
 					StructTypePointer str(spStruct);
 
-					for(unsigned long i=0;i<rois->getNumberOfItems();i++){
-						DRTStructureSetROISequence::Item *roisItem;
-						roisItem=&rois->getItem(i);
+					for (unsigned long i = 0; i < rois->getNumberOfItems(); i++)
+					{
+						DRTStructureSetROISequence::Item* roisItem;
+						roisItem = &rois->getItem(i);
 
 						OFString roiNumber;
 						roisItem->getROINumber(roiNumber);
-						if(roiNumber==refROINumber)
+
+						if (roiNumber == refROINumber)
 						{
 							OFString roiName;
 							roisItem->getROIName(roiName);
 							str->setLabel(roiName.c_str());
-							std::cout << roiName.c_str()<<std::endl;
+							std::cout << roiName.c_str() << std::endl;
 							break;
 						}
 					}
+
 					std::stringstream sstr;
-					sstr<<structureNo;
+					sstr << structureNo;
 					str->setUID(sstr.str());
 
 					_strVector.push_back(str);
@@ -152,13 +171,15 @@ namespace rttb{
 			}
 
 			DicomIODStructureSetGenerator::~DicomIODStructureSetGenerator()
-			{		
+			{
 			}
 
-			DicomIODStructureSetGenerator::StructureSetPointer DicomIODStructureSetGenerator::generateStructureSet(){
+			DicomIODStructureSetGenerator::StructureSetPointer
+			DicomIODStructureSetGenerator::generateStructureSet()
+			{
 				this->readStrSet();
-				return boost::make_shared<core::StructureSet>(_strVector,_patientUID, _UID);
+				return boost::make_shared<core::StructureSet>(_strVector, _patientUID, _UID);
 			}
 		}//end namespace dicom
-	}//end namespace io 
+	}//end namespace io
 }//end namespace rttb

@@ -120,7 +120,8 @@ namespace rttb
 
 			CHECK_CLOSE(6.04759613161786830000e+001, models::getEUD(dvhPtr, 10), toleranceEUD);
 
-			rttb::io::other::DVHTxtFileReader dvhReader_test_tv = rttb::io::other::DVHTxtFileReader(DVH_FILENAME_TV_TEST);
+			rttb::io::other::DVHTxtFileReader dvhReader_test_tv = rttb::io::other::DVHTxtFileReader(
+			            DVH_FILENAME_TV_TEST);
 			DVHPointer dvh_test_tv = dvhReader_test_tv.generateDVH();
 
 
@@ -207,7 +208,8 @@ namespace rttb
 			beta = 0.03;
 			roh = 10000000;
 			numFractions = 20;
-			rttb::models::TCPLQModel tcplq_test = rttb::models::TCPLQModel(dvh_test_tv, alpha, beta, roh, numFractions);
+			rttb::models::TCPLQModel tcplq_test = rttb::models::TCPLQModel(dvh_test_tv, alpha, beta, roh,
+			                                      numFractions);
 			CHECK_EQUAL(alpha, tcplq_test.getAlphaMean());
 			CHECK_EQUAL(alpha / beta, tcplq_test.getAlphaBeta());
 			CHECK_EQUAL(roh, tcplq_test.getRho());
@@ -382,7 +384,8 @@ namespace rttb
 
 			int numFractionsVirtuos = 27;
 
-			rttb::models::TCPLQModel tcplqVirtuos = rttb::models::TCPLQModel(dvhPtrTarget, rho, numFractionsVirtuos, alpha_beta,
+			rttb::models::TCPLQModel tcplqVirtuos = rttb::models::TCPLQModel(dvhPtrTarget, rho,
+			                                        numFractionsVirtuos, alpha_beta,
 			                                        alphaMean, alphaVarianz);
 
 			if (tcplqVirtuos.init())

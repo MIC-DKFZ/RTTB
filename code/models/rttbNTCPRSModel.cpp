@@ -35,7 +35,8 @@ namespace rttb
 	{
 		NTCPRSModel::NTCPRSModel(): NTCPModel(), _gamma(0), _s(0) {}
 
-		NTCPRSModel::NTCPRSModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aGamma, BioModelParamType aS):
+		NTCPRSModel::NTCPRSModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aGamma,
+		                         BioModelParamType aS):
 			NTCPModel(aDvh, aD50), _gamma(aGamma), _s(aS) {}
 
 		void NTCPRSModel::setGamma(const BioModelParamType aGamma)

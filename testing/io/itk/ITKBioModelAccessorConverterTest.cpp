@@ -76,7 +76,8 @@ namespace rttb
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator(RTDOSE_FILENAME.c_str());
 			DoseAccessorPointer doseAccessor(doseAccessorGenerator.generateDoseAccessor());
 
-			AccessorPointer LQWithConstantDose = boost::make_shared<models::LQModelAccessor>(doseAccessor, 0.2, 0.02);
+			AccessorPointer LQWithConstantDose = boost::make_shared<models::LQModelAccessor>(doseAccessor, 0.2,
+			                                     0.02);
 
 			io::itk::ITKImageAccessorConverter itkConverter(LQWithConstantDose);
 
@@ -88,19 +89,22 @@ namespace rttb
 
 			VoxelGridIndex3D rttbIndex(0, 0, 0);
 
-			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), LQWithConstantDose->getValueAt(rttbIndex));
+			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex),
+			            LQWithConstantDose->getValueAt(rttbIndex));
 
 			itkIndex[0] = rttbIndex[0] = doseAccessor->getGeometricInfo().getNumColumns() / 2;
 			itkIndex[1] = rttbIndex[1] = doseAccessor->getGeometricInfo().getNumRows() / 2;
 			itkIndex[2] = rttbIndex[2] = doseAccessor->getGeometricInfo().getNumSlices() / 2;
 
-			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), LQWithConstantDose->getValueAt(rttbIndex));
+			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex),
+			            LQWithConstantDose->getValueAt(rttbIndex));
 
 			itkIndex[0] = rttbIndex[0] = doseAccessor->getGeometricInfo().getNumColumns() - 1;
 			itkIndex[1] = rttbIndex[1] = doseAccessor->getGeometricInfo().getNumRows() - 1;
 			itkIndex[2] = rttbIndex[2] = doseAccessor->getGeometricInfo().getNumSlices() - 1;
 
-			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex), LQWithConstantDose->getValueAt(rttbIndex));
+			CHECK_EQUAL(itkConverter.getITKImage()->GetPixel(itkIndex),
+			            LQWithConstantDose->getValueAt(rttbIndex));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

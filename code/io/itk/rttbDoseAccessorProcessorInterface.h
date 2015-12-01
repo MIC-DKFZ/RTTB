@@ -23,40 +23,43 @@
 
 #include "rttbDoseAccessorInterface.h"
 
-namespace rttb{
+namespace rttb
+{
 	namespace core
-		{
+	{
 		/*! @class DoseAccessorProcessorInterface
 			@brief Interface for all DoseAccessor generating classes
 		*/
 		class DoseAccessorProcessorInterface
-			{
-			public:
-				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+		{
+		public:
+			typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
 
-			
-			private:
-				DoseAccessorProcessorInterface(const DoseAccessorProcessorInterface&); //not implemented on purpose -> non-copyable
-				DoseAccessorProcessorInterface& operator=(const DoseAccessorProcessorInterface&);//not implemented on purpose -> non-copyable
-				
-				
-			protected:	
-				DoseAccessorProcessorInterface() {};
-				virtual ~DoseAccessorProcessorInterface(){};
 
-			public: 
-				
-				/*! @brief Sets the DoseAccessor that should be processed 
-					@pre passed accessor must point to a valid instance. 
-				*/
-				virtual void setDoseAccessor(DoseAccessorPointer accessor) = 0;				
-				
-				/*! @brief Process the passed DoseAccessor 
-					@return if the processing was successful. 
-				*/
-				virtual bool process() = 0;
-			};
-		}
+		private:
+			DoseAccessorProcessorInterface(const
+			                               DoseAccessorProcessorInterface&); //not implemented on purpose -> non-copyable
+			DoseAccessorProcessorInterface& operator=(const
+			        DoseAccessorProcessorInterface&);//not implemented on purpose -> non-copyable
+
+
+		protected:
+			DoseAccessorProcessorInterface() {};
+			virtual ~DoseAccessorProcessorInterface() {};
+
+		public:
+
+			/*! @brief Sets the DoseAccessor that should be processed
+				@pre passed accessor must point to a valid instance.
+			*/
+			virtual void setDoseAccessor(DoseAccessorPointer accessor) = 0;
+
+			/*! @brief Process the passed DoseAccessor
+				@return if the processing was successful.
+			*/
+			virtual bool process() = 0;
+		};
 	}
+}
 
 #endif

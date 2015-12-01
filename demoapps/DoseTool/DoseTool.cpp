@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1066 $ (last changed revision)
-// @date    $Date: 2015-08-19 11:47:07 +0200 (Mi, 19 Aug 2015) $ (last change date)
-// @author  $Author: floca $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 #include "DoseToolApplicationData.h"
@@ -43,7 +43,8 @@ int main(int argc, const char** argv)
 		std::string appName = "DoseTool";
 		std::string appVersion = RTTB_FULL_VERSION_STRING;
 
-		argParser = boost::make_shared<rttb::apps::doseTool::DoseToolCmdLineParser>(argc, argv, appName, appVersion);
+		argParser = boost::make_shared<rttb::apps::doseTool::DoseToolCmdLineParser>(argc, argv, appName,
+		            appVersion);
 	}
 	catch (const std::exception& e)
 	{
@@ -111,7 +112,8 @@ int main(int argc, const char** argv)
 	{
 		try
 		{
-			appData._struct = rttb::apps::doseTool::loadStruct(appData._structFileName, appData._structLoadStyle);
+			appData._struct = rttb::apps::doseTool::loadStruct(appData._structFileName,
+			                  appData._structLoadStyle);
 		}
 		catch (rttb::core::Exception& e)
 		{

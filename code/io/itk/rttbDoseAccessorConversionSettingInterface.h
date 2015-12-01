@@ -23,54 +23,57 @@
 
 #include "rttbBaseType.h"
 
-namespace rttb{
+namespace rttb
+{
 	namespace core
-		{
+	{
 		/*! @class DoseAccessorConversionSettingInterface
 			@brief Interface for specifying settings for dose accessor convertors (e.g. how to handle invalid dose voxels)
 		*/
 		class DoseAccessorConversionSettingInterface
+		{
+		public:
+			/* Defines if the conversion process should fail (with an exception) if an invalid id/voxel occures.*/
+			void setFailOnInvalidIDs(bool failOnInvalid)
 			{
-			public:
-			    /* Defines if the conversion process should fail (with an exception) if an invalid id/voxel occures.*/
-				void setFailOnInvalidIDs(bool failOnInvalid)
-				{
-				  _failedOnInvalidID = failOnInvalid;
-				}
-				
-				/* Indicates how the conversion should handle invalid ids/voxels.\n
-				 * true: fails with an exception
-				 * false: uses the specified "invalid dose value".*/
-				bool failsOnInvalidIDs() const
-				{
-				  return _failedOnInvalidID;
-				}
-				
-				/* Sets the value that should be used for invalid ids/voxels.*/
-				void setInvalidDoseValue(DoseTypeGy value)
-				{
-				  _invalidDoseValue = value;
-				}
-				
-				/* Returns the value that is used for invalid ids/voxels.*/
-				DoseTypeGy getInvalidDoseValue() const
-				{
-				  return _invalidDoseValue;
-				}
+				_failedOnInvalidID = failOnInvalid;
+			}
 
-				DoseAccessorConversionSettingInterface():_failedOnInvalidID(false),_invalidDoseValue(-1.0){};
-				virtual ~DoseAccessorConversionSettingInterface(){};
-			
-			private:
-				DoseAccessorConversionSettingInterface(const DoseAccessorConversionSettingInterface&); //not implemented on purpose -> non-copyable
-				DoseAccessorConversionSettingInterface& operator=(const DoseAccessorConversionSettingInterface&);//not implemented on purpose -> non-copyable		
-				
-			protected:	
-			
-                bool _failedOnInvalidID;
-                DoseTypeGy _invalidDoseValue;
-			};
-		}
+			/* Indicates how the conversion should handle invalid ids/voxels.\n
+			 * true: fails with an exception
+			 * false: uses the specified "invalid dose value".*/
+			bool failsOnInvalidIDs() const
+			{
+				return _failedOnInvalidID;
+			}
+
+			/* Sets the value that should be used for invalid ids/voxels.*/
+			void setInvalidDoseValue(DoseTypeGy value)
+			{
+				_invalidDoseValue = value;
+			}
+
+			/* Returns the value that is used for invalid ids/voxels.*/
+			DoseTypeGy getInvalidDoseValue() const
+			{
+				return _invalidDoseValue;
+			}
+
+			DoseAccessorConversionSettingInterface(): _failedOnInvalidID(false), _invalidDoseValue(-1.0) {};
+			virtual ~DoseAccessorConversionSettingInterface() {};
+
+		private:
+			DoseAccessorConversionSettingInterface(const
+			                                       DoseAccessorConversionSettingInterface&); //not implemented on purpose -> non-copyable
+			DoseAccessorConversionSettingInterface& operator=(const
+			        DoseAccessorConversionSettingInterface&);//not implemented on purpose -> non-copyable
+
+		protected:
+
+			bool _failedOnInvalidID;
+			DoseTypeGy _invalidDoseValue;
+		};
 	}
+}
 
 #endif

@@ -27,29 +27,31 @@
 
 #include "rttbException.h"
 
-namespace rttb{
-	namespace masks{
+namespace rttb
+{
+	namespace masks
+	{
 
 		/*! @class SelfIntersectingStructureException
-			@brief This exception will be thrown in case a Structure intersects with itself in a context where 
+			@brief This exception will be thrown in case a Structure intersects with itself in a context where
 			this is not allowed.
 		*/
 		class SelfIntersectingStructureException: public core::Exception
-			{
-			public: 
-				SelfIntersectingStructureException(const std::string& aWhat):Exception(aWhat){}
+		{
+		public:
+			SelfIntersectingStructureException(const std::string& aWhat): Exception(aWhat) {}
 
-				virtual ~SelfIntersectingStructureException() throw() {}
+			virtual ~SelfIntersectingStructureException() throw() {}
 
-				/*! @brief Get the exception description
-				*/
-				virtual const char * what() const throw();
+			/*! @brief Get the exception description
+			*/
+			virtual const char* what() const throw();
 
-				/*! @brief Get the name of the exception class
-				*/
-				virtual const char* GetNameOfClass() const;
-			};
-		}
+			/*! @brief Get the name of the exception class
+			*/
+			virtual const char* GetNameOfClass() const;
+		};
 	}
+}
 
 #endif

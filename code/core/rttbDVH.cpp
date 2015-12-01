@@ -33,8 +33,10 @@ namespace rttb
 
 		DVH::~DVH() {}
 
-		DVH::DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD, const DoseVoxelVolumeType& aDeltaV,
-		         IDType aStructureID, IDType aDoseID): _deltaD(aDeltaD), _deltaV(aDeltaV), _structureID(aStructureID),
+		DVH::DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD,
+		         const DoseVoxelVolumeType& aDeltaV,
+		         IDType aStructureID, IDType aDoseID): _deltaD(aDeltaD), _deltaV(aDeltaV),
+			_structureID(aStructureID),
 			_doseID(aDoseID), _voxelizationID("NONE")
 		{
 			_dataDifferential.clear();
@@ -43,7 +45,8 @@ namespace rttb
 			this->init();
 		}
 
-		DVH::DVH(const DataDifferentialType& aDataDifferential, DoseTypeGy aDeltaD, DoseVoxelVolumeType aDeltaV,
+		DVH::DVH(const DataDifferentialType& aDataDifferential, DoseTypeGy aDeltaD,
+		         DoseVoxelVolumeType aDeltaV,
 		         IDType aStructureID, IDType aDoseID, IDType aVoxelizationID): _deltaD(aDeltaD), _deltaV(aDeltaV),
 			_structureID(aStructureID), _doseID(aDoseID), _voxelizationID(aVoxelizationID)
 		{
@@ -111,7 +114,8 @@ namespace rttb
 
 		std::ostream& operator<<(std::ostream& s, const DVH& aDVH)
 		{
-			s << "[ " << aDVH.getStructureID() << ", " << aDVH.getDoseID() << ", " << aDVH.getVoxelizationID() << ", " <<
+			s << "[ " << aDVH.getStructureID() << ", " << aDVH.getDoseID() << ", " << aDVH.getVoxelizationID()
+			  << ", " <<
 			  aDVH.getNumberOfVoxels() << " ]";
 			return s;
 		}

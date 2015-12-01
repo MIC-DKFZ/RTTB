@@ -87,7 +87,8 @@ namespace rttb
 			const IDType doseID = "myDose";
 			const IDType voxelizationID = "myVoxelization";
 
-			core::DVH::DVHPointer dvhPtr = boost::make_shared<core::DVH>(aDataDifferential, binSize, voxelVolume, structureID,
+			core::DVH::DVHPointer dvhPtr = boost::make_shared<core::DVH>(aDataDifferential, binSize,
+			                               voxelVolume, structureID,
 			                               doseID, voxelizationID);
 
 			//test TCP LQ Model
@@ -288,7 +289,8 @@ namespace rttb
 			               normalizationDose)); //variance=0, will be set to 1e-30
 			CHECK_THROW_EXPLICIT(models::getScatterPlotVary1Parameter(tcplq, 0, alpha, alpha * 0.1, 0),
 			                     core::InvalidParameterException);//normalisationdose=0
-			CHECK_THROW_EXPLICIT(models::getScatterPlotVary1Parameter(tcplq, 0, alpha, alpha * 0.1, normalizationDose, 10000, 0, 0),
+			CHECK_THROW_EXPLICIT(models::getScatterPlotVary1Parameter(tcplq, 0, alpha, alpha * 0.1,
+			                     normalizationDose, 10000, 0, 0),
 			                     core::InvalidParameterException);//maxDose-minDose=0
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

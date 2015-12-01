@@ -33,7 +33,8 @@ namespace rttb
 
 		}
 
-		LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, BioModelParamType alpha, BioModelParamType beta,
+		LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, BioModelParamType alpha,
+		                                 BioModelParamType beta,
 		                                 double doseScaling) :
 			_dose(dose), _alpha(alpha), _beta(beta), _doseScaling(doseScaling)
 		{

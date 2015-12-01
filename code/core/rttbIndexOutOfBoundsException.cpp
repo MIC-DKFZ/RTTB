@@ -24,16 +24,20 @@
 
 #include "rttbIndexOutOfBoundsException.h"
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
-        const char* IndexOutOfBoundsException::what() const throw(){
+		const char* IndexOutOfBoundsException::what() const throw()
+		{
 			return rttb_what.c_str();
-			}
+		}
 
-		const char* IndexOutOfBoundsException::GetNameOfClass() const{ 
-			return "IndexOutOfBoundsException"; 
-			}       
+		const char* IndexOutOfBoundsException::GetNameOfClass() const
+		{
+			return "IndexOutOfBoundsException";
+		}
 
-		}//end namespace core
-	}//end namespace rttb
+	}//end namespace core
+}//end namespace rttb

@@ -31,21 +31,21 @@ namespace rttb
 	{
 		namespace itk
 		{
-			
+
 			/*! @class ITKImageMaskAccessorConverter
 				@brief Class converts/dumps the processed accessor into an itk image
 				@remark MaskAccessorConversionInterface defines how the converter should react on non valid Mask values.
 			*/
 			class ITKImageMaskAccessorConverter: public core::MaskAccessorProcessorBase,
 				public rttb::core::DoseAccessorConversionSettingInterface
-				
+
 			{
 			public:
 				typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
 
 				bool process();
 
-				const ITKImageMaskAccessor::ITKMaskImageType::Pointer getITKImage() 
+				const ITKImageMaskAccessor::ITKMaskImageType::Pointer getITKImage()
 				{
 					return _itkImage;
 				}

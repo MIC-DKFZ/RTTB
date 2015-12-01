@@ -111,21 +111,28 @@ namespace rttb
 			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getImageOrientationRow().z(),
 			            doseAccessor_w->getGeometricInfo().getImageOrientationRow().z(),
 			            errorConstant);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getSpacing().x(), doseAccessor_w->getGeometricInfo().getSpacing().x(),
+			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getSpacing().x(),
+			            doseAccessor_w->getGeometricInfo().getSpacing().x(),
 			            errorConstant);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getSpacing().y(), doseAccessor_w->getGeometricInfo().getSpacing().y(),
+			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getSpacing().y(),
+			            doseAccessor_w->getGeometricInfo().getSpacing().y(),
 			            errorConstant);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getSpacing().z(), doseAccessor_w->getGeometricInfo().getSpacing().z(),
+			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getSpacing().z(),
+			            doseAccessor_w->getGeometricInfo().getSpacing().z(),
 			            errorConstant);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getNumColumns(), doseAccessor_w->getGeometricInfo().getNumColumns(),
+			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getNumColumns(),
+			            doseAccessor_w->getGeometricInfo().getNumColumns(),
 			            errorConstant);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getNumRows(), doseAccessor_w->getGeometricInfo().getNumRows(),
+			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getNumRows(),
+			            doseAccessor_w->getGeometricInfo().getNumRows(),
 			            errorConstant);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getNumSlices(), doseAccessor_w->getGeometricInfo().getNumSlices(),
+			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getNumSlices(),
+			            doseAccessor_w->getGeometricInfo().getNumSlices(),
 			            errorConstant);
 
 			//Check pixel data
-			int size = doseAccessor_r->getGeometricInfo().getNumColumns() * doseAccessor_r->getGeometricInfo().getNumRows() *
+			int size = doseAccessor_r->getGeometricInfo().getNumColumns() *
+			           doseAccessor_r->getGeometricInfo().getNumRows() *
 			           doseAccessor_r->getGeometricInfo().getNumSlices() ;
 
 			for (unsigned int index = 0; index < 30; index++)
@@ -134,10 +141,12 @@ namespace rttb
 
 				if (size / 2 - index >= 0 && size / 2 - index < size)
 				{
-					CHECK_CLOSE(doseAccessor_r->getValueAt(size / 2 - index), doseAccessor_w->getValueAt(size / 2 - index), errorConstant);
+					CHECK_CLOSE(doseAccessor_r->getValueAt(size / 2 - index),
+					            doseAccessor_w->getValueAt(size / 2 - index), errorConstant);
 				}
 
-				CHECK_CLOSE(doseAccessor_r->getValueAt(size - index - 1), doseAccessor_w->getValueAt(size - index - 1), errorConstant);
+				CHECK_CLOSE(doseAccessor_r->getValueAt(size - index - 1),
+				            doseAccessor_w->getValueAt(size - index - 1), errorConstant);
 			}
 
 

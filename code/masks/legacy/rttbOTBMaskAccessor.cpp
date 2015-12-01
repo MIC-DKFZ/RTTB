@@ -37,7 +37,7 @@ namespace rttb
 		{
 
 			OTBMaskAccessor::OTBMaskAccessor(StructTypePointer aStructurePointer,
-				const core::GeometricInfo& aGeometricInfo)
+			                                 const core::GeometricInfo& aGeometricInfo)
 				: _spStructure(aStructurePointer), _legacyStructure(*aStructurePointer)
 			{
 				_spRelevantVoxelVector = MaskVoxelListPointer();
@@ -73,7 +73,7 @@ namespace rttb
 				const std::vector<legacy::DoseVoxel> voxelsInStruct = legacyMask.getDoseVoxelInStructure();
 
 				for (std::vector<legacy::DoseVoxel>::const_iterator it = voxelsInStruct.begin();
-					it != voxelsInStruct.end(); ++it)
+				     it != voxelsInStruct.end(); ++it)
 				{
 					rttb::VoxelGridID aVoxelGridID;
 					rttb::VoxelGridIndex3D newIndex;

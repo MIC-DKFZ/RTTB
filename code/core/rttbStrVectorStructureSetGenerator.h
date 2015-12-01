@@ -32,8 +32,10 @@
 
 
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
 		/*! @class StrVectorStructureSetGenerator
 		@brief Generate a structure set with a vector of Structures.
@@ -56,12 +58,13 @@ namespace rttb{
 
 			/*! @brief Constructor
 			@param aStructureVector the vector of structure shared pointer
-			@param aPatientUID the patient UID. 
+			@param aPatientUID the patient UID.
 			*/
-			StrVectorStructureSetGenerator(std::vector<StructTypePointer>& aStructureVector,IDType aPatientUID="");
+			StrVectorStructureSetGenerator(std::vector<StructTypePointer>& aStructureVector,
+			                               IDType aPatientUID = "");
 
-			/*! @brief Generate StructureSet 
-			@return Return shared pointer of StructureSet. 
+			/*! @brief Generate StructureSet
+			@return Return shared pointer of StructureSet.
 			*/
 			StructureSetPointer generateStructureSet();
 		};

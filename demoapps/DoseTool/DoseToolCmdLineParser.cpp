@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1066 $ (last changed revision)
-// @date    $Date: 2015-08-19 11:47:07 +0200 (Mi, 19 Aug 2015) $ (last change date)
-// @author  $Author: floca $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 #include "DoseToolCmdLineParser.h"
@@ -57,7 +57,8 @@ namespace rttb
 				        "\"itk\": use itk image loading\n\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).",
 				        defaultLoadingStyle, defaultLoadingStyle.at(0),
 				        't', true, true);
-				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_STRUCT_LOAD_STYLE, OPTION_GROUP_REQUIRED,
+				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_STRUCT_LOAD_STYLE,
+				        OPTION_GROUP_REQUIRED,
 				        "The loading style for the dose. Available styles are:\n"
 				        "\"dicom\": normal dicom dose\n"
 				        "\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--"
@@ -92,10 +93,12 @@ namespace rttb
 				std::vector<std::string> doseLoadStyle = get<std::vector<std::string> >(OPTION_DOSE_LOAD_STYLE);
 				std::string doseLoadStyleAbbreviation = doseLoadStyle.at(0);
 
-				if (doseLoadStyleAbbreviation != "dicom" && doseLoadStyleAbbreviation != "virtuos" && doseLoadStyleAbbreviation != "itk"
+				if (doseLoadStyleAbbreviation != "dicom" && doseLoadStyleAbbreviation != "virtuos"
+				    && doseLoadStyleAbbreviation != "itk"
 				    && doseLoadStyleAbbreviation != "helax")
 				{
-					throw cmdlineparsing::InvalidConstraintException("Unknown load style for dose file:" + doseLoadStyleAbbreviation +
+					throw cmdlineparsing::InvalidConstraintException("Unknown load style for dose file:" +
+					        doseLoadStyleAbbreviation +
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 
@@ -113,7 +116,8 @@ namespace rttb
 				if (structLoadStyleAbbreviation != "dicom" && structLoadStyleAbbreviation != "virtuos"
 				    && structLoadStyleAbbreviation != "itk")
 				{
-					throw cmdlineparsing::InvalidConstraintException("Unknown load style for struct file:" + structLoadStyleAbbreviation +
+					throw cmdlineparsing::InvalidConstraintException("Unknown load style for struct file:" +
+					        structLoadStyleAbbreviation +
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 
@@ -137,7 +141,8 @@ namespace rttb
 
 				if (!isSet(OPTION_DVH) && !isSet(OPTION_DOSE_STATISTICS))
 				{
-					throw cmdlineparsing::InvalidConstraintException("Neither the Dose statistics (--" + OPTION_DOSE_STATISTICS +
+					throw cmdlineparsing::InvalidConstraintException("Neither the Dose statistics (--" +
+					        OPTION_DOSE_STATISTICS +
 					        "), nor the DVH (--" + OPTION_DVH + ") option was used.");
 				}
 
@@ -145,14 +150,16 @@ namespace rttb
 				{
 					if (!isSet(OPTION_PRESCRIBED_DOSE))
 					{
-						throw cmdlineparsing::InvalidConstraintException("The prescribed dose (--" + OPTION_PRESCRIBED_DOSE +
+						throw cmdlineparsing::InvalidConstraintException("The prescribed dose (--" + OPTION_PRESCRIBED_DOSE
+						        +
 						        ") has to be set for computation of complex dose statistics.");
 					}
 					else
 					{
 						if (get<double>(OPTION_PRESCRIBED_DOSE) <= 0)
 						{
-							throw cmdlineparsing::InvalidConstraintException("The prescribed dose (--" + OPTION_PRESCRIBED_DOSE +
+							throw cmdlineparsing::InvalidConstraintException("The prescribed dose (--" + OPTION_PRESCRIBED_DOSE
+							        +
 							        ") has to be >0!");
 						}
 					}

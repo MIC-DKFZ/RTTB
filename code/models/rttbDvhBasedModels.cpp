@@ -56,7 +56,8 @@ namespace rttb
 
 		}
 
-		BEDDVHType calcBEDDVH(const DVHPointer dvh, const int numberOfFractions, const DoseCalcType alpha_beta,
+		BEDDVHType calcBEDDVH(const DVHPointer dvh, const int numberOfFractions,
+		                      const DoseCalcType alpha_beta,
 		                      const bool relativeVolume)
 		{
 			std::map<DoseTypeGy, DoseCalcType> dataBED;
@@ -97,7 +98,8 @@ namespace rttb
 				}
 				else
 				{
-					dataBEDRelative.insert(std::pair<rttb::DoseTypeGy, rttb::DoseCalcType>(bedi, (*it) / numberOfVoxels));
+					dataBEDRelative.insert(std::pair<rttb::DoseTypeGy, rttb::DoseCalcType>(bedi,
+					                       (*it) / numberOfVoxels));
 				}
 
 				i++;
@@ -113,7 +115,8 @@ namespace rttb
 			}
 		}
 
-		LQEDDVHType calcLQED2DVH(const DVHPointer dvh, const int numberOfFractions, const DoseCalcType alpha_beta,
+		LQEDDVHType calcLQED2DVH(const DVHPointer dvh, const int numberOfFractions,
+		                         const DoseCalcType alpha_beta,
 		                         const bool relativeVolume)
 		{
 			std::map<rttb::DoseTypeGy, rttb::DoseCalcType> dataLQED2;
@@ -154,7 +157,8 @@ namespace rttb
 				}
 				else
 				{
-					dataLQED2Relative.insert(std::pair<rttb::DoseTypeGy, rttb::DoseCalcType>(lqed2i, (*it) / numberOfVoxels));
+					dataLQED2Relative.insert(std::pair<rttb::DoseTypeGy, rttb::DoseCalcType>(lqed2i,
+					                         (*it) / numberOfVoxels));
 				}
 
 				i++;

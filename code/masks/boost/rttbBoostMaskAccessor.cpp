@@ -35,7 +35,8 @@ namespace rttb
 		namespace boost
 		{
 
-			BoostMaskAccessor::BoostMaskAccessor(StructTypePointer aStructurePointer, const core::GeometricInfo& aGeometricInfo, bool strict)
+			BoostMaskAccessor::BoostMaskAccessor(StructTypePointer aStructurePointer,
+			                                     const core::GeometricInfo& aGeometricInfo, bool strict)
 				: _spStructure(aStructurePointer), _geoInfo(aGeometricInfo), _strict(strict)
 			{
 				_spRelevantVoxelVector = MaskVoxelListPointer();
@@ -77,7 +78,8 @@ namespace rttb
 				return _spRelevantVoxelVector;
 			}
 
-			BoostMaskAccessor::MaskVoxelListPointer BoostMaskAccessor::getRelevantVoxelVector(float lowerThreshold)
+			BoostMaskAccessor::MaskVoxelListPointer BoostMaskAccessor::getRelevantVoxelVector(
+			    float lowerThreshold)
 			{
 				MaskVoxelListPointer filteredVoxelVectorPointer(new MaskVoxelList);
 				updateMask();

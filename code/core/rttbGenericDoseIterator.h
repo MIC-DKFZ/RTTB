@@ -30,69 +30,72 @@
 #include "rttbDoseIteratorInterface.h"
 
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
 		/*! @class GenericDoseIterator
 			@brief Standard implementation of the dose iterator interface.
 		*/
 		class GenericDoseIterator: public DoseIteratorInterface
-			{
-			public:
-				typedef DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
-				typedef DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
+		{
+		public:
+			typedef DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
+			typedef DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
 
-			private:
+		private:
 
-				VoxelGridID _currentDoseVoxelGridID; 
-				DoseVoxelVolumeType _currentVoxelVolume;
+			VoxelGridID _currentDoseVoxelGridID;
+			DoseVoxelVolumeType _currentVoxelVolume;
 
-				GenericDoseIterator(const GenericDoseIterator&); //not implemented on purpose -> non-copyable
-				GenericDoseIterator& operator=(const GenericDoseIterator&);//not implemented on purpose -> non-copyable
+			GenericDoseIterator(const GenericDoseIterator&); //not implemented on purpose -> non-copyable
+			GenericDoseIterator& operator=(const
+			                               GenericDoseIterator&);//not implemented on purpose -> non-copyable
 
-			public:
+		public:
 
-				/*! @brief Constructor
-					@param aDoseAccessor contains the corresponding dose data
-				*/
-				GenericDoseIterator(DoseAccessorPointer aDoseAccessor);
+			/*! @brief Constructor
+				@param aDoseAccessor contains the corresponding dose data
+			*/
+			GenericDoseIterator(DoseAccessorPointer aDoseAccessor);
 
-				/*! @brief Set the itterator to the start of the Dose.
-					@exception InvalidParameterException if a inhomogeneous grid is defined in the dose accessors, because 
-					these grids are currently not supported.
-				*/
-				bool reset();
-
-				/*! @brief Test if next voxel position is still on the data grid, if so move to next position.
-				*/
-				void next();
-
-				/*! @brief Determine if the current voxel position is valid.
-				*/
-				bool isPositionValid() const;
-
-				/*! @brief Return volume of one voxel (in cm3)
-				@exception InvalidParameterException if a inhomogeneous grid is defined in the dose accessors, because 
+			/*! @brief Set the itterator to the start of the Dose.
+				@exception InvalidParameterException if a inhomogeneous grid is defined in the dose accessors, because
 				these grids are currently not supported.
-				*/
-				DoseVoxelVolumeType getCurrentVoxelVolume() const;
+			*/
+			bool reset();
 
-				DoseTypeGy getCurrentDoseValue() const;
+			/*! @brief Test if next voxel position is still on the data grid, if so move to next position.
+			*/
+			void next();
 
-				/*! @brief For DoseIterators this function returns 1, always, because no mask is applied.
-				*/
-				inline FractionType getCurrentRelevantVolumeFraction() const
-					{
-					return 1;
-					};
+			/*! @brief Determine if the current voxel position is valid.
+			*/
+			bool isPositionValid() const;
 
-				inline VoxelGridID getCurrentVoxelGridID() const
-					{
-					return _currentDoseVoxelGridID;
-					};
+			/*! @brief Return volume of one voxel (in cm3)
+			@exception InvalidParameterException if a inhomogeneous grid is defined in the dose accessors, because
+			these grids are currently not supported.
+			*/
+			DoseVoxelVolumeType getCurrentVoxelVolume() const;
 
+			DoseTypeGy getCurrentDoseValue() const;
+
+			/*! @brief For DoseIterators this function returns 1, always, because no mask is applied.
+			*/
+			inline FractionType getCurrentRelevantVolumeFraction() const
+			{
+				return 1;
 			};
-		}
+
+			inline VoxelGridID getCurrentVoxelGridID() const
+			{
+				return _currentDoseVoxelGridID;
+			};
+
+		};
 	}
+}
 
 #endif

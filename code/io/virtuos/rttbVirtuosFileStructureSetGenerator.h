@@ -41,9 +41,12 @@ This class should only provide general structure functionality.
 #include "rttbStructure.h"
 
 
-namespace rttb{
-	namespace io{
-		namespace virtuos{
+namespace rttb
+{
+	namespace io
+	{
+		namespace virtuos
+		{
 
 			/*! @class VirtuosFileStructureSetGenerator
 			@brief Genereate a structure set from a corresponding Virtuos data.
@@ -56,10 +59,10 @@ namespace rttb{
 
 			private:
 				// Pointer to Virtuos image data cube
-				Cubeinfo **_pPointerOnVirtuosCube;
+				Cubeinfo** _pPointerOnVirtuosCube;
 
 				//Virtuos Patient Pointer
-				VoiModel *_patient;
+				VoiModel* _patient;
 
 				IDType _UID;
 				FileNameType _VDXFileName;
@@ -67,7 +70,7 @@ namespace rttb{
 
 
 				/*! open virtuos ctx cube
-				@throw InvalidParameterException if ctx cube could not be opened or dose dimensions are invalid 
+				@throw InvalidParameterException if ctx cube could not be opened or dose dimensions are invalid
 				*/
 				void initializeVirtuosCube(FileNameType aVirtuosCTXFileName);
 
@@ -79,14 +82,15 @@ namespace rttb{
 
 
 			public:
-				/*! @brief Constructor 
+				/*! @brief Constructor
 				@param aVirtuosVDXFileName a Virtuos structure set .vdx file name
 				@param aVirtuosCTXFileName a Virtuos CT .ctx file name
-				
-				*/
-				VirtuosFileStructureSetGenerator(FileNameType aVirtuosVDXFileName, FileNameType aVirtuosCTXFileName);
 
-				/*! @brief Destructor 
+				*/
+				VirtuosFileStructureSetGenerator(FileNameType aVirtuosVDXFileName,
+				                                 FileNameType aVirtuosCTXFileName);
+
+				/*! @brief Destructor
 				Free Virtuos Cubeinfo.
 				*/
 				~VirtuosFileStructureSetGenerator();

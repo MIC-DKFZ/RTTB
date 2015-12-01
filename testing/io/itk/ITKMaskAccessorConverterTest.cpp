@@ -158,7 +158,8 @@ namespace rttb
 				}
 			}
 
-			for (unsigned int i = 0; i < 20 && (sizeX / 2 - i) < sizeX && (sizeY / 2 - i) < sizeY && (sizeZ / 2 - i) < sizeZ; i++)
+			for (unsigned int i = 0; i < 20 && (sizeX / 2 - i) < sizeX && (sizeY / 2 - i) < sizeY
+			     && (sizeZ / 2 - i) < sizeZ; i++)
 			{
 				index[0] = sizeX / 2 - i;
 				index[1] = sizeY / 2 - i;

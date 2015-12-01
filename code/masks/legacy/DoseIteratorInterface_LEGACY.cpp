@@ -28,46 +28,55 @@ using namespace std;
 #include <iostream>
 #include <sstream>
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace masks{
-		namespace legacy{
+	namespace masks
+	{
+		namespace legacy
+		{
 
-		IDType DoseIteratorInterface::getDoseUID(){
-			boost::uuids::uuid id;
-			boost::uuids::random_generator generator;
-			id=generator();
+			IDType DoseIteratorInterface::getDoseUID()
+			{
+				boost::uuids::uuid id;
+				boost::uuids::random_generator generator;
+				id = generator();
 
-			std::stringstream ss;
-			ss << id;
-			
-			_doseUID=ss.str();
-			return _doseUID;
+				std::stringstream ss;
+				ss << id;
 
-		}
+				_doseUID = ss.str();
+				return _doseUID;
 
-		IDType DoseIteratorInterface::getPatientUID(){
-			boost::uuids::uuid id;
-			boost::uuids::random_generator generator;
-			id=generator();
+			}
 
-			std::stringstream ss;
-			ss << id;
-			
-			_patientUID=ss.str();
-			return _patientUID;
+			IDType DoseIteratorInterface::getPatientUID()
+			{
+				boost::uuids::uuid id;
+				boost::uuids::random_generator generator;
+				id = generator();
 
-		}
+				std::stringstream ss;
+				ss << id;
 
-    int DoseIteratorInterface::size(){
-      this->start();
-      int size=0;
-      while(this->hasNextVoxel()){
-        this->next();
-        size++;
-      }
-      return size;
-    }
+				_patientUID = ss.str();
+				return _patientUID;
+
+			}
+
+			int DoseIteratorInterface::size()
+			{
+				this->start();
+				int size = 0;
+
+				while (this->hasNextVoxel())
+				{
+					this->next();
+					size++;
+				}
+
+				return size;
+			}
 		}
 
 	}

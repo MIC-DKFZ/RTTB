@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1066 $ (last changed revision)
-// @date    $Date: 2015-08-19 11:47:07 +0200 (Mi, 19 Aug 2015) $ (last change date)
-// @author  $Author: floca $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 #ifndef __DOSETOOL_CMD_LINE_PARSER
@@ -36,7 +36,8 @@ namespace rttb
 			class DoseToolCmdLineParser : public cmdlineparsing::CmdLineParserBase
 			{
 			public:
-				DoseToolCmdLineParser(int argc, const char** argv, const std::string& name, const std::string& version);
+				DoseToolCmdLineParser(int argc, const char** argv, const std::string& name,
+				                      const std::string& version);
 				void validateInput() const;
 				void printHelp() const;
 

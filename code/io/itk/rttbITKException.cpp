@@ -23,16 +23,21 @@
 
 #include "rttbITKException.h"
 
-namespace rttb{
-	namespace io{
-		namespace itk{
-			const char* ITKException::what() const throw() {
+namespace rttb
+{
+	namespace io
+	{
+		namespace itk
+		{
+			const char* ITKException::what() const throw()
+			{
 				return rttb_what.c_str();
 			}
 
-			const char* ITKException::GetNameOfClass() const{
-				return "ITKException"; 
-			}        
+			const char* ITKException::GetNameOfClass() const
+			{
+				return "ITKException";
+			}
 		}
 
 	}//end namespace io

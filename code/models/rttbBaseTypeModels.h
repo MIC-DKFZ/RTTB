@@ -26,24 +26,27 @@
 
 #include "rttbBaseType.h"
 
-namespace rttb{
-	namespace models{
+namespace rttb
+{
+	namespace models
+	{
 
 		typedef double BioModelParamType;
 		typedef double BioModelValueType;
 
 		const double infinity = 1e30;
 
-		struct TcpParams { 
-			double alphaMean; 
-			double alphaVariance; 
-			double rho; 
-			std::vector<DoseCalcType> volumeVector; 
-			std::vector<DoseTypeGy> bedVector; 
-			};
+		struct TcpParams
+		{
+			double alphaMean;
+			double alphaVariance;
+			double rho;
+			std::vector<DoseCalcType> volumeVector;
+			std::vector<DoseTypeGy> bedVector;
+		};
 
 
-		}
 	}
+}
 
 #endif

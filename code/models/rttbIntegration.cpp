@@ -118,7 +118,8 @@ namespace rttb
 
 		//returns the nth stage of refinement of the extended trapezoidal rule
 		template <typename FunctorType>
-		integrationType trapzd(const FunctorType& BMfunction, integrationType a, integrationType b, int stepNum)
+		integrationType trapzd(const FunctorType& BMfunction, integrationType a, integrationType b,
+		                       int stepNum)
 		{
 			static integrationType result;
 
@@ -154,7 +155,8 @@ namespace rttb
 		}
 
 		template <typename FunctorType>
-		integrationType iterativeIntegration(const FunctorType& BMfunction, integrationType a, integrationType b)
+		integrationType iterativeIntegration(const FunctorType& BMfunction, integrationType a,
+		                                     integrationType b)
 		{
 			integrationType ost = 0.0;
 			integrationType os = 0.0;

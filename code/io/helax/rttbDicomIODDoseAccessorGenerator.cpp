@@ -29,23 +29,29 @@
 #include "rttbDcmrtException.h"
 #include "rttbIndexOutOfBoundsException.h"
 
-namespace rttb{
-	namespace io{
-		namespace dicom{
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
 
 
-			DicomIODDoseAccessorGenerator::~DicomIODDoseAccessorGenerator(){}
+			DicomIODDoseAccessorGenerator::~DicomIODDoseAccessorGenerator() {}
 
-			DicomIODDoseAccessorGenerator::DicomIODDoseAccessorGenerator(DRTDoseIODPtr aDRTDoseIODP){
-				_doseIODPtr=aDRTDoseIODP;	
-				
+			DicomIODDoseAccessorGenerator::DicomIODDoseAccessorGenerator(DRTDoseIODPtr aDRTDoseIODP)
+			{
+				_doseIODPtr = aDRTDoseIODP;
+
 			}
 
-			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomIODDoseAccessorGenerator::generateDoseAccessor() {
-				_doseAccessor=boost::make_shared<io::dicom::DicomDoseAccessor>(_doseIODPtr);
+			core::DoseAccessorGeneratorInterface::DoseAccessorPointer
+			DicomIODDoseAccessorGenerator::generateDoseAccessor()
+			{
+				_doseAccessor = boost::make_shared<io::dicom::DicomDoseAccessor>(_doseIODPtr);
 				return _doseAccessor;
 			}
-			
+
 
 		}
 	}

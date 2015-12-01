@@ -27,7 +27,8 @@ namespace rttb
 	namespace core
 	{
 
-		DVHSet::DVHSet(IDType aStructureSetID, IDType aDoseID) : _structureSetID(aStructureSetID), _doseID(aDoseID) {}
+		DVHSet::DVHSet(IDType aStructureSetID, IDType aDoseID) : _structureSetID(aStructureSetID),
+			_doseID(aDoseID) {}
 
 		DVHSet::DVHSet(DVHSetType aDVHTVSet, DVHSetType aDVHHTSet, IDType aStructureSetID, IDType aDoseID)
 		{
@@ -37,7 +38,8 @@ namespace rttb
 			this->_doseID = aDoseID;
 		}
 
-		DVHSet::DVHSet(DVHSetType aDVHTVSet, DVHSetType aDVHHTSet, DVHSetType aDVHWVSet, IDType aStructureSetID, IDType aDoseID)
+		DVHSet::DVHSet(DVHSetType aDVHTVSet, DVHSetType aDVHHTSet, DVHSetType aDVHWVSet,
+		               IDType aStructureSetID, IDType aDoseID)
 		{
 			_dvhHTSet = aDVHHTSet;
 			_dvhTVSet = aDVHTVSet;
@@ -127,7 +129,8 @@ namespace rttb
 
 		VolumeType DVHSet::getWholeVolume(DoseTypeGy aDoseAbsolute) const
 		{
-			VolumeType volume = this->getHealthyTissueVolume(aDoseAbsolute) + this->getTargetVolume(aDoseAbsolute);
+			VolumeType volume = this->getHealthyTissueVolume(aDoseAbsolute) + this->getTargetVolume(
+			                        aDoseAbsolute);
 			return volume;
 		}
 

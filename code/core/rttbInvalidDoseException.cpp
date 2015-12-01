@@ -24,17 +24,21 @@
 
 #include "rttbInvalidDoseException.h"
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace core{
+	namespace core
+	{
 
-        const char* InvalidDoseException::what() const throw(){
+		const char* InvalidDoseException::what() const throw()
+		{
 			return rttb_what.c_str();
-			}
+		}
 
-		const char* InvalidDoseException::GetNameOfClass() const{ 
-			return "InvalidDoseException"; 
-			}
+		const char* InvalidDoseException::GetNameOfClass() const
+		{
+			return "InvalidDoseException";
+		}
 
-		}//end namespace core
-	}//end namespace rttb
+	}//end namespace core
+}//end namespace rttb

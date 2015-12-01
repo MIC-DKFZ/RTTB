@@ -105,7 +105,8 @@ namespace rttb
 		}
 
 
-		Structure::Structure(const Structure& copy) : _structureVector(copy.getStructureVector()), _strUID(copy.getUID()),
+		Structure::Structure(const Structure& copy) : _structureVector(copy.getStructureVector()),
+			_strUID(copy.getUID()),
 			_label(copy.getLabel())
 		{
 		}

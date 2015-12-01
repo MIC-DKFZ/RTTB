@@ -24,16 +24,20 @@
 
 #include "rttbException.h"
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
-        const char* Exception::what() const  throw() {
+		const char* Exception::what() const  throw()
+		{
 			return rttb_what.c_str();
-			}
+		}
 
-		const char* Exception::GetNameOfClass() const{ 
-			return "Exception"; 
-			}
+		const char* Exception::GetNameOfClass() const
+		{
+			return "Exception";
+		}
 
-		}//end namespace core
-	}//end namespace rttb
+	}//end namespace core
+}//end namespace rttb

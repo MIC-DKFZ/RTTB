@@ -66,8 +66,10 @@ namespace rttb
 			//1) test BoostMask and BoostMaskAccessor constructor
 			CHECK_NO_THROW(rttb::masks::boost::BoostMask(geometricPtr, spMyStruct));
 			rttb::masks::boost::BoostMask boostMask = rttb::masks::boost::BoostMask(geometricPtr, spMyStruct);
-			CHECK_NO_THROW(rttb::masks::boost::BoostMaskAccessor(spMyStruct, spTestDoseAccessor->getGeometricInfo()));
-			rttb::masks::boost::BoostMaskAccessor boostMaskAccessor(spMyStruct, spTestDoseAccessor->getGeometricInfo());
+			CHECK_NO_THROW(rttb::masks::boost::BoostMaskAccessor(spMyStruct,
+			               spTestDoseAccessor->getGeometricInfo()));
+			rttb::masks::boost::BoostMaskAccessor boostMaskAccessor(spMyStruct,
+			        spTestDoseAccessor->getGeometricInfo());
 
 			//2) test getRelevantVoxelVector
 			CHECK_NO_THROW(boostMask.getRelevantVoxelVector());

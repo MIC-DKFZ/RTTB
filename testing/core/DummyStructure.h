@@ -28,8 +28,10 @@
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
 
-namespace rttb{
-	namespace testing{
+namespace rttb
+{
+	namespace testing
+	{
 
 		/*! @class DummyStructure
 			@brief generate simple geometric testing structures.
@@ -37,7 +39,8 @@ namespace rttb{
 			Make sure the geometricInfo corresponds to a sufficiently large data grid.
 			@see CreateTestStructures
 		*/
-		class DummyStructure{
+		class DummyStructure
+		{
 
 		private:
 			core::GeometricInfo _geoInfo;
@@ -47,9 +50,10 @@ namespace rttb{
 
 			DummyStructure(const core::GeometricInfo& aGeoInfo);
 
-			const core::GeometricInfo& getGeometricInfo(){
+			const core::GeometricInfo& getGeometricInfo()
+			{
 				return _geoInfo;
-				};
+			};
 
 			core::Structure CreateRectangularStructureCentered(GridIndexType zPlane);
 
@@ -59,21 +63,30 @@ namespace rttb{
 
 			core::Structure CreateTestStructureSeveralSeperateSectionsInsideOneVoxel(GridIndexType zPlane);
 
-			core::Structure CreateRectangularStructureCenteredRotatedIntermediatePlacement(GridIndexType zPlane);
-			core::Structure CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRight(GridIndexType zPlane);
-			core::Structure CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRightCounterClock(GridIndexType zPlane);
-			core::Structure CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRightCounterClockIntermediatePoints(GridIndexType zPlane);
+			core::Structure CreateRectangularStructureCenteredRotatedIntermediatePlacement(
+			    GridIndexType zPlane);
+			core::Structure CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRight(
+			    GridIndexType zPlane);
+			core::Structure
+			CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRightCounterClock(
+			    GridIndexType zPlane);
+			core::Structure
+			CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRightCounterClockIntermediatePoints(
+			    GridIndexType zPlane);
 
 			core::Structure CreateTestStructureSelfTouchingA(GridIndexType zPlane);
 
 			core::Structure CreateTestStructureIntersecting(GridIndexType zPlane);
 			core::Structure CreateTestStructureIntersectingTwoPolygons(GridIndexType zPlane);
-			core::Structure CreateTestStructureIntersectingTwoPolygonsInDifferentSlices(GridIndexType zPlane1, GridIndexType zPlane2);
+			core::Structure CreateTestStructureIntersectingTwoPolygonsInDifferentSlices(GridIndexType zPlane1,
+			        GridIndexType zPlane2);
 
 			core::Structure CreateTestStructureInsideInsideTouches(GridIndexType zPlane);
 			core::Structure CreateTestStructureInsideInsideTouchesRotatedQuaterPi(GridIndexType zPlane);
-			core::Structure CreateTestStructureInsideInsideTouchesCounterClockRotatedQuaterPi(GridIndexType zPlane);
-			core::Structure CreateTestStructureInsideInsideTouchesCounterClockRotatedOnePointFivePi(GridIndexType zPlane);
+			core::Structure CreateTestStructureInsideInsideTouchesCounterClockRotatedQuaterPi(
+			    GridIndexType zPlane);
+			core::Structure CreateTestStructureInsideInsideTouchesCounterClockRotatedOnePointFivePi(
+			    GridIndexType zPlane);
 			core::Structure CreateTestStructureInsideInsideTouchesRotatedPointDoubeled(GridIndexType zPlane);
 
 			core::Structure CreateTestStructureInsideInsideTouchesUpperLeft(GridIndexType zPlane);
@@ -81,8 +94,8 @@ namespace rttb{
 			core::Structure CreateTestStructureInsideInsideTouchesLowerRight(GridIndexType zPlane);
 			core::Structure CreateTestStructureInsideInsideTouchesUpperRight(GridIndexType zPlane);
 
-			void ShowTestStructure( core::Structure aStructure );	 
-			};
-		}//testing
-	}//rttb
+			void ShowTestStructure(core::Structure aStructure);
+		};
+	}//testing
+}//rttb
 

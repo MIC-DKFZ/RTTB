@@ -42,14 +42,16 @@ namespace rttb
 
 			DicomHelaxIODVecDoseAccessorGenerator::~DicomHelaxIODVecDoseAccessorGenerator() {}
 
-			DicomHelaxIODVecDoseAccessorGenerator::DicomHelaxIODVecDoseAccessorGenerator(std::vector<DRTDoseIODPtr>&
-			        aDICOMRTDoseVector)
+			DicomHelaxIODVecDoseAccessorGenerator::DicomHelaxIODVecDoseAccessorGenerator(
+			    std::vector<DRTDoseIODPtr>&
+			    aDICOMRTDoseVector)
 			{
 				_dosePtrVector = aDICOMRTDoseVector;
 
 			}
 
-			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomHelaxIODVecDoseAccessorGenerator::generateDoseAccessor()
+			core::DoseAccessorGeneratorInterface::DoseAccessorPointer
+			DicomHelaxIODVecDoseAccessorGenerator::generateDoseAccessor()
 			{
 				_doseAccessor = boost::make_shared<io::helax::DicomHelaxDoseAccessor>(_dosePtrVector);
 				return _doseAccessor;

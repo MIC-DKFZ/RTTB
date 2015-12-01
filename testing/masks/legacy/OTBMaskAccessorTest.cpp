@@ -81,7 +81,8 @@ namespace rttb
 			MaskVoxelListPointer relVoxelOTB1 = testOTB1.getRelevantVoxelVector();
 
 			boost::shared_ptr<masks::legacy::OTBMaskAccessor> spMaskAccessor =
-			    boost::make_shared<masks::legacy::OTBMaskAccessor>(spMyStruct, spTestDoseAccessor->getGeometricInfo());
+			    boost::make_shared<masks::legacy::OTBMaskAccessor>(spMyStruct,
+			            spTestDoseAccessor->getGeometricInfo());
 			MaskRectStructTester voxelizationTester(spMaskAccessor, zPlane);
 			CHECK_TESTER(voxelizationTester);
 

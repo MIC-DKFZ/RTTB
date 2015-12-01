@@ -25,18 +25,20 @@
 #include "rttbMaskVoxel.h"
 #include "rttbInvalidParameterException.h"
 
-namespace rttb{
-	namespace testing{
+namespace rttb
+{
+	namespace testing
+	{
 
 		/*! @brief MaskVoxelTest - test the API of MaskVoxel
 			1) test constructors (values as expected?)
 			2) test set/getRelevantVolumeFraction
 			3) test legacy access
-			4) test operators "==" 
+			4) test operators "=="
 		*/
 
-		int MaskVoxelTest(int argc, char* argv[] )
-			{
+		int MaskVoxelTest(int argc, char* argv[])
+		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
 			//1) test constructors (values as expected?)
@@ -56,21 +58,25 @@ namespace rttb{
 			CHECK_THROW_EXPLICIT(core::MaskVoxel MaskVoxel(-anID, aFraction), core::InvalidParameterException);
 			CHECK_THROW_EXPLICIT(core::MaskVoxel MaskVoxel(anID, -aFraction), core::InvalidParameterException);
 			CHECK_THROW_EXPLICIT(core::MaskVoxel MaskVoxel(-anID, -aFraction), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(core::MaskVoxel MaskVoxel(anID, aFraction+2), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(core::MaskVoxel MaskVoxel(-anID, aFraction+2), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(core::MaskVoxel MaskVoxel(anID, aFraction + 2),
+			                     core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(core::MaskVoxel MaskVoxel(-anID, aFraction + 2),
+			                     core::InvalidParameterException);
 			core::MaskVoxel aMaskVoxel3(anID, aFraction);
 			CHECK_EQUAL(anID, aMaskVoxel3.getVoxelGridID());
 			CHECK_EQUAL(aFraction, aMaskVoxel3.getRelevantVolumeFraction());
 
-			//2) test set/getRelevantVolumeFraction 
+			//2) test set/getRelevantVolumeFraction
 			aFraction = 0.42;
 			anID = aMaskVoxel3.getVoxelGridID();
 			CHECK_NO_THROW(aMaskVoxel3.setRelevantVolumeFraction(aFraction));
-			CHECK_THROW_EXPLICIT(aMaskVoxel3.setRelevantVolumeFraction(-aFraction), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(aMaskVoxel3.setRelevantVolumeFraction(aFraction+2), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(aMaskVoxel3.setRelevantVolumeFraction(-aFraction),
+			                     core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(aMaskVoxel3.setRelevantVolumeFraction(aFraction + 2),
+			                     core::InvalidParameterException);
 			aMaskVoxel3.setRelevantVolumeFraction(aFraction);
 			CHECK_EQUAL(anID, aMaskVoxel3.getVoxelGridID());
-			CHECK_EQUAL(aFraction, aMaskVoxel3.getRelevantVolumeFraction());	  
+			CHECK_EQUAL(aFraction, aMaskVoxel3.getRelevantVolumeFraction());
 
 			//3) test legacy access
 			aFraction = aMaskVoxel3.getRelevantVolumeFraction();
@@ -80,12 +86,13 @@ namespace rttb{
 			aFraction = 0.84;
 			CHECK_NO_THROW(aMaskVoxel3.setProportionInStr(aFraction));
 			CHECK_THROW_EXPLICIT(aMaskVoxel3.setProportionInStr(-aFraction), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(aMaskVoxel3.setProportionInStr(aFraction+2), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(aMaskVoxel3.setProportionInStr(aFraction + 2),
+			                     core::InvalidParameterException);
 			aMaskVoxel3.setProportionInStr(aFraction);
 			CHECK_EQUAL(anID, aMaskVoxel3.getVoxelGridID());
-			CHECK_EQUAL(aFraction, aMaskVoxel3.getRelevantVolumeFraction());	
+			CHECK_EQUAL(aFraction, aMaskVoxel3.getRelevantVolumeFraction());
 
-			//4) test operators "==" 
+			//4) test operators "=="
 			CHECK(!(aMaskVoxel2 == aMaskVoxel3)); //not equal
 			core::MaskVoxel aMaskVoxel4(aMaskVoxel3.getVoxelGridID());
 			CHECK(!(aMaskVoxel4 == aMaskVoxel3)); //equal ID, but unequal volume fraction -> not equal
@@ -95,8 +102,8 @@ namespace rttb{
 			CHECK(!(aMaskVoxel2 == aMaskVoxel3)); //no equal ID -> not equal
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
-			}
+		}
 
-		}//end namespace testing
-	}//end namespace rttb
+	}//end namespace testing
+}//end namespace rttb
 

@@ -43,17 +43,21 @@ namespace rttb
 
 		TCPLQModel::TCPLQModel(): TCPModel(), _alphaMean(0), _alphaVariance(0), _alpha_beta(0), _rho(0) {}
 
-		TCPLQModel::TCPLQModel(DVHPointer aDVH, BioModelParamType aAlphaMean, BioModelParamType aBeta, BioModelParamType aRho,
-		                       int aNumberOfFractions): TCPModel(aDVH, aNumberOfFractions), _alphaMean(aAlphaMean), _alphaVariance(0),
+		TCPLQModel::TCPLQModel(DVHPointer aDVH, BioModelParamType aAlphaMean, BioModelParamType aBeta,
+		                       BioModelParamType aRho,
+		                       int aNumberOfFractions): TCPModel(aDVH, aNumberOfFractions), _alphaMean(aAlphaMean),
+			_alphaVariance(0),
 			_alpha_beta(aAlphaMean / aBeta), _rho(aRho) {}
 
 
-		TCPLQModel::TCPLQModel(DVHPointer aDVH, BioModelParamType aRho, int aNumberOfFractions, BioModelParamType aAlpha_Beta,
+		TCPLQModel::TCPLQModel(DVHPointer aDVH, BioModelParamType aRho, int aNumberOfFractions,
+		                       BioModelParamType aAlpha_Beta,
 		                       BioModelParamType aAlphaMean, BioModelParamType aAlphaVariance): TCPModel(aDVH, aNumberOfFractions),
 			_alphaMean(aAlphaMean),
 			_alphaVariance(aAlphaVariance), _alpha_beta(aAlpha_Beta), _rho(aRho) {}
 
-		void TCPLQModel::setParameters(const BioModelParamType aAlphaMean, const BioModelParamType aAlpha_Beta,
+		void TCPLQModel::setParameters(const BioModelParamType aAlphaMean,
+		                               const BioModelParamType aAlpha_Beta,
 		                               const BioModelParamType aRho, const BioModelParamType aAlphaVariance)
 		{
 			_alphaMean = aAlphaMean;
@@ -65,7 +69,8 @@ namespace rttb
 			_value = 0;
 		}
 
-		void TCPLQModel::setAlpha(const BioModelParamType aAlphaMean, const BioModelParamType aAlphaVariance)
+		void TCPLQModel::setAlpha(const BioModelParamType aAlphaMean,
+		                          const BioModelParamType aAlphaVariance)
 		{
 			_alphaVariance = aAlphaVariance;
 			_alphaMean = aAlphaMean;
@@ -101,12 +106,14 @@ namespace rttb
 			return _rho;
 		}
 
-		long double TCPLQModel::calcTCPi(BioModelParamType aRho, BioModelParamType aAlphaMean, double vj, double bedj)
+		long double TCPLQModel::calcTCPi(BioModelParamType aRho, BioModelParamType aAlphaMean, double vj,
+		                                 double bedj)
 		{
 			return exp(-aRho * vj * exp(-aAlphaMean * bedj));
 		}
 
-		long double TCPLQModel::calcTCP(std::map<rttb::DoseTypeGy, rttb::DoseCalcType> aBEDDVH, BioModelParamType aRho,
+		long double TCPLQModel::calcTCP(std::map<rttb::DoseTypeGy, rttb::DoseCalcType> aBEDDVH,
+		                                BioModelParamType aRho,
 		                                BioModelParamType aAlphaMean, double aDeltaV)
 		{
 			std::map<rttb::DoseTypeGy, rttb::DoseCalcType>::iterator it;
@@ -121,9 +128,10 @@ namespace rttb
 			return tcp;
 		}
 
-		long double TCPLQModel::calcTCPAlphaNormalDistribution(std::map<rttb::DoseTypeGy, rttb::DoseCalcType> aBEDDVH,
-		        BioModelParamType aRho, BioModelParamType aAlphaMean,
-		        BioModelParamType aAlphaVariance, double aDeltaV)
+		long double TCPLQModel::calcTCPAlphaNormalDistribution(
+		    std::map<rttb::DoseTypeGy, rttb::DoseCalcType> aBEDDVH,
+		    BioModelParamType aRho, BioModelParamType aAlphaMean,
+		    BioModelParamType aAlphaVariance, double aDeltaV)
 		{
 
 			std::map<rttb::DoseTypeGy, rttb::DoseCalcType>::iterator it;
@@ -157,7 +165,8 @@ namespace rttb
 
 		BioModelValueType TCPLQModel::calcModel(const double doseFactor)
 		{
-			core::DVH variantDVH = core::DVH(_dvh->getDataDifferential(), (DoseTypeGy)(_dvh->getDeltaD() * doseFactor),
+			core::DVH variantDVH = core::DVH(_dvh->getDataDifferential(),
+			                                 (DoseTypeGy)(_dvh->getDeltaD() * doseFactor),
 			                                 _dvh->getDeltaV(), "temporary", "temporary");
 			boost::shared_ptr<core::DVH> spDVH = boost::make_shared<core::DVH>(variantDVH);
 
@@ -175,7 +184,8 @@ namespace rttb
 					throw core::InvalidParameterException("Parameter invalid: numberOfFractions must be >1! The dvh should be an accumulated-dvh of all fractions, not a single fraction-dvh!");
 				}
 
-				std::map<rttb::DoseTypeGy, rttb::DoseCalcType> dataBED = calcBEDDVH(spDVH, _numberOfFractions, _alpha_beta);
+				std::map<rttb::DoseTypeGy, rttb::DoseCalcType> dataBED = calcBEDDVH(spDVH, _numberOfFractions,
+				        _alpha_beta);
 
 				value = (BioModelValueType)this->calcTCP(dataBED, _rho, _alphaMean, variantDVH.getDeltaV());
 				return value;
@@ -194,8 +204,10 @@ namespace rttb
 					throw core::InvalidParameterException("Parameter invalid: numberOfFractions must be >1! The dvh should be an accumulated-dvh of all fractions, not a single fraction-dvh!");
 				}
 
-				std::map<rttb::DoseTypeGy, rttb::DoseCalcType> dataBED = calcBEDDVH(spDVH, _numberOfFractions, _alpha_beta);
-				value = (BioModelValueType)(this->calcTCPAlphaNormalDistribution(dataBED, _rho, _alphaMean, _alphaVariance,
+				std::map<rttb::DoseTypeGy, rttb::DoseCalcType> dataBED = calcBEDDVH(spDVH, _numberOfFractions,
+				        _alpha_beta);
+				value = (BioModelValueType)(this->calcTCPAlphaNormalDistribution(dataBED, _rho, _alphaMean,
+				                            _alphaVariance,
 				                            variantDVH.getDeltaV()));
 				return value;
 			}
@@ -262,7 +274,8 @@ namespace rttb
 			else
 			{
 				rttbExceptionMacro(core::InvalidParameterException,
-				                   << "Parameter name " << aParamName << " invalid: it should be alphaMean or alphaVariance or alpha_beta or rho!");
+				                   << "Parameter name " << aParamName <<
+				                   " invalid: it should be alphaMean or alphaVariance or alpha_beta or rho!");
 
 			}
 		}

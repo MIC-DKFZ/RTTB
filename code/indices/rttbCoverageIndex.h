@@ -28,42 +28,44 @@
 #include "rttbBaseType.h"
 #include "rttbDVHSet.h"
 
-namespace rttb{
+namespace rttb
+{
 
-  namespace indices{
+	namespace indices
+	{
 
-    /*! @class CoverageIndex
-        @brief This class representing a CoverageIndex Object. Coverage Index fraction of the target volume receiving a dose >= the reference dose
-		@ingroup indices
-    */
+		/*! @class CoverageIndex
+		    @brief This class representing a CoverageIndex Object. Coverage Index fraction of the target volume receiving a dose >= the reference dose
+			@ingroup indices
+		*/
 		class CoverageIndex: public DvhBasedDoseIndex
-    {
+		{
 
-    protected: 
-      /*! @brief Calculate conformation number
-          @exception InvalidParameterException Thrown if dvhSet invalid
-      */
-      bool calcIndex();
+		protected:
+			/*! @brief Calculate conformation number
+			    @exception InvalidParameterException Thrown if dvhSet invalid
+			*/
+			bool calcIndex();
 
 
-    public: 
-      /*! @brief Constructor
-      */
+		public:
+			/*! @brief Constructor
+			*/
 			CoverageIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference);
 
-		
-      /*! @brief Dose index calculation for tvIndex-th treated volume
-       *  @param tvIndex: index in the vector of DVH TV
-       *  @return Return index value 
-          @exception InvalidParameterException Thrown if tvIndex invalid
-      */
+
+			/*! @brief Dose index calculation for tvIndex-th treated volume
+			 *  @param tvIndex: index in the vector of DVH TV
+			 *  @return Return index value
+			    @exception InvalidParameterException Thrown if tvIndex invalid
+			*/
 			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex);
 
 
 
-    };
+		};
 
-  }
+	}
 }
 
 #endif

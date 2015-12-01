@@ -27,29 +27,31 @@
 #include "rttbBaseType.h"
 #include "rttbMaskVoxel.h"
 
-namespace rttb{
-  namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
-    /*! @class MutableMaskAccessorInterface
-    @brief Extends the MaskAccessorInterface to provide writing access to the data.
-    This interface is created for external manipulation of generated masks. For example to store
-    the results of arithmetic operations on other masks.
-    */
-    class MutableMaskAccessorInterface: public MaskAccessorInterface
-    {
-    public:
-      typedef boost::shared_ptr<MutableMaskAccessorInterface> MutableMaskAccessorPointer;
-      typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
-      typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer; 
+		/*! @class MutableMaskAccessorInterface
+		@brief Extends the MaskAccessorInterface to provide writing access to the data.
+		This interface is created for external manipulation of generated masks. For example to store
+		the results of arithmetic operations on other masks.
+		*/
+		class MutableMaskAccessorInterface: public MaskAccessorInterface
+		{
+		public:
+			typedef boost::shared_ptr<MutableMaskAccessorInterface> MutableMaskAccessorPointer;
+			typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
+			typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
 
-      virtual void setRelevantVoxelVector(MaskVoxelListPointer aVoxelListPointer)= 0;
+			virtual void setRelevantVoxelVector(MaskVoxelListPointer aVoxelListPointer) = 0;
 
-      virtual void setMaskAt(VoxelGridID aID, const MaskVoxel& voxel) = 0;
+			virtual void setMaskAt(VoxelGridID aID, const MaskVoxel& voxel) = 0;
 
-      virtual void setMaskAt(const VoxelGridIndex3D& gridIndex, const MaskVoxel& voxel) = 0;
+			virtual void setMaskAt(const VoxelGridIndex3D& gridIndex, const MaskVoxel& voxel) = 0;
 
-    };
-  }
+		};
+	}
 }
 
 #endif

@@ -42,17 +42,20 @@ namespace rttb
 		{
 			DicomHelaxFileDoseAccessorGenerator::~DicomHelaxFileDoseAccessorGenerator() {}
 
-			DicomHelaxFileDoseAccessorGenerator::DicomHelaxFileDoseAccessorGenerator(FileNameType aDICOMRTDoseDirName)
+			DicomHelaxFileDoseAccessorGenerator::DicomHelaxFileDoseAccessorGenerator(
+			    FileNameType aDICOMRTDoseDirName)
 			{
 				_doseDirName = aDICOMRTDoseDirName;
 
 
 			}
 
-			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomHelaxFileDoseAccessorGenerator::generateDoseAccessor()
+			core::DoseAccessorGeneratorInterface::DoseAccessorPointer
+			DicomHelaxFileDoseAccessorGenerator::generateDoseAccessor()
 			{
 				rttb::io::dicom::Modality doseModality = {rttb::io::dicom::Modality::RTDOSE};
-				std::vector<FileNameType> fileVector = rttb::io::dicom::getFileNamesWithSameUID(_doseDirName, doseModality);
+				std::vector<FileNameType> fileVector = rttb::io::dicom::getFileNamesWithSameUID(_doseDirName,
+				                                       doseModality);
 				OFCondition status;
 				DcmFileFormat fileformat;
 				std::vector<DRTDoseIODPtr> doseVector;

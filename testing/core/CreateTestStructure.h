@@ -23,38 +23,52 @@
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
 
-namespace rttb{
-	namespace testing{
+namespace rttb
+{
+	namespace testing
+	{
 		/*!@class CreateTestStructure
-		@brief Create dummy structures for testing. 
+		@brief Create dummy structures for testing.
 		*/
-		class CreateTestStructure{
+		class CreateTestStructure
+		{
 
 		private:
 			core::GeometricInfo _geoInfo;
-			CreateTestStructure(){};
+			CreateTestStructure() {};
 
 		public:
 			~CreateTestStructure();
 
 			CreateTestStructure(const core::GeometricInfo& aGeoInfo);
 
-			PolygonType createPolygonLeftUpper(std::vector<VoxelGridIndex2D> aVoxelVector, GridIndexType sliceNumber);
-			PolygonType createPolygonCenter(std::vector<VoxelGridIndex2D> aVoxelVector, GridIndexType sliceNumber);
-			PolygonType createPolygonBetweenUpperLeftAndCenter(std::vector<VoxelGridIndex2D> aVoxelVector, GridIndexType sliceNumber);
-			PolygonType createPolygonBetweenLowerRightAndCenter(std::vector<VoxelGridIndex2D> aVoxelVector, GridIndexType sliceNumber);
-			PolygonType createPolygonIntermediatePoints(std::vector<VoxelGridIndex2D> aVoxelVector, GridIndexType sliceNumber);
-			PolygonType createPolygonUpperCenter(std::vector<VoxelGridIndex2D> aVoxelVector, GridIndexType sliceNumber);
-			PolygonType createPolygonLeftEdgeMiddle(std::vector<VoxelGridIndex2D> aVoxelVector, GridIndexType sliceNumber);
+			PolygonType createPolygonLeftUpper(std::vector<VoxelGridIndex2D> aVoxelVector,
+			                                   GridIndexType sliceNumber);
+			PolygonType createPolygonCenter(std::vector<VoxelGridIndex2D> aVoxelVector,
+			                                GridIndexType sliceNumber);
+			PolygonType createPolygonBetweenUpperLeftAndCenter(std::vector<VoxelGridIndex2D> aVoxelVector,
+			        GridIndexType sliceNumber);
+			PolygonType createPolygonBetweenLowerRightAndCenter(std::vector<VoxelGridIndex2D> aVoxelVector,
+			        GridIndexType sliceNumber);
+			PolygonType createPolygonIntermediatePoints(std::vector<VoxelGridIndex2D> aVoxelVector,
+			        GridIndexType sliceNumber);
+			PolygonType createPolygonUpperCenter(std::vector<VoxelGridIndex2D> aVoxelVector,
+			                                     GridIndexType sliceNumber);
+			PolygonType createPolygonLeftEdgeMiddle(std::vector<VoxelGridIndex2D> aVoxelVector,
+			                                        GridIndexType sliceNumber);
 
-			PolygonType createPolygonCircle(std::vector<VoxelGridIndex2D> aVoxelVector, GridIndexType sliceNumber); 	 
+			PolygonType createPolygonCircle(std::vector<VoxelGridIndex2D> aVoxelVector,
+			                                GridIndexType sliceNumber);
 
-			PolygonType createStructureSeveralSectionsInsideOneVoxelA(std::vector<VoxelGridIndex2D> aVoxelVector, GridIndexType sliceNumber);
+			PolygonType createStructureSeveralSectionsInsideOneVoxelA(std::vector<VoxelGridIndex2D>
+			        aVoxelVector, GridIndexType sliceNumber);
 
-			PolygonType createStructureSelfTouchingA(std::vector<VoxelGridIndex2D> aVoxelVector, GridIndexType sliceNumber);
+			PolygonType createStructureSelfTouchingA(std::vector<VoxelGridIndex2D> aVoxelVector,
+			        GridIndexType sliceNumber);
 
-			PolygonType createStructureSelfTouchingB(std::vector<VoxelGridIndex2D> aVoxelVector, GridIndexType sliceNumber);	 
-			};
-		}//testing
-	}//rttb
+			PolygonType createStructureSelfTouchingB(std::vector<VoxelGridIndex2D> aVoxelVector,
+			        GridIndexType sliceNumber);
+		};
+	}//testing
+}//rttb
 

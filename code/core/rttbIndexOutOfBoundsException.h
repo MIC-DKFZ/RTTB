@@ -27,29 +27,31 @@
 
 #include "rttbException.h"
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace core{
+	namespace core
+	{
 
 		/*! @class IndexOutOfBoundsException
 			@brief This exception will be thrown if any index out of bound.
 		*/
 		class IndexOutOfBoundsException: public Exception
-			{
-			public: 
-				IndexOutOfBoundsException(const std::string& aWhat):Exception(aWhat){}
+		{
+		public:
+			IndexOutOfBoundsException(const std::string& aWhat): Exception(aWhat) {}
 
-				virtual ~IndexOutOfBoundsException() throw() {}
+			virtual ~IndexOutOfBoundsException() throw() {}
 
-				/*! @brief Get the exception description
-				*/
-				virtual const char * what() const throw();
+			/*! @brief Get the exception description
+			*/
+			virtual const char* what() const throw();
 
-				/*! @brief Get the name of the exception class
-				*/
-				virtual const char* GetNameOfClass() const;
-			};
+			/*! @brief Get the name of the exception class
+			*/
+			virtual const char* GetNameOfClass() const;
+		};
 
-		}
 	}
+}
 #endif

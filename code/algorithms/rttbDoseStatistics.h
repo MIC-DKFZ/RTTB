@@ -83,9 +83,11 @@ namespace rttb
 			*/
 			DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum, DoseStatisticType mean,
 			               DoseStatisticType stdDeviation, unsigned int numVoxels, VolumeType volume,
-			               ResultListPointer minimumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
+			               ResultListPointer minimumVoxelPositions =
+			                   boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
 			               (std::vector<std::pair<DoseTypeGy, VoxelGridID> >()),
-			               ResultListPointer maximumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
+			               ResultListPointer maximumVoxelPositions =
+			                   boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
 			               (std::vector<std::pair<DoseTypeGy, VoxelGridID> >()),
 			               VolumeToDoseFunctionType Dx = VolumeToDoseFunctionType(),
 			               DoseToVolumeFunctionType Vx = DoseToVolumeFunctionType(),

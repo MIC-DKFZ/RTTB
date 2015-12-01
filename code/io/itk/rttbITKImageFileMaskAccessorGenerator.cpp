@@ -46,9 +46,9 @@ namespace rttb
 
 			rttb::core::MaskAccessorGeneratorBase::MaskAccessorPointer
 			ITKImageFileMaskAccessorGenerator::generateMaskAccessor()
-			{				
+			{
 				_itkDoubleImage = rttb::io::itk::readITKDoubleImage(_itkMaskFileName);
-				
+
 				_maskAccessor = boost::make_shared<ITKImageMaskAccessor>(_itkDoubleImage.GetPointer());
 				return _maskAccessor;
 			}

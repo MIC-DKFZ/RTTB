@@ -99,7 +99,8 @@ namespace rttb
 
 			binSize = maximum * 1.5 / numBins;
 
-			CHECK_NO_THROW(core::DVHCalculator myDVHCalc(spDoseIterator, structureID, doseID, binSize, numBins));
+			CHECK_NO_THROW(core::DVHCalculator myDVHCalc(spDoseIterator, structureID, doseID, binSize,
+			               numBins));
 			CHECK_THROW_EXPLICIT(core::DVHCalculator myDVHCalc(spDoseIterator, structureID, doseID, 0, 0),
 			                     core::InvalidParameterException);//aNumberOfBins must be >=0
 			core::DVHCalculator myDVHCalc(spDoseIterator, structureID, doseID, binSize, 1);

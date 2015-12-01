@@ -192,7 +192,8 @@ namespace rttb
 				}
 				catch (boost::bad_lexical_cast&)
 				{
-					throw core::InvalidDoseException("boost::lexical_cast ImageOrientation failed! Can not read image orientation X/Y/Z!") ;
+					throw core::InvalidDoseException("boost::lexical_cast ImageOrientation failed! Can not read image orientation X/Y/Z!")
+					;
 				}
 
 				OrientationMatrix orientation;
@@ -228,7 +229,8 @@ namespace rttb
 				}
 				catch (boost::bad_lexical_cast&)
 				{
-					throw core::InvalidDoseException("boost::lexical_cast ImagePosition failed! Can not read image position X/Y/Z!") ;
+					throw core::InvalidDoseException("boost::lexical_cast ImagePosition failed! Can not read image position X/Y/Z!")
+					;
 				}
 
 				_geoInfo.setImagePositionPatient(imagePositionPatient);
@@ -279,7 +281,8 @@ namespace rttb
 
 						try
 						{
-							spacingVector(2) = boost::lexical_cast<GridVolumeType>(imagePositionZ2.c_str()) - imagePositionPatient(
+							spacingVector(2) = boost::lexical_cast<GridVolumeType>(imagePositionZ2.c_str()) -
+							                   imagePositionPatient(
 							                       2); //caculate slicethickness
 						}
 						catch (boost::bad_lexical_cast&)

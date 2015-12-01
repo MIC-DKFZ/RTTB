@@ -66,7 +66,8 @@ namespace rttb
 				@param normalizationDose is defined as (prescribedDose*1000)/maxDoseInGy. Default is 1 Gy.
 				@param prescribedDose the does that was planned in the reference point in Gy. Default is 1 Gy.
 				*/
-				VirtuosCubeinfoDoseAccessorGenerator(Cubeinfo* aPointerOnVirtuosCube, DoseTypeGy normalizationDose = 1,
+				VirtuosCubeinfoDoseAccessorGenerator(Cubeinfo* aPointerOnVirtuosCube,
+				                                     DoseTypeGy normalizationDose = 1,
 				                                     DoseTypeGy prescribedDose = 1);
 				/*! @brief Generate DoseAccessor
 				@return Return shared pointer of DoseAccessor.

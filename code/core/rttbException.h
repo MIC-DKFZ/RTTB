@@ -27,34 +27,36 @@
 #include <iostream>
 
 
-namespace rttb{
-  namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
-    /*! @class Exception
-		@brief Exception interface used by all RTToolbox exceptions.
-    */
+		/*! @class Exception
+			@brief Exception interface used by all RTToolbox exceptions.
+		*/
 
-    class Exception: public std::exception
-    {
-    protected:
-      std::string rttb_what;
+		class Exception: public std::exception
+		{
+		protected:
+			std::string rttb_what;
 
-    public: 
-      explicit Exception(const std::string& aWhat)
-        :rttb_what(aWhat)
-      {}
-      virtual ~Exception() throw() {}
+		public:
+			explicit Exception(const std::string& aWhat)
+				: rttb_what(aWhat)
+			{}
+			virtual ~Exception() throw() {}
 
-      /*! @brief Get the exception description
-      */
-      const char * what() const throw();
+			/*! @brief Get the exception description
+			*/
+			const char* what() const throw();
 
-      /*! @brief Get the name of the exception class that was thrown
-      */
-      const char* GetNameOfClass() const;
-    };
+			/*! @brief Get the name of the exception class that was thrown
+			*/
+			const char* GetNameOfClass() const;
+		};
 
-  }
+	}
 }
 
 #endif

@@ -45,7 +45,7 @@ namespace rttb
 				core::GeometricInfo geoInfo = _maskAccessor->getGeometricInfo();
 
 				ITKImageMaskAccessor::ITKMaskImageType::RegionType region;
-				
+
 				ITKImageMaskAccessor::ITKMaskImageType::IndexType start = {{0, 0, 0}};
 
 				ITKImageMaskAccessor::ITKMaskImageType::SizeType size = {{geoInfo.getNumColumns(), geoInfo.getNumRows(), geoInfo.getNumSlices()}};
@@ -97,7 +97,7 @@ namespace rttb
 
 					if (_maskAccessor->getGeometricInfo().validID(id))
 					{
-						rttb::core::MaskVoxel maskVoxel = core::MaskVoxel(id);; 
+						rttb::core::MaskVoxel maskVoxel = core::MaskVoxel(id);;
 						_maskAccessor->getMaskAt(id, maskVoxel);
 						// Set the current pixel
 						imageIterator.Set(maskVoxel.getRelevantVolumeFraction());
@@ -121,7 +121,7 @@ namespace rttb
 
 				return true;
 			}
-			
+
 
 		}//end namespace mask
 	}//end namespace io

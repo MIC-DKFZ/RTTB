@@ -27,25 +27,28 @@
 
 #include "rttbException.h"
 
-namespace rttb{
-	namespace io{
-		namespace dicom{
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
 
 			/*! @class DcmrtException
 			@brief This class represents a DcmrtException. Any dcmrt error will throw this exception.
 			*/
 			class DcmrtException: public core::Exception
 			{
-			public: 
-				DcmrtException(const std::string& aWhat):Exception(aWhat){}
+			public:
+				DcmrtException(const std::string& aWhat): Exception(aWhat) {}
 
 				virtual ~DcmrtException() throw() {}
 
 				/*! @brief Get the exception description
 				*/
-				const char * what() const throw();
+				const char* what() const throw();
 
-				/*! @brief Get the name of the class that was thrown 
+				/*! @brief Get the name of the class that was thrown
 				*/
 				const char* GetNameOfClass() const;
 			};

@@ -27,28 +27,30 @@
 
 #include "rttbException.h"
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
 		/*! @class InvalidParameterException
 			@brief This exception will be thrown if any parameter is invalid.
 		*/
 		class InvalidParameterException: public Exception
-			{
-			public: 
-				InvalidParameterException(const std::string& aWhat):Exception(aWhat){}
+		{
+		public:
+			InvalidParameterException(const std::string& aWhat): Exception(aWhat) {}
 
-				virtual ~InvalidParameterException() throw() {}
+			virtual ~InvalidParameterException() throw() {}
 
-				/*! @brief Get the exception description
-				*/
-				virtual const char * what() const throw();
+			/*! @brief Get the exception description
+			*/
+			virtual const char* what() const throw();
 
-				/*! @brief Get the name of the exception class
-				*/
-				virtual const char* GetNameOfClass() const;
-			};
+			/*! @brief Get the name of the exception class
+			*/
+			virtual const char* GetNameOfClass() const;
+		};
 
-		}
 	}
+}
 #endif

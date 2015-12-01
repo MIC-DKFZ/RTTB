@@ -63,7 +63,8 @@ namespace rttb
 			* @exception  ::rttb::core::Exception on invalid spStructSet
 			* @exception  ::rttb::core::Exception on invalid name (not found in structure set)
 			* @return the index */
-			static const unsigned int getIndexByVoiName(StructSetTypePointer spStructSet, const std::string& name);
+			static const unsigned int getIndexByVoiName(StructSetTypePointer spStructSet,
+			        const std::string& name);
 
 			/*!@brief get the VOI of the corresponding index
 			* @pre index must specify a valid index value

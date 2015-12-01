@@ -31,9 +31,12 @@
 #include "rttbBaseType.h"
 
 
-namespace rttb{
-	namespace io{
-		namespace dicom{
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
 
 			struct Modality
 			{
@@ -54,10 +57,10 @@ namespace rttb{
 			@exception InvalidParameterException thrown if the file/directory does not exist or the modality is invalid
 			@exception DcmrtException thrown if load/read file failed
 			*/
-			std::vector<FileNameType> getFileNamesWithSameUID(FileNameType aDirName, Modality aModality); 
+			std::vector<FileNameType> getFileNamesWithSameUID(FileNameType aDirName, Modality aModality);
 
-			/*! Return the vector of all files with the same UID in the directory of the given file 
-			@exception InvalidParameterException thrown if the file does not exist 
+			/*! Return the vector of all files with the same UID in the directory of the given file
+			@exception InvalidParameterException thrown if the file does not exist
 			@exception DcmrtException thrown if load/read file failed
 			*/
 			std::vector<FileNameType> getFileNames(FileNameType aFileName);

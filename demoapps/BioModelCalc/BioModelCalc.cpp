@@ -43,7 +43,8 @@ int main(int argc, const char** argv)
 		std::string appName = "BioModelCalc";
 		std::string appVersion = RTTB_FULL_VERSION_STRING;
 
-		argParser = boost::make_shared<rttb::apps::bioModelCalc::BioModelCmdLineParser>(argc, argv, appName, appVersion);
+		argParser = boost::make_shared<rttb::apps::bioModelCalc::BioModelCmdLineParser>(argc, argv, appName,
+		            appVersion);
 	}
 	catch (const std::exception& e)
 	{
@@ -123,7 +124,8 @@ int main(int argc, const char** argv)
 	}
 	catch (...)
 	{
-		std::cerr << "Error!!! unknown error while calculating the bioModel or writing the image." << std::endl;
+		std::cerr << "Error!!! unknown error while calculating the bioModel or writing the image." <<
+		          std::endl;
 		return 2;
 	}
 

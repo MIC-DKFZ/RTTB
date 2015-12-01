@@ -33,8 +33,9 @@ namespace rttb
 	namespace masks
 	{
 
-		const std::vector<unsigned int> VOIindexIdentifier::getIndicesByVoiRegex(StructSetTypePointer spStructSet,
-		        const std::string& nameAsRegEx)
+		const std::vector<unsigned int> VOIindexIdentifier::getIndicesByVoiRegex(
+		    StructSetTypePointer spStructSet,
+		    const std::string& nameAsRegEx)
 		{
 			if (!spStructSet)
 			{
@@ -61,7 +62,8 @@ namespace rttb
 		}
 
 
-		const unsigned int VOIindexIdentifier::getIndexByVoiName(StructSetTypePointer spStructSet, const std::string& name)
+		const unsigned int VOIindexIdentifier::getIndexByVoiName(StructSetTypePointer spStructSet,
+		        const std::string& name)
 		{
 			if (!spStructSet)
 			{

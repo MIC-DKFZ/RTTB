@@ -27,56 +27,66 @@
 #include "rttbBioModelCurve.h"
 #include "rttbDvhBasedModels.h"
 
-namespace rttb{
-	namespace models{
+namespace rttb
+{
+	namespace models
+	{
 
 		CurveDataType getCurveDoseVSBioModel(BioModel& aModel, double normalisationDose, int aBin,
-			double minDose, double maxDose){
-				CurveDataType _curveData;
+		                                     double minDose, double maxDose)
+		{
+			CurveDataType _curveData;
 
-				double minFactor=0, maxFactor=0;
+			double minFactor = 0, maxFactor = 0;
 
-				minFactor=minDose/normalisationDose;
-				maxFactor=maxDose/normalisationDose;
+			minFactor = minDose / normalisationDose;
+			maxFactor = maxDose / normalisationDose;
 
-				double lastValue=0;
-				for(int i=0;i<aBin;i++)
-					{
-					double factor=minFactor+i*(maxFactor-minFactor)/(aBin-1);
-					if(lastValue<1)
-						{
-						aModel.init(factor);
-						BioModelValueType value=aModel.getValue();
-						lastValue=value;
-						_curveData.insert(CurvePointType(factor*normalisationDose,value));
-						}
-					else
-						{
-						_curveData.insert(CurvePointType(factor*normalisationDose,1));
-						}
-					}
-				return _curveData;
+			double lastValue = 0;
+
+			for (int i = 0; i < aBin; i++)
+			{
+				double factor = minFactor + i * (maxFactor - minFactor) / (aBin - 1);
+
+				if (lastValue < 1)
+				{
+					aModel.init(factor);
+					BioModelValueType value = aModel.getValue();
+					lastValue = value;
+					_curveData.insert(CurvePointType(factor * normalisationDose, value));
+				}
+				else
+				{
+					_curveData.insert(CurvePointType(factor * normalisationDose, 1));
+				}
 			}
+
+			return _curveData;
+		}
 
 		CurveDataType getCurveEUDVSBioModel(NTCPLKBModel& aModel, DoseCalcType maxFactor,
-			DoseCalcType minFactor, int aBin){
-				CurveDataType _curveData;
-				BioModel::DVHPointer _dvh = aModel.getDVH();
+		                                    DoseCalcType minFactor, int aBin)
+		{
+			CurveDataType _curveData;
+			BioModel::DVHPointer _dvh = aModel.getDVH();
 
-				for(int i=0;i<aBin;i++){
-					DoseCalcType factor=minFactor+i*(maxFactor-minFactor)/(aBin-1);
+			for (int i = 0; i < aBin; i++)
+			{
+				DoseCalcType factor = minFactor + i * (maxFactor - minFactor) / (aBin - 1);
 
-					core::DVH variantDVH=core::DVH(_dvh->getDataDifferential(),_dvh->getDeltaD()*factor,_dvh->getDeltaV(),
-						"temporary","temporary");
+				core::DVH variantDVH = core::DVH(_dvh->getDataDifferential(), _dvh->getDeltaD() * factor,
+				                                 _dvh->getDeltaV(),
+				                                 "temporary", "temporary");
 
-					boost::shared_ptr<core::DVH> spDVH = boost::make_shared<core::DVH>(variantDVH);
-					double eud=getEUD(spDVH,aModel.getA());
+				boost::shared_ptr<core::DVH> spDVH = boost::make_shared<core::DVH>(variantDVH);
+				double eud = getEUD(spDVH, aModel.getA());
 
-					aModel.init(factor);
-					BioModelValueType value=aModel.getValue();
-					_curveData.insert(CurvePointType(eud,value));
-					}
-				return _curveData;
+				aModel.init(factor);
+				BioModelValueType value = aModel.getValue();
+				_curveData.insert(CurvePointType(eud, value));
 			}
+
+			return _curveData;
 		}
 	}
+}

@@ -38,17 +38,20 @@ namespace rttb
 		                               VolumeToDoseFunctionType MOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MaxOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MinOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
-									   DoseTypeGy referenceDose /*=-1*/):
-		    _minimum(minimum), _maximum(maximum), _mean(mean), _stdDeviation(stdDeviation), _numVoxels(numVoxels), _volume(volume),
+		                               DoseTypeGy referenceDose /*=-1*/):
+			_minimum(minimum), _maximum(maximum), _mean(mean), _stdDeviation(stdDeviation),
+			_numVoxels(numVoxels), _volume(volume),
 			_maximumVoxelPositions(maximumVoxelPositions), _minimumVoxelPositions(minimumVoxelPositions),
 			_Dx(Dx), _Vx(Vx),
 			_MOHx(MOHx),
 			_MOCx(MOCx), _MaxOHx(MaxOHx), _MinOCx(MinOCx)
 		{
-			if (referenceDose <= 0){
+			if (referenceDose <= 0)
+			{
 				_referenceDose = _maximum;
 			}
-			else{
+			else
+			{
 				_referenceDose = referenceDose;
 			}
 		}
@@ -100,11 +103,14 @@ namespace rttb
 			_MinOCx = MinOCValues;
 		}
 
-		void DoseStatistics::setReferenceDose(DoseTypeGy referenceDose){
-			if (referenceDose <= 0){
+		void DoseStatistics::setReferenceDose(DoseTypeGy referenceDose)
+		{
+			if (referenceDose <= 0)
+			{
 				_referenceDose = _maximum;
 			}
-			else{
+			else
+			{
 				_referenceDose = referenceDose;
 			}
 		}

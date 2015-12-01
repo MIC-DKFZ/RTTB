@@ -33,7 +33,7 @@ namespace rttb
 	{
 		namespace itk
 		{
-			
+
 			class ITKImageMaskAccessorGenerator: public core::MaskAccessorGeneratorBase
 			{
 			public:

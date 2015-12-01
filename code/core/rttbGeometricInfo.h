@@ -66,7 +66,8 @@ namespace rttb
 			/*! @brief Constructor, initializes orientation matrix, spacing vector and patient
 				position with zeros.
 			*/
-			GeometricInfo() : _orientationMatrix(0), _spacing(0), _imagePositionPatient(0), _numberOfFrames(0), _numberOfRows(0),
+			GeometricInfo() : _orientationMatrix(0), _spacing(0), _imagePositionPatient(0), _numberOfFrames(0),
+				_numberOfRows(0),
 				_numberOfColumns(0) {}
 
 			void setSpacing(const SpacingVectorType3D& aSpacingVector);
@@ -144,21 +145,21 @@ namespace rttb
 			If the target is inside the grid return true.
 			*/
 			bool worldCoordinateToGeometryCoordinate(const WorldCoordinate3D& aWorldCoordinate,
-				DoubleVoxelGridIndex3D& aIndex) const;
+			        DoubleVoxelGridIndex3D& aIndex) const;
 
-			/*! @brief convert double geometry coordinate to world coordinates. The double voxel index (0.0, 0.0, 0.0) will be convert to the world coordinate of the image postion patient (center of the first voxel) 
+			/*! @brief convert double geometry coordinate to world coordinates. The double voxel index (0.0, 0.0, 0.0) will be convert to the world coordinate of the image postion patient (center of the first voxel)
 				The conversion of values is done even if the target is not inside the given voxel grid (return false).
 				If the target is inside the voxel grid return true.
 			*/
 			bool geometryCoordinateToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
-			                            WorldCoordinate3D& aWorldCoordinate) const;
+			        WorldCoordinate3D& aWorldCoordinate) const;
 
 			/*! @brief convert int voxel grid index to world coordinates.
 			The conversion of values is done even if the target is not inside the given voxel grid (return false).
 			If the target is inside the voxel grid return true.
 			*/
 			bool indexToWorldCoordinate(const VoxelGridIndex3D& aIndex,
-				WorldCoordinate3D& aWorldCoordinate) const;
+			                            WorldCoordinate3D& aWorldCoordinate) const;
 
 			/*! @brief check if a given voxel grid index is inside the given voxel grid.*/
 			bool isInside(const VoxelGridIndex3D& aIndex) const;

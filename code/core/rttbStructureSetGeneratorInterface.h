@@ -25,37 +25,40 @@
 
 #include "rttbStructureSet.h"
 
-namespace rttb{
+namespace rttb
+{
 	namespace core
-		{
+	{
 		/*! @class StructureSetGeneratorInterface
 			@brief Interface for all structure set generating classes
 		*/
 		class StructureSetGeneratorInterface
-			{
-			public:
-				typedef boost::shared_ptr<StructureSet> StructureSetPointer;
+		{
+		public:
+			typedef boost::shared_ptr<StructureSet> StructureSetPointer;
 
 
-			
-			private:
-				StructureSetGeneratorInterface(const StructureSetGeneratorInterface&); //not implemented on purpose -> non-copyable
-				StructureSetGeneratorInterface& operator=(const StructureSetGeneratorInterface&);//not implemented on purpose -> non-copyable
-				
-				
-			protected:	
-				StructureSetGeneratorInterface() {};
-				virtual ~StructureSetGeneratorInterface() {};
 
-			public: 
-				
-				
-				/*! @brief Generate StructureSet 
-					@return Return shared pointer of StructureSet. 
-				*/
-				virtual StructureSetPointer generateStructureSet() = 0;
-			};
-		}
+		private:
+			StructureSetGeneratorInterface(const
+			                               StructureSetGeneratorInterface&); //not implemented on purpose -> non-copyable
+			StructureSetGeneratorInterface& operator=(const
+			        StructureSetGeneratorInterface&);//not implemented on purpose -> non-copyable
+
+
+		protected:
+			StructureSetGeneratorInterface() {};
+			virtual ~StructureSetGeneratorInterface() {};
+
+		public:
+
+
+			/*! @brief Generate StructureSet
+				@return Return shared pointer of StructureSet.
+			*/
+			virtual StructureSetPointer generateStructureSet() = 0;
+		};
 	}
+}
 
 #endif

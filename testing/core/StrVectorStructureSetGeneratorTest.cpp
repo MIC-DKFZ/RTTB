@@ -31,14 +31,16 @@
 #include "rttbStructure.h"
 #include "rttbStructureSet.h"
 
-namespace rttb{
-	namespace testing{
+namespace rttb
+{
+	namespace testing
+	{
 
 		/*! @brief StructureTest - tests the API for Structure
 		1) constructors
 		2) get/setXX
 		*/
-		int StrVectorStructureSetGeneratorTest(int argc, char* argv[] )
+		int StrVectorStructureSetGeneratorTest(int argc, char* argv[])
 		{
 			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
 
@@ -48,28 +50,32 @@ namespace rttb{
 
 			//1) empty structure vector
 			std::vector<StructTypePointer> strVector;
-			
+
 			CHECK_NO_THROW(core::StrVectorStructureSetGenerator generator1(strVector));
 			CHECK_NO_THROW(core::StrVectorStructureSetGenerator(strVector).generateStructureSet());
-			CHECK_EQUAL(core::StrVectorStructureSetGenerator(strVector).generateStructureSet()->getNumberOfStructures(),0);
-			CHECK_THROW_EXPLICIT(core::StrVectorStructureSetGenerator(strVector).generateStructureSet()->getStructure(0),core::InvalidParameterException);
+			CHECK_EQUAL(core::StrVectorStructureSetGenerator(
+			                strVector).generateStructureSet()->getNumberOfStructures(), 0);
+			CHECK_THROW_EXPLICIT(core::StrVectorStructureSetGenerator(
+			                         strVector).generateStructureSet()->getStructure(0), core::InvalidParameterException);
 
 
 			//1) dummy structure
-			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor = 
-				boost::make_shared<DummyDoseAccessor>();
+			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor =
+			    boost::make_shared<DummyDoseAccessor>();
 
 			DummyStructure myStructGenerator(spTestDoseAccessor->getGeometricInfo());
 			GridIndexType zPlane = 4;
 			core::Structure rect = myStructGenerator.CreateRectangularStructureCentered(zPlane);
-			StructTypePointer rectStrPtr=boost::make_shared<core::Structure>(rect);
+			StructTypePointer rectStrPtr = boost::make_shared<core::Structure>(rect);
 
 			strVector.push_back(rectStrPtr);
 
 			CHECK_NO_THROW(core::StrVectorStructureSetGenerator generator2(strVector));
 			CHECK_NO_THROW(core::StrVectorStructureSetGenerator(strVector).generateStructureSet());
-			CHECK_EQUAL(core::StrVectorStructureSetGenerator(strVector).generateStructureSet()->getNumberOfStructures(),1);
-			CHECK_NO_THROW(core::StrVectorStructureSetGenerator(strVector).generateStructureSet()->getStructure(0));
+			CHECK_EQUAL(core::StrVectorStructureSetGenerator(
+			                strVector).generateStructureSet()->getNumberOfStructures(), 1);
+			CHECK_NO_THROW(core::StrVectorStructureSetGenerator(strVector).generateStructureSet()->getStructure(
+			                   0));
 
 
 

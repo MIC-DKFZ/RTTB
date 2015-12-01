@@ -88,7 +88,8 @@ namespace rttb
 				@throw <InvalidParameterException> if _deltaV or _deltaD are zero
 				@throw <InvalidParameterException> is _data differential is empty
 			*/
-			DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD, const DoseVoxelVolumeType& aDeltaV,
+			DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD,
+			    const DoseVoxelVolumeType& aDeltaV,
 			    IDType aStructureID, IDType aDoseID);
 
 			/*!

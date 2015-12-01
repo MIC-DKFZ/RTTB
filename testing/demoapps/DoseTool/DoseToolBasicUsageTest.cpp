@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 771 $ (last changed revision)
-// @date    $Date: 2014-09-25 14:41:34 +0200 (Do, 25 Sep 2014) $ (last change date)
-// @author  $Author: zhangl $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 #include <iostream>
@@ -49,7 +49,7 @@ namespace rttb
 
 			//call without parameters
 			std::cout << "Command line call: " + doseToolExeWithPath << std::endl;
-			CHECK_EQUAL(system(doseToolExeWithPath.c_str())!=0, true);
+			CHECK_EQUAL(system(doseToolExeWithPath.c_str()) != 0, true);
 
 			//call with help parameters
 			std::string helpCommandShort = doseToolExeWithPath + " -h";

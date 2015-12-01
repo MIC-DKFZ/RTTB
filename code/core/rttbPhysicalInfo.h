@@ -26,23 +26,25 @@
 #include "rttbBaseType.h"
 
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace core{
+	namespace core
+	{
 
 		/*! @class PhysicalInfo
 		*/
 		class PhysicalInfo
-			{
-			public:
-				void setFullPath(PathType aPath);
-				PathType getFullPath();
-			private:
-				PathType _fullPath;
+		{
+		public:
+			void setFullPath(PathType aPath);
+			PathType getFullPath();
+		private:
+			PathType _fullPath;
 
-			};
+		};
 
-		}
 	}
+}
 
 #endif

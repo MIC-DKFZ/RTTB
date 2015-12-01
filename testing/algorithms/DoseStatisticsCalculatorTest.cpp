@@ -69,7 +69,8 @@ namespace rttb
 			//1) test constructors
 			// the values cannot be accessed from outside, therefore correct default values are not tested
 
-			CHECK_THROW_EXPLICIT(rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(spDoseIteratorNull),
+			CHECK_THROW_EXPLICIT(rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(
+			                         spDoseIteratorNull),
 			                     core::NullPointerException);
 
 			CHECK_NO_THROW(rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(spDoseIterator));
@@ -109,7 +110,8 @@ namespace rttb
 
 			//check manually set reference dose and the default x values
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(100.0));
-			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.1 * theStatistics->getMaximum()), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.1 * theStatistics->getMaximum()),
+			                     core::DataNotAvailableException);
 			CHECK_NO_THROW(theStatistics->getVx(0.1 * 100.0));
 			CHECK_NO_THROW(theStatistics->getDx(0.1 * theStatistics->getVolume()));
 			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatistics->getVolume()));
@@ -132,24 +134,27 @@ namespace rttb
 			CHECK_NO_THROW(theStatistics->getVx(0.01 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getVx(0.02 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getVx(0.05 * theStatistics->getMaximum()));
-			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.03 * theStatistics->getMaximum()), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.03 * theStatistics->getMaximum()),
+			                     core::DataNotAvailableException);
 			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatistics->getVolume()));
 			CHECK_NO_THROW(theStatistics->getDx(0.95 * theStatistics->getVolume()));
 			CHECK_NO_THROW(theStatistics->getDx(0.99 * theStatistics->getVolume()));
-			CHECK_THROW_EXPLICIT(theStatistics->getDx(0.03 * theStatistics->getVolume()), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(theStatistics->getDx(0.03 * theStatistics->getVolume()),
+			                     core::DataNotAvailableException);
 			CHECK_EQUAL(theStatistics->getVx(0.02 * theStatistics->getMaximum()),
-				theStatisticsDefault->getVx(0.02 * theStatistics->getMaximum()));
+			            theStatisticsDefault->getVx(0.02 * theStatistics->getMaximum()));
 			CHECK_EQUAL(theStatistics->getVx(0.05 * theStatistics->getMaximum()),
-				theStatisticsDefault->getVx(0.05 * theStatistics->getMaximum()));
+			            theStatisticsDefault->getVx(0.05 * theStatistics->getMaximum()));
 			CHECK_EQUAL(theStatistics->getDx(0.9 * theStatistics->getVolume()),
-				theStatisticsDefault->getDx(0.9 * theStatistics->getVolume()));
+			            theStatisticsDefault->getDx(0.9 * theStatistics->getVolume()));
 			CHECK_EQUAL(theStatistics->getDx(0.95 * theStatistics->getVolume()),
-				theStatisticsDefault->getDx(0.95 * theStatistics->getVolume()));
+			            theStatisticsDefault->getDx(0.95 * theStatistics->getVolume()));
 
 			//check manually set reference dose and x values
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(precomputeDoseValues,
-				precomputeVolumeValues, 100.0));
-			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.01 * theStatistics->getMaximum()), core::DataNotAvailableException);
+			                               precomputeVolumeValues, 100.0));
+			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.01 * theStatistics->getMaximum()),
+			                     core::DataNotAvailableException);
 			CHECK_NO_THROW(theStatistics->getVx(0.01 * 100.0));
 			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatistics->getVolume()));
 			CHECK_EQUAL(theStatistics->getReferenceDose(), 100.0);
@@ -243,13 +248,15 @@ namespace rttb
 			CHECK_EQUAL(maximaPositions->size(), nMax);
 			CHECK_EQUAL(minimaPositions->size(), nMin);
 
-			for (auto maximaPositionsIterator = std::begin(*maximaPositions); maximaPositionsIterator != std::end(*maximaPositions);
+			for (auto maximaPositionsIterator = std::begin(*maximaPositions);
+			     maximaPositionsIterator != std::end(*maximaPositions);
 			     ++maximaPositionsIterator)
 			{
 				CHECK_EQUAL(maximaPositionsIterator->first, theStatistics->getMaximum());
 			}
 
-			for (auto minimaPositionsIterator = std::begin(*minimaPositions); minimaPositionsIterator != std::end(*minimaPositions);
+			for (auto minimaPositionsIterator = std::begin(*minimaPositions);
+			     minimaPositionsIterator != std::end(*minimaPositions);
 			     ++minimaPositionsIterator)
 			{
 				CHECK_EQUAL(minimaPositionsIterator->first, theStatistics->getMinimum());
@@ -296,13 +303,15 @@ namespace rttb
 			CHECK_EQUAL(maximaPositions->empty(), false);
 			CHECK_EQUAL(minimaPositions->empty(), false);
 
-			for (auto maximaPositionsIterator = std::begin(*maximaPositions); maximaPositionsIterator != std::end(*maximaPositions);
+			for (auto maximaPositionsIterator = std::begin(*maximaPositions);
+			     maximaPositionsIterator != std::end(*maximaPositions);
 			     ++maximaPositionsIterator)
 			{
 				CHECK_EQUAL(maximaPositionsIterator->first, theStatistics3->getMaximum());
 			}
 
-			for (auto minimaPositionsIterator = std::begin(*minimaPositions); minimaPositionsIterator != std::end(*minimaPositions);
+			for (auto minimaPositionsIterator = std::begin(*minimaPositions);
+			     minimaPositionsIterator != std::end(*minimaPositions);
 			     ++minimaPositionsIterator)
 			{
 				CHECK_EQUAL(minimaPositionsIterator->first, theStatistics3->getMinimum());

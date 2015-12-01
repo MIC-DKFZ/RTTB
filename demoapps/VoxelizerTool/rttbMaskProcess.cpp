@@ -31,7 +31,8 @@ namespace rttb
 		namespace voxelizer
 		{
 			MaskProcess::MaskProcess(StructureSetPointer rtStructureSet, DoseAccessorPointer doseAccessor,
-			                         bool legacy, bool allowSelfIntersection) : _rtStructureSet(rtStructureSet), _doseAccessor(doseAccessor),
+			                         bool legacy, bool allowSelfIntersection) : _rtStructureSet(rtStructureSet),
+				_doseAccessor(doseAccessor),
 				_legacyVoxelization(legacy), _allowSelfIntersection(allowSelfIntersection)
 			{
 			}
@@ -50,7 +51,8 @@ namespace rttb
 					else
 					{
 						maskAccessorPtr = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-						                  (_rtStructureSet->getStructure(indexOfStructure), _doseAccessor->getGeometricInfo(), !_allowSelfIntersection);
+						                  (_rtStructureSet->getStructure(indexOfStructure), _doseAccessor->getGeometricInfo(),
+						                   !_allowSelfIntersection);
 					}
 
 					maskAccessorPtr->updateMask();

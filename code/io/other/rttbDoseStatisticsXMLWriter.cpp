@@ -45,7 +45,8 @@ namespace rttb
 				using boost::property_tree::ptree;
 				ptree pt;
 
-				ptree numberOfVoxelsNode = createNodeWithNameAttribute(aDoseStatistics->getNumberOfVoxels(), "numberOfVoxels");
+				ptree numberOfVoxelsNode = createNodeWithNameAttribute(aDoseStatistics->getNumberOfVoxels(),
+				                           "numberOfVoxels");
 				pt.add_child(statisticsTag + "." + propertyTag, numberOfVoxelsNode);
 
 				ptree volumeNode = createNodeWithNameAttribute(aDoseStatistics->getVolume(), "volume");
@@ -101,8 +102,10 @@ namespace rttb
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getAllDx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getAllMOHx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getAllMOCx();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx = aDoseStatistics->getAllMaxOHx();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMinOCx = aDoseStatistics->getAllMinOCx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx =
+				    aDoseStatistics->getAllMaxOHx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMinOCx =
+				    aDoseStatistics->getAllMinOCx();
 
 
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;
@@ -111,42 +114,42 @@ namespace rttb
 				for (it = AllDx.begin(); it != AllDx.end(); it++)
 				{
 					ptree DxNode = createNodeWithNameAndXAttribute((*it).second, "Dx",
-						static_cast<int>((*it).first / absoluteVolume * 100));
+					               static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, DxNode);
 				}
 
 				for (vxIt = AllVx.begin(); vxIt != AllVx.end(); vxIt++)
 				{
 					ptree VxNode = createNodeWithNameAndXAttribute((*vxIt).second, "Vx",
-						static_cast<int>((*vxIt).first / referenceDose * 100));
+					               static_cast<int>((*vxIt).first / referenceDose * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, VxNode);
 				}
 
 				for (it = AllMOHx.begin(); it != AllMOHx.end(); it++)
 				{
 					ptree mohxNode = createNodeWithNameAndXAttribute((*it).second, "MOHx",
-						static_cast<int>((*it).first / absoluteVolume * 100));
+					                 static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, mohxNode);
 				}
 
 				for (it = AllMOCx.begin(); it != AllMOCx.end(); it++)
 				{
 					ptree mocxNode = createNodeWithNameAndXAttribute((*it).second, "MOCx",
-						static_cast<int>((*it).first / absoluteVolume * 100));
+					                 static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, mocxNode);
 				}
 
 				for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); it++)
 				{
 					ptree maxOhxNode = createNodeWithNameAndXAttribute((*it).second, "MaxOHx",
-						static_cast<int>((*it).first / absoluteVolume * 100));
+					                   static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, maxOhxNode);
 				}
 
 				for (it = AllMinOCx.begin(); it != AllMinOCx.end(); it++)
 				{
 					ptree minOCxNode = createNodeWithNameAndXAttribute((*it).second, "MinOCx",
-						static_cast<int>((*it).first / absoluteVolume * 100));
+					                   static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, minOCxNode);
 				}
 
@@ -161,7 +164,7 @@ namespace rttb
 				try
 				{
 					boost::property_tree::xml_parser::write_xml(aFileName, pt, std::locale(),
-						boost::property_tree::xml_writer_make_settings<std::string>('\t', 1));
+					        boost::property_tree::xml_writer_make_settings<std::string>('\t', 1));
 				}
 				catch (boost::property_tree::xml_parser_error& /*e*/)
 				{
@@ -176,8 +179,9 @@ namespace rttb
 
 				try
 				{
-					boost::property_tree::xml_parser::write_xml(sstr, pt, boost::property_tree::xml_writer_make_settings<std::string>('\t',
-						1));
+					boost::property_tree::xml_parser::write_xml(sstr, pt,
+					        boost::property_tree::xml_writer_make_settings<std::string>('\t',
+					                1));
 				}
 				catch (boost::property_tree::xml_parser_error& /*e*/)
 				{
@@ -206,8 +210,10 @@ namespace rttb
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getAllDx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getAllMOHx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getAllMOCx();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx = aDoseStatistics->getAllMaxOHx();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMinOCx = aDoseStatistics->getAllMinOCx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx =
+				    aDoseStatistics->getAllMaxOHx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMinOCx =
+				    aDoseStatistics->getAllMinOCx();
 
 
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;
@@ -248,7 +254,8 @@ namespace rttb
 
 			}
 
-			boost::property_tree::ptree createNodeWithNameAttribute(DoseTypeGy doseValue, const std::string& attributeName)
+			boost::property_tree::ptree createNodeWithNameAttribute(DoseTypeGy doseValue,
+			        const std::string& attributeName)
 			{
 				boost::property_tree::ptree node;
 				node.put("", doseValue);
@@ -256,8 +263,9 @@ namespace rttb
 				return node;
 			}
 
-			boost::property_tree::ptree createNodeWithNameAndXAttribute(DoseTypeGy doseValue, const std::string& attributeName,
-				int xValue)
+			boost::property_tree::ptree createNodeWithNameAndXAttribute(DoseTypeGy doseValue,
+			        const std::string& attributeName,
+			        int xValue)
 			{
 				boost::property_tree::ptree node;
 				node.put("", doseValue);

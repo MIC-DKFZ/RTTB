@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1095 $ (last changed revision)
-// @date    $Date: 2015-09-11 11:12:40 +0200 (Fr, 11 Sep 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 
@@ -148,14 +148,16 @@ rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::dose
 	return result;
 }
 
-rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::doseTool::loadDicomStruct(
+rttb::core::StructureSetGeneratorInterface::StructureSetPointer
+rttb::apps::doseTool::loadDicomStruct(
     const std::string& fileName)
 {
 	rttb::io::dicom::DicomFileStructureSetGenerator generator(fileName);
 	return generator.generateStructureSet();
 }
 
-rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::doseTool::loadVirtuosStruct(
+rttb::core::StructureSetGeneratorInterface::StructureSetPointer
+rttb::apps::doseTool::loadVirtuosStruct(
     const std::string& fileName, const std::string& ctxFileName)
 {
 	rttb::io::virtuos::VirtuosFileStructureSetGenerator generator(fileName, ctxFileName.c_str());
@@ -167,19 +169,22 @@ void
 rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData)
 {
 	std::cout << std::endl << "generating masks... ";
-	std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskAccessorPtrVector = generateMasks(appData);
+	std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskAccessorPtrVector = generateMasks(
+	            appData);
 	std::cout << "done." << std::endl;
 
 	for (int i = 0; i < maskAccessorPtrVector.size(); i++)
 	{
-		core::DoseIteratorInterface::DoseIteratorPointer spDoseIterator(generateMaskedDoseIterator(maskAccessorPtrVector.at(i),
-		        appData._dose));
+		core::DoseIteratorInterface::DoseIteratorPointer spDoseIterator(generateMaskedDoseIterator(
+		            maskAccessorPtrVector.at(i),
+		            appData._dose));
 
 		if (appData._computeDoseStatistics)
 		{
 			std::cout << std::endl << "computing dose statistics... ";
-			algorithms::DoseStatistics::DoseStatisticsPointer statistics = calculateDoseStatistics(spDoseIterator,
-			        appData._computeComplexDoseStatistics, appData._prescribedDose);
+			algorithms::DoseStatistics::DoseStatisticsPointer statistics = calculateDoseStatistics(
+			            spDoseIterator,
+			            appData._computeComplexDoseStatistics, appData._prescribedDose);
 			std::cout << "done." << std::endl;
 
 			std::cout << std::endl << "writing dose statistics to file... ";
@@ -187,7 +192,8 @@ rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData
 
 			if (appData._multipleStructsMode)
 			{
-				outputFilename = assembleFilenameWithStruct(appData._doseStatisticOutputFileName, appData._structNames.at(i));
+				outputFilename = assembleFilenameWithStruct(appData._doseStatisticOutputFileName,
+				                 appData._structNames.at(i));
 			}
 			else
 			{
@@ -201,7 +207,8 @@ rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData
 		if (appData._computeDVH)
 		{
 			std::cout << std::endl << "computing DVH... ";
-			core::DVH::DVHPointer dvh = calculateDVH(spDoseIterator, appData._struct->getUID(), appData._dose->getUID());
+			core::DVH::DVHPointer dvh = calculateDVH(spDoseIterator, appData._struct->getUID(),
+			                            appData._dose->getUID());
 			std::cout << "done." << std::endl;
 
 			std::cout << std::endl << "writing DVH to file... ";
@@ -225,7 +232,8 @@ rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData
 }
 
 
-std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer> rttb::apps::doseTool::generateMasks(
+std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer>
+rttb::apps::doseTool::generateMasks(
     rttb::apps::doseTool::ApplicationData& appData)
 {
 	std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskAccessorPtrVector;
@@ -237,8 +245,9 @@ std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer> rttb::apps::
 	}
 	else
 	{
-		std::vector<unsigned int> foundIndices = rttb::masks::VOIindexIdentifier::getIndicesByVoiRegex(appData._struct,
-		        appData._structNameRegex);
+		std::vector<unsigned int> foundIndices = rttb::masks::VOIindexIdentifier::getIndicesByVoiRegex(
+		            appData._struct,
+		            appData._structNameRegex);
 		std::vector<unsigned int> relevantIndices;
 
 		if (appData._multipleStructsMode)
@@ -261,16 +270,19 @@ std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer> rttb::apps::
 		{
 			maskAccessorPtrVector.push_back(
 			    boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-			    (appData._struct->getStructure(appData._structIndices.at(i)), appData._dose->getGeometricInfo(), strict));
+			    (appData._struct->getStructure(appData._structIndices.at(i)), appData._dose->getGeometricInfo(),
+			     strict));
 			maskAccessorPtrVector.at(i)->updateMask();
-			appData._structNames.push_back(appData._struct->getStructure(appData._structIndices.at(i))->getLabel());
+			appData._structNames.push_back(appData._struct->getStructure(appData._structIndices.at(
+			                                   i))->getLabel());
 		}
 	}
 
 	return maskAccessorPtrVector;
 }
 
-rttb::core::DoseIteratorInterface::DoseIteratorPointer rttb::apps::doseTool::generateMaskedDoseIterator(
+rttb::core::DoseIteratorInterface::DoseIteratorPointer
+rttb::apps::doseTool::generateMaskedDoseIterator(
     rttb::core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPtr,
     rttb::core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPtr)
 {
@@ -280,7 +292,8 @@ rttb::core::DoseIteratorInterface::DoseIteratorPointer rttb::apps::doseTool::gen
 	return doseIterator;
 }
 
-rttb::algorithms::DoseStatistics::DoseStatisticsPointer rttb::apps::doseTool::calculateDoseStatistics(
+rttb::algorithms::DoseStatistics::DoseStatisticsPointer
+rttb::apps::doseTool::calculateDoseStatistics(
     core::DoseIteratorInterface::DoseIteratorPointer doseIterator, bool calculateComplexDoseStatistics,
     DoseTypeGy prescribedDose)
 {
@@ -297,8 +310,9 @@ rttb::algorithms::DoseStatistics::DoseStatisticsPointer rttb::apps::doseTool::ca
 }
 
 
-rttb::core::DVH::DVHPointer rttb::apps::doseTool::calculateDVH(core::DoseIteratorInterface::DoseIteratorPointer
-        doseIterator, IDType structUID, IDType doseUID)
+rttb::core::DVH::DVHPointer rttb::apps::doseTool::calculateDVH(
+    core::DoseIteratorInterface::DoseIteratorPointer
+    doseIterator, IDType structUID, IDType doseUID)
 {
 	rttb::core::DVHCalculator calc(doseIterator, structUID, doseUID);
 	rttb::core::DVH::DVHPointer dvh = calc.generateDVH();
@@ -306,9 +320,10 @@ rttb::core::DVH::DVHPointer rttb::apps::doseTool::calculateDVH(core::DoseIterato
 }
 
 
-void rttb::apps::doseTool::writeDoseStatisticsFile(rttb::algorithms::DoseStatistics::DoseStatisticsPointer statistics,
-        const std::string& filename, const std::string& structName,
-        rttb::apps::doseTool::ApplicationData& appData)
+void rttb::apps::doseTool::writeDoseStatisticsFile(
+    rttb::algorithms::DoseStatistics::DoseStatisticsPointer statistics,
+    const std::string& filename, const std::string& structName,
+    rttb::apps::doseTool::ApplicationData& appData)
 {
 	boost::property_tree::ptree originalTree = rttb::io::other::writeDoseStatistics(statistics);
 
@@ -334,7 +349,8 @@ std::string rttb::apps::doseTool::assembleFilenameWithStruct(const std::string& 
         const std::string& structName)
 {
 	boost::filesystem::path originalFile(originalFilename);
-	std::string newFilename = originalFile.stem().string() + "_" + structName + originalFile.extension().string();
+	std::string newFilename = originalFile.stem().string() + "_" + structName +
+	                          originalFile.extension().string();
 	boost::filesystem::path newFile(originalFile.parent_path() / newFilename);
 	return newFile.string();
 }

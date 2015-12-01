@@ -43,7 +43,8 @@ namespace rttb
 	{
 		NTCPLKBModel::NTCPLKBModel(): NTCPModel(), _m(0), _a(0) {}
 
-		NTCPLKBModel::NTCPLKBModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aM, BioModelParamType aA):
+		NTCPLKBModel::NTCPLKBModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aM,
+		                           BioModelParamType aA):
 			NTCPModel(aDvh, aD50), _m(aM), _a(aA) {}
 
 		void NTCPLKBModel::setA(const BioModelParamType aA)
@@ -134,7 +135,8 @@ namespace rttb
 				throw core::InvalidParameterException("_m must not be zero");
 			}
 
-			core::DVH variantDVH = core::DVH(_dvh->getDataDifferential(), (DoseTypeGy)(_dvh->getDeltaD() * doseFactor),
+			core::DVH variantDVH = core::DVH(_dvh->getDataDifferential(),
+			                                 (DoseTypeGy)(_dvh->getDeltaD() * doseFactor),
 			                                 _dvh->getDeltaV(), "temporary", "temporary");
 
 			boost::shared_ptr<core::DVH> spDVH = boost::make_shared<core::DVH>(variantDVH);

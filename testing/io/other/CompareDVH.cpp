@@ -24,11 +24,14 @@
 
 
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace testing{
+	namespace testing
+	{
 
-		bool checkEqualDVH(DVHPointer aDVH1, DVHPointer aDVH2){
+		bool checkEqualDVH(DVHPointer aDVH1, DVHPointer aDVH2)
+		{
 
 			bool result;
 			const double errorConstant = 1e-7;
@@ -40,8 +43,12 @@ namespace rttb{
 			result = result && lit::AreClose(aDVH1->getMinimum(), aDVH2->getMinimum(), errorConstant);
 			result = result && lit::AreClose(aDVH1->getMean(), aDVH2->getMean(), errorConstant);
 			result = result && (aDVH1->getDataDifferential().size() == aDVH2->getDataDifferential().size());
-			for(int i=0; i<aDVH1->getDataDifferential().size(); i++){
-				result = result && lit::AreClose(aDVH1->getDataDifferential().at(i), aDVH2->getDataDifferential().at(i), errorConstant);
+
+			for (int i = 0; i < aDVH1->getDataDifferential().size(); i++)
+			{
+				result = result
+				         && lit::AreClose(aDVH1->getDataDifferential().at(i), aDVH2->getDataDifferential().at(i),
+				                          errorConstant);
 			}
 
 			return result;

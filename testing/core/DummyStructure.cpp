@@ -62,7 +62,8 @@ namespace rttb
 			return test_structure_rectangular_centered;
 		}
 
-		core::Structure DummyStructure::CreateRectangularStructureCenteredRotatedIntermediatePlacement(GridIndexType zPlane)
+		core::Structure DummyStructure::CreateRectangularStructureCenteredRotatedIntermediatePlacement(
+		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 
@@ -76,7 +77,8 @@ namespace rttb
 			another_voxelVector.push_back(another_i2);
 			another_voxelVector.push_back(another_i3);
 			another_voxelVector.push_back(another_i4);
-			PolygonType another_polygon1 = another_cts.createPolygonBetweenUpperLeftAndCenter(another_voxelVector , zPlane);
+			PolygonType another_polygon1 = another_cts.createPolygonBetweenUpperLeftAndCenter(
+			                                   another_voxelVector , zPlane);
 
 			PolygonSequenceType another_polySeq;
 			another_polySeq.push_back(another_polygon1);
@@ -86,7 +88,8 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRight(
+		core::Structure
+		DummyStructure::CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRight(
 		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
@@ -109,7 +112,8 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRightCounterClock(
+		core::Structure
+		DummyStructure::CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRightCounterClock(
 		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
@@ -125,7 +129,8 @@ namespace rttb
 			another_voxelVector.push_back(another_i2);
 			another_voxelVector.push_back(another_i3);
 			another_voxelVector.push_back(another_i4);
-			PolygonType another_polygon1 = another_cts.createPolygonBetweenLowerRightAndCenter(another_voxelVector , zPlane);
+			PolygonType another_polygon1 = another_cts.createPolygonBetweenLowerRightAndCenter(
+			                                   another_voxelVector , zPlane);
 
 			PolygonSequenceType another_polySeq;
 			another_polySeq.push_back(another_polygon1);
@@ -152,7 +157,8 @@ namespace rttb
 			another_voxelVector.push_back(another_i2);
 			another_voxelVector.push_back(another_i3);
 			another_voxelVector.push_back(another_i4);
-			PolygonType another_polygon1 = another_cts.createPolygonIntermediatePoints(another_voxelVector , zPlane);
+			PolygonType another_polygon1 = another_cts.createPolygonIntermediatePoints(another_voxelVector ,
+			                               zPlane);
 
 			PolygonSequenceType another_polySeq;
 			another_polySeq.push_back(another_polygon1);
@@ -162,7 +168,8 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateTestStructureSeveralSeperateSectionsInsideOneVoxel(GridIndexType zPlane)
+		core::Structure DummyStructure::CreateTestStructureSeveralSeperateSectionsInsideOneVoxel(
+		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 
@@ -172,7 +179,8 @@ namespace rttb
 
 			another_voxelVector.push_back(another_i1);
 
-			PolygonType another_polygon1 = another_cts.createStructureSeveralSectionsInsideOneVoxelA(another_voxelVector , zPlane);
+			PolygonType another_polygon1 = another_cts.createStructureSeveralSectionsInsideOneVoxelA(
+			                                   another_voxelVector , zPlane);
 
 			PolygonSequenceType another_polySeq;
 			another_polySeq.push_back(another_polygon1);
@@ -192,7 +200,8 @@ namespace rttb
 
 			another_voxelVector.push_back(another_i1);
 
-			PolygonType another_polygon1 = another_cts.createStructureSelfTouchingA(another_voxelVector , zPlane);
+			PolygonType another_polygon1 = another_cts.createStructureSelfTouchingA(another_voxelVector ,
+			                               zPlane);
 
 			PolygonSequenceType another_polySeq;
 			another_polySeq.push_back(another_polygon1);
@@ -202,8 +211,9 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateTestStructureIntersectingTwoPolygonsInDifferentSlices(GridIndexType zPlane1,
-		        GridIndexType zPlane2)
+		core::Structure DummyStructure::CreateTestStructureIntersectingTwoPolygonsInDifferentSlices(
+		    GridIndexType zPlane1,
+		    GridIndexType zPlane2)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 			CreateTestStructure one_more_cts = CreateTestStructure(_geoInfo);
@@ -332,7 +342,8 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesRotatedPointDoubeled(GridIndexType zPlane)
+		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesRotatedPointDoubeled(
+		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 
@@ -358,7 +369,8 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesCounterClockRotatedOnePointFivePi(
+		core::Structure
+		DummyStructure::CreateTestStructureInsideInsideTouchesCounterClockRotatedOnePointFivePi(
 		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
@@ -379,7 +391,8 @@ namespace rttb
 			another_voxelVector.push_back(another_i5);
 			another_voxelVector.push_back(another_i6);
 
-			PolygonType another_polygon1 = another_cts.createPolygonLeftEdgeMiddle(another_voxelVector , zPlane);
+			PolygonType another_polygon1 = another_cts.createPolygonLeftEdgeMiddle(another_voxelVector ,
+			                               zPlane);
 
 			PolygonSequenceType another_polySeq;
 			another_polySeq.push_back(another_polygon1);
@@ -389,7 +402,8 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesCounterClockRotatedQuaterPi(GridIndexType zPlane)
+		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesCounterClockRotatedQuaterPi(
+		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 
@@ -409,7 +423,8 @@ namespace rttb
 			another_voxelVector.push_back(another_i5);
 			another_voxelVector.push_back(another_i6);
 
-			PolygonType another_polygon1 = another_cts.createPolygonLeftEdgeMiddle(another_voxelVector , zPlane);
+			PolygonType another_polygon1 = another_cts.createPolygonLeftEdgeMiddle(another_voxelVector ,
+			                               zPlane);
 
 			PolygonSequenceType another_polySeq;
 			another_polySeq.push_back(another_polygon1);
@@ -419,7 +434,8 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesRotatedQuaterPi(GridIndexType zPlane)
+		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesRotatedQuaterPi(
+		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 
@@ -439,7 +455,8 @@ namespace rttb
 			another_voxelVector.push_back(another_i5);
 			another_voxelVector.push_back(another_i6);
 
-			PolygonType another_polygon1 = another_cts.createPolygonLeftEdgeMiddle(another_voxelVector , zPlane);
+			PolygonType another_polygon1 = another_cts.createPolygonLeftEdgeMiddle(another_voxelVector ,
+			                               zPlane);
 
 			PolygonSequenceType another_polySeq;
 			another_polySeq.push_back(another_polygon1);
@@ -469,7 +486,8 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesUpperRight(GridIndexType zPlane)
+		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesUpperRight(
+		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 
@@ -494,7 +512,8 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesLowerRight(GridIndexType zPlane)
+		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesLowerRight(
+		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 
@@ -524,7 +543,8 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesLowerLeft(GridIndexType zPlane)
+		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesLowerLeft(
+		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 
@@ -554,7 +574,8 @@ namespace rttb
 			return test_structure;
 		}
 
-		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesUpperLeft(GridIndexType zPlane)
+		core::Structure DummyStructure::CreateTestStructureInsideInsideTouchesUpperLeft(
+		    GridIndexType zPlane)
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 

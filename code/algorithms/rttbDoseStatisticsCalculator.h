@@ -84,20 +84,24 @@ namespace rttb
 			DoseTypeGy computeMaxOHx(DoseTypeGy xVolumeAbsolute) const;
 			DoseTypeGy computeMinOCx(DoseTypeGy xVolumeAbsolute) const;
 
-			DoseToVolumeFunctionType computeDoseToVolumeFunctionMulti(DoseTypeGy referenceDose, const std::vector<double>& precomputeDoseValues,
+			DoseToVolumeFunctionType computeDoseToVolumeFunctionMulti(DoseTypeGy referenceDose,
+			        const std::vector<double>& precomputeDoseValues,
 			        DoseStatistics::complexStatistics name) const;
-			VolumeToDoseFunctionType computeVolumeToDoseFunctionMulti(const std::vector<double>& precomputeVolumeValues,
+			VolumeToDoseFunctionType computeVolumeToDoseFunctionMulti(const std::vector<double>&
+			        precomputeVolumeValues,
 			        DoseStatistics::complexStatistics name) const;
 
 			/*! @brief Calculates simple dose statistics (min, mean, max, stdDev, minDosePositions, maxDosePositions)
 				@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed
 				@param maxNumberMaximaPositions the maximal amount of computed positions where the dose has its maximum that is computed
 			*/
-			void calculateSimpleDoseStatistics(unsigned int maxNumberMinimaPositions, unsigned int maxNumberMaximaPositions);
+			void calculateSimpleDoseStatistics(unsigned int maxNumberMinimaPositions,
+			                                   unsigned int maxNumberMaximaPositions);
 			/*! @brief Calculates complex dose statistics (Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx)
 				@warning computations can take quite long (>1 min) for large structures as many statistics are precomputed
 			*/
-			void calculateComplexDoseStatistics(DoseTypeGy referenceDose, const std::vector<double>& precomputeDoseValues,
+			void calculateComplexDoseStatistics(DoseTypeGy referenceDose,
+			                                    const std::vector<double>& precomputeDoseValues,
 			                                    const std::vector<double>& precomputeVolumeValues);
 
 
@@ -138,8 +142,9 @@ namespace rttb
 			@warning If computeComplexMeasures==true, computations can take quite long (>1 min) for large structures as many statistics are precomputed
 			@note The complex dose statistics are precomputed and cannot be computed "on the fly" lateron! Only the default x values can be requested in DoseStatistics!
 			*/
-			DoseStatisticsPointer calculateDoseStatistics(bool computeComplexMeasures = false, unsigned int maxNumberMinimaPositions = 10,
-				unsigned int maxNumberMaximaPositions = 10);
+			DoseStatisticsPointer calculateDoseStatistics(bool computeComplexMeasures = false,
+			        unsigned int maxNumberMinimaPositions = 10,
+			        unsigned int maxNumberMaximaPositions = 10);
 
 			/*! @brief Compute complex dose statistics with given reference dose and default relative x values
 			@param referenceDose the reference dose to compute Vx, normally it should be the prescribed dose
@@ -149,8 +154,9 @@ namespace rttb
 			@warning Computations can take quite long (>1 min) for large structures as many statistics are precomputed
 			@note The complex dose statistics are precomputed and cannot be computed "on the fly" lateron! Only the default x values can be requested in DoseStatistics!
 			*/
-			DoseStatisticsPointer calculateDoseStatistics(DoseTypeGy referenceDose, unsigned int maxNumberMinimaPositions = 10,
-				unsigned int maxNumberMaximaPositions = 10);
+			DoseStatisticsPointer calculateDoseStatistics(DoseTypeGy referenceDose,
+			        unsigned int maxNumberMinimaPositions = 10,
+			        unsigned int maxNumberMaximaPositions = 10);
 
 			/*! @brief Compute complex dose statistics with given relative x values and reference dose
 			@param precomputeDoseValues the relative dose values for Vx precomputation, e.g. 0.02, 0.05, 0.95...
@@ -162,8 +168,9 @@ namespace rttb
 			@note The complex dose statistics are precomputed and cannot be computed "on the fly" lateron! The doses/volumes that should be used for precomputation have to be set by in precomputeDoseValues and precomputeVolumeValues. Only these values can be requested in DoseStatistics!
 			*/
 			DoseStatisticsPointer calculateDoseStatistics(const std::vector<double>& precomputeDoseValues,
-				const std::vector<double>& precomputeVolumeValues, DoseTypeGy referenceDose = -1, unsigned int maxNumberMinimaPositions = 10,
-				unsigned int maxNumberMaximaPositions = 10);
+			        const std::vector<double>& precomputeVolumeValues, DoseTypeGy referenceDose = -1,
+			        unsigned int maxNumberMinimaPositions = 10,
+			        unsigned int maxNumberMaximaPositions = 10);
 
 
 		};

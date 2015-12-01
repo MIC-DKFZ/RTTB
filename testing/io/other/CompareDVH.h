@@ -26,9 +26,11 @@
 
 
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace testing{
+	namespace testing
+	{
 
 		typedef core::DVH::DVHPointer DVHPointer;
 

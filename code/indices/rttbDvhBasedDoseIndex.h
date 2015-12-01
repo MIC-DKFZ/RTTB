@@ -26,10 +26,12 @@
 #include "rttbDVHSet.h"
 #include "rttbDoseIndex.h"
 
-namespace rttb{
+namespace rttb
+{
 
 
-	namespace indices{
+	namespace indices
+	{
 		/*! @class DvhBasedDoseIndex
 		@brief This is the interface for dose/plan comparison indices calculated by DVh set of the dose.
 		*/
@@ -38,12 +40,12 @@ namespace rttb{
 		public:
 			typedef boost::shared_ptr<core::DVHSet> DVHSetPtr;
 
-		protected: 
+		protected:
 
 			DVHSetPtr _dvhSet;
 
 			/*! @brief Dose index calculation */
-			virtual bool calcIndex()=0;
+			virtual bool calcIndex() = 0;
 
 			/*! @brief Check inputs*/
 			bool checkInputs();
@@ -51,12 +53,12 @@ namespace rttb{
 		public:
 			/*! @brief Constructor*/
 			DvhBasedDoseIndex(DVHSetPtr aDVHSet, DoseTypeGy aDoseReference);
-			
+
 			/*! @brief Dose/plan comparison index calculation for tvIndex-th treated volume
 			(tv = target volume; th = healthy tissue)
 			@param tvIndex index in the DVH in the current set of tv-DVHs
 			*/
-			virtual IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex)=0;
+			virtual IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex) = 0;
 		};
 	}
 }

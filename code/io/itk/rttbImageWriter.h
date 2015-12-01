@@ -32,7 +32,8 @@ namespace rttb
 {
 	namespace io
 	{
-		namespace itk {
+		namespace itk
+		{
 
 
 			/** @class ImageWriter

@@ -115,12 +115,14 @@ namespace rttb
 			dvhHTSet.push_back(dvhNT2);
 			dvhHTSet.push_back(dvhNT3);
 
-			::boost::shared_ptr<core::DVHSet> dvhSetPtr = ::boost::make_shared<core::DVHSet>(dvhTVSet, dvhHTSet, "testStrSet", dvhPTV.getDoseID());
-			
+			::boost::shared_ptr<core::DVHSet> dvhSetPtr = ::boost::make_shared<core::DVHSet>(dvhTVSet, dvhHTSet,
+			        "testStrSet", dvhPTV.getDoseID());
+
 			/*test exception*/
 			::boost::shared_ptr<core::DVHSet> dvhSetNullPtr;
 			CHECK_THROW_EXPLICIT(indices::ConformalIndex(dvhSetNullPtr, 0), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(indices::ConformationNumber(dvhSetNullPtr, 0), core::InvalidParameterException);
+			CHECK_THROW_EXPLICIT(indices::ConformationNumber(dvhSetNullPtr, 0),
+			                     core::InvalidParameterException);
 			CHECK_THROW_EXPLICIT(indices::ConformityIndex(dvhSetNullPtr, 0), core::InvalidParameterException);
 			CHECK_THROW_EXPLICIT(indices::CoverageIndex(dvhSetNullPtr, 0), core::InvalidParameterException);
 			CHECK_THROW_EXPLICIT(indices::HomogeneityIndex(dvhSetNullPtr, 0), core::InvalidParameterException);

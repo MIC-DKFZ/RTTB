@@ -30,7 +30,8 @@ namespace rttb
 	{
 		namespace voxelizer
 		{
-			StructDataReader::StructDataReader(const std::string& structFileName, const std::string& referenceFileName,
+			StructDataReader::StructDataReader(const std::string& structFileName,
+			                                   const std::string& referenceFileName,
 			                                   const std::vector<std::string>& referenceFileLoadingStyle) : _referenceFilename(referenceFileName),
 				_structFilename(structFileName), _referenceFileLoadingStyle(referenceFileLoadingStyle)
 			{
@@ -85,13 +86,15 @@ namespace rttb
 
 			}
 
-			StructDataReader::DoseAccessorPointer StructDataReader::readDicomFile(const std::string& filename) const
+			StructDataReader::DoseAccessorPointer StructDataReader::readDicomFile(
+			    const std::string& filename) const
 			{
 				rttb::io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator(filename.c_str());
 				return doseAccessorGenerator.generateDoseAccessor();
 			}
 
-			StructDataReader::DoseAccessorPointer StructDataReader::readITKFile(const std::string& filename) const
+			StructDataReader::DoseAccessorPointer StructDataReader::readITKFile(const std::string& filename)
+			const
 			{
 				rttb::io::itk::ITKImageFileAccessorGenerator generator(filename);
 				return generator.generateDoseAccessor();

@@ -57,9 +57,9 @@
 #include "../../code/core/rttbTreatmentCourse.h"
 
 
-int main ( int , char*  )
+int main(int , char*)
 {
-  
-  return EXIT_SUCCESS;
+
+	return EXIT_SUCCESS;
 }
 

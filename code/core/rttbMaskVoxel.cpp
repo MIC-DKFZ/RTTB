@@ -62,7 +62,8 @@ namespace rttb
 
 		bool MaskVoxel::operator==(const MaskVoxel& voxel) const
 		{
-			return ((_voxelGridID == voxel.getVoxelGridID()) && (_volumeFraction == voxel.getRelevantVolumeFraction()));
+			return ((_voxelGridID == voxel.getVoxelGridID())
+			        && (_volumeFraction == voxel.getRelevantVolumeFraction()));
 		}
 
 		bool MaskVoxel::operator<(const MaskVoxel& maskVoxel) const

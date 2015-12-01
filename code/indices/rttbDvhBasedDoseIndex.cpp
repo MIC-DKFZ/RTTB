@@ -22,19 +22,25 @@
 #include "rttbDvhBasedDoseIndex.h"
 
 
-namespace rttb{
-	namespace indices{
+namespace rttb
+{
+	namespace indices
+	{
 
-		DvhBasedDoseIndex::DvhBasedDoseIndex(DvhBasedDoseIndex::DVHSetPtr aDVHSet, DoseTypeGy aDoseReference)
-		:DoseIndex(aDoseReference),_dvhSet(aDVHSet)
-		{	
+		DvhBasedDoseIndex::DvhBasedDoseIndex(DvhBasedDoseIndex::DVHSetPtr aDVHSet,
+		                                     DoseTypeGy aDoseReference)
+			: DoseIndex(aDoseReference), _dvhSet(aDVHSet)
+		{
 		}
 
-		bool DvhBasedDoseIndex::checkInputs(){
-			if(!_dvhSet){
+		bool DvhBasedDoseIndex::checkInputs()
+		{
+			if (!_dvhSet)
+			{
 				return false;
 			}
-			else{
+			else
+			{
 				return true;
 			}
 		}

@@ -26,23 +26,35 @@
 
 #include "rttbBioModel.h"
 
-namespace rttb{
-	namespace models{
+namespace rttb
+{
+	namespace models
+	{
 		bool BioModel::init(const double doseFactor)
+		{
+			if (_dvh != NULL)
 			{
-			if(_dvh!=NULL)
-				{
-				_value= this->calcModel(doseFactor);
+				_value = this->calcModel(doseFactor);
 				return true;
-				}
-			return false;
 			}
 
-		void BioModel::setDVH(const DVHPointer aDVH){_dvh=aDVH;}
+			return false;
+		}
 
-		const BioModel::DVHPointer BioModel::getDVH() const{return _dvh;}
+		void BioModel::setDVH(const DVHPointer aDVH)
+		{
+			_dvh = aDVH;
+		}
 
-		const BioModelValueType BioModel::getValue() const{ return _value; }
+		const BioModel::DVHPointer BioModel::getDVH() const
+		{
+			return _dvh;
+		}
 
-		}//end namespace models
-	}//end namespace rttb
+		const BioModelValueType BioModel::getValue() const
+		{
+			return _value;
+		}
+
+	}//end namespace models
+}//end namespace rttb

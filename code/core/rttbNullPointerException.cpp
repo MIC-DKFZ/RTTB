@@ -24,16 +24,20 @@
 
 #include "rttbNullPointerException.h"
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
-        const char* NullPointerException::what() const throw() {
+		const char* NullPointerException::what() const throw()
+		{
 			return rttb_what.c_str();
-			}
+		}
 
-		const char* NullPointerException::GetNameOfClass() const{ 
-			return "NullPointerException"; 
-			}
+		const char* NullPointerException::GetNameOfClass() const
+		{
+			return "NullPointerException";
+		}
 
-		}//end namespace core
-	}//end namespace rttb
+	}//end namespace core
+}//end namespace rttb

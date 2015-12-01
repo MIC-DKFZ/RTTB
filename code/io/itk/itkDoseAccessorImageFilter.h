@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 4047 $ (last changed revision)
-// @date    $Date: 2012-10-29 16:19:15 +0100 (Mo, 29 Okt 2012) $ (last change date)
-// @author  $Author: zhang $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 #ifndef __itkDoseAccessorImageFilter_h
@@ -30,89 +30,89 @@
 
 namespace itk
 {
-  /** \class DoseAccessorImageFilter
-   * \brief Perform a generic pixel-wise operation on the input image by setting its pixel values according to the dose accessor output.
-   *
-   * \ingroup IntensityImageFilters MultiThreaded
-   * \ingroup ITKImageIntensity
-   */
+	/** \class DoseAccessorImageFilter
+	 * \brief Perform a generic pixel-wise operation on the input image by setting its pixel values according to the dose accessor output.
+	 *
+	 * \ingroup IntensityImageFilters MultiThreaded
+	 * \ingroup ITKImageIntensity
+	 */
 
-  typedef rttb::io::itk::ITKImageAccessor::ITKImageType RTTBDoseImageType;
+	typedef rttb::io::itk::ITKImageAccessor::ITKImageType RTTBDoseImageType;
 
-  class ITK_EXPORT DoseAccessorImageFilter:
-    public ImageToImageFilter< RTTBDoseImageType, RTTBDoseImageType >
+	class ITK_EXPORT DoseAccessorImageFilter:
+		public ImageToImageFilter< RTTBDoseImageType, RTTBDoseImageType >
 
-  {
-  public:
-    /** Standard class typedefs. */
-    typedef DoseAccessorImageFilter                          Self;
-    typedef ImageToImageFilter< RTTBDoseImageType, RTTBDoseImageType > Superclass;
-    typedef SmartPointer< Self >                            Pointer;
-    typedef SmartPointer< const Self >                      ConstPointer;
-    /** Method for creation through the object factory. */
-    itkNewMacro(Self);
+	{
+	public:
+		/** Standard class typedefs. */
+		typedef DoseAccessorImageFilter                          Self;
+		typedef ImageToImageFilter< RTTBDoseImageType, RTTBDoseImageType > Superclass;
+		typedef SmartPointer< Self >                            Pointer;
+		typedef SmartPointer< const Self >                      ConstPointer;
+		/** Method for creation through the object factory. */
+		itkNewMacro(Self);
 
-    /** Run-time type information (and related methods). */
-    itkTypeMacro(DoseAccessorImageFilter, ImageToImageFilter);
+		/** Run-time type information (and related methods). */
+		itkTypeMacro(DoseAccessorImageFilter, ImageToImageFilter);
 
-    /** Some typedefs. */
-    typedef RTTBDoseImageType                          InputImageType;
-    typedef InputImageType::Pointer     InputImagePointer;
-    typedef InputImageType::RegionType  InputImageRegionType;
-    typedef InputImageType::PixelType   InputImagePixelType;
-    typedef RTTBDoseImageType                         OutputImageType;
-    typedef OutputImageType::Pointer    OutputImagePointer;
-    typedef OutputImageType::RegionType OutputImageRegionType;
-    typedef OutputImageType::PixelType  OutputImagePixelType;
+		/** Some typedefs. */
+		typedef RTTBDoseImageType                          InputImageType;
+		typedef InputImageType::Pointer     InputImagePointer;
+		typedef InputImageType::RegionType  InputImageRegionType;
+		typedef InputImageType::PixelType   InputImagePixelType;
+		typedef RTTBDoseImageType                         OutputImageType;
+		typedef OutputImageType::Pointer    OutputImagePointer;
+		typedef OutputImageType::RegionType OutputImageRegionType;
+		typedef OutputImageType::PixelType  OutputImagePixelType;
 
-    typedef rttb::core::DoseAccessorInterface DoseAccessorType;
-    typedef rttb::core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+		typedef rttb::core::DoseAccessorInterface DoseAccessorType;
+		typedef rttb::core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
 
-    /** Get the accessor pointer. */
-    DoseAccessorPointer GetAccessor()
-    {
-      return m_Accessor;
-    }
+		/** Get the accessor pointer. */
+		DoseAccessorPointer GetAccessor()
+		{
+			return m_Accessor;
+		}
 
-    /** Set the accessor pointer. */
-    void SetAccessor(DoseAccessorPointer accessor)
-    {
-      if (m_Accessor != accessor)
-      {
-        m_Accessor = accessor;
-        this->Modified();
-      }
-    }
+		/** Set the accessor pointer. */
+		void SetAccessor(DoseAccessorPointer accessor)
+		{
+			if (m_Accessor != accessor)
+			{
+				m_Accessor = accessor;
+				this->Modified();
+			}
+		}
 
-    /** ImageDimension constants */
-    itkStaticConstMacro(
-      InputImageDimension, unsigned int, InputImageType::ImageDimension);
-    itkStaticConstMacro(
-      OutputImageDimension, unsigned int, OutputImageType::ImageDimension);
+		/** ImageDimension constants */
+		itkStaticConstMacro(
+		    InputImageDimension, unsigned int, InputImageType::ImageDimension);
+		itkStaticConstMacro(
+		    OutputImageDimension, unsigned int, OutputImageType::ImageDimension);
 
-  protected:
-    DoseAccessorImageFilter();
-    virtual ~DoseAccessorImageFilter() {}
+	protected:
+		DoseAccessorImageFilter();
+		virtual ~DoseAccessorImageFilter() {}
 
-    /** DoseAccessorImageFilter can be implemented as a multi threaded filter.
-     * Therefore, this implementation provides a ThreadedGenerateData() routine
-     * which is called for each processing thread. The output image data is
-     * allocated automatically by the superclass prior to calling
-     * ThreadedGenerateData().  ThreadedGenerateData can only write to the
-     * portion of the output image specified by the parameter
-     * "outputRegionForThread"
-     *
-     * \sa ImageToImageFilter::ThreadedGenerateData(),
-     *     ImageToImageFilter::GenerateData()  */
-    void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                              ThreadIdType threadId);
+		/** DoseAccessorImageFilter can be implemented as a multi threaded filter.
+		 * Therefore, this implementation provides a ThreadedGenerateData() routine
+		 * which is called for each processing thread. The output image data is
+		 * allocated automatically by the superclass prior to calling
+		 * ThreadedGenerateData().  ThreadedGenerateData can only write to the
+		 * portion of the output image specified by the parameter
+		 * "outputRegionForThread"
+		 *
+		 * \sa ImageToImageFilter::ThreadedGenerateData(),
+		 *     ImageToImageFilter::GenerateData()  */
+		void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
+		                          ThreadIdType threadId);
 
-  private:
-    DoseAccessorImageFilter(const Self&);  //purposely not implemented
-    void operator=(const Self&);          //purposely not implemented
+	private:
+		DoseAccessorImageFilter(const Self&);  //purposely not implemented
+		void operator=(const Self&);          //purposely not implemented
 
-    DoseAccessorPointer m_Accessor;
-  };
+		DoseAccessorPointer m_Accessor;
+	};
 } // end namespace itk
 
 

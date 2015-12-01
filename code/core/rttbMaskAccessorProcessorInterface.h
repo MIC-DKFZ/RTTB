@@ -23,40 +23,43 @@
 
 #include "rttbMaskAccessorInterface.h"
 
-namespace rttb{
+namespace rttb
+{
 	namespace core
-		{
+	{
 		/*! @class MaskAccessorProcessorInterface
 			@brief Interface for all MaskAccessor converter classes
 		*/
 		class MaskAccessorProcessorInterface
-			{
-			public:
-				typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
+		{
+		public:
+			typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
 
-			
-			private:
-				MaskAccessorProcessorInterface(const MaskAccessorProcessorInterface&); //not implemented on purpose -> non-copyable
-				MaskAccessorProcessorInterface& operator=(const MaskAccessorProcessorInterface&);//not implemented on purpose -> non-copyable
-				
-				
-			protected:	
-				MaskAccessorProcessorInterface() {};
-				virtual ~MaskAccessorProcessorInterface(){};
 
-			public: 
-				
-				/*! @brief Sets the MaskAccessor that should be processed 
-					@pre passed accessor must point to a valid instance. 
-				*/
-				virtual void setMaskAccessor(MaskAccessorPointer accessor) = 0;				
-				
-				/*! @brief Process the passed MaskAccessor 
-					@return if the processing was successful. 
-				*/
-				virtual bool process() = 0;
-			};
-		}
+		private:
+			MaskAccessorProcessorInterface(const
+			                               MaskAccessorProcessorInterface&); //not implemented on purpose -> non-copyable
+			MaskAccessorProcessorInterface& operator=(const
+			        MaskAccessorProcessorInterface&);//not implemented on purpose -> non-copyable
+
+
+		protected:
+			MaskAccessorProcessorInterface() {};
+			virtual ~MaskAccessorProcessorInterface() {};
+
+		public:
+
+			/*! @brief Sets the MaskAccessor that should be processed
+				@pre passed accessor must point to a valid instance.
+			*/
+			virtual void setMaskAccessor(MaskAccessorPointer accessor) = 0;
+
+			/*! @brief Process the passed MaskAccessor
+				@return if the processing was successful.
+			*/
+			virtual bool process() = 0;
+		};
 	}
+}
 
 #endif

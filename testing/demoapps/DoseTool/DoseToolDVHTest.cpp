@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 771 $ (last changed revision)
-// @date    $Date: 2014-09-25 14:41:34 +0200 (Do, 25 Sep 2014) $ (last change date)
-// @author  $Author: zhangl $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 #include <iostream>
@@ -59,7 +59,8 @@ namespace rttb
 				referenceXMLFilename = argv[5];
 			}
 
-			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExecutable;
+			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" +
+			                                       doseToolExecutable;
 
 			std::string defaultOutputFilename = "dicomDVHOutput.xml";
 

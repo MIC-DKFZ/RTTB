@@ -33,7 +33,8 @@ namespace rttb
 	namespace core
 	{
 
-		DVHCalculator::DVHCalculator(DoseIteratorPointer aDoseIterator, const IDType& aStructureID, const IDType& aDoseID,
+		DVHCalculator::DVHCalculator(DoseIteratorPointer aDoseIterator, const IDType& aStructureID,
+		                             const IDType& aDoseID,
 		                             DoseTypeGy aDeltaD, const int aNumberOfBins)
 		{
 			if (!aDoseIterator)
@@ -113,12 +114,14 @@ namespace rttb
 
 			if (boost::dynamic_pointer_cast<MaskedDoseIteratorPointer>(_doseIteratorPtr))
 			{
-				_dvh = boost::make_shared<DVH>(dataDifferential, _deltaD, _doseIteratorPtr->getCurrentVoxelVolume(), _structureID,
+				_dvh = boost::make_shared<DVH>(dataDifferential, _deltaD, _doseIteratorPtr->getCurrentVoxelVolume(),
+				                               _structureID,
 				                               _doseID, _doseIteratorPtr->getVoxelizationID());
 			}
 			else
 			{
-				_dvh = boost::make_shared<DVH>(dataDifferential, _deltaD, _doseIteratorPtr->getCurrentVoxelVolume(), _structureID,
+				_dvh = boost::make_shared<DVH>(dataDifferential, _deltaD, _doseIteratorPtr->getCurrentVoxelVolume(),
+				                               _structureID,
 				                               _doseID);
 			}
 

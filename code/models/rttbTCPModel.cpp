@@ -21,18 +21,22 @@
 
 #include "rttbTCPModel.h"
 
-namespace rttb{
+namespace rttb
+{
 
-	namespace models{
+	namespace models
+	{
 
-		void TCPModel::setNumberOfFractions(const int aNumberOfFractions){
-			_numberOfFractions=aNumberOfFractions;
-			}
-
-
-		const int TCPModel::getNumberOfFractions(){
-			return _numberOfFractions;
-			}
-
+		void TCPModel::setNumberOfFractions(const int aNumberOfFractions)
+		{
+			_numberOfFractions = aNumberOfFractions;
 		}
+
+
+		const int TCPModel::getNumberOfFractions()
+		{
+			return _numberOfFractions;
+		}
+
 	}
+}

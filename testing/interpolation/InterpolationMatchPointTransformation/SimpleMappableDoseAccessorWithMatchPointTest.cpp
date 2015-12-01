@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 741 $ (last changed revision)
-// @date    $Date: 2014-09-16 16:34:22 +0200 (Di, 16 Sep 2014) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
 */
 
 #include "litCheckMacros.h"
@@ -113,15 +113,18 @@ namespace rttb
 			        (new LinearInterpolation());
 			NearestNeighborInterpolation::Pointer interpolationNull;
 
-			TransformationInterface::Pointer transformMP = TransformationInterface::Pointer(new MatchPointTransformation(
-			            registration.GetPointer()));
+			TransformationInterface::Pointer transformMP = TransformationInterface::Pointer(
+			            new MatchPointTransformation(
+			                registration.GetPointer()));
 
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityLinear = SimpleMappableDoseAccessor::Pointer(
-			            new SimpleMappableDoseAccessor(
-			                doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear));
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityNN = SimpleMappableDoseAccessor::Pointer(
-			            new SimpleMappableDoseAccessor(
-			                doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityLinear =
+			    SimpleMappableDoseAccessor::Pointer(
+			        new SimpleMappableDoseAccessor(
+			            doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityNN =
+			    SimpleMappableDoseAccessor::Pointer(
+			        new SimpleMappableDoseAccessor(
+			            doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
 
 			//1) Test constructor
 			CHECK_NO_THROW(SimpleMappableDoseAccessor(
@@ -158,9 +161,10 @@ namespace rttb
 			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPTranslationLinear =
 			    SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
 			            doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear));
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPTranslationNN = SimpleMappableDoseAccessor::Pointer(
-			            new SimpleMappableDoseAccessor(
-			                doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
+			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPTranslationNN =
+			    SimpleMappableDoseAccessor::Pointer(
+			        new SimpleMappableDoseAccessor(
+			            doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
 
 			rttb::VoxelGridIndex3D aIndexBeforeTransformation(0, 0, 0);
 			rttb::VoxelGridIndex3D aIndexAfterTransformation(1, 1, 1);
@@ -199,8 +203,9 @@ namespace rttb
 				Registration3D3DPointer registrationRealisticScenario =
 				    prepareRegistrationRealisticScenario.getRegistration();
 
-				TransformationInterface::Pointer transformRealistic = TransformationInterface::Pointer(new MatchPointTransformation(
-				            registrationRealisticScenario));
+				TransformationInterface::Pointer transformRealistic = TransformationInterface::Pointer(
+				            new MatchPointTransformation(
+				                registrationRealisticScenario));
 
 				io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator3(RTDOSE_FILENAME_REALISTIC.c_str());
 				DoseAccessorPointer doseAccessor3(doseAccessorGenerator3.generateDoseAccessor());

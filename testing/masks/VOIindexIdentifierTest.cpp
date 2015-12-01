@@ -55,13 +55,15 @@ namespace rttb
 
 			StructureSetPointer emptyPointer = StructureSetPointer();
 
-			CHECK_NO_THROW(::rttb::masks::VOIindexIdentifier testVOIindexId = ::rttb::masks::VOIindexIdentifier());
+			CHECK_NO_THROW(::rttb::masks::VOIindexIdentifier testVOIindexId
+			               = ::rttb::masks::VOIindexIdentifier());
 			::rttb::masks::VOIindexIdentifier testVOIindexId = ::rttb::masks::VOIindexIdentifier();
 
 			/* getIndexByVoiName */
 			CHECK_THROW_EXPLICIT(testVOIindexId.getIndexByVoiName(emptyPointer, "Leber"),
 			                     ::rttb::core::Exception);
-			CHECK_THROW_EXPLICIT(testVOIindexId.getIndexByVoiName(rtStructureSet, "Invalid"), ::rttb::core::Exception);
+			CHECK_THROW_EXPLICIT(testVOIindexId.getIndexByVoiName(rtStructureSet, "Invalid"),
+			                     ::rttb::core::Exception);
 
 			unsigned int indexActual;
 			unsigned int indexExpected = 5;

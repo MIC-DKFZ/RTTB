@@ -65,19 +65,23 @@ namespace rttb
 				RTDOSE_FILENAME = argv[2];
 				RTStr_FILENAME = argv[3];
 			}
-			rttb::io::dicom::Modality doseModality= {rttb::io::dicom::Modality::RTDOSE};
-			rttb::io::dicom::Modality strModality= {rttb::io::dicom::Modality::RTSTRUCT};
+
+			rttb::io::dicom::Modality doseModality = {rttb::io::dicom::Modality::RTDOSE};
+			rttb::io::dicom::Modality strModality = {rttb::io::dicom::Modality::RTSTRUCT};
 
 			//1) test getFileNamesWithSameUID() with a directory name
-			std::vector<FileNameType> fileVector = rttb::io::dicom::getFileNamesWithSameUID(RT_DIRNAME, doseModality);
+			std::vector<FileNameType> fileVector = rttb::io::dicom::getFileNamesWithSameUID(RT_DIRNAME,
+			                                       doseModality);
 			CHECK_EQUAL(fileVector.size(), 52);
 
 			//2) test getFileNames() with a RTDOSE file name and check equal with getFileNamesWithSameUID()
 			std::vector<FileNameType> fileVector2 = rttb::io::dicom::getFileNames(RTDOSE_FILENAME);
-			for(int i=0; i<fileVector.size(); i++){
+
+			for (int i = 0; i < fileVector.size(); i++)
+			{
 				CHECK_EQUAL(fileVector.at(i), fileVector2.at(i));
 			}
-			
+
 			//3) test getFileNames() with a RTSTRUCT file name
 			fileVector2 = rttb::io::dicom::getFileNames(RTStr_FILENAME);
 			CHECK_EQUAL(fileVector2.size(), 1);

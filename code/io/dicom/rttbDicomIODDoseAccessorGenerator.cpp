@@ -45,7 +45,8 @@ namespace rttb
 
 			}
 
-			core::DoseAccessorGeneratorInterface::DoseAccessorPointer DicomIODDoseAccessorGenerator::generateDoseAccessor()
+			core::DoseAccessorGeneratorInterface::DoseAccessorPointer
+			DicomIODDoseAccessorGenerator::generateDoseAccessor()
 			{
 				DcmItem doseitem;
 				OFCondition status;

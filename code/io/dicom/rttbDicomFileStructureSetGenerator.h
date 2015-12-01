@@ -36,9 +36,12 @@ This class should only provide general structure functionality.
 #include "rttbBaseType.h"
 #include "rttbStrVectorStructureSetGenerator.h"
 
-namespace rttb{
-	namespace io{
-		namespace dicom{
+namespace rttb
+{
+	namespace io
+	{
+		namespace dicom
+		{
 
 			/*! @class DicomFileStructureSetGenerator
 			@brief Generate a structure set from a corresponding dicomRT file.
@@ -54,18 +57,18 @@ namespace rttb{
 				IDType _UID;
 				DICOMRTFileNameString _fileName;
 
-				DicomFileStructureSetGenerator(){};
+				DicomFileStructureSetGenerator() {};
 
 			public:
-				
-				/*! @brief Constructor 
+
+				/*! @brief Constructor
 				@param aDICOMRTStrSetFileName a DICOM-RT Structure set file name or a directory name
 				@exception InvalidParameterException thrown if the file does not exist or the directory has no dicom structure file
 				@exception DcmrtException thrown if load and read file failed
 				*/
 				DicomFileStructureSetGenerator(DICOMRTFileNameString aDICOMRTStrSetFileName);
 
-				/*! @brief Destructor 
+				/*! @brief Destructor
 				*/
 				~DicomFileStructureSetGenerator();
 

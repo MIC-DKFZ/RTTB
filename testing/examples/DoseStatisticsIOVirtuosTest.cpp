@@ -81,14 +81,16 @@ namespace rttb
 			}
 
 			/* generate dummy dose */
-			io::virtuos::VirtuosPlanFileDoseAccessorGenerator doseAccessorGenerator(Dose_FILENAME.c_str(), Plan_FILENAME.c_str());
+			io::virtuos::VirtuosPlanFileDoseAccessorGenerator doseAccessorGenerator(Dose_FILENAME.c_str(),
+			        Plan_FILENAME.c_str());
 
 			DoseAccessorPointer doseAccessor(doseAccessorGenerator.generateDoseAccessor());
 
 			StructureSetPointer rtStructureSet = io::virtuos::VirtuosFileStructureSetGenerator(
 			        Struct_FILENAME.c_str(), BPLCT_FILENAME.c_str()).generateStructureSet();
 
-			GeometricInfoPointer geometricInfoPtr = boost::make_shared<rttb::core::GeometricInfo>(doseAccessor->getGeometricInfo());
+			GeometricInfoPointer geometricInfoPtr = boost::make_shared<rttb::core::GeometricInfo>
+			                                        (doseAccessor->getGeometricInfo());
 			MaskAccessorPointer maskAccessorPtr = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
 			                                      (rtStructureSet->getStructure(3), doseAccessor->getGeometricInfo());
 			maskAccessorPtr->updateMask();

@@ -31,81 +31,81 @@
 
 namespace rttb
 {
-  namespace io
-  {
-    namespace itk
-    {
+	namespace io
+	{
+		namespace itk
+		{
 
-      ITKImageAccessorConverter::ITKImageAccessorConverter(DoseAccessorPointer accessor)
-      {
-        setDoseAccessor(accessor);
-      }
+			ITKImageAccessorConverter::ITKImageAccessorConverter(DoseAccessorPointer accessor)
+			{
+				setDoseAccessor(accessor);
+			}
 
-      bool ITKImageAccessorConverter::process()
-      {
-        //Transfer GeometricInfo to ITK Properties
-        core::GeometricInfo geoInfo = _doseAccessor->getGeometricInfo();
+			bool ITKImageAccessorConverter::process()
+			{
+				//Transfer GeometricInfo to ITK Properties
+				core::GeometricInfo geoInfo = _doseAccessor->getGeometricInfo();
 
-        ITKImageType::RegionType region;
-        ITKImageType::IndexType start;
+				ITKImageType::RegionType region;
+				ITKImageType::IndexType start;
 
-        for (unsigned int i = 0; i < 3; ++i)
-        {
-          start[i] = 0;
-        }
+				for (unsigned int i = 0; i < 3; ++i)
+				{
+					start[i] = 0;
+				}
 
-        ITKImageType::SizeType size;
-        size[0] = geoInfo.getNumColumns();
-        size[1] = geoInfo.getNumRows();
-        size[2] = geoInfo.getNumSlices();
+				ITKImageType::SizeType size;
+				size[0] = geoInfo.getNumColumns();
+				size[1] = geoInfo.getNumRows();
+				size[2] = geoInfo.getNumSlices();
 
-        ITKImageType::SpacingType spacing;
+				ITKImageType::SpacingType spacing;
 
-        for (unsigned int i = 0; i < 3; ++i)
-        {
-          spacing[i] = geoInfo.getSpacing()[i];
-        }
+				for (unsigned int i = 0; i < 3; ++i)
+				{
+					spacing[i] = geoInfo.getSpacing()[i];
+				}
 
-        ITKImageType::PointType origin;
+				ITKImageType::PointType origin;
 
-        for (unsigned int i = 0; i < 3; ++i)
-        {
-          origin[i] = geoInfo.getImagePositionPatient()[i];
-        }
+				for (unsigned int i = 0; i < 3; ++i)
+				{
+					origin[i] = geoInfo.getImagePositionPatient()[i];
+				}
 
-        ITKImageType::DirectionType direction;
-        OrientationMatrix OM = geoInfo.getOrientationMatrix();
+				ITKImageType::DirectionType direction;
+				OrientationMatrix OM = geoInfo.getOrientationMatrix();
 
-        for (int col = 0; col < 3; ++col)
-        {
-          for (int row = 0; row < 3; ++row)
-          {
-            direction(col, row) = OM(col, row);
-          }
-        }
+				for (int col = 0; col < 3; ++col)
+				{
+					for (int row = 0; row < 3; ++row)
+					{
+						direction(col, row) = OM(col, row);
+					}
+				}
 
-        //Create image, assign properties
-        region.SetSize(size);
-        region.SetIndex(start);
+				//Create image, assign properties
+				region.SetSize(size);
+				region.SetIndex(start);
 
-        _itkImage = ITKImageType::New();
-        _itkImage->SetRegions(region);
-        _itkImage->SetSpacing(spacing);
-        _itkImage->SetDirection(direction);
-        _itkImage->SetOrigin(origin);
-        _itkImage->Allocate();
+				_itkImage = ITKImageType::New();
+				_itkImage->SetRegions(region);
+				_itkImage->SetSpacing(spacing);
+				_itkImage->SetDirection(direction);
+				_itkImage->SetOrigin(origin);
+				_itkImage->Allocate();
 
-        ::itk::DoseAccessorImageFilter::Pointer accessorFilter = ::itk::DoseAccessorImageFilter::New();
-        accessorFilter->SetInput(_itkImage);
-        accessorFilter->SetAccessor(_doseAccessor);
-        accessorFilter->Update();
+				::itk::DoseAccessorImageFilter::Pointer accessorFilter = ::itk::DoseAccessorImageFilter::New();
+				accessorFilter->SetInput(_itkImage);
+				accessorFilter->SetAccessor(_doseAccessor);
+				accessorFilter->Update();
 
-        _itkImage = accessorFilter->GetOutput();
+				_itkImage = accessorFilter->GetOutput();
 
-        return true;
-      }
+				return true;
+			}
 
-    }//end namespace itk
-  }//end namespace io
+		}//end namespace itk
+	}//end namespace io
 }//end namespace rttb
 

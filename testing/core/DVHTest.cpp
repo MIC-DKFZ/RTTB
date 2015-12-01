@@ -103,9 +103,11 @@ namespace rttb
 			const IDType voxelizationID = "myVoxelization";
 
 			//1) test default constructor (values as expected?)
-			CHECK_THROW(core::DVH(anEmptyDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID));
+			CHECK_THROW(core::DVH(anEmptyDataDifferential, binSize, voxelVolume, structureID, doseID,
+			                      voxelizationID));
 			CHECK_THROW(core::DVH(anEmptyDataDifferential, binSize, voxelVolume, structureID, doseID));
-			CHECK_NO_THROW(core::DVH(aDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID));
+			CHECK_NO_THROW(core::DVH(aDataDifferential, binSize, voxelVolume, structureID, doseID,
+			                         voxelizationID));
 			CHECK_NO_THROW(core::DVH(aDataDifferential, binSize, voxelVolume, structureID, doseID));
 			CHECK_THROW(core::DVH(aDataDifferential, 0, voxelVolume, structureID, doseID, voxelizationID));
 			CHECK_THROW(core::DVH(aDataDifferential, 0, voxelVolume, structureID, doseID));

@@ -23,48 +23,57 @@
 #include "rttbException.h"
 #include "rttbInvalidParameterException.h"
 
-namespace rttb{
-	namespace indices{
+namespace rttb
+{
+	namespace indices
+	{
 
 		DoseIndex::DoseIndex(DoseTypeGy aDoseReference)
-		:_doseReference(aDoseReference),_initSuccess(false){}
+			: _doseReference(aDoseReference), _initSuccess(false) {}
 
 		bool DoseIndex::init()
-		{	
-			if(!(this->checkInputs())){
+		{
+			if (!(this->checkInputs()))
+			{
 				throw core::InvalidParameterException("Check inputs failed: invalid parameters! ");
 			}
-			if( this->calcIndex()){
-				_initSuccess=true;
+
+			if (this->calcIndex())
+			{
+				_initSuccess = true;
 			}
-			else{
+			else
+			{
 				throw core::InvalidParameterException("Index calculation failed! ");
 			}
+
 			return _initSuccess;
 		}
 
 		void DoseIndex::setDoseReference(DoseTypeGy aDoseReference)
-			{
-			_doseReference=aDoseReference;
-			_initSuccess=false;
+		{
+			_doseReference = aDoseReference;
+			_initSuccess = false;
 			init();
-			}
+		}
 
 		DoseTypeGy DoseIndex::getDoseReference() const
-			{
+		{
 			return _doseReference;
-			}
+		}
 
 		IndexValueType DoseIndex::getValue() const
+		{
+			if (_initSuccess)
 			{
-			if(_initSuccess){
 				return _value;
-				}
-			else{
-        throw core::Exception("DoseIndex init error: init() must be called first!");
-				}
+			}
+			else
+			{
+				throw core::Exception("DoseIndex init error: init() must be called first!");
 			}
 		}
+	}
 }
 
 

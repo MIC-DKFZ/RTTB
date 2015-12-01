@@ -103,7 +103,8 @@ rttb::apps::bioModelCalc::loadITKDose(const std::string& fileName)
 };
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
-rttb::apps::bioModelCalc::loadVirtuosDose(const std::string& fileName, const std::string& planFileName)
+rttb::apps::bioModelCalc::loadVirtuosDose(const std::string& fileName,
+        const std::string& planFileName)
 {
 	rttb::io::virtuos::VirtuosPlanFileDoseAccessorGenerator generator(fileName, planFileName);
 	return generator.generateDoseAccessor();
@@ -116,7 +117,8 @@ rttb::apps::bioModelCalc::processData(rttb::apps::bioModelCalc::ApplicationData&
 	rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor;
 
 	std::cout << std::endl << "generate biomodel... ";
-	auto bioModelAccessor = generateBioModel(appData._dose, appData._model, appData._modelParameters, appData._doseScaling);
+	auto bioModelAccessor = generateBioModel(appData._dose, appData._model, appData._modelParameters,
+	                        appData._doseScaling);
 	std::cout << "done." << std::endl;
 	std::cout << std::endl << "generate output image... ";
 	io::itk::ITKImageAccessorConverter converter(bioModelAccessor);
@@ -137,7 +139,8 @@ rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generat
 {
 	if (model == "LQ")
 	{
-		return boost::make_shared<rttb::models::LQModelAccessor>(dose, modelParameters.at(0), modelParameters.at(1),
+		return boost::make_shared<rttb::models::LQModelAccessor>(dose, modelParameters.at(0),
+		        modelParameters.at(1),
 		        doseScaling);
 	}
 	else

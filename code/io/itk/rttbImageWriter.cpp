@@ -26,20 +26,25 @@ namespace rttb
 {
 	namespace io
 	{
-		namespace itk {
+		namespace itk
+		{
 			ImageWriter::ImageWriter(FileNameString aFileName, ITKImageTypePointer aITKImage)
-				:_fileName(aFileName), _itkImage(aITKImage){
+				: _fileName(aFileName), _itkImage(aITKImage)
+			{
 
 			}
 
-			bool ImageWriter::writeFile(){ 			
+			bool ImageWriter::writeFile()
+			{
 				WriterType::Pointer writer = WriterType::New();
 				writer->SetFileName(_fileName);
 				writer->SetInput(_itkImage);
-				try{
+
+				try
+				{
 					writer->Update();
 				}
-				catch( ::itk::ExceptionObject & excp )
+				catch (::itk::ExceptionObject& excp)
 				{
 					std::cerr << "Error: ITK Exception caught " << excp << std::endl;
 					throw rttb::io::itk::ITKException("ITK Exception in writing image: writer->Update()!");

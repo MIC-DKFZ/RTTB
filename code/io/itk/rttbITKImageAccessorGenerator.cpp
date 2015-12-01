@@ -47,7 +47,8 @@ namespace rttb
 				_dosePtr = aDoseImage;
 			}
 
-			core::DoseAccessorGeneratorBase::DoseAccessorPointer ITKImageAccessorGenerator::generateDoseAccessor()
+			core::DoseAccessorGeneratorBase::DoseAccessorPointer
+			ITKImageAccessorGenerator::generateDoseAccessor()
 			{
 				_doseAccessor = boost::make_shared<ITKImageAccessor>(_dosePtr);
 				return _doseAccessor;

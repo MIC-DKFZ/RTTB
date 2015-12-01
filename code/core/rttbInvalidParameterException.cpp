@@ -24,16 +24,20 @@
 
 #include "rttbInvalidParameterException.h"
 
-namespace rttb{
-	namespace core{
+namespace rttb
+{
+	namespace core
+	{
 
-        const char* InvalidParameterException::what() const throw() {
+		const char* InvalidParameterException::what() const throw()
+		{
 			return rttb_what.c_str();
-			}
+		}
 
-		const char* InvalidParameterException::GetNameOfClass() const{ 
-			return "InvalidParameterException"; 
-			}
+		const char* InvalidParameterException::GetNameOfClass() const
+		{
+			return "InvalidParameterException";
+		}
 
-		}//end namespace core
-	}//end namespace rttb
+	}//end namespace core
+}//end namespace rttb

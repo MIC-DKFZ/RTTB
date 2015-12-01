@@ -75,7 +75,9 @@ namespace rttb
 			}
 			else
 			{
-				std::cerr << "aParamID must be 0(DummyParam1) or 1(DummyParam2) or 2(DummyParam3)! Nothing will be done." << std::endl;
+				std::cerr <<
+				          "aParamID must be 0(DummyParam1) or 1(DummyParam2) or 2(DummyParam3)! Nothing will be done." <<
+				          std::endl;
 			}
 
 		}

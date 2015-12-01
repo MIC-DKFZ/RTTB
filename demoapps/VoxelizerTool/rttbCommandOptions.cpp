@@ -57,7 +57,8 @@ namespace rttb
 				po::options_description required("Required arguments");
 				addOption(required, PARAM_STRUCT_FILE, "s", po::value<std::string>(&_params.structFile)->required(),
 				          "Filename of the structfile (*.dcm)");
-				addOption(required, PARAM_REFERENCE_FILE, "r", po::value<std::string>(&_params.referenceFile)->required(),
+				addOption(required, PARAM_REFERENCE_FILE, "r",
+				          po::value<std::string>(&_params.referenceFile)->required(),
 				          "Filename of the reference image (*.dcm)");
 				addOption(required, PARAM_REFERENCE_FILE_LOAD_STYLE, "y",
 				          po::value<std::vector<std::string> >(&_params.referenceFileLoadStyle)->required()->default_value(
@@ -70,18 +71,22 @@ namespace rttb
 				          "set a regular expression describing the structs of interest");
 				addOption(required, PARAM_OUT_FILE, "o",
 				          po::value<std::string>(&_params.outputFilename)->default_value("out.hdr"), "set output file name ");
-				addOption(required, PARAM_BOOST_VOXELIZATION, "b", po::bool_switch()->default_value(true), "to use boost voxelization");
+				addOption(required, PARAM_BOOST_VOXELIZATION, "b", po::bool_switch()->default_value(true),
+				          "to use boost voxelization");
 
 				po::options_description optional("Optional arguments");
 				addOption(optional, PARAM_HELP, "h", nullptr, "Display help message");
-				addOption(optional, PARAM_MULTISTRUCT, "m", po::bool_switch(&_params.multipleStructs)->default_value(false),
+				addOption(optional, PARAM_MULTISTRUCT, "m",
+				          po::bool_switch(&_params.multipleStructs)->default_value(false),
 				          "if multiple structs match the regular expression (--struct), save all in files");
-				addOption(optional, PARAM_LEGACY_VOXELIZATION, "l", po::bool_switch(&_params.legacyVoxelization)->default_value(false),
+				addOption(optional, PARAM_LEGACY_VOXELIZATION, "l",
+				          po::bool_switch(&_params.legacyVoxelization)->default_value(false),
 				          "to use legacy voxelization");
 				addOption(optional, PARAM_BOOLEAN_VOXELIZATION, "v",
 				          po::bool_switch(&_params.booleanVoxelization)->default_value(false),
 				          "Determines if the voxelization should be binarized (only values 0 or 1)");
-				addOption(optional, PARAM_ADDSTRUCTURES, "a", nullptr, "Voxelizes multiple structs in one result file.");
+				addOption(optional, PARAM_ADDSTRUCTURES, "a", nullptr,
+				          "Voxelizes multiple structs in one result file.");
 				addOption(optional, PARAM_ALLOW_SELF_INTERSECTIONS, "i",
 				          po::bool_switch(&_params.allowSelfIntersections)->default_value(false),
 				          "If self intersections of polygons should be tolerated.");
@@ -107,14 +112,16 @@ namespace rttb
 			{
 				std::cout << "Usage: VoxelizerTool [options] \n";
 				std::cout << _description << std::endl;
-				std::cout << "Example: VoxelizerTool -s structFile.dcm -r referenceFile.dcm -e Kidney -o outputFile.mhd -m" <<
+				std::cout <<
+				          "Example: VoxelizerTool -s structFile.dcm -r referenceFile.dcm -e Kidney -o outputFile.mhd -m" <<
 				          std::endl;
 				std::cout <<
 				          "Computes a voxelization file outputFile.mhd based on the DICOMRT-STRUCT structFile.dcm in the geometry of referenceFile.dcm where";
 				std::cout << "the name of the struct matches the regular expression 'Kidney'." << std::endl;
 				std::cout << "If structures 'Kidney_left' and 'Kidney_right' are defined, ";
 				std::cout <<
-				          "both are written under the names outputFile_Kidney_left.mhd and outputFile_Kidney_right.mhd (parameter -m)." <<
+				          "both are written under the names outputFile_Kidney_left.mhd and outputFile_Kidney_right.mhd (parameter -m)."
+				          <<
 				          std::endl;
 			}
 
@@ -141,7 +148,8 @@ namespace rttb
 
 					if (_params.outputFilename.find('.') == std::string::npos)
 					{
-						std::cout << "--output has to specify a file format (e.g. output.hdr). None is given: " << _params.outputFilename <<
+						std::cout << "--output has to specify a file format (e.g. output.hdr). None is given: " <<
+						          _params.outputFilename <<
 						          std::endl;
 						return false;
 					}
