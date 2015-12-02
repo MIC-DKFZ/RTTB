@@ -50,6 +50,7 @@ namespace rttb
 			void BoostMask::calcMask()
 			{
 				preprocessing();
+				voxelization();
 				_isUpToDate = true;
 			}
 
@@ -73,7 +74,7 @@ namespace rttb
 				//Get global bounding box
 				rttb::DoubleVoxelGridIndex3D globalMaxGridIndex(0.0, 0.0, 0);
 				rttb::DoubleVoxelGridIndex3D globalMinGridIndex(_geometricInfo->getNumColumns(),
-				        _geometricInfo->getNumRows(), 0);
+				        _geometricInfo->getNumRows(), _geometricInfo->getNumSlices());
 
 				for (it = geometryCoordinatePolygonVector.begin(); it != geometryCoordinatePolygonVector.end();
 				     ++it)
@@ -84,6 +85,21 @@ namespace rttb
 
 					//get min/max for x/y/z of the contour
 					calcMinMax(geometryCoordinatePolygon, minGridIndex, maxGridIndex);
+
+					PolygonType::iterator coutIt;
+					std::cout << "Polygon: ";
+
+					for (coutIt = geometryCoordinatePolygon.begin(); coutIt != geometryCoordinatePolygon.end();
+					     ++coutIt)
+					{
+						std::cout << (*coutIt).toString() << "; ";
+					}
+
+					std::cout << std::endl;
+					std::cout << "min: " << minGridIndex.toString() << std::endl;
+					std::cout << "max: " << maxGridIndex.toString() << std::endl;
+
+
 
 					//check tilt, if more than the error constant throw exception
 					if (checkTilt(minGridIndex, maxGridIndex, errorConstant))
@@ -127,16 +143,14 @@ namespace rttb
 
 				}
 
-				_globalBoundingBox.push_back(globalMinGridIndex);
-				_globalBoundingBox.push_back(globalMaxGridIndex);
 				rttb::VoxelGridIndex3D minIndex = VoxelGridIndex3D(GridIndexType(globalMinGridIndex(0) + 0.5),
 				                                  GridIndexType(globalMinGridIndex(1) + 0.5), GridIndexType(globalMinGridIndex(2) + 0.5));
 				rttb::VoxelGridIndex3D maxIndex = VoxelGridIndex3D(GridIndexType(globalMaxGridIndex(0) + 0.5),
 				                                  GridIndexType(globalMaxGridIndex(1) + 0.5), GridIndexType(globalMaxGridIndex(2) + 0.5));
-				_globalBoundingBoxSize0 = maxIndex(0) - minIndex(0) + 1;
-				_globalBoundingBoxSize1 = maxIndex(1) - minIndex(1) + 1;
-				_globalBoundingBoxInt.push_back(minIndex);
-				_globalBoundingBoxInt.push_back(maxIndex);
+				std::cout << "global min: " << minIndex.toString() << ", globa max: " << maxIndex.toString() <<
+				          std::endl;
+				_globalBoundingBox.push_back(minIndex);
+				_globalBoundingBox.push_back(maxIndex);
 
 				//convert rttb polygon sequence to a map of z index and a vector of boost ring 2d (without holes)
 				BoostRingMap ringMap = convertRTTBPolygonSequenceToBoostRingMap(geometryCoordinatePolygonVector);
@@ -156,33 +170,32 @@ namespace rttb
 			void BoostMask::voxelization()
 			{
 				BoostPolygonMap::iterator it;
+				rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
+				rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
+				int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
+				int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
 
 				for (it = _geometryCoordinateBoostPolygonMap.begin();
 				     it != _geometryCoordinateBoostPolygonMap.end(); ++it)
 				{
-					BoostArray2D maskArray(boost::extents[_globalBoundingBoxSize0][_globalBoundingBoxSize1]);
+					BoostArray2D maskArray(boost::extents[globalBoundingBoxSize0][globalBoundingBoxSize1]);
 
 					BoostPolygonVector boostPolygonVec = (*it).second;
 
-					for (unsigned int x = 0; x < _globalBoundingBoxSize0; ++x)
+					for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)
 					{
-						for (unsigned y = 0; y < _globalBoundingBoxSize1; ++y)
+						for (unsigned y = 0; y < globalBoundingBoxSize1; ++y)
 						{
 							rttb::VoxelGridIndex3D currentIndex;
-							currentIndex[0] = x + _globalBoundingBoxInt.at(0)[0];
-							currentIndex[1] = y + _globalBoundingBoxInt.at(0)[1];
+							currentIndex[0] = x + minIndex[0];
+							currentIndex[1] = y + minIndex[1];
 							currentIndex[2] = 0;
 
 							//Get intersection polygons of the dose voxel and the structure
 							BoostPolygonDeque polygons = getIntersections(currentIndex, boostPolygonVec);
 
 							//Calc areas of all intersection polygons
-							double intersectionArea = calcArea(polygons);
-
-							double voxelSize = _geometricInfo->getSpacing()[0] * _geometricInfo->getSpacing()[1];
-
-
-							double volumeFraction = intersectionArea / voxelSize;
+							double volumeFraction = calcArea(polygons);
 
 							if (volumeFraction > 1 && (volumeFraction - 1) <= errorConstant)
 							{
@@ -190,6 +203,7 @@ namespace rttb
 							}
 
 							maskArray[x][y] = volumeFraction;
+							std::cout << "(" << x << "," << y << "): " << volumeFraction << std::endl;
 						}
 					}
 
@@ -225,7 +239,7 @@ namespace rttb
 			}
 
 			void BoostMask::calcMinMax(const rttb::PolygonType& aRTTBPolygon,
-			                           rttb::DoubleVoxelGridIndex3D minimum, rttb::DoubleVoxelGridIndex3D maximum)
+			                           rttb::DoubleVoxelGridIndex3D& minimum, rttb::DoubleVoxelGridIndex3D& maximum)
 			{
 				maximum(0) = 0.0;
 				maximum(1) = 0.0;
@@ -273,7 +287,9 @@ namespace rttb
 					{
 						maximum(2) = geometryCoordinatePoint(2);
 					}
+
 				}
+
 			}
 
 
@@ -436,22 +452,18 @@ namespace rttb
 			BoostMask::BoostRing2D BoostMask::get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D)
 			{
 				BoostMask::BoostRing2D polygon;
-				rttb::WorldCoordinate3D rttbPoint;
-				_geometricInfo->indexToWorldCoordinate(aVoxelGrid3D, rttbPoint);
 
-				BoostPoint2D point1(rttbPoint[0], rttbPoint[1]);
+
+				BoostPoint2D point1(aVoxelGrid3D[0] - 0.5, aVoxelGrid3D[1] - 0.5);
 				::boost::geometry::append(polygon, point1);
 
-				double xSpacing = _geometricInfo->getSpacing()[0];
-				double ySpacing = _geometricInfo->getSpacing()[1];
-
-				BoostPoint2D point2(rttbPoint[0] + xSpacing, rttbPoint[1]);
+				BoostPoint2D point2(aVoxelGrid3D[0] + 0.5, aVoxelGrid3D[1] - 0.5);
 				::boost::geometry::append(polygon, point2);
 
-				BoostPoint2D point3(rttbPoint[0] + xSpacing, rttbPoint[1] + ySpacing);
+				BoostPoint2D point3(aVoxelGrid3D[0] + 0.5, aVoxelGrid3D[1] + 0.5);
 				::boost::geometry::append(polygon, point3);
 
-				BoostPoint2D point4(rttbPoint[0], rttbPoint[1] + ySpacing);
+				BoostPoint2D point4(aVoxelGrid3D[0] - 0.5, aVoxelGrid3D[1] + 0.5);
 				::boost::geometry::append(polygon, point4);
 
 				::boost::geometry::append(polygon, point1);

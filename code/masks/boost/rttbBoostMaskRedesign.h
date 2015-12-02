@@ -102,13 +102,7 @@ namespace rttb
 				*	The first index has the minimum for x/y/z of the global bounding box.
 				*	The second index has the maximum for x/y/z of the global bounding index.
 				*/
-				std::vector<rttb::DoubleVoxelGridIndex3D> _globalBoundingBox;
-
-				/*! @brief The bounding box x/y size*/
-				int _globalBoundingBoxSize0;
-				int _globalBoundingBoxSize1;
-
-				VoxelIndexVector _globalBoundingBoxInt;
+				VoxelIndexVector _globalBoundingBox;
 
 				/*! @brief The voxelization map
 				*	key: the double z grid index
@@ -161,8 +155,8 @@ namespace rttb
 
 				/*! @brief Calculate minimum and maximum for x/y/z of the polygon
 				*/
-				void calcMinMax(const rttb::PolygonType& aRTTBPolygon, rttb::DoubleVoxelGridIndex3D minimum,
-				                rttb::DoubleVoxelGridIndex3D maximum);
+				void calcMinMax(const rttb::PolygonType& aRTTBPolygon, rttb::DoubleVoxelGridIndex3D& minimum,
+				                rttb::DoubleVoxelGridIndex3D& maximum);
 
 				/*! @brief If 2 rttb polygons in the vector build a donut, convert the 2 rttb polygons to a donut boost polygon, other rttb polygons unchanged convert to boost ring*/
 
@@ -177,7 +171,7 @@ namespace rttb
 				/*! @brief If 2 rings in the vector build a donut, convert the 2 rings to a donut polygon, other rings unchanged*/
 				BoostPolygonVector checkDonutAndConvert(const BoostRingVector& aRingVector);
 
-				/*! @brief Get the voxel 2d contour polygon*/
+				/*! @brief Get the voxel 2d contour polygon in geometry coordinate*/
 				BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D);
 
 				/*! @brief Get intersection polygons of the contour and a voxel polygon
