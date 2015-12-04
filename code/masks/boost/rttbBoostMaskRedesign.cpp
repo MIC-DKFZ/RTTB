@@ -72,7 +72,7 @@ namespace rttb
 				}
 
 				//Get global bounding box
-				rttb::DoubleVoxelGridIndex3D globalMaxGridIndex(0.0, 0.0, 0);
+				rttb::DoubleVoxelGridIndex3D globalMaxGridIndex(-1.0, -1.0, -1.0);
 				rttb::DoubleVoxelGridIndex3D globalMinGridIndex(_geometricInfo->getNumColumns(),
 				        _geometricInfo->getNumRows(), _geometricInfo->getNumSlices());
 
@@ -170,6 +170,12 @@ namespace rttb
 			void BoostMask::voxelization()
 			{
 				BoostPolygonMap::iterator it;
+
+				if (_globalBoundingBox.size() < 2)
+				{
+					throw rttb::core::InvalidParameterException("Bounding box calculation failed! ");
+				}
+
 				rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
 				rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
 				int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
@@ -184,7 +190,7 @@ namespace rttb
 
 					for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)
 					{
-						for (unsigned y = 0; y < globalBoundingBoxSize1; ++y)
+						for (unsigned int y = 0; y < globalBoundingBoxSize1; ++y)
 						{
 							rttb::VoxelGridIndex3D currentIndex;
 							currentIndex[0] = x + minIndex[0];
@@ -214,7 +220,7 @@ namespace rttb
 			}
 
 			rttb::PolygonType BoostMask::worldCoordinateToGeometryCoordinatePolygon(
-			    const rttb::PolygonType& aRTTBPolygon)
+			    const rttb::PolygonType& aRTTBPolygon) const
 			{
 				rttb::PolygonType geometryCoordinatePolygon;
 
@@ -233,17 +239,17 @@ namespace rttb
 			}
 
 			bool BoostMask::checkTilt(const rttb::DoubleVoxelGridIndex3D& minimum,
-			                          const rttb::DoubleVoxelGridIndex3D& maximum, double aErrorConstant)
+			                          const rttb::DoubleVoxelGridIndex3D& maximum, double aErrorConstant) const
 			{
 				return (abs(maximum(2) - minimum(2)) > aErrorConstant);
 			}
 
 			void BoostMask::calcMinMax(const rttb::PolygonType& aRTTBPolygon,
-			                           rttb::DoubleVoxelGridIndex3D& minimum, rttb::DoubleVoxelGridIndex3D& maximum)
+			                           rttb::DoubleVoxelGridIndex3D& minimum, rttb::DoubleVoxelGridIndex3D& maximum) const
 			{
-				maximum(0) = 0.0;
-				maximum(1) = 0.0;
-				maximum(2) = 0.0;
+				maximum(0) = -1.0;
+				maximum(1) = -1.0;
+				maximum(2) = -1.0;
 				minimum(0) = _geometricInfo->getNumColumns();
 				minimum(1) = _geometricInfo->getNumRows();
 				minimum(2) = _geometricInfo->getNumSlices();
@@ -294,7 +300,7 @@ namespace rttb
 
 
 			BoostMask::BoostRing2D BoostMask::convertRTTBPolygonToBoostRing(const rttb::PolygonType&
-			        aRTTBPolygon)
+			        aRTTBPolygon) const
 			{
 				BoostMask::BoostRing2D polygon2D;
 				BoostPoint2D firstPoint;
@@ -317,7 +323,7 @@ namespace rttb
 			}
 
 			BoostMask::BoostRingMap BoostMask::convertRTTBPolygonSequenceToBoostRingMap(
-			    const rttb::PolygonSequenceType& aRTTBPolygonVector)
+			    const rttb::PolygonSequenceType& aRTTBPolygonVector) const
 			{
 				rttb::PolygonSequenceType::const_iterator it;
 				BoostMask::BoostRingMap aRingMap;
@@ -347,7 +353,7 @@ namespace rttb
 			}
 
 			BoostMask::BoostPolygonVector BoostMask::checkDonutAndConvert(const BoostMask::BoostRingVector&
-			        aRingVector)
+			        aRingVector) const
 			{
 				//check donut
 				BoostMask::BoostRingVector::const_iterator it1;
@@ -449,7 +455,7 @@ namespace rttb
 				return boostPolygonVector;
 			}
 
-			BoostMask::BoostRing2D BoostMask::get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D)
+			BoostMask::BoostRing2D BoostMask::get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D) const
 			{
 				BoostMask::BoostRing2D polygon;
 
@@ -474,7 +480,7 @@ namespace rttb
 
 			/*Get intersection polygons of the contour and a voxel polygon*/
 			BoostMask::BoostPolygonDeque BoostMask::getIntersections(const rttb::VoxelGridIndex3D&
-			        aVoxelIndex3D, const BoostPolygonVector& intersectionSlicePolygons)
+			        aVoxelIndex3D, const BoostPolygonVector& intersectionSlicePolygons) const
 			{
 				BoostMask::BoostPolygonDeque polygonDeque;
 
@@ -497,7 +503,7 @@ namespace rttb
 			}
 
 			/*Calculate the intersection area*/
-			double BoostMask::calcArea(const BoostPolygonDeque& aPolygonDeque)
+			double BoostMask::calcArea(const BoostPolygonDeque& aPolygonDeque) const
 			{
 				double area = 0;
 

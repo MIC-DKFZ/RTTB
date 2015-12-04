@@ -137,42 +137,43 @@ namespace rttb
 				/*! @brief The voxelization step, wich computes the voxelization planes (in x/y) for all contours of an struct.
 
 					*For each contour (that is in the z-Range of the reference geometry) of the struct:
-					*1) Allocate result array (voxelization plane) based on the bounding box (see Proprocessing Step 3)
+					*1) Allocate result array (voxelization plane) based on the bounding box (see Preprocessing Step 3)
 					*2) Generate voxelization plane for the contour (based on the x-y-raster of the reference geometry).
-					*3) Add result Array (key is the z-Value of the contoure)
+					*3) Add result Array (key is the z-Value of the contour)
 				*/
 				void voxelization();
 
 				/*! @brief Convert the rttb polygon with world corrdinate to the rttb polygon with double geometry coordinate
 				*/
-				rttb::PolygonType worldCoordinateToGeometryCoordinatePolygon(const rttb::PolygonType& aRTTBPolygon);
+				rttb::PolygonType worldCoordinateToGeometryCoordinatePolygon(const rttb::PolygonType& aRTTBPolygon)
+				const;
 
 				/*! @brief Check if the polygon with the minimum and maximum is tilted more than a error constant
 				@return Return true if tilted > aErrorConstant
 				*/
 				bool checkTilt(const rttb::DoubleVoxelGridIndex3D& minimum,
-				               const rttb::DoubleVoxelGridIndex3D& maximum, double aErrorConstant);
+				               const rttb::DoubleVoxelGridIndex3D& maximum, double aErrorConstant) const;
 
 				/*! @brief Calculate minimum and maximum for x/y/z of the polygon
 				*/
 				void calcMinMax(const rttb::PolygonType& aRTTBPolygon, rttb::DoubleVoxelGridIndex3D& minimum,
-				                rttb::DoubleVoxelGridIndex3D& maximum);
+				                rttb::DoubleVoxelGridIndex3D& maximum) const;
 
 				/*! @brief If 2 rttb polygons in the vector build a donut, convert the 2 rttb polygons to a donut boost polygon, other rttb polygons unchanged convert to boost ring*/
 
 
 				/*! @brief Convert a rttb 3d polygon to a 2d boost ring*/
-				BoostRing2D convertRTTBPolygonToBoostRing(const rttb::PolygonType& aRTTBPolygon);
+				BoostRing2D convertRTTBPolygonToBoostRing(const rttb::PolygonType& aRTTBPolygon) const;
 
 				/*! @brief Convert a rttb 3d polygon to a map of z index with a vector of boost 2d ring, because of tilt check use the first z index of the polygon as the map key*/
 				BoostRingMap convertRTTBPolygonSequenceToBoostRingMap(const rttb::PolygonSequenceType&
-				        aRTTBPolygonVector);
+				        aRTTBPolygonVector) const;
 
 				/*! @brief If 2 rings in the vector build a donut, convert the 2 rings to a donut polygon, other rings unchanged*/
-				BoostPolygonVector checkDonutAndConvert(const BoostRingVector& aRingVector);
+				BoostPolygonVector checkDonutAndConvert(const BoostRingVector& aRingVector) const;
 
 				/*! @brief Get the voxel 2d contour polygon in geometry coordinate*/
-				BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D);
+				BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D) const;
 
 				/*! @brief Get intersection polygons of the contour and a voxel polygon
 				* @param aVoxelIndex3D The 3d grid index of the voxel
@@ -180,13 +181,13 @@ namespace rttb
 				* @return Return all intersetion polygons of the structure and the voxel
 				*/
 				BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D,
-				                                   const BoostPolygonVector& intersectionSlicePolygons);
+				                                   const BoostPolygonVector& intersectionSlicePolygons) const;
 
 				/*! @brief Calculate the area of all polygons
 				* @param aPolygonDeque The deque of polygons
 				* @return Return the area of all polygons
 				*/
-				double calcArea(const BoostPolygonDeque& aPolygonDeque);
+				double calcArea(const BoostPolygonDeque& aPolygonDeque) const;
 			};
 
 		}
