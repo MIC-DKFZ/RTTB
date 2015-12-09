@@ -61,10 +61,19 @@ namespace rttb
 
 			//1) test BoostMask constructor
 			CHECK_NO_THROW(rttb::masks::boostRedesign::BoostMask(geometricPtr, spMyStruct));
-			rttb::masks::boostRedesign::BoostMask boostMask = rttb::masks::boostRedesign::BoostMask(geometricPtr, spMyStruct);
+			rttb::masks::boostRedesign::BoostMask boostMask = rttb::masks::boostRedesign::BoostMask(
+			            geometricPtr, spMyStruct);
 
 			//2) test getRelevantVoxelVector
 			CHECK_NO_THROW(boostMask.getRelevantVoxelVector());
+			rttb::masks::boostRedesign::BoostMask::MaskVoxelListPointer list =
+			    boostMask.getRelevantVoxelVector();
+
+			for (int i = 0; i < list->size(); ++i)
+			{
+				std::cout << "id: " << list->at(i).getVoxelGridID() << ", " << list->at(
+				              i).getRelevantVolumeFraction() << std::endl;
+			}
 
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
