@@ -1,6 +1,7 @@
 #include <iostream>
 #include <deque>
 #include <algorithm>
+#include <limits>
 
 #include <boost/geometry/geometries/register/point.hpp>
 #include <boost/geometry/geometries/register/ring.hpp>
@@ -72,7 +73,8 @@ namespace rttb
 				}
 
 				//Get global bounding box
-				rttb::DoubleVoxelGridIndex3D globalMaxGridIndex(-1.0, -1.0, -1.0);
+				rttb::DoubleVoxelGridIndex3D globalMaxGridIndex(std::numeric_limits<double>::lowest(),
+				        std::numeric_limits<double>::lowest(), std::numeric_limits<double>::lowest());
 				rttb::DoubleVoxelGridIndex3D globalMinGridIndex(_geometricInfo->getNumColumns(),
 				        _geometricInfo->getNumRows(), _geometricInfo->getNumSlices());
 
@@ -207,6 +209,10 @@ namespace rttb
 							{
 								volumeFraction = 1;
 							}
+							else if (volumeFraction < 0 || (volumeFraction - 1) > errorConstant)
+							{
+								throw rttb::core::InvalidParameterException("Mask calculation failed! The volume fraction should >= 0 and <= 1!");
+							}
 
 							maskArray[x][y] = volumeFraction;
 							std::cout << "(" << x << "," << y << "): " << volumeFraction << std::endl;
@@ -247,9 +253,9 @@ namespace rttb
 			void BoostMask::calcMinMax(const rttb::PolygonType& aRTTBPolygon,
 			                           rttb::DoubleVoxelGridIndex3D& minimum, rttb::DoubleVoxelGridIndex3D& maximum) const
 			{
-				maximum(0) = -1.0;
-				maximum(1) = -1.0;
-				maximum(2) = -1.0;
+				maximum(0) = std::numeric_limits<double>::lowest();
+				maximum(1) = std::numeric_limits<double>::lowest();
+				maximum(2) = std::numeric_limits<double>::lowest();
 				minimum(0) = _geometricInfo->getNumColumns();
 				minimum(1) = _geometricInfo->getNumRows();
 				minimum(2) = _geometricInfo->getNumSlices();
