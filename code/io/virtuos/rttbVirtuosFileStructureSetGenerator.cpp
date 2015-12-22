@@ -85,7 +85,7 @@ namespace rttb
 					throw core::InvalidParameterException("Virtuos VDX/CTX file name must not be empty!");
 				}
 
-				int vdxPosition = aVirtuosVDXFileName.find(".vdx");
+				size_t vdxPosition = aVirtuosVDXFileName.find(".vdx");
 
 				if (vdxPosition == std::string::npos)
 				{
@@ -123,9 +123,9 @@ namespace rttb
 
 				float firstSliceInFrame = (*_pPointerOnVirtuosCube)->pos_list[0].position;
 
-				double sliceThickness = (*_pPointerOnVirtuosCube)->slicedist;
+				float sliceThickness = (*_pPointerOnVirtuosCube)->slicedist;
 
-				float lastSliceInFrame = ((*_pPointerOnVirtuosCube)->dimz - 1) * sliceThickness + firstSliceInFrame;
+				float lastSliceInFrame = static_cast<float>(((*_pPointerOnVirtuosCube)->dimz - 1) * sliceThickness + firstSliceInFrame);
 
 				for (int currentVoiNumber = 0; currentVoiNumber < numberOfVois; currentVoiNumber++)
 				{
@@ -198,7 +198,7 @@ namespace rttb
 					throw core::InvalidParameterException("Empty File Name");
 				}
 
-				int gzPosition = aVirtuosCTXFileName.find(".gz");
+				size_t gzPosition = aVirtuosCTXFileName.find(".gz");
 
 				if (gzPosition != std::string::npos)
 				{

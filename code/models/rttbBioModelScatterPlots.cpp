@@ -111,7 +111,7 @@ namespace rttb
 
 		double normal_pdf(double aValue, double aVariance)
 		{
-			static const float inv_sqrt_2pi = 0.3989422804014327;
+			static const double inv_sqrt_2pi = 0.3989422804014327;
 			double a = (aValue) / aVariance;
 
 			return inv_sqrt_2pi / aVariance * std::exp(-0.5f * a * a);

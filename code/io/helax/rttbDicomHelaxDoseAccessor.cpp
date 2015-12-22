@@ -113,8 +113,9 @@ namespace rttb
 							for (unsigned int i = 0;
 							     i < static_cast<unsigned int>(_geoInfo.getNumColumns()*_geoInfo.getNumRows()); i++)
 							{
-								this->_doseData.push_back(pixelData[i]*currentDoseGridScaling /
-								                          _doseGridScaling); //recalculate dose data
+								Uint16 data = static_cast<Uint16>(pixelData[i] * currentDoseGridScaling /
+								                                  _doseGridScaling);
+								this->_doseData.push_back(data); //recalculate dose data
 							}
 
 						}

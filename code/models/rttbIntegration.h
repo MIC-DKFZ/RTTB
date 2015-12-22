@@ -28,7 +28,7 @@ namespace rttb
 	namespace models
 	{
 
-		typedef float integrationType;
+		typedef double integrationType;
 		/*! @class LkbModelFunctor
 			@brief A FunctorType: calculate the transformed LKB-Model using the transformation x = b - (1-t)/t.
 		\int_{-\infty}^{b} dx f(x) = \int_0^1 dt f(b - (1-t)/t)/t^2

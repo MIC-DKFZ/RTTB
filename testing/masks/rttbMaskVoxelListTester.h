@@ -49,8 +49,8 @@ namespace rttb
 			MaskVoxelListPointer _referenceList;
 			MaskVoxelListPointer _compareList;
 
-			mutable float _maxDifference;
-			mutable float _numDifference;
+			mutable double _maxDifference;
+			mutable double _numDifference;
 
 			mutable bool _sameSize;
 			mutable bool _masVoxelsDiffer;

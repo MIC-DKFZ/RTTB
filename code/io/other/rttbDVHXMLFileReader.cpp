@@ -69,7 +69,6 @@ namespace rttb
 
 
 				std::string dvhType;
-				int numberOfBins;
 				std::deque<DoseTypeGy> dataDifferential, dataCumulative;
 
 				DoseTypeGy deltaD = 0;
@@ -107,7 +106,7 @@ namespace rttb
 					count++;
 				}
 
-				numberOfBins = std::max(dataDifferential.size(), dataCumulative.size());
+				unsigned int numberOfBins = static_cast<unsigned int>(std::max(dataDifferential.size(), dataCumulative.size()));
 
 				if (dvhType == "CUMULATIVE") //dataDifferential should be calculated
 				{
@@ -142,7 +141,7 @@ namespace rttb
 
 				return _dvh;
 			}
-		}//end namepsace other
+		}//end namespace other
 	}//end namespace io
 }//end namespace rttb
 

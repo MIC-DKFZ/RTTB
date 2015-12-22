@@ -48,7 +48,7 @@ namespace rttb
 			models::CurveDataType _referenceCurve;
 			models::ScatterPlotType _compareScatter;
 
-			/*! Additional variance that is allowed in the comparison. This value ususally corresponds to the value used in
+			/*! Additional variance that is allowed in the comparison. This value usually corresponds to the value used in
 				the generation of the scatter plot.
 			*/
 			models::BioModelParamType _variance;
@@ -57,7 +57,7 @@ namespace rttb
 			mutable int   _numDifference;
 			mutable float _meanDifference;
 
-			/*! If true allows up tp 5% of the scatter points to deviate without failing.
+			/*! If true allows up to 5% of the scatter points to deviate without failing.
 				If false, all points have to correspond.
 			*/
 			bool _allowExceptions;
