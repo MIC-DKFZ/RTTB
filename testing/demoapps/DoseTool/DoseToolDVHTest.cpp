@@ -43,7 +43,6 @@ namespace rttb
 
 			std::string doseToolExecutable;
 			std::string doseFilename;
-			std::string planFilename;
 			std::string structFilename;
 			std::string structName;
 			std::string referenceXMLFilename;

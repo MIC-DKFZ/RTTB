@@ -94,7 +94,7 @@ namespace rttb
 					maximum = *doseIt;
 				}
 
-				doseIt++;
+				++doseIt;
 			}
 
 			binSize = maximum * 1.5 / numBins;

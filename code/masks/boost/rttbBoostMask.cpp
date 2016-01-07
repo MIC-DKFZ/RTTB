@@ -402,7 +402,7 @@ namespace rttb
 				//Get donut index and donut polygon
 				unsigned int index1 = 0;
 
-				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); it1++, index1++)
+				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); ++it1, ++index1)
 				{
 					bool it1IsDonut = false;
 
@@ -422,7 +422,7 @@ namespace rttb
 						bool it2IsDonut = false;
 						unsigned int index2 = 0;
 
-						for (it2 = aRingVector.begin(); it2 != aRingVector.end(); it2++, index2++)
+						for (it2 = aRingVector.begin(); it2 != aRingVector.end(); ++it2, ++index2)
 						{
 							if (it2 != it1)
 							{
@@ -459,7 +459,7 @@ namespace rttb
 				//Store no donut polygon to boostPolygonVector
 				index1 = 0;
 
-				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); it1++, index1++)
+				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); ++it1, ++index1)
 				{
 					bool it1IsDonut = false;
 
@@ -484,7 +484,7 @@ namespace rttb
 				//Append donut polygon to boostPolygonVector
 				BoostMask::BoostPolygonVector::iterator itDonut;
 
-				for (itDonut = donutVector.begin(); itDonut != donutVector.end(); itDonut++)
+				for (itDonut = donutVector.begin(); itDonut != donutVector.end(); ++itDonut)
 				{
 					boostPolygonVector.push_back(*itDonut);//append donuts
 				}

@@ -60,7 +60,6 @@ namespace rttb
 				unsigned int numberOfBins;
 				DoseTypeGy prescribedDose;
 				double estimated_max_dose_prescribed_dose_ratio;
-				int voxelsInStructure;
 				std::deque<DoseTypeGy> dataDifferential;
 				std::deque<DoseTypeGy> dataCumulative;
 
@@ -155,12 +154,6 @@ namespace rttb
 						{
 							std::stringstream ss(line.substr(42));
 							ss >> estimated_max_dose_prescribed_dose_ratio;
-						}
-
-						if (line.find("Voxels In Structure: ") != std::string::npos)
-						{
-							std::stringstream ss(line.substr(21));
-							ss >> voxelsInStructure;
 						}
 					}
 				}
