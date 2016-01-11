@@ -149,7 +149,7 @@ namespace rttb
 			expectedValues.push_back(30.0 * doseGridScaling);
 
 			//convert VoxelGridIndex3D to VoxelGridID
-			for (int i = 0; i < voxelsAsIndexToTest.size(); i++)
+			for (size_t i = 0; i < voxelsAsIndexToTest.size(); i++)
 			{
 				VoxelGridID currentId;
 				doseAccessor1GeometricInfo.convert(voxelsAsIndexToTest.at(i), currentId);
@@ -172,7 +172,7 @@ namespace rttb
 			expectedValues.push_back(23.0 * doseGridScaling);
 			expectedValues.push_back(31.0 * doseGridScaling);
 
-			for (int i = 0; i < voxelsAsIndexToTest.size(); i++)
+			for (size_t i = 0; i < voxelsAsIndexToTest.size(); i++)
 			{
 				VoxelGridID currentId;
 				doseAccessor1GeometricInfo.convert(voxelsAsIndexToTest.at(i), currentId);

@@ -46,7 +46,7 @@ namespace rttb
 			std::vector<unsigned int> resultVOiIndices;
 			boost::regex e(nameAsRegEx);
 
-			for (int i = 0; i < spStructSet->getNumberOfStructures(); i++)
+			for (size_t i = 0; i < spStructSet->getNumberOfStructures(); i++)
 			{
 				voiLabelList.push_back(spStructSet->getStructure(i)->getLabel());
 

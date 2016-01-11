@@ -19,6 +19,7 @@
 // @author  $Author$ (last changed by)
 */
 
+#include <limits>
 #include "rttbHomogeneityIndex.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbExceptionMacros.h"
@@ -37,7 +38,7 @@ namespace rttb
 		bool HomogeneityIndex::calcIndex()
 		{
 			double max = 0;
-			double min;
+			double min = std::numeric_limits<double>::max();
 			std::vector<core::DVH> dvhTVSet = this->_dvhSet->getTargetVolumeSet();
 			std::vector<core::DVH>::iterator it;
 

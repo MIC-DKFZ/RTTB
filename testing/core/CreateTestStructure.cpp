@@ -49,7 +49,7 @@ namespace rttb
 
 			PolygonType polygon;
 
-			for (int i = 0; i < aVoxelVector.size(); i++)
+			for (size_t i = 0; i < aVoxelVector.size(); i++)
 			{
 				VoxelGridIndex3D voxelIndex;
 				voxelIndex(0) = (aVoxelVector.at(i)).x();
@@ -73,7 +73,7 @@ namespace rttb
 
 			PolygonType polygon;
 
-			for (int i = 0; i < aVoxelVector.size(); i++)
+			for (size_t i = 0; i < aVoxelVector.size(); i++)
 			{
 				VoxelGridIndex3D voxelIndex;
 				voxelIndex(0) = (aVoxelVector.at(i)).x();
@@ -105,7 +105,7 @@ namespace rttb
 
 			PolygonType polygon;
 
-			for (int i = 0; i < aVoxelVector.size(); i++)
+			for (size_t i = 0; i < aVoxelVector.size(); i++)
 			{
 				VoxelGridIndex3D voxelIndex;
 				voxelIndex(0) = (aVoxelVector.at(i)).x();
@@ -136,7 +136,7 @@ namespace rttb
 
 			PolygonType polygon;
 
-			for (int i = 0; i < aVoxelVector.size(); i++)
+			for (size_t i = 0; i < aVoxelVector.size(); i++)
 			{
 				VoxelGridIndex3D voxelIndex;
 				voxelIndex(0) = (aVoxelVector.at(i)).x();
@@ -167,7 +167,7 @@ namespace rttb
 
 			PolygonType polygon;
 
-			for (int i = 0; i < aVoxelVector.size(); i++)
+			for (size_t i = 0; i < aVoxelVector.size(); i++)
 			{
 				VoxelGridIndex3D voxelIndex;
 				voxelIndex(0) = (aVoxelVector.at(i)).x();
@@ -199,7 +199,7 @@ namespace rttb
 
 			PolygonType polygon;
 
-			for (int i = 0; i < aVoxelVector.size(); i++)
+			for (size_t i = 0; i < aVoxelVector.size(); i++)
 			{
 				VoxelGridIndex3D voxelIndex;
 				voxelIndex(0) = (aVoxelVector.at(i)).x();
@@ -231,7 +231,7 @@ namespace rttb
 
 			PolygonType polygon;
 
-			for (int i = 0; i < aVoxelVector.size(); i++)
+			for (size_t i = 0; i < aVoxelVector.size(); i++)
 			{
 				VoxelGridIndex3D voxelIndex;
 				VoxelGridIndex3D voxelIndex2;

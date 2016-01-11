@@ -102,7 +102,7 @@ namespace rttb
 
 				ReaderType::OutputImageType::ConstPointer image = reader->GetOutput();
 
-				for (int i = 0; i < voxelIndices.size(); i++)
+				for (size_t i = 0; i < voxelIndices.size(); i++)
 				{
 					ImageType::PixelType voxelValue = image->GetPixel(voxelIndices.at(i));
 					ImageType::PixelType expectedVoxelValue = expectedVoxelValues.at(i);

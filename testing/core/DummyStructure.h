@@ -65,8 +65,7 @@ namespace rttb
 
 			core::Structure CreateRectangularStructureCenteredRotatedIntermediatePlacement(
 			    GridIndexType zPlane);
-			core::Structure CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRight(
-			    GridIndexType zPlane);
+			core::Structure CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRight();
 			core::Structure
 			CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRightCounterClock(
 			    GridIndexType zPlane);

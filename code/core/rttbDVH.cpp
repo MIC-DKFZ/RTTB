@@ -268,7 +268,7 @@ namespace rttb
 
 			size_t size = _dataDifferential.size();
 
-			for (int i = 0; i < size; i++)
+			for (unsigned int i = 0; i < size; i++)
 			{
 				cumulativeDVHi += _dataDifferential.at(size - i - 1);
 

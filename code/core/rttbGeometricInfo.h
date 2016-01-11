@@ -66,9 +66,9 @@ namespace rttb
 			/*! @brief Constructor, initializes orientation matrix, spacing vector and patient
 				position with zeros.
 			*/
-			GeometricInfo() : _orientationMatrix(0), _spacing(0), _imagePositionPatient(0), _numberOfFrames(0),
-				_numberOfRows(0),
-				_numberOfColumns(0) {}
+			GeometricInfo() : _imagePositionPatient(0),_orientationMatrix(0), _spacing(0), _numberOfColumns(0), 
+				_numberOfRows(0), _numberOfFrames(0)
+				 {}
 
 			void setSpacing(const SpacingVectorType3D& aSpacingVector);
 

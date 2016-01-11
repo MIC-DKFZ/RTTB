@@ -394,7 +394,6 @@ namespace rttb
 			}
 
 			models::BioModelParamType d50Mean = 20;
-			models::BioModelParamType d50Varianz = 2;
 			models::BioModelParamType m = 0.36;
 			models::BioModelParamType a = 1.06;
 

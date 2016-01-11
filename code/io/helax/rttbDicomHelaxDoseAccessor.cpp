@@ -46,7 +46,7 @@ namespace rttb
 
 			DicomHelaxDoseAccessor::DicomHelaxDoseAccessor(std::vector<DRTDoseIODPtr> aDICOMRTDoseVector)
 			{
-				for (int i = 0; i < aDICOMRTDoseVector.size(); i++)
+				for (size_t i = 0; i < aDICOMRTDoseVector.size(); i++)
 				{
 					_doseVector.push_back(aDICOMRTDoseVector.at(i));
 				}
@@ -79,7 +79,7 @@ namespace rttb
 					throw core::InvalidDoseException("Dose grid scaling not readable or = 0!") ;
 				}
 
-				for (int i = 0; i < _doseVector.size(); i++)
+				for (size_t i = 0; i < _doseVector.size(); i++)
 				{
 					DRTDoseIODPtr dose = _doseVector.at(i);
 
@@ -110,10 +110,10 @@ namespace rttb
 
 						if (status.good())
 						{
-							for (unsigned int i = 0;
-							     i < static_cast<unsigned int>(_geoInfo.getNumColumns()*_geoInfo.getNumRows()); i++)
+							for (unsigned int j = 0;
+							     j < static_cast<unsigned int>(_geoInfo.getNumColumns()*_geoInfo.getNumRows()); j++)
 							{
-								this->_doseData.push_back(pixelData[i]*currentDoseGridScaling /
+								this->_doseData.push_back(pixelData[j]*currentDoseGridScaling /
 								                          _doseGridScaling); //recalculate dose data
 							}
 

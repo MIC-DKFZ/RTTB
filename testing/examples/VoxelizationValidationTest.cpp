@@ -101,7 +101,7 @@ namespace rttb
 
 			if (rtStructureSet->getNumberOfStructures() > 0)
 			{
-				for (int j = 0; j < rtStructureSet->getNumberOfStructures(); j++)
+				for (size_t j = 0; j < rtStructureSet->getNumberOfStructures(); j++)
 				{
 					std::cout << j << ": " << rtStructureSet->getStructure(j)->getLabel() << std::endl;
 					clock_t start(clock());

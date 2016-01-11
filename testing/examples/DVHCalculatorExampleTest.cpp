@@ -125,7 +125,7 @@ namespace rttb
 
 			if (rtStructureSet->getNumberOfStructures() > 0)
 			{
-				for (int j = 0; j < rtStructureSet->getNumberOfStructures(); j++)
+				for (int j = 0; j < static_cast<int>(rtStructureSet->getNumberOfStructures()); j++)
 				{
 					std::cout << rtStructureSet->getStructure(j)->getLabel() << std::endl;
 
@@ -207,7 +207,7 @@ namespace rttb
 
 			clock_t start2(clock());
 
-			for (int j = 0; j < rtStructSetMaskAccessorVec.size(); j++)
+			for (size_t j = 0; j < rtStructSetMaskAccessorVec.size(); j++)
 			{
 				//create corresponding MaskedDoseIterator
 				::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =
@@ -252,7 +252,7 @@ namespace rttb
 
 			clock_t start3(clock());
 
-			for (int j = 0; j < rtStructSetMaskAccessorVec.size(); j++)
+			for (size_t j = 0; j < rtStructSetMaskAccessorVec.size(); j++)
 			{
 				//create corresponding MaskedDoseIterator
 				::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmp =

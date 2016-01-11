@@ -60,7 +60,6 @@ namespace rttb
 
 			//increased accuracy requires double values in the calculation (rttbBaseType.h)
 			double toleranceEUD = 1e-5;
-			double tolerance = 1e-7;
 
 			//ARGUMENTS: 1: ptv dvh file name
 			//           2: normal tissue 1 dvh file name

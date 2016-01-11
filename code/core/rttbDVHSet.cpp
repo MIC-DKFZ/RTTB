@@ -209,7 +209,7 @@ namespace rttb
 		{
 			s << "[ ";
 
-			for (int i = 0; i < aDVHSet.size(); i++)
+			for (unsigned int i = 0; i < aDVHSet.size(); i++)
 			{
 				s << aDVHSet.at(i);
 			}

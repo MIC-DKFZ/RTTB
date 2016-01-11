@@ -97,7 +97,7 @@ namespace rttb
 				return false;
 			}
 
-			for (int i = 0; i < gi1.size(); i++)
+			for (unsigned int i = 0; i < gi1.size(); i++)
 			{
 				if (gi1(i) != gi2(i))
 				{
@@ -162,7 +162,7 @@ namespace rttb
 				return false;
 			}
 
-			for (int i = 0; i < wc1.size(); i++)
+			for (unsigned int i = 0; i < wc1.size(); i++)
 			{
 				if (wc1(i) != wc2(i))
 				{
@@ -276,7 +276,7 @@ namespace rttb
 				return false;
 			}
 
-			for (int i = 0; i < wc1.size(); i++)
+			for (unsigned int i = 0; i < wc1.size(); i++)
 			{
 				if (wc1(i) != wc2(i))
 				{
@@ -395,7 +395,7 @@ namespace rttb
 				return false;
 			}
 
-			for (int i = 0; i < wc1.size(); i++)
+			for (unsigned int i = 0; i < wc1.size(); i++)
 			{
 				if (wc1(i) != wc2(i))
 				{
@@ -561,7 +561,7 @@ namespace rttb
 				return false;
 			}
 
-			for (int i = 0; i < gi1.size(); i++)
+			for (unsigned int i = 0; i < gi1.size(); i++)
 			{
 				if (gi1(i) != gi2(i))
 				{
@@ -618,7 +618,7 @@ namespace rttb
 				return false;
 			}
 
-			for (int i = 0; i < gi1.size(); i++)
+			for (unsigned int i = 0; i < gi1.size(); i++)
 			{
 				if (gi1(i) != gi2(i))
 				{

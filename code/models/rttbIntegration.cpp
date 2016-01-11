@@ -62,7 +62,7 @@ namespace rttb
 
 			double f = exp(-pow((x - tcp_params.alphaMean) / alphaVariance, 2) / 2);
 
-			for (int i = 0; i < tcp_params.volumeVector.size(); ++i)
+			for (unsigned int i = 0; i < tcp_params.volumeVector.size(); ++i)
 			{
 				double tmp, tmp1, tmp2, tmp3;
 				tmp1 = exp(-x * tcp_params.bedVector.at(i));

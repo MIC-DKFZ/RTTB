@@ -67,7 +67,7 @@ namespace rttb
 			baseCommand += " -r " + referenceFile;
 			baseCommand += " -e ";
 
-			for (int i = 0; i < commands.size(); i++)
+			for (size_t i = 0; i < commands.size(); i++)
 			{
 				std::string command = baseCommand + commands.at(i);
 				int returnValue = system(command.c_str());
@@ -81,7 +81,7 @@ namespace rttb
 			CHECK_EQUAL(returnValue, 0);
 
 
-			for (int i = 0; i < filenames.size(); i++)
+			for (size_t i = 0; i < filenames.size(); i++)
 			{
 				const std::string HDRfileName = tempDirectory + "/" + filenames.at(i) + ".hdr";
 				boost::filesystem::path HDRFile(HDRfileName);
