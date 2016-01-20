@@ -34,7 +34,6 @@
 #include "rttbGenericMaskedDoseIterator.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbNullPointerException.h"
-#include "rttbInvalidParameterException.h"
 #include "rttbDicomDoseAccessor.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomFileStructureSetGenerator.h"
@@ -95,8 +94,6 @@ namespace rttb
 			//create a vector of MaskAccessors (one for each structure)
 			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(
 			        RTSTRUCT_FILENAME.c_str()).generateStructureSet();
-
-			std::vector<MaskAccessorPointer> rtStructSetMaskAccessorVec;
 
 
 			if (rtStructureSet->getNumberOfStructures() > 0)

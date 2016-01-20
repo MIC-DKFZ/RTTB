@@ -55,8 +55,10 @@ namespace rttb
 				std::vector<BoostMask::BoostPolygonVector>
 				intersectionSlicePolygonsVector;//store the polygons of intersection slice of each index z
 
+				unsigned int nSlices = static_cast<unsigned int>(_geometricInfo->getNumSlices());
+
 				//For each dose slice, get intersection structure slice and the contours on the structure slice
-				for (unsigned int indexZ = 0; indexZ < _geometricInfo->getNumSlices(); indexZ++)
+				for (unsigned int indexZ = 0; indexZ < nSlices; indexZ++)
 				{
 					BoostMask::BoostPolygonVector boostPolygons = getIntersectionSlicePolygons(indexZ);
 					BoostMask::BoostPolygonVector::iterator it;
@@ -73,7 +75,7 @@ namespace rttb
 				If dose slice (indexZ) has no intersection with structure slice, but the last and the next do, that means the dose
 				slice lies between two structure slices -> use the last slice intersection contours for this slice
 				*/
-				for (unsigned int indexZ = 1; indexZ < _geometricInfo->getNumSlices() - 1; indexZ++)
+				for (unsigned int indexZ = 1; indexZ < nSlices - 1; indexZ++)
 				{
 					if (intersectionSlicePolygonsVector.at(indexZ).size() == 0
 					    && intersectionSlicePolygonsVector.at(indexZ - 1).size() > 0
@@ -83,7 +85,7 @@ namespace rttb
 					}
 				}
 
-				for (unsigned int indexZ = 0; indexZ < _geometricInfo->getNumSlices(); indexZ++)
+				for (unsigned int indexZ = 0; indexZ < nSlices; indexZ++)
 				{
 					BoostMask::BoostPolygonVector intersectionSlicePolygons = intersectionSlicePolygonsVector.at(
 					            indexZ);
@@ -136,7 +138,9 @@ namespace rttb
 			{
 				bool hasSelfIntersection = false;
 
-				for (unsigned int indexZ = 0; indexZ < _geometricInfo->getNumSlices(); indexZ++)
+				unsigned int nSlices = static_cast<unsigned int>(_geometricInfo->getNumSlices());
+
+				for (unsigned int indexZ = 0; indexZ < nSlices; indexZ++)
 				{
 
 					rttb::VoxelGridIndex3D currentIndex(0, 0, indexZ);
@@ -190,7 +194,9 @@ namespace rttb
 			BoostMask::VoxelIndexVector BoostMask::getBoundingBox(unsigned int sliceNumber,
 			        const BoostPolygonVector& intersectionSlicePolygons)
 			{
-				if (sliceNumber < 0 || sliceNumber >= _geometricInfo->getNumSlices())
+				unsigned int nSlices = static_cast<unsigned int>(_geometricInfo->getNumSlices());
+
+				if (sliceNumber < 0 || sliceNumber >= nSlices)
 				{
 					throw rttb::core::InvalidParameterException(std::string("Error: slice number is invalid!"));
 				}
@@ -396,7 +402,7 @@ namespace rttb
 				//Get donut index and donut polygon
 				unsigned int index1 = 0;
 
-				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); it1++, index1++)
+				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); ++it1, ++index1)
 				{
 					bool it1IsDonut = false;
 
@@ -416,7 +422,7 @@ namespace rttb
 						bool it2IsDonut = false;
 						unsigned int index2 = 0;
 
-						for (it2 = aRingVector.begin(); it2 != aRingVector.end(); it2++, index2++)
+						for (it2 = aRingVector.begin(); it2 != aRingVector.end(); ++it2, ++index2)
 						{
 							if (it2 != it1)
 							{
@@ -453,7 +459,7 @@ namespace rttb
 				//Store no donut polygon to boostPolygonVector
 				index1 = 0;
 
-				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); it1++, index1++)
+				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); ++it1, ++index1)
 				{
 					bool it1IsDonut = false;
 
@@ -478,7 +484,7 @@ namespace rttb
 				//Append donut polygon to boostPolygonVector
 				BoostMask::BoostPolygonVector::iterator itDonut;
 
-				for (itDonut = donutVector.begin(); itDonut != donutVector.end(); itDonut++)
+				for (itDonut = donutVector.begin(); itDonut != donutVector.end(); ++itDonut)
 				{
 					boostPolygonVector.push_back(*itDonut);//append donuts
 				}

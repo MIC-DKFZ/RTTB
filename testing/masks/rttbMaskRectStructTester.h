@@ -59,7 +59,7 @@ namespace rttb
 			mutable bool _wrongRVF;
 
 			mutable VoxelGridID _failedListIndex;
-			mutable float _wrongVal;
+			mutable double _wrongVal;
 
 		public:
 			MaskRectStructTester(MaskAccessorPointer aMaskAccessor, GridIndexType z);

@@ -276,7 +276,8 @@ namespace rttb
 
 		const GridSizeType GeometricInfo::getNumberOfVoxels() const
 		{
-			return _numberOfRows * _numberOfColumns * _numberOfFrames;
+			GridSizeType nVoxels = static_cast<GridSizeType>(_numberOfRows * _numberOfColumns * _numberOfFrames);
+			return nVoxels;
 		}
 
 		bool GeometricInfo::convert(const VoxelGridID& gridID, VoxelGridIndex3D& gridIndex) const

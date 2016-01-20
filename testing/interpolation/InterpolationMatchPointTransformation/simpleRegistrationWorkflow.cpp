@@ -26,11 +26,8 @@
 
 simpleRegistrationWorkflow::simpleRegistrationWorkflow(std::string targetFilename,
         std::string movingFilename,
-        bool isDirectory)
+        bool isDirectory) : _targetFilename(targetFilename), _movingFilename(movingFilename)
 {
-	_targetFilename = targetFilename;
-	_movingFilename = movingFilename;
-
 	setImageFileNames(_targetFilename, _movingFilename, isDirectory, globals);
 	loadData(globals);
 	_spAlgorithmEuler = NULL;

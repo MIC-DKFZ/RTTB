@@ -39,6 +39,7 @@ namespace rttb
 			{
 				_doseFileName = "";
 				_outputFileName = "";
+				_doseScaling = 1.0;
 			}
 
 			void populateAppData(boost::shared_ptr<BioModelCmdLineParser> argParser, ApplicationData& appData)

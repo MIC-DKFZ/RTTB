@@ -111,42 +111,42 @@ namespace rttb
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType::iterator it;
 
-				for (it = AllDx.begin(); it != AllDx.end(); it++)
+				for (it = AllDx.begin(); it != AllDx.end(); ++it)
 				{
 					ptree DxNode = createNodeWithNameAndXAttribute((*it).second, "Dx",
 					               static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, DxNode);
 				}
 
-				for (vxIt = AllVx.begin(); vxIt != AllVx.end(); vxIt++)
+				for (vxIt = AllVx.begin(); vxIt != AllVx.end(); ++vxIt)
 				{
 					ptree VxNode = createNodeWithNameAndXAttribute((*vxIt).second, "Vx",
 					               static_cast<int>((*vxIt).first / referenceDose * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, VxNode);
 				}
 
-				for (it = AllMOHx.begin(); it != AllMOHx.end(); it++)
+				for (it = AllMOHx.begin(); it != AllMOHx.end(); ++it)
 				{
 					ptree mohxNode = createNodeWithNameAndXAttribute((*it).second, "MOHx",
 					                 static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, mohxNode);
 				}
 
-				for (it = AllMOCx.begin(); it != AllMOCx.end(); it++)
+				for (it = AllMOCx.begin(); it != AllMOCx.end(); ++it)
 				{
 					ptree mocxNode = createNodeWithNameAndXAttribute((*it).second, "MOCx",
 					                 static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, mocxNode);
 				}
 
-				for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); it++)
+				for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); ++it)
 				{
 					ptree maxOhxNode = createNodeWithNameAndXAttribute((*it).second, "MaxOHx",
 					                   static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, maxOhxNode);
 				}
 
-				for (it = AllMinOCx.begin(); it != AllMinOCx.end(); it++)
+				for (it = AllMinOCx.begin(); it != AllMinOCx.end(); ++it)
 				{
 					ptree minOCxNode = createNodeWithNameAndXAttribute((*it).second, "MinOCx",
 					                   static_cast<int>((*it).first / absoluteVolume * 100));
@@ -205,7 +205,6 @@ namespace rttb
 				sstr << aDoseStatistics->getStdDeviation() << columnSeparator;
 				sstr << aDoseStatistics->getVariance() << columnSeparator;
 
-				double absoluteVolume = aDoseStatistics->getVolume();
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType AllVx = aDoseStatistics->getAllVx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getAllDx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getAllMOHx();
@@ -219,33 +218,33 @@ namespace rttb
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType::iterator it;
 
-				for (it = AllDx.begin(); it != AllDx.end(); it++)
+				for (it = AllDx.begin(); it != AllDx.end(); ++it)
 				{
 					sstr << (*it).second << columnSeparator;
 				}
 
-				for (vxIt = AllVx.begin(); vxIt != AllVx.end(); vxIt++)
+				for (vxIt = AllVx.begin(); vxIt != AllVx.end(); ++vxIt)
 				{
 					// *1000 because of conversion cm3 to mm3
 					sstr << (*vxIt).second * 1000 << columnSeparator;
 				}
 
-				for (it = AllMOHx.begin(); it != AllMOHx.end(); it++)
+				for (it = AllMOHx.begin(); it != AllMOHx.end(); ++it)
 				{
 					sstr << (*it).second << columnSeparator;
 				}
 
-				for (it = AllMOCx.begin(); it != AllMOCx.end(); it++)
+				for (it = AllMOCx.begin(); it != AllMOCx.end(); ++it)
 				{
 					sstr << (*it).second << columnSeparator;
 				}
 
-				for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); it++)
+				for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); ++it)
 				{
 					sstr << (*it).second << columnSeparator;
 				}
 
-				for (it = AllMinOCx.begin(); it != AllMinOCx.end(); it++)
+				for (it = AllMinOCx.begin(); it != AllMinOCx.end(); ++it)
 				{
 					sstr << (*it).second << columnSeparator;
 				}

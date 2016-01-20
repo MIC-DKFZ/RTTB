@@ -102,9 +102,9 @@ namespace rttb
 					if (_dvhType.Type == DVHType::Differential)
 					{
 						DataDifferentialType dataDifferential = aDvh->getDataDifferential();
-						int numberOfBins = dataDifferential.size();
+						unsigned int numberOfBins = static_cast<unsigned int>(dataDifferential.size());
 
-						for (int i = 0; i < numberOfBins; i++)
+						for (unsigned int i = 0; i < numberOfBins; i++)
 						{
 							out_dvh_ofstream << i << ","  <<  dataDifferential[i] << "\n";
 						}
@@ -112,9 +112,9 @@ namespace rttb
 					else if (_dvhType.Type == DVHType::Cumulative)
 					{
 						DataDifferentialType dataCumulative = aDvh->calcCumulativeDVH();
-						int numberOfBins = dataCumulative.size();
+						unsigned int numberOfBins = static_cast<unsigned int>(dataCumulative.size());
 
-						for (int i = 0; i < numberOfBins; i++)
+						for (unsigned int i = 0; i < numberOfBins; i++)
 						{
 							out_dvh_ofstream << i << "," << dataCumulative[i] << "\n";
 						}

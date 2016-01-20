@@ -93,7 +93,7 @@ namespace rttb
 				if ((_referenceDose->getValueAt(id) != _compareDose->getValueAt(id))
 				    || (_referenceDose->getValueAt(id3D) != _compareDose->getValueAt(id3D)))
 				{
-					float tmpDifference = abs(_referenceDose->getValueAt(id) - _compareDose->getValueAt(id));
+					double tmpDifference = abs(_referenceDose->getValueAt(id) - _compareDose->getValueAt(id));
 
 					if (tmpDifference > _maxDifference)
 					{

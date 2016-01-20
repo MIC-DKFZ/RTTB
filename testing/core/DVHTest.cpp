@@ -93,7 +93,7 @@ namespace rttb
 
 			std::deque<DoseCalcType>::iterator it;
 
-			for (it = aDataDifferential.begin(); it != aDataDifferential.end(); it++)
+			for (it = aDataDifferential.begin(); it != aDataDifferential.end(); ++it)
 			{
 				aDataDifferentialRelative.push_back((*it) / numberOfVoxels);
 			}

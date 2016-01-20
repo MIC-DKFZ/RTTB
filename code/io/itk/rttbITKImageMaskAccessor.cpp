@@ -152,6 +152,7 @@ namespace rttb
 					if (value >= 0 && value <= 1)
 					{
 						voxel.setRelevantVolumeFraction(value);
+						return true;
 					}
 					else
 					{

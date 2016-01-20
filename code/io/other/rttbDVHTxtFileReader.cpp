@@ -57,10 +57,9 @@ namespace rttb
 
 				std::string structureLabel;
 				std::string dvhType;
-				int numberOfBins;
+				unsigned int numberOfBins;
 				DoseTypeGy prescribedDose;
 				double estimated_max_dose_prescribed_dose_ratio;
-				int voxelsInStructure;
 				std::deque<DoseTypeGy> dataDifferential;
 				std::deque<DoseTypeGy> dataCumulative;
 
@@ -156,16 +155,10 @@ namespace rttb
 							std::stringstream ss(line.substr(42));
 							ss >> estimated_max_dose_prescribed_dose_ratio;
 						}
-
-						if (line.find("Voxels In Structure: ") != std::string::npos)
-						{
-							std::stringstream ss(line.substr(21));
-							ss >> voxelsInStructure;
-						}
 					}
 				}
 
-				numberOfBins = std::max(dataDifferential.size(), dataCumulative.size());
+				numberOfBins = static_cast<unsigned int>(std::max(dataDifferential.size(), dataCumulative.size()));
 
 				if (dvhType == "CUMULATIVE")
 				{
@@ -220,7 +213,7 @@ namespace rttb
 
 				return _dvh;
 			}
-		}//end namepsace other
+		}//end namespace other
 	}//end namespace io
 }//end namespace rttb
 
