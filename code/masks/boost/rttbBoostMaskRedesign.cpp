@@ -51,13 +51,11 @@ namespace rttb
 			void BoostMask::calcMask()
 			{
 				preprocessing();
+				std::cout << "preprocessing done" << std::endl;
 				voxelization();
-
-				if (calcVoxelizationThickness(_voxelizationThickness))
-				{
-
-				}
-
+				std::cout << "voxelization done" << std::endl;
+				generateMaskVoxelList();
+				std::cout << "generateMaskVoxelList done" << std::endl;
 				_isUpToDate = true;
 			}
 
@@ -94,8 +92,7 @@ namespace rttb
 				                                  GridIndexType(globalMinGridIndex(1) + 0.5), GridIndexType(globalMinGridIndex(2) + 0.5));
 				rttb::VoxelGridIndex3D maxIndex = VoxelGridIndex3D(GridIndexType(globalMaxGridIndex(0) + 0.5),
 				                                  GridIndexType(globalMaxGridIndex(1) + 0.5), GridIndexType(globalMaxGridIndex(2) + 0.5));
-				std::cout << "global min: " << minIndex.toString() << ", globa max: " << maxIndex.toString() <<
-				          std::endl;
+				//std::cout << "global min: " << minIndex.toString() << ", globa max: " << maxIndex.toString() << std::endl;
 				_globalBoundingBox.push_back(minIndex);
 				_globalBoundingBox.push_back(maxIndex);
 
@@ -160,13 +157,104 @@ namespace rttb
 							}
 
 							maskArray[x][y] = volumeFraction;
-							std::cout << "(" << x << "," << y << "): " << volumeFraction << std::endl;
+							//std::cout << "(" << x << "," << y << "): " << volumeFraction << std::endl;
 						}
 					}
 
 					//insert into voxelization map
 					_voxelizationMap.insert(std::pair<double, BoostArray2D>((*it).first, maskArray));
 				}
+
+			}
+
+			void BoostMask::generateMaskVoxelList()
+			{
+				if (_globalBoundingBox.size() < 2)
+				{
+					throw rttb::core::InvalidParameterException("Bounding box calculation failed! ");
+				}
+
+				//check homogeneus of the voxelization plane (the contours plane)
+				if (!calcVoxelizationThickness(_voxelizationThickness))
+				{
+					throw rttb::core::InvalidParameterException("Error: The contour plane should be homogeneus!");
+				}
+
+				rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
+				rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
+				int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
+				int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
+
+
+				for (unsigned int indexZ = 0; indexZ < _geometricInfo->getNumSlices(); ++indexZ)
+				{
+					//calculate weight vector
+					std::map<double, double> weightVectorForZ;
+					calcWeightVector(indexZ, weightVectorForZ);
+					/*std::cout << "weight vector: " << std::endl;
+					std::map<double, double>::iterator itTest;
+
+					for (itTest = weightVectorForZ.begin(); itTest != weightVectorForZ.end(); ++itTest)
+					{
+						std::cout << "(" << (*itTest).first << ", " << (*itTest).second << ") ";
+					}
+
+					std::cout << std::endl;*/
+
+					//For each x,y, calc sum of all voxelization plane, use weight vector
+					for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)
+					{
+						for (unsigned int y = 0; y < globalBoundingBoxSize1; ++y)
+						{
+							rttb::VoxelGridIndex3D currentIndex;
+							currentIndex[0] = x + minIndex[0];
+							currentIndex[1] = y + minIndex[1];
+							currentIndex[2] = indexZ;
+							rttb::VoxelGridID gridID;
+							_geometricInfo->convert(currentIndex, gridID);
+							double volumeFraction = 0;
+
+							std::map<double, double>::iterator it;
+
+							for (it = weightVectorForZ.begin(); it != weightVectorForZ.end(); ++it)
+							{
+								BoostArrayMap::iterator findVoxelizationIt = _voxelizationMap.find((*it).first);
+								double weight = (*it).second;
+
+								if (findVoxelizationIt == _voxelizationMap.end())
+								{
+									throw rttb::core::InvalidParameterException("Error: The contour plane should be homogeneus!");
+								}
+
+								BoostArray2D voxelizationArray = (*findVoxelizationIt).second;
+								//calc sum of all voxelization plane, use weight
+								volumeFraction += voxelizationArray[x][y] * weight;
+							}
+
+
+							if (volumeFraction > 1 && (volumeFraction - 1) <= errorConstant)
+							{
+								volumeFraction = 1;
+							}
+							else if (volumeFraction < 0 || (volumeFraction - 1) > errorConstant)
+							{
+								throw rttb::core::InvalidParameterException("Mask calculation failed! The volume fraction should >= 0 and <= 1!");
+							}
+
+							//insert mask voxel if volumeFraction > 0
+							if (volumeFraction > 0)
+							{
+								core::MaskVoxel maskVoxel = core::MaskVoxel(gridID, volumeFraction);
+								_voxelInStructure->push_back(maskVoxel);//push back the mask voxel in structure
+							}
+						}
+
+					}
+
+				}
+
+
+
 
 			}
 
@@ -263,7 +351,7 @@ namespace rttb
 			}
 
 			BoostMask::BoostRingMap BoostMask::convertRTTBPolygonSequenceToBoostRingMap(
-			    const rttb::PolygonSequenceType& aRTTBPolygonVector) const
+			    const rttb::PolygonSequenceType& aRTTBPolygonVector)
 			{
 				rttb::PolygonSequenceType::const_iterator it;
 				BoostMask::BoostRingMap aRingMap;
@@ -272,33 +360,38 @@ namespace rttb
 				{
 					rttb::PolygonType rttbPolygon = *it;
 					double zIndex = rttbPolygon.at(0)[2];//get the first z index of the polygon
+					bool isFirstZ = true;
 
 					if (!aRingMap.empty())
 					{
-						BoostMask::BoostRingMap::const_iterator findIt = findNearestKey(aRingMap, zIndex, errorConstant);
+						BoostMask::BoostRingMap::iterator findIt = findNearestKey(aRingMap, zIndex, errorConstant);
 
 						//if the z index is found (same slice), add the polygon to vector
 						if (findIt != aRingMap.end())
 						{
-							BoostRingVector ringVector = (*findIt).second;
-							ringVector.push_back(convertRTTBPolygonToBoostRing(rttbPolygon));
+							//BoostRingVector ringVector = ;
+							(*findIt).second.push_back(convertRTTBPolygonToBoostRing(rttbPolygon));
+							isFirstZ = false;
 						}
 					}
 
 					//if it is the first z index in the map, insert vector with the polygon
-					BoostRingVector ringVector;
-					ringVector.push_back(convertRTTBPolygonToBoostRing(rttbPolygon));
-					aRingMap.insert(std::pair<double, BoostRingVector>(zIndex, ringVector));
+					if (isFirstZ)
+					{
+						BoostRingVector ringVector;
+						ringVector.push_back(convertRTTBPolygonToBoostRing(rttbPolygon));
+						aRingMap.insert(std::pair<double, BoostRingVector>(zIndex, ringVector));
+					}
 
 				}
 
 				return aRingMap;
 			}
 
-			BoostMask::BoostRingMap::const_iterator BoostMask::findNearestKey(const BoostMask::BoostRingMap&
-			        aBoostRingMap, double aIndex, double aErrorConstant) const
+			BoostMask::BoostRingMap::iterator BoostMask::findNearestKey(BoostMask::BoostRingMap&
+			        aBoostRingMap, double aIndex, double aErrorConstant)
 			{
-				BoostMask::BoostRingMap::const_iterator find = aBoostRingMap.find(aIndex);
+				BoostMask::BoostRingMap::iterator find = aBoostRingMap.find(aIndex);
 
 				//if find a key equivalent to aIndex, found
 				if (find != aBoostRingMap.end())
@@ -307,7 +400,13 @@ namespace rttb
 				}
 				else
 				{
-					BoostMask::BoostRingMap::const_iterator lowerBound = aBoostRingMap.lower_bound(aIndex);
+					BoostMask::BoostRingMap::iterator lowerBound = aBoostRingMap.lower_bound(aIndex);
+
+					//if all keys go before aIndex, check the last key
+					if (lowerBound == aBoostRingMap.end())
+					{
+						lowerBound = --aBoostRingMap.end();
+					}
 
 					//if the lower bound very close to aIndex, found
 					if (abs((*lowerBound).first - aIndex) <= aErrorConstant)
@@ -323,7 +422,7 @@ namespace rttb
 						}
 						else
 						{
-							BoostMask::BoostRingMap::const_iterator lowerBound1 = --lowerBound;//the key before the lower bound
+							BoostMask::BoostRingMap::iterator lowerBound1 = --lowerBound;//the key before the lower bound
 
 							//if the key before the lower bound very close to a Index, found
 							if (abs((*lowerBound1).first - aIndex) <= aErrorConstant)
@@ -504,6 +603,91 @@ namespace rttb
 				}
 
 				return area;
+			}
+
+			bool BoostMask::calcVoxelizationThickness(double& aThickness) const
+			{
+				BoostArrayMap::const_iterator it = _voxelizationMap.begin();
+				BoostArrayMap::const_iterator it2 = ++_voxelizationMap.begin();
+				double lastContourIndexZ;
+
+				if (_voxelizationMap.size() <= 1)
+				{
+					aThickness = 1;
+					return true;
+				}
+
+				double thickness = 0;
+
+				for (;
+				     it != _voxelizationMap.end(), it2 != _voxelizationMap.end(); ++it, ++it2)
+				{
+					if (thickness == 0)
+					{
+						thickness = (*it2).first - (*it).first;
+					}
+					else
+					{
+						//if no homogeneous, return false
+						if (thickness != ((*it2).first - (*it).first))
+						{
+							return false;
+						}
+					}
+
+				}
+
+				if (thickness != 0)
+				{
+					aThickness = thickness;
+				}
+				else
+				{
+					aThickness = 1;
+				}
+
+				return true;
+			}
+
+			void BoostMask::calcWeightVector(const rttb::VoxelGridID& aIndexZ,
+			                                 std::map<double, double>& weightVector) const
+			{
+				BoostArrayMap::const_iterator it;
+
+				double indexZMin = aIndexZ - 0.5;
+				double indexZMax = aIndexZ + 0.5;
+
+				for (it = _voxelizationMap.begin(); it != _voxelizationMap.end(); ++it)
+				{
+					double voxelizationPlaneIndexMin = (*it).first - 0.5 * _voxelizationThickness;
+					double voxelizationPlaneIndexMax = (*it).first + 0.5 * _voxelizationThickness;
+					double weight = 0;
+
+					if ((voxelizationPlaneIndexMin < indexZMin) && (voxelizationPlaneIndexMax > indexZMin))
+					{
+						if (voxelizationPlaneIndexMax < indexZMax)
+						{
+							weight = voxelizationPlaneIndexMax - indexZMin;
+						}
+						else
+						{
+							weight = 1;
+						}
+					}
+					else if ((voxelizationPlaneIndexMin >= indexZMin) && (voxelizationPlaneIndexMin < indexZMax))
+					{
+						if (voxelizationPlaneIndexMax < indexZMax)
+						{
+							weight = _voxelizationThickness;
+						}
+						else
+						{
+							weight = indexZMax - voxelizationPlaneIndexMin;
+						}
+					}
+
+					weightVector.insert(std::pair<double, double>((*it).first, weight));
+				}
 			}
 
 		}

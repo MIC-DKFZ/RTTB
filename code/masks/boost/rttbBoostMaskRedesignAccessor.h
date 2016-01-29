@@ -14,12 +14,12 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 1127 $ (last changed revision)
+// @date    $Date: 2015-10-01 13:33:33 +0200 (Do, 01 Okt 2015) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
-#ifndef __BOOST_MASK_ACCESSOR__H
-#define __BOOST_MASK_ACCESSOR__H
+#ifndef __BOOST_MASK_R_ACCESSOR__H
+#define __BOOST_MASK_R_ACCESSOR__H
 
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
@@ -35,7 +35,7 @@ namespace rttb
 {
 	namespace masks
 	{
-		namespace boost
+		namespace boostRedesign
 		{
 			/*! @class BoostMaskAccessor
 			*   @brief Using the voxelization based on boost::geometry and generate the mask accessor.

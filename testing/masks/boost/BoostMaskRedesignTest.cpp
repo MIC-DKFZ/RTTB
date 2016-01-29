@@ -28,7 +28,17 @@
 
 #include "../../core/DummyStructure.h"
 #include "../../core/DummyDoseAccessor.h"
+#include "rttbDicomDoseAccessor.h"
+#include "rttbDicomFileDoseAccessorGenerator.h"
+#include "rttbDicomFileStructureSetGenerator.h"
+#include "rttbDicomFileStructureSetGenerator.h"
+#include "rttbGenericDoseIterator.h"
+#include "rttbDVHCalculator.h"
+#include "rttbGenericMaskedDoseIterator.h"
 #include "rttbBoostMaskRedesign.h"
+#include "rttbBoostMask.h"
+#include "rttbBoostMaskAccessor.h"
+#include "rttbBoostMaskRedesignAccessor.h"
 
 
 namespace rttb
@@ -43,6 +53,11 @@ namespace rttb
 		*/
 		int BoostMaskRedesignTest(int argc, char* argv[])
 		{
+			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
+			typedef core::DVHCalculator::DoseIteratorPointer DoseIteratorPointer;
+			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+			typedef core::GenericMaskedDoseIterator::MaskAccessorPointer MaskAccessorPointer;
+
 			PREPARE_DEFAULT_TEST_REPORTING;
 
 			typedef core::Structure::StructTypePointer StructTypePointer;
