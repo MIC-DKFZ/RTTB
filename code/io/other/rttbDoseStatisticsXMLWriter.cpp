@@ -49,10 +49,12 @@ namespace rttb
 				                           "numberOfVoxels");
 				pt.add_child(statisticsTag + "." + propertyTag, numberOfVoxelsNode);
 
-				ptree volumeNode = createNodeWithNameAttribute(aDoseStatistics->getVolume(), "volume");
+				ptree volumeNode = createNodeWithNameAttribute(static_cast<float>(aDoseStatistics->getVolume()),
+				                   "volume");
 				pt.add_child(statisticsTag + "." + propertyTag, volumeNode);
 
-				ptree minimumNode = createNodeWithNameAttribute(aDoseStatistics->getMinimum(), "minimum");
+				ptree minimumNode = createNodeWithNameAttribute(static_cast<float>(aDoseStatistics->getMinimum()),
+				                    "minimum");
 
 				auto minimumPositions = aDoseStatistics->getMinimumPositions();
 				std::vector<std::pair<DoseTypeGy, VoxelGridID> >::iterator pairItMin = minimumPositions->begin();
@@ -69,7 +71,8 @@ namespace rttb
 
 				pt.add_child(statisticsTag + "." + propertyTag, minimumNode);
 
-				ptree maximumNode = createNodeWithNameAttribute(aDoseStatistics->getMaximum(), "maximum");
+				ptree maximumNode = createNodeWithNameAttribute(static_cast<float>(aDoseStatistics->getMaximum()),
+				                    "maximum");
 
 				auto maximumPositions = aDoseStatistics->getMaximumPositions();
 				std::vector<std::pair<DoseTypeGy, VoxelGridID> >::iterator pairItMax = maximumPositions->begin();
@@ -87,13 +90,16 @@ namespace rttb
 
 				pt.add_child(statisticsTag + "." + propertyTag, maximumNode);
 
-				ptree meanNode = createNodeWithNameAttribute(aDoseStatistics->getMean(), "mean");
+				ptree meanNode = createNodeWithNameAttribute(static_cast<float>(aDoseStatistics->getMean()),
+				                 "mean");
 				pt.add_child(statisticsTag + "." + propertyTag, meanNode);
 
-				ptree sdNode = createNodeWithNameAttribute(aDoseStatistics->getStdDeviation(), "standardDeviation");
+				ptree sdNode = createNodeWithNameAttribute(static_cast<float>(aDoseStatistics->getStdDeviation()),
+				               "standardDeviation");
 				pt.add_child(statisticsTag + "." + propertyTag, sdNode);
 
-				ptree varianceNode = createNodeWithNameAttribute(aDoseStatistics->getVariance(), "variance");
+				ptree varianceNode = createNodeWithNameAttribute(static_cast<float>(aDoseStatistics->getVariance()),
+				                     "variance");
 				pt.add_child(statisticsTag + "." + propertyTag, varianceNode);
 
 				double absoluteVolume = aDoseStatistics->getVolume();
@@ -113,42 +119,42 @@ namespace rttb
 
 				for (it = AllDx.begin(); it != AllDx.end(); ++it)
 				{
-					ptree DxNode = createNodeWithNameAndXAttribute((*it).second, "Dx",
+					ptree DxNode = createNodeWithNameAndXAttribute(static_cast<float>((*it).second), "Dx",
 					               static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, DxNode);
 				}
 
 				for (vxIt = AllVx.begin(); vxIt != AllVx.end(); ++vxIt)
 				{
-					ptree VxNode = createNodeWithNameAndXAttribute((*vxIt).second, "Vx",
+					ptree VxNode = createNodeWithNameAndXAttribute(static_cast<float>((*vxIt).second), "Vx",
 					               static_cast<int>((*vxIt).first / referenceDose * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, VxNode);
 				}
 
 				for (it = AllMOHx.begin(); it != AllMOHx.end(); ++it)
 				{
-					ptree mohxNode = createNodeWithNameAndXAttribute((*it).second, "MOHx",
+					ptree mohxNode = createNodeWithNameAndXAttribute(static_cast<float>((*it).second), "MOHx",
 					                 static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, mohxNode);
 				}
 
 				for (it = AllMOCx.begin(); it != AllMOCx.end(); ++it)
 				{
-					ptree mocxNode = createNodeWithNameAndXAttribute((*it).second, "MOCx",
+					ptree mocxNode = createNodeWithNameAndXAttribute(static_cast<float>((*it).second), "MOCx",
 					                 static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, mocxNode);
 				}
 
 				for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); ++it)
 				{
-					ptree maxOhxNode = createNodeWithNameAndXAttribute((*it).second, "MaxOHx",
+					ptree maxOhxNode = createNodeWithNameAndXAttribute(static_cast<float>((*it).second), "MaxOHx",
 					                   static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, maxOhxNode);
 				}
 
 				for (it = AllMinOCx.begin(); it != AllMinOCx.end(); ++it)
 				{
-					ptree minOCxNode = createNodeWithNameAndXAttribute((*it).second, "MinOCx",
+					ptree minOCxNode = createNodeWithNameAndXAttribute(static_cast<float>((*it).second), "MinOCx",
 					                   static_cast<int>((*it).first / absoluteVolume * 100));
 					pt.add_child(statisticsTag + "." + propertyTag, minOCxNode);
 				}
@@ -197,13 +203,13 @@ namespace rttb
 
 				std::stringstream sstr;
 
-				sstr << aDoseStatistics->getVolume() * 1000 << columnSeparator; // cm3 to mm3
-				sstr << aDoseStatistics->getMaximum() << columnSeparator;
-				sstr << aDoseStatistics->getMinimum() << columnSeparator;
+				sstr << static_cast<float>(aDoseStatistics->getVolume() * 1000) << columnSeparator; // cm3 to mm3
+				sstr << static_cast<float>(aDoseStatistics->getMaximum()) << columnSeparator;
+				sstr << static_cast<float>(aDoseStatistics->getMinimum()) << columnSeparator;
 
-				sstr << aDoseStatistics->getMean() << columnSeparator;
-				sstr << aDoseStatistics->getStdDeviation() << columnSeparator;
-				sstr << aDoseStatistics->getVariance() << columnSeparator;
+				sstr << static_cast<float>(aDoseStatistics->getMean()) << columnSeparator;
+				sstr << static_cast<float>(aDoseStatistics->getStdDeviation()) << columnSeparator;
+				sstr << static_cast<float>(aDoseStatistics->getVariance()) << columnSeparator;
 
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType AllVx = aDoseStatistics->getAllVx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getAllDx();
@@ -220,33 +226,33 @@ namespace rttb
 
 				for (it = AllDx.begin(); it != AllDx.end(); ++it)
 				{
-					sstr << (*it).second << columnSeparator;
+					sstr << static_cast<float>((*it).second) << columnSeparator;
 				}
 
 				for (vxIt = AllVx.begin(); vxIt != AllVx.end(); ++vxIt)
 				{
 					// *1000 because of conversion cm3 to mm3
-					sstr << (*vxIt).second * 1000 << columnSeparator;
+					sstr << static_cast<float>((*vxIt).second * 1000) << columnSeparator;
 				}
 
 				for (it = AllMOHx.begin(); it != AllMOHx.end(); ++it)
 				{
-					sstr << (*it).second << columnSeparator;
+					sstr << static_cast<float>((*it).second) << columnSeparator;
 				}
 
 				for (it = AllMOCx.begin(); it != AllMOCx.end(); ++it)
 				{
-					sstr << (*it).second << columnSeparator;
+					sstr << static_cast<float>((*it).second) << columnSeparator;
 				}
 
 				for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); ++it)
 				{
-					sstr << (*it).second << columnSeparator;
+					sstr << static_cast<float>((*it).second) << columnSeparator;
 				}
 
 				for (it = AllMinOCx.begin(); it != AllMinOCx.end(); ++it)
 				{
-					sstr << (*it).second << columnSeparator;
+					sstr << static_cast<float>((*it).second) << columnSeparator;
 				}
 
 				return sstr.str();
