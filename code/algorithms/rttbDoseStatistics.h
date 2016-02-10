@@ -82,7 +82,7 @@ namespace rttb
 				@detail the dose statistic values are set. Complex values maximumVoxelLocation, maximumVoxelLocation, Dx, Vx, MOHx, MOCx, MaxOHx and MinOCx are optional
 			*/
 			DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum, DoseStatisticType mean,
-			               DoseStatisticType stdDeviation, unsigned int numVoxels, VolumeType volume,
+			               DoseStatisticType stdDeviation, VolumeType numVoxels, VolumeType volume,
 			               ResultListPointer minimumVoxelPositions =
 			                   boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
 			               (std::vector<std::pair<DoseTypeGy, VoxelGridID> >()),
@@ -112,7 +112,7 @@ namespace rttb
 
 			/*! @brief Get number of voxels in doseIterator, with sub-voxel accuracy.
 			*/
-			unsigned int getNumberOfVoxels() const;
+			VolumeType getNumberOfVoxels() const;
 
 			/*! @brief Get the volume of the voxels in doseIterator (in cm3), with sub-voxel accuracy
 			*/
