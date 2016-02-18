@@ -70,6 +70,8 @@ namespace rttb
 			WorldCoordinate3D worldCoordinateTarget;
 
 			if (_geoInfoTargetImage.indexToWorldCoordinate(aIndex, worldCoordinateTarget))
+				/*if (_geoInfoTargetImage.geometryCoordinateToWorldCoordinate(DoubleVoxelGridIndex3D(
+				            aIndex[0], aIndex[1], aIndex[2]), worldCoordinateTarget))*/
 			{
 				std::vector<WorldCoordinate3D> octants = getOctants(worldCoordinateTarget);
 
