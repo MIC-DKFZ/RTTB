@@ -73,9 +73,9 @@ namespace rttb
 			//Transform requested voxel coordinates of original image into world coordinates with RTTB
 			WorldCoordinate3D worldCoordinateTarget;
 
-			if (_geoInfoTargetImage.indexToWorldCoordinate(aIndex, worldCoordinateTarget))
-				/*if (_geoInfoTargetImage.geometryCoordinateToWorldCoordinate(DoubleVoxelGridIndex3D(
-				aIndex[0], aIndex[1], aIndex[2]), worldCoordinateTarget))*/
+			//if (_geoInfoTargetImage.indexToWorldCoordinate(aIndex, worldCoordinateTarget))
+			if (_geoInfoTargetImage.geometryCoordinateToWorldCoordinate(DoubleVoxelGridIndex3D(
+			            aIndex[0], aIndex[1], aIndex[2]), worldCoordinateTarget))
 			{
 				//transform coordinates
 				WorldCoordinate3D worldCoordinateMoving;

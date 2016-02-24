@@ -68,9 +68,9 @@ namespace rttb
 					std::list<VoxelGridIndex3D> cornerPoints;
 
 					WorldCoordinate3D theNextVoxel;
-					_spOriginalData->getGeometricInfo().indexToWorldCoordinate(aIndex, theNextVoxel);
-					/*_spOriginalData->getGeometricInfo().geometryCoordinateToWorldCoordinate(DoubleVoxelGridIndex3D(
-					          aIndex[0], aIndex[1], aIndex[2]), theNextVoxel);*/
+					//_spOriginalData->getGeometricInfo().indexToWorldCoordinate(aIndex, theNextVoxel);
+					_spOriginalData->getGeometricInfo().geometryCoordinateToWorldCoordinate(DoubleVoxelGridIndex3D(
+					            aIndex[0], aIndex[1], aIndex[2]), theNextVoxel);
 					SpacingVectorType3D pixelSpacing = (_spOriginalData->getGeometricInfo()).getSpacing();
 					VoxelGridIndex3D leftTopFrontCoordinate;
 
