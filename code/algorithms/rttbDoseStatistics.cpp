@@ -29,7 +29,7 @@ namespace rttb
 	{
 		DoseStatistics::DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum,
 		                               DoseStatisticType mean,
-		                               DoseStatisticType stdDeviation, VolumeType numVoxels, VolumeType volume,
+		                               DoseStatisticType stdDeviation, VoxelNumberType numVoxels, VolumeType volume,
 		                               ResultListPointer maximumVoxelPositions /*= ResultListPointer()*/,
 		                               ResultListPointer minimumVoxelPositions /*= ResultListPointer()*/,
 		                               VolumeToDoseFunctionType Dx /*= std::map<DoseTypeGy, VolumeType>()*/,
@@ -115,7 +115,7 @@ namespace rttb
 			}
 		}
 
-		VolumeType DoseStatistics::getNumberOfVoxels() const
+		VoxelNumberType DoseStatistics::getNumberOfVoxels() const
 		{
 			return _numVoxels;
 		}
