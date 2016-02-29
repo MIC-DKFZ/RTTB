@@ -51,11 +51,8 @@ namespace rttb
 			void BoostMask::calcMask()
 			{
 				preprocessing();
-				std::cout << "preprocessing done" << std::endl;
 				voxelization();
-				std::cout << "voxelization done" << std::endl;
 				generateMaskVoxelList();
-				std::cout << "generateMaskVoxelList done" << std::endl;
 				_isUpToDate = true;
 			}
 
@@ -92,7 +89,6 @@ namespace rttb
 				                                  GridIndexType(globalMinGridIndex(1) + 0.5), GridIndexType(globalMinGridIndex(2) + 0.5));
 				rttb::VoxelGridIndex3D maxIndex = VoxelGridIndex3D(GridIndexType(globalMaxGridIndex(0) + 0.5),
 				                                  GridIndexType(globalMaxGridIndex(1) + 0.5), GridIndexType(globalMaxGridIndex(2) + 0.5));
-				//std::cout << "global min: " << minIndex.toString() << ", globa max: " << maxIndex.toString() << std::endl;
 				_globalBoundingBox.push_back(minIndex);
 				_globalBoundingBox.push_back(maxIndex);
 
@@ -157,7 +153,6 @@ namespace rttb
 							}
 
 							maskArray[x][y] = volumeFraction;
-							//std::cout << "(" << x << "," << y << "): " << volumeFraction << std::endl;
 						}
 					}
 
@@ -191,15 +186,6 @@ namespace rttb
 					//calculate weight vector
 					std::map<double, double> weightVectorForZ;
 					calcWeightVector(indexZ, weightVectorForZ);
-					/*std::cout << "weight vector: " << std::endl;
-					std::map<double, double>::iterator itTest;
-
-					for (itTest = weightVectorForZ.begin(); itTest != weightVectorForZ.end(); ++itTest)
-					{
-						std::cout << "(" << (*itTest).first << ", " << (*itTest).second << ") ";
-					}
-
-					std::cout << std::endl;*/
 
 					//For each x,y, calc sum of all voxelization plane, use weight vector
 					for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)

@@ -192,14 +192,14 @@ namespace rttb
 						/*! It takes a long time to write all mask files so that RUN_TESTS causes a timeout error.
 						To write all mask files, please use the outcommented code and call the .exe directly!
 						*/
-						rttb::io::itk::ITKImageMaskAccessorConverter itkConverterR(boostMaskRPtr);
+						/*rttb::io::itk::ITKImageMaskAccessorConverter itkConverterR(boostMaskRPtr);
 						CHECK(itkConverterR.process());
 
 
 						std::stringstream fileNameSstrR;
 						fileNameSstrR << BoostMaskRedesign_DIRNAME << j << ".mhd";
 						rttb::io::itk::ImageWriter writerR(fileNameSstrR.str(), itkConverterR.getITKImage());
-						CHECK(writerR.writeFile());
+						CHECK(writerR.writeFile());*/
 
 						//check close of 2 voxelizatin: OTB and Boost
 						CHECK_CLOSE(dvh.getMaximum(), dvh2.getMaximum(), 0.1);
