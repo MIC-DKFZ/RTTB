@@ -154,7 +154,7 @@ namespace rttb
 			bool geometryCoordinateToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
 			        WorldCoordinate3D& aWorldCoordinate) const;
 
-			/*! @brief convert int voxel grid index to world coordinates.
+			/*! @brief convert int voxel grid index to world coordinates. It is the upper left corner of the voxel.
 			The conversion of values is done even if the target is not inside the given voxel grid (return false).
 			If the target is inside the voxel grid return true.
 			*/

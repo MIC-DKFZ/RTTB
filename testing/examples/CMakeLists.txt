@@ -36,6 +36,6 @@ ADD_TEST(RTBioModelScatterPlotExampleTest ${CORE_TEST_EXAMPLES} RTBioModelScatte
 "${TEST_DATA_ROOT}/TestDVH/dvh_PTV_HIT.txt" "${TEST_DATA_ROOT}/TestDVH/dvh_test_HT1.txt" "${TEST_DATA_ROOT}/TestDVH/dvh_test_TV.txt")
 ADD_TEST(VoxelizationValidationTest ${CORE_TEST_EXAMPLES} VoxelizationValidationTest
 "${TEST_DATA_ROOT}/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm"
-"${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncrease3D.dcm" "${TEST_DATA_ROOT}/boostMask/" "${TEST_DATA_ROOT}/OTBMask/")
+"${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncrease3D.dcm" "${TEST_DATA_ROOT}/BoostMask/" "${TEST_DATA_ROOT}/OTBMask/" "${TEST_DATA_ROOT}/BoostMaskRedesign/")
 
 RTTB_CREATE_TEST_MODULE(rttbExamples DEPENDS RTTBCore RTTBAlgorithms RTTBMasks RTTBOTBMask RTTBBoostMask RTTBIndices RTTBDicomIO RTTBVirtuosIO RTTBITKIO RTTBOtherIO RTTBModels PACKAGE_DEPENDS Litmus)
