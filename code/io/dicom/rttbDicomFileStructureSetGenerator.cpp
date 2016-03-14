@@ -101,8 +101,10 @@ namespace rttb
 					throw DcmrtException("Read DRTStructureSetIOD DRTStructureSetIOD.read() failed!");
 				}
 
-				return (boost::make_shared<io::dicom::DicomIODStructureSetGenerator>
-				        (drtStrSetIODPtr))->generateStructureSet();
+        io::dicom::DicomIODStructureSetGenerator iodGenerator(drtStrSetIODPtr);
+        iodGenerator.setStructureLableFilterActive(this->getStructureLabelFilterActive());
+        iodGenerator.setFilterRegEx(this->getFilterRegEx());
+				return iodGenerator.generateStructureSet();
 			}
 
 		}//end namespace dicom
