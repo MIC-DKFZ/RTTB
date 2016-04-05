@@ -82,11 +82,11 @@ namespace rttb
 					rcsItem->getReferencedROINumber(refROINumber);
 					DRTContourSequence* cs;
 					cs = &rcsItem->getContourSequence();
-					long no2 = cs->getNumberOfItems();
+					unsigned long no2 = cs->getNumberOfItems();
 
 					PolygonSequenceType structureVector;
 
-					for (int j = 0; j < no2; j++)
+					for (unsigned long j = 0; j < no2; j++)
 					{
 						/*DRTContourSequence::Item represents a contour (either a single point (for a point ROI) or more than
 						one point (representing an open or closed polygon))*/
@@ -96,7 +96,7 @@ namespace rttb
 						OFString numberOfContourPoints;
 						csItem->getNumberOfContourPoints(numberOfContourPoints);
 
-						int numberOfContourPointsInt;
+						unsigned int numberOfContourPointsInt;
 						std::stringstream is(numberOfContourPoints.c_str());
 						is >> numberOfContourPointsInt;
 						OFString countourNumber;
@@ -105,11 +105,11 @@ namespace rttb
 						PolygonType contourVector;
 						char* pEnd;
 
-						for (int k = 0; k < numberOfContourPointsInt; k++)
+						for (unsigned int k = 0; k < numberOfContourPointsInt; k++)
 						{
 							WorldCoordinate3D point;
 
-							for (int i = 0; i < 3; i++)
+							for (unsigned int i = 0; i < 3; i++)
 							{
 								csItem->getContourData(contourData, k * 3 + i);
 

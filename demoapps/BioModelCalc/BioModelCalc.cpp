@@ -69,7 +69,7 @@ int main(int argc, const char** argv)
 	std::cout << "Model parameters:      ";
 
 
-	for (unsigned int i = 0; i < appData._modelParameters.size(); i++)
+	for (size_t i = 0; i < appData._modelParameters.size(); i++)
 	{
 		if (i != 0)
 		{

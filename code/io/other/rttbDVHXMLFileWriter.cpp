@@ -97,7 +97,7 @@ namespace rttb
 				if (_dvhType.Type == DVHType::Differential)
 				{
 
-					for (int i = 0; i < numberOfBins; i++)
+					for (size_t i = 0; i < numberOfBins; i++)
 					{
 						pt.add("dvh.data.dosebin", i);
 						pt.add("dvh.data.volume", dataDifferential[i]);
@@ -108,7 +108,7 @@ namespace rttb
 
 					DataDifferentialType dataCumulative = aDvh->calcCumulativeDVH();
 
-					for (int i = 0; i < numberOfBins; i++)
+					for (size_t i = 0; i < numberOfBins; i++)
 					{
 						pt.add("dvh.data.dosebin", i);
 						pt.add("dvh.data.volume", dataCumulative[i]);

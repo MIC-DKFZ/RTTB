@@ -62,7 +62,7 @@ namespace rttb
 
 			double f = exp(-pow((x - tcp_params.alphaMean) / alphaVariance, 2) / 2);
 
-			for (unsigned int i = 0; i < tcp_params.volumeVector.size(); ++i)
+			for (size_t i = 0; i < tcp_params.volumeVector.size(); ++i)
 			{
 				double tmp, tmp1, tmp2, tmp3;
 				tmp1 = exp(-x * tcp_params.bedVector.at(i));
@@ -160,10 +160,10 @@ namespace rttb
 		{
 			integrationType ost = 0.0;
 			integrationType os = 0.0;
-			int maxSteps = 50;
+			unsigned int maxSteps = 50;
 			double eps = 1e-6;
 
-			int i = 1;
+			unsigned int i = 1;
 
 			for (; i <= maxSteps; ++i)
 			{
