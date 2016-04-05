@@ -88,7 +88,7 @@ namespace rttb
 				typedef ::boost::multi_array<double, 2> BoostArray2D;
 				typedef std::map<double, BoostArray2D> BoostArrayMap;
 				typedef ::boost::array<double, 1> BoostArray1D;
-				typedef std::vector<std::map<double, double>> WeightVector;
+				typedef std::vector<std::map<double, double> > WeightVector;
 
 				GeometricInfoPointer _geometricInfo;
 
