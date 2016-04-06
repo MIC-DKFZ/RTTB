@@ -8,10 +8,14 @@
 #include <boost/geometry/io/wkt/wkt.hpp>
 #include <boost/geometry/multi/geometries/multi_polygon.hpp>
 #include <boost/make_shared.hpp>
+#include <boost/thread/thread.hpp>
 
 #include "rttbBoostMaskRedesign.h"
 #include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbBoostMaskGenerateMaskVoxelListThread.h"
+
+
 
 namespace rttb
 {
@@ -19,6 +23,7 @@ namespace rttb
 	{
 		namespace boostRedesign
 		{
+
 			BoostMask::BoostMask(BoostMask::GeometricInfoPointer aDoseGeoInfo,
 			                     BoostMask::StructPointer aStructure, bool strict)
 				: _geometricInfo(aDoseGeoInfo), _structure(aStructure), _strict(strict),
@@ -180,64 +185,116 @@ namespace rttb
 				int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
 				int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
 
+				::boost::shared_ptr<::boost::lockfree::queue<core::MaskVoxel*>> resultQueue
+				        = ::boost::make_shared<::boost::lockfree::queue<core::MaskVoxel*>>
+				          (_geometricInfo->getNumberOfVoxels());
+				//BoostMaskGenerateMaskVoxelListThread::MaskVoxelQueuePointer resultQueue;
 
-				for (unsigned int indexZ = 0; indexZ < _geometricInfo->getNumSlices(); ++indexZ)
+				unsigned int thread_size = 8;
+				::boost::thread_group threads;
+
+				unsigned int sliceNumberInAThread = _geometricInfo->getNumSlices() / thread_size ;
+				std::cout << "number of slices: " << _geometricInfo->getNumSlices() <<
+				          ", slice number in a thread: " <<
+				          sliceNumberInAThread << std::endl;
+
+
+				for (unsigned int i = 0; i < thread_size; ++i)
 				{
-					//calculate weight vector
-					std::map<double, double> weightVectorForZ;
-					calcWeightVector(indexZ, weightVectorForZ);
+					unsigned int beginSlice = i * sliceNumberInAThread;
+					unsigned int endSlice;
 
-					//For each x,y, calc sum of all voxelization plane, use weight vector
-					for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)
+					if (i < thread_size - 1)
 					{
-						for (unsigned int y = 0; y < globalBoundingBoxSize1; ++y)
+						endSlice = (i + 1) * sliceNumberInAThread;
+					}
+					else
+					{
+						endSlice = _geometricInfo->getNumSlices();
+					}
+
+					std::cout << "BoostMask create slice" << std::endl;
+
+					BoostMaskGenerateMaskVoxelListThread t(globalBoundingBoxSize0, globalBoundingBoxSize1,
+					                                       minIndex, maxIndex, _geometricInfo, _voxelizationMap, _voxelizationThickness, beginSlice, endSlice,
+					                                       resultQueue);
+
+					threads.create_thread(t);
+
+				}
+
+				threads.join_all();
+
+				std::cout << "BoostMask: all threads finished." << std::endl;
+
+				core::MaskVoxel* voxel;
+
+				while (resultQueue->pop(voxel))
+				{
+					_voxelInStructure->push_back(*voxel);//push back the mask voxel in structure
+				}
+
+
+				//calculate weight vector
+				/*
+				for (unsigned int indexZ = 0; indexZ < thread_size; ++indexZ)
+				{
+
+				std::map<double, double> weightVectorForZ;
+				calcWeightVector(indexZ, weightVectorForZ);
+
+				//For each x,y, calc sum of all voxelization plane, use weight vector
+				for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)
+				{
+					for (unsigned int y = 0; y < globalBoundingBoxSize1; ++y)
+					{
+						rttb::VoxelGridIndex3D currentIndex;
+						currentIndex[0] = x + minIndex[0];
+						currentIndex[1] = y + minIndex[1];
+						currentIndex[2] = indexZ;
+						rttb::VoxelGridID gridID;
+						_geometricInfo->convert(currentIndex, gridID);
+						double volumeFraction = 0;
+
+						std::map<double, double>::iterator it;
+
+						for (it = weightVectorForZ.begin(); it != weightVectorForZ.end(); ++it)
 						{
-							rttb::VoxelGridIndex3D currentIndex;
-							currentIndex[0] = x + minIndex[0];
-							currentIndex[1] = y + minIndex[1];
-							currentIndex[2] = indexZ;
-							rttb::VoxelGridID gridID;
-							_geometricInfo->convert(currentIndex, gridID);
-							double volumeFraction = 0;
+							BoostArrayMap::iterator findVoxelizationIt = _voxelizationMap.find((*it).first);
+							double weight = (*it).second;
 
-							std::map<double, double>::iterator it;
-
-							for (it = weightVectorForZ.begin(); it != weightVectorForZ.end(); ++it)
+							if (findVoxelizationIt == _voxelizationMap.end())
 							{
-								BoostArrayMap::iterator findVoxelizationIt = _voxelizationMap.find((*it).first);
-								double weight = (*it).second;
-
-								if (findVoxelizationIt == _voxelizationMap.end())
-								{
-									throw rttb::core::InvalidParameterException("Error: The contour plane should be homogeneus!");
-								}
-
-								BoostArray2D voxelizationArray = (*findVoxelizationIt).second;
-								//calc sum of all voxelization plane, use weight
-								volumeFraction += voxelizationArray[x][y] * weight;
+								throw rttb::core::InvalidParameterException("Error: The contour plane should be homogeneus!");
 							}
 
-
-							if (volumeFraction > 1 && (volumeFraction - 1) <= errorConstant)
-							{
-								volumeFraction = 1;
-							}
-							else if (volumeFraction < 0 || (volumeFraction - 1) > errorConstant)
-							{
-								throw rttb::core::InvalidParameterException("Mask calculation failed! The volume fraction should >= 0 and <= 1!");
-							}
-
-							//insert mask voxel if volumeFraction > 0
-							if (volumeFraction > 0)
-							{
-								core::MaskVoxel maskVoxel = core::MaskVoxel(gridID, volumeFraction);
-								_voxelInStructure->push_back(maskVoxel);//push back the mask voxel in structure
-							}
+							BoostArray2D voxelizationArray = (*findVoxelizationIt).second;
+							//calc sum of all voxelization plane, use weight
+							volumeFraction += voxelizationArray[x][y] * weight;
 						}
 
+
+						if (volumeFraction > 1 && (volumeFraction - 1) <= errorConstant)
+						{
+							volumeFraction = 1;
+						}
+						else if (volumeFraction < 0 || (volumeFraction - 1) > errorConstant)
+						{
+							throw rttb::core::InvalidParameterException("Mask calculation failed! The volume fraction should >= 0 and <= 1!");
+						}
+
+						//insert mask voxel if volumeFraction > 0
+						if (volumeFraction > 0)
+						{
+							core::MaskVoxel maskVoxel = core::MaskVoxel(gridID, volumeFraction);
+							_voxelInStructure->push_back(maskVoxel);//push back the mask voxel in structure
+						}
 					}
 
 				}
+				}
+				*/
+
 
 
 
