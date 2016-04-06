@@ -5,7 +5,6 @@ RTToolbox - Read Me
 Compiler tests
 ----------------------------
 RTToolbox is currently tested with the following compilers (only x64):
-- Visual Studio 2010
 - Visual Studio 2013
 - GCC 4.6
 - GCC 4.9
@@ -16,7 +15,7 @@ Needed Third Party Libraries
 Please load and compile the following third party libraries/tools:
 
 Required:
-1. CMake (version 2.8.11.2 or higher)
+1. CMake (version 3.1 or higher)
 2. boost (version 1.56.0 or higher)
 
 Optional:
