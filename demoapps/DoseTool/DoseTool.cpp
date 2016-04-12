@@ -113,7 +113,7 @@ int main(int argc, const char** argv)
 		try
 		{
 			appData._struct = rttb::apps::doseTool::loadStruct(appData._structFileName,
-			                  appData._structLoadStyle);
+			                  appData._structLoadStyle, appData._structNameRegex);
 		}
 		catch (rttb::core::Exception& e)
 		{
