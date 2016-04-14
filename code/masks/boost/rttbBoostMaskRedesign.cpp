@@ -14,6 +14,7 @@
 #include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbBoostMaskGenerateMaskVoxelListThread.h"
+#include "rttbBoostMaskVoxelizationThread.h"
 
 
 
@@ -24,9 +25,10 @@ namespace rttb
 		namespace boostRedesign
 		{
 
+
 			BoostMask::BoostMask(BoostMask::GeometricInfoPointer aDoseGeoInfo,
-			                     BoostMask::StructPointer aStructure, bool strict)
-				: _geometricInfo(aDoseGeoInfo), _structure(aStructure), _strict(strict),
+			                     BoostMask::StructPointer aStructure, unsigned int threadSize, bool strict)
+				: _geometricInfo(aDoseGeoInfo), _structure(aStructure), _threadSize(threadSize), _strict(strict),
 				  _voxelInStructure(::boost::make_shared<MaskVoxelList>())
 			{
 
@@ -55,6 +57,7 @@ namespace rttb
 
 			void BoostMask::calcMask()
 			{
+				_threadSize = 8;
 				preprocessing();
 				voxelization();
 				generateMaskVoxelList();
@@ -98,18 +101,8 @@ namespace rttb
 				_globalBoundingBox.push_back(maxIndex);
 
 				//convert rttb polygon sequence to a map of z index and a vector of boost ring 2d (without holes)
-				BoostRingMap ringMap = convertRTTBPolygonSequenceToBoostRingMap(geometryCoordinatePolygonVector);
+				_ringMap = convertRTTBPolygonSequenceToBoostRingMap(geometryCoordinatePolygonVector);
 
-				//check donut and convert to a map of z index and a vector of boost polygon 2d (with or without holes)
-				_geometryCoordinateBoostPolygonMap.clear();
-				BoostRingMap::iterator itMap;
-
-				for (itMap = ringMap.begin(); itMap != ringMap.end(); ++itMap)
-				{
-					BoostPolygonVector polygonVector = checkDonutAndConvert((*itMap).second);
-					_geometryCoordinateBoostPolygonMap.insert(std::pair<double, BoostPolygonVector>((*itMap).first,
-					        polygonVector));
-				}
 			}
 
 			void BoostMask::voxelization()
@@ -121,7 +114,68 @@ namespace rttb
 					throw rttb::core::InvalidParameterException("Bounding box calculation failed! ");
 				}
 
-				rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
+				unsigned int ringMapSize = _ringMap.size();
+
+				BoostRingMap::iterator itMap;
+
+				unsigned int mapSizeInAThread = _ringMap.size() / _threadSize;
+				unsigned int count = 0;
+				unsigned int countThread = 0;
+				BoostPolygonMap polygonMap;
+				std::vector<BoostPolygonMap> polygonMapVector;
+
+				//check donut and convert to a map of z index and a vector of boost polygon 2d (with or without holes)
+				for (itMap = _ringMap.begin(); itMap != _ringMap.end(); ++itMap)
+				{
+					BoostPolygonVector polygonVector = checkDonutAndConvert((*itMap).second);
+
+					if (count == mapSizeInAThread && countThread < (_threadSize - 1))
+					{
+						polygonMapVector.push_back(polygonMap);
+						polygonMap.clear();
+						count = 0;
+						countThread++;
+					}
+
+					polygonMap.insert(std::pair<double, BoostPolygonVector>((*itMap).first,
+					                  polygonVector));
+					count++;
+
+				}
+
+				polygonMapVector.push_back(polygonMap); //insert the last one
+
+				//generate voxelization map, multi-threading
+				::boost::thread_group threads;
+				BoostMaskVoxelizationThread::VoxelizationQueuePointer resultQueue
+				    = ::boost::make_shared<::boost::lockfree::queue<BoostArray2D*>>
+				      (ringMapSize);
+				BoostMaskVoxelizationThread::VoxelizationIndexQueuePointer resultIndexQueue
+				    = ::boost::make_shared<::boost::lockfree::queue<double>>
+				      (ringMapSize);
+
+				for (int i = 0; i < polygonMapVector.size(); ++i)
+				{
+					BoostMaskVoxelizationThread t(polygonMapVector.at(i), _globalBoundingBox, resultIndexQueue,
+					                              resultQueue);
+					threads.create_thread(t);
+				}
+
+				threads.join_all();
+
+
+				BoostArray2D* array;
+				double index;
+
+				//generate voxelization map using resultQueue and resultIndexQueue
+				while (resultIndexQueue->pop(index) && resultQueue->pop(array))
+				{
+					_voxelizationMap.insert(std::pair<double, BoostArray2D>(index, *array));
+				}
+
+
+
+				/*rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
 				rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
 				int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
 				int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
@@ -163,7 +217,7 @@ namespace rttb
 
 					//insert into voxelization map
 					_voxelizationMap.insert(std::pair<double, BoostArray2D>((*it).first, maskArray));
-				}
+				}*/
 
 			}
 
@@ -180,31 +234,23 @@ namespace rttb
 					throw rttb::core::InvalidParameterException("Error: The contour plane should be homogeneus!");
 				}
 
-				rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
-				rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
-				int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
-				int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
 
 				::boost::shared_ptr<::boost::lockfree::queue<core::MaskVoxel*>> resultQueue
 				        = ::boost::make_shared<::boost::lockfree::queue<core::MaskVoxel*>>
 				          (_geometricInfo->getNumberOfVoxels());
-				//BoostMaskGenerateMaskVoxelListThread::MaskVoxelQueuePointer resultQueue;
 
-				unsigned int thread_size = 8;
+
 				::boost::thread_group threads;
 
-				unsigned int sliceNumberInAThread = _geometricInfo->getNumSlices() / thread_size ;
-				std::cout << "number of slices: " << _geometricInfo->getNumSlices() <<
-				          ", slice number in a thread: " <<
-				          sliceNumberInAThread << std::endl;
+				unsigned int sliceNumberInAThread = _geometricInfo->getNumSlices() / _threadSize;
 
 
-				for (unsigned int i = 0; i < thread_size; ++i)
+				for (unsigned int i = 0; i < _threadSize; ++i)
 				{
 					unsigned int beginSlice = i * sliceNumberInAThread;
 					unsigned int endSlice;
 
-					if (i < thread_size - 1)
+					if (i < _threadSize - 1)
 					{
 						endSlice = (i + 1) * sliceNumberInAThread;
 					}
@@ -213,10 +259,9 @@ namespace rttb
 						endSlice = _geometricInfo->getNumSlices();
 					}
 
-					std::cout << "BoostMask create slice" << std::endl;
 
-					BoostMaskGenerateMaskVoxelListThread t(globalBoundingBoxSize0, globalBoundingBoxSize1,
-					                                       minIndex, maxIndex, _geometricInfo, _voxelizationMap, _voxelizationThickness, beginSlice, endSlice,
+					BoostMaskGenerateMaskVoxelListThread t(_globalBoundingBox, _geometricInfo, _voxelizationMap,
+					                                       _voxelizationThickness, beginSlice, endSlice,
 					                                       resultQueue);
 
 					threads.create_thread(t);
@@ -225,10 +270,9 @@ namespace rttb
 
 				threads.join_all();
 
-				std::cout << "BoostMask: all threads finished." << std::endl;
-
 				core::MaskVoxel* voxel;
 
+				//generate _voxelInStructure using resultQueue
 				while (resultQueue->pop(voxel))
 				{
 					_voxelInStructure->push_back(*voxel);//push back the mask voxel in structure

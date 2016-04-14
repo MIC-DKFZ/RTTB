@@ -47,13 +47,10 @@ namespace rttb
 				typedef ::boost::shared_ptr<rttb::core::GeometricInfo> GeometricInfoPointer;
 				typedef ::boost::multi_array<double, 2> BoostArray2D;
 				typedef std::map<double, BoostArray2D> BoostArrayMap;
-				typedef ::boost::shared_ptr<rttb::core::MaskVoxel> MaskVoxelPointer;
 				typedef ::boost::shared_ptr<::boost::lockfree::queue<core::MaskVoxel*>> MaskVoxelQueuePointer;
+				typedef std::vector<rttb::VoxelGridIndex3D> VoxelIndexVector;
 
-				BoostMaskGenerateMaskVoxelListThread(int aGlobalBoundingBoxSize0,
-				                                     int aGlobalBoundingBoxSize1,
-				                                     const rttb::VoxelGridIndex3D& aMinIndex,
-				                                     const rttb::VoxelGridIndex3D& aMaxIndex,
+				BoostMaskGenerateMaskVoxelListThread(const VoxelIndexVector& aGlobalBoundingBox,
 				                                     GeometricInfoPointer aGeometricInfo,
 				                                     const BoostArrayMap& aVoxelizationMap,
 				                                     double aVoxelizationThickness,
@@ -63,16 +60,15 @@ namespace rttb
 				void operator()();
 
 			private:
-				int _globalBoundingBoxSize0;
-				int _globalBoundingBoxSize1;
-				rttb::VoxelGridIndex3D _minIndex;
-				rttb::VoxelGridIndex3D _maxIndex;
+				VoxelIndexVector _globalBoundingBox;
 				GeometricInfoPointer _geometricInfo;
 				BoostArrayMap _voxelizationMap;
 				//(for example, the first contour has the double grid index 0.1, the second 0.3, the third 0.5, then the thickness is 0.2)
 				double _voxelizationThickness;
 
 				unsigned int _beginSlice;
+				/*! @brief _endSlice is the first index not to be processed (like a end iterator)
+				*/
 				unsigned int _endSlice;
 
 				MaskVoxelQueuePointer _resultMaskVoxelQueue;

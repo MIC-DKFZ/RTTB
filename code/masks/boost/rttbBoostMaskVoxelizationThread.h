@@ -26,10 +26,19 @@
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
 #include "rttbMaskVoxel.h"
+#include "rttbInvalidParameterException.h"
 
 #include <boost/multi_array.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/lockfree/queue.hpp>
+#include <boost/geometry.hpp>
+#include <boost/geometry/geometries/point_xy.hpp>
+#include <boost/geometry/geometries/polygon.hpp>
+#include <boost/geometry/geometries/ring.hpp>
+#include <boost/geometry/geometries/register/point.hpp>
+#include <boost/geometry/geometries/register/ring.hpp>
+#include <boost/geometry/io/wkt/wkt.hpp>
+#include <boost/geometry/multi/geometries/multi_polygon.hpp>
 
 namespace rttb
 {
@@ -44,62 +53,56 @@ namespace rttb
 			{
 
 			public:
-
-
-				BoostMaskVoxelizationThread();
-
-
-				void operator()()
-				{
-
-					/*for (it = _geometryCoordinateBoostPolygonMap.begin();
-					     it != _geometryCoordinateBoostPolygonMap.end(); ++it)
-					{
-						BoostArray2D maskArray(boost::extents[globalBoundingBoxSize0][globalBoundingBoxSize1]);
-
-						BoostPolygonVector boostPolygonVec = (*it).second;
-
-						for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)
-						{
-							for (unsigned int y = 0; y < globalBoundingBoxSize1; ++y)
-							{
-								rttb::VoxelGridIndex3D currentIndex;
-								currentIndex[0] = x + minIndex[0];
-								currentIndex[1] = y + minIndex[1];
-								currentIndex[2] = 0;
-
-								//Get intersection polygons of the dose voxel and the structure
-								BoostPolygonDeque polygons = getIntersections(currentIndex, boostPolygonVec);
-
-								//Calc areas of all intersection polygons
-								double volumeFraction = calcArea(polygons);
-
-								if (volumeFraction > 1 && (volumeFraction - 1) <= errorConstant)
-								{
-									volumeFraction = 1;
-								}
-								else if (volumeFraction < 0 || (volumeFraction - 1) > errorConstant)
-								{
-									throw rttb::core::InvalidParameterException("Mask calculation failed! The volume fraction should >= 0 and <= 1!");
-								}
-
-								maskArray[x][y] = volumeFraction;
-							}
-						}
-
-						//insert into voxelization map
-						_voxelizationMap.insert(std::pair<double, BoostArray2D>((*it).first, maskArray));
-					}*/
-				}
-
-			private:
 				typedef ::boost::geometry::model::polygon< ::boost::geometry::model::d2::point_xy<double> >
 				BoostPolygon2D;
 				typedef std::vector<BoostPolygon2D> BoostPolygonVector;//polygon with or without holes
 				typedef std::map<double, BoostPolygonVector>
 				BoostPolygonMap;//map of the z index with the vector of boost 2d polygon
+				typedef std::vector<rttb::VoxelGridIndex3D> VoxelIndexVector;
+				typedef ::boost::multi_array<double, 2> BoostArray2D;
+				typedef ::boost::shared_ptr<::boost::lockfree::queue<BoostArray2D*>>
+				        VoxelizationQueuePointer;
+				typedef ::boost::shared_ptr<::boost::lockfree::queue<double>>
+				        VoxelizationIndexQueuePointer;
+
+				BoostMaskVoxelizationThread(const BoostPolygonMap& APolygonMap,
+				                            const VoxelIndexVector& aGlobalBoundingBox, VoxelizationIndexQueuePointer aResultIndexQueue,
+				                            VoxelizationQueuePointer aVoxelizationQueue);
+
+
+				void operator()();
+
+
+			private:
+
+
+				typedef std::deque<BoostPolygon2D> BoostPolygonDeque;
+				typedef ::boost::geometry::model::ring< ::boost::geometry::model::d2::point_xy<double> >
+				BoostRing2D;
+				typedef ::boost::geometry::model::d2::point_xy<double> BoostPoint2D;
+
 
 				BoostPolygonMap _geometryCoordinateBoostPolygonMap;
+				VoxelIndexVector _globalBoundingBox;
+				VoxelizationQueuePointer _resultVoxelizationQueue;
+				VoxelizationIndexQueuePointer _resultIndexQueue;
+
+				/*! @brief Get intersection polygons of the contour and a voxel polygon
+				* @param aVoxelIndex3D The 3d grid index of the voxel
+				* @param intersectionSlicePolygons The polygons of the slice intersecting the voxel
+				* @return Return all intersetion polygons of the structure and the voxel
+				*/
+				BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D,
+				                                   const BoostPolygonVector& intersectionSlicePolygons) const;
+
+				/*! @brief Get the voxel 2d contour polygon in geometry coordinate*/
+				BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D) const;
+
+				/*! @brief Calculate the area of all polygons
+				* @param aPolygonDeque The deque of polygons
+				* @return Return the area of all polygons
+				*/
+				double calcArea(const BoostPolygonDeque& aPolygonDeque) const;
 			};
 
 		}

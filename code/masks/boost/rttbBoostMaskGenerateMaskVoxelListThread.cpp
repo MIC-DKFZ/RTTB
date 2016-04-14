@@ -13,19 +13,14 @@ namespace rttb
 		namespace boostRedesign
 		{
 			BoostMaskGenerateMaskVoxelListThread::BoostMaskGenerateMaskVoxelListThread(
-			    int aGlobalBoundingBoxSize0,
-			    int aGlobalBoundingBoxSize1,
-			    const rttb::VoxelGridIndex3D& aMinIndex,
-			    const rttb::VoxelGridIndex3D& aMaxIndex,
+			    const VoxelIndexVector& aGlobalBoundingBox,
 			    GeometricInfoPointer aGeometricInfo,
 			    const BoostArrayMap& aVoxelizationMap,
 			    double aVoxelizationThickness,
 			    unsigned int aBeginSlice,
 			    unsigned int aEndSlice,
 			    MaskVoxelQueuePointer aResultMaskVoxelQueue) :
-				_globalBoundingBoxSize0(aGlobalBoundingBoxSize0),
-				_globalBoundingBoxSize1(aGlobalBoundingBoxSize1),
-				_minIndex(aMinIndex), _maxIndex(aMaxIndex), _geometricInfo(aGeometricInfo),
+				_globalBoundingBox(aGlobalBoundingBox), _geometricInfo(aGeometricInfo),
 				_voxelizationMap(aVoxelizationMap), _voxelizationThickness(aVoxelizationThickness),
 				_beginSlice(aBeginSlice), _endSlice(aEndSlice),
 				_resultMaskVoxelQueue(aResultMaskVoxelQueue)
@@ -33,42 +28,40 @@ namespace rttb
 
 			void BoostMaskGenerateMaskVoxelListThread::operator()()
 			{
-				std::cout << "BoostMaskGenerateMaskVoxelListThread " << _beginSlice << " - " << _endSlice <<
-				          ": running" << std::endl;
 
 				for (unsigned int indexZ = _beginSlice; indexZ < _endSlice; ++indexZ)
 				{
+					rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
+					rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
+					int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
+					int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
 
 					//calculate weight vector
 					std::map<double, double> weightVectorForZ;
 					calcWeightVector(indexZ, weightVectorForZ);
 
 					//For each x,y, calc sum of all voxelization plane, use weight vector
-					for (unsigned int x = 0; x < _globalBoundingBoxSize0; ++x)
+					for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)
 					{
-						for (unsigned int y = 0; y < _globalBoundingBoxSize1; ++y)
+						for (unsigned int y = 0; y < globalBoundingBoxSize1; ++y)
 						{
 							rttb::VoxelGridIndex3D currentIndex;
-							currentIndex[0] = x + _minIndex[0];
-							currentIndex[1] = y + _minIndex[1];
+							currentIndex[0] = x + minIndex[0];
+							currentIndex[1] = y + minIndex[1];
 							currentIndex[2] = indexZ;
 							rttb::VoxelGridID gridID;
 							_geometricInfo->convert(currentIndex, gridID);
 							double volumeFraction = 0;
 
 							std::map<double, double>::iterator it;
+							BoostArrayMap::iterator itMap;
 
-							for (it = weightVectorForZ.begin(); it != weightVectorForZ.end(); ++it)
+							for (it = weightVectorForZ.begin(), itMap = _voxelizationMap.begin(); it != weightVectorForZ.end()
+							     && itMap != _voxelizationMap.end(); ++it, ++itMap)
 							{
-								BoostArrayMap::iterator findVoxelizationIt = _voxelizationMap.find((*it).first);
 								double weight = (*it).second;
 
-								if (findVoxelizationIt == _voxelizationMap.end())
-								{
-									throw rttb::core::InvalidParameterException("Error: The contour plane should be homogeneus!");
-								}
-
-								BoostArray2D voxelizationArray = (*findVoxelizationIt).second;
+								BoostArray2D voxelizationArray = (*itMap).second;
 								//calc sum of all voxelization plane, use weight
 								volumeFraction += voxelizationArray[x][y] * weight;
 							}
@@ -94,8 +87,6 @@ namespace rttb
 					}
 				}
 
-				std::cout << "BoostMaskGenerateMaskVoxelListThread" << _beginSlice << " - " << _endSlice <<
-				          ": finished" << std::endl;
 			}
 
 			void BoostMaskGenerateMaskVoxelListThread::calcWeightVector(const rttb::VoxelGridID& aIndexZ,

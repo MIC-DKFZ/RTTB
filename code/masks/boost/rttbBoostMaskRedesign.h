@@ -64,7 +64,8 @@ namespace rttb
 				* @param strict indicates whether to allow self intersection in the structure. If it is set to true, an exception will be thrown when the given structure has self intersection.
 				* @exception InvalidParameterException thrown if strict is true and the structure has self intersections
 				*/
-				BoostMask(GeometricInfoPointer aDoseGeoInfo, StructPointer aStructure, bool strict = true);
+				BoostMask(GeometricInfoPointer aDoseGeoInfo, StructPointer aStructure, unsigned int threadSize = 8,
+				          bool strict = true);
 
 				/*! @brief Generate mask and return the voxels in the mask
 				* @exception rttb::core::InvalidParameterException thrown if the structure has self intersections
@@ -94,11 +95,15 @@ namespace rttb
 
 				StructPointer _structure;
 
+				/*! @brief A map of z index and a vector of boost ring 2d (without holes)
+				*/
+				BoostRingMap _ringMap;
+
 				/*! @brief The map of z index and a vector of all boost polygons with the same z index. This will be used to calculate the mask.
 				*	Key: the double z grid index
 				*	Value: the vector of all boost 2d polygons with the same z grid index (donut polygon is accepted).
 				*/
-				BoostPolygonMap _geometryCoordinateBoostPolygonMap;
+				//BoostPolygonMap _geometryCoordinateBoostPolygonMap;
 
 				/*! @brief The min and max index of the global bounding box.
 				*	The first index has the minimum for x/y/z of the global bounding box.
@@ -125,6 +130,11 @@ namespace rttb
 				/*! @brief If the mask is up to date
 				*/
 				bool _isUpToDate;
+
+
+				/*! @brief The thread size
+				*/
+				unsigned int _threadSize;
 
 				/*! @brief Voxelization and generate mask
 				*/
