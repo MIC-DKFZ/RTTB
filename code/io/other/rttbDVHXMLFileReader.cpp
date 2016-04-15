@@ -90,23 +90,21 @@ namespace rttb
 				int count = 0;
 				BOOST_FOREACH(boost::property_tree::ptree::value_type & v, pt.get_child("dvh.data"))
 				{
-					if (count % 2 == 1)
+					if (dvhType == "DIFFERENTIAL")
 					{
-						if (dvhType == "DIFFERENTIAL")
-						{
-							dataDifferential.push_back(boost::lexical_cast<DoseTypeGy>(v.second.data()));
+						dataDifferential.push_back(boost::lexical_cast<DoseTypeGy>(v.second.data()));
 
-						}
-						else if (dvhType == "CUMULATIVE")
-						{
-							dataCumulative.push_back(boost::lexical_cast<DoseTypeGy>(v.second.data()));
-						}
+					}
+					else if (dvhType == "CUMULATIVE")
+					{
+						dataCumulative.push_back(boost::lexical_cast<DoseTypeGy>(v.second.data()));
 					}
 
 					count++;
 				}
 
-				unsigned int numberOfBins = static_cast<unsigned int>(std::max(dataDifferential.size(), dataCumulative.size()));
+				unsigned int numberOfBins = static_cast<unsigned int>(std::max(dataDifferential.size(),
+				                            dataCumulative.size()));
 
 				if (dvhType == "CUMULATIVE") //dataDifferential should be calculated
 				{
