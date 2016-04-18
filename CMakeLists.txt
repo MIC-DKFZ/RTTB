@@ -208,15 +208,11 @@ ELSE (WIN32)
   OPTION(BUILD_SHARED_LIBS "Build RTToolbox with shared libraries." ON)
 ENDIF (WIN32)
 
-IF(BUILD_SHARED_LIBS)
-  IF(WIN32)
-  MESSAGE(FATAL_ERROR "RTToolbox currently does not support a dynamic build on Windows. We are working on that...")
-  ENDIF(WIN32)
-ELSE(BUILD_SHARED_LIBS)
+IF(NOT BUILD_SHARED_LIBS)
   IF(UNIX)
   MESSAGE(FATAL_ERROR "RTToolbox currently does not support a static build on unix like systems. We are working on that...")
   ENDIF(UNIX)
-ENDIF(BUILD_SHARED_LIBS)
+ENDIF(NOT BUILD_SHARED_LIBS)
 
 SET(RTToolbox_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
