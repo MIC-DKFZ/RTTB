@@ -17,7 +17,6 @@ namespace rttb
 
 			void BoostMaskVoxelizationThread::operator()()
 			{
-
 				rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
 				rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
 				int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
@@ -64,16 +63,14 @@ namespace rttb
 					//insert into voxelization map
 					_resultIndexQueue->push((*it).first);
 					_resultVoxelizationQueue->push(maskArray);
-
 				}
-
 
 			}
 
 			/*Get intersection polygons of the contour and a voxel polygon*/
 			BoostMaskVoxelizationThread::BoostPolygonDeque BoostMaskVoxelizationThread::getIntersections(
 			    const rttb::VoxelGridIndex3D&
-			    aVoxelIndex3D, const BoostPolygonVector& intersectionSlicePolygons) const
+			    aVoxelIndex3D, const BoostPolygonVector& intersectionSlicePolygons)
 			{
 				BoostMaskVoxelizationThread::BoostPolygonDeque polygonDeque;
 
@@ -96,7 +93,7 @@ namespace rttb
 			}
 
 			BoostMaskVoxelizationThread::BoostRing2D BoostMaskVoxelizationThread::get2DContour(
-			    const rttb::VoxelGridIndex3D& aVoxelGrid3D) const
+			    const rttb::VoxelGridIndex3D& aVoxelGrid3D)
 			{
 				BoostRing2D polygon;
 
@@ -120,7 +117,7 @@ namespace rttb
 			}
 
 			/*Calculate the intersection area*/
-			double BoostMaskVoxelizationThread::calcArea(const BoostPolygonDeque& aPolygonDeque) const
+			double BoostMaskVoxelizationThread::calcArea(const BoostPolygonDeque& aPolygonDeque)
 			{
 				double area = 0;
 

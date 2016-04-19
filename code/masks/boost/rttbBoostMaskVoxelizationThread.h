@@ -92,17 +92,17 @@ namespace rttb
 				* @param intersectionSlicePolygons The polygons of the slice intersecting the voxel
 				* @return Return all intersetion polygons of the structure and the voxel
 				*/
-				BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D,
-				                                   const BoostPolygonVector& intersectionSlicePolygons) const;
+				static BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D,
+				        const BoostPolygonVector& intersectionSlicePolygons);
 
 				/*! @brief Get the voxel 2d contour polygon in geometry coordinate*/
-				BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D) const;
+				static BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D);
 
 				/*! @brief Calculate the area of all polygons
 				* @param aPolygonDeque The deque of polygons
 				* @return Return the area of all polygons
 				*/
-				double calcArea(const BoostPolygonDeque& aPolygonDeque) const;
+				static double calcArea(const BoostPolygonDeque& aPolygonDeque);
 			};
 
 		}

@@ -28,14 +28,13 @@ namespace rttb
 
 			void BoostMaskGenerateMaskVoxelListThread::operator()()
 			{
+				rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
+				rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
+				int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
+				int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
 
 				for (unsigned int indexZ = _beginSlice; indexZ < _endSlice; ++indexZ)
 				{
-					rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
-					rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
-					int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
-					int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
-
 					//calculate weight vector
 					std::map<double, double> weightVectorForZ;
 					calcWeightVector(indexZ, weightVectorForZ);

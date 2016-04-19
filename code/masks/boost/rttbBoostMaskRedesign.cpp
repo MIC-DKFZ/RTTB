@@ -27,8 +27,9 @@ namespace rttb
 
 
 			BoostMask::BoostMask(BoostMask::GeometricInfoPointer aDoseGeoInfo,
-			                     BoostMask::StructPointer aStructure, unsigned int threadSize, bool strict)
-				: _geometricInfo(aDoseGeoInfo), _structure(aStructure), _threadSize(threadSize), _strict(strict),
+			                     BoostMask::StructPointer aStructure, bool strict, unsigned int numberOfThreads)
+				: _geometricInfo(aDoseGeoInfo), _structure(aStructure),
+				  _strict(strict), _numberOfThreads(numberOfThreads),
 				  _voxelInStructure(::boost::make_shared<MaskVoxelList>())
 			{
 
@@ -42,6 +43,18 @@ namespace rttb
 				{
 					throw rttb::core::NullPointerException("Error: Structure is NULL!");
 				}
+
+				if (_numberOfThreads == 0)
+				{
+					_numberOfThreads = boost::thread::hardware_concurrency();
+				}
+
+				if (_numberOfThreads <= 0)
+				{
+					throw rttb::core::InvalidParameterException("Error: the given number of threads must > 0, or detection of the number of hardwore thread is not possible.");
+				}
+
+				std::cout << "number of threads: " << _numberOfThreads << std::endl;
 
 			}
 
@@ -57,7 +70,6 @@ namespace rttb
 
 			void BoostMask::calcMask()
 			{
-				_threadSize = 8;
 				preprocessing();
 				voxelization();
 				generateMaskVoxelList();
@@ -118,7 +130,7 @@ namespace rttb
 
 				BoostRingMap::iterator itMap;
 
-				unsigned int mapSizeInAThread = _ringMap.size() / _threadSize;
+				unsigned int mapSizeInAThread = _ringMap.size() / _numberOfThreads;
 				unsigned int count = 0;
 				unsigned int countThread = 0;
 				BoostPolygonMap polygonMap;
@@ -127,9 +139,10 @@ namespace rttb
 				//check donut and convert to a map of z index and a vector of boost polygon 2d (with or without holes)
 				for (itMap = _ringMap.begin(); itMap != _ringMap.end(); ++itMap)
 				{
+					//the vector of all boost 2d polygons with the same z grid index(donut polygon is accepted).
 					BoostPolygonVector polygonVector = checkDonutAndConvert((*itMap).second);
 
-					if (count == mapSizeInAThread && countThread < (_threadSize - 1))
+					if (count == mapSizeInAThread && countThread < (_numberOfThreads - 1))
 					{
 						polygonMapVector.push_back(polygonMap);
 						polygonMap.clear();
@@ -242,15 +255,15 @@ namespace rttb
 
 				::boost::thread_group threads;
 
-				unsigned int sliceNumberInAThread = _geometricInfo->getNumSlices() / _threadSize;
+				unsigned int sliceNumberInAThread = _geometricInfo->getNumSlices() / _numberOfThreads;
 
 
-				for (unsigned int i = 0; i < _threadSize; ++i)
+				for (unsigned int i = 0; i < _numberOfThreads; ++i)
 				{
 					unsigned int beginSlice = i * sliceNumberInAThread;
 					unsigned int endSlice;
 
-					if (i < _threadSize - 1)
+					if (i < _numberOfThreads - 1)
 					{
 						endSlice = (i + 1) * sliceNumberInAThread;
 					}
