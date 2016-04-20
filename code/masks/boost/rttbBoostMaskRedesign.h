@@ -194,32 +194,11 @@ namespace rttb
 				/*! @brief If 2 rings in the vector build a donut, convert the 2 rings to a donut polygon, other rings unchanged*/
 				BoostPolygonVector checkDonutAndConvert(const BoostRingVector& aRingVector) const;
 
-				/*! @brief Get the voxel 2d contour polygon in geometry coordinate*/
-				BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D) const;
-
-				/*! @brief Get intersection polygons of the contour and a voxel polygon
-				* @param aVoxelIndex3D The 3d grid index of the voxel
-				* @param intersectionSlicePolygons The polygons of the slice intersecting the voxel
-				* @return Return all intersetion polygons of the structure and the voxel
-				*/
-				BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D,
-				                                   const BoostPolygonVector& intersectionSlicePolygons) const;
-
-				/*! @brief Calculate the area of all polygons
-				* @param aPolygonDeque The deque of polygons
-				* @return Return the area of all polygons
-				*/
-				double calcArea(const BoostPolygonDeque& aPolygonDeque) const;
-
 				/*! @brief Calculate the voxelization thickness.
 				Return false, if the voxelization plane is not homogeneous
 				*/
 				bool calcVoxelizationThickness(double& aThickness) const;
 
-				/*! @brief For each dose grid index z, calculate the weight vector for each structure contour
-				*/
-				void calcWeightVector(const rttb::VoxelGridID& aIndexZ,
-				                      std::map<double, double>& weightVector) const;
 			};
 
 		}

@@ -186,52 +186,6 @@ namespace rttb
 					_voxelizationMap.insert(std::pair<double, BoostArray2D>(index, *array));
 				}
 
-
-
-				/*rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
-				rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
-				int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
-				int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
-
-				for (it = _geometryCoordinateBoostPolygonMap.begin();
-				     it != _geometryCoordinateBoostPolygonMap.end(); ++it)
-				{
-					BoostArray2D maskArray(boost::extents[globalBoundingBoxSize0][globalBoundingBoxSize1]);
-
-					BoostPolygonVector boostPolygonVec = (*it).second;
-
-					for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)
-					{
-						for (unsigned int y = 0; y < globalBoundingBoxSize1; ++y)
-						{
-							rttb::VoxelGridIndex3D currentIndex;
-							currentIndex[0] = x + minIndex[0];
-							currentIndex[1] = y + minIndex[1];
-							currentIndex[2] = 0;
-
-							//Get intersection polygons of the dose voxel and the structure
-							BoostPolygonDeque polygons = getIntersections(currentIndex, boostPolygonVec);
-
-							//Calc areas of all intersection polygons
-							double volumeFraction = calcArea(polygons);
-
-							if (volumeFraction > 1 && (volumeFraction - 1) <= errorConstant)
-							{
-								volumeFraction = 1;
-							}
-							else if (volumeFraction < 0 || (volumeFraction - 1) > errorConstant)
-							{
-								throw rttb::core::InvalidParameterException("Mask calculation failed! The volume fraction should >= 0 and <= 1!");
-							}
-
-							maskArray[x][y] = volumeFraction;
-						}
-					}
-
-					//insert into voxelization map
-					_voxelizationMap.insert(std::pair<double, BoostArray2D>((*it).first, maskArray));
-				}*/
-
 			}
 
 			void BoostMask::generateMaskVoxelList()
@@ -257,7 +211,7 @@ namespace rttb
 
 				unsigned int sliceNumberInAThread = _geometricInfo->getNumSlices() / _numberOfThreads;
 
-
+				//generate mask voxel list, multi-threading
 				for (unsigned int i = 0; i < _numberOfThreads; ++i)
 				{
 					unsigned int beginSlice = i * sliceNumberInAThread;
@@ -290,71 +244,6 @@ namespace rttb
 				{
 					_voxelInStructure->push_back(*voxel);//push back the mask voxel in structure
 				}
-
-
-				//calculate weight vector
-				/*
-				for (unsigned int indexZ = 0; indexZ < thread_size; ++indexZ)
-				{
-
-				std::map<double, double> weightVectorForZ;
-				calcWeightVector(indexZ, weightVectorForZ);
-
-				//For each x,y, calc sum of all voxelization plane, use weight vector
-				for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)
-				{
-					for (unsigned int y = 0; y < globalBoundingBoxSize1; ++y)
-					{
-						rttb::VoxelGridIndex3D currentIndex;
-						currentIndex[0] = x + minIndex[0];
-						currentIndex[1] = y + minIndex[1];
-						currentIndex[2] = indexZ;
-						rttb::VoxelGridID gridID;
-						_geometricInfo->convert(currentIndex, gridID);
-						double volumeFraction = 0;
-
-						std::map<double, double>::iterator it;
-
-						for (it = weightVectorForZ.begin(); it != weightVectorForZ.end(); ++it)
-						{
-							BoostArrayMap::iterator findVoxelizationIt = _voxelizationMap.find((*it).first);
-							double weight = (*it).second;
-
-							if (findVoxelizationIt == _voxelizationMap.end())
-							{
-								throw rttb::core::InvalidParameterException("Error: The contour plane should be homogeneus!");
-							}
-
-							BoostArray2D voxelizationArray = (*findVoxelizationIt).second;
-							//calc sum of all voxelization plane, use weight
-							volumeFraction += voxelizationArray[x][y] * weight;
-						}
-
-
-						if (volumeFraction > 1 && (volumeFraction - 1) <= errorConstant)
-						{
-							volumeFraction = 1;
-						}
-						else if (volumeFraction < 0 || (volumeFraction - 1) > errorConstant)
-						{
-							throw rttb::core::InvalidParameterException("Mask calculation failed! The volume fraction should >= 0 and <= 1!");
-						}
-
-						//insert mask voxel if volumeFraction > 0
-						if (volumeFraction > 0)
-						{
-							core::MaskVoxel maskVoxel = core::MaskVoxel(gridID, volumeFraction);
-							_voxelInStructure->push_back(maskVoxel);//push back the mask voxel in structure
-						}
-					}
-
-				}
-				}
-				*/
-
-
-
-
 
 			}
 
@@ -643,73 +532,10 @@ namespace rttb
 				return boostPolygonVector;
 			}
 
-			BoostMask::BoostRing2D BoostMask::get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D) const
-			{
-				BoostMask::BoostRing2D polygon;
-
-
-				BoostPoint2D point1(aVoxelGrid3D[0] - 0.5, aVoxelGrid3D[1] - 0.5);
-				::boost::geometry::append(polygon, point1);
-
-				BoostPoint2D point2(aVoxelGrid3D[0] + 0.5, aVoxelGrid3D[1] - 0.5);
-				::boost::geometry::append(polygon, point2);
-
-				BoostPoint2D point3(aVoxelGrid3D[0] + 0.5, aVoxelGrid3D[1] + 0.5);
-				::boost::geometry::append(polygon, point3);
-
-				BoostPoint2D point4(aVoxelGrid3D[0] - 0.5, aVoxelGrid3D[1] + 0.5);
-				::boost::geometry::append(polygon, point4);
-
-				::boost::geometry::append(polygon, point1);
-
-				return polygon;
-
-			}
-
-			/*Get intersection polygons of the contour and a voxel polygon*/
-			BoostMask::BoostPolygonDeque BoostMask::getIntersections(const rttb::VoxelGridIndex3D&
-			        aVoxelIndex3D, const BoostPolygonVector& intersectionSlicePolygons) const
-			{
-				BoostMask::BoostPolygonDeque polygonDeque;
-
-				BoostRing2D voxelPolygon = get2DContour(aVoxelIndex3D);
-				::boost::geometry::correct(voxelPolygon);
-
-				BoostPolygonVector::const_iterator it;
-
-				for (it = intersectionSlicePolygons.begin(); it != intersectionSlicePolygons.end(); ++it)
-				{
-					BoostPolygon2D contour = *it;
-					::boost::geometry::correct(contour);
-					BoostPolygonDeque intersection;
-					::boost::geometry::intersection(voxelPolygon, contour, intersection);
-
-					polygonDeque.insert(polygonDeque.end(), intersection.begin(), intersection.end());
-				}
-
-				return polygonDeque;
-			}
-
-			/*Calculate the intersection area*/
-			double BoostMask::calcArea(const BoostPolygonDeque& aPolygonDeque) const
-			{
-				double area = 0;
-
-				BoostPolygonDeque::const_iterator it;
-
-				for (it = aPolygonDeque.begin(); it != aPolygonDeque.end(); ++it)
-				{
-					area += ::boost::geometry::area(*it);
-				}
-
-				return area;
-			}
-
 			bool BoostMask::calcVoxelizationThickness(double& aThickness) const
 			{
 				BoostArrayMap::const_iterator it = _voxelizationMap.begin();
 				BoostArrayMap::const_iterator it2 = ++_voxelizationMap.begin();
-				double lastContourIndexZ;
 
 				if (_voxelizationMap.size() <= 1)
 				{
@@ -748,48 +574,6 @@ namespace rttb
 
 				return true;
 			}
-
-			void BoostMask::calcWeightVector(const rttb::VoxelGridID& aIndexZ,
-			                                 std::map<double, double>& weightVector) const
-			{
-				BoostArrayMap::const_iterator it;
-
-				double indexZMin = aIndexZ - 0.5;
-				double indexZMax = aIndexZ + 0.5;
-
-				for (it = _voxelizationMap.begin(); it != _voxelizationMap.end(); ++it)
-				{
-					double voxelizationPlaneIndexMin = (*it).first - 0.5 * _voxelizationThickness;
-					double voxelizationPlaneIndexMax = (*it).first + 0.5 * _voxelizationThickness;
-					double weight = 0;
-
-					if ((voxelizationPlaneIndexMin < indexZMin) && (voxelizationPlaneIndexMax > indexZMin))
-					{
-						if (voxelizationPlaneIndexMax < indexZMax)
-						{
-							weight = voxelizationPlaneIndexMax - indexZMin;
-						}
-						else
-						{
-							weight = 1;
-						}
-					}
-					else if ((voxelizationPlaneIndexMin >= indexZMin) && (voxelizationPlaneIndexMin < indexZMax))
-					{
-						if (voxelizationPlaneIndexMax < indexZMax)
-						{
-							weight = _voxelizationThickness;
-						}
-						else
-						{
-							weight = indexZMax - voxelizationPlaneIndexMin;
-						}
-					}
-
-					weightVector.insert(std::pair<double, double>((*it).first, weight));
-				}
-			}
-
 		}
 	}
 }
