@@ -62,9 +62,11 @@ namespace rttb
 				/*! @brief Constructor
 				* @exception rttb::core::NullPointerException thrown if aDoseGeoInfo or aStructure is NULL
 				* @param strict indicates whether to allow self intersection in the structure. If it is set to true, an exception will be thrown when the given structure has self intersection.
+				* @param numberOfThreads number of threads used for voxelization. default value 0 means automatic detection, using the number of Hardware thread/cores
 				* @exception InvalidParameterException thrown if strict is true and the structure has self intersections
 				*/
-				BoostMask(GeometricInfoPointer aDoseGeoInfo, StructPointer aStructure, bool strict = true);
+				BoostMask(GeometricInfoPointer aDoseGeoInfo, StructPointer aStructure,
+				          bool strict = true, unsigned int numberOfThreads = 0);
 
 				/*! @brief Generate mask and return the voxels in the mask
 				* @exception rttb::core::InvalidParameterException thrown if the structure has self intersections
@@ -94,11 +96,11 @@ namespace rttb
 
 				StructPointer _structure;
 
-				/*! @brief The map of z index and a vector of all boost polygons with the same z index. This will be used to calculate the mask.
+				/*! @brief The map of z index and a vector of boost ring 2d (without holes)
 				*	Key: the double z grid index
-				*	Value: the vector of all boost 2d polygons with the same z grid index (donut polygon is accepted).
+				*	Value: the vector of boost ring 2d (without holes)
 				*/
-				BoostPolygonMap _geometryCoordinateBoostPolygonMap;
+				BoostRingMap _ringMap;
 
 				/*! @brief The min and max index of the global bounding box.
 				*	The first index has the minimum for x/y/z of the global bounding box.
@@ -125,6 +127,11 @@ namespace rttb
 				/*! @brief If the mask is up to date
 				*/
 				bool _isUpToDate;
+
+
+				/*! @brief The number of threads
+				*/
+				unsigned int _numberOfThreads;
 
 				/*! @brief Voxelization and generate mask
 				*/
@@ -187,32 +194,11 @@ namespace rttb
 				/*! @brief If 2 rings in the vector build a donut, convert the 2 rings to a donut polygon, other rings unchanged*/
 				BoostPolygonVector checkDonutAndConvert(const BoostRingVector& aRingVector) const;
 
-				/*! @brief Get the voxel 2d contour polygon in geometry coordinate*/
-				BoostRing2D get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D) const;
-
-				/*! @brief Get intersection polygons of the contour and a voxel polygon
-				* @param aVoxelIndex3D The 3d grid index of the voxel
-				* @param intersectionSlicePolygons The polygons of the slice intersecting the voxel
-				* @return Return all intersetion polygons of the structure and the voxel
-				*/
-				BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D,
-				                                   const BoostPolygonVector& intersectionSlicePolygons) const;
-
-				/*! @brief Calculate the area of all polygons
-				* @param aPolygonDeque The deque of polygons
-				* @return Return the area of all polygons
-				*/
-				double calcArea(const BoostPolygonDeque& aPolygonDeque) const;
-
 				/*! @brief Calculate the voxelization thickness.
 				Return false, if the voxelization plane is not homogeneous
 				*/
 				bool calcVoxelizationThickness(double& aThickness) const;
 
-				/*! @brief For each dose grid index z, calculate the weight vector for each structure contour
-				*/
-				void calcWeightVector(const rttb::VoxelGridID& aIndexZ,
-				                      std::map<double, double>& weightVector) const;
 			};
 
 		}
