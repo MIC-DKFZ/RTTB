@@ -60,7 +60,7 @@ namespace rttb
 				DcmFileFormat fileformat;
 				std::vector<DRTDoseIODPtr> doseVector;
 
-				for (int i = 0; i < fileVector.size(); i++)
+				for (size_t i = 0; i < fileVector.size(); i++)
 				{
 					DRTDoseIODPtr dose = boost::make_shared<DRTDoseIOD>();
 

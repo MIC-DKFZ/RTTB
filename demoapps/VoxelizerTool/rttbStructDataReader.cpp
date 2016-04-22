@@ -49,7 +49,7 @@ namespace rttb
 
 				if (_rtStructureSet != NULL)
 				{
-					for (int j = 0; j < _rtStructureSet->getNumberOfStructures(); j++)
+					for (size_t j = 0; j < _rtStructureSet->getNumberOfStructures(); j++)
 					{
 						allLabels.push_back(_rtStructureSet->getStructure(j)->getLabel());
 					}

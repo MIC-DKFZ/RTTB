@@ -38,27 +38,27 @@
 
 namespace rttb
 {
-  namespace io
-  {
-    namespace dicom
-    {
-      DicomIODStructureSetGenerator::DicomIODStructureSetGenerator(DRTStrSetIODPtr aDRTStructureSetIOD)
-      {
-        _drtStrSetIOD = aDRTStructureSetIOD;
-      }
+	namespace io
+	{
+		namespace dicom
+		{
+			DicomIODStructureSetGenerator::DicomIODStructureSetGenerator(DRTStrSetIODPtr aDRTStructureSetIOD)
+			{
+				_drtStrSetIOD = aDRTStructureSetIOD;
+			}
 
 
-      void DicomIODStructureSetGenerator::readStrSet()
-      {
-        OFString uid;
-        _drtStrSetIOD->getSeriesInstanceUID(uid);
-        _UID = uid.c_str();
+			void DicomIODStructureSetGenerator::readStrSet()
+			{
+				OFString uid;
+				_drtStrSetIOD->getSeriesInstanceUID(uid);
+				_UID = uid.c_str();
 
-        OFString uid2;
-        _drtStrSetIOD->getPatientID(uid2);
-        _patientUID = uid2.c_str();
+				OFString uid2;
+				_drtStrSetIOD->getPatientID(uid2);
+				_patientUID = uid2.c_str();
 
-        DRTStructureSetROISequence* rois = &_drtStrSetIOD->getStructureSetROISequence();
+				DRTStructureSetROISequence* rois = &_drtStrSetIOD->getStructureSetROISequence();
 
         //generate map of relevant ROIs
         std::map<OFString, std::string> filteredROIs;
@@ -80,119 +80,119 @@ namespace rttb
           }
         }
 
-        /*A structure is a DRTROIContourSequence::Item. Each Item defines a roi. Each ROI contains a sequence
-        of one or more contours, where a contour is either a single point (for a point ROI) or more than
-        one point (representing an open or closed polygon).
-        */
-        DRTROIContourSequence* rcs;
-        rcs = &_drtStrSetIOD->getROIContourSequence();
-        DRTROIContourSequence::Item* rcsItem;
+				/*A structure is a DRTROIContourSequence::Item. Each Item defines a roi. Each ROI contains a sequence
+				of one or more contours, where a contour is either a single point (for a point ROI) or more than
+				one point (representing an open or closed polygon).
+				*/
+				DRTROIContourSequence* rcs;
+				rcs = &_drtStrSetIOD->getROIContourSequence();
+				DRTROIContourSequence::Item* rcsItem;
 
-        long numberOfStructures = rcs->getNumberOfItems();
-        bool isEmpty = rcs->isEmpty();
+				long numberOfStructures = rcs->getNumberOfItems();
+				bool isEmpty = rcs->isEmpty();
 
-        if (numberOfStructures == 0 || isEmpty)
-        {
-          throw core::InvalidParameterException("Empty Structure Set!") ;
-        }
+				if (numberOfStructures == 0 || isEmpty)
+				{
+					throw core::InvalidParameterException("Empty Structure Set!") ;
+				}
 
-        int structureNo = 0;
+				int structureNo = 0;
 
-        for (rcs->gotoFirstItem(); (rcs->getCurrentItem(rcsItem)).good(); rcs->gotoNextItem())
-        {
-          OFString refROINumber;
-          rcsItem->getReferencedROINumber(refROINumber);
+				for (rcs->gotoFirstItem(); (rcs->getCurrentItem(rcsItem)).good(); rcs->gotoNextItem())
+				{
+					OFString refROINumber;
+					rcsItem->getReferencedROINumber(refROINumber);
 
           //check if ROI number is in the filtered ROIS
           if (filteredROIs.find(refROINumber) != filteredROIs.end())
           {
-            DRTContourSequence* cs;
-            cs = &rcsItem->getContourSequence();
-            long no2 = cs->getNumberOfItems();
+					DRTContourSequence* cs;
+					cs = &rcsItem->getContourSequence();
+					unsigned long no2 = cs->getNumberOfItems();
 
-            PolygonSequenceType structureVector;
+					PolygonSequenceType structureVector;
 
-            for (int j = 0; j < no2; j++)
-            {
-              /*DRTContourSequence::Item represents a contour (either a single point (for a point ROI) or more than
-              one point (representing an open or closed polygon))*/
-              DRTContourSequence::Item* csItem;
-              csItem = &cs->getItem(j);
-              OFString contourData;
-              OFString numberOfContourPoints;
-              csItem->getNumberOfContourPoints(numberOfContourPoints);
+					for (unsigned long j = 0; j < no2; j++)
+					{
+						/*DRTContourSequence::Item represents a contour (either a single point (for a point ROI) or more than
+						one point (representing an open or closed polygon))*/
+						DRTContourSequence::Item* csItem;
+						csItem = &cs->getItem(j);
+						OFString contourData;
+						OFString numberOfContourPoints;
+						csItem->getNumberOfContourPoints(numberOfContourPoints);
 
-              int numberOfContourPointsInt;
-              std::stringstream is(numberOfContourPoints.c_str());
-              is >> numberOfContourPointsInt;
-              OFString countourNumber;
-              csItem->getContourNumber(countourNumber);
+						unsigned int numberOfContourPointsInt;
+						std::stringstream is(numberOfContourPoints.c_str());
+						is >> numberOfContourPointsInt;
+						OFString countourNumber;
+						csItem->getContourNumber(countourNumber);
 
-              PolygonType contourVector;
-              char* pEnd;
+						PolygonType contourVector;
+						char* pEnd;
 
-              for (int k = 0; k < numberOfContourPointsInt; k++)
-              {
-                WorldCoordinate3D point;
+						for (unsigned int k = 0; k < numberOfContourPointsInt; k++)
+						{
+							WorldCoordinate3D point;
 
-                for (int i = 0; i < 3; i++)
-                {
-                  csItem->getContourData(contourData, k * 3 + i);
+							for (unsigned int i = 0; i < 3; i++)
+							{
+								csItem->getContourData(contourData, k * 3 + i);
 
-                  WorldCoordinate value = strtod(contourData.c_str(), &pEnd);
+								WorldCoordinate value = strtod(contourData.c_str(), &pEnd);
 
-                  if (*pEnd != '\0')
-                  {
-                    throw core::InvalidParameterException("Contour data not readable!") ;
-                  }
+								if (*pEnd != '\0')
+								{
+									throw core::InvalidParameterException("Contour data not readable!") ;
+								}
 
-                  if (i == 0)
-                  {
-                    point(0) = value;
-                  }
-                  else if (i == 1)
-                  {
-                    point(1) = value;
-                  }
-                  else
-                  {
-                    point(2) = value;
-                  }
-                }
+								if (i == 0)
+								{
+									point(0) = value;
+								}
+								else if (i == 1)
+								{
+									point(1) = value;
+								}
+								else
+								{
+									point(2) = value;
+								}
+							}
 
-                contourVector.push_back(point);
-              }
+							contourVector.push_back(point);
+						}
 
-              structureVector.push_back(contourVector);
-            }
+						structureVector.push_back(contourVector);
+					}
 
-            boost::shared_ptr<core::Structure> spStruct = boost::make_shared<core::Structure>(structureVector);
-            StructTypePointer str(spStruct);
+					boost::shared_ptr<core::Structure> spStruct = boost::make_shared<core::Structure>(structureVector);
+					StructTypePointer str(spStruct);
 
             str->setLabel(filteredROIs[refROINumber]);
             std::cout << filteredROIs[refROINumber].c_str() << std::endl;	
 
-            std::stringstream sstr;
-            sstr << structureNo;
-            str->setUID(sstr.str());
+					std::stringstream sstr;
+					sstr << structureNo;
+					str->setUID(sstr.str());
 
-            _strVector.push_back(str);
-          }
+					_strVector.push_back(str);
+				}
 
           ++structureNo;
-        }
+			}
       }
 
-      DicomIODStructureSetGenerator::~DicomIODStructureSetGenerator()
-      {
-      }
+			DicomIODStructureSetGenerator::~DicomIODStructureSetGenerator()
+			{
+			}
 
-      DicomIODStructureSetGenerator::StructureSetPointer
-        DicomIODStructureSetGenerator::generateStructureSet()
-      {
-        this->readStrSet();
-        return boost::make_shared<core::StructureSet>(_strVector, _patientUID, _UID);
-      }
-    }//end namespace dicom
-  }//end namespace io
+			DicomIODStructureSetGenerator::StructureSetPointer
+			DicomIODStructureSetGenerator::generateStructureSet()
+			{
+				this->readStrSet();
+				return boost::make_shared<core::StructureSet>(_strVector, _patientUID, _UID);
+			}
+		}//end namespace dicom
+	}//end namespace io
 }//end namespace rttb

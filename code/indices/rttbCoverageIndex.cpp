@@ -55,7 +55,6 @@ namespace rttb
 		IndexValueType CoverageIndex::getValueAt(core::DVHSet::IndexType tvIndex)
 		{
 			std::vector<core::DVH> dvhTVSet = this->_dvhSet->getTargetVolumeSet();
-			VolumeType Vref = _dvhSet->getWholeVolume(_doseReference);
 
 			if (tvIndex >= dvhTVSet.size())
 			{

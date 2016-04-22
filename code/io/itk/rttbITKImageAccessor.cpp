@@ -90,9 +90,9 @@ namespace rttb
 				                                 _data->GetOrigin()[2]));
 				OrientationMatrix OM(0);
 
-				for (int col = 0; col < 3; ++col)
+				for (unsigned int col = 0; col < 3; ++col)
 				{
-					for (int row = 0; row < 3; ++row)
+					for (unsigned int row = 0; row < 3; ++row)
 					{
 						OM(col, row) = _data->GetDirection()(col, row);
 					}

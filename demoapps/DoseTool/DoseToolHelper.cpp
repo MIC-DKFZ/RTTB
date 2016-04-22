@@ -179,7 +179,7 @@ rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData
 	            appData);
 	std::cout << "done." << std::endl;
 
-	for (int i = 0; i < maskAccessorPtrVector.size(); i++)
+	for (size_t i = 0; i < maskAccessorPtrVector.size(); i++)
 	{
 		core::DoseIteratorInterface::DoseIteratorPointer spDoseIterator(generateMaskedDoseIterator(
 		            maskAccessorPtrVector.at(i),
@@ -272,7 +272,7 @@ rttb::apps::doseTool::generateMasks(
 
 		bool strict = !appData._allowSelfIntersection;
 
-		for (int i = 0; i < appData._structIndices.size(); i++)
+		for (size_t i = 0; i < appData._structIndices.size(); i++)
 		{
 			maskAccessorPtrVector.push_back(
 			    boost::make_shared<rttb::masks::boost::BoostMaskAccessor>

@@ -66,7 +66,7 @@ namespace rttb
 			{
 				std::vector<ITKImageTypePointer> listOfITKImages;
 
-				for (int i = 0; i < _maskPointerVector.size(); i++)
+				for (size_t i = 0; i < _maskPointerVector.size(); i++)
 				{
 					io::itk::ITKImageMaskAccessorConverter maskAccessorConverter(_maskPointerVector.at(i));
 					maskAccessorConverter.process();
@@ -78,7 +78,7 @@ namespace rttb
 				AddImageFilterType::Pointer addFilter = AddImageFilterType::New();
 				ITKImageTypePointer filterResult;
 
-				for (int k = 1; k < listOfITKImages.size(); k++)
+				for (size_t k = 1; k < listOfITKImages.size(); k++)
 				{
 					if (k == 1)
 					{

@@ -97,7 +97,7 @@ namespace rttb
 				if (_dvhType.Type == DVHType::Differential)
 				{
 
-					for (int i = 0; i < numberOfBins; i++)
+					for (size_t i = 0; i < numberOfBins; i++)
 					{
 						boost::property_tree::ptree node;
 						node.put("", dataDifferential[i]);
@@ -111,7 +111,7 @@ namespace rttb
 
 					DataDifferentialType dataCumulative = aDvh->calcCumulativeDVH();
 
-					for (int i = 0; i < numberOfBins; i++)
+					for (size_t i = 0; i < numberOfBins; i++)
 					{
 						boost::property_tree::ptree node;
 						node.put("", dataCumulative[i]);

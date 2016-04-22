@@ -79,7 +79,6 @@ namespace rttb
 				calculateComplexDoseStatistics(_statistics->getMaximum(), std::vector<double>(),
 				                               std::vector<double>());
 			}
-
 			return _statistics;
 		}
 
@@ -122,7 +121,6 @@ namespace rttb
 
 			//"simple" dose statistics
 			calculateSimpleDoseStatistics(maxNumberMinimaPositions, maxNumberMaximaPositions);
-
 			if (referenceDose <= 0)
 			{
 				//more complex dose statistics with default maximum dose and relative x values
@@ -134,7 +132,6 @@ namespace rttb
 				//more complex dose statistics with given reference dose and relative x values
 				calculateComplexDoseStatistics(referenceDose, precomputeDoseValues, precomputeVolumeValues);
 			}
-
 
 			return _statistics;
 
@@ -399,8 +396,7 @@ namespace rttb
 			DoseTypeGy resultDose = 0;
 
 			double countVoxels = 0;
-			int i = static_cast<int>(_doseVector.size() - 1);
-
+			int i = _doseVector.size() - 1;
 			for (; i >= 0; i--)
 			{
 				countVoxels += _voxelProportionVector.at(i);
@@ -437,7 +433,7 @@ namespace rttb
 				double countVoxels = 0;
 				double sum = 0;
 
-				for (int i = static_cast<int>(_doseVector.size() - 1); i >= 0; i--)
+				for (size_t i = _doseVector.size() - 1; i >= 0; i--)
 				{
 					double voxelProportion = _voxelProportionVector.at(i);
 					countVoxels += voxelProportion;
@@ -491,8 +487,7 @@ namespace rttb
 			DoseTypeGy resultDose = 0;
 
 			double countVoxels = 0;
-			int i = static_cast<int>(_doseVector.size() - 1);
-
+			int i = _doseVector.size() - 1;
 			for (; i >= 0; i--)
 			{
 				countVoxels += _voxelProportionVector.at(i);
@@ -557,7 +552,7 @@ namespace rttb
 		{
 			DoseToVolumeFunctionType VxMulti;
 
-			for (int i = 0; i < precomputeDoseValues.size(); ++i)
+			for (size_t i = 0; i < precomputeDoseValues.size(); ++i)
 			{
 				if (name == DoseStatistics::Vx)
 				{
@@ -581,7 +576,7 @@ namespace rttb
 			VolumeToDoseFunctionType multiValues;
 			VolumeType volume = _statistics->getVolume();
 
-			for (int i = 0; i < precomputeVolumeValues.size(); ++i)
+			for (size_t i = 0; i < precomputeVolumeValues.size(); ++i)
 			{
 				double xAbsolute = precomputeVolumeValues.at(i) * volume;
 

@@ -43,9 +43,6 @@ namespace rttb
 			typedef std::deque<DoseCalcType> DataDifferentialType;
 			typedef boost::shared_ptr<DVH> DVHPointer;
 		private:
-			IDType _structureID;
-			IDType _doseID;
-			IDType _voxelizationID;
 			/*! @brief Differential dvh data index is the dose bin, value is the voxel number (sub voxel accuracy)
 				of the dose bin
 			*/
@@ -53,12 +50,18 @@ namespace rttb
 			/*! @brief Differential dvh data relative to the total number of voxels
 			*/
 			DataDifferentialType _dataDifferentialRelative;
-			/*! @brief Volume of a voxel in cm3
-			*/
-			DoseVoxelVolumeType _deltaV;
 			/*! @brief Absolute dose value of a dose-bin in Gy
 			*/
 			DoseTypeGy _deltaD;
+
+			/*! @brief Volume of a voxel in cm3
+			*/
+			DoseVoxelVolumeType _deltaV;
+
+			IDType _structureID;
+			IDType _doseID;
+			IDType _voxelizationID;
+
 
 			StructureLabel _label;
 

@@ -73,7 +73,7 @@ namespace rttb
 					VoxelGridIndex3D leftTopFrontCoordinate;
 
 					//find the voxel with the smallest coordinate values in each dimension. This defines the standard cube
-					for (int i = 0; i < 3; i++)
+					for (unsigned int i = 0; i < 3; i++)
 					{
 
 						if (aWorldCoordinate[i] < theNextVoxel[i])
@@ -97,11 +97,11 @@ namespace rttb
 						}
 					}
 
-					for (int zIncr = 0; zIncr < 2; zIncr++)
+					for (unsigned int zIncr = 0; zIncr < 2; zIncr++)
 					{
-						for (int yIncr = 0; yIncr < 2; yIncr++)
+						for (unsigned int yIncr = 0; yIncr < 2; yIncr++)
 						{
-							for (int xIncr = 0; xIncr < 2; xIncr++)
+							for (unsigned int xIncr = 0; xIncr < 2; xIncr++)
 							{
 								cornerPoints.push_back(VoxelGridIndex3D(leftTopFrontCoordinate[0] + xIncr,
 								                                        leftTopFrontCoordinate[1] + yIncr,
@@ -111,7 +111,7 @@ namespace rttb
 					}
 
 					//target range has to be always [0,1]
-					for (int i = 0; i < 3; i++)
+					for (unsigned int i = 0; i < 3; i++)
 					{
 						assert(target[i] >= 0.0 && target[i] <= 1.0);
 					}
@@ -150,7 +150,7 @@ namespace rttb
 		const
 		{
 			VoxelGridIndex3D voxelChangedXYZ[] = {currentVoxelIndex, currentVoxelIndex, currentVoxelIndex, currentVoxelIndex, currentVoxelIndex, currentVoxelIndex, currentVoxelIndex};
-			int runningIndex;
+			unsigned int runningIndex;
 
 			//x,y,z
 			for (runningIndex = 0; runningIndex < 3; ++runningIndex)
@@ -176,7 +176,7 @@ namespace rttb
 			voxelChangedXYZ[runningIndex][2] -= 1;
 			++runningIndex;
 
-			int replacementVoxelIndex = 0;
+			unsigned int replacementVoxelIndex = 0;
 
 			while (replacementVoxelIndex < runningIndex)
 			{

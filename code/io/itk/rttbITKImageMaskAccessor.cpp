@@ -64,9 +64,9 @@ namespace rttb
 				                                  _mask->GetOrigin()[2]));
 				OrientationMatrix OM(0);
 
-				for (int col = 0; col < 3; ++col)
+				for (unsigned int col = 0; col < 3; ++col)
 				{
-					for (int row = 0; row < 3; ++row)
+					for (unsigned int row = 0; row < 3; ++row)
 					{
 						OM(col, row) = _mask->GetDirection()(col, row);
 					}
@@ -104,10 +104,10 @@ namespace rttb
 			{
 				MaskVoxelListPointer filteredVoxelVectorPointer(new MaskVoxelList);
 				updateMask();
-				int size =  _geoInfo->getNumColumns() * _geoInfo->getNumRows() * _geoInfo->getNumSlices();
+				unsigned int size =  _geoInfo->getNumColumns() * _geoInfo->getNumRows() * _geoInfo->getNumSlices();
 				filteredVoxelVectorPointer->reserve(size);
 
-				for (int gridIndex = 0 ; gridIndex < size; gridIndex++)
+				for (unsigned int gridIndex = 0 ; gridIndex < size; gridIndex++)
 				{
 					core::MaskVoxel currentVoxel = core::MaskVoxel(gridIndex);
 

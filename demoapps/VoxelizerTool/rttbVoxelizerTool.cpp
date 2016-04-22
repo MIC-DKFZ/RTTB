@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 	std::cout << "searching for structs...";
 	std::vector<int> listOfCorrectElements;
 
-	for (int i = 0; i < params.regEx.size(); i++)
+	for (size_t i = 0; i < params.regEx.size(); i++)
 	{
 		std::vector<int> indexOfCorrectElements;
 		indexOfCorrectElements = rttb::apps::voxelizer::filterForExpression(reader->getAllLabels(),
@@ -107,7 +107,7 @@ int main(int argc, char* argv[])
 		{
 			std::string labelName;
 
-			for (int i = 0; i < listOfCorrectElements.size(); i++)
+			for (size_t i = 0; i < listOfCorrectElements.size(); i++)
 			{
 				int labelIndex = listOfCorrectElements.at(i);
 				maskVector.push_back(maskProcessor->createMask(labelIndex));
