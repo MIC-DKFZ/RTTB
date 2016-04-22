@@ -56,7 +56,7 @@ namespace rttb
 				ptree minimumNode = createNodeWithNameAttribute(static_cast<float>(aDoseStatistics->getMinimum()),
 				                    "minimum");
 
-				auto minimumPositions = aDoseStatistics->getMinimumPositions();
+				auto minimumPositions = aDoseStatistics->getMinimumVoxelPositions();
 				std::vector<std::pair<DoseTypeGy, VoxelGridID> >::iterator pairItMin = minimumPositions->begin();
 				int count = 0;
 
@@ -74,7 +74,7 @@ namespace rttb
 				ptree maximumNode = createNodeWithNameAttribute(static_cast<float>(aDoseStatistics->getMaximum()),
 				                    "maximum");
 
-				auto maximumPositions = aDoseStatistics->getMaximumPositions();
+				auto maximumPositions = aDoseStatistics->getMaximumVoxelPositions();
 				std::vector<std::pair<DoseTypeGy, VoxelGridID> >::iterator pairItMax = maximumPositions->begin();
 				count = 0;
 

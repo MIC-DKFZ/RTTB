@@ -124,8 +124,8 @@ namespace rttb
 			CHECK_CLOSE(doseStatistics->getMaximum(), expectedVal, errorConstant);
 
 			CHECK_CLOSE(doseStatistics->getMinimum(), expectedVal, errorConstant);
-			ResultListPointer minListPtr = doseStatistics->getMinimumPositions();
-			ResultListPointer maxListPtr = doseStatistics->getMaximumPositions();
+			ResultListPointer minListPtr = doseStatistics->getMinimumVoxelPositions();
+			ResultListPointer maxListPtr = doseStatistics->getMaximumVoxelPositions();
 			CHECK_EQUAL(maxListPtr->size(), 10);
 			CHECK_EQUAL(minListPtr->size(), 10);
 
@@ -179,8 +179,8 @@ namespace rttb
 			CHECK_CLOSE(doseStatisticsVirtuos->getMean(), 22.5779, reducedErrorConstant);
 			CHECK_CLOSE(doseStatisticsVirtuos->getStdDeviation(), 6.28857, reducedErrorConstant);
 
-			ResultListPointer maxPositions = doseStatisticsVirtuos->getMaximumPositions();
-			ResultListPointer minPositions = doseStatisticsVirtuos->getMinimumPositions();
+			ResultListPointer maxPositions = doseStatisticsVirtuos->getMaximumVoxelPositions();
+			ResultListPointer minPositions = doseStatisticsVirtuos->getMinimumVoxelPositions();
 			CHECK_EQUAL(maxPositions->size(), 1);
 			CHECK_EQUAL(minPositions->size(), 1);
 			CHECK_EQUAL(maxPositions->begin()->first, doseStatisticsVirtuos->getMaximum());
