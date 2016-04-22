@@ -70,7 +70,7 @@ namespace rttb
 			baseCommand += " -r " + referenceFile;
 			baseCommand += " -e \"";
 
-			for (int i = 0; i < structNames.size(); i++)
+			for (size_t i = 0; i < structNames.size(); i++)
 			{
 				std::string command = baseCommand + structNames.at(i) + "\"";
 				std::cout << "Command line call: " + command << std::endl;

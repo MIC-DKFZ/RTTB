@@ -95,7 +95,7 @@ namespace rttb
 			CHECK_NO_THROW(vectorActual = testVOIindexId.getIndicesByVoiRegex(rtStructureSet, ".*"));
 			CHECK_EQUAL(vectorActual.size(), 10);
 
-			for (unsigned int index = 0; index < vectorActual.size(); index++)
+			for (size_t index = 0; index < vectorActual.size(); index++)
 			{
 				CHECK_EQUAL(vectorActual.at(index), index);
 			}

@@ -89,8 +89,7 @@ namespace rttb
 		}
 
 		core::Structure
-		DummyStructure::CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRight(
-		    GridIndexType zPlane)
+		DummyStructure::CreateRectangularStructureCenteredRotatedIntermediatePlacementLowerRight()
 		{
 			CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 
@@ -611,10 +610,10 @@ namespace rttb
 
 			PolygonSequenceType strVector = aStructure.getStructureVector();
 
-			for (unsigned int struct_index = 0 ; struct_index < strVector.size() ; struct_index++)
+			for (size_t struct_index = 0 ; struct_index < strVector.size() ; struct_index++)
 			{
 
-				for (int point_index = 0 ; point_index < strVector.at(struct_index).size() ; point_index++)
+				for (size_t point_index = 0 ; point_index < strVector.at(struct_index).size() ; point_index++)
 				{
 
 					aPoint = strVector.at(struct_index).at(point_index);

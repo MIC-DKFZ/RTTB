@@ -52,10 +52,6 @@ namespace rttb
 			PREPARE_DEFAULT_TEST_REPORTING;
 
 			//generate artificial DVH and corresponding statistical values
-			DoseTypeGy binSize = DoseTypeGy(0.1);
-			DoseVoxelVolumeType voxelVolume = 8;
-
-			DoseCalcType value = 1000;
 			DummyDVHGenerator dummyDVH;
 
 			const IDType structureID = "myStructure";

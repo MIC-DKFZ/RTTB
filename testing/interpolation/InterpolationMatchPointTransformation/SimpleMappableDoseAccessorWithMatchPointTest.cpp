@@ -236,11 +236,11 @@ namespace rttb
 				coordinatesToCheckZ.push_back(geoInfoRealistic.getNumSlices() - 1);
 
 				//Pixels are inside the fraction CT image and mapping should work (even if they map outside of doseAccessor3)
-				for (unsigned int i = 0; i < coordinatesToCheckX.size(); ++i)
+				for (size_t i = 0; i < coordinatesToCheckX.size(); ++i)
 				{
-					for (unsigned int j = 0; j < coordinatesToCheckY.size(); ++j)
+					for (size_t j = 0; j < coordinatesToCheckY.size(); ++j)
 					{
-						for (unsigned int k = 0; k < coordinatesToCheckZ.size(); ++k)
+						for (size_t k = 0; k < coordinatesToCheckZ.size(); ++k)
 						{
 							CHECK_NO_THROW(aSimpleMappableDoseAccessorRealisticScenarioLinear->getValueAt(VoxelGridIndex3D(
 							                   coordinatesToCheckX.at(i), coordinatesToCheckY.at(j), coordinatesToCheckZ.at(k))));

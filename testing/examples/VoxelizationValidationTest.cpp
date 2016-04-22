@@ -101,7 +101,7 @@ namespace rttb
 
 			if (rtStructureSet->getNumberOfStructures() > 0)
 			{
-				for (int j = 0; j < rtStructureSet->getNumberOfStructures(); j++)
+				for (size_t j = 0; j < rtStructureSet->getNumberOfStructures(); j++)
 				{
 					if (j != 2 && j != 3)
 					{

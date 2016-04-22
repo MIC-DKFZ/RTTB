@@ -128,9 +128,9 @@ namespace rttb
 			CHECK_EQUAL(convertedImagePtr->GetLargestPossibleRegion().GetSize()[2],
 			            expectedImage->GetLargestPossibleRegion().GetSize()[2]);
 
-			int sizeX = convertedImagePtr->GetLargestPossibleRegion().GetSize()[0];
-			int sizeY = convertedImagePtr->GetLargestPossibleRegion().GetSize()[1];
-			int sizeZ = convertedImagePtr->GetLargestPossibleRegion().GetSize()[2];
+			unsigned int sizeX = convertedImagePtr->GetLargestPossibleRegion().GetSize()[0];
+			unsigned int sizeY = convertedImagePtr->GetLargestPossibleRegion().GetSize()[1];
+			unsigned int sizeZ = convertedImagePtr->GetLargestPossibleRegion().GetSize()[2];
 
 			io::itk::ITKImageMaskAccessor::ITKMaskImageType::IndexType index;
 
