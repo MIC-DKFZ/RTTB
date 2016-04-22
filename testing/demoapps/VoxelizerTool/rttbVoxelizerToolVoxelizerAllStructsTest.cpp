@@ -78,11 +78,9 @@ namespace rttb
 
 				CHECK_EQUAL(returnValue, 0);
 
-				const std::string HDRfileName = tempDirectory + "/out_" + filenames.at(i) + ".hdr";
 				boost::filesystem::path HDRFile(tempDirectory);
 				HDRFile /= "out_" + filenames.at(i) + ".hdr";
 
-				const std::string IMGfileName = tempDirectory + "/out_" + filenames.at(i) + ".img";
 				boost::filesystem::path IMGFile(tempDirectory);
 				IMGFile /= "out_" + filenames.at(i) + ".img";
 

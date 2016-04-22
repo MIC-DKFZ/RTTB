@@ -19,9 +19,9 @@
 // @author  $Author$ (last changed by)
 */
 
-
 #include "rttbStrVectorStructureSetGenerator.h"
 
+#include <boost/regex.hpp>
 
 namespace rttb
 {
@@ -41,7 +41,25 @@ namespace rttb
 		StrVectorStructureSetGenerator::StructureSetPointer
 		StrVectorStructureSetGenerator::generateStructureSet()
 		{
-			return boost::make_shared<core::StructureSet>(_strVector, _patientUID);
+      std::vector<StructTypePointer> _filteredStructs = _strVector;
+
+      if (this->getStructureLabelFilterActive())
+      {
+        _filteredStructs.clear();
+
+			  ::boost::regex e(this->getFilterRegEx());
+
+        for(auto aStruct : _strVector)
+        {
+  				if (::boost::regex_match(aStruct->getLabel(), e))
+	  			{
+		  			_filteredStructs.push_back(aStruct);
+			  	}
+        }
+
+      }
+      
+      return boost::make_shared<core::StructureSet>(_filteredStructs, _patientUID);
 		}
 	}
 }//end namespace rttb

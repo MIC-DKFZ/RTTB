@@ -44,12 +44,6 @@ namespace itk
 		ProgressReporter progress(this, threadId,
 		                          outputRegionForThread.GetNumberOfPixels());
 
-		const unsigned int numberOfInputImages =
-		    static_cast< unsigned int >(this->GetNumberOfIndexedInputs());
-
-		const unsigned int numberOfOutputImages =
-		    static_cast< unsigned int >(this->GetNumberOfIndexedOutputs());
-
 		typedef ImageRegionConstIteratorWithIndex< InputImageType > ImageRegionConstIteratorType;
 		typedef ImageRegionIterator< OutputImageType > OutputImageRegionIteratorType;
 

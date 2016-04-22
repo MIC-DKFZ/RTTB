@@ -57,7 +57,7 @@ namespace rttb
 
 		StructureSet::StructTypePointer StructureSet::getStructure(int aStructureNo) const
 		{
-			int size = this->getNumberOfStructures() - 1;
+			int size = static_cast<int>(this->getNumberOfStructures() - 1);
 
 			if (aStructureNo < 0 || aStructureNo > size)
 			{

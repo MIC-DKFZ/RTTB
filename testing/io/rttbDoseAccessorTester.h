@@ -38,7 +38,7 @@ namespace rttb
 		/*! class DoseAccessorTester
 			@brief Tester class for io classes. Compares two given DoseAccessors for similarity.
 			These DoseAccessors are not similar if their geometry or grid size are not similar,
-			if the conversion of a given ID is invalid for one of the acessors, or if the dose
+			if the conversion of a given ID is invalid for one of the accessors, or if the dose
 			at a given ID is not the same for both accessors.
 		*/
 		class DoseAccessorTester: public lit::TesterBase
@@ -50,8 +50,8 @@ namespace rttb
 			DoseAccessorPointer _referenceDose;
 			DoseAccessorPointer _compareDose;
 
-			mutable float _maxDifference;
-			mutable float _numDifference;
+			mutable double _maxDifference;
+			mutable double _numDifference;
 
 			mutable bool _geometryIsSimilar;
 			mutable bool _sameGridSize;

@@ -26,8 +26,6 @@
 #include <boost/shared_ptr.hpp>
 
 #include "litCheckMacros.h"
-#include "litImageTester.h"
-#include "litTestImageIO.h"
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"

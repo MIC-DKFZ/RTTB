@@ -82,9 +82,9 @@ namespace rttb
 				/*!@brief determine how a given voxel on the dose grid is masked
 				* @param aID ID of the voxel in grid.
 				* @param voxel Reference to the voxel.
-				* @post after a valid call voxel containes the information of the specified grid voxel. If aID is not valid, voxel values are undefined.
+				* @post after a valid call voxel contains the information of the specified grid voxel. If aID is not valid, voxel values are undefined.
 				* The relevant volume fraction will be set to zero.
-				* @return Indicates of the voxel exists and therefore if parameter voxel containes valid values.*/
+				* @return Indicates of the voxel exists and therefore if parameter voxel contains valid values.*/
 				bool getMaskAt(const VoxelGridID aID, core::MaskVoxel& voxel) const;
 
 				bool getMaskAt(const VoxelGridIndex3D& aIndex, core::MaskVoxel& voxel) const;

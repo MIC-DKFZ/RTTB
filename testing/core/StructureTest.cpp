@@ -69,19 +69,19 @@ namespace rttb
 			PolygonSequenceType::iterator it = rectVec.begin();
 			PolygonSequenceType::iterator it2 = rect2Vec.begin();
 
-			for (; it != rectVec.end(); it++)
+			for (; it != rectVec.end(); ++it)
 			{
 				CHECK_EQUAL(it->size(), it2->size());
 				PolygonType::iterator pit = it->begin();
 				PolygonType::iterator pit2 = it2->begin();
 
-				for (; pit != it->end(); pit++)
+				for (; pit != it->end(); ++pit)
 				{
 					CHECK_EQUAL(*(pit), *(pit2));
-					pit2++;
+					++pit2;
 				}
 
-				it2++;
+				++it2;
 			}
 
 			CHECK_NO_THROW(core::Structure rect3 = rect);
@@ -95,19 +95,19 @@ namespace rttb
 			it = rectVec.begin();
 			PolygonSequenceType::iterator it3 = rect3Vec.begin();
 
-			for (; it != rectVec.end(); it++)
+			for (; it != rectVec.end(); ++it)
 			{
 				CHECK_EQUAL(it->size(), it3->size());
 				PolygonType::iterator pit = it->begin();
 				PolygonType::iterator pit3 = it3->begin();
 
-				for (; pit != it->end(); pit++)
+				for (; pit != it->end(); ++pit)
 				{
 					CHECK_EQUAL(*(pit), *(pit3));
-					pit3++;
+					++pit3;
 				}
 
-				it3++;
+				++it3;
 			}
 
 			//2) get/setXX

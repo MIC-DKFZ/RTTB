@@ -41,6 +41,11 @@ endif()
 #setting it via gui or command line
 set(DCMTK_SOURCE_DIR ${DCMTK_SOURCE_DIR} CACHE PATH "Root of DCMTK tree.")
 
+IF(NOT DEFINED RTTB_USE_MITK_DCMTK)
+  OPTION(RTTB_USE_MITK_DCMTK "RTTB should use a DCMTK which is available in the MITK superbuild external projects structure." OFF)
+  MARK_AS_ADVANCED(RTTB_USE_MITK_DCMTK)
+ENDIF(NOT DEFINED RTTB_USE_MITK_DCMTK)
+
 OPTION(RTTB_USE_ML_DCMTK "RTTB should use a DCMTK which is available in the MeVisLab package structure." OFF)
 MARK_AS_ADVANCED(RTTB_USE_ML_DCMTK)
 
@@ -91,16 +96,18 @@ if(NOT DCMTK_FOUND)
 
 foreach(lib ${DCMTK_LIB_SEARCH_NAMES})
 	
-  if(${RTTB_USE_ML_DCMTK})
-    find_library(DCMTK_${lib}_DEBUG_LIBRARY
-      ${lib}_d
-      PATHS ${DCMTK_DEBUG_LIB_SEARCH_PATH})
-  else(${RTTB_USE_ML_DCMTK})
-    find_library(DCMTK_${lib}_DEBUG_LIBRARY
-      ${lib}
-      PATHS ${DCMTK_DEBUG_LIB_SEARCH_PATH})
-  endif(${RTTB_USE_ML_DCMTK})
+  set(debuglib ${lib})
+  
+  if(${RTTB_USE_MITK_DCMTK})
+    set(debuglib ${lib}d)
+  elseif(${RTTB_USE_ML_DCMTK})
+    set(debuglib ${lib}_d)
+  endif(${RTTB_USE_MITK_DCMTK})
 
+  find_library(DCMTK_${lib}_DEBUG_LIBRARY
+    ${debuglib}
+    PATHS ${DCMTK_DEBUG_LIB_SEARCH_PATH})
+  
   find_library(DCMTK_${lib}_LIBRARY
     ${lib}
     PATHS  ${DCMTK_LIB_SEARCH_PATH})	
@@ -115,7 +122,7 @@ foreach(lib ${DCMTK_LIB_SEARCH_NAMES})
   add_library(${lib} STATIC IMPORTED)
   set_target_properties(${lib} PROPERTIES IMPORTED_LOCATION ${DCMTK_${lib}_LIBRARY} IMPORTED_LOCATION_DEBUG ${DCMTK_${lib}_DEBUG_LIBRARY})
   
-  if(DCMTK_${lib}_LIBRARY)
+  if(DCMTK_${lib}_LIBRARY OR DCMTK_${lib}_DEBUG_LIBRARY)
     list(APPEND DCMTK_LIBRARIES ${lib})
   endif() 
 
@@ -170,6 +177,7 @@ foreach(dir
     ${DCMTK_DIR}/${dir}/include/dcmtk/${dir}
     ${DCMTK_SOURCE_DIR}/${dir}/include
     ${DCMTK_SOURCE_DIR}/${dir}
+    ${DCMTK_SOURCE_DIR}/dcmtk/${dir}
     ${DCMTK_SOURCE_DIR}/include/${dir}
     ${DCMTK_SOURCE_DIR}/include/dcmtk/${dir}
     ${DCMTK_SOURCE_DIR}/${dir}/include/dcmtk/${dir}
@@ -215,4 +223,8 @@ IF( NOT WIN32 )
 ENDIF( NOT WIN32 )
 
 LIST(APPEND ALL_INCLUDE_DIRECTORIES ${DCMTK_INCLUDE_DIRS} ${DCMTK_DIR}/include)
+IF(DEFINED RTTB_USE_MITK_DCMTK)
+  LIST(APPEND ALL_INCLUDE_DIRECTORIES ${DCMTK_SOURCE_DIR})
+ENDIF(DEFINED RTTB_USE_MITK_DCMTK)
+
 LIST(APPEND ALL_LIBRARIES ${DCMTK_LIBRARIES} ${MISSING_LIBS_REQUIRED_BY_DCMTK})

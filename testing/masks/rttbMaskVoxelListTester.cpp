@@ -86,16 +86,13 @@ namespace rttb
 					}
 					else
 					{
-						float diff = iterR->getRelevantVolumeFraction() - iterC->getRelevantVolumeFraction();
+						double diff = iterR->getRelevantVolumeFraction() - iterC->getRelevantVolumeFraction();
 
 						if (diff > _maxDifference)
 						{
 							_maxDifference = diff;
 						}
 
-						/*if(diff > 0.001){
-							std::cout <<iterR->getVoxelGridID()<< ": ("<< iterR->getRelevantVolumeFraction() << ","<<iterC->getRelevantVolumeFraction()<<"); ";
-						}*/
 						_numDifference++;
 					}
 				}
@@ -105,7 +102,7 @@ namespace rttb
 					_masVoxelsDiffer = true;
 					return false;
 				}
-			}//end for(VoxelGridID id = 0; id < _referenceList->getGridSi...
+			}
 
 			if (_numDifference > 0)
 			{

@@ -26,9 +26,7 @@
 #include "registrationHelper.h"
 
 #include "litTestImageIO.h"
-#include "litCheckMacros.h"
 #include "litImageTester.h"
-#include "litPointSetTester.h"
 
 #include <fstream>
 

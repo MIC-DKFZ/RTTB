@@ -180,15 +180,11 @@ namespace rttb
 				rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(spDoseIterator);
 				rttb::algorithms::DoseStatistics::DoseStatisticsPointer doseStatistics =
 				    myDoseStatsCalculator.calculateDoseStatistics();
-				//rttb::algorithms::DoseStatistics doseStat(spDoseIterator);
-				//boost::shared_ptr< std::vector<std::pair<DoseTypeGy, VoxelGridID> > > myResultPairs =
-				//    boost::make_shared< std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
-				//rttb::algorithms::DoseStatistics::ResultListPointer spMyResultPairs(myResultPairs);
 
 				double maxDose = doseStatistics->getMaximum();
 
 				/* Find scale factor */
-				float dose_scale;
+				double dose_scale;
 				dose_scale = maxDose / PixelDataMaxValue;
 
 				/* Scale the image and add scale factor to _dataset */
@@ -216,8 +212,8 @@ namespace rttb
 
 				/* Convert image bytes to integer, then add to _dataset */
 				Uint16* pixelData;
-				int pixelCount = geometricInfo.getNumRows() * geometricInfo.getNumColumns() *
-				                 geometricInfo.getNumSlices();
+				unsigned int pixelCount = static_cast<unsigned int>(geometricInfo.getNumRows() * geometricInfo.getNumColumns() *
+				                          geometricInfo.getNumSlices());
 				pixelData = new Uint16[pixelCount];
 
 				for (unsigned int i = 0; i < pixelCount; ++i)

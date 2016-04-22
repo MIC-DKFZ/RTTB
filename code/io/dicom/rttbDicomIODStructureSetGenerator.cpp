@@ -23,8 +23,10 @@
 #include <algorithm>
 #include <sstream>
 #include <stdlib.h>
+#include <map>
 
 #include <boost/lexical_cast.hpp>
+#include <boost/regex.hpp>
 
 #include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
@@ -58,6 +60,26 @@ namespace rttb
 
 				DRTStructureSetROISequence* rois = &_drtStrSetIOD->getStructureSetROISequence();
 
+        //generate map of relevant ROIs
+        std::map<OFString, std::string> filteredROIs;
+        ::boost::regex e(this->getFilterRegEx());
+
+        for (unsigned long i = 0; i < rois->getNumberOfItems(); i++)
+        {
+          DRTStructureSetROISequence::Item* roisItem = &rois->getItem(i);
+
+          OFString roiNumber;
+          roisItem->getROINumber(roiNumber);
+          OFString ofRoiName;
+          roisItem->getROIName(ofRoiName);
+          std::string roiName(ofRoiName.c_str());
+
+          if (!this->getStructureLabelFilterActive() || boost::regex_match(roiName, e))
+          {
+            filteredROIs.insert(std::make_pair(roiNumber, roiName));
+          }
+        }
+
 				/*A structure is a DRTROIContourSequence::Item. Each Item defines a roi. Each ROI contains a sequence
 				of one or more contours, where a contour is either a single point (for a point ROI) or more than
 				one point (representing an open or closed polygon).
@@ -80,6 +102,10 @@ namespace rttb
 				{
 					OFString refROINumber;
 					rcsItem->getReferencedROINumber(refROINumber);
+
+          //check if ROI number is in the filtered ROIS
+          if (filteredROIs.find(refROINumber) != filteredROIs.end())
+          {
 					DRTContourSequence* cs;
 					cs = &rcsItem->getContourSequence();
 					unsigned long no2 = cs->getNumberOfItems();
@@ -143,32 +169,19 @@ namespace rttb
 					boost::shared_ptr<core::Structure> spStruct = boost::make_shared<core::Structure>(structureVector);
 					StructTypePointer str(spStruct);
 
-					for (unsigned long i = 0; i < rois->getNumberOfItems(); i++)
-					{
-						DRTStructureSetROISequence::Item* roisItem;
-						roisItem = &rois->getItem(i);
-
-						OFString roiNumber;
-						roisItem->getROINumber(roiNumber);
-
-						if (roiNumber == refROINumber)
-						{
-							OFString roiName;
-							roisItem->getROIName(roiName);
-							str->setLabel(roiName.c_str());
-							std::cout << roiName.c_str() << std::endl;
-							break;
-						}
-					}
+            str->setLabel(filteredROIs[refROINumber]);
+            std::cout << filteredROIs[refROINumber].c_str() << std::endl;	
 
 					std::stringstream sstr;
 					sstr << structureNo;
 					str->setUID(sstr.str());
 
 					_strVector.push_back(str);
-					structureNo++;
 				}
+
+          ++structureNo;
 			}
+      }
 
 			DicomIODStructureSetGenerator::~DicomIODStructureSetGenerator()
 			{

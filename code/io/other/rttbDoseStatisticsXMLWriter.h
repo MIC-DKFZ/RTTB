@@ -46,6 +46,7 @@ namespace rttb
 			@param aDoseStatistics DoseStatistics to write
 			@pre aReferenceDose must >0
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
+			@note The precision is float
 			*/
 			boost::property_tree::ptree writeDoseStatistics(DoseStatisticsPtr aDoseStatistics);
 
@@ -54,6 +55,7 @@ namespace rttb
 			@param aDoseStatistics DoseStatistics to write
 			@pre aReferenceDose must >0
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
+			@note The precision is float
 			*/
 			XMLString writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics);
 
@@ -76,6 +78,7 @@ namespace rttb
 			@param aFileName To write dose statistics
 			@pre aReferenceDose must >0
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
+			@note The precision is float
 			*/
 			void writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName);
 
@@ -91,6 +94,7 @@ namespace rttb
 			@pre aReferenceDose must >0
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			@note is used for the Mevislab-Linking of RTTB
+			@note The precision is float
 			*/
 			StatisticsString writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics);
 		}

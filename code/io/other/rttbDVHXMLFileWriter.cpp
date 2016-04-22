@@ -99,8 +99,11 @@ namespace rttb
 
 					for (size_t i = 0; i < numberOfBins; i++)
 					{
-						pt.add("dvh.data.dosebin", i);
-						pt.add("dvh.data.volume", dataDifferential[i]);
+						boost::property_tree::ptree node;
+						node.put("", dataDifferential[i]);
+						node.put("<xmlattr>.dosebin", i);
+
+						pt.add_child("dvh.data.volume", node);
 					}
 				}
 				else if (_dvhType.Type == DVHType::Cumulative)
@@ -110,8 +113,11 @@ namespace rttb
 
 					for (size_t i = 0; i < numberOfBins; i++)
 					{
-						pt.add("dvh.data.dosebin", i);
-						pt.add("dvh.data.volume", dataCumulative[i]);
+						boost::property_tree::ptree node;
+						node.put("", dataCumulative[i]);
+						node.put("<xmlattr>.dosebin", i);
+
+						pt.add_child("dvh.data.volume", node);
 					}
 				}
 

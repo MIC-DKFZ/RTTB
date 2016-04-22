@@ -120,7 +120,7 @@ rttb::apps::doseTool::loadVirtuosDose(const std::string& fileName, const std::st
 };
 
 rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::doseTool::loadStruct(
-    const std::string& fileName, const ApplicationData::LoadingStyleArgType& args)
+    const std::string& fileName, const ApplicationData::LoadingStyleArgType& args, const std::string& structNameRegex)
 {
 	rttb::core::StructureSetGeneratorInterface::StructureSetPointer result;
 
@@ -129,7 +129,7 @@ rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::dose
 	if (args.empty() || args[0] == "dicom")
 	{
 		std::cout << "use RTTB dicom IO... ";
-		result = loadDicomStruct(fileName);
+    result = loadDicomStruct(fileName, structNameRegex);
 	}
 	else if (args[0] == "virtuos")
 	{
@@ -150,9 +150,15 @@ rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::dose
 
 rttb::core::StructureSetGeneratorInterface::StructureSetPointer
 rttb::apps::doseTool::loadDicomStruct(
-    const std::string& fileName)
+const std::string& fileName, const std::string& structNameRegex)
 {
 	rttb::io::dicom::DicomFileStructureSetGenerator generator(fileName);
+
+  if (!structNameRegex.empty())
+  {
+      generator.setStructureLableFilterActive(true);
+      generator.setFilterRegEx(structNameRegex);
+  }
 	return generator.generateStructureSet();
 }
 

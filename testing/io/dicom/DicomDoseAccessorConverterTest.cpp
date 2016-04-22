@@ -131,9 +131,9 @@ namespace rttb
 			            errorConstant);
 
 			//Check pixel data
-			int size = doseAccessor_r->getGeometricInfo().getNumColumns() *
-			           doseAccessor_r->getGeometricInfo().getNumRows() *
-			           doseAccessor_r->getGeometricInfo().getNumSlices() ;
+			unsigned int size = doseAccessor_r->getGeometricInfo().getNumColumns() *
+			                    doseAccessor_r->getGeometricInfo().getNumRows() *
+			                    doseAccessor_r->getGeometricInfo().getNumSlices() ;
 
 			for (unsigned int index = 0; index < 30; index++)
 			{

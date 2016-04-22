@@ -88,7 +88,7 @@ namespace rttb
 			CHECK_THROW_EXPLICIT(io::virtuos::VirtuosFileStructureSetGenerator(RTSTRUCT_FILENAME.c_str(),
 			                     "aCTFileName.ctx").generateStructureSet(), core::InvalidParameterException);
 			std::string testFileName = RTSTRUCT_FILENAME;
-			int gzPosition = testFileName.find(".vdx");
+			size_t gzPosition = testFileName.find(".vdx");
 
 			if (gzPosition != std::string::npos)
 			{

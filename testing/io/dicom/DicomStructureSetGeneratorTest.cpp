@@ -86,8 +86,8 @@ namespace rttb
 			CHECK_THROW_EXPLICIT(io::dicom::DicomIODStructureSetGenerator(drtStrSetIOD).generateStructureSet(),
 			                     core::InvalidParameterException);
 
-			status = fileformat.loadFile(RTSTRUCT_FILENAME.c_str());
-			status = drtStrSetIOD->read(*fileformat.getDataset());
+			fileformat.loadFile(RTSTRUCT_FILENAME.c_str());
+			drtStrSetIOD->read(*fileformat.getDataset());
 
 			CHECK_NO_THROW(io::dicom::DicomIODStructureSetGenerator generator2(drtStrSetIOD));
 			CHECK_NO_THROW(io::dicom::DicomIODStructureSetGenerator(drtStrSetIOD).generateStructureSet());

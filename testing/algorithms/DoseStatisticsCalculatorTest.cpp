@@ -82,8 +82,8 @@ namespace rttb
 			DoseStatisticsPointer theStatistics;
 			//simple dose statistics
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics());
-			CHECK_EQUAL(theStatistics->getMinimumPositions()->empty(), false);
-			CHECK_EQUAL(theStatistics->getMaximumPositions()->empty(), false);
+			CHECK_EQUAL(theStatistics->getMinimumVoxelPositions()->empty(), false);
+			CHECK_EQUAL(theStatistics->getMaximumVoxelPositions()->empty(), false);
 			CHECK_EQUAL(theStatistics->getAllVx().empty(), true);
 			CHECK_EQUAL(theStatistics->getAllDx().empty(), true);
 			CHECK_EQUAL(theStatistics->getAllVx().empty(), true);
@@ -242,8 +242,8 @@ namespace rttb
 				nMin = 100;
 			}
 
-			auto maximaPositions = theStatistics->getMaximumPositions();
-			auto minimaPositions = theStatistics->getMinimumPositions();
+			auto maximaPositions = theStatistics->getMaximumVoxelPositions();
+			auto minimaPositions = theStatistics->getMinimumVoxelPositions();
 
 			CHECK_EQUAL(maximaPositions->size(), nMax);
 			CHECK_EQUAL(minimaPositions->size(), nMin);
@@ -297,8 +297,8 @@ namespace rttb
 			CHECK_EQUAL(theStatistics3->getMean(), mean);
 
 
-			maximaPositions = theStatistics3->getMaximumPositions();
-			minimaPositions = theStatistics3->getMinimumPositions();
+			maximaPositions = theStatistics3->getMaximumVoxelPositions();
+			minimaPositions = theStatistics3->getMinimumVoxelPositions();
 
 			CHECK_EQUAL(maximaPositions->empty(), false);
 			CHECK_EQUAL(minimaPositions->empty(), false);

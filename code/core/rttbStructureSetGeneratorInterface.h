@@ -47,11 +47,34 @@ namespace rttb
 
 
 		protected:
-			StructureSetGeneratorInterface() {};
+			StructureSetGeneratorInterface(): _activeFilter(false) { };
 			virtual ~StructureSetGeneratorInterface() {};
+
+    private:
+      bool _activeFilter;
+      std::string _filterRegEx;
 
 		public:
 
+      void setStructureLableFilterActive(bool active)
+      {
+        _activeFilter = active;
+      };
+
+      bool getStructureLabelFilterActive() const
+      {
+        return _activeFilter;
+      };
+
+      void setFilterRegEx(const std::string& filter)
+      {
+        _filterRegEx = filter;
+      };
+
+      std::string getFilterRegEx() const
+      {
+        return _filterRegEx;
+      };
 
 			/*! @brief Generate StructureSet
 				@return Return shared pointer of StructureSet.

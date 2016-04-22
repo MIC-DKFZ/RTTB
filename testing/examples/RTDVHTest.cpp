@@ -70,8 +70,7 @@ namespace rttb
 
 			CHECK_CLOSE(expectedValue, models::getEUD(dvh, 10), errorConstant);
 			std::cout << models::getEUD(dvh, 10) << std::endl;
-			std::map<rttb::DoseTypeGy, rttb::DoseCalcType> bedMap = models::calcBEDDVH(dvh, 15, 15);
-			std::map<rttb::DoseTypeGy, rttb::DoseCalcType> LqedMap = models::calcLQED2DVH(dvh, 15, 10);
+
 			CHECK_NO_THROW(models::calcBEDDVH(dvh, 15, 15));
 			CHECK_NO_THROW(models::calcLQED2DVH(dvh, 15, 10));
 
@@ -93,13 +92,15 @@ namespace rttb
 			CHECK_CLOSE(0.013, dvh->getDx(249), errorConstant);
 			CHECK_EQUAL(0, dvh->getDx(251));
 
-			//test statistics (absolute comulative data)
+
+			//test statistics (absolute cumulative data)
 			CHECK_EQUAL(2000, dvh->calcCumulativeDVH(false).at(0));
 			CHECK_EQUAL(0, dvh->getVx(0.014));
 			CHECK_EQUAL(250, dvh->getVx(0.01));
 			CHECK_CLOSE(0.0131, dvh->getDx(100), errorConstant + errorConstant * 10);
 			CHECK_CLOSE(0.013, dvh->getDx(249), errorConstant);
 			CHECK_EQUAL(0, dvh->getDx(251));
+
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
