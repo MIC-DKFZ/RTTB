@@ -83,8 +83,8 @@ namespace rttb
 				//Convert world coordinate polygons to the polygons with geometry coordinate
 				rttb::PolygonSequenceType geometryCoordinatePolygonVector;
 				rttb::PolygonSequenceType::iterator it;
-				rttb::DoubleVoxelGridIndex3D globalMaxGridIndex(std::numeric_limits<double>::lowest(),
-				        std::numeric_limits<double>::lowest(), std::numeric_limits<double>::lowest());
+				rttb::DoubleVoxelGridIndex3D globalMaxGridIndex(std::numeric_limits<double>::min(),
+				        std::numeric_limits<double>::min(), std::numeric_limits<double>::min());
 				rttb::DoubleVoxelGridIndex3D globalMinGridIndex(_geometricInfo->getNumColumns(),
 				        _geometricInfo->getNumRows(), 0);
 
