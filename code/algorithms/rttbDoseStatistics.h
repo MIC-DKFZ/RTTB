@@ -84,11 +84,9 @@ namespace rttb
 			DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum, DoseStatisticType mean,
 			               DoseStatisticType stdDeviation, VoxelNumberType numVoxels, VolumeType volume,
 			               ResultListPointer minimumVoxelPositions =
-			                   boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
-			               (std::vector<std::pair<DoseTypeGy, VoxelGridID> >()),
+			                   NULL,
 			               ResultListPointer maximumVoxelPositions =
-			                   boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
-			               (std::vector<std::pair<DoseTypeGy, VoxelGridID> >()),
+			                   NULL,
 			               VolumeToDoseFunctionType Dx = VolumeToDoseFunctionType(),
 			               DoseToVolumeFunctionType Vx = DoseToVolumeFunctionType(),
 			               VolumeToDoseFunctionType MOHx = VolumeToDoseFunctionType(),
@@ -130,7 +128,7 @@ namespace rttb
 			/*! @brief Get a vector of the the maximum dose VoxelGridIDs together with their dose value in Gy
 				@exception InvalidDoseException if the vector has not been set (i.e. is empty)
 			*/
-			ResultListPointer getMaximumPositions() const;
+			ResultListPointer getMaximumVoxelPositions() const;
 
 			/*! @brief Get the minimum of the current dose distribution.
 				@return Return the minimum dose in Gy
@@ -140,7 +138,7 @@ namespace rttb
 			/*! @brief Get a vector of the the minimum dose VoxelGridIDs together with their dose value in Gy
 			@exception InvalidDoseException if the vector has not been set (i.e. is empty)
 			*/
-			ResultListPointer getMinimumPositions() const;
+			ResultListPointer getMinimumVoxelPositions() const;
 
 			/*! @brief Get the mean of the current dose distribution.
 				@return Return the mean dose in Gy

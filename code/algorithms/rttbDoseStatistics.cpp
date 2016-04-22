@@ -41,11 +41,30 @@ namespace rttb
 		                               DoseTypeGy referenceDose /*=-1*/):
 			_minimum(minimum), _maximum(maximum), _mean(mean), _stdDeviation(stdDeviation),
 			_numVoxels(numVoxels), _volume(volume),
-			_maximumVoxelPositions(maximumVoxelPositions), _minimumVoxelPositions(minimumVoxelPositions),
 			_Dx(Dx), _Vx(Vx),
 			_MOHx(MOHx),
 			_MOCx(MOCx), _MaxOHx(MaxOHx), _MinOCx(MinOCx)
 		{
+			if (maximumVoxelPositions == NULL)
+			{
+				_maximumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
+				                         (std::vector<std::pair<DoseTypeGy, VoxelGridID> >());
+			}
+			else
+			{
+				_maximumVoxelPositions = maximumVoxelPositions;
+			}
+
+			if (minimumVoxelPositions == NULL)
+			{
+				_minimumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
+				                         (std::vector<std::pair<DoseTypeGy, VoxelGridID> >());
+			}
+			else
+			{
+				_minimumVoxelPositions = minimumVoxelPositions;
+			}
+
 			if (referenceDose <= 0)
 			{
 				_referenceDose = _maximum;
@@ -297,12 +316,12 @@ namespace rttb
 			return iterator;
 		}
 
-		DoseStatistics::ResultListPointer DoseStatistics::getMaximumPositions() const
+		DoseStatistics::ResultListPointer DoseStatistics::getMaximumVoxelPositions() const
 		{
 			return _maximumVoxelPositions;
 		}
 
-		DoseStatistics::ResultListPointer DoseStatistics::getMinimumPositions() const
+		DoseStatistics::ResultListPointer DoseStatistics::getMinimumVoxelPositions() const
 		{
 			return _minimumVoxelPositions;
 		}

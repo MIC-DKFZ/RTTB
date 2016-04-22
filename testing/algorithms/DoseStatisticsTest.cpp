@@ -114,8 +114,8 @@ namespace rttb
 			CHECK_EQUAL(aDoseStatistic.getVolume(), volume);
 
 			//check default values for unset complex values
-			CHECK_EQUAL(aDoseStatistic.getMaximumPositions()->empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getMinimumPositions()->empty(), true);
+			CHECK_EQUAL(aDoseStatistic.getMaximumVoxelPositions()->empty(), true);
+			CHECK_EQUAL(aDoseStatistic.getMinimumVoxelPositions()->empty(), true);
 			CHECK_EQUAL(aDoseStatistic.getAllDx().empty(), true);
 			CHECK_EQUAL(aDoseStatistic.getAllVx().empty(), true);
 			CHECK_EQUAL(aDoseStatistic.getAllMOHx().empty(), true);
@@ -131,8 +131,8 @@ namespace rttb
 			        numVoxels, volume,
 			        resultsMaxVoxels, resultsMinVoxels, Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx);
 
-			CHECK_EQUAL(aDoseStatisticComplex.getMaximumPositions(), resultsMaxVoxels);
-			CHECK_EQUAL(aDoseStatisticComplex.getMinimumPositions(), resultsMinVoxels);
+			CHECK_EQUAL(aDoseStatisticComplex.getMaximumVoxelPositions(), resultsMaxVoxels);
+			CHECK_EQUAL(aDoseStatisticComplex.getMinimumVoxelPositions(), resultsMinVoxels);
 			CHECK_EQUAL(aDoseStatisticComplex.getAllDx() == Dx, true);
 			CHECK_EQUAL(aDoseStatisticComplex.getAllVx() == Vx, true);
 			CHECK_EQUAL(aDoseStatisticComplex.getAllMOHx() == MOHx, true);
@@ -150,8 +150,8 @@ namespace rttb
 			CHECK_NO_THROW(aDoseStatistic.setMaxOHx(MaxOHx));
 			CHECK_NO_THROW(aDoseStatistic.setMinOCx(MinOCx));
 
-			CHECK_EQUAL(aDoseStatistic.getMaximumPositions(), resultsMaxVoxels);
-			CHECK_EQUAL(aDoseStatistic.getMinimumPositions(), resultsMinVoxels);
+			CHECK_EQUAL(aDoseStatistic.getMaximumVoxelPositions(), resultsMaxVoxels);
+			CHECK_EQUAL(aDoseStatistic.getMinimumVoxelPositions(), resultsMinVoxels);
 			CHECK_EQUAL(aDoseStatistic.getAllDx() == Dx, true);
 			CHECK_EQUAL(aDoseStatistic.getAllVx() == Vx, true);
 			CHECK_EQUAL(aDoseStatistic.getAllMOHx() == MOHx, true);
