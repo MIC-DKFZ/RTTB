@@ -2,8 +2,7 @@
 # Litmus is built automatically. Just set include dir and link directories
 #-----------------------------------------------------------------------------
 
-set(Litmus_INCLUDE_DIRS "${LITMUS_SOURCE_DIR}/code/common;${LITMUS_SOURCE_DIR}/code/itk;${LITMUS_BUILD_DIR}")
-set(Litmus_LIBRARY_DIRS "${LITMUS_BUILD_DIR}/bin")
+FIND_PACKAGE(Litmus)
 
 IF ((BUILD_RTToolbox_io_Tester AND BUILD_IO_ITK) OR (BUILD_RTToolbox_interpolation_Tester AND BUILD_InterpolationMatchPointTransformation))
 	SET(Litmus_ITK "LitmusITK")
