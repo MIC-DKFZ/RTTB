@@ -44,6 +44,9 @@
 #include "rttbImageWriter.h"
 #include "rttbBoostMaskRedesign.h"
 #include "rttbBoostMaskRedesignAccessor.h"
+#include "rttbITKImageAccessorGenerator.h"
+#include "rttbITKImageFileAccessorGenerator.h"
+#include "rttbInvalidParameterException.h"
 
 
 namespace rttb
@@ -78,6 +81,9 @@ namespace rttb
 			std::string OTBMask_DIRNAME;
 			std::string BoostMaskRedesign_DIRNAME;
 
+			std::string RTDose_BoostFailed;
+			std::string RTStr_BoostFailed;
+
 			if (argc > 4)
 			{
 				RTSTRUCT_FILENAME = argv[1];
@@ -85,6 +91,9 @@ namespace rttb
 				BoostMask_DIRNAME = argv[3];
 				OTBMask_DIRNAME = argv[4];
 				BoostMaskRedesign_DIRNAME = argv[5];
+
+				RTDose_BoostFailed = argv[6];
+				RTStr_BoostFailed = argv[7];
 			}
 
 			OFCondition status;
@@ -103,8 +112,6 @@ namespace rttb
 			{
 				for (size_t j = 0; j < rtStructureSet->getNumberOfStructures(); j++)
 				{
-					if (j != 2 && j != 3)
-					{
 					std::cout << j << ": " << rtStructureSet->getStructure(j)->getLabel() << std::endl;
 					clock_t start(clock());
 					//create OTB MaskAccessor
@@ -127,13 +134,13 @@ namespace rttb
 					//Write the mask image to a file.
 					/*! It takes a long time to write all mask files so that RUN_TESTS causes a timeout error.
 						To write all mask files, please use the outcommented code and call the .exe directly!
-					*/
-					/*rttb::io::itk::ITKImageMaskAccessorConverter itkConverter(spOTBMaskAccessor);
+						*/
+					rttb::io::itk::ITKImageMaskAccessorConverter itkConverter(spOTBMaskAccessor);
 					CHECK(itkConverter.process());
 					std::stringstream fileNameSstr;
 					fileNameSstr << OTBMask_DIRNAME << j << ".mhd";
 					rttb::io::itk::ImageWriter writer(fileNameSstr.str(), itkConverter.getITKImage());
-					CHECK(writer.writeFile());*/
+					CHECK(writer.writeFile());
 
 
 
@@ -159,50 +166,52 @@ namespace rttb
 					//Write the mask image to a file.
 					/*! It takes a long time to write all mask files so that RUN_TESTS causes a timeout error.
 						To write all mask files, please use the outcommented code and call the .exe directly!
-					*/
+						*/
 
-					/*rttb::io::itk::ITKImageMaskAccessorConverter itkConverter2(boostMaskAccessorPtr);
+					rttb::io::itk::ITKImageMaskAccessorConverter itkConverter2(boostMaskAccessorPtr);
 					CHECK(itkConverter2.process());
 					std::stringstream fileNameSstr2;
 					fileNameSstr2 << BoostMask_DIRNAME << j << ".mhd";
 					rttb::io::itk::ImageWriter writer2(fileNameSstr2.str(), itkConverter2.getITKImage());
-					CHECK(writer2.writeFile());*/
-
-						//create Boost MaskAccessor redesign
-						clock_t startR(clock());
-
-						MaskAccessorPointer boostMaskRPtr
-						    = ::boost::make_shared<rttb::masks::boostRedesign::BoostMaskAccessor>
-						      (rtStructureSet->getStructure(j), doseAccessor1->getGeometricInfo());
-						CHECK_NO_THROW(boostMaskRPtr->updateMask());
-						::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmpR =
-						    ::boost::make_shared<core::GenericMaskedDoseIterator>(boostMaskRPtr, doseAccessor1);
-						DoseIteratorPointer spMaskedDoseIteratorR(spMaskedDoseIteratorTmpR);
-						rttb::core::DVHCalculator calcR(spMaskedDoseIteratorR, (rtStructureSet->getStructure(j))->getUID(),
-						                                doseAccessor1->getUID());
-						rttb::core::DVH dvhR = *(calcR.generateDVH());
-						clock_t finishR(clock());
-						std::cout << "Boost Mask Redesign Calculation and write file time: " << finishR - startR << " ms" <<
-						          std::endl;
-
-						//Write the mask image to a file.
-						/*! It takes a long time to write all mask files so that RUN_TESTS causes a timeout error.
-						To write all mask files, please use the outcommented code and call the .exe directly!
-						*/
-						/*rttb::io::itk::ITKImageMaskAccessorConverter itkConverterR(boostMaskRPtr);
-						CHECK(itkConverterR.process());
+					CHECK(writer2.writeFile());
 
 
-						std::stringstream fileNameSstrR;
-						fileNameSstrR << BoostMaskRedesign_DIRNAME << j << ".mhd";
-						rttb::io::itk::ImageWriter writerR(fileNameSstrR.str(), itkConverterR.getITKImage());
-						CHECK(writerR.writeFile());*/
+					//create Boost MaskAccessor redesign
+					clock_t startR(clock());
+
+					MaskAccessorPointer boostMaskRPtr
+					    = ::boost::make_shared<rttb::masks::boostRedesign::BoostMaskAccessor>
+					      (rtStructureSet->getStructure(j), doseAccessor1->getGeometricInfo());
+					CHECK_NO_THROW(boostMaskRPtr->updateMask());
+					::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmpR =
+					    ::boost::make_shared<core::GenericMaskedDoseIterator>(boostMaskRPtr, doseAccessor1);
+					DoseIteratorPointer spMaskedDoseIteratorR(spMaskedDoseIteratorTmpR);
+					rttb::core::DVHCalculator calcR(spMaskedDoseIteratorR, (rtStructureSet->getStructure(j))->getUID(),
+					                                doseAccessor1->getUID());
+					rttb::core::DVH dvhR = *(calcR.generateDVH());
+					clock_t finishR(clock());
+					std::cout << "Boost Mask Redesign Calculation and write file time: " << finishR - startR << " ms" <<
+					          std::endl;
+
+					//Write the mask image to a file.
+					/*! It takes a long time to write all mask files so that RUN_TESTS causes a timeout error.
+					To write all mask files, please use the outcommented code and call the .exe directly!
+					*/
+					rttb::io::itk::ITKImageMaskAccessorConverter itkConverterR(boostMaskRPtr);
+					CHECK(itkConverterR.process());
+
+
+					std::stringstream fileNameSstrR;
+					fileNameSstrR << BoostMaskRedesign_DIRNAME << j << ".mhd";
+					rttb::io::itk::ImageWriter writerR(fileNameSstrR.str(), itkConverterR.getITKImage());
+					CHECK(writerR.writeFile());
+
 
 					//check close of 2 voxelizatin: OTB and Boost
 					CHECK_CLOSE(dvh.getMaximum(), dvh2.getMaximum(), 0.1);
 					CHECK_CLOSE(dvh.getMinimum(), dvh2.getMinimum(), 0.1);
 
-						if (j != 7)
+					if (j != 7)
 					{
 						CHECK_CLOSE(dvh.getMean(), dvh2.getMean(), 0.1);
 					}
@@ -216,26 +225,60 @@ namespace rttb
 						CHECK_CLOSE(dvh.getVx(0), dvh2.getVx(0), dvh.getVx(0) * 0.05); //check volume difference < 5%
 					}
 
-						//check close of 2 voxelization: Boost and BoostRedesign
-						CHECK_CLOSE(dvhR.getMaximum(), dvh2.getMaximum(), 0.1);
-						CHECK_CLOSE(dvhR.getMinimum(), dvh2.getMinimum(), 0.1);
+					//check close of 2 voxelization: Boost and BoostRedesign
+					CHECK_CLOSE(dvhR.getMaximum(), dvh2.getMaximum(), 0.1);
+					CHECK_CLOSE(dvhR.getMinimum(), dvh2.getMinimum(), 0.1);
 
-						if (j != 7)
-						{
-							CHECK_CLOSE(dvhR.getMean(), dvh2.getMean(), 0.1);
+					if (j != 7)
+					{
+						CHECK_CLOSE(dvhR.getMean(), dvh2.getMean(), 0.1);
+					}
+
+					CHECK_CLOSE(dvhR.getMedian(), dvh2.getMedian(), 0.1);
+					CHECK_CLOSE(dvhR.getModal(), dvh2.getModal(), 0.1);
+
+					//0: Aussenkontur and 3: Niere li. failed.
+					CHECK_CLOSE(dvhR.getVx(0), dvh2.getVx(0), dvhR.getVx(0) * 0.05); //check volume difference < 5%
+
 				}
-
-						CHECK_CLOSE(dvhR.getMedian(), dvh2.getMedian(), 0.1);
-						CHECK_CLOSE(dvhR.getModal(), dvh2.getModal(), 0.1);
-
-						//0: Aussenkontur and 3: Niere li. failed.
-						CHECK_CLOSE(dvhR.getVx(0), dvh2.getVx(0), dvhR.getVx(0) * 0.05); //check volume difference < 5%
-
 			}
+
+			/* Exception tests using data with different z spacing of dose and structure */
+			io::itk::ITKImageFileAccessorGenerator doseAccessorGenerator2(RTDose_BoostFailed.c_str());
+			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
+
+			StructureSetPointer rtStructureSet2 = io::dicom::DicomFileStructureSetGenerator(
+			        RTStr_BoostFailed.c_str()).generateStructureSet();
+
+
+			if (rtStructureSet2->getNumberOfStructures() > 0)
+			{
+				for (size_t j = 1; j < 20; j++)
+				{
+					std::cout << j << ": " << rtStructureSet2->getStructure(j)->getLabel() << std::endl;
+					clock_t start(clock());
+
+					//create Boost MaskAccessor
+					MaskAccessorPointer boostMaskAccessorPtr
+					    = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+					      (rtStructureSet2->getStructure(j), doseAccessor2->getGeometricInfo());
+
+					//Two polygons in the same slice exception using boost mask, because of the different z spacing of dose and structure
+					if (j != 9)
+					{
+						CHECK_THROW_EXPLICIT(boostMaskAccessorPtr->updateMask(), rttb::core::InvalidParameterException);
+					}
+
+
+					//create Boost MaskAccessor redesign
+					MaskAccessorPointer boostMaskRPtr
+					    = ::boost::make_shared<rttb::masks::boostRedesign::BoostMaskAccessor>
+					      (rtStructureSet2->getStructure(j), doseAccessor2->getGeometricInfo());
+					//No exception using redesigned boost mask
+					CHECK_NO_THROW(boostMaskRPtr->updateMask());
+
 				}
 			}
-
-
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 

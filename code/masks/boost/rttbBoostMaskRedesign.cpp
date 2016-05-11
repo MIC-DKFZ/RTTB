@@ -261,7 +261,9 @@ namespace rttb
 
 					//convert to geometry coordinate polygon
 					rttb::DoubleVoxelGridIndex3D geometryCoordinatePoint;
-					_geometricInfo->worldCoordinateToGeometryCoordinate(worldCoordinatePoint, geometryCoordinatePoint);
+
+					bool inside = _geometricInfo->worldCoordinateToGeometryCoordinate(worldCoordinatePoint,
+					              geometryCoordinatePoint);
 
 					geometryCoordinatePolygon.push_back(geometryCoordinatePoint);
 
@@ -555,7 +557,7 @@ namespace rttb
 					else
 					{
 						//if no homogeneous, return false
-						if (thickness != ((*it2).first - (*it).first))
+						if (abs(thickness - ((*it2).first - (*it).first)) > errorConstant)
 						{
 							return false;
 						}
