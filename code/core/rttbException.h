@@ -26,6 +26,7 @@
 #include <exception>
 #include <iostream>
 
+#include "RTTBCoreExports.h"
 
 namespace rttb
 {
@@ -36,7 +37,7 @@ namespace rttb
 			@brief Exception interface used by all RTToolbox exceptions.
 		*/
 
-		class Exception: public std::exception
+		class RTTBCore_EXPORT Exception : public std::exception
 		{
 		protected:
 			std::string rttb_what;

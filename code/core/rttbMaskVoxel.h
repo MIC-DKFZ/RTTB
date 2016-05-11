@@ -25,6 +25,8 @@
 
 #include "rttbBaseType.h"
 
+#include "RTTBCoreExports.h"
+
 namespace rttb
 {
 
@@ -34,7 +36,7 @@ namespace rttb
 		*	@brief AMaskVoxel stores the VoxelGridID of the corresponding dose voxel and the corresponding volume fraction
 			as defined by the given mask.
 		*/
-		class MaskVoxel
+		class RTTBCore_EXPORT MaskVoxel
 		{
 		private:
 			/*! @brief A 1D voxel grid index on dose grid */

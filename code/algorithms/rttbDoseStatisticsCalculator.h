@@ -28,6 +28,8 @@
 #include "rttbDoseIteratorInterface.h"
 #include "rttbDoseStatistics.h"
 
+#include "RTTBAlgorithmsExports.h"
+
 namespace rttb
 {
 
@@ -41,7 +43,7 @@ namespace rttb
 		to x% of the VOI) or MOHx (mean in the hottest volume). For a complete list, see calculateDoseStatistics().
 		@note the complex dose statistics are precomputed and cannot be computed "on the fly" lateron! The doses/volumes that should be used for precomputation have to be set in calculateDoseStatistics()
 		*/
-		class DoseStatisticsCalculator
+		class RTTBAlgorithms_EXPORT DoseStatisticsCalculator
 		{
 		public:
 			typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;

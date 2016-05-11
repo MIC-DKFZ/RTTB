@@ -35,6 +35,8 @@ Is "PhysicalInfo" important information that should be stored here?
 #include "rttbBaseType.h"
 #include "rttbStructure.h"
 
+#include "RTTBCoreExports.h"
+
 namespace rttb
 {
 	namespace core
@@ -43,7 +45,7 @@ namespace rttb
 		/*! @class StructureSet
 			@brief This is an class representing a structure set, which can be used to generate masks.
 		*/
-		class StructureSet
+		class RTTBCore_EXPORT StructureSet
 		{
 		public:
 			typedef Structure::StructTypePointer StructTypePointer;

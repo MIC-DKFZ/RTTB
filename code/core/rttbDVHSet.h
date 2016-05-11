@@ -29,6 +29,8 @@
 #include "rttbBaseType.h"
 #include "rttbDVH.h"
 
+#include "RTTBCoreExports.h"
+
 namespace rttb
 {
 	namespace core
@@ -39,7 +41,7 @@ namespace rttb
 			A DVHSet consists of three subsets: one for the target volume (_dvhTVSet), one for healthy tissue (_dvhHTSet),
 			and one for the whole volume (_dvhWVSet).
 		*/
-		class DVHSet
+		class RTTBCore_EXPORT DVHSet
 		{
 		public:
 			typedef std::vector<DVH> DVHSetType;

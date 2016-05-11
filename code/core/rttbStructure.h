@@ -33,6 +33,8 @@ This class should be universally used independent of the origin of the Structure
 
 #include "rttbBaseType.h"
 
+#include "RTTBCoreExports.h"
+
 
 namespace rttb
 {
@@ -43,7 +45,7 @@ namespace rttb
 		/*! @class Structure
 		@brief This is a class representing a RT Structure
 		*/
-		class Structure
+		class RTTBCore_EXPORT Structure
 		{
 		public:
 			typedef boost::shared_ptr<Structure> StructTypePointer;

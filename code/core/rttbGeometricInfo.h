@@ -31,6 +31,8 @@
 
 #include "rttbBaseType.h"
 
+#include "RTTBCoreExports.h"
+
 namespace rttb
 {
 
@@ -41,7 +43,7 @@ namespace rttb
 			@note ITK Pixel Indexing used (http://www.itk.org/Doxygen45/html/classitk_1_1Image.html): The Index type reverses the order so that with Index[0] = col, Index[1] = row, Index[2] = slice.
 
 		*/
-		class GeometricInfo
+		class RTTBCore_EXPORT GeometricInfo
 		{
 
 		private:
@@ -66,9 +68,9 @@ namespace rttb
 			/*! @brief Constructor, initializes orientation matrix, spacing vector and patient
 				position with zeros.
 			*/
-			GeometricInfo() : _imagePositionPatient(0),_orientationMatrix(0), _spacing(0), _numberOfColumns(0), 
+			GeometricInfo() : _imagePositionPatient(0), _orientationMatrix(0), _spacing(0), _numberOfColumns(0),
 				_numberOfRows(0), _numberOfFrames(0)
-				 {}
+			{}
 
 			void setSpacing(const SpacingVectorType3D& aSpacingVector);
 

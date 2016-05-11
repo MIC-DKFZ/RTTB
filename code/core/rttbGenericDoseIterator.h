@@ -29,6 +29,7 @@
 #include "rttbBaseType.h"
 #include "rttbDoseIteratorInterface.h"
 
+#include "RTTBCoreExports.h"
 
 namespace rttb
 {
@@ -38,7 +39,7 @@ namespace rttb
 		/*! @class GenericDoseIterator
 			@brief Standard implementation of the dose iterator interface.
 		*/
-		class GenericDoseIterator: public DoseIteratorInterface
+		class RTTBCore_EXPORT GenericDoseIterator : public DoseIteratorInterface
 		{
 		public:
 			typedef DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;

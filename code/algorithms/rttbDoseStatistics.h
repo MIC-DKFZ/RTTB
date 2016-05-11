@@ -30,6 +30,8 @@
 #include "rttbBaseType.h"
 #include "rttbDoseIteratorInterface.h"
 
+#include "RTTBAlgorithmsExports.h"
+
 namespace rttb
 {
 
@@ -40,7 +42,7 @@ namespace rttb
 		@brief This is a data class storing different statistical values from a rt dose distribution
 		@sa DoseStatisticsCalculator
 		*/
-		class DoseStatistics
+		class RTTBAlgorithms_EXPORT DoseStatistics
 		{
 		public:
 			enum complexStatistics { Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx };

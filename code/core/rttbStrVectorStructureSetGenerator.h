@@ -30,7 +30,7 @@
 
 #include "rttbStructureSetGeneratorInterface.h"
 
-
+#include "RTTBCoreExports.h"
 
 namespace rttb
 {
@@ -40,7 +40,7 @@ namespace rttb
 		/*! @class StrVectorStructureSetGenerator
 		@brief Generate a structure set with a vector of Structures.
 		*/
-		class StrVectorStructureSetGenerator: public core::StructureSetGeneratorInterface
+		class RTTBCore_EXPORT StrVectorStructureSetGenerator : public core::StructureSetGeneratorInterface
 		{
 		public:
 			typedef core::StructureSet::StructTypePointer StructTypePointer;

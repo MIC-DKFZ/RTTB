@@ -30,6 +30,8 @@
 #include "rttbAccessorInterface.h"
 #include "rttbBaseType.h"
 
+#include "RTTBInterpolationExports.h"
+
 namespace rttb
 {
 	namespace interpolation
@@ -39,7 +41,7 @@ namespace rttb
 			@brief Base class for interpolation.
 			@ingroup interpolation
 		*/
-		class InterpolationBase
+		class RTTBInterpolation_EXPORT InterpolationBase
 		{
 		public:
 			typedef boost::shared_ptr<InterpolationBase> Pointer;

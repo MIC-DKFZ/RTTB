@@ -23,6 +23,8 @@
 
 #include "rttbAccessorInterface.h"
 
+#include "RTTBCoreExports.h"
+
 namespace rttb
 {
 	namespace core
@@ -31,7 +33,7 @@ namespace rttb
 		/*! @class AccessorWithGeoInfoBase
 		@brief Base class for all accessor implementations that have there own geometric info.
 		*/
-		class AccessorWithGeoInfoBase: public core::AccessorInterface
+		class RTTBCore_EXPORT AccessorWithGeoInfoBase : public core::AccessorInterface
 		{
 		protected:
 			core::GeometricInfo _geoInfo;

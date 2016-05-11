@@ -27,6 +27,8 @@
 #include "rttbBaseType.h"
 #include "rttbStructure.h"
 
+#include "RTTBCoreExports.h"
+
 namespace rttb
 {
 	namespace core
@@ -37,7 +39,7 @@ namespace rttb
 		/*! @class DVH
 		@brief This is a class representing a dose volume histogram (DVH)
 		*/
-		class DVH
+		class RTTBCore_EXPORT DVH
 		{
 		public:
 			typedef std::deque<DoseCalcType> DataDifferentialType;

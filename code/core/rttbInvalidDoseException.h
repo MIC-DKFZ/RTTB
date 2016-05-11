@@ -27,6 +27,8 @@
 
 #include "rttbException.h"
 
+#include "RTTBCoreExports.h"
+
 namespace rttb
 {
 	namespace core
@@ -35,7 +37,7 @@ namespace rttb
 		/*! @class InvalidDoseException
 			@brief This exception will be thrown if dose is invalid.
 		*/
-		class InvalidDoseException: public Exception
+		class RTTBCore_EXPORT InvalidDoseException : public Exception
 		{
 		public:
 			InvalidDoseException(const std::string& aWhat): Exception(aWhat) {}

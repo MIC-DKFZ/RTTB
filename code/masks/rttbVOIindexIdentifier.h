@@ -25,11 +25,13 @@
 #include "rttbStructureSet.h"
 #include "rttbStructure.h"
 
+#include "RTTBMasksExports.h"
+
 namespace rttb
 {
 	namespace masks
 	{
-		class VOIindexIdentifier
+		class RTTBMasks_EXPORT VOIindexIdentifier
 		{
 
 		public:

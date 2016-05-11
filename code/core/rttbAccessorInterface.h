@@ -27,6 +27,8 @@
 #include "rttbGeometricInfo.h"
 #include "rttbIndexConversionInterface.h"
 
+#include <RTTBCoreExports.h>
+
 namespace rttb
 {
 	namespace core
@@ -35,7 +37,7 @@ namespace rttb
 		/*! @class AccessorInterface
 			@brief Interface for any sort of Accessor
 		*/
-		class AccessorInterface: public IndexConversionInterface
+		class RTTBCore_EXPORT AccessorInterface : public IndexConversionInterface
 		{
 		public:
 			typedef boost::shared_ptr<AccessorInterface> AccessorPointer;
