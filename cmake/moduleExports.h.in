@@ -18,9 +18,12 @@
 // @date    $Date$ (last change date)
 // @author  $Author$ (last changed by)
 */
+
+#include "RTToolboxConfigure.h"
+
 #ifndef @MODULE_NAME@_EXPORTS_H
   #define @MODULE_NAME@_EXPORTS_H
-  #if defined(WIN32)
+  #if defined(WIN32) && !defined(RTTB_STATIC)
     #ifdef @MODULE_PROVIDES@_EXPORTS
 	  #define @MODULE_EXPORT_DEFINE@ __declspec(dllexport)
     #else

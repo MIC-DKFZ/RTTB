@@ -29,14 +29,26 @@
 // to ensure this policy.
 //----------------------------------------------------------
 #ifdef SIDT_ENFORCE_MATURE_CODE
-#error “This code is marked as experimental code. It must not be used because this build enforces mature code.”
+	#error “This code is marked as experimental code. It must not be used because this build enforces mature code.”
 #endif
 #ifndef SIDT_CONTAINS_EXPERIMENTAL_CODE
   #define SIDT_CONTAINS_EXPERIMENTAL_CODE 1
 #endif
 
 #ifndef __RTTB_CONFIGURE_H
-#define __RTTB_CONFIGURE_H
+	#define __RTTB_CONFIGURE_H
+
+/*! @def RTTB_BUILD_SHARED_LIBS
+ * This define indicates if RTTB will be build as static library (define RTTB_STATIC) or as DLL (define RTTB_DLL).
+ * By default RTTB_BUILD_SHARED_LIBS is not defined.
+*/
+#cmakedefine RTTB_BUILD_SHARED_LIBS
+
+#ifdef RTTB_BUILD_SHARED_LIBS
+	#define RTTB_DLL
+#else
+	#define RTTB_STATIC
+#endif
 
 
 /*! @def RTTB_ENFORCE_MATURE_CODE
