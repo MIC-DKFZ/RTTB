@@ -27,6 +27,8 @@
 
 #include "itkImage.h"
 
+#include "RTTBITKIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -37,7 +39,7 @@ namespace rttb
 			@brief Generate ITKImageAccessor wrapping an itk image as object (not as file).
 			@note it implies that the information is stored in absolute values.
 			*/
-			class ITKImageAccessorGenerator: public core::DoseAccessorGeneratorBase
+			class RTTBITKIO_EXPORT ITKImageAccessorGenerator : public core::DoseAccessorGeneratorBase
 			{
 			public:
 				typedef ::itk::Image<GenericValueType, 3> ITKImageType;

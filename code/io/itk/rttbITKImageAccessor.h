@@ -31,6 +31,8 @@
 
 #include "itkImage.h"
 
+#include "RTTBITKIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -41,7 +43,7 @@ namespace rttb
 			@brief This class gives access to information stored in an itk image
 			@details There is no value scaling, i.e., it is assumed that the values in the itkImage are absolute.
 			*/
-			class ITKImageAccessor: public core::AccessorWithGeoInfoBase
+			class RTTBITKIO_EXPORT ITKImageAccessor : public core::AccessorWithGeoInfoBase
 			{
 			public:
 				typedef ::itk::Image<GenericValueType, 3> ITKImageType;

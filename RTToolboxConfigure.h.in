@@ -35,6 +35,18 @@
   #define SIDT_CONTAINS_EXPERIMENTAL_CODE 1
 #endif
 
+/*! @def RTTB_BUILD_SHARED_LIBS
+ * This define indicates if RTTB will be build as static library (define RTTB_STATIC) or as DLL (define RTTB_DLL).
+ * By default RTTB_BUILD_SHARED_LIBS is not defined.
+*/
+#cmakedefine RTTB_BUILD_SHARED_LIBS
+
+#ifdef RTTB_BUILD_SHARED_LIBS
+#define RTTB_DLL
+#else
+#define RTTB_STATIC
+#endif
+
 #ifndef __RTTB_CONFIGURE_H
 	#define __RTTB_CONFIGURE_H
 

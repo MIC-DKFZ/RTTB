@@ -26,6 +26,8 @@
 #include "rttbDVH.h"
 #include "rttbBaseTypeModels.h"
 
+#include "RTTBModelsExports.h"
+
 namespace rttb
 {
 
@@ -35,7 +37,7 @@ namespace rttb
 		/*! @class BioModel
 			@brief This is the interface class for biological models
 		*/
-		class BioModel
+		class RTTBModels_EXPORT BioModel
 		{
 		public:
 			typedef std::vector<BioModelParamType> ParamVectorType;
