@@ -36,14 +36,14 @@ simpleRegistrationWorkflow::simpleRegistrationWorkflow(std::string targetFilenam
 vnl_vector<double> simpleRegistrationWorkflow::getRegistrationParameters(
     Registration3D3DPointer reg)
 {
-	typedef map::core::ModelBasedRegistrationKernel<3, 3> ModelBasedRegistrationKernel3D3D;
+	typedef map::core::PreCachedRegistrationKernel<3, 3> PreCachedRegistrationKernel3D3D;
 
-	const ModelBasedRegistrationKernel3D3D* pModelBasedDirectKernel3D3D =
-	    dynamic_cast<const ModelBasedRegistrationKernel3D3D*>(&(reg->getDirectMapping()));
+	const PreCachedRegistrationKernel3D3D* pModelBasedDirectKernel3D3D =
+	    dynamic_cast<const PreCachedRegistrationKernel3D3D*>(&(reg->getDirectMapping()));
 
 	if (pModelBasedDirectKernel3D3D)
 	{
-		ModelBasedRegistrationKernel3D3D::ParametersType params =
+		PreCachedRegistrationKernel3D3D::TransformType::ParametersType params =
 		    pModelBasedDirectKernel3D3D->getTransformModel()->GetParameters();
 
 		return params;
