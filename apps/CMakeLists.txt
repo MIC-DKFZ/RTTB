@@ -1,6 +1,6 @@
 MESSAGE(STATUS "processing RTToolbox apps")
 
-IF (BUILD_App_DoseTool OR BUILD_App_VoxelizerTool)
+IF (BUILD_App_DoseTool OR BUILD_App_VoxelizerTool OR BUILD_App_BioModelCalc)
 	IF (WIN32)
 		IF (MSVC_VERSION LESS 1800)
 			MESSAGE(FATAL_ERROR "Some features of RTToolbox requires C++11 features that require Visual Studio 2013 or higher.")
