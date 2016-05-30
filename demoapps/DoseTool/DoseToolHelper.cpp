@@ -29,13 +29,11 @@
 
 #include "rttbExceptionMacros.h"
 
-#include "rttbVirtuosPlanFileDoseAccessorGenerator.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomHelaxFileDoseAccessorGenerator.h"
 #include "rttbITKImageFileAccessorGenerator.h"
 #include "rttbStructureSetGeneratorInterface.h"
 #include "rttbDicomFileStructureSetGenerator.h"
-#include "rttbVirtuosFileStructureSetGenerator.h"
 #include "rttbITKImageFileMaskAccessorGenerator.h"
 #include "rttbDVHCalculator.h"
 #include "rttbDVHXMLFileWriter.h"
@@ -68,18 +66,6 @@ rttb::apps::doseTool::loadDose(const std::string& fileName,
 		std::cout << "use RTTB itk IO... ";
 		result = loadITKDose(fileName);
 	}
-	else if (args[0] == "virtuos")
-	{
-		if (args.size() < 2)
-		{
-			rttbDefaultExceptionStaticMacro( <<
-			                                 "Cannot load virtuos dose. Plan file is missing. Specify plan file as 2nd io stlye argument.");
-		}
-
-		std::cout << "use RTTB virtuos IO... " << std::endl;
-		std::cout << "                  virtuos plan file: " << args[1] << " ... ";
-		result = loadVirtuosDose(fileName, args[1]);
-	}
 	else
 	{
 		rttbDefaultExceptionStaticMacro( << "Unknown io style selected. Cannot load data. Selected style: "
@@ -89,35 +75,29 @@ rttb::apps::doseTool::loadDose(const std::string& fileName,
 	std::cout << "done." << std::endl;
 
 	return result;
-};
+}
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseTool::loadDicomDose(const std::string& fileName)
 {
 	rttb::io::dicom::DicomFileDoseAccessorGenerator generator(fileName);
 	return generator.generateDoseAccessor();
-};
+}
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseTool::loadHelaxDose(const std::string& path)
 {
 	rttb::io::helax::DicomHelaxFileDoseAccessorGenerator generator(path);
 	return generator.generateDoseAccessor();
-};
+}
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseTool::loadITKDose(const std::string& fileName)
 {
 	rttb::io::itk::ITKImageFileAccessorGenerator generator(fileName);
 	return generator.generateDoseAccessor();
-};
+}
 
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
-rttb::apps::doseTool::loadVirtuosDose(const std::string& fileName, const std::string& planFileName)
-{
-	rttb::io::virtuos::VirtuosPlanFileDoseAccessorGenerator generator(fileName, planFileName);
-	return generator.generateDoseAccessor();
-};
 
 rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::doseTool::loadStruct(
     const std::string& fileName, const ApplicationData::LoadingStyleArgType& args, const std::string& structNameRegex)
@@ -129,13 +109,7 @@ rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::dose
 	if (args.empty() || args[0] == "dicom")
 	{
 		std::cout << "use RTTB dicom IO... ";
-    result = loadDicomStruct(fileName, structNameRegex);
-	}
-	else if (args[0] == "virtuos")
-	{
-		std::cout << "use RTTB virtuos IO... " << std::endl;
-		std::cout << "                  virtuos CTX file: " << args[1] << " ... ";
-		result = loadVirtuosStruct(fileName, args[1]);
+		result = loadDicomStruct(fileName, structNameRegex);
 	}
 	else
 	{
@@ -150,23 +124,16 @@ rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::dose
 
 rttb::core::StructureSetGeneratorInterface::StructureSetPointer
 rttb::apps::doseTool::loadDicomStruct(
-const std::string& fileName, const std::string& structNameRegex)
+    const std::string& fileName, const std::string& structNameRegex)
 {
 	rttb::io::dicom::DicomFileStructureSetGenerator generator(fileName);
 
-  if (!structNameRegex.empty())
-  {
-      generator.setStructureLableFilterActive(true);
-      generator.setFilterRegEx(structNameRegex);
-  }
-	return generator.generateStructureSet();
-}
+	if (!structNameRegex.empty())
+	{
+		generator.setStructureLableFilterActive(true);
+		generator.setFilterRegEx(structNameRegex);
+	}
 
-rttb::core::StructureSetGeneratorInterface::StructureSetPointer
-rttb::apps::doseTool::loadVirtuosStruct(
-    const std::string& fileName, const std::string& ctxFileName)
-{
-	rttb::io::virtuos::VirtuosFileStructureSetGenerator generator(fileName, ctxFileName.c_str());
 	return generator.generateStructureSet();
 }
 

@@ -27,6 +27,8 @@
 
 #include "litMultiTestsMain.h"
 
+#include "RTToolboxConfigure.h"
+
 namespace rttb
 {
 	namespace testing
@@ -38,7 +40,12 @@ namespace rttb
 		{
 			LIT_REGISTER_TEST(DoseToolBasicUsageTest);
 			LIT_REGISTER_TEST(DoseToolInvalidParametersTest);
-			LIT_REGISTER_TEST(DoseToolVirtuosDoseTest);
+
+			if (RTTB_VIRTUOS_SUPPORT)
+			{
+				LIT_REGISTER_TEST(DoseToolVirtuosDoseTest);
+			}
+
 			LIT_REGISTER_TEST(DoseToolDicomDoseTest);
 			LIT_REGISTER_TEST(DoseToolITKDoseTest);
 			LIT_REGISTER_TEST(DoseToolRegexTest);

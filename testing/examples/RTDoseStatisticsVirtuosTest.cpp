@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date $Date$ (last change date)
-// @author $Author$ (last changed by)
+// @version $Revision: 1328 $ (last changed revision)
+// @date $Date: 2016-04-22 09:50:01 +0200 (Fr, 22 Apr 2016) $ (last change date)
+// @author $Author: hentsch $ (last changed by)
 */
 
 // this file defines the rttbCoreTests for the test driver
@@ -29,8 +29,6 @@
 
 #include "rttbDoseStatistics.h"
 #include "rttbDoseStatisticsCalculator.h"
-#include "rttbDicomDoseAccessor.h"
-#include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbVirtuosPlanFileDoseAccessorGenerator.h"
 #include "rttbVirtuosFileStructureSetGenerator.h"
 #include "rttbBoostMaskAccessor.h"
@@ -42,103 +40,34 @@ namespace rttb
 {
 	namespace testing
 	{
-		PREPARE_DEFAULT_TEST_REPORTING;
+
 
 		/*! @brief RTDoseStatisticsTest. Max, min, mean, standard deviation, variance, Vx, Dx, MOHx, MOCx, MaxOHx,
 		MinOCx are tested. Test if calculation in new architecture returns similar results to the original implementation.
 
 		WARNING: The values for comparison need to be adjusted if the input files are changed!*/
 
-		const double reducedErrorConstant = 0.0001;
-		const double expectedVal = 5.64477e-005;
-		const double volume = 24120.;
 
-		void testWithDummyDoseData(const std::string& doseFilename);
-		void testWithRealVirtuosDoseDataAndStructure(const std::string& doseFilename,
-		        const std::string& structFilename,
-		        const std::string& planFilename, unsigned int structureNr);
-
-		int RTDoseStatisticsTest(int argc, char* argv[])
+		int RTDoseStatisticsVirtuosTest(int argc, char* argv[])
 		{
-
+			PREPARE_DEFAULT_TEST_REPORTING;
 			std::string RTDOSE_FILENAME;
-			std::string RTDOSE2_FILENAME;
 			std::string RTSTRUCT_FILENAME;
 			std::string RTPLAN_FILENAME;
 
-			if (argc > 4)
+			if (argc > 3)
 			{
 				RTDOSE_FILENAME = argv[1];
-				RTDOSE2_FILENAME = argv[2];
-				RTSTRUCT_FILENAME = argv[3];
-				RTPLAN_FILENAME = argv[4];
+				RTSTRUCT_FILENAME = argv[2];
+				RTPLAN_FILENAME = argv[3];
 			}
 			else
 			{
-				std::cout << "at least four arguments required for RTDoseStatisticsTest" << std::endl;
+				std::cout << "at least three arguments required for RTDoseStatisticsVirtuosTest" << std::endl;
 				return -1;
 			}
 
-			testWithDummyDoseData(RTDOSE_FILENAME);
 			//Structure 2 is RUECKENMARK
-			testWithRealVirtuosDoseDataAndStructure(RTDOSE2_FILENAME, RTSTRUCT_FILENAME, RTPLAN_FILENAME, 2);
-
-			RETURN_AND_REPORT_TEST_SUCCESS;
-		}
-
-		void testWithDummyDoseData(const std::string& doseFilename)
-		{
-			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
-			typedef core::GenericDoseIterator::DoseIteratorPointer DoseIteratorPointer;
-			typedef algorithms::DoseStatisticsCalculator::ResultListPointer ResultListPointer;
-
-			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(doseFilename.c_str());
-			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
-
-			//create corresponding DoseIterator
-			::boost::shared_ptr<core::GenericDoseIterator> spDoseIteratorTmp =
-			    ::boost::make_shared<core::GenericDoseIterator>(doseAccessor1);
-			DoseIteratorPointer spDoseIterator(spDoseIteratorTmp);
-			rttb::algorithms::DoseStatisticsCalculator doseStatisticsCalculator(spDoseIterator);
-
-			std::vector<double> precomputedDoseValues;
-			precomputedDoseValues.push_back(0);
-			precomputedDoseValues.push_back(0.5);
-			precomputedDoseValues.push_back(1);
-			std::vector<double> precomputedVolumeValues;
-			precomputedVolumeValues.push_back(20000 / volume);
-			precomputedVolumeValues.push_back(1);
-
-			rttb::algorithms::DoseStatistics::DoseStatisticsPointer doseStatistics =
-			    doseStatisticsCalculator.calculateDoseStatistics(precomputedDoseValues, precomputedVolumeValues);
-
-			CHECK_CLOSE(doseStatistics->getMean(), expectedVal, errorConstant);
-			CHECK_CLOSE(doseStatistics->getStdDeviation(), 0, errorConstant);
-			CHECK_CLOSE(doseStatistics->getVariance(), 0, errorConstant);
-
-			double dummy;
-			DoseTypeGy vx = doseStatistics->getVx(expectedVal, true, dummy);
-			CHECK_EQUAL(vx, doseStatistics->getVx(0));
-			CHECK_CLOSE(expectedVal, doseStatistics->getDx(vx), reducedErrorConstant);
-
-			CHECK_CLOSE(doseStatistics->getMaximum(), expectedVal, errorConstant);
-
-			CHECK_CLOSE(doseStatistics->getMinimum(), expectedVal, errorConstant);
-			ResultListPointer minListPtr = doseStatistics->getMinimumVoxelPositions();
-			ResultListPointer maxListPtr = doseStatistics->getMaximumVoxelPositions();
-			CHECK_EQUAL(maxListPtr->size(), 10);
-			CHECK_EQUAL(minListPtr->size(), 10);
-
-			CHECK_CLOSE(doseStatistics->getDx(24120), doseStatistics->getMinimum(), 0.001);
-			CHECK_CLOSE(doseStatistics->getMOHx(24120), doseStatistics->getMean(), reducedErrorConstant);
-			CHECK_CLOSE(doseStatistics->getMOCx(20000), doseStatistics->getMean(), reducedErrorConstant);
-			CHECK_CLOSE(doseStatistics->getMinOCx(20000), doseStatistics->getMean(), reducedErrorConstant);
-		}
-
-		void testWithRealVirtuosDoseDataAndStructure(const std::string& doseFilename,
-		        const std::string& structFilename,
-		        const std::string& planFilename, unsigned int structureNr)
-		{
 			typedef core::GenericDoseIterator::DoseIteratorPointer DoseIteratorPointer;
 			typedef core::GenericMaskedDoseIterator::MaskAccessorPointer MaskAccessorPointer;
 			typedef rttb::algorithms::DoseStatistics::DoseStatisticsPointer DoseStatisticsPointer;
@@ -147,13 +76,13 @@ namespace rttb
 			typedef algorithms::DoseStatisticsCalculator::ResultListPointer ResultListPointer;
 
 			DoseAccessorPointer virtuosDoseAccessor = io::virtuos::VirtuosPlanFileDoseAccessorGenerator(
-			            doseFilename.c_str(),
-			            planFilename.c_str()).generateDoseAccessor();
+			            RTDOSE_FILENAME.c_str(),
+			            RTPLAN_FILENAME.c_str()).generateDoseAccessor();
 			StructureSetPointer virtuosStructureSet = io::virtuos::VirtuosFileStructureSetGenerator(
-			            structFilename.c_str(), doseFilename.c_str()).generateStructureSet();
+			            RTSTRUCT_FILENAME.c_str(), RTDOSE_FILENAME.c_str()).generateStructureSet();
 
 			boost::shared_ptr<masks::boost::BoostMaskAccessor> spOTBMaskAccessorVirtuos =
-			    boost::make_shared<masks::boost::BoostMaskAccessor>(virtuosStructureSet->getStructure(structureNr),
+			    boost::make_shared<masks::boost::BoostMaskAccessor>(virtuosStructureSet->getStructure(2),
 			            virtuosDoseAccessor->getGeometricInfo());
 
 			spOTBMaskAccessorVirtuos->updateMask();
@@ -200,6 +129,9 @@ namespace rttb
 			            reducedErrorConstant);
 			CHECK_CLOSE(doseStatisticsVirtuos->getMinOCx(0.98 * doseStatisticsVirtuos->getVolume()), 31.8373,
 			            reducedErrorConstant);
+
+			RETURN_AND_REPORT_TEST_SUCCESS;
+
 		}
 
 	}//testing

@@ -8,8 +8,8 @@ namespace rttb
 		{
 
 			BioModelCmdLineParser::BioModelCmdLineParser(int argc, const char** argv, const std::string& name,
-			        const std::string& version) :
-				CmdLineParserBase(name, version)
+				const std::string& version, bool virtuosSupport) :
+				CmdLineParserBase(name, version), _virtuosSupport(virtuosSupport)
 			{
 				addOption<std::string>(OPTION_DOSE_FILE, OPTION_GROUP_REQUIRED,
 				                       "The name of the dose file. Can be omitted if used as "
@@ -25,16 +25,27 @@ namespace rttb
 				addOption<std::vector<double> >(OPTION_MODEL_PARAMETERS, OPTION_GROUP_REQUIRED,
 				                                "The parameters for the radiobiological model.", 'p', true, true);
 				addOptionWithDefaultValue<double>(OPTION_DOSE_SCALING, OPTION_GROUP_REQUIRED,
-				                                  "Dose scaling that should be applied.", 1.0, "1.0", 'c');
+				                                  "Dose scaling that should be applied.", 1.0, "1.0", 'e');
 				std::vector<std::string> defaultLoadingStyle;
 				defaultLoadingStyle.push_back("itk");
-				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_LOAD_STYLE, OPTION_GROUP_REQUIRED,
-				        "The loading style for the dose. Available styles are:\n"
-				        "\"dicom\": normal dicom dose\n"
-				        "\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--loadStyle virtuos myFavorite.pln\")\n"
-				        "\"itk\": use itk image loading\n\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).",
+
+				std::string doseLoadStyleDescription = "The loading style for the dose. Available styles are:\n"
+				                                       "\"dicom\": normal dicom dose\n"
+				                                       "\"itk\": use itk image loading\n"
+				                                       "\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).";
+
+
+				if (_virtuosSupport)
+				{
+					doseLoadStyleDescription += "\n"
+					                            "\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--"
+					                            + OPTION_LOAD_STYLE + " virtuos myFavorite.pln\")";
+				}
+
+
+				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_LOAD_STYLE, OPTION_GROUP_REQUIRED, doseLoadStyleDescription,
 				        defaultLoadingStyle, defaultLoadingStyle.at(0),
-				        's', true, true);
+				        't', true, true);
 
 				parse(argc, argv);
 			}
@@ -59,14 +70,14 @@ namespace rttb
 				std::vector<std::string> loadStyle = get<std::vector<std::string> >(OPTION_LOAD_STYLE);
 				std::string loadStyleAbbreviation = loadStyle.at(0);
 
-				if (loadStyleAbbreviation != "dicom" && loadStyleAbbreviation != "virtuos"
+				if (loadStyleAbbreviation != "dicom" && (!_virtuosSupport || loadStyleAbbreviation != "virtuos")
 				    && loadStyleAbbreviation != "itk"
 				    && loadStyleAbbreviation != "helax")
 				{
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style:" + loadStyleAbbreviation +
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
-				else if (loadStyleAbbreviation == "virtuos")
+				else if (_virtuosSupport && loadStyleAbbreviation == "virtuos")
 				{
 					if (loadStyle.size() < 2)
 					{
@@ -87,7 +98,7 @@ namespace rttb
 				cmdlineparsing::CmdLineParserBase::printHelp();
 				std::cout << "Example:" << std::endl << std::endl;
 				std::cout << m_programName <<
-				          " dose.mhd result.mhd -s itk -m LQ -p 0.2 0.02" <<
+				          " dose.mhd result.mhd -m LQ -p 0.2 0.02" <<
 				          std::endl << std::endl;
 				std::cout <<
 				          "This will calculate the Linear quadratic (LQ) BioModel from  \"dose.mhd\" and will write the result to \"result.mhd\". "

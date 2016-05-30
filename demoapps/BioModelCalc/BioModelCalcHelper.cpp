@@ -27,7 +27,6 @@
 
 #include "rttbExceptionMacros.h"
 
-#include "rttbVirtuosPlanFileDoseAccessorGenerator.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomHelaxFileDoseAccessorGenerator.h"
 #include "rttbITKImageFileAccessorGenerator.h"
@@ -58,18 +57,6 @@ rttb::apps::bioModelCalc::loadDose(const std::string& fileName,
 		std::cout << "use RTTB itk IO... ";
 		result = loadITKDose(fileName);
 	}
-	else if (args[0] == "virtuos")
-	{
-		if (args.size() < 2)
-		{
-			rttbDefaultExceptionStaticMacro( <<
-			                                 "Cannot load virtuos dose. Plan file is missing. Specify plan file as 2nd io stlye argument.");
-		}
-
-		std::cout << "use RTTB virtuos IO... " << std::endl;
-		std::cout << "                  virtuos plan file: " << args[1] << " ... ";
-		result = loadVirtuosDose(fileName, args[1]);
-	}
 	else
 	{
 		rttbDefaultExceptionStaticMacro( << "Unknown io style selected. Cannot load data. Selected style: "
@@ -99,14 +86,6 @@ rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::bioModelCalc::loadITKDose(const std::string& fileName)
 {
 	rttb::io::itk::ITKImageFileAccessorGenerator generator(fileName);
-	return generator.generateDoseAccessor();
-};
-
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
-rttb::apps::bioModelCalc::loadVirtuosDose(const std::string& fileName,
-        const std::string& planFileName)
-{
-	rttb::io::virtuos::VirtuosPlanFileDoseAccessorGenerator generator(fileName, planFileName);
 	return generator.generateDoseAccessor();
 };
 

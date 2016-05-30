@@ -18,9 +18,6 @@
 	ADD_SUBDIRECTORY(itk)
   ENDIF(BUILD_IO_ITK)
    
-  IF(BUILD_IO_Virtuos)
-	ADD_SUBDIRECTORY(virtuos)
-  ENDIF(BUILD_IO_Virtuos)
- 
-
-
+IF(BUILD_IO_Virtuos)
+ADD_SUBDIRECTORY(virtuos)
+ENDIF(BUILD_IO_Virtuos)

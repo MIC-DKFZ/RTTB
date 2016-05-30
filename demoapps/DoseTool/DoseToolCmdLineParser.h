@@ -37,7 +37,7 @@ namespace rttb
 			{
 			public:
 				DoseToolCmdLineParser(int argc, const char** argv, const std::string& name,
-				                      const std::string& version);
+				                      const std::string& version, bool virtuosSupport = false);
 				void validateInput() const;
 				void printHelp() const;
 
@@ -57,6 +57,8 @@ namespace rttb
 				const std::string OPTION_PRESCRIBED_DOSE = "prescribedDose";
 				const std::string OPTION_ALLOW_SELF_INTERSECTION_STRUCT = "allowSelfIntersection";
 				const std::string OPTION_MULTIPLE_STRUCTS_MODE = "multipleStructsMode";
+
+				bool _virtuosSupport;
 			};
 
 		}
