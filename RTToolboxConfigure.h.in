@@ -78,6 +78,20 @@
 	#define SIDT_ENFORCE_MATURE_CODE
 #endif
 
+/*! @def RTTB_DISABLE_ITK_IO_FACTORY_AUTO_REGISTER
+ * This define controls if RTToolbox should disable the auto
+ * register functionality of the itk io factory, when RTToolbox
+ * io reader and writer classes are used.
+ * This is needed in cases where RTToolbox is build "dynamic" and
+ * used in an application that also uses the ITK shared objects
+ * under Windows systems (e.g. MITK). Loading and unloading RTToolbox
+ * shared objects in such an application would lead to an corrupted
+ * itk factory stack, because its implementation is not fail safe
+ * in this scenario.
+ * @remark This definition should by configured via the advance options in CMake.
+*/
+#cmakedefine RTTB_DISABLE_ITK_IO_FACTORY_AUTO_REGISTER
+
 #define RTTB_VERSION_MAJOR @RTToolbox_VERSION_MAJOR@
 #define RTTB_VERSION_MINOR @RTToolbox_VERSION_MINOR@
 #define RTTB_VERSION_PATCH @RTToolbox_VERSION_PATCH@

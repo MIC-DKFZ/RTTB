@@ -30,6 +30,7 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include "RTTBBoostMaskExports.h"
 
 namespace rttb
 {
@@ -45,7 +46,7 @@ namespace rttb
 			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored
 			*   and the mask will be calculated, however, it may cause errors in the mask results.
 			*/
-			class BoostMaskAccessor: public core::MaskAccessorInterface
+            class RTTBBoostMask_EXPORT BoostMaskAccessor : public core::MaskAccessorInterface
 			{
 			public:
 				typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
