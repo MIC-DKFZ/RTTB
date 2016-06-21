@@ -27,6 +27,8 @@
 
 #include "itkImage.h"
 
+#include "RTTBITKIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -34,7 +36,7 @@ namespace rttb
 		namespace itk
 		{
 
-			class ITKImageMaskAccessorGenerator: public core::MaskAccessorGeneratorBase
+            class RTTBITKIO_EXPORT ITKImageMaskAccessorGenerator : public core::MaskAccessorGeneratorBase
 			{
 			public:
 				typedef MaskAccessorGeneratorBase::MaskAccessorPointer MaskAccessorPointer;
