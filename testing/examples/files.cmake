@@ -1,8 +1,14 @@
+SET(DOSESTATISTICSVIRTUOSTEST "")
+IF(RTTB_VIRTUOS_SUPPORT AND BUILD_IO_Virtuos)
+	SET(DOSESTATISTICSVIRTUOSTEST "RTDoseStatisticsVirtuosTest.cpp")
+ENDIF()
+	
 SET(CPP_FILES
 	RTBioModelExampleTest.cpp
 	RTBioModelScatterPlotExampleTest.cpp
 	RTDoseIndexTest.cpp
-	RTDoseStatisticsTest.cpp
+	RTDoseStatisticsDicomTest.cpp
+	${DOSESTATISTICSVIRTUOSTEST}
 	RTDVHTest.cpp
 	DVHCalculatorExampleTest.cpp
 	DVHCalculatorComparisonTest.cpp

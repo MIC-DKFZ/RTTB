@@ -8,7 +8,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 # RTToolbox version number.
 SET(RTToolbox_VERSION_MAJOR "4")
 SET(RTToolbox_VERSION_MINOR "1")
-SET(RTToolbox_VERSION_PATCH "1")
+SET(RTToolbox_VERSION_PATCH "2")
 
 # Version string should not include patch level.  The major.minor is
 # enough to distinguish available features of the toolbox.
@@ -40,6 +40,8 @@ IF(COMMAND CMAKE_POLICY)
   # greater than 3.0
   # See http://www.cmake.org/cmake/help/v3.0/policy/CMP0033.html
   CMAKE_POLICY(SET CMP0033 OLD)
+  # See https://cmake.org/cmake/help/v3.3/policy/CMP0062.html
+  CMAKE_POLICY(SET CMP0062 OLD)
 ENDIF(COMMAND CMAKE_POLICY)
 
 #-----------------------------------------------------------------------------
@@ -202,6 +204,14 @@ IF (WIN32)
 ELSE (WIN32)
   OPTION(BUILD_SHARED_LIBS "Build RTToolbox with shared libraries." ON)
 ENDIF (WIN32)
+
+OPTION (RTTB_VIRTUOS_SUPPORT "Build RTToolbox with Virtuos support." OFF)
+
+IF (RTTB_VIRTUOS_SUPPORT)
+	SET(RTToolbox_VIRTUOS_SUPPORT "1")
+ELSE()
+	SET(RTToolbox_VIRTUOS_SUPPORT "0")
+ENDIF()
 
 IF(NOT BUILD_SHARED_LIBS)
   IF(UNIX)

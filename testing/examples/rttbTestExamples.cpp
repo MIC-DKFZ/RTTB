@@ -28,6 +28,8 @@
 
 #include "litMultiTestsMain.h"
 
+#include "RTToolboxConfigure.h"
+
 namespace rttb
 {
 	namespace testing
@@ -38,7 +40,13 @@ namespace rttb
 			LIT_REGISTER_TEST(DVHCalculatorExampleTest);
 			LIT_REGISTER_TEST(RTDVHTest);
 			LIT_REGISTER_TEST(RTDoseIndexTest);
-			LIT_REGISTER_TEST(RTDoseStatisticsTest);
+
+			if (RTTB_VIRTUOS_SUPPORT)
+			{
+				LIT_REGISTER_TEST(RTDoseStatisticsVirtuosTest);
+			}
+
+			LIT_REGISTER_TEST(RTDoseStatisticsDicomTest);
 			LIT_REGISTER_TEST(RTBioModelScatterPlotExampleTest);
 			LIT_REGISTER_TEST(VoxelizationValidationTest);
 		}

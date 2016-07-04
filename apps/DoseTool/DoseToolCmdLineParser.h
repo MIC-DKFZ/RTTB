@@ -14,8 +14,8 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1221 $ (last changed revision)
-// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
+// @version $Revision: 1374 $ (last changed revision)
+// @date    $Date: 2016-05-30 14:15:42 +0200 (Mo, 30 Mai 2016) $ (last change date)
 // @author  $Author: hentsch $ (last changed by)
 */
 
@@ -37,7 +37,7 @@ namespace rttb
 			{
 			public:
 				DoseToolCmdLineParser(int argc, const char** argv, const std::string& name,
-				                      const std::string& version);
+				                      const std::string& version, bool virtuosSupport = false);
 				void validateInput() const;
 				void printHelp() const;
 
@@ -57,6 +57,8 @@ namespace rttb
 				const std::string OPTION_PRESCRIBED_DOSE = "prescribedDose";
 				const std::string OPTION_ALLOW_SELF_INTERSECTION_STRUCT = "allowSelfIntersection";
 				const std::string OPTION_MULTIPLE_STRUCTS_MODE = "multipleStructsMode";
+
+				bool _virtuosSupport;
 			};
 
 		}

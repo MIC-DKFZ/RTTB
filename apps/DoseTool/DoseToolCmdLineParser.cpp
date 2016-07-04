@@ -14,8 +14,8 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1221 $ (last changed revision)
-// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
+// @version $Revision: 1374 $ (last changed revision)
+// @date    $Date: 2016-05-30 14:15:42 +0200 (Mo, 30 Mai 2016) $ (last change date)
 // @author  $Author: hentsch $ (last changed by)
 */
 
@@ -29,8 +29,8 @@ namespace rttb
 		{
 
 			DoseToolCmdLineParser::DoseToolCmdLineParser(int argc, const char** argv, const std::string& name,
-			        const std::string& version) :
-				CmdLineParserBase(name, version)
+			        const std::string& version, bool virtuosSupport) :
+				CmdLineParserBase(name, version), _virtuosSupport(virtuosSupport)
 			{
 				typedef double DoseTypeGy;
 				addOption<std::string>(OPTION_DOSE_FILE, OPTION_GROUP_REQUIRED,
@@ -49,21 +49,34 @@ namespace rttb
 
 				std::vector<std::string> defaultLoadingStyle;
 				defaultLoadingStyle.push_back("dicom");
+				std::string doseLoadStyleDescription = "\"dicom\": normal dicom dose\n"
+				                                       "\"itk\": use itk image loading\n\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).";
+
+
+				if (_virtuosSupport)
+				{
+					doseLoadStyleDescription += "\n"
+					                            "\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--"
+					                            + OPTION_DOSE_LOAD_STYLE + " virtuos myFavorite.pln\")";
+				}
+
 				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_DOSE_LOAD_STYLE, OPTION_GROUP_REQUIRED,
-				        "The loading style for the dose. Available styles are:\n"
-				        "\"dicom\": normal dicom dose\n"
-				        "\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--"
-				        + OPTION_DOSE_LOAD_STYLE + " virtuos myFavorite.pln\")\n"
-				        "\"itk\": use itk image loading\n\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).",
+				        doseLoadStyleDescription,
 				        defaultLoadingStyle, defaultLoadingStyle.at(0),
 				        't', true, true);
+
+				std::string structLoadStyleDescription = "\"dicom\": normal dicom dose\n"
+				        "\"itk\": use itk image loading\"";
+
+				if (_virtuosSupport)
+				{
+					structLoadStyleDescription += "\n"
+					                              "\"virtuos\": load of a virtuos struct file (This style is a multi argument. The second argument specifies the ctx file, e.g. : \"--"
+					                              + OPTION_STRUCT_LOAD_STYLE + " virtuos myImage.ctx\")";
+				}
+
 				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_STRUCT_LOAD_STYLE,
-				        OPTION_GROUP_REQUIRED,
-				        "The loading style for the dose. Available styles are:\n"
-				        "\"dicom\": normal dicom dose\n"
-				        "\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--"
-				        + OPTION_DOSE_LOAD_STYLE + " virtuos myFavorite.pln\")\n"
-				        "\"itk\": use itk image loading.",
+				        OPTION_GROUP_REQUIRED, structLoadStyleDescription,
 				        defaultLoadingStyle, defaultLoadingStyle.at(0),
 				        'u', true, true);
 
@@ -93,7 +106,7 @@ namespace rttb
 				std::vector<std::string> doseLoadStyle = get<std::vector<std::string> >(OPTION_DOSE_LOAD_STYLE);
 				std::string doseLoadStyleAbbreviation = doseLoadStyle.at(0);
 
-				if (doseLoadStyleAbbreviation != "dicom" && doseLoadStyleAbbreviation != "virtuos"
+				if (doseLoadStyleAbbreviation != "dicom" && (!_virtuosSupport || doseLoadStyleAbbreviation != "virtuos")
 				    && doseLoadStyleAbbreviation != "itk"
 				    && doseLoadStyleAbbreviation != "helax")
 				{
@@ -102,7 +115,7 @@ namespace rttb
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 
-				if (doseLoadStyleAbbreviation == "virtuos")
+				if (_virtuosSupport && doseLoadStyleAbbreviation == "virtuos")
 				{
 					if (doseLoadStyle.size() < 2)
 					{
@@ -113,7 +126,7 @@ namespace rttb
 				std::vector<std::string> structLoadStyle = get<std::vector<std::string> >(OPTION_STRUCT_LOAD_STYLE);
 				std::string structLoadStyleAbbreviation = structLoadStyle.at(0);
 
-				if (structLoadStyleAbbreviation != "dicom" && structLoadStyleAbbreviation != "virtuos"
+				if (structLoadStyleAbbreviation != "dicom" && (!_virtuosSupport || structLoadStyleAbbreviation != "virtuos")
 				    && structLoadStyleAbbreviation != "itk")
 				{
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style for struct file:" +
@@ -121,7 +134,7 @@ namespace rttb
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 
-				if (structLoadStyleAbbreviation == "dicom" || structLoadStyleAbbreviation == "virtuos"
+				if (structLoadStyleAbbreviation == "dicom" || (_virtuosSupport && structLoadStyleAbbreviation == "virtuos")
 				    || structLoadStyleAbbreviation == "helax")
 				{
 					if (get<std::string>(OPTION_STRUCT_NAME) == "")
@@ -131,7 +144,7 @@ namespace rttb
 					}
 				}
 
-				if (structLoadStyleAbbreviation == "virtuos")
+				if (_virtuosSupport && structLoadStyleAbbreviation == "virtuos")
 				{
 					if (structLoadStyle.size() < 2)
 					{

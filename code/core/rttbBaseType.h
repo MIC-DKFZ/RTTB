@@ -38,6 +38,7 @@ namespace rttb
 {
 
 	const double errorConstant = 1e-5;
+	const double reducedErrorConstant = 0.0001;
 
 	typedef unsigned short UnsignedIndex1D;
 

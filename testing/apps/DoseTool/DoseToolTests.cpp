@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 771 $ (last changed revision)
-// @date    $Date: 2014-09-25 14:41:34 +0200 (Do, 25 Sep 2014) $ (last change date)
-// @author  $Author: zhangl $ (last changed by)
+// @version $Revision: 1374 $ (last changed revision)
+// @date    $Date: 2016-05-30 14:15:42 +0200 (Mo, 30 Mai 2016) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
 
 // this file defines the rttbCoreTests for the test driver
@@ -26,6 +26,8 @@
 #endif
 
 #include "litMultiTestsMain.h"
+
+#include "RTToolboxConfigure.h"
 
 namespace rttb
 {
@@ -38,7 +40,12 @@ namespace rttb
 		{
 			LIT_REGISTER_TEST(DoseToolBasicUsageTest);
 			LIT_REGISTER_TEST(DoseToolInvalidParametersTest);
-			LIT_REGISTER_TEST(DoseToolVirtuosDoseTest);
+
+			if (RTTB_VIRTUOS_SUPPORT)
+			{
+				LIT_REGISTER_TEST(DoseToolVirtuosDoseTest);
+			}
+
 			LIT_REGISTER_TEST(DoseToolDicomDoseTest);
 			LIT_REGISTER_TEST(DoseToolITKDoseTest);
 			LIT_REGISTER_TEST(DoseToolRegexTest);

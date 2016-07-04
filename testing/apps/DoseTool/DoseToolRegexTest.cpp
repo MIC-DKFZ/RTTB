@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 771 $ (last changed revision)
-// @date    $Date: 2014-09-25 14:41:34 +0200 (Do, 25 Sep 2014) $ (last change date)
-// @author  $Author: zhangl $ (last changed by)
+// @version $Revision: 1221 $ (last changed revision)
+// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
 
 #include <iostream>
