@@ -103,7 +103,7 @@ int main(int argc, const char** argv)
 	}
 	catch (...)
 	{
-		std::cerr << "Error!!! unknown error while reading input image." << std::endl;
+		std::cerr << "Error!!! Unknown error while reading input image." << std::endl;
 		return 1;
 	}
 
@@ -125,7 +125,7 @@ int main(int argc, const char** argv)
 	}
 	catch (...)
 	{
-		std::cerr << "Error!!! unknown error while calculating the bioModel or writing the image." <<
+		std::cerr << "Error!!! Unknown error while calculating the bioModel or writing the image." <<
 		          std::endl;
 		return 2;
 	}
