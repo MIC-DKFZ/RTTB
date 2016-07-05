@@ -28,6 +28,8 @@
 #include "rttbTransformationInterface.h"
 #include "rttbMappableDoseAccessorInterface.h"
 
+#include "RTTBInterpolationExports.h"
+
 namespace rttb
 {
 	namespace interpolation
@@ -37,7 +39,7 @@ namespace rttb
 		@brief Class for dose mapping based on simple trilinear interpolation
 		@ingroup interpolation
 		*/
-		class SimpleMappableDoseAccessor: public MappableDoseAccessorInterface
+        class RTTBInterpolation_EXPORT SimpleMappableDoseAccessor : public MappableDoseAccessorInterface
 		{
 		private:
 			InterpolationBase::Pointer _spInterpolation;

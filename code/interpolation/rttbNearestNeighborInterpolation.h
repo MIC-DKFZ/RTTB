@@ -24,6 +24,8 @@
 
 #include "rttbInterpolationBase.h"
 
+#include "RTTBInterpolationExports.h"
+
 namespace rttb
 {
 	namespace interpolation
@@ -33,7 +35,7 @@ namespace rttb
 			@brief Nearest Neighbor interpolation
 			@ingroup interpolation
 		*/
-		class NearestNeighborInterpolation : public InterpolationBase
+        class RTTBInterpolation_EXPORT NearestNeighborInterpolation : public InterpolationBase
 		{
 		public:
 			/*! @brief Constructor

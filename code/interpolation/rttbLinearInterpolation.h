@@ -26,6 +26,8 @@
 
 #include "rttbInterpolationBase.h"
 
+#include "RTTBInterpolationExports.h"
+
 namespace rttb
 {
 
@@ -36,7 +38,7 @@ namespace rttb
 			@brief Linear interpolation.
 			@ingroup interpolation
 		*/
-		class LinearInterpolation : public InterpolationBase
+        class RTTBInterpolation_EXPORT LinearInterpolation : public InterpolationBase
 		{
 		public:
 			/*! @brief Constructor
