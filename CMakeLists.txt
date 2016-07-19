@@ -40,8 +40,10 @@ IF(COMMAND CMAKE_POLICY)
   # greater than 3.0
   # See http://www.cmake.org/cmake/help/v3.0/policy/CMP0033.html
   CMAKE_POLICY(SET CMP0033 OLD)
-  # See https://cmake.org/cmake/help/v3.3/policy/CMP0062.html
-  CMAKE_POLICY(SET CMP0062 OLD)
+  IF (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 3.2)
+	# See https://cmake.org/cmake/help/v3.3/policy/CMP0062.html
+	CMAKE_POLICY(SET CMP0062 OLD)
+  ENDIF()
 ENDIF(COMMAND CMAKE_POLICY)
 
 #-----------------------------------------------------------------------------
