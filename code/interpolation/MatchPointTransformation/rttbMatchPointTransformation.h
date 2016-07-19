@@ -28,6 +28,7 @@
 #include "rttbTransformationInterface.h"
 #include "rttbBaseType.h"
 
+#include "RTTBInterpolationMatchPointTransformationExports.h"
 
 namespace rttb
 {
@@ -37,7 +38,7 @@ namespace rttb
 		@brief This class can deal with dose information that has to be transformed into another geometry than the original dose image (transformation specified by MatchPoint registration object).
 		@ingroup interpolation
 		*/
-		class MatchPointTransformation: public TransformationInterface
+        class RTTBInterpolationMatchPointTransformation_EXPORT MatchPointTransformation : public TransformationInterface
 		{
 		public:
 			static const unsigned int TargetDimension3D = 3;

@@ -27,6 +27,7 @@
 #include "rttbDoseAccessorInterface.h"
 #include "rttbBaseType.h"
 
+#include "RTTBInterpolationExports.h"
 namespace rttb
 {
 	namespace interpolation
@@ -36,7 +37,7 @@ namespace rttb
 			@brief Base class for transformation (in World coordinates).
 			@ingroup interpolation
 		*/
-		class TransformationInterface
+        class RTTBInterpolation_EXPORT TransformationInterface
 		{
 		public:
 			typedef boost::shared_ptr<TransformationInterface> Pointer;

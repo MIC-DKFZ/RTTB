@@ -28,6 +28,8 @@
 #include "rttbDoseAccessorInterface.h"
 #include "rttbTransformationInterface.h"
 
+#include "RTTBInterpolationITKTransformationExports.h"
+
 namespace rttb
 {
 	namespace interpolation
@@ -35,7 +37,7 @@ namespace rttb
 		/*! @class ITKMappableDoseAccessor
 		@brief This class can deal with dose information that has to be transformed into another geometry than the original dose image (transformation specified by ITK transformation object).
 		*/
-		class ITKTransformation: public TransformationInterface
+        class RTTBInterpolationITKTransformation_EXPORT ITKTransformation : public TransformationInterface
 		{
 		public:
 			static const unsigned int InputDimension3D = 3;

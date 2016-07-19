@@ -29,6 +29,7 @@
 
 #include "itkImage.h"
 
+#include "RTTBITKIOExports.h"
 namespace rttb
 {
 	namespace io
@@ -39,7 +40,7 @@ namespace rttb
 				@brief Class converts/dumps the processed accessor into an itk image
 				@remark DoseAccessorConversionInterface defines how the converter should react on non valid dose values.
 			*/
-			class ITKImageAccessorConverter: public core::DoseAccessorProcessorBase,
+            class RTTBITKIO_EXPORT ITKImageAccessorConverter : public core::DoseAccessorProcessorBase,
 				public core::DoseAccessorConversionSettingInterface
 			{
 			public:
