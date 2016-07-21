@@ -57,6 +57,11 @@ namespace rttb
 
 			core::Structure CreateRectangularStructureCentered(GridIndexType zPlane);
 
+
+            /* Generate rectangular structure for the z slices fromm fromZPlane(included) to toZPlane(included)
+            */
+            core::Structure CreateRectangularStructureCentered(GridIndexType fromZPlane, GridIndexType toZPlane);
+
 			core::Structure CreateTestStructureCircle(GridIndexType zPlane);
 
 			core::Structure CreateRectangularStructureUpperLeftRotated(GridIndexType zPlane);
