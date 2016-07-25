@@ -21,45 +21,44 @@
 
 #include "DoseAccApplicationData.h"
 #include "DoseAccHelper.h"
+#include "DoseAccCmdLineParser.h"
+
+#include "boost/shared_ptr.hpp"
+#include "boost/make_shared.hpp"
+
+#include "RTToolboxConfigure.h"
 
 rttb::apps::doseAcc::ApplicationData appData;
 
-int main(int argc, char** argv)
+int main(int argc, const char** argv)
 {
 	int result = 0;
 
-	std::cout << "DoseAcc - RTTB demo app for simple dose accumulation." << std::endl;
+    boost::shared_ptr<rttb::apps::doseAcc::DoseAccCmdLineParser> argParser;
 
-	switch (rttb::apps::doseAcc::ParseArgumentsForAppData(argc, argv, appData))
-	{
-		case 1:
-		{
-			//showed version or help info. Done.
-			return 1;
-		}
+    try
+    {
+        std::string appName = "DoseAcc";
+        std::string appVersion = RTTB_FULL_VERSION_STRING;
 
-		case 2:
-		{
-			std::cerr << "Missing Parameters. Use one of the following flags for more information:" <<
-			          std::endl;
-			std::cerr << "-? or --help" << std::endl;
-			return 2;
-		}
+        argParser = boost::make_shared<rttb::apps::doseAcc::DoseAccCmdLineParser>(argc, argv, appName,
+            appVersion);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return 5;
+    }
 
-		case 3:
-		{
-			//wrong option usage.
-			return 3;
-		}
-	}
+    // This is vital. The application needs to exit if the "help" or "version" parameter is set
+    // because this means the other parameters won't be parsed.
 
-	if (appData._fileCount < 3)
-	{
-		std::cerr << "Missing Parameters. Use one of the following flags for more information:" <<
-		          std::endl;
-		std::cerr << "-? or --help" << std::endl;
-		return 1;
-	}
+    if (argParser->isSet(argParser->OPTION_HELP) || argParser->isSet(argParser->OPTION_VERSION))
+    {
+        return 0;
+    }
+
+    //rttb::apps::doseAcc::populateAppData(argParser, appData);
 
 	std::cout << std::endl << "*******************************************" << std::endl;
 	std::cout << "Dose 1 file:        " << appData._dose1FileName << std::endl;
@@ -77,7 +76,7 @@ int main(int argc, char** argv)
 
 	try
 	{
-		appData._Dose1 = rttb::apps::doseAcc::loadDose(appData._dose1FileName, appData._dose1LoadStyle);
+		appData._dose1 = rttb::apps::doseAcc::loadDose(appData._dose1FileName, appData._dose1LoadStyle);
 	}
 	catch (::itk::ExceptionObject& e)
 	{
@@ -99,7 +98,7 @@ int main(int argc, char** argv)
 
 	try
 	{
-		appData._Dose2 = rttb::apps::doseAcc::loadDose(appData._dose2FileName, appData._dose2LoadStyle);
+		appData._dose2 = rttb::apps::doseAcc::loadDose(appData._dose2FileName, appData._dose2LoadStyle);
 	}
 	catch (::itk::ExceptionObject& e)
 	{

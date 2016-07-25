@@ -183,7 +183,7 @@ rttb::core::DoseAccessorInterface::DoseAccessorPointer
 assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 {
 
-	rttb::core::DoseAccessorInterface::DoseAccessorPointer dose2Accessor = appData._Dose2;
+	rttb::core::DoseAccessorInterface::DoseAccessorPointer dose2Accessor = appData._dose2;
 
 	if (appData._spReg.IsNotNull())
 	{
@@ -193,17 +193,17 @@ assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 
 		if (appData._interpolatorName == "rosu")
 		{
-			dose2Accessor = generateRosuMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
+			dose2Accessor = generateRosuMappableAccessor(appData._dose1->getGeometricInfo(), appData._dose2,
 			                transform);
 		}
 		else if (appData._interpolatorName == "nn")
 		{
-			dose2Accessor = generateNNMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
+			dose2Accessor = generateNNMappableAccessor(appData._dose1->getGeometricInfo(), appData._dose2,
 			                transform);
 		}
 		else if (appData._interpolatorName == "linear")
 		{
-			dose2Accessor = generateLinearMappableAccessor(appData._Dose1->getGeometricInfo(), appData._Dose2,
+			dose2Accessor = generateLinearMappableAccessor(appData._dose1->getGeometricInfo(), appData._dose2,
 			                transform);
 		}
 		else
@@ -222,14 +222,14 @@ assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 		outputAccessor =
 		    rttb::core::DoseAccessorInterface::DoseAccessorPointer(new
 		            rttb::algorithms::BinaryFunctorAccessor<rttb::algorithms::arithmetic::doseOp::AddWeighted>
-		            (appData._Dose1, dose2Accessor, addOp));
+		            (appData._dose1, dose2Accessor, addOp));
 	}
 	else if (appData._operator == "*")
 	{
 		outputAccessor =
 		    rttb::core::DoseAccessorInterface::DoseAccessorPointer(new
 		            rttb::algorithms::BinaryFunctorAccessor<rttb::algorithms::arithmetic::doseOp::Multiply>
-		            (appData._Dose1, dose2Accessor, rttb::algorithms::arithmetic::doseOp::Multiply()));
+		            (appData._dose1, dose2Accessor, rttb::algorithms::arithmetic::doseOp::Multiply()));
 	}
 	else
 	{
