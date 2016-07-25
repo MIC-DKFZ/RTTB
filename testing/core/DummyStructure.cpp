@@ -62,6 +62,34 @@ namespace rttb
 			return test_structure_rectangular_centered;
 		}
 
+        core::Structure DummyStructure::CreateRectangularStructureCenteredWithDifferentGeoInfo(GridIndexType zPlane)
+        {
+            CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
+
+            std::vector<VoxelGridIndex2D> another_voxelVector;
+            VoxelGridIndex2D another_i1(2, 1);
+            VoxelGridIndex2D another_i2(5, 1);
+            VoxelGridIndex2D another_i3(5, 5);
+            VoxelGridIndex2D another_i4(2, 5);
+
+            another_voxelVector.push_back(another_i1);
+            another_voxelVector.push_back(another_i2);
+            another_voxelVector.push_back(another_i3);
+            another_voxelVector.push_back(another_i4);
+            PolygonType another_polygon1 = another_cts.createPolygonCenter(another_voxelVector, zPlane);
+
+            PolygonType another_polygon2 = another_cts.createPolygonCenterOnPlaneCenter(another_voxelVector, zPlane);
+
+            PolygonSequenceType another_polySeq;
+            another_polySeq.push_back(another_polygon1);
+
+            another_polySeq.push_back(another_polygon2);
+
+            core::Structure test_structure_rectangular_centered = core::Structure(another_polySeq);
+
+            return test_structure_rectangular_centered;
+        }
+
         core::Structure DummyStructure::CreateRectangularStructureCentered(GridIndexType fromZPlane, GridIndexType toZPlane)
         {
             CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
@@ -80,8 +108,7 @@ namespace rttb
                 another_voxelVector.push_back(another_i3);
                 another_voxelVector.push_back(another_i4);
                 PolygonType another_polygon1 = another_cts.createPolygonCenter(another_voxelVector, i);
-
-                
+              
                 another_polySeq.push_back(another_polygon1);
             }
 

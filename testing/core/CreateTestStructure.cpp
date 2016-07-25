@@ -97,6 +97,28 @@ namespace rttb
 			return polygon;
 		}
 
+        PolygonType CreateTestStructure::createPolygonCenterOnPlaneCenter(std::vector<VoxelGridIndex2D> aVoxelVector,
+            GridIndexType sliceNumber)
+        {
+
+            PolygonType polygon;
+
+            for (size_t i = 0; i < aVoxelVector.size(); i++)
+            {
+                VoxelGridIndex3D voxelIndex;
+                DoubleVoxelGridIndex3D indexDouble = DoubleVoxelGridIndex3D((aVoxelVector.at(i)).x(), (aVoxelVector.at(i)).y(),
+                    sliceNumber);
+               
+                WorldCoordinate3D p1;
+                _geoInfo.geometryCoordinateToWorldCoordinate(indexDouble, p1);
+            
+                polygon.push_back(p1);
+                std::cout << "(" << p1.x() << "," << p1.y() << "," << p1.z() << ")" << "; ";
+            }
+
+            std::cout << std::endl;
+            return polygon;
+        }
 
 
 		PolygonType CreateTestStructure::createPolygonBetweenUpperLeftAndCenter(
