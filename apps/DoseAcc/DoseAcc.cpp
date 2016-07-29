@@ -42,7 +42,7 @@ int main(int argc, const char** argv)
         std::string appVersion = RTTB_FULL_VERSION_STRING;
 
         argParser = boost::make_shared<rttb::apps::doseAcc::DoseAccCmdLineParser>(argc, argv, appName,
-            appVersion);
+            appVersion, true);
     }
     catch (const std::exception& e)
     {
@@ -58,7 +58,7 @@ int main(int argc, const char** argv)
         return 0;
     }
 
-    //rttb::apps::doseAcc::populateAppData(argParser, appData);
+    rttb::apps::doseAcc::populateAppData(argParser, appData);
 
 	std::cout << std::endl << "*******************************************" << std::endl;
 	std::cout << "Dose 1 file:        " << appData._dose1FileName << std::endl;
