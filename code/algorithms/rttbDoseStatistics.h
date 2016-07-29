@@ -165,6 +165,9 @@ namespace rttb
 			VolumeType getVx(DoseTypeGy xDoseAbsolute) const;
 			VolumeType getVx(DoseTypeGy xDoseAbsolute, bool findNearestValue,
 			                 DoseTypeGy& nearestXDose) const;
+			VolumeType getVxRelative(DoseTypeGy xDoseRelative) const;
+			VolumeType getVxRelative(DoseTypeGy xDoseRelative, bool findNearestValue,
+				DoseTypeGy& nearestXDose) const;
 			DoseToVolumeFunctionType getAllVx() const;
 
 			/*! @brief Get Dx: the minimal dose delivered to part x of the current volume.
@@ -174,6 +177,9 @@ namespace rttb
 			DoseTypeGy getDx(VolumeType xVolumeAbsolute, bool findNearestValue,
 			                 VolumeType& nearestXVolume) const;
 			DoseTypeGy getDx(VolumeType xVolumeAbsolute) const;
+			DoseTypeGy getDxRelative(VolumeType xDoseRelative, bool findNearestValue,
+				VolumeType& nearestXVolume) const;
+			DoseTypeGy getDxRelative(VolumeType xDoseRelative) const;
 			VolumeToDoseFunctionType getAllDx() const;
 
 			/*! @brief Get MOHx: mean dose of the hottest x voxels.
@@ -183,6 +189,9 @@ namespace rttb
 			DoseTypeGy getMOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
 			                   VolumeType& nearestXVolume) const;
 			DoseTypeGy getMOHx(VolumeType xVolumeAbsolute) const;
+			DoseTypeGy getMOHxRelative(VolumeType xDoseRelative, bool findNearestValue,
+				VolumeType& nearestXVolume) const;
+			DoseTypeGy getMOHxRelative(VolumeType xDoseRelative) const;
 			VolumeToDoseFunctionType getAllMOHx() const;
 
 			/*! @brief Get MOCx: mean dose of the coldest x voxels.
@@ -192,6 +201,9 @@ namespace rttb
 			DoseTypeGy getMOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
 			                   VolumeType& nearestXVolume) const;
 			DoseTypeGy getMOCx(VolumeType xVolumeAbsolute) const;
+			DoseTypeGy getMOCxRelative(VolumeType xDoseRelative, bool findNearestValue,
+				VolumeType& nearestXVolume) const;
+			DoseTypeGy getMOCxRelative(VolumeType xDoseRelative) const;
 			VolumeToDoseFunctionType getAllMOCx() const;
 
 			/*! @brief Get MaxOHx: Maximum outside of the hottest x voxels.
@@ -201,6 +213,9 @@ namespace rttb
 			DoseTypeGy getMaxOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
 			                     VolumeType& nearestXVolume) const;
 			DoseTypeGy getMaxOHx(VolumeType xVolumeAbsolute) const;
+			DoseTypeGy getMaxOHxRelative(VolumeType xDoseRelative, bool findNearestValue,
+				VolumeType& nearestXVolum) const;
+			DoseTypeGy getMaxOHxRelative(VolumeType xDoseRelative) const;
 			VolumeToDoseFunctionType getAllMaxOHx() const;
 
 			/*! @brief Get MinOCx: Minimum outside of the coldest x voxels.
@@ -210,6 +225,9 @@ namespace rttb
 			DoseTypeGy getMinOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
 			                     VolumeType& nearestXVolume) const;
 			DoseTypeGy getMinOCx(VolumeType xVolumeAbsolute) const;
+			DoseTypeGy getMinOCxRelative(VolumeType xDoseRelative, bool findNearestValue,
+				VolumeType& nearestXVolume) const;
+			DoseTypeGy getMinOCxRelative(VolumeType xDoseRelative) const;
 			VolumeToDoseFunctionType getAllMinOCx() const;
 		};
 

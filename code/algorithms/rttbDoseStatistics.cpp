@@ -180,13 +180,24 @@ namespace rttb
 		                                 DoseTypeGy& nearestXDose) const
 		{
 			return getValue(_Vx, xDoseAbsolute, findNearestValue, nearestXDose);
-
 		}
 
 		VolumeType DoseStatistics::getVx(DoseTypeGy xDoseAbsolute) const
 		{
 			DoseTypeGy dummy;
 			return getValue(_Vx, xDoseAbsolute, false, dummy);
+		}
+		VolumeType DoseStatistics::getVxRelative(DoseTypeGy xDoseRelative) const
+		{
+			DoseTypeGy xDoseAbsolute = xDoseRelative * _referenceDose;
+			DoseTypeGy dummy;
+			return getValue(_Vx, xDoseAbsolute, false, dummy);
+		}
+		VolumeType DoseStatistics::getVxRelative(DoseTypeGy xDoseRelative, bool findNearestValue,
+			DoseTypeGy& nearestXDose) const
+		{
+			DoseTypeGy xDoseAbsolute = xDoseRelative * _referenceDose;
+			return getValue(_Vx, xDoseAbsolute, findNearestValue, nearestXDose);
 		}
 
 		DoseTypeGy DoseStatistics::getDx(VolumeType xVolumeAbsolute, bool findNearestValue,
@@ -198,6 +209,19 @@ namespace rttb
 
 		DoseTypeGy DoseStatistics::getDx(VolumeType xVolumeAbsolute) const
 		{
+			VolumeType dummy;
+			return getValue(_Dx, xVolumeAbsolute, false, dummy);
+		}
+		DoseTypeGy DoseStatistics::getDxRelative(VolumeType xVolumeRelative, bool findNearestValue,
+			VolumeType& nearestXVolume) const
+		{
+			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
+			return getValue(_Dx, xVolumeAbsolute, findNearestValue, nearestXVolume);
+		}
+
+		DoseTypeGy DoseStatistics::getDxRelative(VolumeType xVolumeRelative) const
+		{
+			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			VolumeType dummy;
 			return getValue(_Dx, xVolumeAbsolute, false, dummy);
 		}
@@ -214,6 +238,21 @@ namespace rttb
 			return getValue(_MOHx, xVolumeAbsolute, false, dummy);
 		}
 
+		DoseTypeGy DoseStatistics::getMOHxRelative(VolumeType xVolumeRelative, bool findNearestValue,
+			VolumeType& nearestXVolume) const
+		{
+			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
+			return getValue(_MOHx, xVolumeAbsolute, findNearestValue, nearestXVolume);
+		}
+
+		DoseTypeGy DoseStatistics::getMOHxRelative(VolumeType xVolumeRelative) const
+		{
+			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
+			VolumeType dummy;
+			return getValue(_MOHx, xVolumeAbsolute, false, dummy);
+		}
+
+
 		DoseTypeGy DoseStatistics::getMOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
 		                                   VolumeType& maximumDistanceFromOriginalVolume) const
 		{
@@ -222,6 +261,20 @@ namespace rttb
 
 		DoseTypeGy DoseStatistics::getMOCx(VolumeType xVolumeAbsolute) const
 		{
+			VolumeType dummy;
+			return getValue(_MOCx, xVolumeAbsolute, false, dummy);
+		}
+
+		DoseTypeGy DoseStatistics::getMOCxRelative(VolumeType xVolumeRelative, bool findNearestValue,
+			VolumeType& maximumDistanceFromOriginalVolume) const
+		{
+			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
+			return getValue(_MOCx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
+		}
+
+		DoseTypeGy DoseStatistics::getMOCxRelative(VolumeType xVolumeRelative) const
+		{
+			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			VolumeType dummy;
 			return getValue(_MOCx, xVolumeAbsolute, false, dummy);
 		}
@@ -238,6 +291,20 @@ namespace rttb
 			return getValue(_MaxOHx, xVolumeAbsolute, false, dummy);
 		}
 
+		DoseTypeGy DoseStatistics::getMaxOHxRelative(VolumeType xVolumeRelative, bool findNearestValue,
+			VolumeType& maximumDistanceFromOriginalVolume) const
+		{
+			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
+			return getValue(_MaxOHx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
+		}
+
+		DoseTypeGy DoseStatistics::getMaxOHxRelative(VolumeType xVolumeRelative) const
+		{
+			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
+			VolumeType dummy;
+			return getValue(_MaxOHx, xVolumeAbsolute, false, dummy);
+		}
+
 		DoseTypeGy DoseStatistics::getMinOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
 		                                     VolumeType& maximumDistanceFromOriginalVolume) const
 		{
@@ -246,6 +313,19 @@ namespace rttb
 
 		DoseTypeGy DoseStatistics::getMinOCx(VolumeType xVolumeAbsolute) const
 		{
+			VolumeType dummy;
+			return getValue(_MinOCx, xVolumeAbsolute, false, dummy);
+		}
+		DoseTypeGy DoseStatistics::getMinOCxRelative(VolumeType xVolumeRelative, bool findNearestValue,
+			VolumeType& maximumDistanceFromOriginalVolume) const
+		{
+			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
+			return getValue(_MinOCx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
+		}
+
+		DoseTypeGy DoseStatistics::getMinOCxRelative(VolumeType xVolumeRelative) const
+		{
+			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			VolumeType dummy;
 			return getValue(_MinOCx, xVolumeAbsolute, false, dummy);
 		}

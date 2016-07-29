@@ -204,6 +204,23 @@ namespace rttb
 			CHECK_EQUAL(closestDxKey, 99000);
 			CHECK_EQUAL(closestVxKey, 5);
 
+			// relatives 
+			CHECK_NO_THROW(aDoseStatisticNewValues.getVxRelative(0.11)); // bekommt man nicht genau hin
+			CHECK_NO_THROW(aDoseStatisticNewValues.getVxRelative(.9));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDxRelative(.08));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDxRelative(7.84));
+
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDxRelative(.072, true, closestDxKey));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDxRelative(8, true, closestDxKey));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getVxRelative(.1, true, closestVxKey));
+			CHECK_EQUAL(aDoseStatisticNewValues.getDxRelative(.07, true, closestDxKey), Dx.find(1000)->second);
+			CHECK_EQUAL(aDoseStatisticNewValues.getDxRelative(8, true, closestDxKey), Dx.find(99000)->second);
+			CHECK_EQUAL(aDoseStatisticNewValues.getVxRelative(0.1, true, closestVxKey), Vx.find(5.0)->second);
+			CHECK_EQUAL(closestDxKey, 99000);
+			CHECK_EQUAL(closestVxKey, 5);
+
+	
+
 			//equal distance to two values. First value is returned.
 			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(1500, true, closestDxKey));
 			CHECK_NO_THROW(aDoseStatisticNewValues.getVx(98.5, true, closestVxKey));
@@ -219,6 +236,13 @@ namespace rttb
 			                     core::DataNotAvailableException);
 			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx(9999, true, dummy),
 			                     core::DataNotAvailableException);
+
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCxRelative(0.002), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHxRelative(0.799), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCxRelative(.002, true, dummy),
+				core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHxRelative(.799, true, dummy),
+				core::DataNotAvailableException);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
