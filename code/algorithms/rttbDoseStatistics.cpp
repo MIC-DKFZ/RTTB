@@ -22,6 +22,8 @@
 #include "rttbDoseStatistics.h"
 #include "rttbDataNotAvailableException.h"
 
+#include <exception>
+
 namespace rttb
 {
 
@@ -187,17 +189,27 @@ namespace rttb
 			DoseTypeGy dummy;
 			return getValue(_Vx, xDoseAbsolute, false, dummy);
 		}
-		VolumeType DoseStatistics::getVxRelative(DoseTypeGy xDoseRelative) const
+		VolumeType DoseStatistics::getVxRelative(DoseTypeGy xDoseRelative)  const 
 		{
-			DoseTypeGy xDoseAbsolute = xDoseRelative * _referenceDose;
-			DoseTypeGy dummy;
-			return getValue(_Vx, xDoseAbsolute, false, dummy);
+			if (_referenceDose != -1 && (0 <=xDoseRelative <=1)){
+				DoseTypeGy xDoseAbsolute = xDoseRelative * _referenceDose;
+				DoseTypeGy dummy;
+				return getValue(_Vx, xDoseAbsolute, false, dummy);
+			}
+			else {
+				throw "Invalid Parameter/s";
+			}
 		}
 		VolumeType DoseStatistics::getVxRelative(DoseTypeGy xDoseRelative, bool findNearestValue,
 			DoseTypeGy& nearestXDose) const
 		{
-			DoseTypeGy xDoseAbsolute = xDoseRelative * _referenceDose;
-			return getValue(_Vx, xDoseAbsolute, findNearestValue, nearestXDose);
+			if (_referenceDose != -1 && (0 <= xDoseRelative <= 1)){
+				DoseTypeGy xDoseAbsolute = xDoseRelative * _referenceDose;
+				return getValue(_Vx, xDoseAbsolute, findNearestValue, nearestXDose);
+			}
+			else {
+				throw "Invalid Parameter/s";
+			}
 		}
 
 		DoseTypeGy DoseStatistics::getDx(VolumeType xVolumeAbsolute, bool findNearestValue,
@@ -215,15 +227,25 @@ namespace rttb
 		DoseTypeGy DoseStatistics::getDxRelative(VolumeType xVolumeRelative, bool findNearestValue,
 			VolumeType& nearestXVolume) const
 		{
+			if (0 <= xVolumeRelative <= 1){
 			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			return getValue(_Dx, xVolumeAbsolute, findNearestValue, nearestXVolume);
+			}
+			else {
+				throw "Invalid Parameter/s";
+			}
 		}
 
 		DoseTypeGy DoseStatistics::getDxRelative(VolumeType xVolumeRelative) const
 		{
+			if (0 <= xVolumeRelative <= 1){
 			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			VolumeType dummy;
 			return getValue(_Dx, xVolumeAbsolute, false, dummy);
+			}
+			else {
+				throw "Invalid Parameter/s";
+			}
 		}
 
 		DoseTypeGy DoseStatistics::getMOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
@@ -241,15 +263,25 @@ namespace rttb
 		DoseTypeGy DoseStatistics::getMOHxRelative(VolumeType xVolumeRelative, bool findNearestValue,
 			VolumeType& nearestXVolume) const
 		{
+			if (0 <= xVolumeRelative <= 1){
 			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			return getValue(_MOHx, xVolumeAbsolute, findNearestValue, nearestXVolume);
+			}
+			else {
+				throw "Invalid relatives Volume";
+			}
 		}
 
 		DoseTypeGy DoseStatistics::getMOHxRelative(VolumeType xVolumeRelative) const
 		{
+			if (0 <= xVolumeRelative <= 1){
 			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			VolumeType dummy;
 			return getValue(_MOHx, xVolumeAbsolute, false, dummy);
+			}
+			else {
+				throw "Invalid relatives Volume";
+			}
 		}
 
 
@@ -268,15 +300,25 @@ namespace rttb
 		DoseTypeGy DoseStatistics::getMOCxRelative(VolumeType xVolumeRelative, bool findNearestValue,
 			VolumeType& maximumDistanceFromOriginalVolume) const
 		{
+			if (0 <= xVolumeRelative <= 1){
 			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			return getValue(_MOCx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
+			}
+			else {
+				throw "Invalid relatives Volume";
+			}
 		}
 
 		DoseTypeGy DoseStatistics::getMOCxRelative(VolumeType xVolumeRelative) const
 		{
+			if (0 <= xVolumeRelative <= 1){
 			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			VolumeType dummy;
 			return getValue(_MOCx, xVolumeAbsolute, false, dummy);
+			}
+			else {
+				throw "Invalid relatives Volume";
+			}
 		}
 
 		DoseTypeGy DoseStatistics::getMaxOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
@@ -294,15 +336,25 @@ namespace rttb
 		DoseTypeGy DoseStatistics::getMaxOHxRelative(VolumeType xVolumeRelative, bool findNearestValue,
 			VolumeType& maximumDistanceFromOriginalVolume) const
 		{
+			if (0 <= xVolumeRelative <= 1){
 			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			return getValue(_MaxOHx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
+			}
+			else {
+				throw "Invalid relatives Volume";
+			}
 		}
 
 		DoseTypeGy DoseStatistics::getMaxOHxRelative(VolumeType xVolumeRelative) const
 		{
+			if (0 <= xVolumeRelative <= 1){
 			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			VolumeType dummy;
 			return getValue(_MaxOHx, xVolumeAbsolute, false, dummy);
+			}
+			else {
+				throw "Invalid relatives Volume";
+			}
 		}
 
 		DoseTypeGy DoseStatistics::getMinOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
@@ -319,15 +371,25 @@ namespace rttb
 		DoseTypeGy DoseStatistics::getMinOCxRelative(VolumeType xVolumeRelative, bool findNearestValue,
 			VolumeType& maximumDistanceFromOriginalVolume) const
 		{
+			if (0 <= xVolumeRelative <= 1){
 			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			return getValue(_MinOCx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
+			}
+			else {
+				throw "Invalid relatives Volume";
+			}
 		}
 
 		DoseTypeGy DoseStatistics::getMinOCxRelative(VolumeType xVolumeRelative) const
 		{
+			if (0 <= xVolumeRelative <= 1){
 			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 			VolumeType dummy;
 			return getValue(_MinOCx, xVolumeAbsolute, false, dummy);
+			}
+			else {
+				throw "Invalid relatives Volume";
+			}
 		}
 
 		double DoseStatistics::getValue(const std::map<double, double>& aMap, double key,
