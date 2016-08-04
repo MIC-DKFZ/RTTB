@@ -79,21 +79,23 @@ int main(int argc,  const char** argv)
 	}
 	catch (const std::exception& e)
 	{
-		std::cerr << e.what() << "blablabla" << std::endl;	
+		std::cerr << e.what() << std::endl;	
 	}
 
 	std::cout << std::endl << "*******************************************" << std::endl;
-	std::cout << "Input dose file:        " << appData._inputDoseFileName << std::endl;
-	std::cout << "Output file:        " << appData._outputFileName << std::endl;
+	std::cout << "Input dose file:              " << appData._inputDoseFileName << std::endl;
+	std::cout << "Input dose file load style:   " << appData._inputDoseLoadStyle.at(0) << std::endl;
+	std::cout << "Output file:                  " << appData._outputFileName << std::endl;
 
 	if (!(appData._regFileName.empty()))
 	{
-		std::cout << "Registration file: " << appData._regFileName << std::endl;
+		std::cout << "Registration file:            " << appData._regFileName << std::endl;
 	}
 
 	if (!(appData._refDoseFileName.empty()))
 	{
-		std::cout << "Reference dose file:        " << appData._refDoseFileName << std::endl;
+		std::cout << "Reference dose file:          " << appData._refDoseFileName << std::endl;
+		std::cout << "Reference dose style:         " << appData._refDoseLoadStyle.at(0) << std::endl;
 	}
 
 	try

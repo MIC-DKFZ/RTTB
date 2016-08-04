@@ -56,13 +56,15 @@ namespace rttb
 				appData._interpolatorName = argParser->get<std::string>(argParser->OPTION_INTERPOLATOR);
 				appData._regFileName = argParser->get<std::string>(argParser->OPTION_REG_FILE_NAME);
 				appData._inputDoseLoadStyle = argParser->get<std::vector<std::string> > (argParser->OPTION_INPUT_DOSE_LOAD_STYLE);
-				appData._refDoseLoadStyle = argParser->get<std::vector<std::string> >(argParser->OPTION_REF_DOSE_LOAD_STYLE);
+				
 
 				if (!argParser->isSet(argParser->OPTION_REF_DOSE_FILE)){
 					appData._refDoseFileName = argParser->get<std::string>(argParser->OPTION_INPUT_DOSE_FILE_NAME);
+					appData._refDoseLoadStyle = argParser->get<std::vector<std::string> >(argParser->OPTION_INPUT_DOSE_LOAD_STYLE);
 				}
 				else{
 					appData._refDoseFileName = argParser->get<std::string>(argParser->OPTION_REF_DOSE_FILE);
+					appData._refDoseLoadStyle = argParser->get<std::vector<std::string> >(argParser->OPTION_REF_DOSE_LOAD_STYLE);
 				}
 			
 			}
