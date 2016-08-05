@@ -203,6 +203,23 @@ namespace rttb
 			CHECK_EQUAL(aDoseStatisticNewValues.getVx(10, true, closestVxKey), Vx.find(5.0)->second);
 			CHECK_EQUAL(closestDxKey, 99000);
 			CHECK_EQUAL(closestVxKey, 5);
+			
+			// relatives only between 0 and 1
+			CHECK_NO_THROW(aDoseStatisticNewValues.getVxRelative(1.1 / aDoseStatistic.getReferenceDose()));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDxRelative(1000 / aDoseStatistic.getVolume()));
+			CHECK_THROW(aDoseStatisticNewValues.getVxRelative(-0.3));
+			CHECK_THROW(aDoseStatisticNewValues.getVxRelative(1.1));
+			CHECK_THROW(aDoseStatisticNewValues.getDxRelative(0.5));
+
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDxRelative(900 / aDoseStatistic.getVolume(), true, closestDxKey));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDxRelative(0.5, true, closestDxKey));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getVxRelative(10 / aDoseStatistic.getReferenceDose(), true, closestVxKey));
+			CHECK_EQUAL(aDoseStatisticNewValues.getDxRelative(900 / aDoseStatistic.getVolume(), true, closestDxKey), Dx.find(1000)->second);
+			
+			CHECK_EQUAL(aDoseStatisticNewValues.getVxRelative(10 / aDoseStatistic.getReferenceDose(), true, closestVxKey), Vx.find(5.0)->second);
+			CHECK_EQUAL(closestVxKey, 5);
+
+	
 
 			//equal distance to two values. First value is returned.
 			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(1500, true, closestDxKey));
@@ -219,6 +236,13 @@ namespace rttb
 			                     core::DataNotAvailableException);
 			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx(9999, true, dummy),
 			                     core::DataNotAvailableException);
+
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCxRelative(25 / aDoseStatistic.getVolume()), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHxRelative(9999 / aDoseStatistic.getVolume()), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCxRelative(25 / aDoseStatistic.getVolume(), true, dummy),
+				core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHxRelative(9999 / aDoseStatistic.getVolume(), true, dummy),
+				core::DataNotAvailableException);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
