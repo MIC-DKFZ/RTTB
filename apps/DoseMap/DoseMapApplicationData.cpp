@@ -43,7 +43,6 @@ namespace rttb
 				_refDoseFileName = "";
 				_outputFileName = "";
 				_regFileName = "";
-
 				_interpolatorName = "linear";
 			}
 

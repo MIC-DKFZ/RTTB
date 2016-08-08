@@ -25,7 +25,7 @@
 
 #include "mapRegistration.h"
 
-#include "rttbBaseType.h"
+
 #include "rttbDoseAccessorInterface.h"
 #include "DoseMapCmdLineParser.h"
 

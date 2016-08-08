@@ -37,9 +37,7 @@ rttb::apps::doseMap::ApplicationData appData;
 /**
  Main function of dose mapper.
  @retval 0 normal program execution
- @retval 1 showed help or version (flag was set).
  @retval 2 not enough required input files.
- @retval 3 Argument parsing error
  @retval 4 Error loading input dose file
  @retval 5 Error loading reference dose file
  @retval 6 Error loading registration
@@ -57,13 +55,13 @@ int main(int argc,  const char** argv)
 		std::string appVersion = RTTB_FULL_VERSION_STRING;
 
 		argParser = boost::make_shared<rttb::apps::doseMap::DoseMapCmdLineParser>(argc, argv, appName,
-			appVersion);
+			appVersion,true);
 
 	}
 	catch (const std::exception& e)
 	{
 		std::cerr << e.what() << std::endl;
-		return 5;
+		return 2;
 	}
 
 

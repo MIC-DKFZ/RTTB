@@ -48,29 +48,25 @@ namespace rttb
 			std::string doseMapExeWithPath = callingPath.parent_path().string() + "/" + doseMapExecutable;
 
 			//call with too few parameters
-			std::string toofewParametersCommand = doseMapExeWithPath;
-			toofewParametersCommand += " -d test";
+			std::string toofewParametersCommand = doseMapExeWithPath + " -d test";
 			std::cout << "Command line call: " + toofewParametersCommand << std::endl;
 			CHECK_EQUAL(system(toofewParametersCommand.c_str()) != 0, true);
 
-			toofewParametersCommand = doseMapExeWithPath;
-			toofewParametersCommand += " test";
+			toofewParametersCommand = doseMapExeWithPath + " test";
 			std::cout << "Command line call: " + toofewParametersCommand << std::endl;
 			CHECK_EQUAL(system(toofewParametersCommand.c_str()) != 0, true);
 
 
 			//call with invalid dose load option
 			std::string minimalCLI = doseMapExeWithPath + " test test ";
-			std::string invalidDoseLoadOption = minimalCLI;
-			invalidDoseLoadOption += "-l wrongOption";
+			std::string invalidDoseLoadOption = minimalCLI + "-l wrongOption";
 			std::cout << "Command line call: " + invalidDoseLoadOption << std::endl;
 			CHECK_EQUAL(system(invalidDoseLoadOption.c_str()) != 0, true);
 
 			//call with invalid interpolator
-			std::string invalidStructLoadOption = minimalCLI;
-			invalidStructLoadOption += "-i wrongOption";
-			std::cout << "Command line call: " + invalidStructLoadOption << std::endl;
-			CHECK_EQUAL(system(invalidStructLoadOption.c_str()) != 0, true);
+			std::string invalidInterpolatorOption = minimalCLI + "-i wrongOption";
+			std::cout << "Command line call: " + invalidInterpolatorOption << std::endl;
+			CHECK_EQUAL(system(invalidInterpolatorOption.c_str()) != 0, true);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

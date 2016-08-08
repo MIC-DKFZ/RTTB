@@ -20,13 +20,13 @@
 */
 
 #include <iostream>
-#include <fstream>
-#include <cstdio>
+
+
 
 #include "litCheckMacros.h"
 
 #include "boost/filesystem.hpp"
-#include "boost/algorithm/string.hpp"
+
 
 namespace rttb
 {
@@ -60,40 +60,35 @@ namespace rttb
 				outputFilename = argv[3];
 				inputDoseLoadStyle = argv[4];
 				regFilename = argv[5];
-				//refDoseLoadStyle = argv[5];
+				
 			}
 
 
 			//check if file exists
-			std::cout << "outputFilename" << outputFilename << std::endl <<"inputfilename"<<  inputFilename << std::endl;
 			
-			CHECK_EQUAL(boost::filesystem::exists(outputFilename), true);
-			CHECK_EQUAL(boost::filesystem::exists(inputFilename), true);
-
-			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseMapExecutable;
-			std::string baseCommand = doseToolExeWithPath +" "+ inputFilename +" "+ outputFilename;
 
 
+			std::string doseMapExeWithPath = callingPath.parent_path().string() + "/" + doseMapExecutable;
+			std::string baseCommand = doseMapExeWithPath +" "+ inputFilename +" "+ outputFilename;
 
-			std::string defaultDoseStatisticsCommand = baseCommand+" "+ inputDoseLoadStyle;
+
+
+			std::string defaultDoseStatisticsCommand = baseCommand+" -l "+ inputDoseLoadStyle;
 			std::cout << "Command line call: " + defaultDoseStatisticsCommand << std::endl;
 			CHECK_EQUAL(system(defaultDoseStatisticsCommand.c_str()), 0);
 
+			CHECK_EQUAL(boost::filesystem::exists(outputFilename), true);
+			CHECK_EQUAL(std::remove(outputFilename.c_str()),0);
 
-			std::string defaultDoseStatisticsCommandwithregistration = defaultDoseStatisticsCommand+ " " + regFilename;
+			std::string defaultDoseStatisticsCommandwithregistration = defaultDoseStatisticsCommand+ " -r " + regFilename;
 			std::cout << "Command line call: " + defaultDoseStatisticsCommandwithregistration << std::endl;
 			CHECK_EQUAL(system(defaultDoseStatisticsCommandwithregistration.c_str()), 0);
 
+			CHECK_EQUAL(boost::filesystem::exists(outputFilename), true);
+			CHECK_EQUAL(std::remove(outputFilename.c_str()), 0);
+
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
-		}
-
-		std::string readFile(const std::string& filename)
-		{
-			std::ifstream fileStream(filename.c_str());
-			std::string content((std::istreambuf_iterator<char>(fileStream)),
-			                    (std::istreambuf_iterator<char>()));
-			return content;
 		}
 	} //namespace testing
 } //namespace rttb
