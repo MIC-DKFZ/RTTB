@@ -3,7 +3,6 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-
 SET(DOSETOOL_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbDoseToolTests)
 
 SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)

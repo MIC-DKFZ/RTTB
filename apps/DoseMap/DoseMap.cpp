@@ -21,6 +21,14 @@
 
 #include "DoseMapApplicationData.h"
 #include "DoseMapHelper.h"
+#include "DoseMapCmdLineParser.h"
+
+#include "boost/shared_ptr.hpp"
+#include "boost/make_shared.hpp"
+
+#include "RTToolboxConfigure.h"
+
+#include "rttbException.h"
 
 #include "mapDummyRegistrationAlgorithm.h"
 
@@ -29,62 +37,63 @@ rttb::apps::doseMap::ApplicationData appData;
 /**
  Main function of dose mapper.
  @retval 0 normal program execution
- @retval 1 showed help or version (flag was set).
  @retval 2 not enough required input files.
- @retval 3 Argument parsing error
  @retval 4 Error loading input dose file
  @retval 5 Error loading reference dose file
  @retval 6 Error loading registration
  @retval 9 Error while mapping or storing result.
 */
-int main(int argc, char** argv)
+int main(int argc,  const char** argv)
 {
 	int result = 0;
 
-	std::cout << "DoseMap - RTTB demo app for simple dose mapping." << std::endl;
-
-	switch (rttb::apps::doseMap::ParseArgumentsForAppData(argc, argv, appData))
+	boost::shared_ptr<rttb::apps::doseMap::DoseMapCmdLineParser> argParser;
+	
+	try
 	{
-		case 1:
-		{
-			//showed version or help info. Done.
-			return 1;
-		}
+		std::string appName = "DoseMap";
+		std::string appVersion = RTTB_FULL_VERSION_STRING;
 
-		case 2:
-		{
-			std::cerr << "Missing Parameters. Use one of the following flags for more information:" <<
-			          std::endl;
-			std::cerr << "-? or --help" << std::endl;
-			return 2;
-		}
+		argParser = boost::make_shared<rttb::apps::doseMap::DoseMapCmdLineParser>(argc, argv, appName,
+			appVersion,true);
 
-		case 3:
-		{
-			//wrong option usage.
-			return 3;
-		}
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return 2;
 	}
 
-	if (appData._fileCount < 2)
+
+	// This is vital. The application needs to exit if the "help" or "version" parameter is set
+	// because this means the other parameters won't be parsed.
+
+	if (argParser->isSet(argParser->OPTION_HELP) || argParser->isSet(argParser->OPTION_VERSION))
 	{
-		std::cerr << "Missing Parameters. Use one of the following flags for more information:" <<
-		          std::endl;
-		std::cerr << "-? or --help" << std::endl;
-		return 1;
+		return 0;
+	}
+	try{
+		rttb::apps::doseMap::populateAppData(argParser, appData);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;	
 	}
 
 	std::cout << std::endl << "*******************************************" << std::endl;
-	std::cout << "Input dose file:        " << appData._inputDoseFileName << std::endl;
+	std::cout << "Input dose file:              " << appData._inputDoseFileName << std::endl;
+	std::cout << "Input dose file load style:   " << appData._inputDoseLoadStyle.at(0) << std::endl;
+	std::cout << "Output file:                  " << appData._outputFileName << std::endl;
 
 	if (!(appData._regFileName.empty()))
 	{
-		std::cout << "Registration file: " << appData._regFileName << std::endl;
+		std::cout << "Registration file:            " << appData._regFileName << std::endl;
 	}
 
 	if (!(appData._refDoseFileName.empty()))
 	{
-		std::cout << "Reference dose file:        " << appData._refDoseFileName << std::endl;
+		std::cout << "Reference dose file:          " << appData._refDoseFileName << std::endl;
+		std::cout << "Reference dose style:         " << appData._refDoseLoadStyle.at(0) << std::endl;
 	}
 
 	try

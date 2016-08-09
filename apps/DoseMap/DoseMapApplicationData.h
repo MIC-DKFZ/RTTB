@@ -20,13 +20,14 @@
 */
 
 
-#ifndef __DOSE_MAP_APPLICATION_DATA_H
-#define __DOSE_MAP_APPLICATION_DATA_H
+#ifndef __DOSEMAP_APPLICATION_DATA_H
+#define __DOSEMAP_APPLICATION_DATA_H
 
 #include "mapRegistration.h"
 
-#include "rttbBaseType.h"
+
 #include "rttbDoseAccessorInterface.h"
+#include "DoseMapCmdLineParser.h"
 
 namespace rttb
 {
@@ -59,27 +60,15 @@ namespace rttb
 
 				std::string  _interpolatorName;
 
-				bool _showVersion;
-				bool _showHelp;
-
-				int _fileCount;
-
-				void Reset();
+				void reset();
 
 				ApplicationData();
 			};
 
-			/** Parse the application argument passed when starting the application.
-			* If no error or special request occurred the return is 0. Otherwise the return values
-			* have the following meaning: \n
-			* 0: Normal parsing.\n
-			* 1: showed help or version (flag was set).\n
-			* 2: not enough required input files.\n
-			* 3: Parsing error.\n
-			* @param argc Number of parameter arguments
-			* @param argv Pointer to the passed arguments
-			* @return Result code of the parsing (see above).**/
-			unsigned int ParseArgumentsForAppData(int argc, char** argv, ApplicationData& appData);
+
+			/*! @brief Reads the necessary arguments from the DoseToolCmdLineParser and writes them in the respective variables of ApplicationData.
+			*/
+			void populateAppData(boost::shared_ptr<rttb::apps::doseMap::DoseMapCmdLineParser> argParser, ApplicationData& appData);
 
 		}
 	}
