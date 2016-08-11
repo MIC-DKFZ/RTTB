@@ -26,6 +26,7 @@
 #include <exception>
 
 #include "rttbException.h"
+#include "RTTBCoreExports.h"
 
 namespace rttb
 {
@@ -36,7 +37,7 @@ namespace rttb
 		/*! @class IndexOutOfBoundsException
 			@brief This exception will be thrown if any index out of bound.
 		*/
-		class IndexOutOfBoundsException: public Exception
+        class RTTBCore_EXPORT IndexOutOfBoundsException : public Exception
 		{
 		public:
 			IndexOutOfBoundsException(const std::string& aWhat): Exception(aWhat) {}

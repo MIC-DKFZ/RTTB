@@ -29,6 +29,8 @@
 #include "DoseVoxel_LEGACY.h"
 #include "rttbPhysicalInfo.h"
 
+#include "RTTBOTBMaskExports.h"
+
 
 namespace rttb
 {
@@ -40,7 +42,7 @@ namespace rttb
 			/*! @class DoseIteratorInterface
 			*  @brief This class represents the dose iterator interface.
 			*/
-			class DoseIteratorInterface: public core::PhysicalInfo
+            class RTTBOTBMask_EXPORT DoseIteratorInterface : public core::PhysicalInfo
 			{
 			protected:
 				/*! @brief Dose voxel index (x,y,z)*/

@@ -38,6 +38,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <RTTBOTBMaskExports.h>
+
 
 namespace rttb
 {
@@ -49,7 +51,7 @@ namespace rttb
 			/*! @class OTBMaskAccessor
 			*   @brief Implementation of original toolbox voxelization by M. Hub.
 			*/
-			class OTBMaskAccessor: public core::MaskAccessorInterface
+            class RTTBOTBMask_EXPORT OTBMaskAccessor : public core::MaskAccessorInterface
 			{
 			public:
 				typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;

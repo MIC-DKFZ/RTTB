@@ -131,7 +131,7 @@ namespace rttb
 
 			/*! @brief determines equality of two GeometricInfo objects.
 			*/
-			friend bool operator==(const GeometricInfo& gInfo, const GeometricInfo& gInfo1);
+            friend bool RTTBCore_EXPORT operator == (const GeometricInfo& gInfo, const GeometricInfo& gInfo1);
 
 			bool equalsAlmost(const GeometricInfo& another, double errorConstant = 1e-5) const;
 
@@ -184,7 +184,7 @@ namespace rttb
 			bool validIndex(const VoxelGridIndex3D& aIndex) const;
 
 			/*!@ brief generates string stream representation of the GeometricInfo object. */
-			friend std::ostream& operator<<(std::ostream& s, const GeometricInfo& anGeometricInfo);
+            friend std::ostream& operator << (std::ostream& s, const GeometricInfo& anGeometricInfo);
 		};
 	}
 }
