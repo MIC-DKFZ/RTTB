@@ -554,8 +554,9 @@ namespace rttb
 					}
 					else
 					{
-						//if no homogeneous, return false
-						if (thickness != ((*it2).first - (*it).first))
+                        double curThickness = (*it2).first - (*it).first;
+						//if no homogeneous (leave out double imprecisions), return false
+						if (abs(thickness-curThickness)>errorConstant)
 						{
 							return false;
 						}
