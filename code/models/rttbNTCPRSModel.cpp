@@ -115,6 +115,17 @@ namespace rttb
 			}
 		}
 
+		std::map<std::string, double> NTCPRSModel::getParameterMap(){
+			parameterMap["d50"] = getD50();
+			parameterMap["gamma"] = getGamma();
+			parameterMap["s"] = getS();
+			return parameterMap;
+		}
+
+		std::string NTCPRSModel::getModelType(){
+			return "NTCPRSModel";
+		}
+
 		const double NTCPRSModel::poissonModel(const double dose)
 		{
 			//_d50 must not be zero

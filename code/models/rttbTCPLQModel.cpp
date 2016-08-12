@@ -280,6 +280,19 @@ namespace rttb
 			}
 		}
 
+		std::map<std::string, double> TCPLQModel::getParameterMap(){
+			parameterMap["numberOfFraction"] = getNumberOfFractions();
+			parameterMap["alphaMean"] = getAlphaMean();
+			parameterMap["alphaVariance"] = getAlphaVariance();
+			parameterMap["alpha_beta"] = getAlphaBeta();
+			parameterMap["rho"] = getRho();
+			return parameterMap;
+		}
+
+		std::string TCPLQModel::getModelType(){
+			return "TCPLQModel";
+		}
+
 	}//end namespace models
 }//end namespace rttb
 

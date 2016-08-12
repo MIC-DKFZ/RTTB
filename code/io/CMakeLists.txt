@@ -15,6 +15,11 @@ IF(BUILD_IO_ITK)
 	ADD_SUBDIRECTORY(itk)
 ENDIF(BUILD_IO_ITK)
 
+
+IF(BUILD_Models)
+	ADD_SUBDIRECTORY(models)
+ENDIF()
+
 IF (RTTB_VIRTUOS_SUPPORT)
 	OPTION(BUILD_IO_Virtuos "Determine if the IO class wrappers for Virtuos format will be generated." OFF)
 	IF(BUILD_IO_Virtuos)

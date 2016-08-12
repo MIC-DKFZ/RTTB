@@ -25,6 +25,7 @@
 #include <utility>
 
 #include "rttbBioModel.h"
+#include "rttbInvalidParameterException.h"
 
 namespace rttb
 {
@@ -55,6 +56,7 @@ namespace rttb
 		{
 			return _value;
 		}
+
 
 	}//end namespace models
 }//end namespace rttb

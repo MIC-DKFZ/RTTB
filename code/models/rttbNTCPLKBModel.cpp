@@ -123,6 +123,17 @@ namespace rttb
 			}
 		}
 
+		std::map<std::string, double> NTCPLKBModel::getParameterMap(){
+			parameterMap["d50"] = getD50();
+			parameterMap["m"] = getM();
+			parameterMap["a"] = getA();
+			return parameterMap;
+		}
+
+		std::string NTCPLKBModel::getModelType(){
+			return "NTCPLKBModel";
+		}
+
 		BioModelValueType NTCPLKBModel::calcModel(const double doseFactor)
 		{
 			if (_a == 0)

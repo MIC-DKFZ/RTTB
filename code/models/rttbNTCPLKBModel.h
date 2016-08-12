@@ -92,6 +92,10 @@ namespace rttb
 			@exception InvalidParameterException Thrown if aParamName is not d50 or m or a.
 			*/
 			virtual const int getParameterID(const std::string& aParamName) const;
+
+			virtual std::map<std::string, double> getParameterMap();
+
+			virtual std::string getModelType();
 		};
 
 	}

@@ -110,5 +110,8 @@ namespace rttb
 			_setParam2Count = 0;
 			_setParam3Count = 0;
 		}
+		std::map<std::string, double> DummyModel::getParameterMap(){
+			return parameterMap;
+		}
 	}
 }
