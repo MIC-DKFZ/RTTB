@@ -113,5 +113,8 @@ namespace rttb
 		std::map<std::string, double> DummyModel::getParameterMap(){
 			return parameterMap;
 		}
+		std::string DummyModel::getModelType(){
+			return "DummyModel";
+		}
 	}
 }

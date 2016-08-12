@@ -57,33 +57,29 @@ namespace rttb
 				ptree pt;
 
 				static const std::string xmlattrNameTag = "<xmlattr>.name";
-				static const std::string statisticsTag = "statistics";
+				static const std::string modelTag = "BioModel";
 				static const std::string propertyTag = "property";
+				static const std::string configTag = "config";
+				static const std::string resultsTag = "results";
 
 				ptree propertynode;
+				ptree confignode;
 
-				propertynode.put("", getModel()->getModelType());
-				propertynode.put(xmlattrNameTag, "BioModelType");
-				pt.add_child(statisticsTag + "." + propertyTag, propertynode);
+				confignode.put("BioModelType", getModel()->getModelType());
+				confignode.put("StructureID", getModel()->getDVH()->getStructureID());
+				confignode.put("DoseID", getModel()->getDVH()->getDoseID());
+				pt.add_child(modelTag + "." + configTag, confignode);
 
 				propertynode.put("", getModel()->getValue());
 				propertynode.put(xmlattrNameTag, "Value");
-				pt.add_child(statisticsTag + "." + propertyTag, propertynode);
-
-				propertynode.put("", getModel()->getDVH()->getStructureID());
-				propertynode.put(xmlattrNameTag, "StructureID");
-				pt.add_child(statisticsTag + "." + propertyTag, propertynode);
-
-				propertynode.put("", getModel()->getDVH()->getDoseID());
-				propertynode.put(xmlattrNameTag, "DoseID");
-				pt.add_child(statisticsTag + "." + propertyTag, propertynode);
+				pt.add_child(modelTag + "."+ resultsTag + "." + propertyTag, propertynode);
 				
 				std::map<std::string, double> parameterMap = _model->getParameterMap();
 			
 				for (std::map<std::string, double>::iterator it = parameterMap.begin(); it != parameterMap.end(); ++it){
 					propertynode.put("", it->second);
 					propertynode.put(xmlattrNameTag, it->first);
-					pt.add_child(statisticsTag + "." + propertyTag, propertynode);
+					pt.add_child(modelTag + "." + resultsTag + "." + propertyTag, propertynode);
 				}
 				try
 				{
