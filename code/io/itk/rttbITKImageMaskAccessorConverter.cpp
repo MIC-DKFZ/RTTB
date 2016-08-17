@@ -51,7 +51,6 @@ namespace rttb
 				ITKImageMaskAccessor::ITKMaskImageType::SizeType size = {{geoInfo.getNumColumns(), geoInfo.getNumRows(), geoInfo.getNumSlices()}};
 
 				ITKImageMaskAccessor::ITKMaskImageType::SpacingType spacing;
-
 				for (unsigned int i = 0; i < 3; ++i)
 				{
 					spacing[i] = geoInfo.getSpacing()[i];
@@ -74,7 +73,6 @@ namespace rttb
 						direction(col, row) = OM(col, row);
 					}
 				}
-
 				//Create image, assign properties
 				region.SetSize(size);
 				region.SetIndex(start);
@@ -118,7 +116,6 @@ namespace rttb
 					++imageIterator;
 					++id;
 				}
-
 				return true;
 			}
 

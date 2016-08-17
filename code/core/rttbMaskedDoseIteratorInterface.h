@@ -33,6 +33,8 @@
 #include "rttbDoseIteratorInterface.h"
 #include "rttbMaskAccessorInterface.h"
 
+#include "RTTBCoreExports.h"
+
 namespace rttb
 {
 	namespace core
@@ -41,7 +43,7 @@ namespace rttb
 		/*! @class MaskedDoseIteratorInterface
 			@brief Give access to masked dose data.
 		*/
-		class MaskedDoseIteratorInterface: public DoseIteratorInterface
+        class RTTBCore_EXPORT MaskedDoseIteratorInterface : public DoseIteratorInterface
 		{
 		public:
 			typedef boost::shared_ptr<MaskAccessorInterface> MaskAccessorPointer;

@@ -31,6 +31,8 @@
 #include "rttbDVH.h"
 #include "rttbDVHGeneratorInterface.h"
 
+#include "RTTBCoreExports.h"
+
 
 namespace rttb
 {
@@ -40,7 +42,7 @@ namespace rttb
 		/*! @class DVHCalculator
 			@brief Calculates a DVH for a given DoseIterator.
 		*/
-		class DVHCalculator: public DVHGeneratorInterface
+        class RTTBCore_EXPORT DVHCalculator : public DVHGeneratorInterface
 		{
 		public:
 			typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;

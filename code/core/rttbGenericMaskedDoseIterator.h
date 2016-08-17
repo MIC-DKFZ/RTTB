@@ -27,6 +27,8 @@
 #include "rttbMaskedDoseIteratorInterface.h"
 #include "rttbMaskVoxel.h"
 
+#include "RTTBCoreExports.h"
+
 
 namespace rttb
 {
@@ -36,7 +38,7 @@ namespace rttb
 			@brief This is a templated class representing a generic masked dose iterator for a VoxelizationPolicy.
 			@see testing/GenericMaskedDoseIteratorTest.cpp for more information.
 		*/
-		class GenericMaskedDoseIterator: public MaskedDoseIteratorInterface
+        class RTTBCore_EXPORT GenericMaskedDoseIterator : public MaskedDoseIteratorInterface
 		{
 		public:
 			typedef MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;

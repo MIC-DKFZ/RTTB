@@ -21,7 +21,7 @@
 
 #include "rttbStrVectorStructureSetGenerator.h"
 
-#include <boost/regex.hpp>
+#include <regex>
 
 namespace rttb
 {
@@ -47,11 +47,11 @@ namespace rttb
       {
         _filteredStructs.clear();
 
-			  ::boost::regex e(this->getFilterRegEx());
+			  std::regex e(this->getFilterRegEx());
 
         for(auto aStruct : _strVector)
         {
-  				if (::boost::regex_match(aStruct->getLabel(), e))
+  				if (std::regex_match(aStruct->getLabel(), e))
 	  			{
 		  			_filteredStructs.push_back(aStruct);
 			  	}

@@ -28,6 +28,8 @@
 #include "rttbBaseType.h"
 #include "rttbITKImageMaskAccessor.h"
 
+#include "RTTBITKIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -40,7 +42,7 @@ namespace rttb
 			* @brief Helper class writing 3D images to file ...
 			*
 			*/
-			class ImageWriter
+            class RTTBITKIO_EXPORT ImageWriter
 			{
 				typedef ::itk::Image<DoseTypeGy, 3> ITKMaskImageType;
 				typedef ITKMaskImageType::Pointer ITKImageTypePointer;
