@@ -29,19 +29,13 @@
 
 
 #include "litCheckMacros.h"
-
-
-
 #include "rttbBioModel.h"
-
 #include "rttbTCPLQModel.h"
 #include "rttbNTCPLKBModel.h"
-#include "rttbNTCPRSModel.h"
-#include "rttbBaseTypeModels.h"
-#include "rttbBioModelCurve.h"
-#include "rttbInvalidParameterException.h"
-#include "rttbBioModelScatterPlots.h"
 
+#include <boost/make_shared.hpp>
+#include <boost/shared_ptr.hpp>
+#include "boost/filesystem.hpp"
 
 #include "rttbModelXMLWriter.h"
 
@@ -50,7 +44,7 @@ namespace rttb
 
 	namespace testing
 	{
-
+		static std::string readFile(const std::string& filename);
 		int ModelsIOTest(int argc, char* argv[])
 		{
 
@@ -97,21 +91,38 @@ namespace rttb
 			rttb::models::TCPLQModel tcplq = rttb::models::TCPLQModel(dvhPtr, roh, numFractions, alpha / beta, alpha, 0.08);
 
 			std::string filename = "BioModeltcpleqIOTest.xml";
-			rttb::io::models::ModelXMLWriter writer = rttb::io::models::ModelXMLWriter(filename, &tcplq);
-			writer.writeModel();
+			rttb::io::models::ModelXMLWriter writer = rttb::io::models::ModelXMLWriter(filename, tcplq);
+			CHECK_NO_THROW(writer.writeModel());
+			CHECK_EQUAL(boost::filesystem::exists(filename), true);
+			CHECK_EQUAL(std::remove(filename.c_str()), 0);
 
 			//test NTCPLKBModel
 			models::BioModelParamType aVal = 10;
 			models::BioModelParamType mVal = 0.16;
 			models::BioModelParamType d50Val = 35;
 
-			rttb::models::NTCPLKBModel lkb = rttb::models::NTCPLKBModel(dvhPtr, d50Val, mVal, aVal);
-			writer.setModel(&lkb);
-			writer.setFileName("BioModelntcplkIOTest.xml");
-			writer.writeModel();
+			rttb::models::NTCPLKBModel ntcplk = rttb::models::NTCPLKBModel(dvhPtr, d50Val, mVal, aVal);
+			filename = "BioModelntcplkIOTest.xml";
+			rttb::io::models::ModelXMLWriter writer2 = rttb::io::models::ModelXMLWriter(filename, ntcplk);
+			CHECK_NO_THROW(writer2.writeModel());
+			CHECK_EQUAL(boost::filesystem::exists(filename), true);
+			
 
+			std::string defaultAsIs = readFile(filename);
+			std::string defaultExpected = readFile("referenceBioModelntcplkIOTest.xml");
+
+			CHECK_EQUAL(defaultAsIs, defaultExpected);
+			CHECK_EQUAL(std::remove(filename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
+		}
+
+		std::string readFile(const std::string& filename)
+		{
+			std::ifstream fileStream(filename.c_str());
+			std::string content((std::istreambuf_iterator<char>(fileStream)),
+				(std::istreambuf_iterator<char>()));
+			return content;
 		}
 	}
 }

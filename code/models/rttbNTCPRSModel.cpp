@@ -33,11 +33,15 @@ namespace rttb
 
 	namespace models
 	{
-		NTCPRSModel::NTCPRSModel(): NTCPModel(), _gamma(0), _s(0) {}
+		NTCPRSModel::NTCPRSModel() : NTCPModel(), _gamma(0), _s(0){
+			_name = "NTCPRSModel";
+		}
 
 		NTCPRSModel::NTCPRSModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aGamma,
 		                         BioModelParamType aS):
-			NTCPModel(aDvh, aD50), _gamma(aGamma), _s(aS) {}
+								 NTCPModel(aDvh, aD50), _gamma(aGamma), _s(aS) {
+			_name = "NTCPRSModel";
+		}
 
 		void NTCPRSModel::setGamma(const BioModelParamType aGamma)
 		{
@@ -122,8 +126,8 @@ namespace rttb
 			return parameterMap;
 		}
 
-		std::string NTCPRSModel::getModelType(){
-			return "NTCPRSModel";
+		std::string NTCPRSModel::getModelType() const{
+			return _name;
 		}
 
 		const double NTCPRSModel::poissonModel(const double dose)

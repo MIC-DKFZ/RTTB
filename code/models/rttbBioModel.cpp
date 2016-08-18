@@ -25,7 +25,7 @@
 #include <utility>
 
 #include "rttbBioModel.h"
-#include "rttbInvalidParameterException.h"
+
 
 namespace rttb
 {

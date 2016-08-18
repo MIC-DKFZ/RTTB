@@ -101,7 +101,7 @@ namespace rttb
 
 			virtual std::map<std::string, double> getParameterMap();
 
-			virtual std::string getModelType();
+			virtual std::string getModelType() const;
 		};
 
 	}

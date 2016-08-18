@@ -25,11 +25,7 @@
 
 #include "rttbBioModel.h"
 
-/*boost includes*/
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
+
 
 namespace rttb
 {
@@ -39,16 +35,16 @@ namespace rttb
 		{
 			class ModelXMLWriter{
 			private:
-				std::string _fileName;
-				rttb::models::BioModel * _model;
+				std::string _filename;
+				rttb::models::BioModel&  _model;
 			public:
-				ModelXMLWriter(std::string filename, rttb::models::BioModel *  model);
+				ModelXMLWriter(std::string& const filename, rttb::models::BioModel& const model);
 
-				void setFileName(FileNameString filename);
-				FileNameString getFileName() const;
+				void setFilename(std::string filename);
+				FileNameString getFilename() const;
 
-				void setModel(rttb::models::BioModel * model);
-				rttb::models::BioModel* getModel() const;
+				void setModel(rttb::models::BioModel&  model);
+				rttb::models::BioModel& getModel() const;
 
 				void writeModel();
 

@@ -53,8 +53,8 @@ namespace rttb
 			di*doseFactor.
 			*/
 			BioModelValueType calcModel(const double doseFactor = 1);
-			std::map<std::string, double> DummyModel::getParameterMap();
-			std::string getModelType();
+			std::map<std::string, double> getParameterMap();
+			std::string getModelType() const;
 		public:
 			/*!@constructor initializes DVH pointer */
 			DummyModel(DVHPointer aDvh);

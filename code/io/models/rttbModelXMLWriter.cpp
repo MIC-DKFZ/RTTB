@@ -20,9 +20,16 @@
 */
 
 #include "rttbModelXMLWriter.h"
+
+/*boost includes*/
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
+#include <boost/make_shared.hpp>
+#include <boost/shared_ptr.hpp>
+
 #include "rttbInvalidParameterException.h"
 
-#include <exception>
+
 
 namespace rttb
 {
@@ -30,53 +37,51 @@ namespace rttb
 	{
 		namespace models
 		{
-			ModelXMLWriter::ModelXMLWriter(std::string fileName, rttb::models::BioModel*  model){
-				this->setFileName(fileName);
-				this->setModel(model);
+			ModelXMLWriter::ModelXMLWriter(std::string& const filename, rttb::models::BioModel& const model) : _filename(filename), _model(model){
 			}
 
-			void ModelXMLWriter::setFileName(FileNameString fileName){
-				_fileName = fileName;
+			void ModelXMLWriter::setFilename(FileNameString filename){
+				_filename = filename;
 			}
 
-			FileNameString ModelXMLWriter::getFileName() const{
-				return _fileName;
+			FileNameString ModelXMLWriter::getFilename() const{
+				return _filename;
 			}
 
-			void ModelXMLWriter::setModel(rttb::models::BioModel* model){
+			void ModelXMLWriter::setModel(rttb::models::BioModel& model){
 				_model = model;
 			}
 
-			rttb::models::BioModel* ModelXMLWriter::getModel() const {
+			rttb::models::BioModel& ModelXMLWriter::getModel() const {
 				return _model;
 			}
 
 			void ModelXMLWriter::writeModel(){
 
-				using boost::property_tree::ptree;
-				ptree pt;
+				boost::property_tree::ptree pt;
 
-				static const std::string xmlattrNameTag = "<xmlattr>.name";
-				static const std::string modelTag = "BioModel";
-				static const std::string propertyTag = "property";
-				static const std::string configTag = "config";
-				static const std::string resultsTag = "results";
+				std::string xmlattrNameTag = "<xmlattr>.name";
+				std::string modelTag = "BioModel";
+				std::string propertyTag = "property";
+				std::string configTag = "config";
+				std::string resultsTag = "results";
+				std::string valueTag = "value";
 
-				ptree propertynode;
-				ptree confignode;
+				boost::property_tree::ptree propertynode;
+				boost::property_tree::ptree confignode;
 
-				confignode.put("BioModelType", getModel()->getModelType());
-				confignode.put("StructureID", getModel()->getDVH()->getStructureID());
-				confignode.put("DoseID", getModel()->getDVH()->getDoseID());
+				confignode.put("BioModelType", _model.getModelType());
+				confignode.put("StructureID", _model.getDVH()->getStructureID());
+				confignode.put("DoseID", _model.getDVH()->getDoseID());
 				pt.add_child(modelTag + "." + configTag, confignode);
 
-				propertynode.put("", getModel()->getValue());
-				propertynode.put(xmlattrNameTag, "Value");
+				propertynode.put("", _model.getValue());
+				propertynode.put(xmlattrNameTag, valueTag);
 				pt.add_child(modelTag + "."+ resultsTag + "." + propertyTag, propertynode);
 				
-				std::map<std::string, double> parameterMap = _model->getParameterMap();
+				std::map<std::string, double> parameterMap = _model.getParameterMap();
 			
-				for (std::map<std::string, double>::iterator it = parameterMap.begin(); it != parameterMap.end(); ++it){
+				for (std::map<std::string, double>::const_iterator it = parameterMap.begin(); it != parameterMap.end(); it++){
 					propertynode.put("", it->second);
 					propertynode.put(xmlattrNameTag, it->first);
 					pt.add_child(modelTag + "." + resultsTag + "." + propertyTag, propertynode);
@@ -85,9 +90,9 @@ namespace rttb
 				{
 					boost::property_tree::xml_parser::xml_writer_settings<std::string> settings =
 					boost::property_tree::xml_writer_make_settings<std::string>('\t', 1);
-					boost::property_tree::xml_parser::write_xml(_fileName, pt, std::locale(), settings);
+					boost::property_tree::xml_parser::write_xml(_filename, pt, std::locale(), settings);
 				}
-				catch (boost::property_tree::xml_parser_error& e)
+				catch (boost::property_tree::xml_parser_error& const e)
 				{
 					std::cout << e.what();
 					throw core::InvalidParameterException("Write xml failed: xml_parser_error!");

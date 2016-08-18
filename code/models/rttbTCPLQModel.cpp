@@ -41,13 +41,17 @@ namespace rttb
 	namespace models
 	{
 
-		TCPLQModel::TCPLQModel(): TCPModel(), _alphaMean(0), _alphaVariance(0), _alpha_beta(0), _rho(0) {}
+		TCPLQModel::TCPLQModel(): TCPModel(), _alphaMean(0), _alphaVariance(0), _alpha_beta(0), _rho(0) {
+			_name = "TCPLQModel";
+		}
 
 		TCPLQModel::TCPLQModel(DVHPointer aDVH, BioModelParamType aAlphaMean, BioModelParamType aBeta,
 		                       BioModelParamType aRho,
 		                       int aNumberOfFractions): TCPModel(aDVH, aNumberOfFractions), _alphaMean(aAlphaMean),
 			_alphaVariance(0),
-			_alpha_beta(aAlphaMean / aBeta), _rho(aRho) {}
+			_alpha_beta(aAlphaMean / aBeta), _rho(aRho)  {
+			_name = "TCPLQModel";
+		}
 
 
 		TCPLQModel::TCPLQModel(DVHPointer aDVH, BioModelParamType aRho, int aNumberOfFractions,
@@ -289,8 +293,8 @@ namespace rttb
 			return parameterMap;
 		}
 
-		std::string TCPLQModel::getModelType(){
-			return "TCPLQModel";
+		std::string TCPLQModel::getModelType() const{
+			return _name;
 		}
 
 	}//end namespace models

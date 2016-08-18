@@ -60,6 +60,8 @@ namespace rttb
 			*/
 			std::map<std::string, double> parameterMap;
 
+			std::string _name;
+
 
 		public:
 			BioModel(): _value(0) {};
@@ -91,7 +93,7 @@ namespace rttb
 
 			virtual std::map<std::string, double> getParameterMap() = 0;
 
-			virtual std::string getModelType() = 0;
+			virtual std::string getModelType() const = 0;
 
 			/*! @brief Get the value of biological model
 				@pre init() must be called and =true!
