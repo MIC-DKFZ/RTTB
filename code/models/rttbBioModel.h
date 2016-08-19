@@ -91,7 +91,8 @@ namespace rttb
 			*/
 			virtual const int getParameterID(const std::string& aParamName) const = 0;
 
-			virtual std::map<std::string, double> getParameterMap() = 0;
+			virtual std::map<std::string, double> getParameterMap() const = 0;
+			virtual void fillParameterMap() = 0 ;
 
 			virtual std::string getModelType() const = 0;
 

@@ -36,15 +36,15 @@ namespace rttb
 			class ModelXMLWriter{
 			private:
 				std::string _filename;
-				rttb::models::BioModel&  _model;
+				boost::shared_ptr<rttb::models::BioModel>  _model;
 			public:
-				ModelXMLWriter(std::string& const filename, rttb::models::BioModel& const model);
+				ModelXMLWriter(const std::string& filename, boost::shared_ptr<rttb::models::BioModel>  model);
 
 				void setFilename(std::string filename);
-				FileNameString getFilename() const;
+				std::string getFilename() const;
 
-				void setModel(rttb::models::BioModel&  model);
-				rttb::models::BioModel& getModel() const;
+				void setModel(boost::shared_ptr<rttb::models::BioModel>  model);
+				boost::shared_ptr<rttb::models::BioModel>  getModel() const;
 
 				void writeModel();
 

@@ -37,7 +37,7 @@ namespace rttb
 	{
 		namespace models
 		{
-			ModelXMLWriter::ModelXMLWriter(std::string& const filename, rttb::models::BioModel& const model) : _filename(filename), _model(model){
+			ModelXMLWriter::ModelXMLWriter(const std::string&  filename, boost::shared_ptr<rttb::models::BioModel> model) : _filename(filename), _model(model){
 			}
 
 			void ModelXMLWriter::setFilename(FileNameString filename){
@@ -48,11 +48,11 @@ namespace rttb
 				return _filename;
 			}
 
-			void ModelXMLWriter::setModel(rttb::models::BioModel& model){
+			void ModelXMLWriter::setModel(boost::shared_ptr<rttb::models::BioModel> model){
 				_model = model;
 			}
 
-			rttb::models::BioModel& ModelXMLWriter::getModel() const {
+			boost::shared_ptr<rttb::models::BioModel>  ModelXMLWriter::getModel() const {
 				return _model;
 			}
 
@@ -70,18 +70,18 @@ namespace rttb
 				boost::property_tree::ptree propertynode;
 				boost::property_tree::ptree confignode;
 
-				confignode.put("BioModelType", _model.getModelType());
-				confignode.put("StructureID", _model.getDVH()->getStructureID());
-				confignode.put("DoseID", _model.getDVH()->getDoseID());
+				confignode.put("BioModelType", _model->getModelType());
+				confignode.put("StructureID", _model->getDVH()->getStructureID());
+				confignode.put("DoseID", _model->getDVH()->getDoseID());
 				pt.add_child(modelTag + "." + configTag, confignode);
 
-				propertynode.put("", _model.getValue());
+				propertynode.put("", _model->getValue());
 				propertynode.put(xmlattrNameTag, valueTag);
 				pt.add_child(modelTag + "."+ resultsTag + "." + propertyTag, propertynode);
 				
-				std::map<std::string, double> parameterMap = _model.getParameterMap();
+				std::map<std::string, double> parameterMap = _model->getParameterMap();
 			
-				for (std::map<std::string, double>::const_iterator it = parameterMap.begin(); it != parameterMap.end(); it++){
+				for (std::map<std::string, double>::const_iterator it = parameterMap.begin(); it != parameterMap.end(); ++it){
 					propertynode.put("", it->second);
 					propertynode.put(xmlattrNameTag, it->first);
 					pt.add_child(modelTag + "." + resultsTag + "." + propertyTag, propertynode);
@@ -92,7 +92,7 @@ namespace rttb
 					boost::property_tree::xml_writer_make_settings<std::string>('\t', 1);
 					boost::property_tree::xml_parser::write_xml(_filename, pt, std::locale(), settings);
 				}
-				catch (boost::property_tree::xml_parser_error& const e)
+				catch (const boost::property_tree::xml_parser_error&  e)
 				{
 					std::cout << e.what();
 					throw core::InvalidParameterException("Write xml failed: xml_parser_error!");

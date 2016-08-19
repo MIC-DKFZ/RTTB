@@ -88,7 +88,7 @@ namespace rttb
 			int numFractions = 8;
 
 
-			rttb::models::TCPLQModel tcplq = rttb::models::TCPLQModel(dvhPtr, roh, numFractions, alpha / beta, alpha, 0.08);
+			boost::shared_ptr<rttb::models::TCPLQModel> tcplq = boost::make_shared<rttb::models::TCPLQModel>(dvhPtr, roh, numFractions, alpha / beta, alpha, 0.08);
 
 			std::string filename = "BioModeltcpleqIOTest.xml";
 			rttb::io::models::ModelXMLWriter writer = rttb::io::models::ModelXMLWriter(filename, tcplq);
@@ -101,7 +101,7 @@ namespace rttb
 			models::BioModelParamType mVal = 0.16;
 			models::BioModelParamType d50Val = 35;
 
-			rttb::models::NTCPLKBModel ntcplk = rttb::models::NTCPLKBModel(dvhPtr, d50Val, mVal, aVal);
+			boost::shared_ptr<rttb::models::NTCPLKBModel> ntcplk= boost::make_shared<rttb::models::NTCPLKBModel>(dvhPtr, d50Val, mVal, aVal);
 			filename = "BioModelntcplkIOTest.xml";
 			rttb::io::models::ModelXMLWriter writer2 = rttb::io::models::ModelXMLWriter(filename, ntcplk);
 			CHECK_NO_THROW(writer2.writeModel());
