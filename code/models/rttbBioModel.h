@@ -28,6 +28,8 @@
 
 #include "RTTBModelsExports.h"
 
+#include <map>
+
 namespace rttb
 {
 
@@ -54,6 +56,12 @@ namespace rttb
 			*/
 			virtual BioModelValueType calcModel(const double doseFactor = 1) = 0;
 
+			/* Map of all parameters
+			*/
+			std::map<std::string, double> parameterMap;
+
+			std::string _name;
+
 
 		public:
 			BioModel(): _value(0) {};
@@ -77,10 +85,16 @@ namespace rttb
 
 			virtual void setParameterByID(const int aParamId, const BioModelParamType aValue) = 0;
 
+
 			/*! @brief Get parameter by ID.
 				@return Return -1 if ID is not found.
 			*/
 			virtual const int getParameterID(const std::string& aParamName) const = 0;
+
+			virtual std::map<std::string, double> getParameterMap() const = 0;
+			virtual void fillParameterMap() = 0 ;
+
+			virtual std::string getModelType() const = 0;
 
 			/*! @brief Get the value of biological model
 				@pre init() must be called and =true!

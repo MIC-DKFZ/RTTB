@@ -87,7 +87,7 @@ namespace rttb
 			@pre _numberOfFractions > 1
 			@exception InvalidParameterException Thrown if parameters were not set correctly.
 			*/
-			BioModelValueType calcModel(const double doseFactor = 1);
+			BioModelValueType calcModel(const double doseFactor = 1) override;
 
 		public:
 			TCPLQModel();
@@ -143,19 +143,25 @@ namespace rttb
 			/*! @brief Set parameter with ID. "alphaMean":0,"alphaVariance":1,"alpha_beta":2, "rho":3
 			@exception InvalidParameterException Thrown if aParamId is not 0 or 1 or 2 or 3.
 			*/
-			virtual void setParameterByID(const int aParamId, const BioModelParamType aValue);
+			virtual void setParameterByID(const int aParamId, const BioModelParamType aValue) override;
 
 			/*! @brief Set parameter vector, where index of vector is the parameter id.
 				"alphaMean":0,"alphaVariance":1,"alpha_beta":2, "rho":3
 			@exception InvalidParameterException Thrown if aParamterVector.size()!=4.
 			*/
-			virtual void setParameterVector(const ParamVectorType& aParameterVector);
+			virtual void setParameterVector(const ParamVectorType& aParameterVector) override;
 
 			/*! @brief Get parameter id. "alphaMean":0,"alphaVariance":1,"alpha_beta":2, "rho":3
 			@return 0 for "alphaMean", 1 for "alphaVariance", 2 for "alpha_beta", 3 for "rho"
 			@exception InvalidParameterException Thrown if aParamName is not alphaMean or alphaVariance or alpha_beta or rho.
 			*/
-			virtual const int getParameterID(const std::string& aParamName) const;
+			virtual const int getParameterID(const std::string& aParamName) const override;
+
+			virtual std::map<std::string, double> getParameterMap() const override;
+
+			void fillParameterMap() override;
+
+			virtual std::string getModelType() const override;
 		};
 
 	}//end algorithms

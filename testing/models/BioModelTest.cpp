@@ -36,6 +36,9 @@
 #include "rttbInvalidParameterException.h"
 #include "rttbBioModelScatterPlots.h"
 
+
+
+
 namespace rttb
 {
 	namespace testing
@@ -106,11 +109,13 @@ namespace rttb
 			CHECK_EQUAL(0, tcplq.getRho());
 			CHECK_EQUAL(0, tcplq.getValue());
 
+
 			tcplq = rttb::models::TCPLQModel(dvhPtr, roh, numFractions, alpha / beta, alpha, 0.08);
 			CHECK_EQUAL(alpha, tcplq.getAlphaMean());
 			CHECK_EQUAL(alpha / beta, tcplq.getAlphaBeta());
 			CHECK_EQUAL(roh, tcplq.getRho());
 			CHECK_EQUAL(0, tcplq.getValue());
+
 
 			tcplq = rttb::models::TCPLQModel();
 			CHECK_EQUAL(0, tcplq.getAlphaMean());

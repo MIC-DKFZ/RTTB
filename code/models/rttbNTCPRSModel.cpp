@@ -33,11 +33,17 @@ namespace rttb
 
 	namespace models
 	{
-		NTCPRSModel::NTCPRSModel(): NTCPModel(), _gamma(0), _s(0) {}
+		NTCPRSModel::NTCPRSModel() : NTCPModel(), _gamma(0), _s(0){
+			_name = "NTCPRSModel";
+			fillParameterMap();
+		}
 
 		NTCPRSModel::NTCPRSModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aGamma,
 		                         BioModelParamType aS):
-			NTCPModel(aDvh, aD50), _gamma(aGamma), _s(aS) {}
+								 NTCPModel(aDvh, aD50), _gamma(aGamma), _s(aS) {
+			_name = "NTCPRSModel";
+			fillParameterMap();
+		}
 
 		void NTCPRSModel::setGamma(const BioModelParamType aGamma)
 		{
@@ -113,6 +119,21 @@ namespace rttb
 				rttbExceptionMacro(core::InvalidParameterException,
 				                   << "Parameter name " << aParamName << " invalid: it should be d50 or gamma or s!");
 			}
+		}
+
+		std::map<std::string, double> NTCPRSModel::getParameterMap() const{
+			return parameterMap;
+		}
+
+		void NTCPRSModel::fillParameterMap()
+		{
+			parameterMap["d50"] = getD50();
+			parameterMap["gamma"] = getGamma();
+			parameterMap["s"] = getS();
+		}
+
+		std::string NTCPRSModel::getModelType() const{
+			return _name;
 		}
 
 		const double NTCPRSModel::poissonModel(const double dose)

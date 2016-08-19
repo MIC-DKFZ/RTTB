@@ -14,49 +14,47 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 1221 $ (last changed revision)
+// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
 
-#include <stdio.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
-#include <utility>
+// this file defines the rttbCoreTests for the test driver
+// and all it expects is that you have a function called RegisterTests
 
-#include "rttbBioModel.h"
+#if defined(_MSC_VER)
+#pragma warning ( disable : 4786 )
+#endif
 
+#include "litMultiTestsMain.h"
 
 namespace rttb
 {
-	namespace models
+	namespace testing
 	{
-		bool BioModel::init(const double doseFactor)
+
+		void registerTests()
 		{
-			if (_dvh != NULL)
-			{
-				_value = this->calcModel(doseFactor);
-				return true;
-			}
-
-			return false;
+			LIT_REGISTER_TEST(ModelsIOTest);
 		}
+	}
+}
 
-		void BioModel::setDVH(const DVHPointer aDVH)
-		{
-			_dvh = aDVH;
-		}
+int main(int argc, char* argv[])
+{
+	int result = 0;
 
-		const BioModel::DVHPointer BioModel::getDVH() const
-		{
-			return _dvh;
-		}
+	rttb::testing::registerTests();
 
-		const BioModelValueType BioModel::getValue() const
-		{
-			return _value;
-		}
+	try
+	{
+		result = lit::multiTestsMain(argc, argv);
+	}
 
+	catch (...)
+	{
+		result = -1;
+	}
 
-	}//end namespace models
-}//end namespace rttb
+	return result;
+}

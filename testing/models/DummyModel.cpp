@@ -30,6 +30,7 @@ namespace rttb
 			_setParam1Count = 0;
 			_setParam2Count = 0;
 			_setParam3Count = 0;
+			_name = "DummyModel";
 		}
 
 		BioModelValueType DummyModel::calcModel(const double doseFactor)
@@ -109,6 +110,17 @@ namespace rttb
 			_setParam1Count = 0;
 			_setParam2Count = 0;
 			_setParam3Count = 0;
+		}
+		std::map<std::string, double> DummyModel::getParameterMap() const {
+			return parameterMap;
+		}
+
+		void DummyModel::fillParameterMap(){
+			parameterMap["Dummy"] = 2;
+		}
+
+		std::string DummyModel::getModelType() const{
+			return _name;
 		}
 	}
 }

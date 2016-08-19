@@ -41,11 +41,17 @@ namespace rttb
 
 	namespace models
 	{
-		NTCPLKBModel::NTCPLKBModel(): NTCPModel(), _m(0), _a(0) {}
+		NTCPLKBModel::NTCPLKBModel() : NTCPModel(), _m(0), _a(0){
+			_name = "NTCPLKBModel";
+			fillParameterMap();
+		}
 
 		NTCPLKBModel::NTCPLKBModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aM,
 		                           BioModelParamType aA):
-			NTCPModel(aDvh, aD50), _m(aM), _a(aA) {}
+								   NTCPModel(aDvh, aD50), _m(aM), _a(aA) {
+									   _name = "NTCPLKBModel";
+									   fillParameterMap();
+								   }
 
 		void NTCPLKBModel::setA(const BioModelParamType aA)
 		{
@@ -121,6 +127,20 @@ namespace rttb
 				                   << "Parameter name " << aParamName << " invalid: it should be d50 or m or a!");
 
 			}
+		}
+
+		std::map<std::string, double> NTCPLKBModel::getParameterMap() const{
+			return parameterMap;
+		}
+
+		void NTCPLKBModel::fillParameterMap(){
+			parameterMap["d50"] = getD50();
+			parameterMap["m"] = getM();
+			parameterMap["a"] = getA();
+		}
+
+		std::string NTCPLKBModel::getModelType() const{
+			return _name;
 		}
 
 		BioModelValueType NTCPLKBModel::calcModel(const double doseFactor)
