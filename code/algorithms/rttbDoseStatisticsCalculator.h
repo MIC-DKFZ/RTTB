@@ -68,6 +68,8 @@ namespace rttb
 
 			bool _simpleDoseStatisticsCalculated;
 
+			bool _multiThreading;
+
 			/*! @brief Calculates the positions where the dose has its maximum
 				@param maxNumberMaximaPositions the maximal amount of computed positions
 				@pre maximumDose must be defined in _statistics with the correct value
@@ -92,6 +94,12 @@ namespace rttb
 			VolumeToDoseFunctionType computeVolumeToDoseFunctionMulti(const std::vector<double>&
 			        precomputeVolumeValues,
 			        DoseStatistics::complexStatistics name) const;
+
+			void computeDoseToVolumeSingle(DoseTypeGy referenceDose,
+				 double precomputeDoseValue, DoseStatistics::complexStatistics name, DoseToVolumeFunctionType& VxMulti) const;
+
+			void computeVolumeToDoseSingle(const double& precomputeVolumeValue,
+				DoseStatistics::complexStatistics name, VolumeToDoseFunctionType& multiValues, VolumeType volume) const;
 
 			/*! @brief Calculates simple dose statistics (min, mean, max, stdDev, minDosePositions, maxDosePositions)
 				@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed
@@ -174,7 +182,7 @@ namespace rttb
 			        unsigned int maxNumberMinimaPositions = 10,
 			        unsigned int maxNumberMaximaPositions = 10);
 
-
+			void setMultiThreading(bool choice);
 		};
 
 	}

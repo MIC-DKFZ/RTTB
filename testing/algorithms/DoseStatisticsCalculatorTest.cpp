@@ -94,6 +94,7 @@ namespace rttb
 
 			//check default values for computeComplexMeasures=true
 			DoseStatisticsPointer theStatisticsDefault;
+			myDoseStatsCalculator.setMultiThreading(true);
 			CHECK_NO_THROW(theStatisticsDefault = myDoseStatsCalculator.calculateDoseStatistics(true));
 			CHECK_NO_THROW(theStatisticsDefault->getVx(0.02 * theStatisticsDefault->getMaximum()));
 			CHECK_NO_THROW(theStatisticsDefault->getVx(0.05 * theStatisticsDefault->getMaximum()));

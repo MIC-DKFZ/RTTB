@@ -29,6 +29,8 @@
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
 
+#include <thread>
+
 namespace rttb
 {
 
@@ -47,6 +49,8 @@ namespace rttb
 			}
 
 			_simpleDoseStatisticsCalculated = false;
+
+			_multiThreading = false;
 		}
 
 
@@ -62,8 +66,8 @@ namespace rttb
 
 
 		DoseStatisticsCalculator::DoseStatisticsPointer DoseStatisticsCalculator::calculateDoseStatistics(
-		    bool computeComplexMeasures, unsigned int maxNumberMinimaPositions,
-		    unsigned int maxNumberMaximaPositions)
+			bool computeComplexMeasures, unsigned int maxNumberMinimaPositions,
+			unsigned int maxNumberMaximaPositions)
 		{
 			if (!_doseIterator)
 			{
@@ -77,15 +81,15 @@ namespace rttb
 			{
 				//more complex dose statistics are optional with default maximum dose and default relative x values
 				calculateComplexDoseStatistics(_statistics->getMaximum(), std::vector<double>(),
-				                               std::vector<double>());
+					std::vector<double>());
 			}
 			return _statistics;
 		}
 
 
 		DoseStatisticsCalculator::DoseStatisticsPointer DoseStatisticsCalculator::calculateDoseStatistics(
-		    DoseTypeGy referenceDose, unsigned int maxNumberMinimaPositions,
-		    unsigned int maxNumberMaximaPositions)
+			DoseTypeGy referenceDose, unsigned int maxNumberMinimaPositions,
+			unsigned int maxNumberMaximaPositions)
 		{
 			if (!_doseIterator)
 			{
@@ -108,10 +112,10 @@ namespace rttb
 		}
 
 		DoseStatisticsCalculator::DoseStatisticsPointer DoseStatisticsCalculator::calculateDoseStatistics(
-		    const std::vector<double>& precomputeDoseValues,
-		    const std::vector<double>& precomputeVolumeValues, DoseTypeGy referenceDose,
-		    unsigned int maxNumberMinimaPositions,
-		    unsigned int maxNumberMaximaPositions)
+			const std::vector<double>& precomputeDoseValues,
+			const std::vector<double>& precomputeVolumeValues, DoseTypeGy referenceDose,
+			unsigned int maxNumberMinimaPositions,
+			unsigned int maxNumberMaximaPositions)
 		{
 
 			if (!_doseIterator)
@@ -125,7 +129,7 @@ namespace rttb
 			{
 				//more complex dose statistics with default maximum dose and relative x values
 				calculateComplexDoseStatistics(_statistics->getMaximum(), precomputeDoseValues,
-				                               precomputeVolumeValues);
+					precomputeVolumeValues);
 			}
 			else
 			{
@@ -138,7 +142,7 @@ namespace rttb
 		}
 
 		void DoseStatisticsCalculator::calculateSimpleDoseStatistics(unsigned int maxNumberMinimaPositions,
-		        unsigned int maxNumberMaximaPositions)
+			unsigned int maxNumberMaximaPositions)
 		{
 			_doseVector.clear();
 			_voxelProportionVector.clear();
@@ -230,8 +234,8 @@ namespace rttb
 			volume *= numVoxels;
 
 			_statistics = boost::make_shared<DoseStatistics>(minimumDose, maximumDose, meanDose,
-			              stdDeviationDose, numVoxels,
-			              volume);
+				stdDeviationDose, numVoxels,
+				volume);
 
 			_simpleDoseStatisticsCalculated = true;
 
@@ -244,8 +248,8 @@ namespace rttb
 
 
 		void DoseStatisticsCalculator::calculateComplexDoseStatistics(DoseTypeGy referenceDose,
-		        const std::vector<double>& precomputeDoseValues,
-		        const std::vector<double>& precomputeVolumeValues)
+			const std::vector<double>& precomputeDoseValues,
+			const std::vector<double>& precomputeVolumeValues)
 		{
 			if (!_simpleDoseStatisticsCalculated)
 			{
@@ -259,29 +263,29 @@ namespace rttb
 			if (precomputeDoseValues.empty())
 			{
 				std::vector<double> defaultPrecomputeDoseValues = boost::assign::list_of(0.02)(0.05)(0.1)(0.9)(
-				            0.95)(0.98);
+					0.95)(0.98);
 				precomputeDoseValuesNonConst = defaultPrecomputeDoseValues;
 			}
 
 			if (precomputeVolumeValues.empty())
 			{
 				std::vector<double> defaultPrecomputeVolumeValues = boost::assign::list_of(0.02)(0.05)(0.1)(0.9)(
-				            0.95)(0.98);
+					0.95)(0.98);
 				precomputeVolumeValuesNonConst = defaultPrecomputeVolumeValues;
 			}
 
 			DoseToVolumeFunctionType Vx = computeDoseToVolumeFunctionMulti(referenceDose,
-			                              precomputeDoseValuesNonConst, DoseStatistics::Vx);
+				precomputeDoseValuesNonConst, DoseStatistics::Vx);
 			VolumeToDoseFunctionType Dx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst,
-			                              DoseStatistics::Dx);
+				DoseStatistics::Dx);
 			VolumeToDoseFunctionType MOHx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst,
-			                                DoseStatistics::MOHx);
+				DoseStatistics::MOHx);
 			VolumeToDoseFunctionType MOCx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst,
-			                                DoseStatistics::MOCx);
+				DoseStatistics::MOCx);
 			VolumeToDoseFunctionType MaxOHx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst,
-			                                  DoseStatistics::MaxOHx);
+				DoseStatistics::MaxOHx);
 			VolumeToDoseFunctionType MinOCx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst,
-			                                  DoseStatistics::MinOCx);
+				DoseStatistics::MinOCx);
 
 			_statistics->setVx(Vx);
 			_statistics->setDx(Dx);
@@ -295,7 +299,7 @@ namespace rttb
 
 
 		DoseStatisticsCalculator::ResultListPointer DoseStatisticsCalculator::computeMaximumPositions(
-		    unsigned int maxNumberMaxima) const
+			unsigned int maxNumberMaxima) const
 		{
 			if (!_simpleDoseStatisticsCalculated)
 			{
@@ -303,7 +307,7 @@ namespace rttb
 			}
 
 			ResultListPointer maxVoxelVector =
-			    boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
+				boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
 
 			unsigned int count = 0;
 			this->_doseIterator->reset();
@@ -328,7 +332,7 @@ namespace rttb
 		}
 
 		DoseStatisticsCalculator::ResultListPointer DoseStatisticsCalculator::computeMinimumPositions(
-		    unsigned int maxNumberMinima) const
+			unsigned int maxNumberMinima) const
 		{
 			if (!_simpleDoseStatisticsCalculated)
 			{
@@ -337,7 +341,7 @@ namespace rttb
 			}
 
 			ResultListPointer minVoxelVector =
-			    boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
+				boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >();
 
 			/*! @todo: Architecture Annotation:
 				Finding the positions for the minimum only once reduces computation time,
@@ -345,7 +349,7 @@ namespace rttb
 				minVoxelVector will be always cleared here to garantee that no false values are
 				presented. This change may be revoced to increase computation speed later on
 				(only compute if(minVoxelVector->size()==0)).
-			*/
+				*/
 			unsigned int count = 0;
 			this->_doseIterator->reset();
 			DoseTypeGy doseValue = 0;
@@ -547,72 +551,123 @@ namespace rttb
 		}
 
 		DoseStatisticsCalculator::DoseToVolumeFunctionType
-		DoseStatisticsCalculator::computeDoseToVolumeFunctionMulti(DoseTypeGy referenceDose,
-		        const std::vector<double>& precomputeDoseValues, DoseStatistics::complexStatistics name) const
+			DoseStatisticsCalculator::computeDoseToVolumeFunctionMulti(DoseTypeGy referenceDose,
+			const std::vector<double>& precomputeDoseValues, DoseStatistics::complexStatistics name) const
 		{
+			std::vector<std::thread> threads;
+
 			DoseToVolumeFunctionType VxMulti;
 
 			for (size_t i = 0; i < precomputeDoseValues.size(); ++i)
 			{
-				if (name == DoseStatistics::Vx)
+				if (_multiThreading)
 				{
-					double xAbsolue = precomputeDoseValues.at(i) * referenceDose;
-					VxMulti.insert(std::pair<DoseTypeGy, VolumeType>(xAbsolue,
-					               computeVx(xAbsolue)));
+					threads.push_back(std::thread(&DoseStatisticsCalculator::computeDoseToVolumeSingle, this,
+						referenceDose, precomputeDoseValues.at(i), name, std::ref(VxMulti)));
 				}
 				else
 				{
-					throw core::InvalidParameterException("unknown DoseStatistics name!");
+					DoseStatisticsCalculator::computeDoseToVolumeSingle(referenceDose, precomputeDoseValues.at(i),
+						name, std::ref(VxMulti));
 				}
+			}
+
+			for (auto& t : threads)
+			{
+				t.join();
+
 			}
 
 			return VxMulti;
 		}
 
-		DoseStatisticsCalculator::VolumeToDoseFunctionType
-		DoseStatisticsCalculator::computeVolumeToDoseFunctionMulti(
-		    const std::vector<double>& precomputeVolumeValues, DoseStatistics::complexStatistics name) const
+		void DoseStatisticsCalculator::computeDoseToVolumeSingle(DoseTypeGy referenceDose,
+			double precomputeDoseValue, DoseStatistics::complexStatistics name, DoseToVolumeFunctionType& VxMulti) const
 		{
+			if (name == DoseStatistics::Vx)
+			{
+				double xAbsolue = precomputeDoseValue * referenceDose;
+				VxMulti.insert(std::pair<DoseTypeGy, VolumeType>(xAbsolue,
+					computeVx(xAbsolue)));
+			}
+			else
+			{
+				throw core::InvalidParameterException("unknown DoseStatistics name!");
+			}
+		}
+
+		DoseStatisticsCalculator::VolumeToDoseFunctionType
+			DoseStatisticsCalculator::computeVolumeToDoseFunctionMulti(
+			const std::vector<double>& precomputeVolumeValues, DoseStatistics::complexStatistics name) const
+		{
+			
+			std::vector<std::thread> threads;
+
 			VolumeToDoseFunctionType multiValues;
 			VolumeType volume = _statistics->getVolume();
 
 			for (size_t i = 0; i < precomputeVolumeValues.size(); ++i)
 			{
-				double xAbsolute = precomputeVolumeValues.at(i) * volume;
-
-				switch (name)
+				if (_multiThreading)
 				{
-					case DoseStatistics::Dx:
-						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
-						                   computeDx(xAbsolute)));
-						break;
-
-					case DoseStatistics::MOHx:
-						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
-						                   computeMOHx(xAbsolute)));
-						break;
-
-					case DoseStatistics::MOCx:
-						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
-						                   computeMOCx(xAbsolute)));
-						break;
-
-					case DoseStatistics::MaxOHx:
-						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
-						                   computeMaxOHx(xAbsolute)));
-						break;
-
-					case DoseStatistics::MinOCx:
-						multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
-						                   computeMinOCx(xAbsolute)));
-						break;
-
-					default:
-						throw core::InvalidParameterException("unknown DoseStatistics name!");
+					threads.push_back(std::thread(&DoseStatisticsCalculator::computeVolumeToDoseSingle, this,
+						precomputeVolumeValues.at(i), name, std::ref(multiValues), volume));
+				}
+				else
+				{
+					DoseStatisticsCalculator::computeVolumeToDoseSingle(precomputeVolumeValues.at(i),
+							name, std::ref(multiValues), volume);
 				}
 			}
-
+			
+			for (auto& t : threads)
+			{
+				t.join();
+			}
+			
 			return multiValues;
+		}
+		
+		void DoseStatisticsCalculator::computeVolumeToDoseSingle(const double& precomputeVolumeValue,
+			DoseStatistics::complexStatistics name, VolumeToDoseFunctionType& multiValues, VolumeType volume) const
+		{
+			double xAbsolute = precomputeVolumeValue * volume;
+
+			switch (name)
+			{
+			case DoseStatistics::Dx:
+				multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
+					computeDx(xAbsolute)));
+				break;
+
+			case DoseStatistics::MOHx:
+				multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
+					computeMOHx(xAbsolute)));
+				break;
+
+			case DoseStatistics::MOCx:
+				multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
+					computeMOCx(xAbsolute)));
+				break;
+
+			case DoseStatistics::MaxOHx:
+				multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
+					computeMaxOHx(xAbsolute)));
+				break;
+
+			case DoseStatistics::MinOCx:
+				multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
+					computeMinOCx(xAbsolute)));
+				break;
+
+			default:
+				throw core::InvalidParameterException("unknown DoseStatistics name!");
+			}
+		}
+
+		void DoseStatisticsCalculator::setMultiThreading(const bool choice) 
+		{
+			_multiThreading = choice;
 		}
 
 	}//end namespace algorithms
