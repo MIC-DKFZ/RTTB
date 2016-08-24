@@ -44,9 +44,16 @@ namespace rttb
 				bool _resetFile;
 
 				/*! @brief Create new DVH object using the info from dvh txt file
-				@exception InvalidParameterException Thrown if _fileName invalid
+					@exception InvalidParameterException Thrown if _fileName invalid
 				*/
 				void createDVH();
+
+				void calculateDataCumulative(std::deque<DoseTypeGy>& dataCumulative, std::deque<DoseTypeGy>& dataDifferential, unsigned int numberOfBins);
+
+				/*! @brief Load the DVH data either in a vector for differential data or in one for cumulative data
+					@exception InvalidParameterException Thrown if splitting of a line in the file is invalid
+				*/
+				void loadData(const std::string& line, std::deque<DoseTypeGy>& data);
 
 			public:
 				/*! @brief Constructor.
