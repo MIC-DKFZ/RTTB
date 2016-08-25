@@ -26,6 +26,8 @@
 #include "../rttbDVHWriterInterface.h"
 #include "rttbBaseType.h"
 
+#include "RTTBOtherIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -36,7 +38,7 @@ namespace rttb
 			/*! @class DVHXMLFileWriter
 			@brief Writes DVHs to xml files.
 			*/
-			class DVHXMLFileWriter: public DVHWriterInterface
+            class RTTBOtherIO_EXPORT DVHXMLFileWriter : public DVHWriterInterface
 			{
 			public:
 				typedef core::DVH::DataDifferentialType DataDifferentialType;

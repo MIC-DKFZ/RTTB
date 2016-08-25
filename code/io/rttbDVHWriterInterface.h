@@ -24,6 +24,8 @@
 
 #include "rttbDVH.h"
 
+#include "RTTBDicomIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -31,7 +33,7 @@ namespace rttb
 		/*! @class DVHWriterInterface
 		@brief Interface for classes that write DVH data to files.
 		*/
-		class DVHWriterInterface
+        class RTTBDicomIO_EXPORT DVHWriterInterface
 		{
 			typedef core::DVH::DVHPointer DVHPointer;
 			/*! @brief Write aDvh

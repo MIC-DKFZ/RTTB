@@ -31,6 +31,8 @@
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
+#include "RTTBOtherIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -48,7 +50,7 @@ namespace rttb
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			@note The precision is float
 			*/
-			boost::property_tree::ptree writeDoseStatistics(DoseStatisticsPtr aDoseStatistics);
+            boost::property_tree::ptree RTTBOtherIO_EXPORT writeDoseStatistics(DoseStatisticsPtr aDoseStatistics);
 
 			/*! @brief Write statistics to String.
 			@param aReferenceDose A reference dose for the calculation of Vx
@@ -57,7 +59,7 @@ namespace rttb
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			@note The precision is float
 			*/
-			XMLString writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics);
+            XMLString RTTBOtherIO_EXPORT writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics);
 
 			/*! @brief Write statistics to xml file, including
 			numberOfVoxels,
@@ -80,11 +82,11 @@ namespace rttb
 			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			@note The precision is float
 			*/
-			void writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName);
+            void RTTBOtherIO_EXPORT writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName);
 
-			boost::property_tree::ptree createNodeWithNameAttribute(DoseTypeGy doseValue,
+            boost::property_tree::ptree RTTBOtherIO_EXPORT createNodeWithNameAttribute(DoseTypeGy doseValue,
 			        const std::string& attributeName);
-			boost::property_tree::ptree createNodeWithNameAndXAttribute(DoseTypeGy doseValue,
+            boost::property_tree::ptree RTTBOtherIO_EXPORT createNodeWithNameAndXAttribute(DoseTypeGy doseValue,
 			        const std::string& attributeName,
 			        int xValue);
 
@@ -96,7 +98,7 @@ namespace rttb
 			@note is used for the Mevislab-Linking of RTTB
 			@note The precision is float
 			*/
-			StatisticsString writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics);
+            StatisticsString RTTBOtherIO_EXPORT writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics);
 		}
 	}
 }
