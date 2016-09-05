@@ -53,6 +53,10 @@ namespace rttb
 				                   "volume");
 				pt.add_child(statisticsTag + "." + propertyTag, volumeNode);
 
+				ptree referenceNode = createNodeWithNameAttribute(static_cast<float>(aDoseStatistics->getReferenceDose()),
+					"referenceDose");
+				pt.add_child(statisticsTag + "." + propertyTag, referenceNode);
+
 				ptree minimumNode = createNodeWithNameAttribute(static_cast<float>(aDoseStatistics->getMinimum()),
 				                    "minimum");
 

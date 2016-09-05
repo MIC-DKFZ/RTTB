@@ -25,18 +25,23 @@
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
+#include <map>
 
 #include "litCheckMacros.h"
 
 #include "rttbBaseType.h"
+#include "rttbDoseStatistics.h"
 #include "rttbDoseStatisticsCalculator.h"
 #include "rttbDoseStatisticsXMLWriter.h"
+#include "rttbDoseStatisticsXMLReader.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbDoseIteratorInterface.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbNullPointerException.h"
 
 #include "../../core/DummyDoseAccessor.h"
+
+#include "CompareDoseStatistic.h"
 
 
 namespace rttb
@@ -73,9 +78,21 @@ namespace rttb
 			/* test writing statistics to xml file */
 			FileNameString filenameSimple = "testStatisticsSimple.xml";
 			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsSimple, filenameSimple));
+			io::other::DoseStatisticsXMLReader readerSimple= io::other::DoseStatisticsXMLReader(filenameSimple);
+			boost::shared_ptr<rttb::algorithms::DoseStatistics> rereadSimplyDose;
+			CHECK_NO_THROW(rereadSimplyDose = readerSimple.generateDoseStatistic());
+			CHECK(checkEqualDoseStatistic(myDoseStatsSimple, rereadSimplyDose));
 
 			FileNameString filenameComplex = "testStatisticsComplex.xml";
 			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsComplex, filenameComplex));
+
+			io::other::DoseStatisticsXMLReader readerComplex = io::other::DoseStatisticsXMLReader(filenameComplex);
+			boost::shared_ptr<rttb::algorithms::DoseStatistics> rereadComplexDose;
+			
+			CHECK_NO_THROW(rereadComplexDose = readerComplex.generateDoseStatistic());
+			CHECK(checkEqualDoseStatistic(myDoseStatsComplex, rereadComplexDose));
+
+
 
 			/* test writing statistics to string */
 			boost::property_tree::ptree ptSimple = io::other::writeDoseStatistics(myDoseStatsSimple);
@@ -101,4 +118,6 @@ namespace rttb
 
 	}//testing
 }//rttb
+
+
 

@@ -24,7 +24,8 @@
 
 #include "rttbDVH.h"
 
-
+#ifndef __DVH_COMPARER_H
+#define __DVH_COMPARER_H
 
 namespace rttb
 {
@@ -41,4 +42,4 @@ namespace rttb
 
 	}//testing
 }//rttb
-
+#endif

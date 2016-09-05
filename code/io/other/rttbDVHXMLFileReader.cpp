@@ -53,8 +53,8 @@ namespace rttb
 
 			void DVHXMLFileReader::createDVH()
 			{
-				using boost::property_tree::ptree;
-				ptree pt;
+
+				boost::property_tree::ptree pt;
 
 				// Load the XML file into the property tree. If reading fails
 				// (cannot open file, parse error), an exception is thrown.
@@ -87,7 +87,7 @@ namespace rttb
 					throw core::InvalidParameterException("DVH Type invalid! Only: DIFFERENTIAL/CUMULATIVE!");
 				}
 
-				int count = 0;
+		
 				BOOST_FOREACH(boost::property_tree::ptree::value_type & v, pt.get_child("dvh.data"))
 				{
 					if (dvhType == "DIFFERENTIAL")
@@ -100,7 +100,6 @@ namespace rttb
 						dataCumulative.push_back(boost::lexical_cast<DoseTypeGy>(v.second.data()));
 					}
 
-					count++;
 				}
 
 				unsigned int numberOfBins = static_cast<unsigned int>(std::max(dataDifferential.size(),
