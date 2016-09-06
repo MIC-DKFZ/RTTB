@@ -119,19 +119,23 @@ foreach(lib ${DCMTK_LIB_SEARCH_NAMES})
   mark_as_advanced(DCMTK_${lib}_LIBRARY)
   mark_as_advanced(DCMTK_${lib}_DEBUG_LIBRARY)
 	
-  add_library(${lib} STATIC IMPORTED)
-  set_target_properties(${lib} PROPERTIES IMPORTED_LOCATION ${DCMTK_${lib}_LIBRARY} IMPORTED_LOCATION_DEBUG ${DCMTK_${lib}_DEBUG_LIBRARY})
+#  add_library(${lib} STATIC IMPORTED)
+#  set_target_properties(${lib} PROPERTIES IMPORTED_LOCATION ${DCMTK_${lib}_LIBRARY} IMPORTED_LOCATION_DEBUG ${DCMTK_${lib}_DEBUG_LIBRARY})
   
-  if(DCMTK_${lib}_LIBRARY OR DCMTK_${lib}_DEBUG_LIBRARY)
-    list(APPEND DCMTK_LIBRARIES ${lib})
+  if(DCMTK_${lib}_LIBRARY )
+    list(APPEND DCMTK_LIBRARIES optimized ${DCMTK_${lib}_LIBRARY})
   endif() 
 
+  if(DCMTK_${lib}_DEBUG_LIBRARY)
+    list(APPEND DCMTK_LIBRARIES debug ${DCMTK_${lib}_DEBUG_LIBRARY})
+  endif() 
+   
   if(NOT DCMTK_${lib}_LIBRARY)
-	message(WARNING "Cannot find library DCMTK_${lib}_LIBRARY")
+	message(STATUS "Cannot find library DCMTK_${lib}_LIBRARY")
   endif()
 
   if(NOT DCMTK_${lib}_DEBUG_LIBRARY)
-	message(WARNING "Cannot find library DCMTK_${lib}_DEBUG_LIBRARY")
+	message(STATUS "Cannot find library DCMTK_${lib}_DEBUG_LIBRARY")
   endif()
 
  endforeach()
