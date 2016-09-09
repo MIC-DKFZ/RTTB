@@ -28,7 +28,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "rttbInvalidParameterException.h"
-
+#include "rttbDVHXMLFileWriter.h"
 
 
 namespace rttb
@@ -37,7 +37,7 @@ namespace rttb
 	{
 		namespace models
 		{
-			ModelXMLWriter::ModelXMLWriter(const std::string&  filename, boost::shared_ptr<rttb::models::BioModel> model) : _filename(filename), _model(model){
+			ModelXMLWriter::ModelXMLWriter(const std::string&  filename, boost::shared_ptr<rttb::models::BioModel> model, bool printDVH) : _filename(filename), _model(model), _printDVH(printDVH){
 			}
 
 			void ModelXMLWriter::setFilename(FileNameString filename){
@@ -56,6 +56,13 @@ namespace rttb
 				return _model;
 			}
 
+			void ModelXMLWriter::setPrintDVH(bool printDVH){
+				_printDVH = printDVH;
+			}
+			bool ModelXMLWriter::getPrintDVH() const {
+				return _printDVH;
+			}
+
 			void ModelXMLWriter::writeModel(){
 
 				boost::property_tree::ptree pt;
@@ -66,13 +73,22 @@ namespace rttb
 				std::string configTag = "config";
 				std::string resultsTag = "results";
 				std::string valueTag = "value";
+				auto dvh = _model->getDVH();
 
 				boost::property_tree::ptree propertynode;
 				boost::property_tree::ptree confignode;
-
 				confignode.put("BioModelType", _model->getModelType());
-				confignode.put("StructureID", _model->getDVH()->getStructureID());
-				confignode.put("DoseID", _model->getDVH()->getDoseID());
+				confignode.put("StructureID", dvh->getStructureID());
+				confignode.put("DoseID", dvh->getDoseID());
+				if (_printDVH){
+					FileNameString filename = "dvhfor"+_model->getModelType()+".xml";
+					DVHType typeDiff = { DVHType::Differential };
+					io::other::DVHXMLFileWriter dvhWriter(filename, typeDiff);
+					dvhWriter.writeDVH(dvh);
+					confignode.put("DVHReference", filename);
+				}
+			
+				
 				pt.add_child(modelTag + "." + configTag, confignode);
 
 				propertynode.put("", _model->getValue());

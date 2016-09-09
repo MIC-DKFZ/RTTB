@@ -37,14 +37,19 @@ namespace rttb
 			private:
 				std::string _filename;
 				boost::shared_ptr<rttb::models::BioModel>  _model;
+				bool _printDVH;
+
 			public:
-				ModelXMLWriter(const std::string& filename, boost::shared_ptr<rttb::models::BioModel>  model);
+				ModelXMLWriter(const std::string& filename, boost::shared_ptr<rttb::models::BioModel>  model, bool printDVH = true);
 
 				void setFilename(std::string filename);
 				std::string getFilename() const;
 
 				void setModel(boost::shared_ptr<rttb::models::BioModel>  model);
 				boost::shared_ptr<rttb::models::BioModel>  getModel() const;
+
+				void setPrintDVH(bool printDVH);
+				bool getPrintDVH() const;
 
 				void writeModel();
 

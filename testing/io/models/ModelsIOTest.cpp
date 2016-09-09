@@ -47,7 +47,12 @@ namespace rttb
 		static std::string readFile(const std::string& filename);
 		int ModelsIOTest(int argc, char* argv[])
 		{
-
+			std::string expectedxmlfilenametcpleq;
+			std::string expectedxmlfilenamentcplk;
+			if (argc > 2){
+				expectedxmlfilenametcpleq = argv[1];
+				expectedxmlfilenamentcplk = argv[2];
+			}
 
 			typedef core::DVH::DataDifferentialType DataDifferentialType;
 
@@ -91,10 +96,15 @@ namespace rttb
 			boost::shared_ptr<rttb::models::TCPLQModel> tcplq = boost::make_shared<rttb::models::TCPLQModel>(dvhPtr, roh, numFractions, alpha / beta, alpha, 0.08);
 
 			std::string filename = "BioModeltcpleqIOTest.xml";
-			rttb::io::models::ModelXMLWriter writer = rttb::io::models::ModelXMLWriter(filename, tcplq);
+			rttb::io::models::ModelXMLWriter writer = rttb::io::models::ModelXMLWriter(filename, tcplq, false);
 			CHECK_NO_THROW(writer.writeModel());
 			CHECK_EQUAL(boost::filesystem::exists(filename), true);
+
+			std::string defaultAsIs = readFile(filename);
+			std::string defaultExpected = readFile(expectedxmlfilenametcpleq);
+			CHECK_EQUAL(defaultAsIs, defaultExpected);
 			CHECK_EQUAL(std::remove(filename.c_str()), 0);
+
 
 			//test NTCPLKBModel
 			models::BioModelParamType aVal = 10;
@@ -108,11 +118,12 @@ namespace rttb
 			CHECK_EQUAL(boost::filesystem::exists(filename), true);
 			
 
-			std::string defaultAsIs = readFile(filename);
-			std::string defaultExpected = readFile("referenceBioModelntcplkIOTest.xml");
-
+			defaultAsIs = readFile(filename);
+			defaultExpected = readFile(expectedxmlfilenamentcplk);
 			CHECK_EQUAL(defaultAsIs, defaultExpected);
 			CHECK_EQUAL(std::remove(filename.c_str()), 0);
+			std::string dvhFilename = "dvhfor" + ntcplk->getModelType()+".xml";
+			CHECK_EQUAL(std::remove(dvhFilename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

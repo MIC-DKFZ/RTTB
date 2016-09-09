@@ -60,7 +60,10 @@ namespace rttb
 		                       BioModelParamType aAlpha_Beta,
 		                       BioModelParamType aAlphaMean, BioModelParamType aAlphaVariance): TCPModel(aDVH, aNumberOfFractions),
 			_alphaMean(aAlphaMean),
-			_alphaVariance(aAlphaVariance), _alpha_beta(aAlpha_Beta), _rho(aRho) {}
+			_alphaVariance(aAlphaVariance), _alpha_beta(aAlpha_Beta), _rho(aRho) {
+			fillParameterMap();
+			_name = "TCPLQModel";
+		}
 
 		void TCPLQModel::setParameters(const BioModelParamType aAlphaMean,
 		                               const BioModelParamType aAlpha_Beta,
