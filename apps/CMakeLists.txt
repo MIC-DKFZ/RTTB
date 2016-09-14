@@ -27,9 +27,12 @@ ExternalProject_Add(
 		-DBoost_DIR:STRING=${Boost_DIR}
 )
 
-OPTION(BUILD_App_DoseAcc "Determine if the application DoseAcc will be generated." OFF)
-IF(BUILD_App_DoseAcc AND BUILD_IO_Virtuos)
+OPTION(BUILD_App_DoseAcc "Determine if the demo application DoseAcc will be generated." OFF)
+IF(BUILD_App_DoseAcc)
 	ADD_SUBDIRECTORY(DoseAcc)
+	IF(RTTB_VIRTUOS_SUPPORT AND BUILD_IO_Virtuos)
+		ADD_SUBDIRECTORY(DoseAcc4V)
+	ENDIF()
 ENDIF()
 
 OPTION(BUILD_App_DoseMap "Determine if the application DoseMap will be generated." OFF)
@@ -37,7 +40,7 @@ IF(BUILD_App_DoseMap AND BUILD_IO_Virtuos)
 	ADD_SUBDIRECTORY(DoseMap)
 ENDIF()
 
-OPTION(BUILD_App_DoseTool "Determine if the demo application DoseTool will be generated." OFF)
+OPTION(BUILD_App_DoseTool "Determine if the application DoseTool will be generated." OFF)
 IF(BUILD_App_DoseTool)
 	ADD_SUBDIRECTORY(DoseTool)
 	IF(RTTB_VIRTUOS_SUPPORT AND BUILD_IO_Virtuos)

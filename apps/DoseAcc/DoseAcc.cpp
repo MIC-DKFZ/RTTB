@@ -42,7 +42,7 @@ int main(int argc, const char** argv)
         std::string appVersion = RTTB_FULL_VERSION_STRING;
 
         argParser = boost::make_shared<rttb::apps::doseAcc::DoseAccCmdLineParser>(argc, argv, appName,
-            appVersion, true);
+            appVersion, false);
     }
     catch (const std::exception& e)
     {
