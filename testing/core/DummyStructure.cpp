@@ -62,7 +62,7 @@ namespace rttb
 			return test_structure_rectangular_centered;
 		}
 
-        core::Structure DummyStructure::CreateRectangularStructureCenteredWithDifferentGeoInfo(GridIndexType zPlane)
+        core::Structure DummyStructure::CreateRectangularStructureCenteredContourPlaneThicknessNotEqualDosePlaneThickness(GridIndexType zPlane)
         {
             CreateTestStructure another_cts = CreateTestStructure(_geoInfo);
 

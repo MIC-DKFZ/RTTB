@@ -81,8 +81,8 @@ namespace rttb
 			std::string OTBMask_DIRNAME;
 			std::string BoostMaskRedesign_DIRNAME;
 
-			std::string RTDose_BoostFailed;
-			std::string RTStr_BoostFailed;
+			std::string RTDose_BoostRedesign;
+			std::string RTStr_BoostRedesign;
 
 			if (argc > 4)
 			{
@@ -92,8 +92,8 @@ namespace rttb
 				OTBMask_DIRNAME = argv[4];
 				BoostMaskRedesign_DIRNAME = argv[5];
 
-				RTDose_BoostFailed = argv[6];
-				RTStr_BoostFailed = argv[7];
+                RTDose_BoostRedesign = argv[6];
+                RTStr_BoostRedesign = argv[7];
 			}
 
 			OFCondition status;
@@ -244,11 +244,11 @@ namespace rttb
 			}
 
 			/* Exception tests using data with different z spacing of dose and structure */
-			io::itk::ITKImageFileAccessorGenerator doseAccessorGenerator2(RTDose_BoostFailed.c_str());
+            io::itk::ITKImageFileAccessorGenerator doseAccessorGenerator2(RTDose_BoostRedesign.c_str());
 			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
 
 			StructureSetPointer rtStructureSet2 = io::dicom::DicomFileStructureSetGenerator(
-			        RTStr_BoostFailed.c_str()).generateStructureSet();
+                RTStr_BoostRedesign.c_str()).generateStructureSet();
 
 
 			if (rtStructureSet2->getNumberOfStructures() > 0)
@@ -274,6 +274,7 @@ namespace rttb
 					MaskAccessorPointer boostMaskRPtr
 					    = ::boost::make_shared<rttb::masks::boostRedesign::BoostMaskAccessor>
 					      (rtStructureSet2->getStructure(j), doseAccessor2->getGeometricInfo());
+
 					//No exception using redesigned boost mask
 					CHECK_NO_THROW(boostMaskRPtr->updateMask());
 
