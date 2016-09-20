@@ -24,7 +24,7 @@ ELSE (WIN32)
 ENDIF (WIN32)
 
 ADD_TEST(DoseMapInvalidParametersTest ${DOSEMAP_TEST} DoseMapInvalidParametersTest ${DOSEMAPEXE})
-ADD_TEST(DoseMapSimpleTest ${DOSEMAP_TEST} DoseMapSimpleTest ${DOSEMAPEXE} "${TEST_DATA_ROOT}/DoseMap/input.mhd" "${TEST_DATA_ROOT}/DoseMap/outputfile.mhd" "itk" "${TEST_DATA_ROOT}/DoseMap/Identity.mapr"  )
+ADD_TEST(DoseMapSimpleTest ${DOSEMAP_TEST} DoseMapSimpleTest ${DOSEMAPEXE} "${TEST_DATA_ROOT}/DoseMap/input.mhd" "itk" "${TEST_DATA_ROOT}/DoseMap/Identity.mapr" "${TEST_DATA_ROOT}/DoseMap/referenceDefault.nrrd" )
 
 
-RTTB_CREATE_APPLICATION_TESTS(DoseMap PACKAGE_DEPENDS Litmus BoostBinaries)
+RTTB_CREATE_APPLICATION_TESTS(DoseMap DEPENDS RTTBITKIO PACKAGE_DEPENDS Litmus BoostBinaries)

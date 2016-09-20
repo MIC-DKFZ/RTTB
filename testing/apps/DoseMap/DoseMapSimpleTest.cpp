@@ -21,11 +21,13 @@
 
 #include <iostream>
 
-
-
 #include "litCheckMacros.h"
+#include "litImageTester.h"
+#include "litTestImageIO.h"
 
 #include "boost/filesystem.hpp"
+
+#include "rttbITKImageAccessorConverter.h"
 
 
 namespace rttb
@@ -45,10 +47,9 @@ namespace rttb
 			std::string doseMapExecutable;
 			std::string regFilename;
 			std::string inputFilename;
-			std::string outputFilename;
 			std::string refDoseLoadStyle;
 			std::string inputDoseLoadStyle;
-
+            std::string referenceFilename;
 
 			boost::filesystem::path callingPath(_callingAppPath);
 
@@ -57,36 +58,50 @@ namespace rttb
 			{
 				doseMapExecutable = argv[1];
 				inputFilename = argv[2];
-				outputFilename = argv[3];
-				inputDoseLoadStyle = argv[4];
-				regFilename = argv[5];
-				
+				inputDoseLoadStyle = argv[3];
+				regFilename = argv[4];
+                referenceFilename = argv[5];
 			}
 
-
-			//check if file exists
-			
-
+            std::string defaultOutputFilename = "output.nrrd";
 
 			std::string doseMapExeWithPath = callingPath.parent_path().string() + "/" + doseMapExecutable;
-			std::string baseCommand = doseMapExeWithPath +" "+ inputFilename +" "+ outputFilename;
+            std::string baseCommand = doseMapExeWithPath + " " + inputFilename + " " + defaultOutputFilename;
 
+			std::string defaultDoseMapCommand = baseCommand+" -l "+ inputDoseLoadStyle;
+			std::cout << "Command line call: " + defaultDoseMapCommand << std::endl;
+			CHECK_EQUAL(system(defaultDoseMapCommand.c_str()), 0);
 
+            CHECK_EQUAL(boost::filesystem::exists(defaultOutputFilename), true);
 
-			std::string defaultDoseStatisticsCommand = baseCommand+" -l "+ inputDoseLoadStyle;
-			std::cout << "Command line call: " + defaultDoseStatisticsCommand << std::endl;
-			CHECK_EQUAL(system(defaultDoseStatisticsCommand.c_str()), 0);
+            auto expectedImage =
+                lit::TestImageIO<double, rttb::io::itk::ITKImageAccessorConverter::ITKImageType>::readImage(
+                referenceFilename);
+            auto actualImage =
+                lit::TestImageIO<double, rttb::io::itk::ITKImageAccessorConverter::ITKImageType>::readImage(
+                defaultOutputFilename);
 
-			CHECK_EQUAL(boost::filesystem::exists(outputFilename), true);
-			CHECK_EQUAL(std::remove(outputFilename.c_str()),0);
+            ::lit::ImageTester<io::itk::ITKImageAccessorConverter::ITKImageType, io::itk::ITKImageAccessorConverter::ITKImageType >
+                tester;
+            tester.setExpectedImage(expectedImage);
+            tester.setActualImage(actualImage);
 
-			std::string defaultDoseStatisticsCommandwithregistration = defaultDoseStatisticsCommand+ " -r " + regFilename;
-			std::cout << "Command line call: " + defaultDoseStatisticsCommandwithregistration << std::endl;
-			CHECK_EQUAL(system(defaultDoseStatisticsCommandwithregistration.c_str()), 0);
+            CHECK_TESTER(tester);
 
-			CHECK_EQUAL(boost::filesystem::exists(outputFilename), true);
-			CHECK_EQUAL(std::remove(outputFilename.c_str()), 0);
+            CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
 
+			std::string defaultDoseMapCommandWithRegistration = defaultDoseMapCommand+ " -r " + regFilename;
+			std::cout << "Command line call: " + defaultDoseMapCommandWithRegistration << std::endl;
+			CHECK_EQUAL(system(defaultDoseMapCommandWithRegistration.c_str()), 0);
+
+            CHECK_EQUAL(boost::filesystem::exists(defaultOutputFilename), true);
+
+            actualImage = lit::TestImageIO<double, rttb::io::itk::ITKImageAccessorConverter::ITKImageType>::readImage(
+                defaultOutputFilename);
+            tester.setActualImage(actualImage);
+            CHECK_TESTER(tester);
+
+            CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
