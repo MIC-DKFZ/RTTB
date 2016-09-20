@@ -96,9 +96,9 @@ namespace rttb
 				pt.add_child(modelTag + "."+ resultsTag + "." + propertyTag, propertynode);
 				
 				std::map<std::string, double> parameterMap = _model->getParameterMap();
-			
+
 				for (std::map<std::string, double>::const_iterator it = parameterMap.begin(); it != parameterMap.end(); ++it){
-					propertynode.put("", it->second);
+					propertynode.put("", static_cast<float>(it->second));
 					propertynode.put(xmlattrNameTag, it->first);
 					pt.add_child(modelTag + "." + resultsTag + "." + propertyTag, propertynode);
 				}
@@ -113,7 +113,6 @@ namespace rttb
 					std::cout << e.what();
 					throw core::InvalidParameterException("Write xml failed: xml_parser_error!");
 				}
-				
 
 			}
 
