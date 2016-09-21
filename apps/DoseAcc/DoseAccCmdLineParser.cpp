@@ -158,7 +158,7 @@ namespace rttb
                 if (_virtuosSupport){
                     std::cout << " DoseAcc dose1.dcm dose2.dos.gz result.mhd --" + OPTION_LOAD_STYLE_DOSE2 + " virtuos dose2.pln -r reg.mapr" << std::endl << std::endl;
                     std::cout << " This will accumulate \"dose1.dcm\" (using default dicom io) and \"dose2.dos.gz\" (using virtuos io and plan file dose2.pln)";
-                    std::cout << "by using \"reg.mapr\" to map dose 2. The resulting dose will be stored in \"result.mhd\"." << std::endl;
+                    std::cout << " by using \"reg.mapr\" to map dose 2. The resulting dose will be stored in \"result.mhd\"." << std::endl;
                 }
 			}
 
