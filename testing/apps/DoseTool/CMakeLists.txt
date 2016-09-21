@@ -29,17 +29,17 @@ ADD_TEST(DoseToolInvalidParametersTest ${DOSETOOL_TEST} DoseToolInvalidParameter
 IF(RTTB_VIRTUOS_SUPPORT AND BUILD_IO_Virtuos)
 	ADD_TEST(DoseToolVirtuosDoseVirtuosStructTest ${DOSETOOL_TEST} DoseToolVirtuosDoseTest ${DOSETOOL4VEXE} "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac101.dos.gz" "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac101.pln"
 		"${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.vdx" "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.ctx.gz" "DARM"
-		 "${TEST_DATA_ROOT}/DoseStatistics/virtuos.xml" "${TEST_DATA_ROOT}/DoseStatistics/virtuosComplex.xml")
-	 ADD_TEST(DoseToolITKDoseVirtuosStructTest ${DOSETOOL_TEST} DoseToolITKDoseTest ${DOSETOOL4VEXE} "${TEST_DATA_ROOT}/ITK/virtuosTestDose.mhd" "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.vdx"
-	"${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.ctx.gz"  "DARM" "${TEST_DATA_ROOT}/DoseStatistics/itkVirtuosStruct.xml" "${TEST_DATA_ROOT}/DoseStatistics/itkVirtuosStructComplex.xml")
+		 "${TEST_DATA_ROOT}/XML/DoseStatistics/virtuos.xml" "${TEST_DATA_ROOT}/XML/DoseStatistics/virtuosComplex.xml")
+	 ADD_TEST(DoseToolITKDoseVirtuosStructTest ${DOSETOOL_TEST} DoseToolITKDoseTest ${DOSETOOL4VEXE} "${TEST_DATA_ROOT}/Images/virtuosTestDose.mhd" "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.vdx"
+	"${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.ctx.gz"  "DARM" "${TEST_DATA_ROOT}/XML/DoseStatistics/itkVirtuosStruct.xml" "${TEST_DATA_ROOT}/XML/DoseStatistics/itkVirtuosStructComplex.xml")
 ENDIF()
-ADD_TEST(DoseToolDicomDoseDicomStructTest ${DOSETOOL_TEST} DoseToolDicomDoseTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/DICOM/TestDose/dicompylerTestDose.dcm" "${TEST_DATA_ROOT}/DICOM/StructureSet/rtss.dcm" "Nodes"
-"${TEST_DATA_ROOT}/DoseStatistics/dicom.xml" "${TEST_DATA_ROOT}/TestDVH/dicompylerDVH.xml" "${TEST_DATA_ROOT}/DoseStatistics/dicomComplex.xml")
-ADD_TEST(DoseToolITKDoseDicomStructTest ${DOSETOOL_TEST} DoseToolITKDoseTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/ITK/dicompylerTestDose.mhd" "${TEST_DATA_ROOT}/DICOM/StructureSet/rtss.dcm" "" "Nodes"
-"${TEST_DATA_ROOT}/DoseStatistics/itkDicomStruct.xml" "${TEST_DATA_ROOT}/DoseStatistics/itkDicomStructComplex.xml")
-ADD_TEST(DoseToolDicomDoseDicomStructRegexTest ${DOSETOOL_TEST} DoseToolRegexTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/DICOM/TestDose/dicompylerTestDose.dcm" "dicom" "${TEST_DATA_ROOT}/DICOM/StructureSet/rtss.dcm" "dicom" "Nodes|Heart"
-"${TEST_DATA_ROOT}/DoseStatistics/dicom.xml" "${TEST_DATA_ROOT}/DoseStatistics/dicom_heart.xml")
-ADD_TEST(DoseToolDVHTest ${DOSETOOL_TEST} DoseToolDVHTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/DICOM/TestDose/dicompylerTestDose.dcm" "${TEST_DATA_ROOT}/DICOM/StructureSet/rtss.dcm" "Nodes"
-"${TEST_DATA_ROOT}/TestDVH/dicompylerDVH.xml")
+ADD_TEST(DoseToolDicomDoseDicomStructTest ${DOSETOOL_TEST} DoseToolDicomDoseTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/DICOM/Dose/dicompylerTestDose.dcm" "${TEST_DATA_ROOT}/DICOM/StructureSet/rtss.dcm" "Nodes"
+"${TEST_DATA_ROOT}/XML/DoseStatistics/dicom.xml" "${TEST_DATA_ROOT}/XML/DVH/dicompylerDVH.xml" "${TEST_DATA_ROOT}/XML/DoseStatistics/dicomComplex.xml")
+ADD_TEST(DoseToolITKDoseDicomStructTest ${DOSETOOL_TEST} DoseToolITKDoseTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/Images/dicompylerTestDose.mhd" "${TEST_DATA_ROOT}/DICOM/StructureSet/rtss.dcm" "" "Nodes"
+"${TEST_DATA_ROOT}/XML/DoseStatistics/itkDicomStruct.xml" "${TEST_DATA_ROOT}/XML/DoseStatistics/itkDicomStructComplex.xml")
+ADD_TEST(DoseToolDicomDoseDicomStructRegexTest ${DOSETOOL_TEST} DoseToolRegexTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/DICOM/Dose/dicompylerTestDose.dcm" "dicom" "${TEST_DATA_ROOT}/DICOM/StructureSet/rtss.dcm" "dicom" "Nodes|Heart"
+"${TEST_DATA_ROOT}/XML/DoseStatistics/dicom.xml" "${TEST_DATA_ROOT}/XML/DoseStatistics/dicom_heart.xml")
+ADD_TEST(DoseToolDVHTest ${DOSETOOL_TEST} DoseToolDVHTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/DICOM/Dose/dicompylerTestDose.dcm" "${TEST_DATA_ROOT}/DICOM/StructureSet/rtss.dcm" "Nodes"
+"${TEST_DATA_ROOT}/XML/DVH/dicompylerDVH.xml")
 
 RTTB_CREATE_APPLICATION_TESTS(DoseTool PACKAGE_DEPENDS Litmus BoostBinaries)

@@ -70,9 +70,9 @@ namespace rttb
 
 			//1) test ITK dose import if geometric info was set correctly
 			core::GeometricInfo geoInfo = doseAccessor1->getGeometricInfo();
-			CHECK_EQUAL(100, geoInfo.getNumRows());
-			CHECK_EQUAL(100, geoInfo.getNumColumns());
-			CHECK_EQUAL(60, geoInfo.getNumSlices());
+			CHECK_EQUAL(25, geoInfo.getNumRows());
+			CHECK_EQUAL(25, geoInfo.getNumColumns());
+			CHECK_EQUAL(15, geoInfo.getNumSlices());
 			//orientation matrix equals identity matrix
 			CHECK_EQUAL(OrientationMatrix(), geoInfo.getOrientationMatrix());
 
@@ -93,19 +93,19 @@ namespace rttb
 			CHECK_EQUAL(0, doseAccessor1->getValueAt(start));
 			CHECK_EQUAL(doseAccessor1->getValueAt(start), doseAccessor1-> getValueAt(start3D));
 
-			inbetween = 204837;
+			inbetween = 4039;
 			doseAccessor1->getGeometricInfo().convert(inbetween, inbetween3D);
 			CHECK(doseAccessor1->getGeometricInfo().validID(inbetween));
 			CHECK(doseAccessor1->getGeometricInfo().validIndex(inbetween3D));
 
-			CHECK_EQUAL(242.0, doseAccessor1->getValueAt(inbetween));
+			CHECK_EQUAL(162.0, doseAccessor1->getValueAt(inbetween));
 			CHECK_EQUAL(doseAccessor1->getValueAt(inbetween), doseAccessor1-> getValueAt(inbetween3D));
 
-			inbetween2 = 283742;
+            inbetween2 = 6086;
 			doseAccessor1->getGeometricInfo().convert(inbetween2, inbetween23D);
 			CHECK(doseAccessor1->getGeometricInfo().validID(inbetween2));
 			CHECK(doseAccessor1->getGeometricInfo().validIndex(inbetween23D));
-			CHECK_EQUAL(111.0, doseAccessor1->getValueAt(inbetween2));
+			CHECK_EQUAL(7.0, doseAccessor1->getValueAt(inbetween2));
 			CHECK_EQUAL(doseAccessor1->getValueAt(inbetween2), doseAccessor1-> getValueAt(inbetween23D));
 
 			end = doseAccessor1->getGridSize() - 1;
@@ -141,13 +141,13 @@ namespace rttb
 			CHECK(doseAccessor2->getGeometricInfo().validID(inbetween));
 			CHECK(doseAccessor2->getGeometricInfo().validIndex(inbetween3D));
 
-			CHECK_EQUAL(242.0, doseAccessor2->getValueAt(inbetween));
+			CHECK_EQUAL(162.0, doseAccessor2->getValueAt(inbetween));
 			CHECK_EQUAL(doseAccessor2->getValueAt(inbetween), doseAccessor2->getValueAt(inbetween3D));
 
 			CHECK(doseAccessor2->getGeometricInfo().validID(inbetween2));
 			CHECK(doseAccessor2->getGeometricInfo().validIndex(inbetween23D));
 
-			CHECK_EQUAL(111.0, doseAccessor2->getValueAt(inbetween2));
+			CHECK_EQUAL(7.0, doseAccessor2->getValueAt(inbetween2));
 			CHECK_EQUAL(doseAccessor2->getValueAt(inbetween2), doseAccessor2->getValueAt(inbetween23D));
 
 			end = doseAccessor2->getGridSize() - 1;

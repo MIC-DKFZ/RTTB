@@ -13,22 +13,22 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 #-----------------------------------------------------------------------------
 ADD_TEST(ITKDoseAccessorGeneratorTest ${ITKIO_TEST} ITKDoseAccessorGeneratorTest
-"${TEST_DATA_ROOT}/ITK/MatchPointLogo.mhd")
+"${TEST_DATA_ROOT}/Images/MatchPointLogoSmall.nrrd")
 
 ADD_TEST(ITKIOTest ${ITKIO_TEST} ITKIOTest
-"${TEST_DATA_ROOT}/ITK/MatchPointLogo.mhd")
+"${TEST_DATA_ROOT}/Images/MatchPointLogoSmall.nrrd")
 
 ADD_TEST(ITKDoseAccessorConverterTest ${ITKIO_TEST} ITKDoseAccessorConverterTest
- "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm" "${TEST_DATA_ROOT}/ITK/MatchPointLogo.mhd" )
+ "${TEST_DATA_ROOT}/DICOM/Dose/ConstantTwo.dcm" "${TEST_DATA_ROOT}/Images/MatchPointLogoSmall.nrrd" )
 
  ADD_TEST(ITKBioModelAccessorConverterTest ${ITKIO_TEST} ITKBioModelAccessorConverterTest
- "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm")
+ "${TEST_DATA_ROOT}/DICOM/Dose/ConstantTwo.dcm")
 
 ADD_TEST(ITKMaskAccessorGeneratorTest ${ITKIO_TEST} ITKMaskAccessorGeneratorTest
-"${TEST_DATA_ROOT}/ITK/Nodes.mhd")
+"${TEST_DATA_ROOT}/Images/Nodes.nrrd")
 
-ADD_TEST(ITKMaskAccessorConverterTest ${ITKIO_TEST} ITKMaskAccessorConverterTest "${TEST_DATA_ROOT}/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm"
- "${TEST_DATA_ROOT}/ITK/Nodes.mhd")
+ADD_TEST(ITKMaskAccessorConverterTest ${ITKIO_TEST} ITKMaskAccessorConverterTest "${TEST_DATA_ROOT}/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm" "${TEST_DATA_ROOT}/DICOM/Dose/ConstantTwo.dcm"
+ "${TEST_DATA_ROOT}/Images/Nodes.nrrd")
 
 
 RTTB_CREATE_TEST_MODULE(rttbITKIO DEPENDS RTTBITKIO RTTBDicomIO RTTBMasks RTTBOTBMask RTTBBoostMask RTTBModels PACKAGE_DEPENDS Boost Litmus ITK DCMTK)

@@ -13,12 +13,12 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 #-----------------------------------------------------------------------------
 ADD_TEST(DicomDoseAccessorConverterTest ${DICOMIO_TEST} DicomDoseAccessorConverterTest
-"${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncrease3D.dcm"
-"${TEST_DATA_ROOT}/DICOM/TestDose/dose_w.dcm" ) 
+"${TEST_DATA_ROOT}/DICOM/Dose/LinearIncrease3D.dcm"
+"${TEST_DATA_ROOT}/DICOM/Dose/dose_w.dcm" ) 
 
 ADD_TEST(DicomDoseAccessorGeneratorTest ${DICOMIO_TEST} DicomDoseAccessorGeneratorTest
-"${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm"
-"${TEST_DATA_ROOT}/DICOM/TestDose/ConstantFifty.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncrease3D.dcm" ) 
+"${TEST_DATA_ROOT}/DICOM/Dose/ConstantTwo.dcm"
+"${TEST_DATA_ROOT}/DICOM/Dose/ConstantFifty.dcm" "${TEST_DATA_ROOT}/DICOM/Dose/LinearIncrease3D.dcm" ) 
 
 ADD_TEST(DicomFileReaderHelperTest ${DICOMIO_TEST} DicomFileReaderHelperTest
 "${TEST_DATA_ROOT}/DICOM/Helax/"
@@ -28,9 +28,9 @@ ADD_TEST(DicomFileReaderHelperTest ${DICOMIO_TEST} DicomFileReaderHelperTest
 
 
 ADD_TEST(DicomIOTest ${DICOMIO_TEST} DicomIOTest 
-"${TEST_DATA_ROOT}/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm"
-"${TEST_DATA_ROOT}/DICOM/TestDose/ConstantFifty.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncrease3D.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/dicompylerTestDose.dcm"
-"${TEST_DATA_ROOT}/DICOM/TestDose/InhomogeneousGrid.dcm" )
+"${TEST_DATA_ROOT}/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm" "${TEST_DATA_ROOT}/DICOM/Dose/ConstantTwo.dcm"
+"${TEST_DATA_ROOT}/DICOM/Dose/ConstantFifty.dcm" "${TEST_DATA_ROOT}/DICOM/Dose/LinearIncrease3D.dcm" "${TEST_DATA_ROOT}/DICOM/Dose/dicompylerTestDose.dcm"
+"${TEST_DATA_ROOT}/DICOM/Dose/InhomogeneousGrid.dcm" )
 
 ADD_TEST(DicomStructureSetGeneratorTest ${DICOMIO_TEST} DicomStructureSetGeneratorTest 
 "${TEST_DATA_ROOT}/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm" )

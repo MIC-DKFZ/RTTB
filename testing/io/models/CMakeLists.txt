@@ -13,7 +13,7 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 #-----------------------------------------------------------------------------
 
-ADD_TEST(ModelsIOTest ${MODELSIO_TEST} ModelsIOTest "${TEST_DATA_ROOT}/BioModel/referenceBioModeltcpleqIOTest.xml" "${TEST_DATA_ROOT}/BioModel/referenceBioModelntcplkIOTest.xml" ) 
+ADD_TEST(ModelsIOTest ${MODELSIO_TEST} ModelsIOTest "${TEST_DATA_ROOT}/XML/BioModel/referenceBioModeltcpleqIOTest.xml" "${TEST_DATA_ROOT}/XML/BioModel/referenceBioModelntcplkIOTest.xml" ) 
 
 
 

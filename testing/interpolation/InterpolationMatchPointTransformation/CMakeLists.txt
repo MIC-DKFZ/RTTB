@@ -12,6 +12,6 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 
 #-----------------------------------------------------------------------------
-ADD_TEST(SimpleMappableDoseAccessorWithMatchPointTest ${INTERPOLATION_MP_TRANSFORMATION_TESTS} SimpleMappableDoseAccessorWithMatchPointTest "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncreaseX.dcm")
+ADD_TEST(SimpleMappableDoseAccessorWithMatchPointTest ${INTERPOLATION_MP_TRANSFORMATION_TESTS} SimpleMappableDoseAccessorWithMatchPointTest "${TEST_DATA_ROOT}/DICOM/Dose/ConstantTwo.dcm" "${TEST_DATA_ROOT}/DICOM/Dose/LinearIncreaseX.dcm")
 
 RTTB_CREATE_TEST_MODULE(rttbInterpolationMPTransformation DEPENDS RTTBInterpolation RTTBInterpolationMatchPointTransformation RTTBDicomIO PACKAGE_DEPENDS Litmus MatchPoint)
