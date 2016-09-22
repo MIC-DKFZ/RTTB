@@ -16,7 +16,7 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 ADD_TEST(BioModelTest ${MODELS_TESTS} BioModelTest)
 ADD_TEST(BioModelScatterPlotTest ${MODELS_TESTS} BioModelScatterPlotTest)
 ADD_TEST(DvhBasedModelsTest ${MODELS_TESTS} DvhBasedModelsTest)
-ADD_TEST(LQModelAccessorTest ${MODELS_TESTS} LQModelAccessorTest "${TEST_DATA_ROOT}/DICOM/TestDose/ConstantTwo.dcm" "${TEST_DATA_ROOT}/DICOM/TestDose/LinearIncreaseX.dcm")
+ADD_TEST(LQModelAccessorTest ${MODELS_TESTS} LQModelAccessorTest "${TEST_DATA_ROOT}/Dose/DICOM/ConstantTwo.dcm" "${TEST_DATA_ROOT}/Dose/DICOM/LinearIncreaseX.dcm")
 
 RTTB_CREATE_TEST_MODULE(rttbModel DEPENDS RTTBModels RTTBDicomIO PACKAGE_DEPENDS Boost Litmus DCMTK)
 
