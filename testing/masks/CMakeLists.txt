@@ -28,7 +28,7 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 #-----------------------------------------------------------------------------
 ADD_TEST(VOIindexIdentifierTest ${Masks_TESTS} VOIindexIdentifierTest 
-"${TEST_DATA_ROOT}/DICOM/StructureSet/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm" )
+"${TEST_DATA_ROOT}/StructureSet/DICOM/RS1.3.6.1.4.1.2452.6.841242143.1311652612.1170940299.4217870819.dcm" )
 
 
 RTTB_CREATE_TEST_MODULE(rttbMasks DEPENDS RTTBDicomIO RTTBMasks PACKAGE_DEPENDS Boost Litmus DCMTK)
