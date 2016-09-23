@@ -96,8 +96,15 @@ rttb::apps::bioModelCalc::processData(rttb::apps::bioModelCalc::ApplicationData&
 	rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor;
 
 	std::cout << std::endl << "generate biomodel... ";
-	auto bioModelAccessor = generateBioModel(appData._dose, appData._model, appData._modelParameters,
-	                        appData._doseScaling);
+    rttb::core::AccessorInterface::AccessorPointer bioModelAccessor;
+    if (!appData._modelParameters.empty()){
+        bioModelAccessor = generateBioModel(appData._dose, appData._model, appData._modelParameters,
+            appData._doseScaling);
+    }
+    else {
+        bioModelAccessor = generateBioModelWithMaps(appData._dose, appData._model, appData._modelParameterMaps,
+            appData._doseScaling);
+    }
 	std::cout << "done." << std::endl;
 	std::cout << std::endl << "generate output image... ";
 	io::itk::ITKImageAccessorConverter converter(bioModelAccessor);
@@ -127,5 +134,21 @@ rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generat
 		rttbDefaultExceptionStaticMacro( << "Unknown model selected. Cannot load data. Selected model: "
 		                                 << model);
 	}
+}
+
+rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generateBioModelWithMaps(
+    rttb::core::DoseAccessorInterface::DoseAccessorPointer dose, const std::string& model,
+    const std::vector<rttb::core::AccessorInterface::AccessorPointer>& modelParameterMaps, double doseScaling)
+{
+    if (model == "LQ")
+    {
+        return boost::make_shared<rttb::models::LQModelAccessor>(dose, modelParameterMaps.at(0),
+            modelParameterMaps.at(1), doseScaling);
+    }
+    else
+    {
+        rttbDefaultExceptionStaticMacro(<< "Unknown model selected. Cannot load data. Selected model: "
+            << model);
+    }
 }
 

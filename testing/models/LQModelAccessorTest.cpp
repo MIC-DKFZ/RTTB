@@ -34,7 +34,7 @@ namespace rttb
 	{
 
 		/*! @brief LQModelAccessorTest.
-		1) Test constructor
+		1) Test constructors
 		2) Test getGeometricInfo()
 		3) Test getValueAt()
 
@@ -74,14 +74,13 @@ namespace rttb
 
 			DoseAccessorPointer doseAccessorNull;
 
-			core::AccessorInterface::AccessorPointer LQWithConstantDose;
-			core::AccessorInterface::AccessorPointer LQWithConstantDoseDoseScalingTwo;
-			core::AccessorInterface::AccessorPointer LQWithIncreaseXDose;
+            core::AccessorInterface::AccessorPointer LQWithConstantDose, LQWithConstantDoseDoseScalingTwo, LQWithIncreaseXDose, LQWithConstantDoseAndMap;
 
 			//1) test constructor
 			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessorNull, 0, 0), core::InvalidDoseException);
 			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessor1, 0.2, 0.02, -1),
 			                     core::InvalidParameterException);
+            CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessorNull, doseAccessorNull, doseAccessorNull), core::InvalidDoseException);
 
 			CHECK_NO_THROW(LQWithConstantDose = boost::make_shared<models::LQModelAccessor>(doseAccessor1,
 			                                    0.2, 0.02));
@@ -90,6 +89,8 @@ namespace rttb
 			                0.2, 0.02, 2.0));
 			CHECK_NO_THROW(LQWithIncreaseXDose = boost::make_shared<models::LQModelAccessor>(doseAccessor2,
 			                                     0.3, 0.01));
+            CHECK_NO_THROW(LQWithConstantDoseAndMap = boost::make_shared<models::LQModelAccessor>(doseAccessor1,
+                doseAccessor2, doseAccessor2));
 
 			//2) Test getGeometricInfo()
 			CHECK_EQUAL(LQWithConstantDose->getGeometricInfo(), doseAccessor1GeometricInfo);
@@ -127,6 +128,12 @@ namespace rttb
 			expectedLQWithIncreaseX = exp(-(0.3 * 45 * 2.822386e-5 + (0.01 * 45 * 2.822386e-5 * 45 * 2.822386e-5)));
 			CHECK_CLOSE(LQWithIncreaseXDose->getValueAt(VoxelGridIndex3D(45, 40, 60)), expectedLQWithIncreaseX,
 			            errorConstant);
+
+            models::BioModelParamType expectedLQWithDoseAndMap = exp(-(66 * 2.822386e-5 * 2 + (66 * 2.822386e-5 * 2 * 2)));
+            CHECK_EQUAL(LQWithConstantDoseAndMap->getValueAt(0), 1);
+            CHECK_CLOSE(LQWithConstantDoseAndMap->getValueAt(LQWithIncreaseXDose->getGridSize() - 1),
+                expectedLQWithDoseAndMap, errorConstant);
+            CHECK_EQUAL(LQWithConstantDoseAndMap->getValueAt(0), LQWithConstantDoseAndMap->getValueAt(VoxelGridIndex3D(0, 0, 0)));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 

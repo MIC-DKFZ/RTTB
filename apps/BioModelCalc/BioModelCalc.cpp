@@ -78,6 +78,15 @@ int main(int argc, const char** argv)
 
 		std::cout << appData._modelParameters.at(i);
 	}
+    for (size_t i = 0; i < appData._modelParameterMapsFilename.size(); i++)
+    {
+        if (i != 0)
+        {
+            std::cout << ", ";
+        }
+
+        std::cout << appData._modelParameterMapsFilename.at(i);
+    }
 
 	std::cout << std::endl;
 	std::cout << "Dose scaling:          " << appData._doseScaling << std::endl;
@@ -87,6 +96,9 @@ int main(int argc, const char** argv)
 	try
 	{
 		appData._dose = rttb::apps::bioModelCalc::loadDose(appData._doseFileName, appData._doseLoadStyle);
+        for (const auto& filename : appData._modelParameterMapsFilename){
+            appData._modelParameterMaps.push_back(rttb::apps::bioModelCalc::loadDose(filename, appData._parameterMapsLoadStyle));
+        }
 	}
 	catch (rttb::core::Exception& e)
 	{
