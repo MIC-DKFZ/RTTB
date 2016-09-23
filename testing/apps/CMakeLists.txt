@@ -11,3 +11,7 @@ ENDIF(BUILD_App_DoseTool)
 IF(BUILD_App_VoxelizerTool)
   ADD_SUBDIRECTORY (VoxelizerTool)
 ENDIF(BUILD_App_VoxelizerTool)
+
+IF(BUILD_App_BioModelCalc)
+  ADD_SUBDIRECTORY (BioModelCalc)
+ENDIF()

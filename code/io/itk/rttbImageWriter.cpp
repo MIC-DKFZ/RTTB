@@ -38,6 +38,7 @@ namespace rttb
 			{
 				WriterType::Pointer writer = WriterType::New();
 				writer->SetFileName(_fileName);
+                writer->SetUseCompression(true);
 				writer->SetInput(_itkImage);
 
 				try

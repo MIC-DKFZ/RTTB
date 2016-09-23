@@ -30,16 +30,19 @@ namespace rttb
 			ApplicationData::
 			ApplicationData()
 			{
-				this->Reset();
+				this->reset();
 			}
 
 			void
 			ApplicationData::
-			Reset()
+			reset()
 			{
 				_doseFileName = "";
 				_outputFileName = "";
 				_doseScaling = 1.0;
+                _modelParameters.clear();
+                _modelParameterMapsFilename.clear();
+                _modelParameterMaps.clear();
 			}
 
 			void populateAppData(boost::shared_ptr<BioModelCmdLineParser> argParser, ApplicationData& appData)
@@ -49,7 +52,13 @@ namespace rttb
 				appData._doseScaling = argParser->get<double>(argParser->OPTION_DOSE_SCALING);
 				appData._outputFileName = argParser->get<std::string>(argParser->OPTION_OUTPUT_FILE);
 				appData._model = argParser->get<std::string>(argParser->OPTION_MODEL);
-				appData._modelParameters = argParser->get<std::vector<double> >(argParser->OPTION_MODEL_PARAMETERS);
+                if (argParser->isSet(argParser->OPTION_MODEL_PARAMETERS)){
+                    appData._modelParameters = argParser->get<std::vector<double> >(argParser->OPTION_MODEL_PARAMETERS);
+                }
+                else {
+                    appData._modelParameterMapsFilename = argParser->get<std::vector<std::string> >(argParser->OPTION_MODEL_PARAMETER_MAPS);
+                    appData._parameterMapsLoadStyle = argParser->get<std::vector<std::string> >(argParser->OPTION_LOAD_STYLE_PARAMETER_MAPS);
+                }
 			}
 
 		}

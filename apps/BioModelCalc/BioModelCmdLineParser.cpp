@@ -22,8 +22,10 @@ namespace rttb
 				addOptionWithDefaultValue<std::string>(OPTION_MODEL, OPTION_GROUP_REQUIRED,
 				                                       "The used radiobiological model the dose should be analyzed with. Available models are:\n \"LQ\"",
 				                                       "LQ", "LQ", 'm');
-				addOption<std::vector<double> >(OPTION_MODEL_PARAMETERS, OPTION_GROUP_REQUIRED,
-				                                "The parameters for the radiobiological model.", 'p', true, true);
+				addOption<std::vector<double> >(OPTION_MODEL_PARAMETERS, OPTION_GROUP_OPTIONAL,
+				                                "The parameters for the radiobiological model.", 'p', false, true);
+                addOption<std::vector<std::string> >(OPTION_MODEL_PARAMETER_MAPS, OPTION_GROUP_OPTIONAL,
+                    "The parameters maps as itk readable image files for the radiobiological model.", 'a', false, true);
 				addOptionWithDefaultValue<double>(OPTION_DOSE_SCALING, OPTION_GROUP_REQUIRED,
 				                                  "Dose scaling that should be applied.", 1.0, "1.0", 'e');
 				std::vector<std::string> defaultLoadingStyle;
@@ -46,6 +48,9 @@ namespace rttb
 				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_LOAD_STYLE, OPTION_GROUP_REQUIRED, doseLoadStyleDescription,
 				        defaultLoadingStyle, defaultLoadingStyle.at(0),
 				        't', true, true);
+                addOptionWithDefaultValue<std::vector<std::string> >(OPTION_LOAD_STYLE_PARAMETER_MAPS, OPTION_GROUP_OPTIONAL, doseLoadStyleDescription,
+                    defaultLoadingStyle, defaultLoadingStyle.at(0),
+                    'u', true, true);
 
 				parse(argc, argv);
 			}
@@ -61,9 +66,13 @@ namespace rttb
 				}
 				else
 				{
-					if (get<std::vector<double> >(OPTION_MODEL_PARAMETERS).size() != 2)
+                    if (!isSet(OPTION_MODEL_PARAMETERS) && !isSet(OPTION_MODEL_PARAMETER_MAPS)){
+                        throw cmdlineparsing::InvalidConstraintException("Either the model parameters or model parameter maps must be specified!");
+                    }
+
+                    if ((isSet(OPTION_MODEL_PARAMETERS) && get<std::vector<double> >(OPTION_MODEL_PARAMETERS).size() != 2) || (isSet(OPTION_MODEL_PARAMETER_MAPS) && get<std::vector<std::string> >(OPTION_MODEL_PARAMETER_MAPS).size() != 2))
 					{
-						throw cmdlineparsing::InvalidConstraintException("The LQ Model requires two parameters!");
+						throw cmdlineparsing::InvalidConstraintException("The LQ Model requires two parameters or parameter maps!");
 					}
 				}
 
@@ -74,7 +83,7 @@ namespace rttb
 				    && loadStyleAbbreviation != "itk"
 				    && loadStyleAbbreviation != "helax")
 				{
-					throw cmdlineparsing::InvalidConstraintException("Unknown load style:" + loadStyleAbbreviation +
+					throw cmdlineparsing::InvalidConstraintException("Unknown load style: " + loadStyleAbbreviation +
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 				else if (_virtuosSupport && loadStyleAbbreviation == "virtuos")
@@ -89,7 +98,7 @@ namespace rttb
 
 				if (doseScaling <= 0)
 				{
-					throw cmdlineparsing::InvalidConstraintException("Negative dose scaling is invalid. Dose scaling has to be >0.");
+					throw cmdlineparsing::InvalidConstraintException("Negative dose scaling is not allowed. Dose scaling has to be >0.");
 				}
 			}
 

@@ -36,7 +36,7 @@ namespace rttb
 		LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, BioModelParamType alpha,
 		                                 BioModelParamType beta,
 		                                 double doseScaling) :
-			_dose(dose), _alpha(alpha), _beta(beta), _doseScaling(doseScaling)
+                                         _dose(dose), _alpha(alpha), _beta(beta), _betaMap(nullptr), _alphaMap(nullptr), _doseScaling(doseScaling), _withAlphaBetaMaps(false)
 		{
 			if (_dose == NULL)
 			{
@@ -51,14 +51,41 @@ namespace rttb
 			assembleGeometricInfo();
 		}
 
+        LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, DoseAccessorPointer alphaMap, DoseAccessorPointer betaMap,
+            double doseScaling) :_dose(dose), _alpha(-1.), _beta(-1.), _betaMap(alphaMap), _alphaMap(betaMap), _doseScaling(doseScaling), _withAlphaBetaMaps(true)
+        {
+            if (_dose == NULL || _alphaMap == nullptr || _betaMap == nullptr)
+            {
+                throw core::InvalidDoseException("Dose or alphaMap or betaMap is NULL");
+            }
+
+            if (_doseScaling < 0)
+            {
+                throw core::InvalidParameterException("Dose Scaling must be >0");
+            }
+
+            assembleGeometricInfo();
+        }
+
 		GenericValueType LQModelAccessor::getValueAt(const VoxelGridID aID) const
 		{
-			return calcLQ(_dose->getValueAt(aID) * _doseScaling, _alpha, _beta);
+            if (_withAlphaBetaMaps){
+                return calcLQ(_dose->getValueAt(aID) * _doseScaling, _alphaMap->getValueAt(aID), _betaMap->getValueAt(aID));
+            }
+            else {
+                return calcLQ(_dose->getValueAt(aID) * _doseScaling, _alpha, _beta);
+            }
 		}
 
 		GenericValueType LQModelAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 		{
-			return calcLQ(_dose->getValueAt(aIndex) * _doseScaling, _alpha, _beta);
+            if (_withAlphaBetaMaps){
+                return calcLQ(_dose->getValueAt(aIndex) * _doseScaling, _alphaMap->getValueAt(aIndex), _betaMap->getValueAt(aIndex));
+            }
+            else {
+                return calcLQ(_dose->getValueAt(aIndex) * _doseScaling, _alpha, _beta);
+            }
+			
 		}
 
 		bool LQModelAccessor::assembleGeometricInfo()
