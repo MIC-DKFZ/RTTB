@@ -261,8 +261,8 @@ namespace rttb
 
 					//convert to geometry coordinate polygon
 					rttb::DoubleVoxelGridIndex3D geometryCoordinatePoint;
-					_geometricInfo->worldCoordinateToGeometryCoordinate(worldCoordinatePoint, geometryCoordinatePoint);
-
+                    _geometricInfo->worldCoordinateToGeometryCoordinate(worldCoordinatePoint,
+                        geometryCoordinatePoint);
 					geometryCoordinatePolygon.push_back(geometryCoordinatePoint);
 
 					//calculate the current global min/max

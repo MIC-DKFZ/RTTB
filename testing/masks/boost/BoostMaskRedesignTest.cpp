@@ -39,6 +39,7 @@
 #include "rttbBoostMask.h"
 #include "rttbBoostMaskAccessor.h"
 #include "rttbBoostMaskRedesignAccessor.h"
+#include "rttbInvalidParameterException.h"
 
 
 namespace rttb
@@ -57,41 +58,194 @@ namespace rttb
 			typedef core::DVHCalculator::DoseIteratorPointer DoseIteratorPointer;
 			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
 			typedef core::GenericMaskedDoseIterator::MaskAccessorPointer MaskAccessorPointer;
+            typedef core::Structure::StructTypePointer StructTypePointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 
-			typedef core::Structure::StructTypePointer StructTypePointer;
-
-			// generate test structure set
+			// generate test dose. geometric info: patient position (-25, -2, 35), center of the 1st.voxel 
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor =
 			    boost::make_shared<DummyDoseAccessor>();
+            boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>
+                (spTestDoseAccessor->getGeometricInfo());
+
 
 			DummyStructure myStructGenerator(spTestDoseAccessor->getGeometricInfo());
 
-			GridIndexType zPlane = 4;
-			core::Structure myTestStruct = myStructGenerator.CreateRectangularStructureCentered(zPlane);
+            //generate test structure. contours are (-20,0.5,38.75); (-12.5,0.5,38.75); (-12.5,10.5,38.75); (-20,10.5,38.75); 
+            //(-20, 0.5, 41.25); (-12.5, 0.5, 41.25); (-12.5, 10.5, 41.25); (-20, 10.5, 41.25);
+			core::Structure myTestStruct = myStructGenerator.CreateRectangularStructureCentered(2,3);
 			StructTypePointer spMyStruct = boost::make_shared<core::Structure>(myTestStruct);
-			boost::shared_ptr<core::GeometricInfo> geometricPtr = boost::make_shared<core::GeometricInfo>
-			        (spTestDoseAccessor->getGeometricInfo());
+			
+            //generate test structure 2. contours are (-20,0.5,38.75); (-12.5,0.5,38.75); (-12.5,10.5,38.75); (-20,10.5,38.75); 
+            //(-20, 0.5, 40); (-12.5, 0.5, 40); (-12.5, 10.5, 40); (-20, 10.5, 40);
+            core::Structure myTestStruct2 = myStructGenerator.CreateRectangularStructureCenteredContourPlaneThicknessNotEqualDosePlaneThickness(2);
+            StructTypePointer spMyStruct2 = boost::make_shared<core::Structure>(myTestStruct2);
+            
 
-			//1) test BoostMask constructor
+			//1) test BoostMask & BoostMaskAccessor constructor
 			CHECK_NO_THROW(rttb::masks::boostRedesign::BoostMask(geometricPtr, spMyStruct));
 			rttb::masks::boostRedesign::BoostMask boostMask = rttb::masks::boostRedesign::BoostMask(
 			            geometricPtr, spMyStruct);
 
-			//2) test getRelevantVoxelVector
-			CHECK_NO_THROW(boostMask.getRelevantVoxelVector());
-			rttb::masks::boostRedesign::BoostMask::MaskVoxelListPointer list =
-			    boostMask.getRelevantVoxelVector();
+            CHECK_NO_THROW(rttb::masks::boostRedesign::BoostMaskAccessor(spMyStruct,
+                spTestDoseAccessor->getGeometricInfo(), true));
+            rttb::masks::boostRedesign::BoostMaskAccessor boostMaskAccessor(spMyStruct,
+                spTestDoseAccessor->getGeometricInfo(), true);
 
-			for (int i = 0; i < list->size(); ++i)
-			{
-				std::cout << "id: " << list->at(i).getVoxelGridID() << ", " << list->at(
-				              i).getRelevantVolumeFraction() << std::endl;
-			}
+            //2) test getRelevantVoxelVector
+            CHECK_NO_THROW(boostMask.getRelevantVoxelVector());
+            CHECK_NO_THROW(boostMaskAccessor.getRelevantVoxelVector());
 
+            //3) test getMaskAt
+            const VoxelGridIndex3D inMask1(2, 1, 2); //corner between two contours slice -> volumeFraction = 0.25 
+            const VoxelGridIndex3D inMask2(3, 4, 2); //inside between two contours slice ->volumeFraction = 1 
+            const VoxelGridIndex3D inMask3(4, 5, 2); //side between two contours slice -> volumeFraction = 0.5 
+            const VoxelGridIndex3D inMask4(2, 1, 1); //corner on the first contour slice -> volumeFraction = 0.25/2 = 0.125
+            const VoxelGridIndex3D inMask5(2, 1, 3); //corner on the last contour slice -> volumeFraction = 0.25/2 = 0.125
+            const VoxelGridIndex3D inMask6(3, 4, 1); //inside on the first contour slice ->volumeFraction = 1 /2 = 0.5
+            const VoxelGridIndex3D outMask1(7, 5, 4);
+            const VoxelGridIndex3D outMask2(2, 1, 0);
+            const VoxelGridIndex3D outMask3(2, 1, 4);
+            VoxelGridID testId;
+            double errorConstant = 1e-7;
 
-			RETURN_AND_REPORT_TEST_SUCCESS;
+            core::MaskVoxel tmpMV1(0), tmpMV2(0);
+            CHECK(boostMaskAccessor.getMaskAt(inMask1, tmpMV1));
+            geometricPtr->convert(inMask1, testId);
+            CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_CLOSE(0.25, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+            CHECK(boostMaskAccessor.getMaskAt(inMask2, tmpMV1));
+            CHECK(geometricPtr->convert(inMask2, testId));
+            CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_EQUAL(1, tmpMV1.getRelevantVolumeFraction());
+            CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+            CHECK(boostMaskAccessor.getMaskAt(inMask3, tmpMV1));
+            CHECK(geometricPtr->convert(inMask3, testId));
+            CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_CLOSE(0.5, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+            CHECK(boostMaskAccessor.getMaskAt(inMask4, tmpMV1));
+            CHECK(geometricPtr->convert(inMask4, testId));
+            CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_CLOSE(0.125, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+            CHECK(boostMaskAccessor.getMaskAt(inMask5, tmpMV1));
+            CHECK(geometricPtr->convert(inMask5, testId));
+            CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_CLOSE(0.125, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+            CHECK(boostMaskAccessor.getMaskAt(inMask6, tmpMV1));
+            CHECK(geometricPtr->convert(inMask6, testId));
+            CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_CLOSE(0.5, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+            CHECK(!boostMaskAccessor.getMaskAt(outMask1, tmpMV1));
+            CHECK(geometricPtr->convert(outMask1, testId));
+            CHECK(!boostMaskAccessor.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_EQUAL(0, tmpMV1.getRelevantVolumeFraction());
+
+            CHECK(!boostMaskAccessor.getMaskAt(outMask2, tmpMV1));
+            CHECK(geometricPtr->convert(outMask2, testId));
+            CHECK(!boostMaskAccessor.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_EQUAL(0, tmpMV1.getRelevantVolumeFraction());
+
+            CHECK(!boostMaskAccessor.getMaskAt(outMask3, tmpMV1));
+            CHECK(geometricPtr->convert(outMask3, testId));
+            CHECK(!boostMaskAccessor.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_EQUAL(0, tmpMV1.getRelevantVolumeFraction());
+
+            //4) Exception tests if using old boost mask
+            MaskAccessorPointer boostMaskAccessorPtr
+                = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+                (spMyStruct2, spTestDoseAccessor->getGeometricInfo());
+            CHECK_THROW_EXPLICIT(boostMaskAccessorPtr->updateMask(), rttb::core::InvalidParameterException);
+
+            rttb::masks::boostRedesign::BoostMask boostMask2 = rttb::masks::boostRedesign::BoostMask(
+                geometricPtr, spMyStruct2);
+            CHECK_NO_THROW(boostMask2.getRelevantVoxelVector());
+            rttb::masks::boostRedesign::BoostMaskAccessor boostMaskAccessor2(spMyStruct2,
+                spTestDoseAccessor->getGeometricInfo(), true);
+            CHECK_NO_THROW(boostMaskAccessor2.getRelevantVoxelVector());
+
+            //5) test getMaskAt
+            CHECK(boostMaskAccessor2.getMaskAt(inMask1, tmpMV1));
+            geometricPtr->convert(inMask1, testId);
+            CHECK(boostMaskAccessor2.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            //corner, the first contour weight 0.25, the second contour weights 0.5  -> volumeFraction = 0.25*0.25 + 1.25*0.5 = 0.1875 
+            CHECK_CLOSE(0.1875, tmpMV1.getRelevantVolumeFraction(), errorConstant); 
+            CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+            CHECK(boostMaskAccessor2.getMaskAt(inMask2, tmpMV1));
+            CHECK(geometricPtr->convert(inMask2, testId));
+            CHECK(boostMaskAccessor2.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            //inside, the first contour weight 0.25, the second contour weights 0.5  -> ->volumeFraction = 1*0.25 + 1*0.5 = 0.75 
+            CHECK_EQUAL(0.75, tmpMV1.getRelevantVolumeFraction());
+            CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+            CHECK(boostMaskAccessor2.getMaskAt(inMask3, tmpMV1));
+            CHECK(geometricPtr->convert(inMask3, testId));
+            CHECK(boostMaskAccessor2.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            //side the first contour weight 0.25, the second contour weights 0.5  -> ->volumeFraction = 0.5*0.25 + 0.5*0.5 = 0.75 
+            CHECK_CLOSE(0.375, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());			
+
+            CHECK(boostMaskAccessor2.getMaskAt(inMask4, tmpMV1));
+            CHECK(geometricPtr->convert(inMask4, testId));
+            CHECK(boostMaskAccessor2.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            //corner on the first contour slice, weight 0.25 -> volumeFraction = 0.25*0.25 = 0.0625
+            CHECK_CLOSE(0.0625, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+            CHECK(boostMaskAccessor2.getMaskAt(inMask6, tmpMV1));
+            CHECK(geometricPtr->convert(inMask6, testId));
+            CHECK(boostMaskAccessor2.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            //inside on the first contour slice, weight 0.25 ->volumeFraction = 1 * 0.25 = 0.25
+            CHECK_CLOSE(0.25, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
+
+            CHECK(!boostMaskAccessor2.getMaskAt(outMask1, tmpMV1));
+            CHECK(geometricPtr->convert(outMask1, testId));
+            CHECK(!boostMaskAccessor2.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_EQUAL(0, tmpMV1.getRelevantVolumeFraction());
+            //CHECK_EQUAL(testId,tmpMV1.getVoxelGridID()); -> return value will not be valid outside the mask
+
+            CHECK(!boostMaskAccessor2.getMaskAt(outMask2, tmpMV1));
+            CHECK(geometricPtr->convert(outMask2, testId));
+            CHECK(!boostMaskAccessor2.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_EQUAL(0, tmpMV1.getRelevantVolumeFraction());
+            //CHECK_EQUAL(testId,tmpMV1.getVoxelGridID()); -> return value will not be valid outside the mask
+
+            CHECK(!boostMaskAccessor2.getMaskAt(outMask3, tmpMV1));
+            CHECK(geometricPtr->convert(outMask3, testId));
+            CHECK(!boostMaskAccessor2.getMaskAt(testId, tmpMV2));
+            CHECK_EQUAL(tmpMV1, tmpMV2);
+            CHECK_EQUAL(0, tmpMV1.getRelevantVolumeFraction());
+            //CHECK_EQUAL(testId,tmpMV1.getVoxelGridID()); -> return value will not be valid outside the mask
+
+            RETURN_AND_REPORT_TEST_SUCCESS;
 		}
 	}//testing
 }//rttb
