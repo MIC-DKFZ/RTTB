@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1334 $ (last changed revision)
-// @date    $Date: 2016-04-22 11:13:22 +0200 (Fr, 22 Apr 2016) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision: 1377 $ (last changed revision)
+// @date    $Date: 2016-06-07 10:26:43 +0200 (Di, 07 Jun 2016) $ (last change date)
+// @author  $Author: strubel $ (last changed by)
 */
 #include "rttbMaskWriter.h"
 
@@ -29,7 +29,7 @@ namespace rttb
 {
 	namespace apps
 	{
-		namespace voxelizer
+		namespace voxelizerTool
 		{
 			MaskWriter::MaskWriter(std::vector<MaskAccessorPointer> maskPointer,
 			                       bool voxelization) : _maskPointerVector(maskPointer), _booleanvoxelization(voxelization)
@@ -66,7 +66,7 @@ namespace rttb
 			{
 				std::vector<ITKImageTypePointer> listOfITKImages;
 
-				for (size_t i = 0; i < _maskPointerVector.size(); i++)
+				for (int i = 0; i < _maskPointerVector.size(); i++)
 				{
 					io::itk::ITKImageMaskAccessorConverter maskAccessorConverter(_maskPointerVector.at(i));
 					maskAccessorConverter.process();
@@ -78,7 +78,7 @@ namespace rttb
 				AddImageFilterType::Pointer addFilter = AddImageFilterType::New();
 				ITKImageTypePointer filterResult;
 
-				for (size_t k = 1; k < listOfITKImages.size(); k++)
+				for (int k = 1; k < listOfITKImages.size(); k++)
 				{
 					if (k == 1)
 					{

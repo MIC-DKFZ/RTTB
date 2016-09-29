@@ -1,18 +1,20 @@
 SET(CPP_FILES 
-rttbVoxelizerTool.cpp
-rttbCommandOptions.cpp
+VoxelizerTool.cpp
 rttbMaskProcess.cpp
 rttbMaskWriter.cpp
 rttbStructDataReader.cpp
-rttbVoxelizerHelper.cpp
+VoxelizerToolHelper.cpp
+VoxelizerToolCmdLineParser.cpp
+VoxelizerToolApplicationData.cpp
 )
 
 SET(H_FILES 
-rttbCommandOptions.h
+VoxelizerToolApplicationData.h
 rttbMaskProcess.h
 rttbMaskWriter.h
 rttbStructDataReader.h
-rttbVoxelizerHelper.h
+VoxelizerToolHelper.h
+VoxelizerToolCmdLineParser.h
 )
 
 SET(TPP_FILES

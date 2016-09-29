@@ -24,16 +24,17 @@
 #include <boost/filesystem.hpp>
 #include <vector>
 
-/*! @brief VoxelizerToolTest3.
-Test the output, multipleStructs and the booleanVoxelization parameter.
+/*! @brief VoxelizerToolTest5.
+Test the paramter boost and legacy Voxelization.
 */
+
 namespace rttb
 {
 	namespace testing
 	{
 		//path to the current running directory. VoxelizerTool is in the same directory (Debug/Release)
 		extern const char* _callingAppPath;
-		int VoxelizerToolDifferentCommandsTest(int argc, char* argv[])
+		int VoxelizerToolVoxelizerBoostLegacy(int argc, char* argv[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
@@ -51,13 +52,12 @@ namespace rttb
 			}
 
 			std::vector<std::string> commands;
-			commands.push_back("\"Niere.*\" -m -o Test.hdr");
-			commands.push_back("\"Leber\" -o Boolean.hdr -v");
+			commands.push_back("PTV -o Legacy.hdr -l");
+			commands.push_back("PTV -o Boost.hdr");
 
 			std::vector<std::string> filenames;
-			filenames.push_back("Test_Niere li");
-			filenames.push_back("Test_Niere re");
-			filenames.push_back("Boolean_Leber");
+			filenames.push_back("Boost_PTV");
+			filenames.push_back("Legacy_PTV");
 
 			boost::filesystem::path callingPath(_callingAppPath);
 			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + voxelizerToolExe;
@@ -74,12 +74,6 @@ namespace rttb
 				std::cout << "Command line call: " + command << std::endl;
 				CHECK_EQUAL(returnValue, 0);
 			}
-
-			std::string helpCommand = voxelizerToolExeWithPath + " -h";
-			int returnValue = system(helpCommand.c_str());
-			std::cout << "Command line call: " + helpCommand << std::endl;
-			CHECK_EQUAL(returnValue, 0);
-
 
 			for (size_t i = 0; i < filenames.size(); i++)
 			{

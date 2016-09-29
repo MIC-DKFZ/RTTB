@@ -12,7 +12,7 @@ IF(BUILD_App_VoxelizerTool)
   ADD_SUBDIRECTORY (VoxelizerTool)
 ENDIF(BUILD_App_VoxelizerTool)
 
-IF(BUILD_App_DoseMap)
+IF(BUILD_App_DoseMap AND BUILD_IO_Virtuos)
   ADD_SUBDIRECTORY (DoseMap)
 ENDIF()
 IF(BUILD_App_BioModelCalc)
