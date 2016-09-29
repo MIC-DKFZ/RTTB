@@ -8,7 +8,7 @@ SET(CORE_TEST_EXAMPLES ${EXECUTABLE_OUTPUT_PATH}/rttbExamplesTests)
 
 SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
 
-SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
+SET(TEMP ${RTTBTesting_BINARY_DIR}/Temporary)
 
 
 #-----------------------------------------------------------------------------

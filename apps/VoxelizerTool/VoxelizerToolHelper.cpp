@@ -19,7 +19,7 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#include "rttbVoxelizerHelper.h"
+#include "VoxelizerToolHelper.h"
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/regex.hpp>
 #include <boost/filesystem.hpp>
@@ -28,7 +28,7 @@ namespace rttb
 {
 	namespace apps
 	{
-		namespace voxelizer
+		namespace voxelizerTool
 		{
 
 			std::vector<int> filterForExpression(const std::vector<std::string>& listOfExpressions,

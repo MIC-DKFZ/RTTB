@@ -26,7 +26,7 @@ namespace rttb
 {
 	namespace apps
 	{
-		namespace voxelizer
+		namespace voxelizerTool
 		{
 			/**@brief ListofExpression contains input expression
 			@return a vector of found labels

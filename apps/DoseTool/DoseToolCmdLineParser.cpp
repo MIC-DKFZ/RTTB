@@ -88,7 +88,7 @@ namespace rttb
 				                       "If the DVH should be computed. The argument is the output file", 'z');
 
 				addOption(OPTION_COMPLEX_STATISTICS, OPTION_GROUP_OPTIONAL,
-				          "If the complex dose statistics (Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx) should be computed.", 'x');
+				          "If the complex dose statistics (Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx) should be computed.", 'f');
 				addOption<DoseTypeGy>(OPTION_PRESCRIBED_DOSE, OPTION_GROUP_OPTIONAL,
 				                      "The prescribed dose in Gy.", 'p');
 				addOption(OPTION_ALLOW_SELF_INTERSECTION_STRUCT, OPTION_GROUP_OPTIONAL,

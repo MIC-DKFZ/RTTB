@@ -93,7 +93,7 @@ namespace rttb
 
 			std::string complexDoseStatisticsCommand = baseCommand + " -y " + complexOutputFilename;
 			//prescribed dose is 14 Gy
-			complexDoseStatisticsCommand += " -x -p 14";
+			complexDoseStatisticsCommand += " -f -p 14";
 
 			std::cout << "Command line call: " + complexDoseStatisticsCommand << std::endl;
 			CHECK_EQUAL(system(complexDoseStatisticsCommand.c_str()), 0);

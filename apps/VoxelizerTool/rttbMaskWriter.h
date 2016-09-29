@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1155 $ (last changed revision)
-// @date    $Date: 2015-10-15 09:43:29 +0200 (Do, 15 Okt 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision: 1377 $ (last changed revision)
+// @date    $Date: 2016-06-07 10:26:43 +0200 (Di, 07 Jun 2016) $ (last change date)
+// @author  $Author: strubel $ (last changed by)
 */
 #ifndef __MaskWriter_h
 #define __MaskWriter_h
@@ -28,7 +28,7 @@ namespace rttb
 {
 	namespace apps
 	{
-		namespace voxelizer
+		namespace voxelizerTool
 		{
 			/*! @class MaskWriter
 			@brief MaskWriter write a mask into a file
@@ -61,7 +61,6 @@ namespace rttb
 				void writeITKImageToFile(ITKImageTypeConstPointer itkImage, const std::string& outputfilename,
 				                         bool useCompression = true) const;
 
-				//MaskAccessorPointer _maskAccessorPtr;
 				bool _booleanvoxelization;
 				std::vector<MaskAccessorPointer> _maskPointerVector;
 			};

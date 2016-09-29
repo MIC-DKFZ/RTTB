@@ -99,7 +99,7 @@ namespace rttb
 
 			//call with complex dose statistics, but without prescribed dose
 			std::string complexDoseWithoutPrescribedDoseCommand = minimalCLI;
-			complexDoseWithoutPrescribedDoseCommand += "-x";
+			complexDoseWithoutPrescribedDoseCommand += "-f";
 			std::cout << "Command line call: " + complexDoseWithoutPrescribedDoseCommand << std::endl;
 			CHECK_EQUAL(system(complexDoseWithoutPrescribedDoseCommand.c_str()) != 0, true);
 
