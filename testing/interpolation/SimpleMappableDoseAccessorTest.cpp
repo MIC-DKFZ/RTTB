@@ -79,26 +79,22 @@ namespace rttb
 
 			DoseAccessorPointer doseAccessorNull;
 
-			TransformationInterface::Pointer transformDummy = TransformationInterface::Pointer(
-			            new DummyTransformation());
+            TransformationInterface::Pointer transformDummy = boost::make_shared<DummyTransformation>();
 			TransformationInterface::Pointer transformNull;
 
-			NearestNeighborInterpolation::Pointer interpolationNN =
-			    NearestNeighborInterpolation::Pointer(new NearestNeighborInterpolation());
-			LinearInterpolation::Pointer interpolationLinear = LinearInterpolation::Pointer(
-			            new LinearInterpolation());
+            NearestNeighborInterpolation::Pointer interpolationNN = boost::make_shared<NearestNeighborInterpolation>();
+            LinearInterpolation::Pointer interpolationLinear = boost::make_shared<LinearInterpolation>();
 			boost::shared_ptr<NearestNeighborInterpolation> interpolationNull;
 
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorDefault =
-			    SimpleMappableDoseAccessor::Pointer(
-			        new SimpleMappableDoseAccessor(
-			            doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear));
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorNoPadding =
-			    SimpleMappableDoseAccessor::Pointer(
-			        new SimpleMappableDoseAccessor(
-			            doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear, false));
+            SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorDefault = boost::make_shared<SimpleMappableDoseAccessor>(
+                doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy);
+            SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorNoPadding = boost::make_shared<SimpleMappableDoseAccessor>(
+                doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear, false);
 
 			//1) Test constructor
+
+            CHECK_NO_THROW(SimpleMappableDoseAccessor(
+                doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy));
 
 			CHECK_NO_THROW(SimpleMappableDoseAccessor test(doseAccessor1->getGeometricInfo(), doseAccessor2,
 			               transformDummy, interpolationLinear));
