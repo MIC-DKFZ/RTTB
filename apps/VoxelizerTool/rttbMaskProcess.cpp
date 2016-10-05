@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1221 $ (last changed revision)
-// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision: 1377 $ (last changed revision)
+// @date    $Date: 2016-06-07 10:26:43 +0200 (Di, 07 Jun 2016) $ (last change date)
+// @author  $Author: strubel $ (last changed by)
 */
 #include "rttbMaskProcess.h"
 
@@ -28,7 +28,7 @@ namespace rttb
 {
 	namespace apps
 	{
-		namespace voxelizer
+		namespace voxelizerTool
 		{
 			MaskProcess::MaskProcess(StructureSetPointer rtStructureSet, DoseAccessorPointer doseAccessor,
 			                         bool legacy, bool allowSelfIntersection) : _rtStructureSet(rtStructureSet),

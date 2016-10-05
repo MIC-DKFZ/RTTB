@@ -40,6 +40,7 @@ namespace rttb
 		*/
 		bool checkEqualDVH(DVHPointer aDVH1, DVHPointer aDVH2);
 
+        DVHPointer compareDVH(DVHPointer aDVH1, DVHPointer aDVH2);
 	}//testing
 }//rttb
 #endif

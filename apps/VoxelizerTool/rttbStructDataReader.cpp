@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1334 $ (last changed revision)
-// @date    $Date: 2016-04-22 11:13:22 +0200 (Fr, 22 Apr 2016) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision: 1377 $ (last changed revision)
+// @date    $Date: 2016-06-07 10:26:43 +0200 (Di, 07 Jun 2016) $ (last change date)
+// @author  $Author: strubel $ (last changed by)
 */
 
 #include "rttbStructDataReader.h"
@@ -28,7 +28,7 @@ namespace rttb
 {
 	namespace apps
 	{
-		namespace voxelizer
+		namespace voxelizerTool
 		{
 			StructDataReader::StructDataReader(const std::string& structFileName,
 			                                   const std::string& referenceFileName,
@@ -49,7 +49,7 @@ namespace rttb
 
 				if (_rtStructureSet != NULL)
 				{
-					for (size_t j = 0; j < _rtStructureSet->getNumberOfStructures(); j++)
+					for (int j = 0; j < _rtStructureSet->getNumberOfStructures(); j++)
 					{
 						allLabels.push_back(_rtStructureSet->getStructure(j)->getLabel());
 					}

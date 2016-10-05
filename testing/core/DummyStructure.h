@@ -57,6 +57,14 @@ namespace rttb
 
 			core::Structure CreateRectangularStructureCentered(GridIndexType zPlane);
 
+            /* Generate rectangular structure for the z slice and another slice between z and z+1. So the structure has a smaller z spacing than the dose
+            */
+            core::Structure CreateRectangularStructureCenteredContourPlaneThicknessNotEqualDosePlaneThickness(GridIndexType zPlane);
+
+            /* Generate rectangular structure for the z slices fromm fromZPlane(included) to toZPlane(included)
+            */
+            core::Structure CreateRectangularStructureCentered(GridIndexType fromZPlane, GridIndexType toZPlane);
+
 			core::Structure CreateTestStructureCircle(GridIndexType zPlane);
 
 			core::Structure CreateRectangularStructureUpperLeftRotated(GridIndexType zPlane);

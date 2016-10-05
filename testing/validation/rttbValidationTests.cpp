@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date $Date$ (last change date)
-// @author $Author$ (last changed by)
+// @version $Revision: 1388 $ (last changed revision)
+// @date $Date: 2016-07-04 14:03:35 +0200 (Mo, 04 Jul 2016) $ (last change date)
+// @author $Author: hentsch $ (last changed by)
 */
 
 // this file defines the rttbCoreTests for the test driver
@@ -36,17 +36,8 @@ namespace rttb
 	{
 		void registerTests()
 		{
-			LIT_REGISTER_TEST(RTBioModelExampleTest);
-			LIT_REGISTER_TEST(RTDVHTest);
-			LIT_REGISTER_TEST(RTDoseIndexTest);
-
-			if (RTTB_VIRTUOS_SUPPORT)
-			{
-				LIT_REGISTER_TEST(RTDoseStatisticsVirtuosTest);
-			}
-
-			LIT_REGISTER_TEST(RTDoseStatisticsDicomTest);
-			LIT_REGISTER_TEST(RTBioModelScatterPlotExampleTest);
+            LIT_REGISTER_TEST(VoxelizationDVHComparisonTest);
+            LIT_REGISTER_TEST(VoxelizationValidationTest);
 		}
 	}
 }

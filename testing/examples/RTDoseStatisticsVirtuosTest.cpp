@@ -81,13 +81,13 @@ namespace rttb
 			StructureSetPointer virtuosStructureSet = io::virtuos::VirtuosFileStructureSetGenerator(
 			            RTSTRUCT_FILENAME.c_str(), RTDOSE_FILENAME.c_str()).generateStructureSet();
 
-			boost::shared_ptr<masks::boost::BoostMaskAccessor> spOTBMaskAccessorVirtuos =
+			boost::shared_ptr<masks::boost::BoostMaskAccessor> spMaskAccessorVirtuos =
 			    boost::make_shared<masks::boost::BoostMaskAccessor>(virtuosStructureSet->getStructure(2),
 			            virtuosDoseAccessor->getGeometricInfo());
 
-			spOTBMaskAccessorVirtuos->updateMask();
+			spMaskAccessorVirtuos->updateMask();
 
-			MaskAccessorPointer spMaskAccessor(spOTBMaskAccessorVirtuos);
+			MaskAccessorPointer spMaskAccessor(spMaskAccessorVirtuos);
 
 			//create corresponding MaskedDoseIterator
 

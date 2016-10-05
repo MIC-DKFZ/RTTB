@@ -44,8 +44,15 @@ namespace rttb
 
 			PolygonType createPolygonLeftUpper(std::vector<VoxelGridIndex2D> aVoxelVector,
 			                                   GridIndexType sliceNumber);
+            
+            /*The z coordinate of the polygon is the upper side of the voxel on the slice*/
 			PolygonType createPolygonCenter(std::vector<VoxelGridIndex2D> aVoxelVector,
 			                                GridIndexType sliceNumber);
+
+            /*The z coordinate of the polygon is the center of the voxel on the slice*/
+            PolygonType createPolygonCenterOnPlaneCenter(std::vector<VoxelGridIndex2D> aVoxelVector,
+                GridIndexType sliceNumber);
+
 			PolygonType createPolygonBetweenUpperLeftAndCenter(std::vector<VoxelGridIndex2D> aVoxelVector,
 			        GridIndexType sliceNumber);
 			PolygonType createPolygonBetweenLowerRightAndCenter(std::vector<VoxelGridIndex2D> aVoxelVector,

@@ -1,8 +1,8 @@
 SET(CPP_FILES 
-	rttbVoxelizerToolTests.cpp
-	rttbVoxelizerToolDifferentCommandsTest.cpp
-	rttbVoxelizerToolIncorrectCommandsTest.cpp
-	rttbVoxelizerToolVoxelizerAllStructsTest.cpp
-	rttbVoxelizerToolVoxelizerBoostLegacyTest.cpp
-	rttbVoxelizerToolVoxelValueTest.cpp
+	VoxelizerToolTests.cpp
+	VoxelizerToolDifferentCommandsTest.cpp
+	VoxelizerToolIncorrectCommandsTest.cpp
+	VoxelizerToolVoxelizerAllStructsTest.cpp
+	VoxelizerToolVoxelizerBoostLegacyTest.cpp
+	VoxelizerToolVoxelValueTest.cpp
   )

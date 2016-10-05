@@ -29,7 +29,9 @@ namespace rttb
 				const std::string OPTION_OUTPUT_FILE = "outputFile";
 				const std::string OPTION_MODEL = "model";
 				const std::string OPTION_MODEL_PARAMETERS = "modelParameters";
+                const std::string OPTION_MODEL_PARAMETER_MAPS = "modelParameterMaps";
 				const std::string OPTION_LOAD_STYLE = "loadStyle";
+                const std::string OPTION_LOAD_STYLE_PARAMETER_MAPS = "loadStyleParameterMaps";
 				const std::string OPTION_DOSE_SCALING = "doseScaling";
 
 				bool _virtuosSupport;
