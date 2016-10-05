@@ -3,6 +3,7 @@ SET(CPP_FILES
 	../../core/CreateTestStructure.cpp		
 	../../core/DummyDoseAccessor.cpp
 	OTBMaskAccessorTest.cpp
+	BoostMaskLegacyTest.cpp
 	../rttbMaskVoxelListTester.cpp
 	../rttbMaskRectStructTester.cpp
 	rttbOTBMaskTests.cpp

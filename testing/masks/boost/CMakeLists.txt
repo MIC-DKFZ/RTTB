@@ -12,10 +12,8 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 
 #-----------------------------------------------------------------------------
-ADD_TEST(BoostMaskAccessorTest ${Boost_Mask_TESTS} BoostMaskAccessorTest 
-)
 
-ADD_TEST(BoostMaskRedesignTest ${Boost_Mask_TESTS} BoostMaskRedesignTest 
+ADD_TEST(BoostMaskTest ${Boost_Mask_TESTS} BoostMaskTest 
 )
 
 RTTB_CREATE_TEST_MODULE(rttbBoostMask DEPENDS RTTBDicomIO RTTBMasks RTTBBoostMask PACKAGE_DEPENDS Boost BoostBinaries Litmus DCMTK)

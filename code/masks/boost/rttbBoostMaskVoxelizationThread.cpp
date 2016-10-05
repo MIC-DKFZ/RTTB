@@ -4,7 +4,7 @@ namespace rttb
 {
 	namespace masks
 	{
-		namespace boostRedesign
+		namespace boost
 		{
 			BoostMaskVoxelizationThread::BoostMaskVoxelizationThread(const BoostPolygonMap& APolygonMap,
 			        const VoxelIndexVector& aGlobalBoundingBox, VoxelizationIndexQueuePointer aResultIndexQueue,
@@ -28,7 +28,7 @@ namespace rttb
 				     it != _geometryCoordinateBoostPolygonMap.end(); ++it)
 				{
 					BoostArray2D* maskArray = new BoostArray2D(
-					    boost::extents[globalBoundingBoxSize0][globalBoundingBoxSize1]);
+					    ::boost::extents[globalBoundingBoxSize0][globalBoundingBoxSize1]);
 
 					BoostPolygonVector boostPolygonVec = (*it).second;
 

@@ -10,7 +10,7 @@ namespace rttb
 {
 	namespace masks
 	{
-		namespace boostRedesign
+		namespace boost
 		{
 			BoostMaskGenerateMaskVoxelListThread::BoostMaskGenerateMaskVoxelListThread(
 			    const VoxelIndexVector& aGlobalBoundingBox,

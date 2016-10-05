@@ -14,9 +14,9 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
+// @version $Revision: 1221 $ (last changed revision)
+// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
 */
 
 #include <boost/make_shared.hpp>
@@ -29,8 +29,8 @@
 
 #include "../../core/DummyStructure.h"
 #include "../../core/DummyDoseAccessor.h"
-#include "rttbBoostMask.h"
-#include "rttbBoostMaskAccessor.h"
+#include "rttbBoostMask_LEGACY.h"
+#include "rttbBoostMaskAccessor_LEGACY.h"
 
 
 namespace rttb
@@ -43,13 +43,13 @@ namespace rttb
 			2) test getRelevantVoxelVector
 			3) test getMaskAt
 		*/
-		int BoostMaskAccessorTest(int argc, char* argv[])
+		int BoostMaskLegacyTest(int argc, char* argv[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
 			typedef core::Structure::StructTypePointer StructTypePointer;
-			typedef masks::boost::BoostMaskAccessor::MaskVoxelListPointer MaskVoxelListPointer;
-			typedef masks::boost::BoostMaskAccessor::MaskVoxelList MaskVoxelList;
+			typedef masks::boostLegacy::BoostMaskAccessor::MaskVoxelListPointer MaskVoxelListPointer;
+            typedef masks::boostLegacy::BoostMaskAccessor::MaskVoxelList MaskVoxelList;
 
 			// generate test structure set
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor =
@@ -64,11 +64,11 @@ namespace rttb
 			        (spTestDoseAccessor->getGeometricInfo());
 
 			//1) test BoostMask and BoostMaskAccessor constructor
-			CHECK_NO_THROW(rttb::masks::boost::BoostMask(geometricPtr, spMyStruct));
-			rttb::masks::boost::BoostMask boostMask = rttb::masks::boost::BoostMask(geometricPtr, spMyStruct);
-			CHECK_NO_THROW(rttb::masks::boost::BoostMaskAccessor(spMyStruct,
+            CHECK_NO_THROW(rttb::masks::boostLegacy::BoostMask(geometricPtr, spMyStruct));
+            rttb::masks::boostLegacy::BoostMask boostMask = rttb::masks::boostLegacy::BoostMask(geometricPtr, spMyStruct);
+            CHECK_NO_THROW(rttb::masks::boostLegacy::BoostMaskAccessor(spMyStruct,
 			               spTestDoseAccessor->getGeometricInfo()));
-			rttb::masks::boost::BoostMaskAccessor boostMaskAccessor(spMyStruct,
+            rttb::masks::boostLegacy::BoostMaskAccessor boostMaskAccessor(spMyStruct,
 			        spTestDoseAccessor->getGeometricInfo());
 
 			//2) test getRelevantVoxelVector

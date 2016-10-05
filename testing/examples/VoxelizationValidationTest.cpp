@@ -42,11 +42,12 @@
 #include "rttbBoostMaskAccessor.h"
 #include "rttbITKImageMaskAccessorConverter.h"
 #include "rttbImageWriter.h"
-#include "rttbBoostMaskRedesign.h"
-#include "rttbBoostMaskRedesignAccessor.h"
 #include "rttbITKImageAccessorGenerator.h"
 #include "rttbITKImageFileAccessorGenerator.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbBoostMask_LEGACY.h"
+#include "rttbBoostMaskAccessor_LEGACY.h"
+
 
 
 namespace rttb
@@ -56,7 +57,7 @@ namespace rttb
 	{
 
 		/*! @brief VoxelizationValidationTest.
-		Compare two differnt voxelizations: OTB and Boost.
+		Compare three differnt voxelizations: OTB, BoostLegacy and Boost.
 		Check dvh maximum and minimum for each structure.
 		Check write mask to itk file for further validation.
 		*/
@@ -69,31 +70,32 @@ namespace rttb
 			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
-			//ARGUMENTS: 1: structure file name
-			//           2: dose1 file name
+			//ARGUMENTS: 1: file name of test structure 1
+			//           2: file name of test dose 1 
 			//           3: directory name to write boost mask of all structures
 			//           4: directory name to write OTB mask of all structures
-
+            //           5: file name of test dose 2: data with different z spacing of dose and structure, BooseLegacy throws exceptions by handling this data
+            //           6: file name of test structure 2: data with different z spacing of dose and structure, BooseLegacy throws exceptions by handling this data
 
 			std::string RTSTRUCT_FILENAME;
 			std::string RTDOSE_FILENAME;
-			std::string BoostMask_DIRNAME;
+			std::string BoostMaskLegacy_DIRNAME;
 			std::string OTBMask_DIRNAME;
-			std::string BoostMaskRedesign_DIRNAME;
+			std::string BoostMask_DIRNAME;
 
-			std::string RTDose_BoostRedesign;
-			std::string RTStr_BoostRedesign;
+			std::string RTDOSE2_FILENAME;
+			std::string RTSTRUCT2_FILENAME;
 
 			if (argc > 4)
 			{
 				RTSTRUCT_FILENAME = argv[1];
 				RTDOSE_FILENAME = argv[2];
-				BoostMask_DIRNAME = argv[3];
+				BoostMaskLegacy_DIRNAME = argv[3];
 				OTBMask_DIRNAME = argv[4];
-				BoostMaskRedesign_DIRNAME = argv[5];
+				BoostMask_DIRNAME = argv[5];
 
-                RTDose_BoostRedesign = argv[6];
-                RTStr_BoostRedesign = argv[7];
+                RTDOSE2_FILENAME = argv[6];
+                RTSTRUCT2_FILENAME = argv[7];
 			}
 
 			OFCondition status;
@@ -145,9 +147,9 @@ namespace rttb
 
 
 					clock_t start2(clock());
-					//create Boost MaskAccessor
+					//create Boost MaskAccessor_LEGACY
 					MaskAccessorPointer boostMaskAccessorPtr
-					    = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+					    = ::boost::make_shared<rttb::masks::boostLegacy::BoostMaskAccessor>
 					      (rtStructureSet->getStructure(j), doseAccessor1->getGeometricInfo());
 
 					CHECK_NO_THROW(boostMaskAccessorPtr->updateMask());
@@ -171,7 +173,7 @@ namespace rttb
 					rttb::io::itk::ITKImageMaskAccessorConverter itkConverter2(boostMaskAccessorPtr);
 					CHECK(itkConverter2.process());
 					std::stringstream fileNameSstr2;
-					fileNameSstr2 << BoostMask_DIRNAME << j << ".mhd";
+					fileNameSstr2 << BoostMaskLegacy_DIRNAME << j << ".mhd";
 					rttb::io::itk::ImageWriter writer2(fileNameSstr2.str(), itkConverter2.getITKImage());
 					CHECK(writer2.writeFile());
 
@@ -180,7 +182,7 @@ namespace rttb
 					clock_t startR(clock());
 
 					MaskAccessorPointer boostMaskRPtr
-					    = ::boost::make_shared<rttb::masks::boostRedesign::BoostMaskAccessor>
+					    = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
 					      (rtStructureSet->getStructure(j), doseAccessor1->getGeometricInfo());
 					CHECK_NO_THROW(boostMaskRPtr->updateMask());
 					::boost::shared_ptr<core::GenericMaskedDoseIterator> spMaskedDoseIteratorTmpR =
@@ -202,7 +204,7 @@ namespace rttb
 
 
 					std::stringstream fileNameSstrR;
-					fileNameSstrR << BoostMaskRedesign_DIRNAME << j << ".mhd";
+					fileNameSstrR << BoostMask_DIRNAME << j << ".mhd";
 					rttb::io::itk::ImageWriter writerR(fileNameSstrR.str(), itkConverterR.getITKImage());
 					CHECK(writerR.writeFile());
 
@@ -244,11 +246,11 @@ namespace rttb
 			}
 
 			/* Exception tests using data with different z spacing of dose and structure */
-            io::itk::ITKImageFileAccessorGenerator doseAccessorGenerator2(RTDose_BoostRedesign.c_str());
+            io::itk::ITKImageFileAccessorGenerator doseAccessorGenerator2(RTDOSE2_FILENAME.c_str());
 			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
 
 			StructureSetPointer rtStructureSet2 = io::dicom::DicomFileStructureSetGenerator(
-                RTStr_BoostRedesign.c_str()).generateStructureSet();
+                RTSTRUCT2_FILENAME.c_str()).generateStructureSet();
 
 
 			if (rtStructureSet2->getNumberOfStructures() > 0)
@@ -258,9 +260,9 @@ namespace rttb
 					std::cout << j << ": " << rtStructureSet2->getStructure(j)->getLabel() << std::endl;
 					clock_t start(clock());
 
-					//create Boost MaskAccessor
+					//create Boost MaskAccessor Legacy
 					MaskAccessorPointer boostMaskAccessorPtr
-					    = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+					    = ::boost::make_shared<rttb::masks::boostLegacy::BoostMaskAccessor>
 					      (rtStructureSet2->getStructure(j), doseAccessor2->getGeometricInfo());
 
 					//Two polygons in the same slice exception using boost mask, because of the different z spacing of dose and structure
@@ -272,7 +274,7 @@ namespace rttb
 
 					//create Boost MaskAccessor redesign
 					MaskAccessorPointer boostMaskRPtr
-					    = ::boost::make_shared<rttb::masks::boostRedesign::BoostMaskAccessor>
+					    = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
 					      (rtStructureSet2->getStructure(j), doseAccessor2->getGeometricInfo());
 
 					//No exception using redesigned boost mask

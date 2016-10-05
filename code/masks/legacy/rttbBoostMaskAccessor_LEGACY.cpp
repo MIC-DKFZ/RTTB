@@ -14,13 +14,13 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1127 $ (last changed revision)
-// @date    $Date: 2015-10-01 13:33:33 +0200 (Do, 01 Okt 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
+// @version $Revision: 1265 $ (last changed revision)
+// @date    $Date: 2016-03-08 15:11:43 +0100 (Di, 08 Mrz 2016) $ (last change date)
+// @author  $Author: zhangl $ (last changed by)
 */
 
-#include "rttbBoostMaskRedesignAccessor.h"
-#include "rttbBoostMaskRedesign.h"
+#include "rttbBoostMaskAccessor_LEGACY.h"
+#include "rttbBoostMask_LEGACY.h"
 
 #include <boost/make_shared.hpp>
 
@@ -32,7 +32,7 @@ namespace rttb
 {
 	namespace masks
 	{
-		namespace boostRedesign
+        namespace boostLegacy
 		{
 
 			BoostMaskAccessor::BoostMaskAccessor(StructTypePointer aStructurePointer,
