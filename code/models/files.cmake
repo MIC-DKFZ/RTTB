@@ -22,7 +22,7 @@ SET(H_FILES
   rttbNTCPRSModel.h
   rttbTCPModel.h
   rttbTCPLQModel.h  
-  rttbDoseBasedModels.cpp
+  rttbDoseBasedModels.h
   rttbDvhBasedModels.h
   rttbIntegration.h
   rttbLQModelAccessor.h
