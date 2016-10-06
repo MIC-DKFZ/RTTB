@@ -13,6 +13,13 @@ set(ArgumentParsingLib_SOURCE_DIR "${CMAKE_BINARY_DIR}/external/ArgumentParsingL
 set(ArgumentParsingLib_BUILD_DIR "${CMAKE_BINARY_DIR}/external/ArgumentParsingLib-build")
 set(ArgumentParsingLib_CMAKE_DIR "${CMAKE_BINARY_DIR}/external/ArgumentParsingLib-cmake")
 
+
+IF(BUILD_SHARED_LIBS OR RTTB_USE_MITK_BOOST)
+  SET(ARG_BUILD_SHARED_LIBS ON)
+ELSE(BUILD_SHARED_LIBS OR RTTB_USE_MITK_BOOST)
+  SET(ARG_BUILD_SHARED_LIBS OFF)
+ENDIF(BUILD_SHARED_LIBS OR RTTB_USE_MITK_BOOST)
+
 ExternalProject_Add(
 	ArgumentParsingLib
 	URL ${RTToolbox_SOURCE_DIR}/utilities/ArgumentParsingLib/ArgumentParsingLib.tar.gz
@@ -24,7 +31,7 @@ ExternalProject_Add(
 	CMAKE_ARGS 
 		-DBUILD_TESTS:BOOL=OFF
 		-DBoost_INCLUDE_DIR:STRING=${Boost_INCLUDE_DIR}
-		-DBoost_DIR:STRING=${Boost_DIR}
+		-DBUILD_SHARED_LIBS:BOOL=${ARG_BUILD_SHARED_LIBS}
 )
 
 OPTION(BUILD_App_DoseAcc "Determine if the demo application DoseAcc will be generated." OFF)
