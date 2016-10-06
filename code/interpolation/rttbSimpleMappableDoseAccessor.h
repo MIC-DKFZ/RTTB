@@ -55,7 +55,7 @@ namespace rttb
 			SimpleMappableDoseAccessor(const core::GeometricInfo& geoInfoTargetImage,
 			                           const DoseAccessorPointer doseMovingImage,
 			                           const TransformationInterface::Pointer aTransformation,
-			                           const InterpolationBase::Pointer aInterpolation = boost::make_shared<LinearInterpolation>(),
+			                           const InterpolationBase::Pointer aInterpolation = ::boost::make_shared<LinearInterpolation>(),
 			                           bool acceptPadding = true,
 			                           DoseTypeGy defaultOutsideValue = 0.0);
 
