@@ -35,10 +35,8 @@
 #include "rttbGenericDoseIterator.h"
 #include "rttbDVHCalculator.h"
 #include "rttbGenericMaskedDoseIterator.h"
-#include "rttbBoostMaskRedesign.h"
 #include "rttbBoostMask.h"
 #include "rttbBoostMaskAccessor.h"
-#include "rttbBoostMaskRedesignAccessor.h"
 #include "rttbInvalidParameterException.h"
 
 
@@ -52,7 +50,7 @@ namespace rttb
 			2) test getRelevantVoxelVector
 			3) test getMaskAt
 		*/
-		int BoostMaskRedesignTest(int argc, char* argv[])
+		int BoostMaskTest(int argc, char* argv[])
 		{
 			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
 			typedef core::DVHCalculator::DoseIteratorPointer DoseIteratorPointer;
@@ -83,13 +81,13 @@ namespace rttb
             
 
 			//1) test BoostMask & BoostMaskAccessor constructor
-			CHECK_NO_THROW(rttb::masks::boostRedesign::BoostMask(geometricPtr, spMyStruct));
-			rttb::masks::boostRedesign::BoostMask boostMask = rttb::masks::boostRedesign::BoostMask(
+			CHECK_NO_THROW(rttb::masks::boost::BoostMask(geometricPtr, spMyStruct));
+			rttb::masks::boost::BoostMask boostMask = rttb::masks::boost::BoostMask(
 			            geometricPtr, spMyStruct);
 
-            CHECK_NO_THROW(rttb::masks::boostRedesign::BoostMaskAccessor(spMyStruct,
+            CHECK_NO_THROW(rttb::masks::boost::BoostMaskAccessor(spMyStruct,
                 spTestDoseAccessor->getGeometricInfo(), true));
-            rttb::masks::boostRedesign::BoostMaskAccessor boostMaskAccessor(spMyStruct,
+            rttb::masks::boost::BoostMaskAccessor boostMaskAccessor(spMyStruct,
                 spTestDoseAccessor->getGeometricInfo(), true);
 
             //2) test getRelevantVoxelVector
@@ -170,20 +168,13 @@ namespace rttb
             CHECK_EQUAL(tmpMV1, tmpMV2);
             CHECK_EQUAL(0, tmpMV1.getRelevantVolumeFraction());
 
-            //4) Exception tests if using old boost mask
-            MaskAccessorPointer boostMaskAccessorPtr
-                = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-                (spMyStruct2, spTestDoseAccessor->getGeometricInfo());
-            CHECK_THROW_EXPLICIT(boostMaskAccessorPtr->updateMask(), rttb::core::InvalidParameterException);
-
-            rttb::masks::boostRedesign::BoostMask boostMask2 = rttb::masks::boostRedesign::BoostMask(
+            rttb::masks::boost::BoostMask boostMask2 = rttb::masks::boost::BoostMask(
                 geometricPtr, spMyStruct2);
             CHECK_NO_THROW(boostMask2.getRelevantVoxelVector());
-            rttb::masks::boostRedesign::BoostMaskAccessor boostMaskAccessor2(spMyStruct2,
+            rttb::masks::boost::BoostMaskAccessor boostMaskAccessor2(spMyStruct2,
                 spTestDoseAccessor->getGeometricInfo(), true);
             CHECK_NO_THROW(boostMaskAccessor2.getRelevantVoxelVector());
 
-            //5) test getMaskAt
             CHECK(boostMaskAccessor2.getMaskAt(inMask1, tmpMV1));
             geometricPtr->convert(inMask1, testId);
             CHECK(boostMaskAccessor2.getMaskAt(testId, tmpMV2));

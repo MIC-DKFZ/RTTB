@@ -44,7 +44,7 @@ namespace rttb
 {
 	namespace masks
 	{
-		namespace boostRedesign
+		namespace boost
 		{
 			/*! @class BoostMaskGenerateMaskVoxelListThread
 			*

@@ -1,9 +1,8 @@
 SET(CPP_FILES 
-	../../core/DummyStructure.cpp
-	../../core/CreateTestStructure.cpp		
+	../../core/DummyStructure.cpp		
 	../../core/DummyDoseAccessor.cpp
-	BoostMaskAccessorTest.cpp
-	BoostMaskRedesignTest.cpp  
+	../../core/CreateTestStructure.cpp
+	BoostMaskTest.cpp  
 	rttbBoostMaskTests.cpp
 )
 

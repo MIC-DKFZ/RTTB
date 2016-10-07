@@ -1,16 +1,22 @@
 #include <iostream>
 #include <deque>
 #include <algorithm>
+#include <limits>
 
 #include <boost/geometry/geometries/register/point.hpp>
 #include <boost/geometry/geometries/register/ring.hpp>
 #include <boost/geometry/io/wkt/wkt.hpp>
 #include <boost/geometry/multi/geometries/multi_polygon.hpp>
 #include <boost/make_shared.hpp>
+#include <boost/thread/thread.hpp>
 
 #include "rttbBoostMask.h"
 #include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbBoostMaskGenerateMaskVoxelListThread.h"
+#include "rttbBoostMaskVoxelizationThread.h"
+
+
 
 namespace rttb
 {
@@ -18,9 +24,12 @@ namespace rttb
 	{
 		namespace boost
 		{
+
+
 			BoostMask::BoostMask(BoostMask::GeometricInfoPointer aDoseGeoInfo,
-			                     BoostMask::StructPointer aStructure, bool strict)
-				: _geometricInfo(aDoseGeoInfo), _structure(aStructure), _strict(strict),
+			                     BoostMask::StructPointer aStructure, bool strict, unsigned int numberOfThreads)
+				: _geometricInfo(aDoseGeoInfo), _structure(aStructure),
+				  _strict(strict), _numberOfThreads(numberOfThreads),
 				  _voxelInStructure(::boost::make_shared<MaskVoxelList>())
 			{
 
@@ -35,267 +44,18 @@ namespace rttb
 					throw rttb::core::NullPointerException("Error: Structure is NULL!");
 				}
 
-			}
-
-			void BoostMask::calcMask()
-			{
-				if (hasSelfIntersections())
+				if (_numberOfThreads == 0)
 				{
-					if (_strict)
-					{
-						throw rttb::core::InvalidParameterException("Error: structure has self intersections!");
-					}
-					else
-					{
-						std::cerr << _structure->getLabel() <<
-						          " has self intersections! It may cause errors in the voxelization results!" << std::endl;
-					}
+					_numberOfThreads = ::boost::thread::hardware_concurrency();
 				}
 
-				std::vector<BoostMask::BoostPolygonVector>
-				intersectionSlicePolygonsVector;//store the polygons of intersection slice of each index z
-
-				unsigned int nSlices = static_cast<unsigned int>(_geometricInfo->getNumSlices());
-
-				//For each dose slice, get intersection structure slice and the contours on the structure slice
-				for (unsigned int indexZ = 0; indexZ < nSlices; indexZ++)
+				if (_numberOfThreads <= 0)
 				{
-					BoostMask::BoostPolygonVector boostPolygons = getIntersectionSlicePolygons(indexZ);
-					BoostMask::BoostPolygonVector::iterator it;
-
-					for (it = boostPolygons.begin(); it != boostPolygons.end(); ++it)
-					{
-						::boost::geometry::correct(*it);
-					}
-
-					intersectionSlicePolygonsVector.push_back(boostPolygons);
+					throw rttb::core::InvalidParameterException("Error: the given number of threads must > 0, or detection of the number of hardwore thread is not possible.");
 				}
 
-				/* Use simple nearest neighbour interpolation (NNI) if dose and structure has different z spacing:
-				If dose slice (indexZ) has no intersection with structure slice, but the last and the next do, that means the dose
-				slice lies between two structure slices -> use the last slice intersection contours for this slice
-				*/
-				for (unsigned int indexZ = 1; indexZ < nSlices - 1; indexZ++)
-				{
-					if (intersectionSlicePolygonsVector.at(indexZ).size() == 0
-					    && intersectionSlicePolygonsVector.at(indexZ - 1).size() > 0
-					    && intersectionSlicePolygonsVector.at(indexZ + 1).size() > 0)
-					{
-						intersectionSlicePolygonsVector.at(indexZ) = intersectionSlicePolygonsVector.at(indexZ - 1);
-					}
-				}
+				std::cout << "number of threads: " << _numberOfThreads << std::endl;
 
-				for (unsigned int indexZ = 0; indexZ < nSlices; indexZ++)
-				{
-					BoostMask::BoostPolygonVector intersectionSlicePolygons = intersectionSlicePolygonsVector.at(
-					            indexZ);
-
-					//Get bounding box of this dose slice
-					VoxelIndexVector voxelList = getBoundingBox(indexZ, intersectionSlicePolygons);
-					rttb::VoxelGridIndex3D gridIndex3D0 = voxelList.at(0);
-					rttb::VoxelGridIndex3D gridIndex3D1 = voxelList.at(1);
-
-					for (unsigned int indexX = gridIndex3D0[0]; indexX <= gridIndex3D1[0]; indexX++)
-					{
-						for (unsigned int indexY = gridIndex3D0[1]; indexY <= gridIndex3D1[1]; indexY++)
-						{
-							rttb::VoxelGridIndex3D currentIndex;
-							currentIndex[0] = indexX;
-							currentIndex[1] = indexY;
-							currentIndex[2] = indexZ;
-
-							rttb::VoxelGridID gridID;
-							_geometricInfo->convert(currentIndex, gridID);
-
-							//Get intersection polygons of the dose voxel and the structure
-							BoostPolygonDeque polygons = getIntersections(currentIndex, intersectionSlicePolygons);
-
-							//Calc areas of all intersection polygons
-							double intersectionArea = calcArea(polygons);
-
-							double voxelSize = _geometricInfo->getSpacing()[0] * _geometricInfo->getSpacing()[1];
-
-							if (intersectionArea > 0)
-							{
-								double volumeFraction = intersectionArea / voxelSize;
-
-								if (volumeFraction > 1 && (volumeFraction - 1) <= 0.0001)
-								{
-									volumeFraction = 1;
-								}
-
-								core::MaskVoxel maskVoxel = core::MaskVoxel(gridID, (volumeFraction));
-								_voxelInStructure->push_back(maskVoxel);//push back the mask voxel in structure
-							}
-						}
-					}
-				}
-
-				sort(_voxelInStructure->begin(), _voxelInStructure->end());
-
-				_isUpToDate = true;
-			}
-
-			bool BoostMask::hasSelfIntersections()
-			{
-				bool hasSelfIntersection = false;
-
-				unsigned int nSlices = static_cast<unsigned int>(_geometricInfo->getNumSlices());
-
-				for (unsigned int indexZ = 0; indexZ < nSlices; indexZ++)
-				{
-
-					rttb::VoxelGridIndex3D currentIndex(0, 0, indexZ);
-
-					BoostMask::BoostPolygonVector boostPolygons = getIntersectionSlicePolygons(currentIndex[2]);
-
-					BoostMask::BoostPolygonVector::iterator it;
-					BoostMask::BoostPolygonVector::iterator it2;
-
-					for (it = boostPolygons.begin(); it != boostPolygons.end(); ++it)
-					{
-						::boost::geometry::correct(*it);
-
-						//test if polygon has self intersection
-						if (::boost::geometry::detail::overlay::has_self_intersections(*it, false))
-						{
-							hasSelfIntersection = true;
-							std::cerr << _structure->getLabel() << " has self intersection polygon! Slice: " << indexZ << ". "
-							          << std::endl;
-							break;
-						}
-
-						//test if the polygons on the same slice has intersection
-						for (it2 = boostPolygons.begin(); it2 != boostPolygons.end() && it2 != it; ++it2)
-						{
-							::boost::geometry::correct(*it2);
-							BoostPolygonDeque intersection;
-							::boost::geometry::intersection(*it, *it2, intersection);
-
-							if (intersection.size() > 0)
-							{
-								//if no donut
-								if (!(::boost::geometry::within(*it, *it2)) && !(::boost::geometry::within(*it2, *it)))
-								{
-									hasSelfIntersection = true;
-									std::cerr << _structure->getLabel() << ": Two polygons on the same slice has intersection! Slice: "
-									          << indexZ << "." << std::endl;
-									break;
-								}
-							}
-						}
-					}
-
-				}
-
-				return hasSelfIntersection;
-			}
-
-
-			/*Get the 4 voxel index of the bounding box of the polygon in the slice with sliceNumber*/
-			BoostMask::VoxelIndexVector BoostMask::getBoundingBox(unsigned int sliceNumber,
-			        const BoostPolygonVector& intersectionSlicePolygons)
-			{
-				unsigned int nSlices = static_cast<unsigned int>(_geometricInfo->getNumSlices());
-
-				if (sliceNumber < 0 || sliceNumber >= nSlices)
-				{
-					throw rttb::core::InvalidParameterException(std::string("Error: slice number is invalid!"));
-				}
-
-				rttb::VoxelGridIndex3D currentIndex(0, 0, sliceNumber);
-
-				double xMin = 0;
-				double yMin = 0;
-				double xMax = 0;
-				double yMax = 0;
-
-				BoostPolygonVector::const_iterator it;
-
-				for (it = intersectionSlicePolygons.begin(); it != intersectionSlicePolygons.end(); ++it)
-				{
-					::boost::geometry::model::box<BoostPoint2D> box;
-					::boost::geometry::envelope(*it, box);
-					BoostPoint2D minPoint = box.min_corner();
-					BoostPoint2D maxPoint = box.max_corner();
-
-					if (it == intersectionSlicePolygons.begin())
-					{
-						xMin = minPoint.x();
-						yMin = minPoint.y();
-						xMax = maxPoint.x();
-						yMax = maxPoint.y();
-					}
-
-					xMin = std::min(xMin, minPoint.x());
-					yMin = std::min(yMin, minPoint.y());
-					xMax = std::max(xMax, maxPoint.x());
-					yMax = std::max(yMax, maxPoint.y());
-				}
-
-				rttb::WorldCoordinate3D nullWorldCoord;
-				_geometricInfo->indexToWorldCoordinate(VoxelGridIndex3D(0, 0, 0), nullWorldCoord);
-				rttb::WorldCoordinate3D minWorldCoord(xMin, yMin, nullWorldCoord.z());
-				rttb::WorldCoordinate3D maxWorldCoord(xMax, yMax, nullWorldCoord.z());
-
-				rttb::VoxelGridIndex3D index0;
-				rttb::VoxelGridIndex3D index1;
-				_geometricInfo->worldCoordinateToIndex(minWorldCoord, index0);
-				_geometricInfo->worldCoordinateToIndex(maxWorldCoord, index1);
-
-				VoxelIndexVector voxelList;
-				voxelList.push_back(index0);
-				voxelList.push_back(index1);
-
-				return voxelList;
-			}
-
-
-			/*Get intersection polygons of the contour and a voxel polygon*/
-			BoostMask::BoostPolygonDeque BoostMask::getIntersections(const rttb::VoxelGridIndex3D&
-			        aVoxelIndex3D, const BoostPolygonVector& intersectionSlicePolygons)
-			{
-				BoostMask::BoostPolygonDeque polygonDeque;
-
-				BoostRing2D voxelPolygon = get2DContour(aVoxelIndex3D);
-				::boost::geometry::correct(voxelPolygon);
-
-				BoostPolygonVector::const_iterator it;
-
-				for (it = intersectionSlicePolygons.begin(); it != intersectionSlicePolygons.end(); ++it)
-				{
-					BoostPolygon2D contour = *it;
-					::boost::geometry::correct(contour);
-					BoostPolygonDeque intersection;
-					::boost::geometry::intersection(voxelPolygon, contour, intersection);
-
-					polygonDeque.insert(polygonDeque.end(), intersection.begin(), intersection.end());
-				}
-
-				return polygonDeque;
-			}
-
-
-			/*Calculate the intersection area*/
-			double BoostMask::calcArea(const BoostPolygonDeque& aPolygonDeque)
-			{
-				double area = 0;
-
-				BoostPolygonDeque::const_iterator it;
-
-				for (it = aPolygonDeque.begin(); it != aPolygonDeque.end(); ++it)
-				{
-					area += ::boost::geometry::area(*it);
-				}
-
-				return area;
-			}
-
-			VoxelGridIndex3D BoostMask::getGridIndex3D(const core::MaskVoxel& aMaskVoxel)
-			{
-				rttb::VoxelGridIndex3D gridIndex3D;
-				_geometricInfo->convert(aMaskVoxel.getVoxelGridID(), gridIndex3D);
-				return gridIndex3D;
 			}
 
 			BoostMask::MaskVoxelListPointer BoostMask::getRelevantVoxelVector()
@@ -308,7 +68,256 @@ namespace rttb
 				return _voxelInStructure;
 			}
 
-			BoostMask::BoostRing2D BoostMask::convert(const rttb::PolygonType& aRTTBPolygon)
+			void BoostMask::calcMask()
+			{
+				preprocessing();
+				voxelization();
+				generateMaskVoxelList();
+				_isUpToDate = true;
+			}
+
+			void BoostMask::preprocessing()
+			{
+				rttb::PolygonSequenceType polygonSequence = _structure->getStructureVector();
+
+				//Convert world coordinate polygons to the polygons with geometry coordinate
+				rttb::PolygonSequenceType geometryCoordinatePolygonVector;
+				rttb::PolygonSequenceType::iterator it;
+				rttb::DoubleVoxelGridIndex3D globalMaxGridIndex(std::numeric_limits<double>::min(),
+				        std::numeric_limits<double>::min(), std::numeric_limits<double>::min());
+				rttb::DoubleVoxelGridIndex3D globalMinGridIndex(_geometricInfo->getNumColumns(),
+				        _geometricInfo->getNumRows(), 0);
+
+				for (it = polygonSequence.begin(); it != polygonSequence.end(); ++it)
+				{
+					PolygonType rttbPolygon = *it;
+					PolygonType geometryCoordinatePolygon;
+
+					//1. convert polygon to geometry coordinate polygons
+					//2. calculate global min/max
+					//3. check if polygon is planar
+					if (!preprocessingPolygon(rttbPolygon, geometryCoordinatePolygon, globalMinGridIndex,
+					                          globalMaxGridIndex, errorConstant))
+					{
+						throw rttb::core::Exception("TiltedMaskPlaneException");
+					}
+
+					geometryCoordinatePolygonVector.push_back(geometryCoordinatePolygon);
+				}
+
+				rttb::VoxelGridIndex3D minIndex = VoxelGridIndex3D(GridIndexType(globalMinGridIndex(0) + 0.5),
+				                                  GridIndexType(globalMinGridIndex(1) + 0.5), GridIndexType(globalMinGridIndex(2) + 0.5));
+				rttb::VoxelGridIndex3D maxIndex = VoxelGridIndex3D(GridIndexType(globalMaxGridIndex(0) + 0.5),
+				                                  GridIndexType(globalMaxGridIndex(1) + 0.5), GridIndexType(globalMaxGridIndex(2) + 0.5));
+				_globalBoundingBox.push_back(minIndex);
+				_globalBoundingBox.push_back(maxIndex);
+
+				//convert rttb polygon sequence to a map of z index and a vector of boost ring 2d (without holes)
+				_ringMap = convertRTTBPolygonSequenceToBoostRingMap(geometryCoordinatePolygonVector);
+
+			}
+
+			void BoostMask::voxelization()
+			{
+				BoostPolygonMap::iterator it;
+
+				if (_globalBoundingBox.size() < 2)
+				{
+					throw rttb::core::InvalidParameterException("Bounding box calculation failed! ");
+				}
+
+				unsigned int ringMapSize = _ringMap.size();
+
+				BoostRingMap::iterator itMap;
+
+				unsigned int mapSizeInAThread = _ringMap.size() / _numberOfThreads;
+				unsigned int count = 0;
+				unsigned int countThread = 0;
+				BoostPolygonMap polygonMap;
+				std::vector<BoostPolygonMap> polygonMapVector;
+
+				//check donut and convert to a map of z index and a vector of boost polygon 2d (with or without holes)
+				for (itMap = _ringMap.begin(); itMap != _ringMap.end(); ++itMap)
+				{
+					//the vector of all boost 2d polygons with the same z grid index(donut polygon is accepted).
+					BoostPolygonVector polygonVector = checkDonutAndConvert((*itMap).second);
+
+					if (count == mapSizeInAThread && countThread < (_numberOfThreads - 1))
+					{
+						polygonMapVector.push_back(polygonMap);
+						polygonMap.clear();
+						count = 0;
+						countThread++;
+					}
+
+					polygonMap.insert(std::pair<double, BoostPolygonVector>((*itMap).first,
+					                  polygonVector));
+					count++;
+
+				}
+
+				polygonMapVector.push_back(polygonMap); //insert the last one
+
+				//generate voxelization map, multi-threading
+				::boost::thread_group threads;
+				BoostMaskVoxelizationThread::VoxelizationQueuePointer resultQueue
+				    = ::boost::make_shared<::boost::lockfree::queue<BoostArray2D*>>
+				      (ringMapSize);
+				BoostMaskVoxelizationThread::VoxelizationIndexQueuePointer resultIndexQueue
+				    = ::boost::make_shared<::boost::lockfree::queue<double>>
+				      (ringMapSize);
+
+				for (int i = 0; i < polygonMapVector.size(); ++i)
+				{
+					BoostMaskVoxelizationThread t(polygonMapVector.at(i), _globalBoundingBox, resultIndexQueue,
+					                              resultQueue);
+					threads.create_thread(t);
+				}
+
+				threads.join_all();
+
+
+				BoostArray2D* array;
+				double index;
+
+				//generate voxelization map using resultQueue and resultIndexQueue
+				while (resultIndexQueue->pop(index) && resultQueue->pop(array))
+				{
+					_voxelizationMap.insert(std::pair<double, BoostArray2D>(index, *array));
+				}
+
+			}
+
+			void BoostMask::generateMaskVoxelList()
+			{
+				if (_globalBoundingBox.size() < 2)
+				{
+					throw rttb::core::InvalidParameterException("Bounding box calculation failed! ");
+				}
+
+				//check homogeneus of the voxelization plane (the contours plane)
+				if (!calcVoxelizationThickness(_voxelizationThickness))
+				{
+					throw rttb::core::InvalidParameterException("Error: The contour plane should be homogeneus!");
+				}
+
+
+				::boost::shared_ptr<::boost::lockfree::queue<core::MaskVoxel*>> resultQueue
+				        = ::boost::make_shared<::boost::lockfree::queue<core::MaskVoxel*>>
+				          (_geometricInfo->getNumberOfVoxels());
+
+
+				::boost::thread_group threads;
+
+				unsigned int sliceNumberInAThread = _geometricInfo->getNumSlices() / _numberOfThreads;
+
+				//generate mask voxel list, multi-threading
+				for (unsigned int i = 0; i < _numberOfThreads; ++i)
+				{
+					unsigned int beginSlice = i * sliceNumberInAThread;
+					unsigned int endSlice;
+
+					if (i < _numberOfThreads - 1)
+					{
+						endSlice = (i + 1) * sliceNumberInAThread;
+					}
+					else
+					{
+						endSlice = _geometricInfo->getNumSlices();
+					}
+
+
+					BoostMaskGenerateMaskVoxelListThread t(_globalBoundingBox, _geometricInfo, _voxelizationMap,
+					                                       _voxelizationThickness, beginSlice, endSlice,
+					                                       resultQueue);
+
+					threads.create_thread(t);
+
+				}
+
+				threads.join_all();
+
+				core::MaskVoxel* voxel;
+
+				//generate _voxelInStructure using resultQueue
+				while (resultQueue->pop(voxel))
+				{
+					_voxelInStructure->push_back(*voxel);//push back the mask voxel in structure
+				}
+
+			}
+
+			bool BoostMask::preprocessingPolygon(const rttb::PolygonType& aRTTBPolygon,
+			                                     rttb::PolygonType& geometryCoordinatePolygon, rttb::DoubleVoxelGridIndex3D& minimum,
+			                                     rttb::DoubleVoxelGridIndex3D& maximum, double aErrorConstant) const
+			{
+
+				double minZ = _geometricInfo->getNumSlices();
+				double maxZ =  0.0;
+
+				for (unsigned int i = 0; i < aRTTBPolygon.size(); i++)
+				{
+					rttb::WorldCoordinate3D worldCoordinatePoint = aRTTBPolygon.at(i);
+
+					//convert to geometry coordinate polygon
+					rttb::DoubleVoxelGridIndex3D geometryCoordinatePoint;
+                    _geometricInfo->worldCoordinateToGeometryCoordinate(worldCoordinatePoint,
+                        geometryCoordinatePoint);
+					geometryCoordinatePolygon.push_back(geometryCoordinatePoint);
+
+					//calculate the current global min/max
+					//min and max for x
+					if (geometryCoordinatePoint(0) < minimum(0))
+					{
+						minimum(0) = geometryCoordinatePoint(0);
+					}
+
+					if (geometryCoordinatePoint(0) > maximum(0))
+					{
+						maximum(0) = geometryCoordinatePoint(0);
+					}
+
+					//min and max for y
+					if (geometryCoordinatePoint(1) < minimum(1))
+					{
+						minimum(1) = geometryCoordinatePoint(1);
+					}
+
+					if (geometryCoordinatePoint(1) > maximum(1))
+					{
+						maximum(1) = geometryCoordinatePoint(1);
+					}
+
+					//min and max for z
+					if (geometryCoordinatePoint(2) < minimum(2))
+					{
+						minimum(2) = geometryCoordinatePoint(2);
+					}
+
+					if (geometryCoordinatePoint(2) > maximum(2))
+					{
+						maximum(2) = geometryCoordinatePoint(2);
+					}
+
+					//check planar
+					if (geometryCoordinatePoint(2) < minZ)
+					{
+						minZ = geometryCoordinatePoint(2);
+					}
+
+					if (geometryCoordinatePoint(2) > maxZ)
+					{
+						maxZ = geometryCoordinatePoint(2);
+					}
+
+				}
+
+				return (abs(maxZ - minZ) <= aErrorConstant);
+			}
+
+
+			BoostMask::BoostRing2D BoostMask::convertRTTBPolygonToBoostRing(const rttb::PolygonType&
+			        aRTTBPolygon) const
 			{
 				BoostMask::BoostRing2D polygon2D;
 				BoostPoint2D firstPoint;
@@ -330,69 +339,98 @@ namespace rttb
 				return polygon2D;
 			}
 
-
-			BoostMask::BoostPolygonVector BoostMask::getIntersectionSlicePolygons(
-			    const rttb::GridIndexType aVoxelGridIndexZ)
+			BoostMask::BoostRingMap BoostMask::convertRTTBPolygonSequenceToBoostRingMap(
+			    const rttb::PolygonSequenceType& aRTTBPolygonVector)
 			{
-				BoostMask::BoostRingVector boostRingVector;
+				rttb::PolygonSequenceType::const_iterator it;
+				BoostMask::BoostRingMap aRingMap;
 
-				rttb::PolygonSequenceType polygonSequence = _structure->getStructureVector();
-
-				//get the polygons in the slice and convert to boost rings
-				rttb::PolygonSequenceType::iterator it;
-
-				for (it = polygonSequence.begin(); it != polygonSequence.end(); ++it)
+				for (it = aRTTBPolygonVector.begin(); it != aRTTBPolygonVector.end(); ++it)
 				{
-					PolygonType rttbPolygon = *it;
+					rttb::PolygonType rttbPolygon = *it;
+					double zIndex = rttbPolygon.at(0)[2];//get the first z index of the polygon
+					bool isFirstZ = true;
 
-					if (!rttbPolygon.empty())
+					if (!aRingMap.empty())
 					{
-						double polygonZCoor = rttbPolygon.at(0)[2];
-						rttb::WorldCoordinate3D polygonPoint(0, 0, polygonZCoor);
-						rttb::VoxelGridIndex3D polygonPointIndex3D;
-						_geometricInfo->worldCoordinateToIndex(polygonPoint, polygonPointIndex3D);
+						BoostMask::BoostRingMap::iterator findIt = findNearestKey(aRingMap, zIndex, errorConstant);
 
-						//if the z
-						if (aVoxelGridIndexZ == polygonPointIndex3D[2])
+						//if the z index is found (same slice), add the polygon to vector
+						if (findIt != aRingMap.end())
 						{
-							boostRingVector.push_back(convert(rttbPolygon));
+							//BoostRingVector ringVector = ;
+							(*findIt).second.push_back(convertRTTBPolygonToBoostRing(rttbPolygon));
+							isFirstZ = false;
 						}
-
 					}
+
+					//if it is the first z index in the map, insert vector with the polygon
+					if (isFirstZ)
+					{
+						BoostRingVector ringVector;
+						ringVector.push_back(convertRTTBPolygonToBoostRing(rttbPolygon));
+						aRingMap.insert(std::pair<double, BoostRingVector>(zIndex, ringVector));
+					}
+
 				}
 
-				return checkDonutAndConvert(boostRingVector);
+				return aRingMap;
 			}
 
-			BoostMask::BoostRing2D BoostMask::get2DContour(const rttb::VoxelGridIndex3D& aVoxelGrid3D)
+			BoostMask::BoostRingMap::iterator BoostMask::findNearestKey(BoostMask::BoostRingMap&
+			        aBoostRingMap, double aIndex, double aErrorConstant)
 			{
-				BoostMask::BoostRing2D polygon;
-				rttb::WorldCoordinate3D rttbPoint;
-				_geometricInfo->indexToWorldCoordinate(aVoxelGrid3D, rttbPoint);
+				BoostMask::BoostRingMap::iterator find = aBoostRingMap.find(aIndex);
 
-				BoostPoint2D point1(rttbPoint[0], rttbPoint[1]);
-				::boost::geometry::append(polygon, point1);
+				//if find a key equivalent to aIndex, found
+				if (find != aBoostRingMap.end())
+				{
+					return find;
+				}
+				else
+				{
+					BoostMask::BoostRingMap::iterator lowerBound = aBoostRingMap.lower_bound(aIndex);
 
-				double xSpacing = _geometricInfo->getSpacing()[0];
-				double ySpacing = _geometricInfo->getSpacing()[1];
+					//if all keys go before aIndex, check the last key
+					if (lowerBound == aBoostRingMap.end())
+					{
+						lowerBound = --aBoostRingMap.end();
+					}
 
-				BoostPoint2D point2(rttbPoint[0] + xSpacing, rttbPoint[1]);
-				::boost::geometry::append(polygon, point2);
+					//if the lower bound very close to aIndex, found
+					if (abs((*lowerBound).first - aIndex) <= aErrorConstant)
+					{
+						return lowerBound;
+					}
+					else
+					{
+						//if the lower bound is the beginning, not found
+						if (lowerBound == aBoostRingMap.begin())
+						{
+							return aBoostRingMap.end();
+						}
+						else
+						{
+							BoostMask::BoostRingMap::iterator lowerBound1 = --lowerBound;//the key before the lower bound
 
-				BoostPoint2D point3(rttbPoint[0] + xSpacing, rttbPoint[1] + ySpacing);
-				::boost::geometry::append(polygon, point3);
+							//if the key before the lower bound very close to a Index, found
+							if (abs((*lowerBound1).first - aIndex) <= aErrorConstant)
+							{
+								return lowerBound1;
+							}
+							//else, not found
+							else
+							{
+								return aBoostRingMap.end();
+							}
+						}
+					}
 
-				BoostPoint2D point4(rttbPoint[0], rttbPoint[1] + ySpacing);
-				::boost::geometry::append(polygon, point4);
-
-				::boost::geometry::append(polygon, point1);
-
-				return polygon;
-
+				}
 			}
 
 			BoostMask::BoostPolygonVector BoostMask::checkDonutAndConvert(const BoostMask::BoostRingVector&
-			        aRingVector)
+			        aRingVector) const
 			{
 				//check donut
 				BoostMask::BoostRingVector::const_iterator it1;
@@ -404,7 +442,7 @@ namespace rttb
 				//Get donut index and donut polygon
 				unsigned int index1 = 0;
 
-				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); ++it1, ++index1)
+				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); it1++, index1++)
 				{
 					bool it1IsDonut = false;
 
@@ -424,7 +462,7 @@ namespace rttb
 						bool it2IsDonut = false;
 						unsigned int index2 = 0;
 
-						for (it2 = aRingVector.begin(); it2 != aRingVector.end(); ++it2, ++index2)
+						for (it2 = aRingVector.begin(); it2 != aRingVector.end(); it2++, index2++)
 						{
 							if (it2 != it1)
 							{
@@ -461,7 +499,7 @@ namespace rttb
 				//Store no donut polygon to boostPolygonVector
 				index1 = 0;
 
-				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); ++it1, ++index1)
+				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); it1++, index1++)
 				{
 					bool it1IsDonut = false;
 
@@ -486,12 +524,56 @@ namespace rttb
 				//Append donut polygon to boostPolygonVector
 				BoostMask::BoostPolygonVector::iterator itDonut;
 
-				for (itDonut = donutVector.begin(); itDonut != donutVector.end(); ++itDonut)
+				for (itDonut = donutVector.begin(); itDonut != donutVector.end(); itDonut++)
 				{
 					boostPolygonVector.push_back(*itDonut);//append donuts
 				}
 
 				return boostPolygonVector;
+			}
+
+			bool BoostMask::calcVoxelizationThickness(double& aThickness) const
+			{
+				BoostArrayMap::const_iterator it = _voxelizationMap.begin();
+				BoostArrayMap::const_iterator it2 = ++_voxelizationMap.begin();
+
+				if (_voxelizationMap.size() <= 1)
+				{
+					aThickness = 1;
+					return true;
+				}
+
+				double thickness = 0;
+
+				for (;
+				     it != _voxelizationMap.end(), it2 != _voxelizationMap.end(); ++it, ++it2)
+				{
+					if (thickness == 0)
+					{
+						thickness = (*it2).first - (*it).first;
+					}
+					else
+					{
+                        double curThickness = (*it2).first - (*it).first;
+						//if no homogeneous (leave out double imprecisions), return false
+						if (abs(thickness-curThickness)>errorConstant)
+						{
+							return false;
+						}
+					}
+
+				}
+
+				if (thickness != 0)
+				{
+					aThickness = thickness;
+				}
+				else
+				{
+					aThickness = 1;
+				}
+
+				return true;
 			}
 		}
 	}

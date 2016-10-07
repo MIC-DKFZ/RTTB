@@ -9,6 +9,8 @@ SET(CPP_FILES
 	rttbPolygonInfo_LEGACY.cpp
 	rttbSelfIntersectingStructureException.cpp
 	rttbStructure_LEGACY.cpp
+	rttbBoostMask_LEGACY.cpp
+	rttbBoostMaskAccessor_LEGACY.cpp
  )
 
 SET(H_FILES 
@@ -25,4 +27,7 @@ SET(H_FILES
 	rttbBaseType_LEGACY.h
 	rttbSelfIntersectingStructureException.h
 	rttbStructure_LEGACY.h
+	rttbBoostMask_LEGACY.h
+	rttbBoostMaskAccessor_LEGACY.h
+
 )

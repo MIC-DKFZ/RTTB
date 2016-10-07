@@ -14,12 +14,12 @@
 //------------------------------------------------------------------------
 /*!
 // @file
-// @version $Revision: 1127 $ (last changed revision)
-// @date    $Date: 2015-10-01 13:33:33 +0200 (Do, 01 Okt 2015) $ (last change date)
+// @version $Revision: 1364 $ (last changed revision)
+// @date    $Date: 2016-05-23 10:49:20 +0200 (Mo, 23 Mai 2016) $ (last change date)
 // @author  $Author: hentsch $ (last changed by)
 */
-#ifndef __BOOST_MASK_R_ACCESSOR__H
-#define __BOOST_MASK_R_ACCESSOR__H
+#ifndef __BOOST_MASK_ACCESSOR_L__H
+#define __BOOST_MASK_ACCESSOR_L__H
 
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
@@ -32,11 +32,12 @@
 
 #include "RTTBBoostMaskExports.h"
 
+
 namespace rttb
 {
 	namespace masks
 	{
-		namespace boostRedesign
+		namespace boostLegacy
 		{
 			/*! @class BoostMaskAccessor
 			*   @brief Using the voxelization based on boost::geometry and generate the mask accessor.
@@ -46,7 +47,7 @@ namespace rttb
 			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored
 			*   and the mask will be calculated, however, it may cause errors in the mask results.
 			*/
-            class RTTBBoostMask_EXPORT BoostMaskAccessor : public core::MaskAccessorInterface
+			class RTTBBoostMask_EXPORT BoostMaskAccessor : public core::MaskAccessorInterface
 			{
 			public:
 				typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
@@ -55,13 +56,13 @@ namespace rttb
 				typedef core::Structure::StructTypePointer StructTypePointer;
 
 			private:
-
+				StructTypePointer _spStructure;
 				core::GeometricInfo _geoInfo;
 
 				/*! vector containing list of mask voxels*/
 				MaskVoxelListPointer _spRelevantVoxelVector;
 
-				StructTypePointer _spStructure;
+
 
 				IDType _maskUID;
 

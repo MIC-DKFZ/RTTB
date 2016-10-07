@@ -16,5 +16,8 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 ADD_TEST(OTBMaskAccessorTest ${OTB_MASK_TESTS} OTBMaskAccessorTest 
 )
 
+ADD_TEST(BoostMaskLegacyTest ${OTB_MASK_TESTS} BoostMaskLegacyTest 
+)
+
 RTTB_CREATE_TEST_MODULE(rttbOTBMask DEPENDS RTTBMasks RTTBOTBMask PACKAGE_DEPENDS Litmus DCMTK boost)
 
