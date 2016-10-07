@@ -48,12 +48,13 @@ namespace rttb
 	{
 
 		/*! @brief VoxelizationDVHComparisonTests.
-			Test the DVH difference of different voxelizations
-            Writes the difference in a DVH
+			Computes the DVH difference of different voxelizations (OTB/Boost legacy/Boost)
+            Writes the difference in a DVH and saves in a file
 		*/
 
 
-        core::DoseIteratorInterface::DoseIteratorPointer createMaskDoseIterator(masks::boost::BoostMaskAccessor::StructTypePointer rtstruct, core::GenericDoseIterator::DoseAccessorPointer doseAccessor, const std::string& voxelizationType)
+        core::DoseIteratorInterface::DoseIteratorPointer createMaskDoseIterator(masks::boost::BoostMaskAccessor::StructTypePointer rtstruct, 
+            core::GenericDoseIterator::DoseAccessorPointer doseAccessor, const std::string& voxelizationType)
         {
             core::GenericMaskedDoseIterator::MaskAccessorPointer spMaskAccessor;
             if (voxelizationType == "Boost"){
@@ -165,7 +166,7 @@ namespace rttb
                     std::cout << dvhBoostRedesign << std::endl;
 
 					//compare DVH for different voxelizations
-                    auto diffDVH = compareDVH(dvhOTB, boost::make_shared<core::DVH>(dvhBoostRedesign));
+                    auto diffDVH = computeDiffDVH(dvhOTB, boost::make_shared<core::DVH>(dvhBoostRedesign));
                     boost::filesystem::path dvhBoostRedesignDiffFilename(RTDVH_XML_BOOSTREDESIGN_DIRECTORY);
                     dvhBoostRedesignDiffFilename /= "DVHDiff_" + label + ".xml";
                     writeCumulativeDVH(dvhBoostRedesignDiffFilename.string(), *diffDVH);

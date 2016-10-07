@@ -35,12 +35,12 @@ namespace rttb
 
 		typedef core::DVH::DVHPointer DVHPointer;
 
-		/*! Compare 2 dvhs and return the results.
-			@result Indicates if the test was successfull (true) or if it failed (false)
+		/*! Compare 2 DVHs and return the results.
+			@result Indicates if the test was successful (true) or if it failed (false)
 		*/
 		bool checkEqualDVH(DVHPointer aDVH1, DVHPointer aDVH2);
 
-        DVHPointer compareDVH(DVHPointer aDVH1, DVHPointer aDVH2);
+        DVHPointer computeDiffDVH(DVHPointer aDVH1, DVHPointer aDVH2);
 	}//testing
 }//rttb
 #endif

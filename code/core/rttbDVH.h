@@ -78,7 +78,7 @@ namespace rttb
 			DataDifferentialType _dataCumulative;
 			DataDifferentialType _dataCumulativeRelative;
 
-			/*! @brief DVH initialisation
+			/*! @brief DVH initialization
 				The DVH is initialized and all statistical values are calculated.
 				@throw <InvalidParameterException> if _deltaV or _deltaD are zero
 				@throw <InvalidParameterException> is _data differential is empty
@@ -126,7 +126,7 @@ namespace rttb
 			/*! @param relativeVolume default false-> Value is the voxel number of the dose bin;
 				if true-> value is the relative volume % between 0 and 1,
 				(the voxel number of this dose bin)/(number of voxels)
-				@return Return differential data of the dvh (relative or abolute depending on the
+				@return Return differential data of the dvh (relative or absolute depending on the
 				input parameter).
 			*/
 			DataDifferentialType getDataDifferential(bool relativeVolume = false) const;

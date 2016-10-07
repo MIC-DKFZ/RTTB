@@ -115,8 +115,9 @@ namespace rttb
 		std::ostream& operator<<(std::ostream& s, const DVH& aDVH)
 		{
 			s << "[ " << aDVH.getStructureID() << ", " << aDVH.getDoseID() << ", " << aDVH.getVoxelizationID()
-			  << ", " <<
-			  aDVH.getNumberOfVoxels() << " ]";
+                << "\n " << "Number of Voxels: " <<
+			  aDVH.getNumberOfVoxels() << " " << "Minimum/Maximum/Mean/Standard deviation: " << aDVH.getMinimum() << 
+              ", " << aDVH.getMaximum() << ", " << aDVH.getMean() << ", " << aDVH.getStdDeviation() << " ]";
 			return s;
 		}
 

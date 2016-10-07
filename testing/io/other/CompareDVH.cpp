@@ -55,7 +55,7 @@ namespace rttb
 
 		}
 
-        rttb::testing::DVHPointer compareDVH(DVHPointer aDVH1, DVHPointer aDVH2)
+        rttb::testing::DVHPointer computeDiffDVH(DVHPointer aDVH1, DVHPointer aDVH2)
         {
             if (aDVH1->getDeltaD() == aDVH2->getDeltaD() && aDVH1->getDeltaV() == aDVH2->getDeltaV()){
 
