@@ -1,0 +1,6 @@
+SET(ArgumentParsingLib_FOUND 1)
+SET(ArgumentParsingLib_SOURCE_DIR "@ArgumentParsingLib_SOURCE_DIR@")
+SET(ArgumentParsingLib_BINARY_DIR "@ArgumentParsingLib_BINARY_DIR@")
+SET(ArgumentParsingLib_Boost_INCLUDE_DIR "@Boost_INCLUDE_DIR@")
+SET(ArgumentParsingLib_Boost_LIBRARY_DIR "@Boost_LIBRARY_DIRS@")
+SET(ArgumentParsingLib_Boost_LIBRARIES "@Boost_LIBRARIES@")

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+    <category>aCategory</category>
+    <title>aName</title>
+    <description>aDescription</description>
+    <version>1.0</version>
+    <contributor>DKFZ</contributor>
+    <parameters>
+        <label>TestGroup</label>
+        <description>TestGroup</description>
+        <integer>
+            <name>anInt</name>
+            <flag>i</flag>
+            <longflag>anInt</longflag>
+            <description>Test Description</description>
+            <label>anInt</label>
+            <default>5</default>
+            <constraints>
+                <minimum>0</minimum>
+                <maximum>10</maximum>
+                <step>2</step>
+            </constraints>
+        </integer>
+    </parameters>
+</executable>

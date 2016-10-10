@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+    <category>aCategory</category>
+    <title>aName</title>
+    <description>aDescription</description>
+    <version>1.0</version>
+    <contributor>DKFZ</contributor>
+    <parameters>
+        <label>TestGroup</label>
+        <description>TestGroup</description>
+        <file fileExtensions=".txt,.png">
+            <name>anInput</name>
+            <flag>i</flag>
+            <longflag>anInput</longflag>
+            <description>Test Description</description>
+            <label>anInput</label>
+            <default>input.txt</default>
+            <channel>input</channel>
+        </file>
+    </parameters>
+</executable>

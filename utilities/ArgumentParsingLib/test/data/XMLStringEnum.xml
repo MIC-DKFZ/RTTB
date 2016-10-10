@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+    <category>aCategory</category>
+    <title>aName</title>
+    <description>aDescription</description>
+    <version>1.0</version>
+    <contributor>DKFZ</contributor>
+    <parameters>
+        <label>TestGroup</label>
+        <description>TestGroup</description>
+        <string-enumeration>
+            <name>aStringEnum</name>
+            <flag>e</flag>
+            <longflag>aStringEnum</longflag>
+            <description>Test Description</description>
+            <label>aStringEnum</label>
+            <default>option1</default>
+            <element>option1</element>
+            <element>option2</element>
+            <element>option3</element>
+        </string-enumeration>
+    </parameters>
+</executable>

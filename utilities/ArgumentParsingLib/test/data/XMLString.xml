@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+    <category>aCategory</category>
+    <title>aName</title>
+    <description>aDescription</description>
+    <version>1.0</version>
+    <contributor>DKFZ</contributor>
+    <parameters>
+        <label>TestGroup</label>
+        <description>TestGroup</description>
+        <string>
+            <name>aString</name>
+            <flag>s</flag>
+            <longflag>aString</longflag>
+            <description>Test Description</description>
+            <label>aString</label>
+            <default>blabla</default>
+        </string>
+    </parameters>
+</executable>

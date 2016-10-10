@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+    <category>aCategory</category>
+    <title>aName</title>
+    <description>aDescription</description>
+    <version>1.0</version>
+    <contributor>DKFZ</contributor>
+    <parameters>
+        <label>TestGroup</label>
+        <description>TestGroup</description>
+        <file fileExtensions=".txt">
+            <name>anInput</name>
+            <flag>i</flag>
+            <longflag>anInput</longflag>
+            <description>Test Description</description>
+            <label>anInput</label>
+            <default>input.txt</default>
+            <channel>input</channel>
+        </file>
+        <double>
+            <name>aDouble</name>
+            <flag>d</flag>
+            <longflag>aDouble</longflag>
+            <description>Test Description</description>
+            <label>aDouble</label>
+            <default>42</default>
+            <constraints>
+                <minimum>0</minimum>
+                <maximum>100</maximum>
+                <step>1</step>
+            </constraints>
+        </double>
+        <string-vector>
+            <name>aStringVector</name>
+            <flag>v</flag>
+            <longflag>aStringVector</longflag>
+            <description>Test Description</description>
+            <label>aStringVector</label>
+            <default>foo,bar,foobar</default>
+        </string-vector>
+        <file fileExtensions=".xml">
+            <name>anOutput</name>
+            <flag>o</flag>
+            <longflag>anOutput</longflag>
+            <description>Test Description</description>
+            <label>anOutput</label>
+            <default>output.xml</default>
+            <channel>output</channel>
+        </file>
+        <string-enumeration>
+            <name>aStringEnum</name>
+            <flag>e</flag>
+            <longflag>aStringEnum</longflag>
+            <description>Test Description</description>
+            <label>aStringEnum</label>
+            <default>option1</default>
+            <element>option1</element>
+            <element>option2</element>
+            <element>option3</element>
+        </string-enumeration>
+    </parameters>
+</executable>

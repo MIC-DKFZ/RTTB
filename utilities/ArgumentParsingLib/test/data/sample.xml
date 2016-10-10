@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is a comment -->
+<Parameters>
+	<Parameter>
+		<Name>multitoken-numbers</Name>
+		<Value>99</Value>
+		<Value>999</Value>
+	</Parameter>
+	<Parameter>
+		<Name>composing-numbers</Name>
+		<Value>10</Value>
+		<Value>20</Value>
+		<Value>30</Value>
+	</Parameter>
+	<Parameter>
+		<Name>flag</Name>
+		<!-- No need to set a value -->
+	</Parameter>
+	<Parameter>
+		<Name>output-file</Name>
+		<Value>out.txt</Value>
+	</Parameter>
+</Parameters>
