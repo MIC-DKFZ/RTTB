@@ -65,7 +65,6 @@ namespace rttb
 				*/
 				void createDoseStatistic();
 			};
-
 		}
 	}
 }

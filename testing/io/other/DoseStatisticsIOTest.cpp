@@ -24,12 +24,10 @@
 
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
-#include <map>
+#include <boost/filesystem.hpp>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbDoseStatistics.h"
 #include "rttbDoseStatisticsCalculator.h"
 #include "rttbDoseStatisticsXMLWriter.h"
@@ -50,9 +48,10 @@ namespace rttb
 	namespace testing
 	{
 
-		/*! @brief OtherIOTest - test the IO for dose statistics
-		1) test exception
-		2) test writing statistics to xml file
+		/*! @brief DoseStatisticsIOTest - test the DoseStatisticsIO for dose statistics
+		1) test writing statistics to xml file
+        2) test reading statistics from XML file and compare DoseStatistics
+        3) test writing statistics to string
 		*/
 
 		int DoseStatisticsIOTest(int argc, char* argv[])
@@ -75,16 +74,22 @@ namespace rttb
 			auto myDoseStatsSimple = myDoseStatsCalculator.calculateDoseStatistics();
 			auto myDoseStatsComplex = myDoseStatsCalculator.calculateDoseStatistics(true);
 
-			/* test writing statistics to xml file */
+            //1) test writing statistics to xml file
+            CHECK_THROW_EXPLICIT(io::other::writeDoseStatistics(nullptr, "aFilename.txt"), core::NullPointerException);
+
 			FileNameString filenameSimple = "testStatisticsSimple.xml";
 			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsSimple, filenameSimple));
+            CHECK(boost::filesystem::exists(filenameSimple));
+
+            FileNameString filenameComplex = "testStatisticsComplex.xml";
+            CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsComplex, filenameComplex));
+            CHECK(boost::filesystem::exists(filenameComplex));
+
+            //2) test reading statistics from XML file and compare DoseStatistics
 			io::other::DoseStatisticsXMLReader readerSimple= io::other::DoseStatisticsXMLReader(filenameSimple);
 			boost::shared_ptr<rttb::algorithms::DoseStatistics> rereadSimplyDose;
 			CHECK_NO_THROW(rereadSimplyDose = readerSimple.generateDoseStatistic());
 			CHECK(checkEqualDoseStatistic(myDoseStatsSimple, rereadSimplyDose));
-
-			FileNameString filenameComplex = "testStatisticsComplex.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsComplex, filenameComplex));
 
 			io::other::DoseStatisticsXMLReader readerComplex = io::other::DoseStatisticsXMLReader(filenameComplex);
 			boost::shared_ptr<rttb::algorithms::DoseStatistics> rereadComplexDose;
@@ -92,11 +97,18 @@ namespace rttb
 			CHECK_NO_THROW(rereadComplexDose = readerComplex.generateDoseStatistic());
 			CHECK(checkEqualDoseStatistic(myDoseStatsComplex, rereadComplexDose));
 
+            io::other::DoseStatisticsXMLReader readerInvalidFilename = io::other::DoseStatisticsXMLReader("invalidFilename.xml");
+            CHECK_THROW_EXPLICIT(readerInvalidFilename.generateDoseStatistic(), core::InvalidParameterException);
 
+            //delete files again
+            CHECK_EQUAL(std::remove(filenameSimple.c_str()), 0);
+            CHECK_EQUAL(std::remove(filenameComplex.c_str()),0);
 
-			/* test writing statistics to string */
+            //3) test writing statistics to string
 			boost::property_tree::ptree ptSimple = io::other::writeDoseStatistics(myDoseStatsSimple);
 			XMLString strSimple = io::other::writerDoseStatisticsToString(myDoseStatsSimple);
+
+            CHECK_THROW_EXPLICIT(io::other::writerDoseStatisticsToString(nullptr), core::NullPointerException);
 
 			boost::property_tree::ptree ptComplex = io::other::writeDoseStatistics(myDoseStatsComplex);
 			XMLString strComplex = io::other::writerDoseStatisticsToString(myDoseStatsComplex);
