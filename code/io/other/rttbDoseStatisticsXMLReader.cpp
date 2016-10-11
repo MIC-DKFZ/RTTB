@@ -172,7 +172,7 @@ namespace rttb
 					minimum, maximum, mean, stdDeviation, numVoxels, volume, minimumVoxelPositions, maximumVoxelPositions
 					,Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx, referenceDose);
 			}
-		}//end namespace other
+}//end namespace other
 	}//end namespace io
 }//end namespace rttb
 

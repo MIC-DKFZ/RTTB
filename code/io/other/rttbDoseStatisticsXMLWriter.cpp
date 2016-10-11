@@ -19,13 +19,15 @@
 // @author  $Author$ (last changed by)
 */
 
+#include "rttbDoseStatisticsXMLWriter.h"
+
 #include <ostream>
 
-#include <boost/assign/list_of.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
-#include "rttbDoseStatisticsXMLWriter.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbDataNotAvailableException.h"
+#include "rttbNullPointerException.h"
+
 
 namespace rttb
 {
@@ -41,9 +43,12 @@ namespace rttb
 
 			boost::property_tree::ptree writeDoseStatistics(DoseStatisticsPtr aDoseStatistics)
 			{
-
 				using boost::property_tree::ptree;
 				ptree pt;
+
+                if (aDoseStatistics == nullptr){
+                    throw core::NullPointerException("dose statistics is nullptr!");
+                }
 
 				ptree numberOfVoxelsNode = createNodeWithNameAttribute(aDoseStatistics->getNumberOfVoxels(),
 				                           "numberOfVoxels");
@@ -123,43 +128,43 @@ namespace rttb
 
 				for (it = AllDx.begin(); it != AllDx.end(); ++it)
 				{
-					ptree DxNode = createNodeWithNameAndXAttribute(static_cast<float>((*it).second), "Dx",
-					               static_cast<int>((*it).first / absoluteVolume * 100));
+					ptree DxNode = createNodeWithNameAndXAttribute(static_cast<float>(it->second), "Dx",
+					               round(convertToPercent(it->first, absoluteVolume)));
 					pt.add_child(statisticsTag + "." + propertyTag, DxNode);
 				}
 
 				for (vxIt = AllVx.begin(); vxIt != AllVx.end(); ++vxIt)
 				{
-					ptree VxNode = createNodeWithNameAndXAttribute(static_cast<float>((*vxIt).second), "Vx",
-					               static_cast<int>((*vxIt).first / referenceDose * 100));
+					ptree VxNode = createNodeWithNameAndXAttribute(static_cast<float>(vxIt->second), "Vx",
+                        round(convertToPercent(vxIt->first, referenceDose)));
 					pt.add_child(statisticsTag + "." + propertyTag, VxNode);
 				}
 
 				for (it = AllMOHx.begin(); it != AllMOHx.end(); ++it)
 				{
-					ptree mohxNode = createNodeWithNameAndXAttribute(static_cast<float>((*it).second), "MOHx",
-					                 static_cast<int>((*it).first / absoluteVolume * 100));
+					ptree mohxNode = createNodeWithNameAndXAttribute(static_cast<float>(it->second), "MOHx",
+                        round(convertToPercent(it->first, absoluteVolume)));
 					pt.add_child(statisticsTag + "." + propertyTag, mohxNode);
 				}
 
 				for (it = AllMOCx.begin(); it != AllMOCx.end(); ++it)
 				{
-					ptree mocxNode = createNodeWithNameAndXAttribute(static_cast<float>((*it).second), "MOCx",
-					                 static_cast<int>((*it).first / absoluteVolume * 100));
+					ptree mocxNode = createNodeWithNameAndXAttribute(static_cast<float>(it->second), "MOCx",
+                        round(convertToPercent(it->first, absoluteVolume)));
 					pt.add_child(statisticsTag + "." + propertyTag, mocxNode);
 				}
 
 				for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); ++it)
 				{
-					ptree maxOhxNode = createNodeWithNameAndXAttribute(static_cast<float>((*it).second), "MaxOHx",
-					                   static_cast<int>((*it).first / absoluteVolume * 100));
+					ptree maxOhxNode = createNodeWithNameAndXAttribute(static_cast<float>(it->second), "MaxOHx",
+                        round(convertToPercent(it->first, absoluteVolume)));
 					pt.add_child(statisticsTag + "." + propertyTag, maxOhxNode);
 				}
 
 				for (it = AllMinOCx.begin(); it != AllMinOCx.end(); ++it)
 				{
-					ptree minOCxNode = createNodeWithNameAndXAttribute(static_cast<float>((*it).second), "MinOCx",
-					                   static_cast<int>((*it).first / absoluteVolume * 100));
+					ptree minOCxNode = createNodeWithNameAndXAttribute(static_cast<float>(it->second), "MinOCx",
+                        round(convertToPercent(it->first, absoluteVolume)));
 					pt.add_child(statisticsTag + "." + propertyTag, minOCxNode);
 				}
 
@@ -204,7 +209,9 @@ namespace rttb
 
 			StatisticsString writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics)
 			{
-
+                if (aDoseStatistics == nullptr){
+                    throw core::NullPointerException("dose statistics is nullptr!");
+                }
 				std::stringstream sstr;
 
 				sstr << static_cast<float>(aDoseStatistics->getVolume() * 1000) << columnSeparator; // cm3 to mm3
@@ -282,6 +289,19 @@ namespace rttb
 				node.put(xmlattrXTag, xValue);
 				return node;
 			}
+
+
+            double convertToPercent(double value, double maximum)
+            {
+                return (value / maximum) * 100;
+            }
+
+            int round(double value)
+            {
+                return value < 0.0 ? static_cast<int>(ceil(value - 0.5)) : static_cast<int>(floor(value + 0.5));
+            }
+
+
 
 		}//end namespace other
 	}//end namespace io

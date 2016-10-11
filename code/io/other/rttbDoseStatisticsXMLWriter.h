@@ -21,14 +21,9 @@
 #ifndef __DOSE_STATISTICS_XML_WRITER_H
 #define __DOSE_STATISTICS_XML_WRITER_H
 
-
 #include "rttbDoseStatistics.h"
-#include "rttbBaseType.h"
 
-/*boost includes*/
 #include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include "RTTBOtherIOExports.h"
@@ -41,7 +36,6 @@ namespace rttb
 		{
 
 			typedef boost::shared_ptr<rttb::algorithms::DoseStatistics> DoseStatisticsPtr;
-			typedef rttb::algorithms::DoseStatistics::ResultListPointer ResultListPointer;
 
 			/*! @brief Write statistics to boost::property_tree::ptree.
 			@param aReferenceDose A reference dose for the calculation of Vx
@@ -99,6 +93,11 @@ namespace rttb
 			@note The precision is float
 			*/
             StatisticsString RTTBOtherIO_EXPORT writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics);
+
+            double RTTBOtherIO_EXPORT convertToPercent(double value, double maximum);
+            /*! @brief rounds a value to the next int (since std::round is available only in C++11)
+            */
+            int RTTBOtherIO_EXPORT round(double value);
 		}
 	}
 }
