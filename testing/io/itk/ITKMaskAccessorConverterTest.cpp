@@ -40,7 +40,6 @@
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbITKImageMaskAccessorConverter.h"
 #include "rttbITKImageFileMaskAccessorGenerator.h"
-#include "rttbOTBMaskAccessor.h"
 #include "rttbBoostMaskAccessor.h"
 
 

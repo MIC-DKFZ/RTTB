@@ -104,7 +104,6 @@ namespace rttb
 			*/
 			void handleFailure(void) const;
 		};
-
 	}
 }
 

@@ -10,14 +10,10 @@ SET(CPP_FILES
 	RTDoseStatisticsDicomTest.cpp
 	${DOSESTATISTICSVIRTUOSTEST}
 	RTDVHTest.cpp
-	DVHCalculatorExampleTest.cpp
-	DVHCalculatorComparisonTest.cpp
 	../models/rttbScatterTester.cpp
 	rttbTestExamples.cpp
-	VoxelizationValidationTest.cpp
   )
 
 SET(H_FILES
 	../models/rttbScatterTester.h
-
 )

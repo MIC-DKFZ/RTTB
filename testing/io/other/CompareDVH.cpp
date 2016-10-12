@@ -22,7 +22,7 @@
 
 #include "CompareDVH.h"
 
-
+#include <boost/make_shared.hpp>
 
 namespace rttb
 {
@@ -55,6 +55,32 @@ namespace rttb
 
 		}
 
-	}//testing
+        rttb::testing::DVHPointer computeDiffDVH(DVHPointer aDVH1, DVHPointer aDVH2)
+        {
+            if (aDVH1->getDeltaD() == aDVH2->getDeltaD() && aDVH1->getDeltaV() == aDVH2->getDeltaV()){
+
+                rttb::core::DVH::DataDifferentialType dvhData1 = aDVH1->getDataDifferential();
+                rttb::core::DVH::DataDifferentialType dvhData2 = aDVH2->getDataDifferential();
+                rttb::core::DVH::DataDifferentialType dvhDataDifference;
+
+                auto it1 = dvhData1.cbegin();
+                auto it2 = dvhData2.cbegin();
+
+                while (it1 != dvhData1.cend() && it2 != dvhData2.cend())
+                {
+                    dvhDataDifference.push_back(*it1-*it2);
+                    ++it1;
+                    ++it2;
+                }
+
+                auto differenceDVH = ::boost::make_shared<core::DVH>(dvhDataDifference, aDVH1->getDeltaD(), aDVH1->getDeltaV(), aDVH1->getStructureID(), aDVH1->getDoseID());
+                return differenceDVH;
+            }
+            else {
+                return aDVH1;
+            }
+        }
+
+    }//testing
 }//rttb
 

@@ -6,9 +6,9 @@ PROJECT(RTToolbox)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 
 # RTToolbox version number.
-SET(RTToolbox_VERSION_MAJOR "4")
-SET(RTToolbox_VERSION_MINOR "1")
-SET(RTToolbox_VERSION_PATCH "2")
+SET(RTToolbox_VERSION_MAJOR "5")
+SET(RTToolbox_VERSION_MINOR "0")
+SET(RTToolbox_VERSION_PATCH "0")
 
 # Version string should not include patch level.  The major.minor is
 # enough to distinguish available features of the toolbox.

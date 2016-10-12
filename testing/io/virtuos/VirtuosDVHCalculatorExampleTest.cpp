@@ -121,7 +121,7 @@ namespace rttb
 			CHECK_CLOSE(0.0151739, dvhPtr->getModal(), errorConstant);
 			CHECK_CLOSE(0.835792, dvhPtr->getStdDeviation(), errorConstant);
 			CHECK_CLOSE(0.698549, dvhPtr->getVariance(), errorConstant);
-			CHECK_CLOSE(46573.0193175, dvhPtr->getNumberOfVoxels(), errorConstant);
+            CHECK_CLOSE(46573.01838, dvhPtr->getNumberOfVoxels(), errorConstant);
 
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
