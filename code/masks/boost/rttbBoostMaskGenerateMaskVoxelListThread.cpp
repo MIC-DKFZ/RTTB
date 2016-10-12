@@ -1,9 +1,28 @@
+// -----------------------------------------------------------------------
+// RTToolbox - DKFZ radiotherapy quantitative evaluation library
+//
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html
+//
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE.  See the above copyright notices for more information.
+//
+//------------------------------------------------------------------------
+/*!
+// @file
+// @version $Revision: 1127 $ (last changed revision)
+// @date    $Date: 2015-10-01 13:33:33 +0200 (Do, 01 Okt 2015) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
+*/
 
 #include "rttbBoostMaskGenerateMaskVoxelListThread.h"
 
-
 #include "rttbInvalidParameterException.h"
-#include <boost/make_shared.hpp>
+#include <boost/thread.hpp>
 
 
 namespace rttb
@@ -15,23 +34,26 @@ namespace rttb
 			BoostMaskGenerateMaskVoxelListThread::BoostMaskGenerateMaskVoxelListThread(
 			    const VoxelIndexVector& aGlobalBoundingBox,
 			    GeometricInfoPointer aGeometricInfo,
-			    const BoostArrayMap& aVoxelizationMap,
+                BoostArrayMapPointer aVoxelizationMap,
 			    double aVoxelizationThickness,
 			    unsigned int aBeginSlice,
 			    unsigned int aEndSlice,
-			    MaskVoxelQueuePointer aResultMaskVoxelQueue) :
+                MaskVoxelListPointer aMaskVoxelList,
+                ::boost::shared_ptr<::boost::shared_mutex> aMutex) :
 				_globalBoundingBox(aGlobalBoundingBox), _geometricInfo(aGeometricInfo),
 				_voxelizationMap(aVoxelizationMap), _voxelizationThickness(aVoxelizationThickness),
 				_beginSlice(aBeginSlice), _endSlice(aEndSlice),
-				_resultMaskVoxelQueue(aResultMaskVoxelQueue)
+                _resultMaskVoxelList(aMaskVoxelList), _mutex(aMutex)
 			{}
 
 			void BoostMaskGenerateMaskVoxelListThread::operator()()
 			{
 				rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
 				rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
-				int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
-				int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
+				unsigned int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
+				unsigned int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
+
+                std::vector<core::MaskVoxel> maskVoxelsInThread;
 
 				for (unsigned int indexZ = _beginSlice; indexZ < _endSlice; ++indexZ)
 				{
@@ -52,19 +74,19 @@ namespace rttb
 							_geometricInfo->convert(currentIndex, gridID);
 							double volumeFraction = 0;
 
-							std::map<double, double>::iterator it;
-							BoostArrayMap::iterator itMap;
+                            auto it = weightVectorForZ.cbegin();
+                            auto itMap = _voxelizationMap->cbegin();
 
-							for (it = weightVectorForZ.begin(), itMap = _voxelizationMap.begin(); it != weightVectorForZ.end()
-							     && itMap != _voxelizationMap.end(); ++it, ++itMap)
+							for (; it != weightVectorForZ.cend()
+							     && itMap != _voxelizationMap->cend(); ++it, ++itMap)
 							{
-								double weight = (*it).second;
-
-								BoostArray2D voxelizationArray = (*itMap).second;
-								//calc sum of all voxelization plane, use weight
-								volumeFraction += voxelizationArray[x][y] * weight;
+								double weight = it->second;
+                                if (weight > 0){
+                                    BoostArray2DPointer voxelizationArray = itMap->second;
+                                    //calc sum of all voxelization plane, use weight
+                                    volumeFraction += (*voxelizationArray)[x][y] * weight;
+                                }
 							}
-
 
 							if (volumeFraction > 1 && (volumeFraction - 1) <= errorConstant)
 							{
@@ -78,25 +100,25 @@ namespace rttb
 							//insert mask voxel if volumeFraction > 0
 							if (volumeFraction > 0)
 							{
-								core::MaskVoxel* maskVoxelPtr = new core::MaskVoxel(gridID, volumeFraction);
-								_resultMaskVoxelQueue->push(maskVoxelPtr);//push back the mask voxel in structure
+								core::MaskVoxel maskVoxelPtr = core::MaskVoxel(gridID, volumeFraction);
+                                maskVoxelsInThread.push_back(maskVoxelPtr);
 							}
 						}
 
 					}
 				}
 
+                boost::unique_lock<boost::shared_mutex> lock(*_mutex);
+                _resultMaskVoxelList->insert(_resultMaskVoxelList->end(), maskVoxelsInThread.begin(), maskVoxelsInThread.end());
 			}
 
 			void BoostMaskGenerateMaskVoxelListThread::calcWeightVector(const rttb::VoxelGridID& aIndexZ,
 			        std::map<double, double>& weightVector) const
 			{
-				BoostArrayMap::const_iterator it;
-
 				double indexZMin = aIndexZ - 0.5;
 				double indexZMax = aIndexZ + 0.5;
 
-				for (it = _voxelizationMap.begin(); it != _voxelizationMap.end(); ++it)
+                for (auto it = _voxelizationMap->begin(); it != _voxelizationMap->end(); ++it)
 				{
 					double voxelizationPlaneIndexMin = (*it).first - 0.5 * _voxelizationThickness;
 					double voxelizationPlaneIndexMax = (*it).first + 0.5 * _voxelizationThickness;
@@ -125,7 +147,7 @@ namespace rttb
 						}
 					}
 
-					weightVector.insert(std::pair<double, double>((*it).first, weight));
+					weightVector.insert(std::pair<double, double>(it->first, weight));
 				}
 			}
 		}

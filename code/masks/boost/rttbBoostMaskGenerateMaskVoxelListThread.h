@@ -25,11 +25,11 @@
 
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
-#include "rttbMaskVoxel.h"
+#include "rttbMaskAccessorInterface.h"
 
 #include <boost/multi_array.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/lockfree/queue.hpp>
+#include <boost/thread/shared_mutex.hpp>
 
 namespace rttb
 {
@@ -46,23 +46,24 @@ namespace rttb
 			public:
 				typedef ::boost::shared_ptr<rttb::core::GeometricInfo> GeometricInfoPointer;
 				typedef ::boost::multi_array<double, 2> BoostArray2D;
-				typedef std::map<double, BoostArray2D> BoostArrayMap;
-				typedef ::boost::shared_ptr<::boost::lockfree::queue<core::MaskVoxel*>> MaskVoxelQueuePointer;
+                typedef ::boost::shared_ptr<BoostArray2D> BoostArray2DPointer;
+                typedef ::boost::shared_ptr<std::map<double, BoostArray2DPointer> > BoostArrayMapPointer;
 				typedef std::vector<rttb::VoxelGridIndex3D> VoxelIndexVector;
+                typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
 
 				BoostMaskGenerateMaskVoxelListThread(const VoxelIndexVector& aGlobalBoundingBox,
 				                                     GeometricInfoPointer aGeometricInfo,
-				                                     const BoostArrayMap& aVoxelizationMap,
+                                                     BoostArrayMapPointer aVoxelizationMap,
 				                                     double aVoxelizationThickness,
 				                                     unsigned int aBeginSlice,
 				                                     unsigned int aEndSlice,
-				                                     MaskVoxelQueuePointer aResultMaskVoxelQueue);
+                                                     MaskVoxelListPointer aMaskVoxelList, ::boost::shared_ptr<::boost::shared_mutex> aMutex);
 				void operator()();
 
 			private:
 				VoxelIndexVector _globalBoundingBox;
 				GeometricInfoPointer _geometricInfo;
-				BoostArrayMap _voxelizationMap;
+                BoostArrayMapPointer _voxelizationMap;
 				//(for example, the first contour has the double grid index 0.1, the second 0.3, the third 0.5, then the thickness is 0.2)
 				double _voxelizationThickness;
 
@@ -71,7 +72,8 @@ namespace rttb
 				*/
 				unsigned int _endSlice;
 
-				MaskVoxelQueuePointer _resultMaskVoxelQueue;
+                MaskVoxelListPointer _resultMaskVoxelList;
+                ::boost::shared_ptr<::boost::shared_mutex> _mutex;
 
 				/*! @brief For each dose grid index z, calculate the weight vector for each structure contour
 				*/
