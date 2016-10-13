@@ -18,8 +18,8 @@
 // @date    $Date$ (last change date)
 // @author  $Author$ (last changed by)
 */
-#ifndef __BOOST_MASK_ACCESSOR__H
-#define __BOOST_MASK_ACCESSOR__H
+#ifndef __BOOST_MASK_R_ACCESSOR__H
+#define __BOOST_MASK_R_ACCESSOR__H
 
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
@@ -27,8 +27,6 @@
 #include "rttbMaskAccessorInterface.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbStructure.h"
-
-#include <boost/shared_ptr.hpp>
 
 #include "RTTBBoostMaskExports.h"
 
@@ -41,7 +39,7 @@ namespace rttb
 			/*! @class BoostMaskAccessor
 			*   @brief Using the voxelization based on boost::geometry and generate the mask accessor.
 			*   @attention  If "strict" is set to true, an exception will be thrown when the given structure has self intersection.
-			*   (A structure without self interseciton means all contours of the structure have no self intersection, and
+			*   (A structure without self intersection means all contours of the structure have no self intersection, and
 			*   the polygons on the same slice have no intersection between each other, unless the case of a donut. A donut is accepted.)
 			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored
 			*   and the mask will be calculated, however, it may cause errors in the mask results.
@@ -73,7 +71,7 @@ namespace rttb
 
 				/*! @brief Constructor with a structure pointer and a geometric info pointer
 				* @param aStructurePointer smart pointer of the structure
-				* @param aGeometricInfoPtr smart pointer of the geometricinfo of the dose
+				* @param aGeometricInfoPtr smart pointer of the geometricInfo of the dose
 				* @param strict indicates whether to allow self intersection in the structure. If it is set to true, an exception will be thrown when the given structure has self intersection.
 				* @exception InvalidParameterException thrown if strict is true and the structure has self intersections
 				*/

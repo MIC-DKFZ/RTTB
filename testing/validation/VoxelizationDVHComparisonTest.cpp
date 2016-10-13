@@ -120,6 +120,9 @@ namespace rttb
 			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(
 			        RTSTRUCT_FILENAME.c_str()).generateStructureSet();
 
+            //create directory
+            boost::filesystem::create_directories(RTDVH_XML_BOOSTREDESIGN_DIRECTORY);
+
 			//start evaluation
 			clock_t start(clock());
 

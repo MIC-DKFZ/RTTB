@@ -99,8 +99,8 @@ namespace rttb
                 RTStr_BoostRedesign = argv[7];
 			}
 
-			OFCondition status;
-			DcmFileFormat fileformat;
+            //create directory
+            boost::filesystem::create_directories(BoostMaskRedesign_DIRNAME);
 
 			/* read dicom-rt dose */
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(RTDOSE_FILENAME.c_str());
@@ -112,7 +112,7 @@ namespace rttb
 
 			if (rtStructureSet->getNumberOfStructures() > 0)
 			{
-                //do not compute struct "Aussenkontur" since it is very large (15000 cm³)
+                //do not compute structure "Aussenkontur" since it is very large (15000 cm³)
 				for (size_t j = 1; j < rtStructureSet->getNumberOfStructures(); j++)
 				{
 					std::cout << j << ": " << rtStructureSet->getStructure(j)->getLabel() << std::endl;
@@ -158,7 +158,7 @@ namespace rttb
                     CHECK(writerRSubtracted.writeFile());
 			    }
 			}
-
+            
 			/* Exception tests using data with different z spacing of dose and structure */
             io::itk::ITKImageFileAccessorGenerator doseAccessorGenerator2(RTDose_BoostRedesign.c_str());
 			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
@@ -169,17 +169,20 @@ namespace rttb
 
 			if (rtStructureSet2->getNumberOfStructures() > 0)
 			{
-				for (size_t j = 12; j < 26; j++)
-				{
-                    std::cout << j << ": " << rtStructureSet2->getStructure(j)->getLabel() << std::endl;
+                for (size_t j = 12; j < 26; j++)
+                {
+                    //do not compute the largest structure
+                    if (j != 18){
+                        std::cout << j << ": " << rtStructureSet2->getStructure(j)->getLabel() << std::endl;
 
-                    //create Boost MaskAccessor redesign
-                    MaskAccessorPointer boostMaskAccessorRedesignPtr
-                        = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-                        (rtStructureSet2->getStructure(j), doseAccessor2->getGeometricInfo());
+                        //create Boost MaskAccessor redesign
+                        MaskAccessorPointer boostMaskAccessorRedesignPtr
+                            = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+                            (rtStructureSet2->getStructure(j), doseAccessor2->getGeometricInfo());
 
-                    //No exception using redesigned boost mask
-                    CHECK_NO_THROW(boostMaskAccessorRedesignPtr->updateMask());
+                        //No exception using redesigned boost mask
+                        CHECK_NO_THROW(boostMaskAccessorRedesignPtr->updateMask());
+                    }
 				}
 			}
 

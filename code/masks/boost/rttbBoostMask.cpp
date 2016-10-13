@@ -1,12 +1,28 @@
-#include <iostream>
-#include <deque>
-#include <algorithm>
+// -----------------------------------------------------------------------
+// RTToolbox - DKFZ radiotherapy quantitative evaluation library
+//
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html
+//
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE.  See the above copyright notices for more information.
+//
+//------------------------------------------------------------------------
+/*!
+// @file
+// @version $Revision$ (last changed revision)
+// @date    $Date$ (last change date)
+// @author  $Author$ (last changed by)
+*/
+
 #include <limits>
 
 #include <boost/geometry/geometries/register/point.hpp>
 #include <boost/geometry/geometries/register/ring.hpp>
-#include <boost/geometry/io/wkt/wkt.hpp>
-#include <boost/geometry/multi/geometries/multi_polygon.hpp>
 #include <boost/make_shared.hpp>
 #include <boost/thread/thread.hpp>
 
@@ -15,7 +31,6 @@
 #include "rttbInvalidParameterException.h"
 #include "rttbBoostMaskGenerateMaskVoxelListThread.h"
 #include "rttbBoostMaskVoxelizationThread.h"
-
 
 
 namespace rttb
@@ -29,7 +44,7 @@ namespace rttb
 			BoostMask::BoostMask(BoostMask::GeometricInfoPointer aDoseGeoInfo,
 			                     BoostMask::StructPointer aStructure, bool strict, unsigned int numberOfThreads)
 				: _geometricInfo(aDoseGeoInfo), _structure(aStructure),
-				  _strict(strict), _numberOfThreads(numberOfThreads),
+                _strict(strict), _numberOfThreads(numberOfThreads), _voxelizationThickness(0.0),
 				  _voxelInStructure(::boost::make_shared<MaskVoxelList>())
 			{
 
@@ -47,14 +62,11 @@ namespace rttb
 				if (_numberOfThreads == 0)
 				{
 					_numberOfThreads = ::boost::thread::hardware_concurrency();
+                    if (_numberOfThreads == 0)
+                    {
+                        throw rttb::core::InvalidParameterException("Error: detection of the number of hardware threads is not possible. Please specify number of threads for voxelization explicitly as parameter in BoostMask.");
+                    }
 				}
-
-				if (_numberOfThreads <= 0)
-				{
-					throw rttb::core::InvalidParameterException("Error: the given number of threads must > 0, or detection of the number of hardwore thread is not possible.");
-				}
-
-				std::cout << "number of threads: " << _numberOfThreads << std::endl;
 
 			}
 
@@ -119,18 +131,15 @@ namespace rttb
 
 			void BoostMask::voxelization()
 			{
-				BoostPolygonMap::iterator it;
 
 				if (_globalBoundingBox.size() < 2)
 				{
 					throw rttb::core::InvalidParameterException("Bounding box calculation failed! ");
 				}
 
-				unsigned int ringMapSize = _ringMap.size();
-
 				BoostRingMap::iterator itMap;
 
-				unsigned int mapSizeInAThread = _ringMap.size() / _numberOfThreads;
+				size_t mapSizeInAThread = _ringMap.size() / _numberOfThreads;
 				unsigned int count = 0;
 				unsigned int countThread = 0;
 				BoostPolygonMap polygonMap;
@@ -155,37 +164,22 @@ namespace rttb
 					count++;
 
 				}
+                _voxelizationMap = ::boost::make_shared<std::map<double, BoostArray2DPointer> >();
 
 				polygonMapVector.push_back(polygonMap); //insert the last one
 
 				//generate voxelization map, multi-threading
 				::boost::thread_group threads;
-				BoostMaskVoxelizationThread::VoxelizationQueuePointer resultQueue
-				    = ::boost::make_shared<::boost::lockfree::queue<BoostArray2D*>>
-				      (ringMapSize);
-				BoostMaskVoxelizationThread::VoxelizationIndexQueuePointer resultIndexQueue
-				    = ::boost::make_shared<::boost::lockfree::queue<double>>
-				      (ringMapSize);
+                auto aMutex = ::boost::make_shared<::boost::shared_mutex>();
 
 				for (int i = 0; i < polygonMapVector.size(); ++i)
 				{
-					BoostMaskVoxelizationThread t(polygonMapVector.at(i), _globalBoundingBox, resultIndexQueue,
-					                              resultQueue);
+					BoostMaskVoxelizationThread t(polygonMapVector.at(i), _globalBoundingBox,
+                        _voxelizationMap, aMutex);
 					threads.create_thread(t);
 				}
 
 				threads.join_all();
-
-
-				BoostArray2D* array;
-				double index;
-
-				//generate voxelization map using resultQueue and resultIndexQueue
-				while (resultIndexQueue->pop(index) && resultQueue->pop(array))
-				{
-					_voxelizationMap.insert(std::pair<double, BoostArray2D>(index, *array));
-				}
-
 			}
 
 			void BoostMask::generateMaskVoxelList()
@@ -195,19 +189,14 @@ namespace rttb
 					throw rttb::core::InvalidParameterException("Bounding box calculation failed! ");
 				}
 
-				//check homogeneus of the voxelization plane (the contours plane)
+				//check homogeneous of the voxelization plane (the contours plane)
 				if (!calcVoxelizationThickness(_voxelizationThickness))
 				{
-					throw rttb::core::InvalidParameterException("Error: The contour plane should be homogeneus!");
+					throw rttb::core::InvalidParameterException("Error: The contour plane should be homogeneous!");
 				}
 
-
-				::boost::shared_ptr<::boost::lockfree::queue<core::MaskVoxel*>> resultQueue
-				        = ::boost::make_shared<::boost::lockfree::queue<core::MaskVoxel*>>
-				          (_geometricInfo->getNumberOfVoxels());
-
-
 				::boost::thread_group threads;
+                auto aMutex = ::boost::make_shared<::boost::shared_mutex>();
 
 				unsigned int sliceNumberInAThread = _geometricInfo->getNumSlices() / _numberOfThreads;
 
@@ -229,21 +218,13 @@ namespace rttb
 
 					BoostMaskGenerateMaskVoxelListThread t(_globalBoundingBox, _geometricInfo, _voxelizationMap,
 					                                       _voxelizationThickness, beginSlice, endSlice,
-					                                       resultQueue);
+					                                       _voxelInStructure, aMutex);
 
 					threads.create_thread(t);
 
 				}
 
 				threads.join_all();
-
-				core::MaskVoxel* voxel;
-
-				//generate _voxelInStructure using resultQueue
-				while (resultQueue->pop(voxel))
-				{
-					_voxelInStructure->push_back(*voxel);//push back the mask voxel in structure
-				}
 
 			}
 
@@ -261,8 +242,8 @@ namespace rttb
 
 					//convert to geometry coordinate polygon
 					rttb::DoubleVoxelGridIndex3D geometryCoordinatePoint;
-                    _geometricInfo->worldCoordinateToGeometryCoordinate(worldCoordinatePoint,
-                        geometryCoordinatePoint);
+					_geometricInfo->worldCoordinateToGeometryCoordinate(worldCoordinatePoint, geometryCoordinatePoint);
+
 					geometryCoordinatePolygon.push_back(geometryCoordinatePoint);
 
 					//calculate the current global min/max
@@ -340,7 +321,7 @@ namespace rttb
 			}
 
 			BoostMask::BoostRingMap BoostMask::convertRTTBPolygonSequenceToBoostRingMap(
-			    const rttb::PolygonSequenceType& aRTTBPolygonVector)
+			    const rttb::PolygonSequenceType& aRTTBPolygonVector) const
 			{
 				rttb::PolygonSequenceType::const_iterator it;
 				BoostMask::BoostRingMap aRingMap;
@@ -378,7 +359,7 @@ namespace rttb
 			}
 
 			BoostMask::BoostRingMap::iterator BoostMask::findNearestKey(BoostMask::BoostRingMap&
-			        aBoostRingMap, double aIndex, double aErrorConstant)
+			        aBoostRingMap, double aIndex, double aErrorConstant) const
 			{
 				BoostMask::BoostRingMap::iterator find = aBoostRingMap.find(aIndex);
 
@@ -442,7 +423,7 @@ namespace rttb
 				//Get donut index and donut polygon
 				unsigned int index1 = 0;
 
-				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); it1++, index1++)
+				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); ++it1, index1++)
 				{
 					bool it1IsDonut = false;
 
@@ -462,7 +443,7 @@ namespace rttb
 						bool it2IsDonut = false;
 						unsigned int index2 = 0;
 
-						for (it2 = aRingVector.begin(); it2 != aRingVector.end(); it2++, index2++)
+						for (it2 = aRingVector.begin(); it2 != aRingVector.end(); ++it2, index2++)
 						{
 							if (it2 != it1)
 							{
@@ -499,7 +480,7 @@ namespace rttb
 				//Store no donut polygon to boostPolygonVector
 				index1 = 0;
 
-				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); it1++, index1++)
+				for (it1 = aRingVector.begin(); it1 != aRingVector.end(); ++it1, index1++)
 				{
 					bool it1IsDonut = false;
 
@@ -524,7 +505,7 @@ namespace rttb
 				//Append donut polygon to boostPolygonVector
 				BoostMask::BoostPolygonVector::iterator itDonut;
 
-				for (itDonut = donutVector.begin(); itDonut != donutVector.end(); itDonut++)
+				for (itDonut = donutVector.begin(); itDonut != donutVector.end(); ++itDonut)
 				{
 					boostPolygonVector.push_back(*itDonut);//append donuts
 				}
@@ -534,10 +515,8 @@ namespace rttb
 
 			bool BoostMask::calcVoxelizationThickness(double& aThickness) const
 			{
-				BoostArrayMap::const_iterator it = _voxelizationMap.begin();
-				BoostArrayMap::const_iterator it2 = ++_voxelizationMap.begin();
 
-				if (_voxelizationMap.size() <= 1)
+				if (_voxelizationMap->size() <= 1)
 				{
 					aThickness = 1;
 					return true;
@@ -545,17 +524,19 @@ namespace rttb
 
 				double thickness = 0;
 
+                auto it = _voxelizationMap->cbegin();
+                auto it2 = ++_voxelizationMap->cbegin();
 				for (;
-				     it != _voxelizationMap.end(), it2 != _voxelizationMap.end(); ++it, ++it2)
+				     it != _voxelizationMap->cend(), it2 != _voxelizationMap->cend(); ++it, ++it2)
 				{
 					if (thickness == 0)
 					{
-						thickness = (*it2).first - (*it).first;
+						thickness = it2->first - it->first;
 					}
 					else
 					{
-                        double curThickness = (*it2).first - (*it).first;
-						//if no homogeneous (leave out double imprecisions), return false
+                        double curThickness = it2->first - it->first;
+						//if not homogeneous (leave out double imprecisions), return false
 						if (abs(thickness-curThickness)>errorConstant)
 						{
 							return false;

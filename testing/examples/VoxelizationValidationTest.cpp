@@ -114,6 +114,9 @@ namespace rttb
 			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(
 			        RTSTRUCT_FILENAME.c_str()).generateStructureSet();
 
+            ::boost::filesystem::create_directories(BoostMask_DIRNAME);
+            ::boost::filesystem::create_directories(OTBMask_DIRNAME);
+            ::boost::filesystem::create_directories(BoostMaskRedesign_DIRNAME);
 
 			if (rtStructureSet->getNumberOfStructures() > 0)
 			{

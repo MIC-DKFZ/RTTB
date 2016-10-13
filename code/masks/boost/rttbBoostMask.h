@@ -20,19 +20,16 @@
 */
 
 
-#ifndef __BOOST_MASK_H
-#define __BOOST_MASK_H
+#ifndef __BOOST_MASK_R_H
+#define __BOOST_MASK_R_H
 
 #include "rttbBaseType.h"
 #include "rttbStructure.h"
 #include "rttbGeometricInfo.h"
-#include "rttbMaskVoxel.h"
 #include "rttbMaskAccessorInterface.h"
 
 #include <boost/geometry.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
-#include <boost/geometry/geometries/polygon.hpp>
-#include <boost/geometry/geometries/ring.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/multi_array.hpp>
 
@@ -45,7 +42,7 @@ namespace rttb
 			/*! @class BoostMask
 			*   @brief Implementation of voxelization using boost::geometry.
 			*   @attention If "strict" is set to true, an exception will be thrown when the given structure has self intersection.
-			*   (A structure without self interseciton means all contours of the structure have no self intersection, and
+			*   (A structure without self intersection means all contours of the structure have no self intersection, and
 			*   the polygons on the same slice have no intersection between each other, unless the case of a donut. A donut is accepted.)
 			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored
 			*   and the mask will be calculated, however, it may cause errors in the mask results.
@@ -79,7 +76,6 @@ namespace rttb
 				BoostPolygon2D;
 				typedef ::boost::geometry::model::ring< ::boost::geometry::model::d2::point_xy<double> >
 				BoostRing2D;
-				typedef std::deque<BoostPolygon2D> BoostPolygonDeque;
 				typedef std::vector<BoostRing2D> BoostRingVector;//polygon without holes
 				typedef std::vector<BoostPolygon2D> BoostPolygonVector;//polygon with or without holes
 				typedef std::vector<rttb::VoxelGridIndex3D> VoxelIndexVector;
@@ -88,9 +84,8 @@ namespace rttb
 				typedef std::map<double, BoostRingVector>
 				BoostRingMap;//map of the z index with the vector of boost 2d ring
 				typedef ::boost::multi_array<double, 2> BoostArray2D;
-				typedef std::map<double, BoostArray2D> BoostArrayMap;
-				typedef ::boost::array<double, 1> BoostArray1D;
-				typedef std::vector<std::map<double, double> > WeightVector;
+                typedef ::boost::shared_ptr<BoostArray2D> BoostArray2DPointer;
+                typedef ::boost::shared_ptr<std::map<double, BoostArray2DPointer> > BoostArrayMapPointer;
 
 				GeometricInfoPointer _geometricInfo;
 
@@ -113,15 +108,15 @@ namespace rttb
 				*	value: the 2d mask, array[i][j] = the mask value of the position (i,j) in the global bounding box,
 				*			i: 0 - (_globalBoundingBoxSize0-1), j: 0 - (_globalBoundingBoxSize1-1)
 				*/
-				BoostArrayMap _voxelizationMap;
+                BoostArrayMapPointer _voxelizationMap;
 
-				//The thickness of the voxelization plane (the contour plane), in double dose grid index
+				//@brief The thickness of the voxelization plane (the contour plane), in double dose grid index
 				//(for example, the first contour has the double grid index 0.1, the second 0.3, the third 0.5, then the thickness is 0.2)
 				double _voxelizationThickness;
 
 				bool _strict;
 
-				//vector of the MaskVoxel inside the structure
+				//@brief vector of the MaskVoxel inside the structure
 				MaskVoxelListPointer _voxelInStructure;
 
 				/*! @brief If the mask is up to date
@@ -147,7 +142,7 @@ namespace rttb
 				*/
 				void preprocessing();
 
-				/*! @brief The voxelization step, wich computes the voxelization planes (in x/y) for all contours of an struct.
+				/*! @brief The voxelization step, which computes the voxelization planes (in x/y) for all contours of an struct.
 
 				*	For each contour (that is in the z-Range of the reference geometry) of the struct:
 				*	1) Allocate result array (voxelization plane) based on the bounding box (see Preprocessing Step 3)
@@ -156,22 +151,22 @@ namespace rttb
 				*/
 				void voxelization();
 
-				/*! @final mask voxel Generation step which transfers the voxilization planes into the (z-)geometry of the reference geometry.
+				/*! @final mask voxel Generation step which transfers the voxelization planes into the (z-)geometry of the reference geometry.
 				*	It consists of following Sub steps :
 				*	For all "slices" in the reference geometry :
 				*	1) generate weight vector for all voxelization planes for a given z - value of a slice
-				*		Itterate over the bounding box of a struct.For each voxel :
+				*		Iterate over the bounding box of a struct.For each voxel :
 				*	2) Compute weighted sum of all voxelization planes(use weight vector, step 1)
 				*		2a) If sum > 0 : Add mask voxel for the current x / y(inner Loop) and z value(outer Loop).
 				*	3) return mask voxel list.
 				*/
 				void generateMaskVoxelList();
 
-				/*! @brief Convert the rttb polygon with world corrdinate to the rttb polygon with double geometry coordinate, calculate the current min/max
+				/*! @brief Convert the rttb polygon with world coordinate to the rttb polygon with double geometry coordinate, calculate the current min/max
 				*			and check if the polygon is planar
 				*	@param minimum the current global minimum
 				*	@param maximum the current global maximum
-				*	@return Return true if the polygon is planar, which means that the minminal and maximal z-coordinate of the polygon is not larger than a error constant
+				*	@return Return true if the polygon is planar, which means that the minimal and maximal z-coordinate of the polygon is not larger than a error constant
 				*/
 				bool preprocessingPolygon(const rttb::PolygonType& aRTTBPolygon,
 				                          rttb::PolygonType& geometryCoordinatePolygon, rttb::DoubleVoxelGridIndex3D& minimum,
@@ -182,14 +177,14 @@ namespace rttb
 
 				/*! @brief Convert a rttb 3d polygon to a map of z index with a vector of boost 2d ring, because of tilt check use the first z index of the polygon as the map key*/
 				BoostRingMap convertRTTBPolygonSequenceToBoostRingMap(const rttb::PolygonSequenceType&
-				        aRTTBPolygonVector);
+				        aRTTBPolygonVector) const;
 
 				/*! @brief Find the key with error constant to aIndex
 				*	@pre aBoostRingMap should not be empty
 				*	@return Return aBoostRingMap.end() if the key is not found
 				*/
 				BoostMask::BoostRingMap::iterator findNearestKey(BoostMask::BoostRingMap& aBoostRingMap,
-				        double aIndex, double aErrorConstant);
+				        double aIndex, double aErrorConstant) const;
 
 				/*! @brief If 2 rings in the vector build a donut, convert the 2 rings to a donut polygon, other rings unchanged*/
 				BoostPolygonVector checkDonutAndConvert(const BoostRingVector& aRingVector) const;

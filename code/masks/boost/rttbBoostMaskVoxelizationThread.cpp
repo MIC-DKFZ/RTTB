@@ -1,4 +1,31 @@
+// -----------------------------------------------------------------------
+// RTToolbox - DKFZ radiotherapy quantitative evaluation library
+//
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html
+//
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE.  See the above copyright notices for more information.
+//
+//------------------------------------------------------------------------
+/*!
+// @file
+// @version $Revision: 1127 $ (last changed revision)
+// @date    $Date: 2015-10-01 13:33:33 +0200 (Do, 01 Okt 2015) $ (last change date)
+// @author  $Author: hentsch $ (last changed by)
+*/
+
 #include "rttbBoostMaskVoxelizationThread.h"
+
+#include "rttbInvalidParameterException.h"
+
+#include <boost/geometry.hpp>
+#include <boost/thread.hpp>
+#include <boost/make_shared.hpp>
 
 namespace rttb
 {
@@ -7,30 +34,26 @@ namespace rttb
 		namespace boost
 		{
 			BoostMaskVoxelizationThread::BoostMaskVoxelizationThread(const BoostPolygonMap& APolygonMap,
-			        const VoxelIndexVector& aGlobalBoundingBox, VoxelizationIndexQueuePointer aResultIndexQueue,
-			        VoxelizationQueuePointer aVoxelizationQueue) : _geometryCoordinateBoostPolygonMap(APolygonMap),
-				_globalBoundingBox(aGlobalBoundingBox), _resultIndexQueue(aResultIndexQueue),
-				_resultVoxelizationQueue(aVoxelizationQueue)
+                const VoxelIndexVector& aGlobalBoundingBox, BoostArrayMapPointer anArrayMap, ::boost::shared_ptr<::boost::shared_mutex> aMutex) : _geometryCoordinateBoostPolygonMap(APolygonMap),
+                _globalBoundingBox(aGlobalBoundingBox), _resultVoxelization(anArrayMap), _mutex(aMutex)
 			{
 			}
-
 
 			void BoostMaskVoxelizationThread::operator()()
 			{
 				rttb::VoxelGridIndex3D minIndex = _globalBoundingBox.at(0);
 				rttb::VoxelGridIndex3D maxIndex = _globalBoundingBox.at(1);
-				int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
-				int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
+				const unsigned int globalBoundingBoxSize0 = maxIndex[0] - minIndex[0] + 1;
+				const unsigned int globalBoundingBoxSize1 = maxIndex[1] - minIndex[1] + 1;
 
-				BoostPolygonMap::iterator it;
+                std::map<double, ::boost::shared_ptr<BoostArray2D> > voxelizationMapInThread;
 
-				for (it = _geometryCoordinateBoostPolygonMap.begin();
+                 for (BoostPolygonMap::iterator it = _geometryCoordinateBoostPolygonMap.begin();
 				     it != _geometryCoordinateBoostPolygonMap.end(); ++it)
 				{
-					BoostArray2D* maskArray = new BoostArray2D(
-					    ::boost::extents[globalBoundingBoxSize0][globalBoundingBoxSize1]);
+                    BoostArray2D maskArray(::boost::extents[globalBoundingBoxSize0][globalBoundingBoxSize1]);
 
-					BoostPolygonVector boostPolygonVec = (*it).second;
+					BoostPolygonVector boostPolygonVec = it->second;
 
 					for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)
 					{
@@ -56,14 +79,15 @@ namespace rttb
 								throw rttb::core::InvalidParameterException("Mask calculation failed! The volume fraction should >= 0 and <= 1!");
 							}
 
-							(*maskArray)[x][y] = volumeFraction;
+							maskArray[x][y] = volumeFraction;
 						}
 					}
 
-					//insert into voxelization map
-					_resultIndexQueue->push((*it).first);
-					_resultVoxelizationQueue->push(maskArray);
+                    voxelizationMapInThread.insert(std::pair<double, BoostArray2DPointer>(it->first, ::boost::make_shared<BoostArray2D>(maskArray)));
 				}
+                //insert gathered values into voxelization map
+                ::boost::unique_lock<::boost::shared_mutex> lock(*_mutex);
+                _resultVoxelization->insert(voxelizationMapInThread.begin(), voxelizationMapInThread.end());
 
 			}
 

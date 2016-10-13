@@ -23,22 +23,15 @@
 #ifndef __BOOST_MASK_VOXELIZATION_THREAD_H
 #define __BOOST_MASK_VOXELIZATION_THREAD_H
 
+#include <deque>
+
 #include "rttbBaseType.h"
-#include "rttbGeometricInfo.h"
-#include "rttbMaskVoxel.h"
-#include "rttbInvalidParameterException.h"
 
 #include <boost/multi_array.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/lockfree/queue.hpp>
-#include <boost/geometry.hpp>
+#include <boost/thread/shared_mutex.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
-#include <boost/geometry/geometries/ring.hpp>
-#include <boost/geometry/geometries/register/point.hpp>
-#include <boost/geometry/geometries/register/ring.hpp>
-#include <boost/geometry/io/wkt/wkt.hpp>
-#include <boost/geometry/multi/geometries/multi_polygon.hpp>
 
 namespace rttb
 {
@@ -60,15 +53,11 @@ namespace rttb
 				BoostPolygonMap;//map of the z index with the vector of boost 2d polygon
 				typedef std::vector<rttb::VoxelGridIndex3D> VoxelIndexVector;
 				typedef ::boost::multi_array<double, 2> BoostArray2D;
-				typedef ::boost::shared_ptr<::boost::lockfree::queue<BoostArray2D*>>
-				        VoxelizationQueuePointer;
-				typedef ::boost::shared_ptr<::boost::lockfree::queue<double>>
-				        VoxelizationIndexQueuePointer;
+                typedef ::boost::shared_ptr<BoostArray2D> BoostArray2DPointer;
+                typedef ::boost::shared_ptr<std::map<double, BoostArray2DPointer > > BoostArrayMapPointer;
 
 				BoostMaskVoxelizationThread(const BoostPolygonMap& APolygonMap,
-				                            const VoxelIndexVector& aGlobalBoundingBox, VoxelizationIndexQueuePointer aResultIndexQueue,
-				                            VoxelizationQueuePointer aVoxelizationQueue);
-
+                    const VoxelIndexVector& aGlobalBoundingBox, BoostArrayMapPointer anArrayMap, ::boost::shared_ptr<::boost::shared_mutex> aMutex);
 
 				void operator()();
 
@@ -84,13 +73,13 @@ namespace rttb
 
 				BoostPolygonMap _geometryCoordinateBoostPolygonMap;
 				VoxelIndexVector _globalBoundingBox;
-				VoxelizationQueuePointer _resultVoxelizationQueue;
-				VoxelizationIndexQueuePointer _resultIndexQueue;
+                BoostArrayMapPointer _resultVoxelization;
+                ::boost::shared_ptr<::boost::shared_mutex> _mutex;
 
 				/*! @brief Get intersection polygons of the contour and a voxel polygon
 				* @param aVoxelIndex3D The 3d grid index of the voxel
 				* @param intersectionSlicePolygons The polygons of the slice intersecting the voxel
-				* @return Return all intersetion polygons of the structure and the voxel
+				* @return Return all intersection polygons of the structure and the voxel
 				*/
 				static BoostPolygonDeque getIntersections(const rttb::VoxelGridIndex3D& aVoxelIndex3D,
 				        const BoostPolygonVector& intersectionSlicePolygons);
