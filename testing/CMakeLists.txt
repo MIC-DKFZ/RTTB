@@ -59,6 +59,9 @@ ENDIF()
 
 IF(BUILD_RTToolbox_Test_examples)
 	ADD_SUBDIRECTORY(examples)
+	IF(RTTB_VIRTUOS_SUPPORT AND BUILD_IO_Virtuos)
+		ADD_SUBDIRECTORY(examples_virtuos)
+	ENDIF()
 ENDIF()
 
 IF(BUILD_RTToolbox_algorithms_Tester)
