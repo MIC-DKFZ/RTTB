@@ -88,7 +88,7 @@ namespace rttb
             CHECK(checkEqualDVH(defaultDVHActual, defaultDVHExpected));
 
 			//delete file again
-			//CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
+			CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

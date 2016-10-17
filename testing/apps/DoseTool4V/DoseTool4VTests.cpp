@@ -38,11 +38,8 @@ namespace rttb
 
 		void registerTests()
 		{
-			LIT_REGISTER_TEST(DoseToolInvalidParametersTest);
-			LIT_REGISTER_TEST(DoseToolDicomDoseTest);
-			LIT_REGISTER_TEST(DoseToolITKDoseTest);
-			LIT_REGISTER_TEST(DoseToolRegexTest);
-			LIT_REGISTER_TEST(DoseToolDVHTest);
+			LIT_REGISTER_TEST(DoseTool4VVirtuosDoseTest);
+			LIT_REGISTER_TEST(DoseTool4VITKDoseTest);
 		}
 
 	} //namespace testing
