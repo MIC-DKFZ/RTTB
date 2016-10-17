@@ -19,14 +19,12 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#include <iostream>
-#include <fstream>
-#include <cstdio>
+#include "rttbDoseStatisticsXMLReader.h"
+#include "../../io/other/CompareDoseStatistic.h"
 
 #include "litCheckMacros.h"
 
 #include "boost/filesystem.hpp"
-#include "boost/algorithm/string.hpp"
 
 namespace rttb
 {
@@ -35,8 +33,6 @@ namespace rttb
 
 		//path to the current running directory. DoseTool is in the same directory (Debug/Release)
 		extern const char* _callingAppPath;
-
-		static std::string readFile(const std::string& filename);
 
 		int DoseToolRegexTest(int argc, char* argv[])
 		{
@@ -95,50 +91,26 @@ namespace rttb
 			CHECK_EQUAL(boost::filesystem::exists(defaultExpectedOutputFilename), true);
 			CHECK_EQUAL(boost::filesystem::exists(defaultExpectedOutputFilename2), true);
 
-			//check if file is the same than reference file
-			std::string defaultAsIs = readFile(defaultExpectedOutputFilename);
-			std::string defaultExpected = readFile(referenceXMLFilename);
-			//add doseFile and structFile
-			std::string emptyDoseFileTag = "<doseFile></doseFile>";
-			std::string validDoseFileTag = "<doseFile>" + doseFilename + "</doseFile>";
-			boost::replace_all(defaultExpected, emptyDoseFileTag, validDoseFileTag);
+            //check if file has dose statistics that are same than these in than reference file
+            io::other::DoseStatisticsXMLReader readerDefaultExpected(referenceXMLFilename);
+            auto doseStatisticsDefaultExpected = readerDefaultExpected.generateDoseStatistic();
+            io::other::DoseStatisticsXMLReader readerDefaultActual(defaultExpectedOutputFilename);
+            auto doseStatisticsDefaultActual = readerDefaultActual.generateDoseStatistic();
 
-			std::string emptyStructFileTag = "<structFile></structFile>";
-			std::string validStructFileTag = "<structFile>" + structFilename + "</structFile>";
-			boost::replace_all(defaultExpected, emptyStructFileTag, validStructFileTag);
+            CHECK(checkEqualDoseStatistic(doseStatisticsDefaultExpected, doseStatisticsDefaultActual));
 
-			std::string requestedStructRegexTag = "<requestedStructRegex>Nodes</requestedStructRegex>";
-			std::string validStructRegexTag = "<requestedStructRegex>" + structName + "</requestedStructRegex>";
-			boost::replace_all(defaultExpected, requestedStructRegexTag, validStructRegexTag);
+            io::other::DoseStatisticsXMLReader readerDefaultExpected2(referenceXMLFilename2);
+            auto doseStatisticsDefaultExpected2 = readerDefaultExpected2.generateDoseStatistic();
+            io::other::DoseStatisticsXMLReader readerDefaultActual2(defaultExpectedOutputFilename2);
+            auto doseStatisticsDefaultActual2 = readerDefaultActual2.generateDoseStatistic();
 
-			CHECK_EQUAL(defaultAsIs, defaultExpected);
-
-			//add doseFile and structFile
-			std::string default2AsIs = readFile(defaultExpectedOutputFilename2);
-			std::string default2Expected = readFile(referenceXMLFilename2);
-
-			boost::replace_all(default2Expected, emptyDoseFileTag, validDoseFileTag);
-			boost::replace_all(default2Expected, emptyStructFileTag, validStructFileTag);
-
-			requestedStructRegexTag = "<requestedStructRegex>Heart</requestedStructRegex>";
-			validStructRegexTag = "<requestedStructRegex>" + structName + "</requestedStructRegex>";
-			boost::replace_all(default2Expected, requestedStructRegexTag, validStructRegexTag);
-
-			CHECK_EQUAL(default2AsIs, default2Expected);
+            CHECK(checkEqualDoseStatistic(doseStatisticsDefaultExpected2, doseStatisticsDefaultActual2));
 
 			//delete file again
 			CHECK_EQUAL(std::remove(defaultExpectedOutputFilename.c_str()), 0);
 			CHECK_EQUAL(std::remove(defaultExpectedOutputFilename2.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
-		}
-
-		std::string readFile(const std::string& filename)
-		{
-			std::ifstream fileStream(filename.c_str());
-			std::string content((std::istreambuf_iterator<char>(fileStream)),
-			                    (std::istreambuf_iterator<char>()));
-			return content;
 		}
 	} //namespace testing
 } //namespace rttb

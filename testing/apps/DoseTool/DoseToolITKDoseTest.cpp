@@ -19,14 +19,12 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#include <iostream>
-#include <fstream>
-#include <cstdio>
-
 #include "litCheckMacros.h"
 
+#include "rttbDoseStatisticsXMLReader.h"
+#include "../../io/other/CompareDoseStatistic.h"
+
 #include "boost/filesystem.hpp"
-#include "boost/algorithm/string.hpp"
 
 namespace rttb
 {
@@ -35,8 +33,6 @@ namespace rttb
 
 		//path to the current running directory. DoseTool is in the same directory (Debug/Release)
 		extern const char* _callingAppPath;
-
-		static std::string readFile(const std::string& filename);
 
 		int DoseToolITKDoseTest(int argc, char* argv[])
 		{
@@ -102,42 +98,26 @@ namespace rttb
 			CHECK_EQUAL(boost::filesystem::exists(defaultOutputFilename), true);
 			CHECK_EQUAL(boost::filesystem::exists(complexOutputFilename), true);
 
-			//check if file is the same than reference file
-			std::string defaultAsIs = readFile(defaultOutputFilename);
-			std::string defaultExpected = readFile(referenceXMLFilename);
-			//add doseFile and structFile
-			std::string emptyDoseFileTag = "<doseFile></doseFile>";
-			std::string validDoseFileTag = "<doseFile>" + doseFilename + "</doseFile>";
-			boost::replace_all(defaultExpected, emptyDoseFileTag, validDoseFileTag);
+            //check if file has dose statistics that are same than these in than reference file
+            io::other::DoseStatisticsXMLReader readerDefaultExpected(referenceXMLFilename);
+            auto doseStatisticsDefaultExpected = readerDefaultExpected.generateDoseStatistic();
+            io::other::DoseStatisticsXMLReader readerDefaultActual(defaultOutputFilename);
+            auto doseStatisticsDefaultActual = readerDefaultActual.generateDoseStatistic();
 
-			std::string emptyStructFileTag = "<structFile></structFile>";
-			std::string validStructFileTag = "<structFile>" + structFilename + "</structFile>";
-			boost::replace_all(defaultExpected, emptyStructFileTag, validStructFileTag);
+            CHECK(checkEqualDoseStatistic(doseStatisticsDefaultExpected, doseStatisticsDefaultActual));
 
-			CHECK_EQUAL(defaultAsIs, defaultExpected);
+            io::other::DoseStatisticsXMLReader readerComplexExpected(referenceXMLComplexFilename);
+            auto doseStatisticsComplexExpected = readerComplexExpected.generateDoseStatistic();
+            io::other::DoseStatisticsXMLReader readerComplexActual(complexOutputFilename);
+            auto doseStatisticsComplexActual = readerComplexActual.generateDoseStatistic();
 
-			//add doseFile and structFile
-			std::string complexAsIs = readFile(complexOutputFilename);
-			std::string complexExpected = readFile(referenceXMLComplexFilename);
-
-			boost::replace_all(complexExpected, emptyDoseFileTag, validDoseFileTag);
-			boost::replace_all(complexExpected, emptyStructFileTag, validStructFileTag);
-
-			CHECK_EQUAL(complexAsIs, complexExpected);
+            CHECK(checkEqualDoseStatistic(doseStatisticsComplexExpected, doseStatisticsComplexActual));
 
 			//delete file again
-			CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
-			CHECK_EQUAL(std::remove(complexOutputFilename.c_str()), 0);
+			//CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
+			//CHECK_EQUAL(std::remove(complexOutputFilename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
-		}
-
-		std::string readFile(const std::string& filename)
-		{
-			std::ifstream fileStream(filename.c_str());
-			std::string content((std::istreambuf_iterator<char>(fileStream)),
-			                    (std::istreambuf_iterator<char>()));
-			return content;
 		}
 	} //namespace testing
 } //namespace rttb

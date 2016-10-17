@@ -34,7 +34,7 @@ namespace rttb
 		{
 
 			bool result;
-			const double errorConstant = 1e-7;
+			const double errorConstant = 1e-4;
 			result = lit::AreClose(aDVH1->getDeltaD(), aDVH2->getDeltaD(), errorConstant);
 			result = result && lit::AreClose(aDVH1->getDeltaV(), aDVH2->getDeltaV(), errorConstant);
 			result = result && (aDVH1->getDoseID() == aDVH2->getDoseID());
@@ -44,7 +44,7 @@ namespace rttb
 			result = result && lit::AreClose(aDVH1->getMean(), aDVH2->getMean(), errorConstant);
 			result = result && (aDVH1->getDataDifferential().size() == aDVH2->getDataDifferential().size());
 
-			for (int i = 0; i < aDVH1->getDataDifferential().size(); i++)
+			for (size_t i = 0; i < aDVH1->getDataDifferential().size(); i++)
 			{
 				result = result
 				         && lit::AreClose(aDVH1->getDataDifferential().at(i), aDVH2->getDataDifferential().at(i),

@@ -36,7 +36,7 @@ namespace rttb
 		typedef boost::shared_ptr<rttb::algorithms::DoseStatistics> DoseStatisticsPtr;
 
 		/*! Compare 2 DoseStatistics and return the results.
-		@result Indicates if the test was successfull (true) or if it failed (false)
+		@result Indicates if the test was successful (true) or if it failed (false)
 		*/
 		bool checkEqualDoseStatistic(DoseStatisticsPtr aDoseStatistc1, DoseStatisticsPtr aDoseStatistic2);
 
@@ -44,7 +44,7 @@ namespace rttb
 
 		double getValue(const std::map<double, double>& aMap, double key);
 
-		bool map_compare(std::map<double, double> &lhs, std::map<double, double>  &rhs);
+		bool mapCompare(const std::map<double, double>& lhs, const std::map<double, double>& rhs);
 
 	}//testing
 }//rttb

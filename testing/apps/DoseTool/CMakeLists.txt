@@ -24,7 +24,6 @@ ELSE (WIN32)
 	SET(DOSETOOL4VEXE "./DoseTool4V")
 ENDIF (WIN32)
 
-ADD_TEST(DoseToolBasicUsageTest ${DOSETOOL_TEST} DoseToolBasicUsageTest ${DOSETOOLEXE})
 ADD_TEST(DoseToolInvalidParametersTest ${DOSETOOL_TEST} DoseToolInvalidParametersTest ${DOSETOOLEXE})
 IF(RTTB_VIRTUOS_SUPPORT AND BUILD_IO_Virtuos)
 	ADD_TEST(DoseToolVirtuosDoseVirtuosStructTest ${DOSETOOL_TEST} DoseToolVirtuosDoseTest ${DOSETOOL4VEXE} "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac101.dos.gz" "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac101.pln"
@@ -42,4 +41,4 @@ ADD_TEST(DoseToolDicomDoseDicomStructRegexTest ${DOSETOOL_TEST} DoseToolRegexTes
 ADD_TEST(DoseToolDVHTest ${DOSETOOL_TEST} DoseToolDVHTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/Dose/DICOM/dicompylerTestDose.dcm" "${TEST_DATA_ROOT}/StructureSet/DICOM/rtss.dcm" "Nodes"
 "${TEST_DATA_ROOT}/DVH/XML/dicompylerDVH.xml")
 
-RTTB_CREATE_APPLICATION_TESTS(DoseTool PACKAGE_DEPENDS Litmus BoostBinaries)
+RTTB_CREATE_APPLICATION_TESTS(DoseTool DEPENDS RTTBOtherIO PACKAGE_DEPENDS Litmus BoostBinaries)

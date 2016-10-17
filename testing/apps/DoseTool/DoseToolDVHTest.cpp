@@ -19,11 +19,10 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#include <iostream>
-#include <fstream>
-#include <cstdio>
-
 #include "litCheckMacros.h"
+
+#include "../../io/other/CompareDVH.h"
+#include "rttbDVHXMLFileReader.h"
 
 #include "boost/filesystem.hpp"
 
@@ -34,8 +33,6 @@ namespace rttb
 
 		//path to the current running directory. DoseTool is in the same directory (Debug/Release)
 		extern const char* _callingAppPath;
-
-		static std::string readFile(const std::string& filename);
 
 		int DoseToolDVHTest(int argc, char* argv[])
 		{
@@ -83,24 +80,17 @@ namespace rttb
 			//check if file exists
 			CHECK_EQUAL(boost::filesystem::exists(defaultOutputFilename), true);
 
-			//check if file is the same than reference file
-			std::string defaultAsIs = readFile(defaultOutputFilename);
-			std::string defaultExpected = readFile(referenceXMLFilename);
+            io::other::DVHXMLFileReader xmlDVHDefaultReaderActual(defaultOutputFilename);
+            DVHPointer defaultDVHActual = xmlDVHDefaultReaderActual.generateDVH();
 
-			CHECK_EQUAL(defaultAsIs, defaultExpected);
+            io::other::DVHXMLFileReader xmlDVHDefaultReaderExpected(referenceXMLFilename);
+            DVHPointer defaultDVHExpected = xmlDVHDefaultReaderExpected.generateDVH();
+            CHECK(checkEqualDVH(defaultDVHActual, defaultDVHExpected));
 
 			//delete file again
-			CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
+			//CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
-		}
-
-		std::string readFile(const std::string& filename)
-		{
-			std::ifstream fileStream(filename.c_str());
-			std::string content((std::istreambuf_iterator<char>(fileStream)),
-			                    (std::istreambuf_iterator<char>()));
-			return content;
 		}
 	} //namespace testing
 } //namespace rttb

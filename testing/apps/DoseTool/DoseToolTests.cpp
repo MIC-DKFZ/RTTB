@@ -38,7 +38,6 @@ namespace rttb
 
 		void registerTests()
 		{
-			LIT_REGISTER_TEST(DoseToolBasicUsageTest);
 			LIT_REGISTER_TEST(DoseToolInvalidParametersTest);
 
 			if (RTTB_VIRTUOS_SUPPORT)

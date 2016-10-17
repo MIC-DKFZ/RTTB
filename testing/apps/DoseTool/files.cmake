@@ -1,7 +1,6 @@
-
-
 SET(CPP_FILES
-	DoseToolBasicUsageTest.cpp
+	../../io/other/CompareDoseStatistic.cpp
+	../../io/other/CompareDVH.cpp
 	DoseToolInvalidParametersTest.cpp
 	DoseToolDicomDoseTest.cpp
 	DoseToolITKDoseTest.cpp
@@ -15,4 +14,6 @@ IF (RTTB_VIRTUOS_SUPPORT AND BUILD_IO_Virtuos)
 ENDIF()
 
 SET(H_FILES
+	../../io/other/CompareDoseStatistic.h
+	../../io/other/CompareDVH.h
 )
