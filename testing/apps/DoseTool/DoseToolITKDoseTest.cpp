@@ -42,21 +42,19 @@ namespace rttb
 			std::string doseFilename;
 			std::string structFilename;
 			std::string structName;
-			std::string ctxFilename;
 			std::string referenceXMLFilename;
 			std::string referenceXMLComplexFilename;
 
 			boost::filesystem::path callingPath(_callingAppPath);
 
-			if (argc > 7)
+			if (argc > 6)
 			{
 				doseToolExecutable = argv[1];
 				doseFilename = argv[2];
 				structFilename = argv[3];
-				ctxFilename = argv[4];
-				structName = argv[5];
-				referenceXMLFilename = argv[6];
-				referenceXMLComplexFilename = argv[7];
+				structName = argv[4];
+				referenceXMLFilename = argv[5];
+				referenceXMLComplexFilename = argv[6];
 			}
 
 			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExecutable;
@@ -72,11 +70,6 @@ namespace rttb
 			if (structName != "")
 			{
 				baseCommand += " -n " + structName;
-
-				if (ctxFilename != "")
-				{
-					baseCommand += " -u virtuos " + ctxFilename;
-				}
 			}
 			else
 			{
@@ -114,8 +107,8 @@ namespace rttb
             CHECK(checkEqualDoseStatistic(doseStatisticsComplexExpected, doseStatisticsComplexActual));
 
 			//delete file again
-			//CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
-			//CHECK_EQUAL(std::remove(complexOutputFilename.c_str()), 0);
+			CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
+			CHECK_EQUAL(std::remove(complexOutputFilename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

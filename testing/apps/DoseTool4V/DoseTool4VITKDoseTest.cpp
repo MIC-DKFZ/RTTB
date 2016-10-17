@@ -19,12 +19,10 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#include "rttbDoseStatisticsXMLReader.h"
-#include "rttbDVHXMLFileReader.h"
-#include "../../io/other/CompareDoseStatistic.h"
-#include "../../io/other/CompareDVH.h"
-
 #include "litCheckMacros.h"
+
+#include "rttbDoseStatisticsXMLReader.h"
+#include "../../io/other/CompareDoseStatistic.h"
 
 #include "boost/filesystem.hpp"
 
@@ -36,7 +34,7 @@ namespace rttb
 		//path to the current running directory. DoseTool is in the same directory (Debug/Release)
 		extern const char* _callingAppPath;
 
-		int DoseToolDicomDoseTest(int argc, char* argv[])
+		int DoseTool4VITKDoseTest(int argc, char* argv[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
@@ -44,37 +42,41 @@ namespace rttb
 			std::string doseFilename;
 			std::string structFilename;
 			std::string structName;
+			std::string ctxFilename;
 			std::string referenceXMLFilename;
-			std::string referenceDVHXMLFilename;
 			std::string referenceXMLComplexFilename;
 
 			boost::filesystem::path callingPath(_callingAppPath);
-
 
 			if (argc > 7)
 			{
 				doseToolExecutable = argv[1];
 				doseFilename = argv[2];
 				structFilename = argv[3];
-				structName = argv[4];
-				referenceXMLFilename = argv[5];
-				referenceDVHXMLFilename = argv[6];
+				ctxFilename = argv[4];
+				structName = argv[5];
+				referenceXMLFilename = argv[6];
 				referenceXMLComplexFilename = argv[7];
 			}
 
 			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExecutable;
 
-			std::string defaultOutputFilename = "dicomOutput.xml";
-			std::string defaultDVHOutputFilename = "dicomDVHOutput.xml";
-			std::string complexOutputFilename = "dicomOutputComplex.xml";
+			std::string defaultOutputFilename = "itkOutput.xml";
+			std::string complexOutputFilename = "itkOutputComplex.xml";
 
 			std::string baseCommand = doseToolExeWithPath;
 			baseCommand += " -d " + doseFilename;
 			baseCommand += " -s " + structFilename;
+			baseCommand += " -t itk ";
 
 			if (structName != "")
 			{
 				baseCommand += " -n " + structName;
+
+				if (ctxFilename != "")
+				{
+					baseCommand += " -u virtuos " + ctxFilename;
+				}
 			}
 			else
 			{
@@ -84,11 +86,6 @@ namespace rttb
 			std::string defaultDoseStatisticsCommand = baseCommand + " -y " + defaultOutputFilename;
 			std::cout << "Command line call: " + defaultDoseStatisticsCommand << std::endl;
 			CHECK_EQUAL(system(defaultDoseStatisticsCommand.c_str()), 0);
-
-			std::string defaultDoseStatisticsAndDVHCommand = defaultDoseStatisticsCommand + " -z " +
-			        defaultDVHOutputFilename;
-			std::cout << "Command line call: " + defaultDoseStatisticsAndDVHCommand << std::endl;
-			CHECK_EQUAL(system(defaultDoseStatisticsAndDVHCommand.c_str()), 0);
 
 			std::string complexDoseStatisticsCommand = baseCommand + " -y " + complexOutputFilename;
 			//prescribed dose is 14 Gy
@@ -100,9 +97,8 @@ namespace rttb
 			//check if file exists
 			CHECK_EQUAL(boost::filesystem::exists(defaultOutputFilename), true);
 			CHECK_EQUAL(boost::filesystem::exists(complexOutputFilename), true);
-			CHECK_EQUAL(boost::filesystem::exists(defaultDVHOutputFilename), true);
 
-			//check if file has dose statistics that are same than these in than reference file
+            //check if file has dose statistics that are same than these in than reference file
             io::other::DoseStatisticsXMLReader readerDefaultExpected(referenceXMLFilename);
             auto doseStatisticsDefaultExpected = readerDefaultExpected.generateDoseStatistic();
             io::other::DoseStatisticsXMLReader readerDefaultActual(defaultOutputFilename);
@@ -110,24 +106,15 @@ namespace rttb
 
             CHECK(checkEqualDoseStatistic(doseStatisticsDefaultExpected, doseStatisticsDefaultActual));
 
-            io::other::DoseStatisticsXMLReader readerComplexExpected(complexOutputFilename);
+            io::other::DoseStatisticsXMLReader readerComplexExpected(referenceXMLComplexFilename);
             auto doseStatisticsComplexExpected = readerComplexExpected.generateDoseStatistic();
-            io::other::DoseStatisticsXMLReader readerComplexActual(referenceXMLComplexFilename);
+            io::other::DoseStatisticsXMLReader readerComplexActual(complexOutputFilename);
             auto doseStatisticsComplexActual = readerComplexActual.generateDoseStatistic();
 
             CHECK(checkEqualDoseStatistic(doseStatisticsComplexExpected, doseStatisticsComplexActual));
 
-            //check DVH files
-            io::other::DVHXMLFileReader xmlDVHDefaultReaderActual(defaultDVHOutputFilename);
-            DVHPointer defaultDVHActual = xmlDVHDefaultReaderActual.generateDVH();
-
-            io::other::DVHXMLFileReader xmlDVHDefaultReaderExpected(referenceDVHXMLFilename);
-            DVHPointer defaultDVHExpected = xmlDVHDefaultReaderExpected.generateDVH();
-            CHECK(checkEqualDVH(defaultDVHActual, defaultDVHExpected));
-
 			//delete file again
 			CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
-			CHECK_EQUAL(std::remove(defaultDVHOutputFilename.c_str()), 0);
 			CHECK_EQUAL(std::remove(complexOutputFilename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

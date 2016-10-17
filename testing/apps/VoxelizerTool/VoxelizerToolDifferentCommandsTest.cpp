@@ -75,12 +75,6 @@ namespace rttb
 				CHECK_EQUAL(returnValue, 0);
 			}
 
-			std::string helpCommand = voxelizerToolExeWithPath + " -h";
-			int returnValue = system(helpCommand.c_str());
-			std::cout << "Command line call: " + helpCommand << std::endl;
-			CHECK_EQUAL(returnValue, 0);
-
-
 			for (size_t i = 0; i < filenames.size(); i++)
 			{
 				const std::string HDRfileName = tempDirectory + "/" + filenames.at(i) + ".hdr";
