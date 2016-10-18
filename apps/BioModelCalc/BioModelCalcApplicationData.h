@@ -52,6 +52,7 @@ namespace rttb
 				LoadingStyleArgType _doseLoadStyle;
                 LoadingStyleArgType _parameterMapsLoadStyle;
 				double _doseScaling;
+                unsigned int _nFractions;
 
 				std::string  _outputFileName;
 

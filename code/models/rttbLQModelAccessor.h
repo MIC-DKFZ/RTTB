@@ -42,6 +42,7 @@ namespace rttb
             DoseAccessorPointer _alphaMap;
 			BioModelParamType _beta;
             DoseAccessorPointer _betaMap;
+            unsigned int _nFractions;
             bool _withAlphaBetaMaps;
 
 			double _doseScaling;
@@ -62,14 +63,14 @@ namespace rttb
 			@pre dose must be a valid instance (and not null)
 			@exception InvalidDoseException if _dose is NULL
 			*/
-			LQModelAccessor(DoseAccessorPointer dose, BioModelParamType alpha, BioModelParamType beta,
+			LQModelAccessor(DoseAccessorPointer dose, BioModelParamType alpha, BioModelParamType beta, unsigned int nFractions=1,
 			                double doseScaling = 1.0);
 
             /*! @brief Constructor.
             @pre dose must be a valid instance (and not null)
             @exception InvalidDoseException if dose is NULL, if alphaMap is NULL or if betaMap is NULL
             */
-            LQModelAccessor(DoseAccessorPointer dose, DoseAccessorPointer alphaMap, DoseAccessorPointer betaMap,
+            LQModelAccessor(DoseAccessorPointer dose, DoseAccessorPointer alphaMap, DoseAccessorPointer betaMap, unsigned int nFractions = 1,
                 double doseScaling = 1.0);
 
 			/*! @brief returns the LQ Model value for an id

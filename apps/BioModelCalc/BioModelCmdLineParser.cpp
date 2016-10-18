@@ -28,6 +28,8 @@ namespace rttb
                     "The parameters maps as itk readable image files for the radiobiological model.", 'a', false, true);
 				addOptionWithDefaultValue<double>(OPTION_DOSE_SCALING, OPTION_GROUP_REQUIRED,
 				                                  "Dose scaling that should be applied.", 1.0, "1.0", 'e');
+                addOption<unsigned int>(OPTION_N_FRACTIONS, OPTION_GROUP_OPTIONAL,
+                    "Dose scaling that should be applied.", 'f');
 				std::vector<std::string> defaultLoadingStyle;
 				defaultLoadingStyle.push_back("itk");
 

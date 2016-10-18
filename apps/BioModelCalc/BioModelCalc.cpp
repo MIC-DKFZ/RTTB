@@ -90,6 +90,9 @@ int main(int argc, const char** argv)
 
 	std::cout << std::endl;
 	std::cout << "Dose scaling:          " << appData._doseScaling << std::endl;
+    if (argParser->isSet(argParser->OPTION_N_FRACTIONS)){
+        std::cout << "#Fractions:            " << appData._nFractions << std::endl;
+    }
 
 	std::cout << std::endl;
 

@@ -23,6 +23,7 @@
 #include "rttbDoseBasedModels.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbMappingOutsideOfImageException.h"
 
 namespace rttb
 {
@@ -34,13 +35,13 @@ namespace rttb
 		}
 
 		LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, BioModelParamType alpha,
-		                                 BioModelParamType beta,
+            BioModelParamType beta, unsigned int nFractions,
 		                                 double doseScaling) :
-                                         _dose(dose), _alpha(alpha), _beta(beta), _betaMap(nullptr), _alphaMap(nullptr), _doseScaling(doseScaling), _withAlphaBetaMaps(false)
+                                         _dose(dose), _alpha(alpha), _beta(beta), _nFractions(nFractions), _betaMap(nullptr), _alphaMap(nullptr), _doseScaling(doseScaling), _withAlphaBetaMaps(false)
 		{
-			if (_dose == NULL)
+			if (_dose == nullptr)
 			{
-				throw core::InvalidDoseException("Dose is NULL");
+				throw core::InvalidDoseException("Dose is nullptr");
 			}
 
 			if (_doseScaling < 0)
@@ -51,10 +52,10 @@ namespace rttb
 			assembleGeometricInfo();
 		}
 
-        LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, DoseAccessorPointer alphaMap, DoseAccessorPointer betaMap,
-            double doseScaling) :_dose(dose), _alpha(-1.), _beta(-1.), _betaMap(alphaMap), _alphaMap(betaMap), _doseScaling(doseScaling), _withAlphaBetaMaps(true)
+        LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, DoseAccessorPointer alphaMap, DoseAccessorPointer betaMap, unsigned int nFractions,
+            double doseScaling) :_dose(dose), _alpha(-1.), _beta(-1.), _nFractions(nFractions), _betaMap(alphaMap), _alphaMap(betaMap), _doseScaling(doseScaling), _withAlphaBetaMaps(true)
         {
-            if (_dose == NULL || _alphaMap == nullptr || _betaMap == nullptr)
+            if (_dose == nullptr || _alphaMap == nullptr || _betaMap == nullptr)
             {
                 throw core::InvalidDoseException("Dose or alphaMap or betaMap is NULL");
             }
@@ -69,21 +70,25 @@ namespace rttb
 
 		GenericValueType LQModelAccessor::getValueAt(const VoxelGridID aID) const
 		{
-            if (_withAlphaBetaMaps){
-                return calcLQ(_dose->getValueAt(aID) * _doseScaling, _alphaMap->getValueAt(aID), _betaMap->getValueAt(aID));
+            VoxelGridIndex3D aVoxelGridIndex3D;
+
+            if (_geoInfo.convert(aID, aVoxelGridIndex3D))
+            {
+                return getValueAt(aVoxelGridIndex3D);
             }
-            else {
-                return calcLQ(_dose->getValueAt(aID) * _doseScaling, _alpha, _beta);
+            else 
+            {
+                throw core::MappingOutsideOfImageException("Error in conversion from index to world coordinates");
             }
 		}
 
 		GenericValueType LQModelAccessor::getValueAt(const VoxelGridIndex3D& aIndex) const
 		{
             if (_withAlphaBetaMaps){
-                return calcLQ(_dose->getValueAt(aIndex) * _doseScaling, _alphaMap->getValueAt(aIndex), _betaMap->getValueAt(aIndex));
+                return calcLQ(_dose->getValueAt(aIndex) * _doseScaling, _alphaMap->getValueAt(aIndex), _betaMap->getValueAt(aIndex), _nFractions);
             }
             else {
-                return calcLQ(_dose->getValueAt(aIndex) * _doseScaling, _alpha, _beta);
+                return calcLQ(_dose->getValueAt(aIndex) * _doseScaling, _alpha, _beta, _nFractions);
             }
 			
 		}

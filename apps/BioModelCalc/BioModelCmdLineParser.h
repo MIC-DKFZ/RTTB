@@ -33,6 +33,7 @@ namespace rttb
 				const std::string OPTION_LOAD_STYLE = "loadStyle";
                 const std::string OPTION_LOAD_STYLE_PARAMETER_MAPS = "loadStyleParameterMaps";
 				const std::string OPTION_DOSE_SCALING = "doseScaling";
+                const std::string OPTION_N_FRACTIONS = "nFractions";
 
 				bool _virtuosSupport;
 			};

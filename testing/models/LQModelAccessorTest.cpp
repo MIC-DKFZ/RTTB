@@ -74,19 +74,24 @@ namespace rttb
 
 			DoseAccessorPointer doseAccessorNull;
 
-            core::AccessorInterface::AccessorPointer LQWithConstantDose, LQWithConstantDoseDoseScalingTwo, LQWithIncreaseXDose, LQWithConstantDoseAndMap;
+            core::AccessorInterface::AccessorPointer LQWithConstantDose, LQWithConstantDoseDoseScalingTwo, LQWithConstantNFractionsTwo, LQWithIncreaseXDose, LQWithConstantDoseAndMap;
 
 			//1) test constructor
 			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessorNull, 0, 0), core::InvalidDoseException);
-			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessor1, 0.2, 0.02, -1),
+			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessor1, 0.2, 0.02, 1, -1),
 			                     core::InvalidParameterException);
             CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessorNull, doseAccessorNull, doseAccessorNull), core::InvalidDoseException);
+            CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessor1, doseAccessor1, doseAccessorNull), core::InvalidDoseException);
+            CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessor1, doseAccessorNull, doseAccessor1), core::InvalidDoseException);
+            CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessorNull, doseAccessor1, doseAccessor1), core::InvalidDoseException);
 
 			CHECK_NO_THROW(LQWithConstantDose = boost::make_shared<models::LQModelAccessor>(doseAccessor1,
 			                                    0.2, 0.02));
+            CHECK_NO_THROW(LQWithConstantNFractionsTwo = boost::make_shared<models::LQModelAccessor>(doseAccessor1,
+                0.2, 0.02, 2));
 			CHECK_NO_THROW(LQWithConstantDoseDoseScalingTwo = boost::make_shared<models::LQModelAccessor>
 			               (doseAccessor1,
-			                0.2, 0.02, 2.0));
+			                0.2, 0.02, 1, 2.0));
 			CHECK_NO_THROW(LQWithIncreaseXDose = boost::make_shared<models::LQModelAccessor>(doseAccessor2,
 			                                     0.3, 0.01));
             CHECK_NO_THROW(LQWithConstantDoseAndMap = boost::make_shared<models::LQModelAccessor>(doseAccessor1,
@@ -104,6 +109,13 @@ namespace rttb
 			            expectedLQWithDoseTwo);
 			CHECK_EQUAL(LQWithConstantDose->getValueAt(VoxelGridIndex3D(1, 2, 6)), expectedLQWithDoseTwo);
 			CHECK_EQUAL(LQWithConstantDose->getValueAt(VoxelGridIndex3D(65, 40, 60)), expectedLQWithDoseTwo);
+
+            models::BioModelParamType expectedLQWithDoseTwoNFractionsTwo = exp(-(0.2 * 2 + (0.02 * 2 * 2/2)));
+            CHECK_EQUAL(LQWithConstantNFractionsTwo->getValueAt(0), expectedLQWithDoseTwoNFractionsTwo);
+            CHECK_EQUAL(LQWithConstantNFractionsTwo->getValueAt(LQWithConstantNFractionsTwo->getGridSize() - 1),
+                expectedLQWithDoseTwoNFractionsTwo);
+            CHECK_EQUAL(LQWithConstantNFractionsTwo->getValueAt(VoxelGridIndex3D(1, 2, 6)), expectedLQWithDoseTwoNFractionsTwo);
+            CHECK_EQUAL(LQWithConstantNFractionsTwo->getValueAt(VoxelGridIndex3D(65, 40, 60)), expectedLQWithDoseTwoNFractionsTwo);
 
 			models::BioModelParamType expectedLQWithDoseFour = exp(-(0.2 * 4 + (0.02 * 4 * 4)));
 			CHECK_EQUAL(LQWithConstantDoseDoseScalingTwo->getValueAt(0), expectedLQWithDoseFour);

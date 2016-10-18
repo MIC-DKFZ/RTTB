@@ -40,6 +40,7 @@ namespace rttb
 				_doseFileName = "";
 				_outputFileName = "";
 				_doseScaling = 1.0;
+                _nFractions = 1;
                 _modelParameters.clear();
                 _modelParameterMapsFilename.clear();
                 _modelParameterMaps.clear();
@@ -58,6 +59,9 @@ namespace rttb
                 else {
                     appData._modelParameterMapsFilename = argParser->get<std::vector<std::string> >(argParser->OPTION_MODEL_PARAMETER_MAPS);
                     appData._parameterMapsLoadStyle = argParser->get<std::vector<std::string> >(argParser->OPTION_LOAD_STYLE_PARAMETER_MAPS);
+                }
+                if (argParser->isSet(argParser->OPTION_N_FRACTIONS)){
+                    appData._nFractions = argParser->get<unsigned int>(argParser->OPTION_N_FRACTIONS);
                 }
 			}
 
