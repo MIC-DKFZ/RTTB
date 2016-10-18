@@ -20,7 +20,7 @@
 */
 #include "rttbMaskProcess.h"
 
-#include <boost/make_shared.hpp>
+#include "boost/make_shared.hpp"
 
 #include "rttbBoostMaskAccessor.h"
 
@@ -31,9 +31,8 @@ namespace rttb
 		namespace voxelizerTool
 		{
 			MaskProcess::MaskProcess(StructureSetPointer rtStructureSet, DoseAccessorPointer doseAccessor,
-			                         bool legacy, bool allowSelfIntersection) : _rtStructureSet(rtStructureSet),
-				_doseAccessor(doseAccessor),
-				_legacyVoxelization(legacy), _allowSelfIntersection(allowSelfIntersection)
+			                         bool allowSelfIntersection) : _rtStructureSet(rtStructureSet),
+				_doseAccessor(doseAccessor), _allowSelfIntersection(allowSelfIntersection)
 			{
 			}
 
@@ -41,19 +40,11 @@ namespace rttb
 			{
 				MaskAccessorPointer maskAccessorPtr;
 
-				if (_doseAccessor != NULL && _rtStructureSet != NULL)
+				if (_doseAccessor != nullptr && _rtStructureSet != nullptr)
 				{
-					if (_legacyVoxelization)
-					{
-						maskAccessorPtr = boost::make_shared<rttb::masks::legacy::OTBMaskAccessor>
-						                  (_rtStructureSet->getStructure(indexOfStructure), _doseAccessor->getGeometricInfo());
-					}
-					else
-					{
-						maskAccessorPtr = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+					maskAccessorPtr = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
 						                  (_rtStructureSet->getStructure(indexOfStructure), _doseAccessor->getGeometricInfo(),
 						                   !_allowSelfIntersection);
-					}
 
 					maskAccessorPtr->updateMask();
 				}

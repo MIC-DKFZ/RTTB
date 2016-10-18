@@ -21,8 +21,9 @@
 #ifndef __StructDataReader_h
 #define __StructDataReader_h
 
-#include "rttbDicomFileStructureSetGenerator.h"
-#include "rttbOTBMaskAccessor.h"
+#include "rttbStructureSetGeneratorInterface.h"
+#include "rttbMaskAccessorInterface.h"
+#include "rttbGenericDoseIterator.h"
 
 namespace rttb
 {
@@ -41,7 +42,7 @@ namespace rttb
 				typedef rttb::core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
 
 				StructDataReader(const std::string& structFileName, const std::string& referenceFileName,
-				                 const std::vector<std::string>& referenceFileLoadingStyle);
+				                 const std::vector<std::string>& referenceFileLoadingStyle, const std::string& structRegex);
 
 				/*!@brief Reads structure and reference file and saves the result in variables */
 				void read();
@@ -73,13 +74,14 @@ namespace rttb
 				/**@brief read a struct file
 				@return the result as object
 				*/
-				StructureSetPointer readStructFile(const std::string& filename) const;
+                StructureSetPointer readStructFile(const std::string& fileName, const std::string& structNameRegex) const;
 
 				StructureSetPointer _rtStructureSet;
 				DoseAccessorPointer _doseAccessor;
 
 				std::string _structFilename;
 				std::string _referenceFilename;
+                std::string _structRegex;
 				std::vector<std::string> _referenceFileLoadingStyle;
 			};
 		}

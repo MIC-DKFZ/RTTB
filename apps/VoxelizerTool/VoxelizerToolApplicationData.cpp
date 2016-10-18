@@ -42,7 +42,6 @@ namespace rttb
 				_outputFilename = "";
 				_regEx="";
 				_multipleStructs = false;
-				_legacyVoxelization = false;
 				_booleanVoxelization = false;
 				_addStructures = false;
 				_allowSelfIntersections = false;
@@ -68,14 +67,6 @@ namespace rttb
 						appData._addStructures = false;
 					}
 				}
-
-				if (argParser->isSet(argParser->OPTION_LEGACY_VOXELIZATION))
-				{
-					appData._legacyVoxelization = true;
-				}
-                else {
-                    appData._legacyVoxelization = false;
-                }
 
 				if (argParser->isSet(argParser->OPTION_BOOLEAN_VOXELIZATION))
 				{

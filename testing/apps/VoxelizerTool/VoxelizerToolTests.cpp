@@ -36,7 +36,6 @@ namespace rttb
 		void registerTests()
 		{
 			LIT_REGISTER_TEST(VoxelizerToolDifferentCommandsTest);
-			LIT_REGISTER_TEST(VoxelizerToolVoxelizerBoostLegacy);
 			LIT_REGISTER_TEST(VoxelizerToolVoxelValue);
 			LIT_REGISTER_TEST(VoxelizerToolIncorrectCommandsTest);
 			LIT_REGISTER_TEST(VoxelizerToolVoxelizerAllStructsTest);

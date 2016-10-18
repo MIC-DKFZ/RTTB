@@ -22,10 +22,9 @@
 #include "litCheckMacros.h"
 #include <iostream>
 #include <boost/filesystem.hpp>
-#include <vector>
 
 /*! @brief VoxelizerToolTest5.
-Test the paramter boost and legacy Voxelization.
+Test the parameter boost Voxelization.
 */
 
 namespace rttb
@@ -51,13 +50,8 @@ namespace rttb
 				referenceFile = argv[4];
 			}
 
-			std::vector<std::string> commands;
-			commands.push_back("PTV -o Legacy.hdr -l");
-			commands.push_back("PTV -o Boost.hdr");
-
-			std::vector<std::string> filenames;
-			filenames.push_back("Boost_PTV");
-			filenames.push_back("Legacy_PTV");
+            const std::string command = "PTV -o Boost.hdr";
+            const std::string filename = "Boost_PTV"
 
 			boost::filesystem::path callingPath(_callingAppPath);
 			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + voxelizerToolExe;

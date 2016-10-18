@@ -53,7 +53,6 @@ namespace rttb
 				const std::string OPTION_OUTPUT_FILE_NAME = "output";
 				const std::string OPTION_REGEX = "struct";
 				const std::string OPTION_MULTIPLE_STRUCTS = "multipleStructs";
-				const std::string OPTION_LEGACY_VOXELIZATION = "legacyVoxelization";
 				const std::string OPTION_BOOLEAN_VOXELIZATION = "booleanVoxelization";
 				const std::string OPTION_ADDSTRUCTURES = "addStructures";
 				const std::string OPTION_ALLOW_SELF_INTERSECTIONS = "allowSelfIntersections";

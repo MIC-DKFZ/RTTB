@@ -3,7 +3,7 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-SET(VoxelizerTool_TESTS ${EXECUTABLE_OUTPUT_PATH}/RTTBVoxelizerToolTests)
+SET(VoxelizerTool_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbVoxelizerToolTests)
 SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
 SET(TEST_DATA ${RTToolbox_BINARY_DIR}/testing/apps/VoxelizerTool)
 
@@ -24,9 +24,7 @@ ADD_TEST(rttbVoxelizerToolVoxelizerAllStructsTest ${VoxelizerTool_TESTS} Voxeliz
 "${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE} )
 ADD_TEST(rttbVoxelizerToolDifferentCommandsTest ${VoxelizerTool_TESTS} VoxelizerToolDifferentCommandsTest 
 "${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE})
-ADD_TEST(rttbVoxelizerToolVoxelizerBoostLegacyTest ${VoxelizerTool_TESTS} VoxelizerToolVoxelizerBoostLegacy 
-"${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE})
 ADD_TEST(rttbVoxelizerToolVoxelValueTest  ${VoxelizerTool_TESTS} VoxelizerToolVoxelValue 
 "${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE} "Leber")
 
-RTTB_CREATE_TEST_MODULE(RTTBVoxelizerTool DEPENDS RTTBITKIO RTTBCore RTTBMasks RTTBOTBMask RTTBBoostMask RTTBDicomIO RTTBOtherIO PACKAGE_DEPENDS Litmus)
+RTTB_CREATE_TEST_MODULE(RTTBVoxelizerTool PACKAGE_DEPENDS Litmus ITK BoostBinaries)

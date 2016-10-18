@@ -21,8 +21,9 @@
 #ifndef __MaskProcess_h
 #define __MaskProcess_h
 
-#include "rttbDicomFileStructureSetGenerator.h"
-#include "rttbOTBMaskAccessor.h"
+#include "rttbStructureSetGeneratorInterface.h"
+#include "rttbMaskAccessorInterface.h"
+#include "rttbGenericDoseIterator.h"
 
 namespace rttb
 {
@@ -46,7 +47,7 @@ namespace rttb
 				* doseAccessor (referencefile) object into _doseAccessor
 				*/
 				MaskProcess(StructureSetPointer rtStructureSet, DoseAccessorPointer doseAccessor,
-				            bool legacyVoxelization, bool allowSelfIntersection);
+				            bool allowSelfIntersection);
 				/**@brief create a mask with _rtStructureSet and _doseAccessor object.
 				@return a mask object
 				*/
@@ -54,7 +55,6 @@ namespace rttb
 			private:
 				StructureSetPointer _rtStructureSet;
 				DoseAccessorPointer _doseAccessor;
-				bool _legacyVoxelization;
 				bool _allowSelfIntersection;
 			};
 		}
