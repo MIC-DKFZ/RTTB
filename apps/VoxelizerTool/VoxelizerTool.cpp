@@ -20,12 +20,15 @@
 */
 #include <iostream>
 
+#include "boost/make_shared.hpp"
+
 #include "itkMacro.h"
 
 #include "VoxelizerToolHelper.h"
 #include "rttbMaskProcess.h"
 #include "rttbMaskWriter.h"
 #include "rttbStructDataReader.h"
+#include "rttbException.h"
 #include "VoxelizerToolCmdLineParser.h"
 #include "VoxelizerToolApplicationData.h"
 #include "RTToolboxConfigure.h"
@@ -69,13 +72,12 @@ int main(int argc, const char** argv)
 		std::cout << "Reference Image: " << appData._referenceFile << std::endl;
 		std::cout << "Output file: " << appData._outputFilename << std::endl;
 		std::cout << "Struct regex: " << appData._regEx << std::endl;
-		std::cout << "Legacy Voxelization: " << appData._legacyVoxelization << std::endl;
 		std::cout << "Add structures: " << appData._addStructures << std::endl;
 		std::cout << "Multiple Struct: " << appData._multipleStructs << std::endl << std::endl;
 
 		boost::shared_ptr<rttb::apps::voxelizerTool::StructDataReader> reader =
 			boost::make_shared<rttb::apps::voxelizerTool::StructDataReader>(appData._structFile,
-			appData._referenceFile, appData._referenceFileLoadStyle);
+			appData._referenceFile, appData._referenceFileLoadStyle, appData._regEx);
 		std::cout << "reading reference and structure file..." << std::endl;
 
 		try
@@ -116,7 +118,7 @@ int main(int argc, const char** argv)
 		boost::shared_ptr<rttb::apps::voxelizerTool::MaskProcess> maskProcessor =
 			boost::make_shared<rttb::apps::voxelizerTool::MaskProcess>(reader->getStructureSetPointer(),
 			reader->getDoseAccessorPointer(),
-			appData._legacyVoxelization, appData._allowSelfIntersections);
+			appData._allowSelfIntersections);
 
 		if (!listOfCorrectElements.empty())
 		{

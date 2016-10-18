@@ -52,12 +52,12 @@ namespace rttb
 
 			std::vector<std::string> commands;
 			commands.push_back("\"Niere.*\" -m -o Test.hdr");
-			commands.push_back("\"Leber\" -o Boolean.hdr -z");
+			commands.push_back("\"Rueckenmark\" -o Boolean.hdr -z");
 
 			std::vector<std::string> filenames;
 			filenames.push_back("Test_Niere li");
 			filenames.push_back("Test_Niere re");
-			filenames.push_back("Boolean_Leber");
+			filenames.push_back("Boolean_Rueckenmark");
 
 			boost::filesystem::path callingPath(_callingAppPath);
 			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + voxelizerToolExe;

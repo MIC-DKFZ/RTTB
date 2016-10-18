@@ -46,7 +46,6 @@ namespace rttb
 				std::string _outputFilename;
 				std::string _regEx;
 				bool _multipleStructs;
-				bool _legacyVoxelization;
 				bool _booleanVoxelization;
 				bool _addStructures;
 				bool _allowSelfIntersections;

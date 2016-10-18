@@ -21,6 +21,7 @@
 
 #include "rttbStructDataReader.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
+#include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbITKImageFileAccessorGenerator.h"
 #include "rttbInvalidParameterException.h"
 
@@ -32,15 +33,15 @@ namespace rttb
 		{
 			StructDataReader::StructDataReader(const std::string& structFileName,
 			                                   const std::string& referenceFileName,
-			                                   const std::vector<std::string>& referenceFileLoadingStyle) : _referenceFilename(referenceFileName),
-				_structFilename(structFileName), _referenceFileLoadingStyle(referenceFileLoadingStyle)
+                                               const std::vector<std::string>& referenceFileLoadingStyle, const std::string& structRegex) : _referenceFilename(referenceFileName),
+                                               _structFilename(structFileName), _referenceFileLoadingStyle(referenceFileLoadingStyle), _structRegex(structRegex)
 			{
 			}
 
 			void StructDataReader::read()
 			{
 				_doseAccessor = readReferenceFile(_referenceFilename, _referenceFileLoadingStyle);
-				_rtStructureSet = readStructFile(_structFilename);
+				_rtStructureSet = readStructFile(_structFilename, _structRegex);
 			}
 
 			std::vector<std::string> StructDataReader::getAllLabels() const
@@ -81,7 +82,7 @@ namespace rttb
 				}
 				else
 				{
-					return NULL;
+					return nullptr;
 				}
 
 			}
@@ -100,13 +101,19 @@ namespace rttb
 				return generator.generateDoseAccessor();
 			}
 
-			StructDataReader::StructureSetPointer StructDataReader::readStructFile(
-			    const std::string& filename) const
-			{
-				StructureSetPointer rtStructureSet = rttb::io::dicom::DicomFileStructureSetGenerator(
-				        filename.c_str()).generateStructureSet();
-				return rtStructureSet;
-			}
+            StructDataReader::StructureSetPointer StructDataReader::readStructFile(
+                const std::string& fileName, const std::string& structNameRegex) const
+            {
+                rttb::io::dicom::DicomFileStructureSetGenerator generator(fileName);
+
+                if (!structNameRegex.empty())
+                {
+                    generator.setStructureLableFilterActive(true);
+                    generator.setFilterRegEx(structNameRegex);
+                }
+
+                return generator.generateStructureSet();
+            }
 
 
 
