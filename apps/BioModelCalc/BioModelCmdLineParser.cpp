@@ -20,7 +20,7 @@ namespace rttb
 				addPositionalOption(OPTION_DOSE_FILE, 1);
 				addPositionalOption(OPTION_OUTPUT_FILE, 1);
 				addOptionWithDefaultValue<std::string>(OPTION_MODEL, OPTION_GROUP_REQUIRED,
-				                                       "The used radiobiological model the dose should be analyzed with. Available models are:\n \"LQ\"",
+				                                       "The used radiobiological model the dose should be analyzed with. Available models are:\n \"LQ\", Formula: exp(-(alpha * D + beta * D^2/n))",
 				                                       "LQ", "LQ", 'm');
 				addOption<std::vector<double> >(OPTION_MODEL_PARAMETERS, OPTION_GROUP_OPTIONAL,
 				                                "The parameters for the radiobiological model.", 'p', false, true);
@@ -28,6 +28,8 @@ namespace rttb
                     "The parameters maps as itk readable image files for the radiobiological model.", 'a', false, true);
 				addOptionWithDefaultValue<double>(OPTION_DOSE_SCALING, OPTION_GROUP_REQUIRED,
 				                                  "Dose scaling that should be applied.", 1.0, "1.0", 'e');
+                addOption<unsigned int>(OPTION_N_FRACTIONS, OPTION_GROUP_OPTIONAL,
+                    "The number of fractions (n in the formula).", 'f');
 				std::vector<std::string> defaultLoadingStyle;
 				defaultLoadingStyle.push_back("itk");
 

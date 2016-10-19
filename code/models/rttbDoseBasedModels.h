@@ -37,7 +37,7 @@ namespace rttb
 		@return The LQ value
 		@exception InvalidParameterException Thrown if parameters were not set correctly.
 		*/
-		BioModelValueType calcLQ(const DoseTypeGy dose, const DoseCalcType alpha,
-		                         const DoseCalcType beta);
+		BioModelValueType calcLQ(DoseTypeGy dose, DoseCalcType alpha,
+		                         DoseCalcType beta, unsigned int nFractions=1);
 	}
 }

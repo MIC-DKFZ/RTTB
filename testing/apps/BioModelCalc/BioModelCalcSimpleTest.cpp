@@ -19,15 +19,10 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#include <iostream>
-#include <fstream>
-#include <cstdio>
-
 #include "litCheckMacros.h"
 #include "litImageTester.h"
 
 #include "boost/filesystem.hpp"
-#include "boost/algorithm/string.hpp"
 
 #include "itkImage.h"
 
@@ -51,11 +46,12 @@ namespace rttb
             std::string modelName;
 			std::string modelArguments;
 			std::string referenceFilename;
+            std::string referenceWithNFractionsFilename;
 
 			boost::filesystem::path callingPath(_callingAppPath);
 
 
-			if (argc > 6)
+			if (argc > 7)
 			{
                 bioModelCalcExecutable = argv[1];
 				doseFilename = argv[2];
@@ -63,6 +59,7 @@ namespace rttb
                 modelName = argv[4];
                 modelArguments = argv[5];
                 referenceFilename = argv[6];
+                referenceWithNFractionsFilename = argv[7];
 			}
 
             std::string bioModelCalcExeWithPath = callingPath.parent_path().string() + "/" + bioModelCalcExecutable;
@@ -82,6 +79,20 @@ namespace rttb
 
             CHECK_EQUAL(boost::filesystem::exists(defaultOutputFilename), true);
 
+            std::string defaultOutputWithNFractionsFilename = "bioModelWithNFractionsOutput.nrrd";
+            std::string baseCommandWithNFractions = bioModelCalcExeWithPath;
+            baseCommandWithNFractions += " -d " + doseFilename;
+            baseCommandWithNFractions += " -t " + doseFilenameLoadStyle;
+            baseCommandWithNFractions += " -o " + defaultOutputWithNFractionsFilename;
+            baseCommandWithNFractions += " -m " + modelName;
+            baseCommandWithNFractions += " -p " + modelArguments;
+            baseCommandWithNFractions += " -f 2";
+
+            std::cout << "Command line call: " + baseCommandWithNFractions << std::endl;
+            CHECK_EQUAL(system(baseCommandWithNFractions.c_str()), 0);
+
+            CHECK_EQUAL(boost::filesystem::exists(defaultOutputFilename), true);
+
             // Check result against reference
             typedef ::itk::Image<double, 3> TestImageType;
 
@@ -96,6 +107,22 @@ namespace rttb
             CHECK_TESTER(tester);
 
             CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
+
+            CHECK_EQUAL(boost::filesystem::exists(defaultOutputWithNFractionsFilename), true);
+
+            // Check result against reference
+
+            TestImageType::Pointer referenceImageNFractions = io::itk::readITKDoubleImage(referenceWithNFractionsFilename);
+            TestImageType::Pointer outputImageNFractions = io::itk::readITKDoubleImage(defaultOutputWithNFractionsFilename);
+
+            lit::ImageTester<TestImageType, TestImageType> testerWithNFractions;
+            testerWithNFractions.setExpectedImage(referenceImageNFractions);
+            testerWithNFractions.setActualImage(outputImageNFractions);
+            testerWithNFractions.setCheckThreshold(0.0);
+
+            CHECK_TESTER(testerWithNFractions);
+
+            //CHECK_EQUAL(std::remove(defaultOutputWithNFractionsFilename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

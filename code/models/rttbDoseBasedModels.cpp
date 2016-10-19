@@ -27,15 +27,15 @@ namespace rttb
 {
 	namespace models
 	{
-		rttb::models::BioModelValueType calcLQ(const DoseTypeGy dose, const DoseCalcType alpha,
-		                                       const DoseCalcType beta)
+		rttb::models::BioModelValueType calcLQ(DoseTypeGy dose, DoseCalcType alpha,
+            DoseCalcType beta, unsigned int nFractions)
 		{
 			if (dose < 0 || alpha < 0 || beta < 0)
 			{
 				throw core::InvalidParameterException("Parameter invalid: dose, alpha, beta must be >=0!");
 			}
 
-			return exp(-((alpha * dose) + (beta * dose * dose)));
+            return exp(-((alpha * dose) + (beta * dose * dose / DoseCalcType(nFractions))));
 		}
 
 	}

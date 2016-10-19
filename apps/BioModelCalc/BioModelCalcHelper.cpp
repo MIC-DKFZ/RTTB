@@ -98,11 +98,11 @@ rttb::apps::bioModelCalc::processData(rttb::apps::bioModelCalc::ApplicationData&
 	std::cout << std::endl << "generate biomodel... ";
     rttb::core::AccessorInterface::AccessorPointer bioModelAccessor;
     if (!appData._modelParameters.empty()){
-        bioModelAccessor = generateBioModel(appData._dose, appData._model, appData._modelParameters,
+        bioModelAccessor = generateBioModel(appData._dose, appData._model, appData._modelParameters, appData._nFractions,
             appData._doseScaling);
     }
     else {
-        bioModelAccessor = generateBioModelWithMaps(appData._dose, appData._model, appData._modelParameterMaps,
+        bioModelAccessor = generateBioModelWithMaps(appData._dose, appData._model, appData._modelParameterMaps, appData._nFractions,
             appData._doseScaling);
     }
 	std::cout << "done." << std::endl;
@@ -121,12 +121,12 @@ rttb::apps::bioModelCalc::processData(rttb::apps::bioModelCalc::ApplicationData&
 
 rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generateBioModel(
     rttb::core::DoseAccessorInterface::DoseAccessorPointer dose, const std::string& model,
-    const std::vector<double>& modelParameters, double doseScaling)
+    const std::vector<double>& modelParameters, unsigned int nFractions, double doseScaling)
 {
 	if (model == "LQ")
 	{
 		return boost::make_shared<rttb::models::LQModelAccessor>(dose, modelParameters.at(0),
-		        modelParameters.at(1),
+		        modelParameters.at(1), nFractions,
 		        doseScaling);
 	}
 	else
@@ -138,12 +138,12 @@ rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generat
 
 rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generateBioModelWithMaps(
     rttb::core::DoseAccessorInterface::DoseAccessorPointer dose, const std::string& model,
-    const std::vector<rttb::core::AccessorInterface::AccessorPointer>& modelParameterMaps, double doseScaling)
+    const std::vector<rttb::core::AccessorInterface::AccessorPointer>& modelParameterMaps, unsigned int nFractions, double doseScaling)
 {
     if (model == "LQ")
     {
         return boost::make_shared<rttb::models::LQModelAccessor>(dose, modelParameterMaps.at(0),
-            modelParameterMaps.at(1), doseScaling);
+            modelParameterMaps.at(1), nFractions, doseScaling);
     }
     else
     {
