@@ -49,8 +49,8 @@
 namespace rttb
 {
 
-	namespace testing
-	{
+    namespace testing
+    {
         io::itk::ITKImageMaskAccessor::ITKMaskImageType::Pointer subtractImages(const io::itk::ITKImageMaskAccessor::ITKMaskImageType::Pointer image1, const io::itk::ITKImageMaskAccessor::ITKMaskImageType::Pointer image2)
         {
             typedef itk::SubtractImageFilter <io::itk::ITKImageMaskAccessor::ITKMaskImageType, io::itk::ITKImageMaskAccessor::ITKMaskImageType >
@@ -67,55 +67,48 @@ namespace rttb
         }
 
 
-		/*! @brief VoxelizationValidationTest.
-		Compare the new boost voxelization to the OTB voxelization
-		Check the creating of new boost masks for files where the old boost voxelization failed.
-		*/
-		int VoxelizationValidationTest(int argc, char* argv[])
-		{
+        /*! @brief VoxelizationValidationTest.
+        Compare the new boost voxelization to the OTB voxelization
+        Check the creating of new boost masks for files where the old boost voxelization failed.
+        */
+        int VoxelizationValidationTest(int argc, char* argv[])
+        {
             PREPARE_DEFAULT_TEST_REPORTING;
 
-			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
-			typedef core::GenericMaskedDoseIterator::MaskAccessorPointer MaskAccessorPointer;
-			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+            typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
+            typedef core::GenericMaskedDoseIterator::MaskAccessorPointer MaskAccessorPointer;
+            typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
 
-			std::string RTSTRUCT_FILENAME;
-			std::string RTDOSE_FILENAME;
-			std::string BoostMask_DIRNAME;
-			std::string OTBMask_DIRNAME;
-			std::string BoostMaskRedesign_DIRNAME;
+            std::string RTSTRUCT_FILENAME;
+            std::string RTDOSE_FILENAME;
+            std::string BoostMask_DIRNAME;
+            std::string OTBMask_DIRNAME;
 
-			std::string RTDose_BoostRedesign;
-			std::string RTStr_BoostRedesign;
-
-			if (argc > 7)
-			{
-				RTSTRUCT_FILENAME = argv[1];
-				RTDOSE_FILENAME = argv[2];
-				BoostMask_DIRNAME = argv[3];
-				OTBMask_DIRNAME = argv[4];
-				BoostMaskRedesign_DIRNAME = argv[5];
-                RTDose_BoostRedesign = argv[6];
-                RTStr_BoostRedesign = argv[7];
-			}
+            if (argc > 4)
+            {
+                RTSTRUCT_FILENAME = argv[1];
+                RTDOSE_FILENAME = argv[2];
+                BoostMask_DIRNAME = argv[3];
+                OTBMask_DIRNAME = argv[4];
+            }
 
             //create directory
-            boost::filesystem::create_directories(BoostMaskRedesign_DIRNAME);
+            boost::filesystem::create_directories(BoostMask_DIRNAME);
 
-			/* read dicom-rt dose */
-			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(RTDOSE_FILENAME.c_str());
-			DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
+            /* read dicom-rt dose */
+            io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(RTDOSE_FILENAME.c_str());
+            DoseAccessorPointer doseAccessor1(doseAccessorGenerator1.generateDoseAccessor());
 
-			//create a vector of MaskAccessors (one for each structure)
-			StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(
-			        RTSTRUCT_FILENAME.c_str()).generateStructureSet();
+            //create a vector of MaskAccessors (one for each structure)
+            StructureSetPointer rtStructureSet = io::dicom::DicomFileStructureSetGenerator(
+                RTSTRUCT_FILENAME.c_str()).generateStructureSet();
 
-			if (rtStructureSet->getNumberOfStructures() > 0)
-			{
+            if (rtStructureSet->getNumberOfStructures() > 0)
+            {
                 //do not compute structure "Aussenkontur" since it is very large (15000 cm³)
-				for (size_t j = 1; j < rtStructureSet->getNumberOfStructures(); j++)
-				{
-					std::cout << j << ": " << rtStructureSet->getStructure(j)->getLabel() << std::endl;
+                for (size_t j = 1; j < rtStructureSet->getNumberOfStructures(); j++)
+                {
+                    std::cout << j << ": " << rtStructureSet->getStructure(j)->getLabel() << std::endl;
 
                     //read OTB mask image
                     boost::filesystem::path otbMaskFilename(OTBMask_DIRNAME);
@@ -128,67 +121,40 @@ namespace rttb
                     readerOTB->Update();
                     const io::itk::ITKImageMaskAccessor::ITKMaskImageType::Pointer otbMaskImage = readerOTB->GetOutput();
 
-					//create Boost MaskAccessor redesign
-					clock_t startR(clock());
+                    //create Boost MaskAccessor
+                    clock_t startR(clock());
 
-					MaskAccessorPointer boostMaskRPtr
-						= ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-						    (rtStructureSet->getStructure(j), doseAccessor1->getGeometricInfo());
-					CHECK_NO_THROW(boostMaskRPtr->updateMask());
+                    MaskAccessorPointer boostMaskRPtr
+                        = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+                        (rtStructureSet->getStructure(j), doseAccessor1->getGeometricInfo());
+                    CHECK_NO_THROW(boostMaskRPtr->updateMask());
 
-					clock_t finishR(clock());
-					std::cout << "Boost Mask Redesign Calculation: " << finishR - startR << " ms" <<
-						        std::endl;
+                    clock_t finishR(clock());
+                    std::cout << "Boost Mask Calculation: " << finishR - startR << " ms" <<
+                        std::endl;
 
 
-					rttb::io::itk::ITKImageMaskAccessorConverter itkConverterR(boostMaskRPtr);
-					CHECK(itkConverterR.process());
+                    rttb::io::itk::ITKImageMaskAccessorConverter itkConverterR(boostMaskRPtr);
+                    CHECK(itkConverterR.process());
 
-                    boost::filesystem::path redesignFilename(BoostMaskRedesign_DIRNAME);
+                    boost::filesystem::path redesignFilename(BoostMask_DIRNAME);
                     redesignFilename /= boost::lexical_cast<std::string>(j)+".nrrd";
                     rttb::io::itk::ImageWriter writerR(redesignFilename.string(), itkConverterR.getITKImage());
-					CHECK(writerR.writeFile());
+                    CHECK(writerR.writeFile());
 
                     auto subtractedRedesignImage = subtractImages(otbMaskImage, itkConverterR.getITKImage());
 
-                    boost::filesystem::path subtractRedesignFilename(BoostMaskRedesign_DIRNAME);
-                    subtractRedesignFilename /= boost::lexical_cast<std::string>(j) + "_subtracted.nrrd";
+                    boost::filesystem::path subtractRedesignFilename(BoostMask_DIRNAME);
+                    subtractRedesignFilename /= boost::lexical_cast<std::string>(j)+"_subtracted.nrrd";
                     rttb::io::itk::ImageWriter writerRSubtracted(subtractRedesignFilename.string(), subtractedRedesignImage);
 
                     CHECK(writerRSubtracted.writeFile());
-			    }
-			}
-            
-			/* Exception tests using data with different z spacing of dose and structure */
-            io::itk::ITKImageFileAccessorGenerator doseAccessorGenerator2(RTDose_BoostRedesign.c_str());
-			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
+                }
+            }
 
-			StructureSetPointer rtStructureSet2 = io::dicom::DicomFileStructureSetGenerator(
-                RTStr_BoostRedesign.c_str()).generateStructureSet();
+            RETURN_AND_REPORT_TEST_SUCCESS;
+        }
 
-
-			if (rtStructureSet2->getNumberOfStructures() > 0)
-			{
-                for (size_t j = 12; j < 26; j++)
-                {
-                    //do not compute the largest structure
-                    if (j != 18){
-                        std::cout << j << ": " << rtStructureSet2->getStructure(j)->getLabel() << std::endl;
-
-                        //create Boost MaskAccessor redesign
-                        MaskAccessorPointer boostMaskAccessorRedesignPtr
-                            = ::boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-                            (rtStructureSet2->getStructure(j), doseAccessor2->getGeometricInfo());
-
-                        //No exception using redesigned boost mask
-                        CHECK_NO_THROW(boostMaskAccessorRedesignPtr->updateMask());
-                    }
-				}
-			}
-
-			RETURN_AND_REPORT_TEST_SUCCESS;
-		}
-
-	}//testing
+    }//testing
 }//rttb
 

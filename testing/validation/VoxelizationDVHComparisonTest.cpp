@@ -56,7 +56,7 @@ namespace rttb
             core::GenericDoseIterator::DoseAccessorPointer doseAccessor, const std::string& voxelizationType)
         {
             core::GenericMaskedDoseIterator::MaskAccessorPointer spMaskAccessor;
-            if (voxelizationType == "BoostRedesign"){
+            if (voxelizationType == "Boost"){
                 auto spBoostRedesignMaskAccessor =
                     ::boost::make_shared<masks::boost::BoostMaskAccessor>(rtstruct, doseAccessor->getGeometricInfo());
                 spBoostRedesignMaskAccessor->updateMask();
@@ -99,16 +99,16 @@ namespace rttb
 			std::string RTSTRUCT_FILENAME;
 			std::string RTDOSE_FILENAME;
             std::string RTDVH_XML_OTB_DIRECTORY;
+            std::string RTDVH_XML_BOOST_LEGACY_DIRECTORY;
             std::string RTDVH_XML_BOOST_DIRECTORY;
-            std::string RTDVH_XML_BOOSTREDESIGN_DIRECTORY;
 
 			if (argc > 5)
 			{
 				RTSTRUCT_FILENAME = argv[1];
                 RTDOSE_FILENAME = argv[2];
                 RTDVH_XML_OTB_DIRECTORY = argv[3];
-                RTDVH_XML_BOOST_DIRECTORY = argv[4];
-                RTDVH_XML_BOOSTREDESIGN_DIRECTORY = argv[5];
+                RTDVH_XML_BOOST_LEGACY_DIRECTORY = argv[4];
+                RTDVH_XML_BOOST_DIRECTORY = argv[5];
 			}
 
 			// read dicom-rt dose
@@ -121,7 +121,7 @@ namespace rttb
 			        RTSTRUCT_FILENAME.c_str()).generateStructureSet();
 
             //create directory
-            boost::filesystem::create_directories(RTDVH_XML_BOOSTREDESIGN_DIRECTORY);
+            boost::filesystem::create_directories(RTDVH_XML_BOOST_DIRECTORY);
 
 			//start evaluation
 			clock_t start(clock());
@@ -132,14 +132,14 @@ namespace rttb
 				{
 					std::cout << rtStructureSet->getStructure(j)->getLabel() << std::endl;
 
-                    auto spMaskedDoseIteratorBoostRedesign = createMaskDoseIterator(rtStructureSet->getStructure(j), doseAccessor1, "BoostRedesign");
+                    auto spMaskedDoseIteratorBoostRedesign = createMaskDoseIterator(rtStructureSet->getStructure(j), doseAccessor1, "Boost");
 					
                     auto label = rtStructureSet->getStructure(j)->getLabel();
                     ::boost::replace_all(label, "/", "_");
                     boost::filesystem::path dvhOTBFilename(RTDVH_XML_OTB_DIRECTORY);
                     dvhOTBFilename /= "DVH_" + label + ".xml";
 
-                    boost::filesystem::path dvhBoostFilename(RTDVH_XML_BOOST_DIRECTORY);
+                    boost::filesystem::path dvhBoostFilename(RTDVH_XML_BOOST_LEGACY_DIRECTORY);
                     dvhBoostFilename /= "DVH_" + label + ".xml";
 
                     io::other::DVHXMLFileReader dvhReaderOTB(dvhOTBFilename.string());
@@ -149,21 +149,21 @@ namespace rttb
                     auto dvhBoost = dvhReaderBoost.generateDVH();
 
                     auto dvhBoostRedesign = calcDVH(spMaskedDoseIteratorBoostRedesign, (rtStructureSet->getStructure(j))->getUID(), doseAccessor1->getUID());
-                    boost::filesystem::path dvhBoostRedesignFilename(RTDVH_XML_BOOSTREDESIGN_DIRECTORY);
+                    boost::filesystem::path dvhBoostRedesignFilename(RTDVH_XML_BOOST_DIRECTORY);
                     dvhBoostRedesignFilename /= "DVH_" + label + ".xml";
                     writeCumulativeDVH(dvhBoostRedesignFilename.string(), dvhBoostRedesign);
 
 					std::cout << "=== Dose 1 Structure " << j << "===" << std::endl;
                     std::cout << "with OTB voxelization: " << std::endl;
                     std::cout << dvhOTB << std::endl;
-                    std::cout << "with Boost voxelization: " << std::endl;
+                    std::cout << "with Boost_LEGACY voxelization: " << std::endl;
                     std::cout << dvhBoost << std::endl;
-                    std::cout << "with BoostRedesign voxelization: " << std::endl;
+                    std::cout << "with Boost voxelization: " << std::endl;
                     std::cout << dvhBoostRedesign << std::endl;
 
 					//compare DVH for different voxelizations
                     auto diffDVH = computeDiffDVH(dvhOTB, boost::make_shared<core::DVH>(dvhBoostRedesign));
-                    boost::filesystem::path dvhBoostRedesignDiffFilename(RTDVH_XML_BOOSTREDESIGN_DIRECTORY);
+                    boost::filesystem::path dvhBoostRedesignDiffFilename(RTDVH_XML_BOOST_DIRECTORY);
                     dvhBoostRedesignDiffFilename /= "DVHDiff_" + label + ".xml";
                     writeCumulativeDVH(dvhBoostRedesignDiffFilename.string(), *diffDVH);
 				}
