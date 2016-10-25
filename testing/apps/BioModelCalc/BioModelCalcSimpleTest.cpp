@@ -122,7 +122,7 @@ namespace rttb
 
             CHECK_TESTER(testerWithNFractions);
 
-            //CHECK_EQUAL(std::remove(defaultOutputWithNFractionsFilename.c_str()), 0);
+            CHECK_EQUAL(std::remove(defaultOutputWithNFractionsFilename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

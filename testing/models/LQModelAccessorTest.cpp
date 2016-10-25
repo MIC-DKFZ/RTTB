@@ -110,7 +110,7 @@ namespace rttb
 			CHECK_EQUAL(LQWithConstantDose->getValueAt(VoxelGridIndex3D(1, 2, 6)), expectedLQWithDoseTwo);
 			CHECK_EQUAL(LQWithConstantDose->getValueAt(VoxelGridIndex3D(65, 40, 60)), expectedLQWithDoseTwo);
 
-            models::BioModelParamType expectedLQWithDoseTwoNFractionsTwo = exp(-(0.2 * 2 + (0.02 * 2 * 2/2)));
+            models::BioModelParamType expectedLQWithDoseTwoNFractionsTwo = exp(-((0.2 * 2/2) + (0.02 * 2 * 2/2)));
             CHECK_EQUAL(LQWithConstantNFractionsTwo->getValueAt(0), expectedLQWithDoseTwoNFractionsTwo);
             CHECK_EQUAL(LQWithConstantNFractionsTwo->getValueAt(LQWithConstantNFractionsTwo->getGridSize() - 1),
                 expectedLQWithDoseTwoNFractionsTwo);
