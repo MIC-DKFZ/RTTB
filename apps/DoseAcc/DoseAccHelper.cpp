@@ -199,17 +199,13 @@ assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 	if (appData._operator == "+")
 	{
 		rttb::algorithms::arithmetic::doseOp::AddWeighted addOp(appData._weightDose1, appData._weightDose2);
-		outputAccessor =
-		    rttb::core::DoseAccessorInterface::DoseAccessorPointer(new
-		            rttb::algorithms::BinaryFunctorAccessor<rttb::algorithms::arithmetic::doseOp::AddWeighted>
-		            (appData._dose1, dose2Accessor, addOp));
+        outputAccessor = boost::make_shared<rttb::algorithms::BinaryFunctorAccessor<rttb::algorithms::arithmetic::doseOp::AddWeighted> >(appData._dose1, dose2Accessor, addOp);
 	}
 	else if (appData._operator == "*")
 	{
 		outputAccessor =
-		    rttb::core::DoseAccessorInterface::DoseAccessorPointer(new
-		            rttb::algorithms::BinaryFunctorAccessor<rttb::algorithms::arithmetic::doseOp::Multiply>
-		            (appData._dose1, dose2Accessor, rttb::algorithms::arithmetic::doseOp::Multiply()));
+            boost::make_shared<rttb::algorithms::BinaryFunctorAccessor<rttb::algorithms::arithmetic::doseOp::Multiply> >
+            (appData._dose1, dose2Accessor, rttb::algorithms::arithmetic::doseOp::Multiply());
 	}
 	else
 	{

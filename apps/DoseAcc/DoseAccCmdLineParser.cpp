@@ -77,7 +77,7 @@ namespace rttb
                     'u', true, true);
 
                 addOptionWithDefaultValue<std::string>(OPTION_OPERATOR, OPTION_GROUP_REQUIRED,
-                    "Specifies the operator used. Available operators are '+' and '*'.",
+                    "Specifies the operator used. Available operators are '+' and '*'. Operator '*' has implemented no weight option.",
                     "+", "+", 'p', true);
 
                 addPositionalOption(OPTION_DOSE1_FILENAME, 1);
@@ -144,6 +144,14 @@ namespace rttb
                     throw cmdlineparsing::InvalidConstraintException("Unknown operator: " +
                         operatorString +
                         ".\nPlease refer to the help for valid operator settings.");
+                }
+
+                if (operatorString == "*"){
+                    double weight1 = get<double>(OPTION_WEIGHT1);
+                    double weight2 = get<double>(OPTION_WEIGHT2);
+                    if (weight1 != 1.0 || weight2 != 1.0){
+                        throw cmdlineparsing::InvalidConstraintException("Operator \"*\" has no weight option implemented. Options --" + OPTION_WEIGHT1 + " and --" + OPTION_WEIGHT2 + " are invalid.");
+                    }
                 }
 
 			}
