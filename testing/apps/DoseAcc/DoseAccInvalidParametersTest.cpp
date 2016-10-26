@@ -79,6 +79,12 @@ namespace rttb
             std::cout << "Command line call: " + invalidOperatorOption << std::endl;
             CHECK_EQUAL(system(invalidOperatorOption.c_str()) != 0, true);
 
+            //call with operator* and weight
+            std::string invalidOperatorMultWithWeightOption = minimalCLI;
+            invalidOperatorMultWithWeightOption += "-p * --weight1 2.0";
+            std::cout << "Command line call: " + invalidOperatorMultWithWeightOption << std::endl;
+            CHECK_EQUAL(system(invalidOperatorMultWithWeightOption.c_str()) != 0, true);
+
 			//call with invalid dose1 load option
 			std::string invalidDose1LoadOption = minimalCLI;
 			invalidDose1LoadOption += "-t invalidLoadStyleOption";

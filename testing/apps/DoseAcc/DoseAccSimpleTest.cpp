@@ -19,15 +19,10 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#include <iostream>
-#include <fstream>
-#include <cstdio>
-
 #include "litCheckMacros.h"
 #include "litImageTester.h"
 
 #include "boost/filesystem.hpp"
-#include "boost/algorithm/string.hpp"
 
 #include "itkImage.h"
 

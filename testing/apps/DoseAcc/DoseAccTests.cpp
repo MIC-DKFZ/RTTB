@@ -40,6 +40,7 @@ namespace rttb
 		{
             LIT_REGISTER_TEST(DoseAccInvalidParametersTest);
             LIT_REGISTER_TEST(DoseAccSimpleTest);
+			LIT_REGISTER_TEST(DoseAccNeutralWeightTest);
 		}
 
 	} //namespace testing
