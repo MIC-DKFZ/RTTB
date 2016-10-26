@@ -5,7 +5,7 @@
 
 SET(VoxelizerTool_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbVoxelizerToolTests)
 SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
-SET(TEST_DATA ${RTToolbox_BINARY_DIR}/testing/apps/VoxelizerTool)
+SET(TEST_DATA ${RTToolbox_BINARY_DIR}/Testing/apps/VoxelizerTool)
 
 IF (WIN32)
 	SET(VOXELIZERTOOL_EXE "VoxelizerTool")

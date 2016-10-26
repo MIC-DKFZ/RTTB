@@ -69,7 +69,7 @@ namespace rttb
 			std::string getFilenameWithoutEnding(const std::string& outfilename)
 			{
 				boost::filesystem::path p(outfilename);
-				return p.stem().string();
+				return p.replace_extension("").string();
 			}
 
 			std::string getFileEnding(const std::string& outfilename)
