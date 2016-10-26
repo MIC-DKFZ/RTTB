@@ -35,7 +35,7 @@ namespace rttb
 				throw core::InvalidParameterException("Parameter invalid: dose, alpha, beta must be >=0!");
 			}
 
-            return exp(-((alpha * dose / DoseCalcType(nFractions)) + (beta * dose * dose / DoseCalcType(nFractions))));
+            return exp(-((alpha * dose) + (beta * dose * dose / DoseCalcType(nFractions))));
 		}
 
 	}
