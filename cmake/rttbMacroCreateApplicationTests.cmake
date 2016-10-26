@@ -24,6 +24,7 @@ MACRO(RTTB_CREATE_APPLICATION_TESTS APP_NAME_IN)
                         ${ARGN})
 
   SET(APP_NAME "rttb${APP_NAME_IN}Tests")
+  SET(WAIT_FOR_DEPENDENCY_LIBS "Litmus") #each test depends on Litmus
 
   IF(BUILD_TESTING)
     MESSAGE(STATUS "configuring Tests ${APP_NAME}...")
@@ -70,6 +71,9 @@ MACRO(RTTB_CREATE_APPLICATION_TESTS APP_NAME_IN)
        IF(ALL_LIBRARIES)
          TARGET_LINK_LIBRARIES(${APP_NAME} ${ALL_LIBRARIES})
        ENDIF(ALL_LIBRARIES)
+	   
+		# Necessary so the build waits for libs to build
+		ADD_DEPENDENCIES(${APP_NAME} ${WAIT_FOR_DEPENDENCY_LIBS})
 
     ENDIF(_MISSING_DEP)
   ENDIF(BUILD_TESTING)
