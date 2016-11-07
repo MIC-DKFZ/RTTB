@@ -47,7 +47,7 @@ namespace rttb
 				typedef std::vector<std::string> LoadingStyleArgType;
 
 				core::DoseAccessorInterface::DoseAccessorPointer _dose;
-                std::vector<core::AccessorInterface::AccessorPointer> _modelParameterMaps;
+                std::deque<core::AccessorInterface::AccessorPointer> _modelParameterMaps;
 				std::string  _doseFileName;
 				LoadingStyleArgType _doseLoadStyle;
                 LoadingStyleArgType _parameterMapsLoadStyle;

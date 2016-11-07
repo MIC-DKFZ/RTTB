@@ -100,7 +100,7 @@ int main(int argc, const char** argv)
 	{
 		appData._dose = rttb::apps::bioModelCalc::loadDose(appData._doseFileName, appData._doseLoadStyle);
         for (const auto& filename : appData._modelParameterMapsFilename){
-            appData._modelParameterMaps.push_back(rttb::apps::bioModelCalc::loadDose(filename, appData._parameterMapsLoadStyle));
+            appData._modelParameterMaps.push_front(rttb::apps::bioModelCalc::loadDose(filename, appData._parameterMapsLoadStyle));
         }
 	}
 	catch (rttb::core::Exception& e)

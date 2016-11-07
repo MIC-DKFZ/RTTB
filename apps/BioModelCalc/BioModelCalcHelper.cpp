@@ -138,7 +138,7 @@ rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generat
 
 rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generateBioModelWithMaps(
     rttb::core::DoseAccessorInterface::DoseAccessorPointer dose, const std::string& model,
-    const std::vector<rttb::core::AccessorInterface::AccessorPointer>& modelParameterMaps, unsigned int nFractions, double doseScaling)
+    const std::deque<rttb::core::AccessorInterface::AccessorPointer>& modelParameterMaps, unsigned int nFractions, double doseScaling)
 {
     if (model == "LQ")
     {
