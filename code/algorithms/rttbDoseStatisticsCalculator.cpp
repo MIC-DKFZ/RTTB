@@ -51,6 +51,7 @@ namespace rttb
 			_simpleDoseStatisticsCalculated = false;
 
 			_multiThreading = false;
+			_mutex = ::boost::make_shared<::boost::shared_mutex>();
 		}
 
 
@@ -587,8 +588,15 @@ namespace rttb
 			if (name == DoseStatistics::Vx)
 			{
 				double xAbsolue = precomputeDoseValue * referenceDose;
-				VxMulti.insert(std::pair<DoseTypeGy, VolumeType>(xAbsolue,
-					computeVx(xAbsolue)));
+				if (_multiThreading){
+					::boost::unique_lock<::boost::shared_mutex> lock(*_mutex);
+					VxMulti.insert(std::pair<DoseTypeGy, VolumeType>(xAbsolue,
+						computeVx(xAbsolue)));
+				}
+				else {
+					VxMulti.insert(std::pair<DoseTypeGy, VolumeType>(xAbsolue,
+						computeVx(xAbsolue)));
+				}
 			}
 			else
 			{
@@ -632,6 +640,7 @@ namespace rttb
 			DoseStatistics::complexStatistics name, VolumeToDoseFunctionType& multiValues, VolumeType volume) const
 		{
 			double xAbsolute = precomputeVolumeValue * volume;
+			::boost::unique_lock<::boost::shared_mutex> lock(*_mutex);
 
 			switch (name)
 			{

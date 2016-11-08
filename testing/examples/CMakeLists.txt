@@ -27,3 +27,7 @@ ADD_TEST(RTBioModelScatterPlotExampleTest ${CORE_TEST_EXAMPLES} RTBioModelScatte
 "${TEST_DATA_ROOT}/DVH/Text/dvh_PTV_HIT.txt" "${TEST_DATA_ROOT}/DVH/Text/dvh_test_HT1.txt" "${TEST_DATA_ROOT}/DVH/Text/dvh_test_TV.txt")
 
 RTTB_CREATE_TEST_MODULE(rttbExamples DEPENDS RTTBCore RTTBAlgorithms RTTBMasks RTTBBoostMask RTTBIndices RTTBDicomIO RTTBITKIO RTTBOtherIO RTTBModels PACKAGE_DEPENDS Litmus)
+
+IF (NOT WIN32)
+	target_compile_features(rttbExamplesTests PRIVATE cxx_auto_type cxx_nullptr cxx_override)
+ENDIF()

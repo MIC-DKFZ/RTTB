@@ -142,6 +142,7 @@ namespace rttb
 			CHECK_NO_THROW(theStatistics->getDx(0.99 * theStatistics->getVolume()));
 			CHECK_THROW_EXPLICIT(theStatistics->getDx(0.03 * theStatistics->getVolume()),
 			                     core::DataNotAvailableException);
+			std::cout << "maximum: " << theStatistics->getMaximum() << std::endl;
 			CHECK_EQUAL(theStatistics->getVx(0.02 * theStatistics->getMaximum()),
 			            theStatisticsDefault->getVx(0.02 * theStatistics->getMaximum()));
 			CHECK_EQUAL(theStatistics->getVx(0.05 * theStatistics->getMaximum()),

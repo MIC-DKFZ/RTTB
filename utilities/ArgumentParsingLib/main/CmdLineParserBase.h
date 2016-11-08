@@ -254,7 +254,7 @@ namespace cmdlineparsing
 		boost::program_options::typed_value<T>* generateTypedValue(bool required = false,
 		        bool multitoken = false, bool composing = false) const;
 
-        void CmdLineParserBase::findDuplicate(const std::unordered_map<std::string, std::tuple<char, std::string, std::string, std::string> >& optionsMap,
+        void findDuplicate(const std::unordered_map<std::string, std::tuple<char, std::string, std::string, std::string> >& optionsMap,
 			const std::string& name, char shorthand) const;
         std::unordered_map<std::string, std::tuple<char, std::string, std::string, std::string> > getOptions(const std::string& name) const;
 		boost::program_options::variables_map m_varMap;

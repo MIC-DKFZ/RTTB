@@ -103,27 +103,28 @@ namespace rttb
 			CHECK_EQUAL(boost::filesystem::exists(defaultDVHOutputFilename), true);
 
 			//check if file has dose statistics that are same than these in than reference file
-            io::other::DoseStatisticsXMLReader readerDefaultExpected(referenceXMLFilename);
-            auto doseStatisticsDefaultExpected = readerDefaultExpected.generateDoseStatistic();
-            io::other::DoseStatisticsXMLReader readerDefaultActual(defaultOutputFilename);
-            auto doseStatisticsDefaultActual = readerDefaultActual.generateDoseStatistic();
 
-            CHECK(checkEqualDoseStatistic(doseStatisticsDefaultExpected, doseStatisticsDefaultActual));
+			io::other::DoseStatisticsXMLReader readerDefaultExpected(referenceXMLFilename);
+			auto doseStatisticsDefaultExpected = readerDefaultExpected.generateDoseStatistic();
+			io::other::DoseStatisticsXMLReader readerDefaultActual(defaultOutputFilename);
+			auto doseStatisticsDefaultActual = readerDefaultActual.generateDoseStatistic();
 
-            io::other::DoseStatisticsXMLReader readerComplexExpected(complexOutputFilename);
-            auto doseStatisticsComplexExpected = readerComplexExpected.generateDoseStatistic();
-            io::other::DoseStatisticsXMLReader readerComplexActual(referenceXMLComplexFilename);
-            auto doseStatisticsComplexActual = readerComplexActual.generateDoseStatistic();
+			CHECK(checkEqualDoseStatistic(doseStatisticsDefaultExpected, doseStatisticsDefaultActual));
 
-            CHECK(checkEqualDoseStatistic(doseStatisticsComplexExpected, doseStatisticsComplexActual));
+			io::other::DoseStatisticsXMLReader readerComplexExpected(complexOutputFilename);
+			auto doseStatisticsComplexExpected = readerComplexExpected.generateDoseStatistic();
+			io::other::DoseStatisticsXMLReader readerComplexActual(referenceXMLComplexFilename);
+			auto doseStatisticsComplexActual = readerComplexActual.generateDoseStatistic();
 
-            //check DVH files
-            io::other::DVHXMLFileReader xmlDVHDefaultReaderActual(defaultDVHOutputFilename);
-            DVHPointer defaultDVHActual = xmlDVHDefaultReaderActual.generateDVH();
+			CHECK(checkEqualDoseStatistic(doseStatisticsComplexExpected, doseStatisticsComplexActual));
 
-            io::other::DVHXMLFileReader xmlDVHDefaultReaderExpected(referenceDVHXMLFilename);
-            DVHPointer defaultDVHExpected = xmlDVHDefaultReaderExpected.generateDVH();
-            CHECK(checkEqualDVH(defaultDVHActual, defaultDVHExpected));
+			//check DVH files
+			io::other::DVHXMLFileReader xmlDVHDefaultReaderActual(defaultDVHOutputFilename);
+			DVHPointer defaultDVHActual = xmlDVHDefaultReaderActual.generateDVH();
+
+			io::other::DVHXMLFileReader xmlDVHDefaultReaderExpected(referenceDVHXMLFilename);
+			DVHPointer defaultDVHExpected = xmlDVHDefaultReaderExpected.generateDVH();
+			CHECK(checkEqualDVH(defaultDVHActual, defaultDVHExpected));
 
 			//delete file again
 			CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);

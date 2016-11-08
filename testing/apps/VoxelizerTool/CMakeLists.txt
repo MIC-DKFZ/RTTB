@@ -17,14 +17,14 @@ SET(STRUCT_FILE "${TEST_DATA_ROOT}/StructureSet/DICOM/RS1.3.6.1.4.1.2452.6.84124
 SET(REFERENCE_FILE "${TEST_DATA_ROOT}/Dose/DICOM/ConstantTwo.dcm")
 
 #-----------------------------------------------------------------------------
-ADD_TEST(rttbVoxelizerToolIncorrectCommandsTest ${VoxelizerTool_TESTS} VoxelizerToolIncorrectCommandsTest 
+ADD_TEST(VoxelizerToolIncorrectCommandsTest ${VoxelizerTool_TESTS} VoxelizerToolIncorrectCommandsTest 
 "${VOXELIZERTOOL_EXE}" ${STRUCT_FILE} "${TEST_DATA_ROOT}/StructureSet/DICOM/Wrong_Data_Struct_file.dicom" 
 ${REFERENCE_FILE} "${TEST_DATA_ROOT}/Dose/DICOM/Wrong_Reference_file.dicom" "Rueckenmark" "blabla")
-ADD_TEST(rttbVoxelizerToolVoxelizerAllStructsTest ${VoxelizerTool_TESTS} VoxelizerToolVoxelizerAllStructsTest 
+ADD_TEST(VoxelizerToolVoxelizerAllStructsTest ${VoxelizerTool_TESTS} VoxelizerToolVoxelizerAllStructsTest 
 "${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE} )
-ADD_TEST(rttbVoxelizerToolDifferentCommandsTest ${VoxelizerTool_TESTS} VoxelizerToolDifferentCommandsTest 
+ADD_TEST(VoxelizerToolDifferentCommandsTest ${VoxelizerTool_TESTS} VoxelizerToolDifferentCommandsTest 
 "${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE})
-ADD_TEST(rttbVoxelizerToolVoxelValueTest  ${VoxelizerTool_TESTS} VoxelizerToolVoxelValue 
+ADD_TEST(VoxelizerToolVoxelValueTest  ${VoxelizerTool_TESTS} VoxelizerToolVoxelValue 
 "${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE} "Leber")
 
-RTTB_CREATE_TEST_MODULE(RTTBVoxelizerTool PACKAGE_DEPENDS Litmus ITK BoostBinaries)
+RTTB_CREATE_APPLICATION_TESTS(VoxelizerTool PACKAGE_DEPENDS Litmus ITK BoostBinaries)

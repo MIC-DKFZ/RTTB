@@ -33,3 +33,7 @@ ADD_TEST(DoseToolDVHTest ${DOSETOOL_TEST} DoseToolDVHTest ${DOSETOOLEXE} "${TEST
 "${TEST_DATA_ROOT}/DVH/XML/dicompylerDVH.xml")
 
 RTTB_CREATE_APPLICATION_TESTS(DoseTool DEPENDS RTTBOtherIO PACKAGE_DEPENDS Litmus BoostBinaries)
+
+IF (NOT WIN32)
+	target_compile_features(rttbDoseToolTests PRIVATE cxx_auto_type cxx_nullptr cxx_override)
+ENDIF()

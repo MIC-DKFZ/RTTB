@@ -24,6 +24,9 @@
 
 #include <vector>
 
+#include <boost/shared_ptr.hpp>
+#include <boost/thread/shared_mutex.hpp>
+
 #include "rttbBaseType.h"
 #include "rttbDoseIteratorInterface.h"
 #include "rttbDoseStatistics.h"
@@ -69,6 +72,8 @@ namespace rttb
 			bool _simpleDoseStatisticsCalculated;
 
 			bool _multiThreading;
+
+			::boost::shared_ptr<boost::shared_mutex> _mutex;
 
 			/*! @brief Calculates the positions where the dose has its maximum
 				@param maxNumberMaximaPositions the maximal amount of computed positions
