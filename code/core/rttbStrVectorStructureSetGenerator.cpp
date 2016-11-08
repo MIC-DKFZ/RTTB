@@ -30,7 +30,7 @@ namespace rttb
 
 
 		StrVectorStructureSetGenerator::StrVectorStructureSetGenerator(std::vector<StructTypePointer>&
-		        aStructureVector, IDType aPatientUID)
+			aStructureVector, IDType aPatientUID)
 		{
 
 			_patientUID = aPatientUID;
@@ -39,27 +39,28 @@ namespace rttb
 		}
 
 		StrVectorStructureSetGenerator::StructureSetPointer
-		StrVectorStructureSetGenerator::generateStructureSet()
+			StrVectorStructureSetGenerator::generateStructureSet()
 		{
-      std::vector<StructTypePointer> _filteredStructs = _strVector;
+			std::vector<StructTypePointer> _filteredStructs = _strVector;
 
-      if (this->getStructureLabelFilterActive())
-      {
-        _filteredStructs.clear();
+			if (this->getStructureLabelFilterActive())
+			{
+				_filteredStructs.clear();
 
-			  std::regex e(this->getFilterRegEx());
+				std::regex e(this->getFilterRegEx());
 
-        for(auto aStruct : _strVector)
-        {
-  				if (std::regex_match(aStruct->getLabel(), e))
-	  			{
-		  			_filteredStructs.push_back(aStruct);
-			  	}
-        }
+				std::vector<StructTypePointer>::iterator it;
+				for(it= _strVector.begin();it!=_strVector.end();++it)
+				{
+					if (std::regex_match((*it)->getLabel(), e))
+					{
+						_filteredStructs.push_back((*it));
+					}
+				}
 
-      }
-      
-      return boost::make_shared<core::StructureSet>(_filteredStructs, _patientUID);
+			}
+
+			return boost::make_shared<core::StructureSet>(_filteredStructs, _patientUID);
 		}
 	}
 }//end namespace rttb
