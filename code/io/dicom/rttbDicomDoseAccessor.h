@@ -21,14 +21,14 @@
 #ifndef __DICOM_DOSE_ACCESSOR_H
 #define __DICOM_DOSE_ACCESSOR_H
 
+#include "osconfig.h"    /* make sure OS specific configuration is included first */
+#include "drtdose.h"
+
 #include <string>
 #include <vector>
 #include <exception>
 
 #include <boost/shared_ptr.hpp>
-
-#include "osconfig.h"    /* make sure OS specific configuration is included first */
-#include "drtdose.h"
 
 #include "rttbAccessorWithGeoInfoBase.h"
 #include "rttbBaseType.h"

@@ -24,9 +24,7 @@
 // this file defines the rttbCoreTests for the test driver
 // and all it expects is that you have a function called RegisterTests
 
-
-
-
+#include <fstream>
 
 #include "litCheckMacros.h"
 #include "rttbBioModel.h"
@@ -104,7 +102,6 @@ namespace rttb
 			std::string defaultExpected = readFile(expectedxmlfilenametcpleq);
 			CHECK_EQUAL(defaultAsIs, defaultExpected);
 			CHECK_EQUAL(std::remove(filename.c_str()), 0);
-
 
 			//test NTCPLKBModel
 			models::BioModelParamType aVal = 10;

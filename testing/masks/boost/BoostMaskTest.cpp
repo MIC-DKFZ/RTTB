@@ -78,7 +78,6 @@ namespace rttb
             //(-20, 0.5, 40); (-12.5, 0.5, 40); (-12.5, 10.5, 40); (-20, 10.5, 40);
             core::Structure myTestStruct2 = myStructGenerator.CreateRectangularStructureCenteredContourPlaneThicknessNotEqualDosePlaneThickness(2);
             StructTypePointer spMyStruct2 = boost::make_shared<core::Structure>(myTestStruct2);
-            
 
 			//1) test BoostMask & BoostMaskAccessor constructor
 			CHECK_NO_THROW(rttb::masks::boost::BoostMask(geometricPtr, spMyStruct));

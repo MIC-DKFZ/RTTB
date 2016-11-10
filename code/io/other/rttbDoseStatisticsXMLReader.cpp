@@ -98,24 +98,32 @@ namespace rttb
 
 				BOOST_FOREACH(boost::property_tree::ptree::value_type & data, pt.get_child("statistics.results")){
 					datum = data.second.data();
+std::cout << "datum: " << datum << std::endl;
 					BOOST_FOREACH(boost::property_tree::ptree::value_type & middel, data.second){
 						BOOST_FOREACH(boost::property_tree::ptree::value_type & innernode, middel.second){
 							std::string mia = innernode.first;
+std::cout << "mia: " << mia << std::endl;
 							if (innernode.first == "name"){
 								name = innernode.second.data();
 							}
 							else if (innernode.first == "voxelGridID"){
+std::cout << 1.1 << std::endl;
 								datum.erase(std::remove(datum.begin(), datum.end(), '\t'), datum.end());
 								datum.erase(std::remove(datum.begin(), datum.end(), '\n'), datum.end());
 								voxelid.first = boost::lexical_cast<double>(datum);
 								voxelid.second = boost::lexical_cast<unsigned int>(innernode.second.data());
 								vec.push_back(voxelid);
+std::cout << 1.2 << std::endl;
 							}
 							else if (innernode.first == "x"){
 								x = boost::lexical_cast<unsigned int>(innernode.second.data());
 							}
+							else {
+								std::cout << "damn" << std::endl;
+							}
 						}
 					}
+std::cout << name << std::endl;
 
 					// fill with the extracted data
 						if (name == "numberOfVoxels"){
@@ -165,6 +173,7 @@ namespace rttb
 						else if (name == "MinOCx"){
 							MinOCx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
 						}
+std::cout << "end" << std::endl;
 				}
 				
 				// make DoseStatistcs
