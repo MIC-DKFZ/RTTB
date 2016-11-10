@@ -23,6 +23,8 @@
 
 #include <vector>
 
+#include <boost/throw_exception.hpp>
+
 #include "rttbAccessorWithGeoInfoBase.h"
 #include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"

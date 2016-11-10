@@ -24,6 +24,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
 #include <boost/assign/list_of.hpp>
+#include <boost/thread/locks.hpp> 
 
 #include "rttbNullPointerException.h"
 #include "rttbInvalidDoseException.h"
