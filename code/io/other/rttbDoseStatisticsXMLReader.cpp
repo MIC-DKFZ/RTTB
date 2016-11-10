@@ -177,9 +177,10 @@ std::cout << "end" << std::endl;
 				}
 				
 				// make DoseStatistcs
-				_doseStatistic = boost::make_shared<rttb::algorithms::DoseStatistics>(
+
+				_doseStatistic = boost::make_shared<rttb::algorithms::DoseStatistics>(rttb::algorithms::DoseStatistics(
 					minimum, maximum, mean, stdDeviation, numVoxels, volume, minimumVoxelPositions, maximumVoxelPositions
-					,Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx, referenceDose);
+					,Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx, referenceDose));
 			}
 }//end namespace other
 	}//end namespace io

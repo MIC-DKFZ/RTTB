@@ -30,7 +30,7 @@
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
 
-#include <thread>
+#include <boost/thread/thread.hpp>
 
 namespace rttb
 {
@@ -556,7 +556,7 @@ namespace rttb
 			DoseStatisticsCalculator::computeDoseToVolumeFunctionMulti(DoseTypeGy referenceDose,
 			const std::vector<double>& precomputeDoseValues, DoseStatistics::complexStatistics name) const
 		{
-			std::vector<std::thread> threads;
+			std::vector<boost::thread> threads;
 
 			DoseToVolumeFunctionType VxMulti;
 
@@ -564,7 +564,7 @@ namespace rttb
 			{
 				if (_multiThreading)
 				{
-					threads.push_back(std::thread(&DoseStatisticsCalculator::computeDoseToVolumeSingle, this,
+					threads.push_back(boost::thread(&DoseStatisticsCalculator::computeDoseToVolumeSingle, this,
 						referenceDose, precomputeDoseValues.at(i), name, std::ref(VxMulti)));
 				}
 				else
@@ -574,10 +574,9 @@ namespace rttb
 				}
 			}
 
-			for (auto& t : threads)
+			for (unsigned int i=0; i<threads.size();i++)
 			{
-				t.join();
-
+				threads.at(i).join();
 			}
 
 			return VxMulti;
@@ -610,7 +609,7 @@ namespace rttb
 			const std::vector<double>& precomputeVolumeValues, DoseStatistics::complexStatistics name) const
 		{
 			
-			std::vector<std::thread> threads;
+			std::vector<boost::thread> threads;
 
 			VolumeToDoseFunctionType multiValues;
 			VolumeType volume = _statistics->getVolume();
@@ -619,7 +618,7 @@ namespace rttb
 			{
 				if (_multiThreading)
 				{
-					threads.push_back(std::thread(&DoseStatisticsCalculator::computeVolumeToDoseSingle, this,
+					threads.push_back(boost::thread(&DoseStatisticsCalculator::computeVolumeToDoseSingle, this,
 						precomputeVolumeValues.at(i), name, std::ref(multiValues), volume));
 				}
 				else
@@ -629,9 +628,9 @@ namespace rttb
 				}
 			}
 			
-			for (auto& t : threads)
+			for (unsigned int i=0; i<threads.size();i++)
 			{
-				t.join();
+				threads.at(i).join();
 			}
 			
 			return multiValues;
