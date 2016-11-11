@@ -122,34 +122,22 @@ int main(int argc, const char** argv)
 
 		if (!listOfCorrectElements.empty())
 		{
-			std::string fileName = rttb::apps::voxelizerTool::getFilenameWithoutEnding(
-				appData._outputFilename);
-			std::string fileEnding = rttb::apps::voxelizerTool::getFileEnding(appData._outputFilename);
-
 			std::vector<MaskAccessorPointer> maskVector;
-
 
 			std::vector<std::string> labelVector = reader->getAllLabels();
 
 			if (appData._addStructures)
 			{
-				std::string labelName;
-
 				for (unsigned int i = 0; i < listOfCorrectElements.size(); i++)
 				{
 					int labelIndex = listOfCorrectElements.at(i);
 					maskVector.push_back(maskProcessor->createMask(labelIndex));
-
-					std::string labelOfInterest = labelVector.at(labelIndex);
-					rttb::apps::voxelizerTool::removeSpecialCharacters(labelOfInterest);
-					labelName += "_" + labelOfInterest;
-
 				}
 
 				boost::shared_ptr<rttb::apps::voxelizerTool::MaskWriter> writer =
 					boost::make_shared<rttb::apps::voxelizerTool::MaskWriter>(maskVector,
 					appData._booleanVoxelization);
-				writer->writeMaskToFile(fileName + labelName + fileEnding);
+        writer->writeMaskToFile(appData._outputFilename);
 
 			}
 			else
@@ -173,9 +161,18 @@ int main(int argc, const char** argv)
 						boost::make_shared<rttb::apps::voxelizerTool::MaskWriter>(maskVector,
 						appData._booleanVoxelization);
 
+          std::string outputName = appData._outputFilename;
+          if (appData._multipleStructs)
+          {
+            std::string fileName = rttb::apps::voxelizerTool::getFilenameWithoutEnding(
+              appData._outputFilename);
+            std::string fileEnding = rttb::apps::voxelizerTool::getFileEnding(appData._outputFilename);
+            outputName = fileName + "_" + labelOfInterest + fileEnding;
+          }
+
 					try
 					{
-						MW->writeMaskToFile(fileName + "_" + labelOfInterest + fileEnding);
+            MW->writeMaskToFile(outputName);
 					}
 					catch (itk::ExceptionObject& err)
 					{
