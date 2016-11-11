@@ -59,12 +59,6 @@ namespace rttb
 			structNames.push_back("Magen/DD");
 			structNames.push_back("PTV");
 
-			//structure names will be used for file naming, BUT '.' in the end will be cropped and '/' will be replaced by '_'. Thus, the different filenames.
-			std::vector<std::string> filenames;
-			filenames.push_back("Niere re");
-			filenames.push_back("Magen_DD");
-			filenames.push_back("PTV");
-
 			std::string baseCommand = voxelizerToolExeWithPath;
 			baseCommand += " -s " + structFile;
 			baseCommand += " -r " + referenceFile;
@@ -79,10 +73,10 @@ namespace rttb
 				CHECK_EQUAL(returnValue, 0);
 
 				boost::filesystem::path HDRFile(tempDirectory);
-				HDRFile /= "out_" + filenames.at(i) + ".hdr";
+				HDRFile /= "out.hdr";
 
 				boost::filesystem::path IMGFile(tempDirectory);
-				IMGFile /= "out_" + filenames.at(i) + ".img";
+				IMGFile /= "out.img";
 
 				CHECK_EQUAL(
 				    boost::filesystem::exists(HDRFile),

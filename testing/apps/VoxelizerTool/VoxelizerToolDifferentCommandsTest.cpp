@@ -57,7 +57,7 @@ namespace rttb
 			std::vector<std::string> filenames;
 			filenames.push_back("Test_Niere li");
 			filenames.push_back("Test_Niere re");
-			filenames.push_back("Boolean_Rueckenmark");
+			filenames.push_back("Boolean");
 
 			boost::filesystem::path callingPath(_callingAppPath);
 			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + voxelizerToolExe;

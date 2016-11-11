@@ -40,7 +40,9 @@ namespace rttb
 					"Filename of the reference image (*.dcm)", 'r', true);
                 addInformationForXML(OPTION_REFERENCE_FILE, cmdlineparsing::XMLGenerator::paramType::INPUT, { "dcm" });
 				addOptionWithDefaultValue<std::string>(OPTION_OUTPUT_FILE_NAME, OPTION_GROUP_REQUIRED,
-					"set output file name","out.hdr","out.hdr", 'o', true);
+					"Set output file name. Remark: if it used in conjunction with flag -m, it is only regarded as "
+          "hint for the file name pattern. VoxelizerTool will add a suffix indicating the voxelized "
+          "structure to each filename.","out.hdr","out.hdr", 'o', true);
                 addInformationForXML(OPTION_OUTPUT_FILE_NAME, cmdlineparsing::XMLGenerator::paramType::OUTPUT, { "nrrd", "hdr" });
 				
 				addPositionalOption(OPTION_STRUCT_FILE,1);
