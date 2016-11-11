@@ -23,10 +23,9 @@
 #include <boost/shared_ptr.hpp>
 
 #include "rttbITKImageMaskAccessorConverter.h"
-#include "rttbInvalidDoseException.h"
 #include "rttbGeometricInfo.h"
-#include "itkImageRegionIterator.h"
 #include "rttbITKImageMaskAccessor.h"
+#include "itkMaskAccessorImageSource.h"
 
 namespace rttb
 {
@@ -43,8 +42,6 @@ namespace rttb
 			{
 				//Transfer GeometricInfo to ITK Properties
 				core::GeometricInfo geoInfo = _maskAccessor->getGeometricInfo();
-
-				ITKImageMaskAccessor::ITKMaskImageType::RegionType region;
 
 				ITKImageMaskAccessor::ITKMaskImageType::IndexType start = {{0, 0, 0}};
 
@@ -73,49 +70,19 @@ namespace rttb
 						direction(col, row) = OM(col, row);
 					}
 				}
-				//Create image, assign properties
-				region.SetSize(size);
-				region.SetIndex(start);
 
-				_itkImage = ITKImageMaskAccessor::ITKMaskImageType::New();
-				_itkImage->SetRegions(region);
-				_itkImage->SetSpacing(spacing);
-				_itkImage->SetDirection(direction);
-				_itkImage->SetOrigin(origin);
-				_itkImage->Allocate();
+        ::itk::MaskAccessorImageSource::Pointer imagesource = ::itk::MaskAccessorImageSource::New();
 
-				::itk::ImageRegionIterator<ITKImageMaskAccessor::ITKMaskImageType> imageIterator(_itkImage, region);
-				VoxelGridID id = 0;
+        imagesource->SetSize(size);
+        imagesource->SetSpacing(spacing);
+        imagesource->SetDirection(direction);
+        imagesource->SetOrigin(origin);
+        imagesource->SetAccessor(_maskAccessor);
+        imagesource->SetFailsOnInvalidIDs(failsOnInvalidIDs());
+        imagesource->SetInvalidMaskValue(_invalidDoseValue);
+        imagesource->Update();
+        _itkImage = imagesource->GetOutput();
 
-				//Transfer Mask values to itk image
-				//Large advantage: rttbVoxelGridId ordering is the same as itk ordering
-				while (!imageIterator.IsAtEnd())
-				{
-					VoxelGridIndex3D aIndex;
-
-					if (_maskAccessor->getGeometricInfo().validID(id))
-					{
-						rttb::core::MaskVoxel maskVoxel = core::MaskVoxel(id);;
-						_maskAccessor->getMaskAt(id, maskVoxel);
-						// Set the current pixel
-						imageIterator.Set(maskVoxel.getRelevantVolumeFraction());
-					}
-					else
-					{
-						if (failsOnInvalidIDs())
-						{
-							throw core::InvalidDoseException("invalid Mask id!");
-							return false;
-						}
-						else
-						{
-							imageIterator.Set(_invalidDoseValue);
-						}
-					}
-
-					++imageIterator;
-					++id;
-				}
 				return true;
 			}
 
