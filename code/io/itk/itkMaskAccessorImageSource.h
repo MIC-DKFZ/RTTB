@@ -23,7 +23,6 @@
 #define __itkMaskAccessorImageSource_h
 
 #include "itkGenerateImageSource.h"
-#include "itkImageIterator.h"
 
 #include "rttbMaskAccessorInterface.h"
 #include "rttbITKImageMaskAccessor.h"
@@ -63,10 +62,7 @@ namespace itk
     typedef rttb::core::MaskAccessorInterface::MaskAccessorPointer AccessorPointer;
 
 		/** Get the accessor pointer. */
-    AccessorPointer GetAccessor()
-		{
-			return m_Accessor;
-		}
+    itkGetConstMacro(Accessor, AccessorPointer);
 
 		/** Set the accessor pointer. */
     void SetAccessor(AccessorPointer accessor)

@@ -23,9 +23,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "rttbITKImageMaskAccessorConverter.h"
-#include "rttbInvalidDoseException.h"
 #include "rttbGeometricInfo.h"
-#include "itkImageRegionIterator.h"
 #include "rttbITKImageMaskAccessor.h"
 #include "itkMaskAccessorImageSource.h"
 
