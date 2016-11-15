@@ -13,7 +13,7 @@ set(LITMUS_SOURCE_DIR "${CMAKE_BINARY_DIR}/external/Litmus-src")
 set(LITMUS_BUILD_DIR "${CMAKE_BINARY_DIR}/external/Litmus-build")
 set(LITMUS_CMAKE_DIR "${CMAKE_BINARY_DIR}/external/Litmus-cmake")
 
-IF ((BUILD_RTToolbox_interpolation_Tester AND BUILD_InterpolationMatchPointTransformation) OR (BUILD_RTToolbox_io_Tester AND BUILD_IO_ITK))
+IF ((BUILD_RTToolbox_interpolation_Tester AND BUILD_InterpolationMatchPointTransformation) OR (BUILD_RTToolbox_io_Tester AND BUILD_IO_ITK) OR (BUILD_RTToolbox_apps_Tester AND BUILD_App_DoseTool))
 	set(ENABLE_ITK "-DLIT_ENABLE_ITK_SUPPORT:BOOL=ON")
 	set(ITK_DIRECTORY "-DITK_DIR:STRING=${ITK_DIR}")
 ENDIF()

@@ -21,7 +21,7 @@
 
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
-
+#include <boost/algorithm/string.hpp>
 
 #include "rttbDoseStatisticsXMLReader.h"
 
@@ -95,35 +95,34 @@ namespace rttb
 				std::map<VolumeType, DoseTypeGy> MaxOHx;
 				std::map<VolumeType, DoseTypeGy> MinOCx;
 	
-
 				BOOST_FOREACH(boost::property_tree::ptree::value_type & data, pt.get_child("statistics.results")){
 					datum = data.second.data();
-std::cout << "datum: " << datum << std::endl;
+
 					BOOST_FOREACH(boost::property_tree::ptree::value_type & middel, data.second){
 						BOOST_FOREACH(boost::property_tree::ptree::value_type & innernode, middel.second){
 							std::string mia = innernode.first;
-std::cout << "mia: " << mia << std::endl;
+
 							if (innernode.first == "name"){
 								name = innernode.second.data();
 							}
 							else if (innernode.first == "voxelGridID"){
-std::cout << 1.1 << std::endl;
-								datum.erase(std::remove(datum.begin(), datum.end(), '\t'), datum.end());
-								datum.erase(std::remove(datum.begin(), datum.end(), '\n'), datum.end());
+
+								//datum.erase(std::remove(datum.begin(), datum.end(), '\t'), datum.end());
+								//datum.erase(std::remove(datum.begin(), datum.end(), '\n'), datum.end());
+								boost::replace_all(datum, "\r\n", "");								
+								boost::replace_all(datum, "\n", "");								
+								boost::trim(datum);
+
 								voxelid.first = boost::lexical_cast<double>(datum);
 								voxelid.second = boost::lexical_cast<unsigned int>(innernode.second.data());
 								vec.push_back(voxelid);
-std::cout << 1.2 << std::endl;
 							}
 							else if (innernode.first == "x"){
 								x = boost::lexical_cast<unsigned int>(innernode.second.data());
 							}
-							else {
-								std::cout << "damn" << std::endl;
-							}
 						}
 					}
-std::cout << name << std::endl;
+
 
 					// fill with the extracted data
 						if (name == "numberOfVoxels"){
@@ -173,14 +172,13 @@ std::cout << name << std::endl;
 						else if (name == "MinOCx"){
 							MinOCx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
 						}
-std::cout << "end" << std::endl;
 				}
 				
 				// make DoseStatistcs
 
-				_doseStatistic = boost::make_shared<rttb::algorithms::DoseStatistics>(rttb::algorithms::DoseStatistics(
+				_doseStatistic = boost::make_shared<rttb::algorithms::DoseStatistics>(
 					minimum, maximum, mean, stdDeviation, numVoxels, volume, minimumVoxelPositions, maximumVoxelPositions
-					,Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx, referenceDose));
+					,Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx, referenceDose);
 			}
 }//end namespace other
 	}//end namespace io
