@@ -71,7 +71,7 @@ namespace rttb
 
             CHECK_EQUAL(boost::filesystem::exists(defaultOutputAddFilename), true);
 
-            std::string defaultDoseAccMultCommand = baseCommand + " -o " + defaultOutputMultFilename + " --operator *";
+            std::string defaultDoseAccMultCommand = baseCommand + " -o " + defaultOutputMultFilename + " --operator \"*\"";
             std::cout << "Command line call: " + defaultDoseAccMultCommand << std::endl;
             CHECK_EQUAL(system(defaultDoseAccMultCommand.c_str()), 0);
 

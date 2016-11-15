@@ -77,7 +77,7 @@ namespace rttb
 
 				boost::filesystem::path IMGFile(tempDirectory);
 				IMGFile /= "out.img";
-
+std::cout << HDRFile.string() << std::endl;
 				CHECK_EQUAL(
 				    boost::filesystem::exists(HDRFile),
 				    true);

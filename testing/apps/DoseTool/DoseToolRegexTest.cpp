@@ -91,20 +91,23 @@ namespace rttb
 			CHECK_EQUAL(boost::filesystem::exists(defaultExpectedOutputFilename), true);
 			CHECK_EQUAL(boost::filesystem::exists(defaultExpectedOutputFilename2), true);
 
-            //check if file has dose statistics that are same than these in than reference file
-            io::other::DoseStatisticsXMLReader readerDefaultExpected(referenceXMLFilename);
-            auto doseStatisticsDefaultExpected = readerDefaultExpected.generateDoseStatistic();
-            io::other::DoseStatisticsXMLReader readerDefaultActual(defaultExpectedOutputFilename);
-            auto doseStatisticsDefaultActual = readerDefaultActual.generateDoseStatistic();
+            		//check if file has dose statistics that are same than these in than reference file
+            		io::other::DoseStatisticsXMLReader readerDefaultExpected(referenceXMLFilename);
 
-            CHECK(checkEqualDoseStatistic(doseStatisticsDefaultExpected, doseStatisticsDefaultActual));
+            		auto doseStatisticsDefaultExpected = readerDefaultExpected.generateDoseStatistic();
 
-            io::other::DoseStatisticsXMLReader readerDefaultExpected2(referenceXMLFilename2);
-            auto doseStatisticsDefaultExpected2 = readerDefaultExpected2.generateDoseStatistic();
-            io::other::DoseStatisticsXMLReader readerDefaultActual2(defaultExpectedOutputFilename2);
-            auto doseStatisticsDefaultActual2 = readerDefaultActual2.generateDoseStatistic();
+            		io::other::DoseStatisticsXMLReader readerDefaultActual(defaultExpectedOutputFilename);
 
-            CHECK(checkEqualDoseStatistic(doseStatisticsDefaultExpected2, doseStatisticsDefaultActual2));
+            		auto doseStatisticsDefaultActual = readerDefaultActual.generateDoseStatistic();
+
+            		CHECK(checkEqualDoseStatistic(doseStatisticsDefaultExpected, doseStatisticsDefaultActual));
+
+            		io::other::DoseStatisticsXMLReader readerDefaultExpected2(referenceXMLFilename2);
+            		auto doseStatisticsDefaultExpected2 = readerDefaultExpected2.generateDoseStatistic();
+            		io::other::DoseStatisticsXMLReader readerDefaultActual2(defaultExpectedOutputFilename2);
+            		auto doseStatisticsDefaultActual2 = readerDefaultActual2.generateDoseStatistic();
+
+            		CHECK(checkEqualDoseStatistic(doseStatisticsDefaultExpected2, doseStatisticsDefaultActual2));
 
 			//delete file again
 			CHECK_EQUAL(std::remove(defaultExpectedOutputFilename.c_str()), 0);
