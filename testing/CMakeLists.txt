@@ -13,7 +13,7 @@ set(LITMUS_SOURCE_DIR "${CMAKE_BINARY_DIR}/external/Litmus-src")
 set(LITMUS_BUILD_DIR "${CMAKE_BINARY_DIR}/external/Litmus-build")
 set(LITMUS_CMAKE_DIR "${CMAKE_BINARY_DIR}/external/Litmus-cmake")
 
-IF ((BUILD_RTToolbox_interpolation_Tester AND BUILD_InterpolationMatchPointTransformation) OR (BUILD_RTToolbox_io_Tester AND BUILD_IO_ITK) OR (BUILD_RTToolbox_apps_Tester AND BUILD_App_DoseTool))
+IF ((BUILD_Tester_Interpolation AND BUILD_InterpolationMatchPointTransformation) OR (BUILD_Tester_IO AND BUILD_IO_ITK) OR (BUILD_Tester_Apps AND BUILD_App_DoseTool))
 	set(ENABLE_ITK "-DLIT_ENABLE_ITK_SUPPORT:BOOL=ON")
 	set(ITK_DIRECTORY "-DITK_DIR:STRING=${ITK_DIR}")
 ENDIF()
@@ -37,57 +37,66 @@ ExternalProject_Add(
 #-----------------------------------------------------------------------------
 MAKE_DIRECTORY(${RTTBTesting_BINARY_DIR}/Temporary)
 
+OPTION(BUILD_Tester_All "All testing modules will be built" OFF)
+IF(BUILD_Tester_All)
+	get_cmake_property(_variableNames VARIABLES)
+	string (REGEX MATCHALL "(^|;)BUILD_Tester_[A-Za-z0-9_]*" _matchedVars "${_variableNames}")
+	foreach (_var ${_matchedVars})
+		get_property(currentHelpString CACHE "${_var}" PROPERTY HELPSTRING)
+		set(${_var} ON CACHE BOOL ${currentHelpString} FORCE)
+	endforeach()
+ENDIF()
 
 MESSAGE(STATUS "Process All Tests...")
 
 #-----------------------------------------------------------------------------
 # Include sub directories
 #-----------------------------------------------------------------------------
-OPTION(BUILD_RTToolbox_core_Tester "build project on/off" OFF)
-OPTION(BUILD_RTToolbox_Test_examples "build project on/off" OFF)
-OPTION(BUILD_RTToolbox_algorithms_Tester "build project on/off" OFF)
-OPTION(BUILD_RTToolbox_models_Tester "build project on/off" OFF)
-OPTION(BUILD_RTToolbox_io_Tester "build project on/off" OFF)
-OPTION(BUILD_RTToolbox_masks_Tester "build project on/off" OFF)
-OPTION(BUILD_RTToolbox_interpolation_Tester "build project on/off" OFF)
-OPTION(BUILD_RTToolbox_apps_Tester "build project on/off" OFF)
-OPTION(BUILD_RTToolbox_validation_Tester "build project on/off" OFF)
+OPTION(BUILD_Tester_Core "build project on/off" OFF)
+OPTION(BUILD_Tester_Examples "build project on/off" OFF)
+OPTION(BUILD_Tester_Algorithms "build project on/off" OFF)
+OPTION(BUILD_Tester_Models "build project on/off" OFF)
+OPTION(BUILD_Tester_IO "build project on/off" OFF)
+OPTION(BUILD_Tester_Masks "build project on/off" OFF)
+OPTION(BUILD_Tester_Interpolation "build project on/off" OFF)
+OPTION(BUILD_Tester_Apps "build project on/off" OFF)
+OPTION(BUILD_Tester_Validation "build project on/off" OFF)
 
-IF(BUILD_RTToolbox_core_Tester)
+IF(BUILD_Tester_Core)
 	ADD_SUBDIRECTORY(core)
 ENDIF()
 
-IF(BUILD_RTToolbox_Test_examples)
+IF(BUILD_Tester_Examples)
 	ADD_SUBDIRECTORY(examples)
 	IF(RTTB_VIRTUOS_SUPPORT AND BUILD_IO_Virtuos)
 		ADD_SUBDIRECTORY(examples_virtuos)
 	ENDIF()
 ENDIF()
 
-IF(BUILD_RTToolbox_algorithms_Tester)
+IF(BUILD_Tester_Algorithms)
 	ADD_SUBDIRECTORY(algorithms)
 ENDIF()
 
-IF(BUILD_RTToolbox_models_Tester)
+IF(BUILD_Tester_Models)
 	ADD_SUBDIRECTORY(models)
 ENDIF()
 
-IF(BUILD_RTToolbox_io_Tester)
+IF(BUILD_Tester_IO)
 	ADD_SUBDIRECTORY(io)
 ENDIF()
 
-IF(BUILD_RTToolbox_masks_Tester)
+IF(BUILD_Tester_Masks)
 	ADD_SUBDIRECTORY(masks)
 ENDIF()
 
-IF(BUILD_RTToolbox_interpolation_Tester)
+IF(BUILD_Tester_Interpolation)
 	ADD_SUBDIRECTORY(interpolation)
 ENDIF()
 
-IF(BUILD_RTToolbox_validation_Tester)
+IF(BUILD_Tester_Validation)
 	ADD_SUBDIRECTORY(validation)
 ENDIF()
 
-IF(BUILD_RTToolbox_apps_Tester)
+IF(BUILD_Tester_Apps)
 	ADD_SUBDIRECTORY(apps)
 ENDIF()
