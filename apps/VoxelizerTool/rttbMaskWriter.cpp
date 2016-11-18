@@ -58,7 +58,7 @@ namespace rttb
 						itkImage = applyThresholdFilter(itkImage);
 					}
 
-					writeITKImageToFile(itkImage, outputFileName);
+					writeITKImageToFile(itkImage, outputFileName, true);
 				}
 			}
 
