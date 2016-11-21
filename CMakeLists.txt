@@ -72,11 +72,15 @@ set(MODULES_PACKAGE_DEPENDS_DIRS ${RTTB_MODULES_PACKAGE_DEPENDS_DIR})
 # Configure Dart testing support.  This should be done before any
 # MESSAGE(FATAL_ERROR ...) commands are invoked.
 #-----------------------------------------------------------------------------
+#build no tests as default
+OPTION(BUILD_TESTING "build tests" OFF)
+
+IF(BUILD_TESTING)
 SET(CTEST_NEW_FORMAT 1)
 INCLUDE(CTest)
 ENABLE_TESTING()
 
-IF(BUILD_TESTING)
+
   CONFIGURE_FILE(${RTToolbox_SOURCE_DIR}/cmake/RemoveTemporaryFiles.cmake.in
     ${RTToolbox_BINARY_DIR}/cmake/RemoveTemporaryFiles.cmake @ONLY IMMEDIATE)
   CONFIGURE_FILE(${RTToolbox_SOURCE_DIR}/cmake/rttbSampleBuildTest.cmake.in
@@ -272,6 +276,8 @@ ENDIF()
 IF (BUILD_TESTING)
   ADD_SUBDIRECTORY (testing)
 ENDIF (BUILD_TESTING)
+
+
 
 ADD_SUBDIRECTORY (documentation)
 
