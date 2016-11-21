@@ -34,7 +34,7 @@
 #include <math.h>
 #include <deque>
 
-#include <RTTBOTBMaskExports.h>
+#include <RTTBLegacyMaskExports.h>
 
 namespace rttb
 {
@@ -71,7 +71,7 @@ namespace rttb
 
 
 			*/
-            class RTTBOTBMask_EXPORT Mask
+            class RTTBLegacyMask_EXPORT Mask
 			{
 
 			public:
