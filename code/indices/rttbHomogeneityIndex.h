@@ -21,11 +21,10 @@
 #ifndef __HOMOGENEITY_INDEX_H
 #define __HOMOGENEITY_INDEX_H
 
-#include <string>
-#include <vector>
-
 #include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
+
+#include "RTTBIndicesExports.h"
 
 namespace rttb
 {
@@ -36,7 +35,7 @@ namespace rttb
 			@brief This class representing a HomogeneityIndex Object. Homogeneity Index (HI) = (Dmax(PTV)-Dmin(PTV))/Dref
 			@ingroup indices
 		*/
-		class HomogeneityIndex: public DvhBasedDoseIndex
+        class RTTBIndices_EXPORT HomogeneityIndex : public DvhBasedDoseIndex
 		{
 		protected:
 			/*! @brief Calculate Conformity index

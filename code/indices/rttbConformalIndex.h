@@ -26,6 +26,8 @@
 #include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
 
+#include "RTTBIndicesExports.h"
+
 namespace rttb
 {
 
@@ -37,7 +39,7 @@ namespace rttb
 			Conformation Number (CN)= (TVref/TV) * (TVref/Vref)
 			@ingroup indices
 		*/
-		class ConformalIndex: public DvhBasedDoseIndex
+        class RTTBIndices_EXPORT ConformalIndex : public DvhBasedDoseIndex
 		{
 		protected:
 			/*! @brief Calculate conformal index

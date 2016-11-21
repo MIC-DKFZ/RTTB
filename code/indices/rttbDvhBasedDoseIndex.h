@@ -26,16 +26,16 @@
 #include "rttbDVHSet.h"
 #include "rttbDoseIndex.h"
 
+#include "RTTBIndicesExports.h"
+
 namespace rttb
 {
-
-
 	namespace indices
 	{
 		/*! @class DvhBasedDoseIndex
 		@brief This is the interface for dose/plan comparison indices calculated by DVh set of the dose.
 		*/
-		class DvhBasedDoseIndex: public DoseIndex
+        class RTTBIndices_EXPORT DvhBasedDoseIndex : public DoseIndex
 		{
 		public:
 			typedef boost::shared_ptr<core::DVHSet> DVHSetPtr;

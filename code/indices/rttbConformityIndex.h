@@ -25,6 +25,8 @@
 #include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
 
+#include "RTTBIndicesExports.h"
+
 namespace rttb
 {
 
@@ -37,7 +39,7 @@ namespace rttb
 			IFht(D): the irradiation factor of healthy tissue, defined as the radio of the volume of tissue outside the PTV receiving a dose greater than D to the volume of isodose D
 			@ingroup indices
 		*/
-		class ConformityIndex: public DvhBasedDoseIndex
+        class RTTBIndices_EXPORT ConformityIndex : public DvhBasedDoseIndex
 		{
 		protected:
 			/*! @brief Calculate Conformity index

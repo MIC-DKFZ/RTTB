@@ -22,10 +22,10 @@
 #ifndef __CONFORMATION_NUMBER_H
 #define __CONFORMATION_NUMBER_H
 
-
-
 #include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
+
+#include "RTTBIndicesExports.h"
 
 namespace rttb
 {
@@ -37,7 +37,7 @@ namespace rttb
 			@brief This class representing a ConformationNumber Object. Conformation Number (CN)= (TVref/TV) * (TVref/Vref)
 			@ingroup indices
 		*/
-		class ConformationNumber: public DvhBasedDoseIndex
+        class RTTBIndices_EXPORT ConformationNumber : public DvhBasedDoseIndex
 		{
 		protected:
 			/*! @brief Calculate conformation number

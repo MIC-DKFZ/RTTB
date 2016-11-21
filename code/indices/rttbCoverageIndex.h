@@ -28,6 +28,8 @@
 #include "rttbBaseType.h"
 #include "rttbDVHSet.h"
 
+#include "RTTBIndicesExports.h"
+
 namespace rttb
 {
 
@@ -38,7 +40,7 @@ namespace rttb
 		    @brief This class representing a CoverageIndex Object. Coverage Index fraction of the target volume receiving a dose >= the reference dose
 			@ingroup indices
 		*/
-		class CoverageIndex: public DvhBasedDoseIndex
+        class RTTBIndices_EXPORT CoverageIndex : public DvhBasedDoseIndex
 		{
 
 		protected:

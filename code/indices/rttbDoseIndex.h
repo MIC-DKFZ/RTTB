@@ -25,17 +25,17 @@
 #include "rttbBaseType.h"
 #include "rttbDVHSet.h"
 
+#include "RTTBIndicesExports.h"
+
 namespace rttb
 {
-
-
 	namespace indices
 	{
 		/*! @class DoseIndex
 			@brief This is the interface for dose/plan comparison indices.
 			@ingroup indices
 		*/
-		class DoseIndex
+        class RTTBIndices_EXPORT DoseIndex
 		{
 		protected:
 
