@@ -195,6 +195,8 @@ namespace rttb
 					throw rttb::core::InvalidParameterException("Error: The contour plane should be homogeneous!");
 				}
 
+
+
 				::boost::thread_group threads;
                 auto aMutex = ::boost::make_shared<::boost::shared_mutex>();
 
@@ -293,7 +295,7 @@ namespace rttb
 
 				}
 
-				return (abs(maxZ - minZ) <= aErrorConstant);
+				return (std::abs(maxZ - minZ) <= aErrorConstant);
 			}
 
 
@@ -353,6 +355,7 @@ namespace rttb
 						aRingMap.insert(std::pair<double, BoostRingVector>(zIndex, ringVector));
 					}
 
+
 				}
 
 				return aRingMap;
@@ -379,7 +382,7 @@ namespace rttb
 					}
 
 					//if the lower bound very close to aIndex, found
-					if (abs((*lowerBound).first - aIndex) <= aErrorConstant)
+					if (std::abs((*lowerBound).first - aIndex) <= aErrorConstant)
 					{
 						return lowerBound;
 					}
@@ -395,7 +398,7 @@ namespace rttb
 							BoostMask::BoostRingMap::iterator lowerBound1 = --lowerBound;//the key before the lower bound
 
 							//if the key before the lower bound very close to a Index, found
-							if (abs((*lowerBound1).first - aIndex) <= aErrorConstant)
+							if (std::abs((*lowerBound1).first - aIndex) <= aErrorConstant)
 							{
 								return lowerBound1;
 							}
@@ -537,7 +540,7 @@ namespace rttb
 					{
                         double curThickness = it2->first - it->first;
 						//if not homogeneous (leave out double imprecisions), return false
-						if (abs(thickness-curThickness)>errorConstant)
+						if (std::abs(thickness-curThickness)>errorConstant)
 						{
 							return false;
 						}

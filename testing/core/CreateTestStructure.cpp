@@ -113,6 +113,7 @@ namespace rttb
                 _geoInfo.geometryCoordinateToWorldCoordinate(indexDouble, p1);
             
                 polygon.push_back(p1);
+		std::cout << "(" << p1.x() << "," << p1.y() << "," << p1.z() << ")" << "; ";
             }
 
             std::cout << std::endl;
