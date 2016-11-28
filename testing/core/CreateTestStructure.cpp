@@ -90,7 +90,6 @@ namespace rttb
 				p(2) = p1.z();
 
 				polygon.push_back(p);
-				std::cout << "(" << p.x() << "," << p.y() << "," << p.z() << ")" << "; ";
 			}
 
 			std::cout << std::endl;
