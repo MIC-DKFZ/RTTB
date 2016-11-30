@@ -453,7 +453,7 @@ namespace rttb
 					{
 						for (std::size_t n = 0; n < anOrientationMatrix.size2(); n++)
 						{
-							if ((abs((*this)(m, n) - anOrientationMatrix(m, n)) > errorConstant))
+							if ((std::abs((*this)(m, n) - anOrientationMatrix(m, n)) > errorConstant))
 							{
 								return false;
 							}

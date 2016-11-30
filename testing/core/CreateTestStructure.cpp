@@ -90,7 +90,6 @@ namespace rttb
 				p(2) = p1.z();
 
 				polygon.push_back(p);
-				std::cout << "(" << p.x() << "," << p.y() << "," << p.z() << ")" << "; ";
 			}
 
 			std::cout << std::endl;
@@ -113,6 +112,7 @@ namespace rttb
                 _geoInfo.geometryCoordinateToWorldCoordinate(indexDouble, p1);
             
                 polygon.push_back(p1);
+		std::cout << "(" << p1.x() << "," << p1.y() << "," << p1.z() << ")" << "; ";
             }
 
             std::cout << std::endl;

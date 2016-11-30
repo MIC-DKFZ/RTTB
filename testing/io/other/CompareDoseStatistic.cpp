@@ -104,7 +104,7 @@ namespace rttb
 			{
 				double a = i->second;
 				double b = getValue(lhs, i->first) ;
-				if (abs(a - b ) > errorConstant){// errorConstant is 1e-3 because the double-->float cast when they are written
+				if (std::abs(a - b ) > errorConstant){// errorConstant is 1e-3 because the double-->float cast when they are written
 					return false;
 				}
 			}

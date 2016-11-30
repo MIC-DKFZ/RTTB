@@ -83,6 +83,7 @@ namespace rttb
 								double weight = it->second;
                                 if (weight > 0){
                                     BoostArray2DPointer voxelizationArray = itMap->second;
+				
                                     //calc sum of all voxelization plane, use weight
                                     volumeFraction += (*voxelizationArray)[x][y] * weight;
                                 }
@@ -123,7 +124,7 @@ namespace rttb
 					double voxelizationPlaneIndexMin = (*it).first - 0.5 * _voxelizationThickness;
 					double voxelizationPlaneIndexMax = (*it).first + 0.5 * _voxelizationThickness;
 					double weight = 0;
-
+					
 					if ((voxelizationPlaneIndexMin < indexZMin) && (voxelizationPlaneIndexMax > indexZMin))
 					{
 						if (voxelizationPlaneIndexMax < indexZMax)

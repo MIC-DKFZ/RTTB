@@ -107,9 +107,9 @@ namespace rttb
 				{
 					BoostPolygon2D contour = *it;
 					::boost::geometry::correct(contour);
+					
 					BoostPolygonDeque intersection;
 					::boost::geometry::intersection(voxelPolygon, contour, intersection);
-
 					polygonDeque.insert(polygonDeque.end(), intersection.begin(), intersection.end());
 				}
 

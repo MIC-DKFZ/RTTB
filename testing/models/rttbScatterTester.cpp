@@ -106,7 +106,7 @@ namespace rttb
 					//check boundaries because no interpolation is done
 					if (upper < (iter->second).first)
 					{
-						difference = abs(upper - (iter->second).first);
+						difference = std::abs(upper - (iter->second).first);
 
 						if (difference < scatterError)
 						{
@@ -123,7 +123,7 @@ namespace rttb
 
 					if (lower > (iter->second).first)
 					{
-						difference = abs(upper - (iter->second).first);
+						difference = std::abs(upper - (iter->second).first);
 
 						if (difference < scatterError)
 						{
