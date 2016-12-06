@@ -68,7 +68,7 @@ namespace rttb
             std::string defaultOutputFilename = "bioModelParameterMapOutput.nrrd";
 
             std::string baseCommand = bioModelCalcExeWithPath;
-            baseCommand += " -d " + doseFilename;
+            baseCommand += " -d \"" + doseFilename + "\"";
             baseCommand += " -t " + doseFilenameLoadStyle;
             baseCommand += " -o " + defaultOutputFilename;
             baseCommand += " -m " + modelName;

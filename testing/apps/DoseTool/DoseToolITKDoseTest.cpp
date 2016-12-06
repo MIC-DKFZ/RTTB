@@ -63,8 +63,8 @@ namespace rttb
 			std::string complexOutputFilename = "itkOutputComplex.xml";
 
 			std::string baseCommand = doseToolExeWithPath;
-			baseCommand += " -d " + doseFilename;
-			baseCommand += " -s " + structFilename;
+            baseCommand += " -d \"" + doseFilename + "\"";
+            baseCommand += " -s \"" + structFilename + "\"";
 			baseCommand += " -t itk ";
 
 			if (structName != "")

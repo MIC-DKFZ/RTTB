@@ -68,10 +68,10 @@ namespace rttb
 			std::string complexOutputFilename = "virtuosOutputComplex.xml";
 
 			std::string baseCommand = doseToolExeWithPath;
-			baseCommand += " -d " + doseFilename;
-			baseCommand += " -t virtuos " + planFilename;
-			baseCommand += " -s " + structFilename;
-			baseCommand += " -u virtuos " + ctxFilename;
+			baseCommand += " -d \"" + doseFilename + "\"";
+			baseCommand += " -t virtuos \"" + planFilename + "\"";
+			baseCommand += " -s \"" + structFilename + "\"";
+			baseCommand += " -u virtuos \"" + ctxFilename + "\"";
 			baseCommand += " -n " + structName;
 			std::string defaultDoseStatisticsCommand = baseCommand + " -y " + defaultOutputFilename;
 			std::cout << "Command line call: " + defaultDoseStatisticsCommand << std::endl;

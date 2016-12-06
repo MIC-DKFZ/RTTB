@@ -66,7 +66,7 @@ namespace rttb
             std::string defaultOutputFilename = "output.nrrd";
 
 			std::string doseMapExeWithPath = callingPath.parent_path().string() + "/" + doseMapExecutable;
-            std::string baseCommand = doseMapExeWithPath + " " + inputFilename + " " + defaultOutputFilename;
+            std::string baseCommand = doseMapExeWithPath + " \"" + inputFilename + "\" " + defaultOutputFilename;
 
 			std::string defaultDoseMapCommand = baseCommand+" -l "+ inputDoseLoadStyle;
 			std::cout << "Command line call: " + defaultDoseMapCommand << std::endl;
@@ -90,7 +90,7 @@ namespace rttb
 
             CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
 
-			std::string defaultDoseMapCommandWithRegistration = defaultDoseMapCommand+ " -r " + regFilename;
+			std::string defaultDoseMapCommandWithRegistration = defaultDoseMapCommand+ " -r \"" + regFilename + "\"";
 			std::cout << "Command line call: " + defaultDoseMapCommandWithRegistration << std::endl;
 			CHECK_EQUAL(system(defaultDoseMapCommandWithRegistration.c_str()), 0);
 

@@ -55,14 +55,14 @@ namespace rttb
 				referenceXMLFilename = argv[5];
 			}
 
-			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" +
+			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" +
 			                                       doseToolExecutable;
 
 			std::string defaultOutputFilename = "dicomDVHOutput.xml";
 
-			std::string baseCommand = voxelizerToolExeWithPath;
-			baseCommand += " -d " + doseFilename;
-			baseCommand += " -s " + structFilename;
+			std::string baseCommand = doseToolExeWithPath;
+            baseCommand += " -d \"" + doseFilename + "\"";
+            baseCommand += " -s \"" + structFilename + "\"";
 
 			if (structName != "")
 			{

@@ -60,8 +60,8 @@ namespace rttb
 			structNames.push_back("PTV");
 
 			std::string baseCommand = voxelizerToolExeWithPath;
-			baseCommand += " -s " + structFile;
-			baseCommand += " -r " + referenceFile;
+			baseCommand += " -s \"" + structFile + "\"";
+			baseCommand += " -r \"" + referenceFile + "\"";
 			baseCommand += " -e \"";
 
 			for (size_t i = 0; i < structNames.size(); i++)
@@ -77,7 +77,7 @@ namespace rttb
 
 				boost::filesystem::path IMGFile(tempDirectory);
 				IMGFile /= "out.img";
-std::cout << HDRFile.string() << std::endl;
+
 				CHECK_EQUAL(
 				    boost::filesystem::exists(HDRFile),
 				    true);

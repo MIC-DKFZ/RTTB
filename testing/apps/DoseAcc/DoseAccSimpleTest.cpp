@@ -61,8 +61,8 @@ namespace rttb
 			std::string defaultOutputFilename = "doseAccOutput.nrrd";
 
             std::string baseCommand = doseAccExeWithPath;
-            baseCommand += " -d " + dose1Filename;
-            baseCommand += " -e " + dose2Filename;
+            baseCommand += " -d \"" + dose1Filename + "\"";
+            baseCommand += " -e \"" + dose2Filename + "\"";
             baseCommand += " -o " + defaultOutputFilename;
 
 			std::string defaultDoseAccCommand = baseCommand + " --weight1 2.0";

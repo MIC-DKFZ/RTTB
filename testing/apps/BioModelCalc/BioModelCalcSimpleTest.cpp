@@ -67,7 +67,7 @@ namespace rttb
 			std::string defaultOutputFilename = "bioModelOutput.nrrd";
 
 			std::string baseCommand = bioModelCalcExeWithPath;
-			baseCommand += " -d " + doseFilename;
+			baseCommand += " -d \"" + doseFilename + "\"";
             baseCommand += " -t " + doseFilenameLoadStyle;
             baseCommand += " -o " + defaultOutputFilename;
             baseCommand += " -m " + modelName;
@@ -81,7 +81,7 @@ namespace rttb
 
             std::string defaultOutputWithNFractionsFilename = "bioModelWithNFractionsOutput.nrrd";
             std::string baseCommandWithNFractions = bioModelCalcExeWithPath;
-            baseCommandWithNFractions += " -d " + doseFilename;
+            baseCommandWithNFractions += " -d \"" + doseFilename + "\"";
             baseCommandWithNFractions += " -t " + doseFilenameLoadStyle;
             baseCommandWithNFractions += " -o " + defaultOutputWithNFractionsFilename;
             baseCommandWithNFractions += " -m " + modelName;
@@ -122,7 +122,7 @@ namespace rttb
 
             CHECK_TESTER(testerWithNFractions);
 
-            //CHECK_EQUAL(std::remove(defaultOutputWithNFractionsFilename.c_str()), 0);
+            CHECK_EQUAL(std::remove(defaultOutputWithNFractionsFilename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

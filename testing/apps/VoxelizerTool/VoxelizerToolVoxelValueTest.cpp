@@ -62,8 +62,8 @@ namespace rttb
 			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + voxelizerToolExe;
 
 			std::string command = voxelizerToolExeWithPath;
-			command += " -s " + structFile;
-			command += " -r " + referenceFile;
+			command += " -s \"" + structFile + "\"";
+			command += " -r \"" + referenceFile + "\"";
 			command += " -e " + structName;
 
 			int returnValue = system(command.c_str());

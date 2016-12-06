@@ -69,8 +69,8 @@ namespace rttb
 			std::string complexOutputFilename = "dicomOutputComplex.xml";
 
 			std::string baseCommand = doseToolExeWithPath;
-			baseCommand += " -d " + doseFilename;
-			baseCommand += " -s " + structFilename;
+			baseCommand += " -d \"" + doseFilename + "\"";
+			baseCommand += " -s \"" + structFilename + "\"";
 
 			if (structName != "")
 			{
