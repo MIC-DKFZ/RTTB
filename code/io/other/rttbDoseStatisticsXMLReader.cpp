@@ -36,27 +36,34 @@ namespace rttb
 			typedef boost::shared_ptr<rttb::algorithms::DoseStatistics> DoseStatisticsPtr;
 
 
-			DoseStatisticsXMLReader::DoseStatisticsXMLReader(const std::string& filename) : _filename(filename), _newFile(true){
+			DoseStatisticsXMLReader::DoseStatisticsXMLReader(const std::string& filename) : _filename(filename),
+				_newFile(true)
+			{
 			}
 
-			DoseStatisticsXMLReader::~DoseStatisticsXMLReader(){
+			DoseStatisticsXMLReader::~DoseStatisticsXMLReader()
+			{
 			}
 
 
-			void DoseStatisticsXMLReader::setFilename(const std::string& filename){
+			void DoseStatisticsXMLReader::setFilename(const std::string& filename)
+			{
 				_filename = filename;
 				_newFile = true;
 			}
 
-			DoseStatisticsPtr DoseStatisticsXMLReader::generateDoseStatistic(){
-				if (_newFile){
+			DoseStatisticsPtr DoseStatisticsXMLReader::generateDoseStatistic()
+			{
+				if (_newFile)
+				{
 					this->createDoseStatistic();
 				}
 
 				return _doseStatistic;
 			}
 
-			void DoseStatisticsXMLReader::createDoseStatistic(){
+			void DoseStatisticsXMLReader::createDoseStatistic()
+			{
 
 				boost::property_tree::ptree pt;
 
@@ -94,30 +101,36 @@ namespace rttb
 				std::map<VolumeType, DoseTypeGy> MOCx;
 				std::map<VolumeType, DoseTypeGy> MaxOHx;
 				std::map<VolumeType, DoseTypeGy> MinOCx;
-	
-				BOOST_FOREACH(boost::property_tree::ptree::value_type & data, pt.get_child("statistics.results")){
+
+				BOOST_FOREACH(boost::property_tree::ptree::value_type & data, pt.get_child("statistics.results"))
+				{
 					datum = data.second.data();
 
-					BOOST_FOREACH(boost::property_tree::ptree::value_type & middel, data.second){
-						BOOST_FOREACH(boost::property_tree::ptree::value_type & innernode, middel.second){
+					BOOST_FOREACH(boost::property_tree::ptree::value_type & middel, data.second)
+					{
+						BOOST_FOREACH(boost::property_tree::ptree::value_type & innernode, middel.second)
+						{
 							std::string mia = innernode.first;
 
-							if (innernode.first == "name"){
+							if (innernode.first == "name")
+							{
 								name = innernode.second.data();
 							}
-							else if (innernode.first == "voxelGridID"){
+							else if (innernode.first == "voxelGridID")
+							{
 
 								//datum.erase(std::remove(datum.begin(), datum.end(), '\t'), datum.end());
 								//datum.erase(std::remove(datum.begin(), datum.end(), '\n'), datum.end());
-								boost::replace_all(datum, "\r\n", "");								
-								boost::replace_all(datum, "\n", "");								
+								boost::replace_all(datum, "\r\n", "");
+								boost::replace_all(datum, "\n", "");
 								boost::trim(datum);
 
 								voxelid.first = boost::lexical_cast<double>(datum);
 								voxelid.second = boost::lexical_cast<unsigned int>(innernode.second.data());
 								vec.push_back(voxelid);
 							}
-							else if (innernode.first == "x"){
+							else if (innernode.first == "x")
+							{
 								x = boost::lexical_cast<unsigned int>(innernode.second.data());
 							}
 						}
@@ -125,62 +138,82 @@ namespace rttb
 
 
 					// fill with the extracted data
-						if (name == "numberOfVoxels"){
-							numVoxels = boost::lexical_cast<double>(datum);
-						}
-						else if (name == "volume"){
-							volume = boost::lexical_cast<double>(datum);
-						}
-						else if (name == "referenceDose"){
-							referenceDose = boost::lexical_cast<double>(datum);
-						}
-						else if (name == "mean"){
-							mean = boost::lexical_cast<double>(datum);
-						}
-						else if (name == "standardDeviation"){
-							stdDeviation = boost::lexical_cast<double>(datum);
-						}
-						else if (name == "minimum"){
-							minimum = boost::lexical_cast<double>(datum);
-							if (!vec.empty()){
-								minimumVoxelPositions = boost::make_shared<std::vector<std::pair<double, int>>>(vec);
-								vec.clear();
-							}
-						}
-						else if (name == "maximum"){
-							maximum = boost::lexical_cast<double>(datum);
-							if (!vec.empty()){
-								maximumVoxelPositions = boost::make_shared<std::vector<std::pair<double, int>>>(vec);
-								vec.clear();
-							}
-						}
-						else if (name == "Dx"){
-							Dx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
-						}
-						else if (name == "Vx"){
-							Vx[boost::lexical_cast<double>(x)*referenceDose / 100] = boost::lexical_cast<double>(datum);
-						}
-						else if (name == "MOHx"){
-							MOHx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
-						}
-						else if (name == "MOCx"){
-							MOCx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
-						}
-						else if (name == "MaxOHx"){
-							MaxOHx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
-						}
-						else if (name == "MinOCx"){
-							MinOCx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
-						}
-				}
-				
-				// make DoseStatistcs
+					if (name == "numberOfVoxels")
+					{
+						numVoxels = boost::lexical_cast<double>(datum);
+					}
+					else if (name == "volume")
+					{
+						volume = boost::lexical_cast<double>(datum);
+					}
+					else if (name == "referenceDose")
+					{
+						referenceDose = boost::lexical_cast<double>(datum);
+					}
+					else if (name == "mean")
+					{
+						mean = boost::lexical_cast<double>(datum);
+					}
+					else if (name == "standardDeviation")
+					{
+						stdDeviation = boost::lexical_cast<double>(datum);
+					}
+					else if (name == "minimum")
+					{
+						minimum = boost::lexical_cast<double>(datum);
 
-				_doseStatistic = boost::make_shared<rttb::algorithms::DoseStatistics>(
-					minimum, maximum, mean, stdDeviation, numVoxels, volume, minimumVoxelPositions, maximumVoxelPositions
-					,Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx, referenceDose);
+						if (!vec.empty())
+						{
+							minimumVoxelPositions = boost::make_shared<std::vector<std::pair<double, int>>>(vec);
+							vec.clear();
+						}
+					}
+					else if (name == "maximum")
+					{
+						maximum = boost::lexical_cast<double>(datum);
+
+						if (!vec.empty())
+						{
+							maximumVoxelPositions = boost::make_shared<std::vector<std::pair<double, int>>>(vec);
+							vec.clear();
+						}
+					}
+					else if (name == "Dx")
+					{
+						Dx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
+					}
+					else if (name == "Vx")
+					{
+						Vx[boost::lexical_cast<double>(x)*referenceDose / 100] = boost::lexical_cast<double>(datum);
+					}
+					else if (name == "MOHx")
+					{
+						MOHx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
+					}
+					else if (name == "MOCx")
+					{
+						MOCx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
+					}
+					else if (name == "MaxOHx")
+					{
+						MaxOHx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
+					}
+					else if (name == "MinOCx")
+					{
+						MinOCx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
+					}
+				}
+
+				// make DoseStatistcs
+				//boost::make_shared is desireable here, but for VS2010 this doesn't work
+				//see http://stackoverflow.com/questions/19310062/error-no-instance-of-overloaded-function-stdmake-shared-matches-the-argumen
+				_doseStatistic = boost::shared_ptr<rttb::algorithms::DoseStatistics>(new
+				                 rttb::algorithms::DoseStatistics(
+				                     minimum, maximum, mean, stdDeviation, numVoxels, volume, minimumVoxelPositions,
+				                     maximumVoxelPositions
+				                     , Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx, referenceDose));
 			}
-}//end namespace other
+		}//end namespace other
 	}//end namespace io
 }//end namespace rttb
 

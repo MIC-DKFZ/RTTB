@@ -41,7 +41,7 @@ namespace rttb
 		@brief Class for dose mapping based on simple trilinear interpolation
 		@ingroup interpolation
 		*/
-        class RTTBInterpolation_EXPORT SimpleMappableDoseAccessor : public MappableDoseAccessorInterface
+		class RTTBInterpolation_EXPORT SimpleMappableDoseAccessor : public MappableDoseAccessorInterface
 		{
 		private:
 			InterpolationBase::Pointer _spInterpolation;
@@ -55,7 +55,8 @@ namespace rttb
 			SimpleMappableDoseAccessor(const core::GeometricInfo& geoInfoTargetImage,
 			                           const DoseAccessorPointer doseMovingImage,
 			                           const TransformationInterface::Pointer aTransformation,
-			                           const InterpolationBase::Pointer aInterpolation = ::boost::make_shared<LinearInterpolation>(),
+			                           const InterpolationBase::Pointer aInterpolation = ::boost::shared_ptr<LinearInterpolation>
+			                                   (new LinearInterpolation()),
 			                           bool acceptPadding = true,
 			                           DoseTypeGy defaultOutsideValue = 0.0);
 
