@@ -22,6 +22,11 @@
 #ifndef __RTTB_IMAGE_WRITER_H
 #define __RTTB_IMAGE_WRITER_H
 
+#include "RTToolboxConfigure.h"
+#ifdef RTTB_DISABLE_ITK_IO_FACTORY_AUTO_REGISTER
+#undef ITK_IO_FACTORY_REGISTER_MANAGER
+#endif
+
 #include "itkImage.h"
 #include "itkImageSource.h"
 #include "itkImageFileWriter.h"

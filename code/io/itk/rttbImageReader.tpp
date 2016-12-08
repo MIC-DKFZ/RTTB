@@ -26,6 +26,8 @@
 #include "rttbImageReader.h"
 #include "rttbFileDispatch.h"
 
+#include "RTToolboxConfigure.h"
+
 #ifdef RTTB_DISABLE_ITK_IO_FACTORY_AUTO_REGISTER
 #undef ITK_IO_FACTORY_REGISTER_MANAGER
 #endif
