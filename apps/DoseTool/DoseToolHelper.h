@@ -22,12 +22,11 @@
 #ifndef __DOSETOOL_HELPER_H
 #define __DOSETOOL_HELPER_H
 
-#include "DoseToolApplicationData.h"
+
 #include "rttbDoseAccessorInterface.h"
+#include "rttbStructureSetGeneratorInterface.h"
 #include "rttbDoseIteratorInterface.h"
 #include "rttbMaskAccessorInterface.h"
-#include "rttbDoseStatistics.h"
-#include "rttbDVH.h"
 
 namespace rttb
 {
@@ -35,11 +34,13 @@ namespace rttb
 	{
 		namespace doseTool
 		{
+            class ApplicationData;
+            typedef std::vector<std::string> LoadingStyleArgType;
 			/*! @brief loads a dose from a file based on the loadingStyle.
 				@exception Throws an rttb::Exception if loading fails
 			*/
 			core::DoseAccessorInterface::DoseAccessorPointer loadDose(const std::string& fileName,
-			        const rttb::apps::doseTool::ApplicationData::LoadingStyleArgType& args);
+			        const LoadingStyleArgType& args);
 			/*! @brief loads a dicom dose from a file.
 				@exception Throws an rttb::Exception if loading fails
 				@sa DicomFileDoseAccessorGenerator
@@ -65,7 +66,7 @@ namespace rttb
 			@details voxelized itk images are read in generateMask() directly
 			*/
 			core::StructureSetGeneratorInterface::StructureSetPointer loadStruct(const std::string& fileName,
-			        const rttb::apps::doseTool::ApplicationData::LoadingStyleArgType& args, const std::string& structNameRegex = "");
+			        const LoadingStyleArgType& args, const std::string& structNameRegex = "");
 
 			/*! @brief loads a dicom struct from a file.
 			You may pass a structure name regex. If is not empty, it will be used to filter structure in the
@@ -87,23 +88,13 @@ namespace rttb
 			std::vector<core::MaskAccessorInterface::MaskAccessorPointer> generateMasks(
 			    ApplicationData& appData);
 
-			algorithms::DoseStatistics::DoseStatisticsPointer calculateDoseStatistics(
+			/*algorithms::DoseStatistics::DoseStatisticsPointer calculateDoseStatistics(
 			    core::DoseIteratorInterface::DoseIteratorPointer
 			    doseIterator, bool calculateComplexDoseStatistics, DoseTypeGy prescribedDose);
 
 			core::DVH::DVHPointer calculateDVH(core::DoseIteratorInterface::DoseIteratorPointer doseIterator,
 			                                   IDType structUID,
-			                                   IDType doseUID);
-
-			/*! @brief Writes the dose statistics as XML to a file
-				@details adds a <config>....</config> part to the RTTB generated xml where the used files and struct names are stored.
-			*/
-			void writeDoseStatisticsFile(algorithms::DoseStatistics::DoseStatisticsPointer statistics,
-			                             const std::string& filename,
-			                             const std::string& structName,
-			                             rttb::apps::doseTool::ApplicationData& appData);
-
-			void writeDVHFile(core::DVH::DVHPointer dvh, const std::string& filename);
+			                                   IDType doseUID);*/
 
 			core::DoseIteratorInterface::DoseIteratorPointer generateMaskedDoseIterator(
 			    core::MaskAccessorInterface::MaskAccessorPointer

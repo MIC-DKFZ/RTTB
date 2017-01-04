@@ -21,6 +21,8 @@
 
 #include "BioModelCalcApplicationData.h"
 
+#include "BioModelCmdLineParser.h"
+
 namespace rttb
 {
 	namespace apps

@@ -24,6 +24,8 @@
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
+#include "rttbBioModel.h"
+#include "rttbNTCPLKBModel.h"
 #include "rttbBioModelCurve.h"
 #include "rttbDvhBasedModels.h"
 

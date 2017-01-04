@@ -21,6 +21,8 @@
 
 #include "VoxelizerToolApplicationData.h"
 
+#include "VoxelizerToolCmdLineParser.h"
+
 namespace rttb
 {
 	namespace apps

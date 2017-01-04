@@ -27,16 +27,12 @@ This class should only provide general structure functionality.
 #ifndef __DICOM_IOD_STRUCTURE_SET_GENERATOR_H
 #define __DICOM_IOD_STRUCTURE_SET_GENERATOR_H
 
-#include <vector>
-
-#include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include "drtstrct.h"
 
 #include "rttbBaseType.h"
 #include "rttbStrVectorStructureSetGenerator.h"
-#include "rttbStructure.h"
 
 
 namespace rttb

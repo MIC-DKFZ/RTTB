@@ -27,6 +27,7 @@
 
 #include "rttbExceptionMacros.h"
 
+#include "BioModelCalcApplicationData.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomHelaxFileDoseAccessorGenerator.h"
 #include "rttbITKImageFileAccessorGenerator.h"
@@ -66,28 +67,28 @@ rttb::apps::bioModelCalc::loadDose(const std::string& fileName,
 	std::cout << "done." << std::endl;
 
 	return result;
-};
+}
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::bioModelCalc::loadDicomDose(const std::string& fileName)
 {
 	rttb::io::dicom::DicomFileDoseAccessorGenerator generator(fileName);
 	return generator.generateDoseAccessor();
-};
+}
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::bioModelCalc::loadHelaxDose(const std::string& path)
 {
 	rttb::io::helax::DicomHelaxFileDoseAccessorGenerator generator(path);
 	return generator.generateDoseAccessor();
-};
+}
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::bioModelCalc::loadITKDose(const std::string& fileName)
 {
 	rttb::io::itk::ITKImageFileAccessorGenerator generator(fileName);
 	return generator.generateDoseAccessor();
-};
+}
 
 
 void
@@ -116,7 +117,7 @@ rttb::apps::bioModelCalc::processData(rttb::apps::bioModelCalc::ApplicationData&
 	io::itk::ImageWriter writer(appData._outputFileName, itkImage);
 	writer.writeFile();
 	std::cout << "done." << std::endl;
-};
+}
 
 
 rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generateBioModel(

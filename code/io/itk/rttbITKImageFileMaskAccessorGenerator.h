@@ -24,10 +24,6 @@
 #include "rttbMaskAccessorGeneratorBase.h"
 #include "rttbBaseType.h"
 #include "rttbITKImageMaskAccessor.h"
-#include "../itk/rttbGenericImageReader.h"
-
-#include "itkImage.h"
-#include "itkCastImageFilter.h"
 
 
 namespace rttb

@@ -22,9 +22,7 @@
 #define __TCP_MODEL_H
 
 
-#include "rttbBaseType.h"
 #include "rttbBioModel.h"
-#include "rttbBaseTypeModels.h"
 
 namespace rttb
 {

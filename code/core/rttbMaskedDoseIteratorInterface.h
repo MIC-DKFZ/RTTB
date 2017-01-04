@@ -23,15 +23,9 @@
 #define __MASKED_DOSE_ITERATOR_INTERFACE_NEW_H
 
 
-#include <string>
-#include <vector>
-#include <exception>
-
 #include <boost/shared_ptr.hpp>
 
-#include "rttbBaseType.h"
 #include "rttbDoseIteratorInterface.h"
-#include "rttbMaskAccessorInterface.h"
 
 #include "RTTBCoreExports.h"
 
@@ -39,7 +33,7 @@ namespace rttb
 {
 	namespace core
 	{
-
+        class MaskAccessorInterface;
 		/*! @class MaskedDoseIteratorInterface
 			@brief Give access to masked dose data.
 		*/

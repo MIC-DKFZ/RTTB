@@ -23,13 +23,12 @@
 
 #include "rttbMutableMaskAccessorInterface.h"
 #include "rttbBaseType.h"
-#include "rttbMaskVoxel.h"
+#include "rttbGeometricInfo.h"
 
 namespace rttb
 {
 	namespace masks
 	{
-
 		/*! @class GenericMutableMaskAccessor
 		@brief Default implementation of MutableMaskAccessorInterface.
 		@see MutableMaskAccessorInterface

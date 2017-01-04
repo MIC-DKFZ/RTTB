@@ -21,10 +21,6 @@
 #ifndef __DICOM_FILE_DOSE_ACCESSOR_GENERATOR_H
 #define __DICOM_FILE_DOSE_ACCESSOR_GENERATOR_H
 
-#include <string>
-#include <vector>
-#include <exception>
-
 #include "osconfig.h"    /* make sure OS specific configuration is included first */
 #include "drtdose.h"
 
@@ -38,7 +34,6 @@ namespace rttb
 	{
 		namespace dicom
 		{
-
 			/*! @class DicomFileDoseAccessorGenerator
 			@brief Load dose data from dicom file and generate DicomDoseAccessor.
 			*/
@@ -60,7 +55,7 @@ namespace rttb
 			public:
 				~DicomFileDoseAccessorGenerator();
 
-				/*! @brief Constructor. Initialisation with a DICOM-RT dose file or a directory name
+				/*! @brief Constructor. Initialization with a DICOM-RT dose file or a directory name
 				@param aDICOMRTDoseFileName a DICOM-RT dose file name or a directory name
 				@exception InvalidParameterException thrown if the file does not exist or the directory has no dicom dose file
 				@exception DcmrtException thrown if load and read file failed

@@ -25,9 +25,8 @@
 
 #include "mapRegistration.h"
 
-
 #include "rttbDoseAccessorInterface.h"
-#include "DoseMapCmdLineParser.h"
+
 
 namespace rttb
 {
@@ -35,7 +34,7 @@ namespace rttb
 	{
 		namespace doseMap
 		{
-
+            class DoseMapCmdLineParser;
 			class ApplicationData
 			{
 			public:
@@ -68,7 +67,7 @@ namespace rttb
 
 			/*! @brief Reads the necessary arguments from the DoseToolCmdLineParser and writes them in the respective variables of ApplicationData.
 			*/
-			void populateAppData(boost::shared_ptr<rttb::apps::doseMap::DoseMapCmdLineParser> argParser, ApplicationData& appData);
+			void populateAppData(boost::shared_ptr<DoseMapCmdLineParser> argParser, ApplicationData& appData);
 
 		}
 	}

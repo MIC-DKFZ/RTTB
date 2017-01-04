@@ -20,6 +20,7 @@
 */
 
 #include "DoseToolApplicationData.h"
+#include "DoseToolCmdLineParser.h"
 
 namespace rttb
 {

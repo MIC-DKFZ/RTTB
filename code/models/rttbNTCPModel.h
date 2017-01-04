@@ -23,8 +23,6 @@
 #define __NTCP_MODEL_H
 
 
-#include "rttbBaseType.h"
-
 #include "rttbBioModel.h"
 #include "rttbBaseTypeModels.h"
 

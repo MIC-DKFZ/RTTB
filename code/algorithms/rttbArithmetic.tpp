@@ -19,6 +19,8 @@
 // @author  $Author$ (last changed by)
 */
 
+#include "rttbNullPointerException.h"
+#include "rttbInvalidParameterException.h"
 
 #ifndef __ARITHMETIC_TPP
 #define __ARITHMETIC_TPP

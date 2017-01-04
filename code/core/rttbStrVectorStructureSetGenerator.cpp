@@ -22,6 +22,7 @@
 #include "rttbStrVectorStructureSetGenerator.h"
 
 #include <regex>
+#include "boost/make_shared.hpp"
 
 namespace rttb
 {

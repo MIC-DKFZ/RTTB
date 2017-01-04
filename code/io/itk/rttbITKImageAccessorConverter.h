@@ -21,11 +21,8 @@
 #ifndef __ITK_IMAGE_ACCESSOR_CONVERTER_H
 #define __ITK_IMAGE_ACCESSOR_CONVERTER_H
 
-#include <boost/shared_ptr.hpp>
-
 #include "rttbDoseAccessorProcessorBase.h"
 #include "rttbDoseAccessorConversionSettingInterface.h"
-#include "rttbITKImageAccessorConverter.h"
 
 #include "itkImage.h"
 

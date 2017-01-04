@@ -34,7 +34,6 @@ namespace rttb
 	{
 		namespace other
 		{
-
 			typedef boost::shared_ptr<rttb::algorithms::DoseStatistics> DoseStatisticsPtr;
 
 			/*! @brief Write statistics to boost::property_tree::ptree.

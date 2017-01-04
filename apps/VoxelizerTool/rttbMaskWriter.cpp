@@ -20,6 +20,9 @@
 */
 #include "rttbMaskWriter.h"
 
+#include "rttbITKImageMaskAccessorConverter.h"
+#include "rttbITKImageFileMaskAccessorGenerator.h"
+
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkBinaryThresholdImageFilter.h"

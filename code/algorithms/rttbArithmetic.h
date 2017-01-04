@@ -22,14 +22,10 @@
 #ifndef __ARITHMETIC_H
 #define __ARITHMETIC_H
 
-#include "rttbBaseType.h"
 #include "rttbDoseAccessorInterface.h"
 #include "rttbMutableMaskAccessorInterface.h"
 #include "rttbMutableDoseAccessorInterface.h"
 #include "rttbMaskAccessorInterface.h"
-#include "rttbMaskVoxel.h"
-#include "rttbNullPointerException.h"
-#include "rttbInvalidParameterException.h"
 
 namespace rttb
 {

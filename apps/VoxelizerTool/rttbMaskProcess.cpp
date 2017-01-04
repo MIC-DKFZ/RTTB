@@ -22,6 +22,7 @@
 
 #include "boost/make_shared.hpp"
 
+#include "rttbStructureSet.h"
 #include "rttbBoostMaskAccessor.h"
 
 namespace rttb

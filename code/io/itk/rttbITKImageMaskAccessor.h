@@ -22,7 +22,6 @@
 #define __ITK_IMAGE_MASK_ACCESSOR_H
 
 #include "rttbMaskAccessorInterface.h"
-#include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
 
 #include "itkImage.h"
@@ -33,7 +32,6 @@ namespace rttb
 	{
 		namespace itk
 		{
-
 			/*! @class ITKImageMaskAccessor
 			@brief This class gives access to mask information stored in an itk image
 			*/

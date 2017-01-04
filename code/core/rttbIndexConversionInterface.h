@@ -21,8 +21,6 @@
 #ifndef __INDEX_CONVERSION_INTERFACE_NEW_H
 #define __INDEX_CONVERSION_INTERFACE_NEW_H
 
-#include "rttbBaseType.h"
-
 
 namespace rttb
 {

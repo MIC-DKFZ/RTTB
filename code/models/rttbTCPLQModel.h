@@ -22,10 +22,8 @@
 #define __TCP_LQ_MODEL_H
 
 #include <string>
-#include <vector>
 #include <map>
 
-#include "rttbBaseType.h"
 #include "rttbTCPModel.h"
 #include "rttbBaseTypeModels.h"
 

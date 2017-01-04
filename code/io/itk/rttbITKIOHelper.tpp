@@ -23,10 +23,8 @@
 #ifndef __RTTB_ITK_IO_HELPER_TPP
 #define __RTTB_ITK_IO_HELPER_TPP
 
-#include "rttbITKImageAccessorConverter.h"
-#include "rttbInvalidParameterException.h"
-#include "rttbInvalidDoseException.h"
 #include "rttbITKImageAccessor.h"
+#include "itkCastImageFilter.h"
 
 namespace rttb
 {

@@ -19,6 +19,8 @@
 // @author  $Author$ (last changed by)
 */
 
+#include "boost/make_shared.hpp"
+
 #include "litCheckMacros.h"
 
 #include "rttbBaseType.h"

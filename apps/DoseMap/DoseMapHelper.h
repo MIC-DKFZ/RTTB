@@ -30,6 +30,7 @@ namespace rttb
 	{
 		namespace doseMap
 		{
+
 			/**loads the dose from a file. Throws exception if loading fails*/
 			core::DoseAccessorInterface::DoseAccessorPointer loadDose(const std::string& fileName,
 			        const rttb::apps::doseMap::ApplicationData::LoadingStyleArgType& args);
@@ -43,17 +44,13 @@ namespace rttb
 			/**loads the dose from a file stored in an ITK supported data format. Throws exception if loading fails*/
 			core::DoseAccessorInterface::DoseAccessorPointer loadITKDose(const std::string& fileName);
 
-
-
-
-
 			/**loads the dose from a file stored in Virtuos data format. Throws exception if loading fails*/
 			core::DoseAccessorInterface::DoseAccessorPointer loadVirtuosDose(const std::string& fileName,
 			        const std::string& planFileName);
 
 			ApplicationData::RegistrationType::Pointer loadRegistration(const std::string& fileName);
 
-			/**Containes the business logic for the accumulation of the doses and the storing of the result.
+			/**Contains the business logic for the accumulation of the doses and the storing of the result.
 			 Uses appData for the input data and the correct configuration.*/
 			void processData(ApplicationData& appData);
 

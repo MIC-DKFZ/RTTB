@@ -23,7 +23,7 @@
 #define __DOSETOOL4V_HELPER_H
 
 #include "rttbDoseAccessorInterface.h"
-#include "rttbStructureSetGeneratorInterface.h"
+#include "rttbStructureSet.h"
 
 namespace rttb
 {
@@ -32,6 +32,7 @@ namespace rttb
 		namespace doseTool4V
 		{
 			typedef std::vector<std::string> LoadingStyleArgType;
+            typedef boost::shared_ptr<core::StructureSet> StructureSetPointer;
 			/*! @brief loads a dose from a file based on the loadingStyle.
 				@exception Throws an rttb::Exception if loading fails
 			*/
@@ -69,7 +70,7 @@ namespace rttb
 			@exception Throws an rttb::Exception if loading fails
 			@details voxelized itk images are read in generateMask() directly
 			*/
-			core::StructureSetGeneratorInterface::StructureSetPointer loadStruct(const std::string& fileName,
+			StructureSetPointer loadStruct(const std::string& fileName,
 			        const LoadingStyleArgType& args, const std::string& structNameRegex = "");
 
 			/*! @brief loads a dicom struct from a file.
@@ -79,14 +80,14 @@ namespace rttb
 			@exception Throws an rttb::Exception if loading fails
 			@sa DicomFileStructureSetGenerator
 			*/
-			core::StructureSetGeneratorInterface::StructureSetPointer loadDicomStruct(
+			StructureSetPointer loadDicomStruct(
 				const std::string& fileName, const std::string& structNameRegex = "");
 
 			/*! @brief loads a virtuos struct from a file.
 			@exception Throws an rttb::Exception if loading fails
 			@sa VirtuosPlanFileDoseAccessorGenerator
 			*/
-			core::StructureSetGeneratorInterface::StructureSetPointer loadVirtuosStruct(
+			StructureSetPointer loadVirtuosStruct(
 			    const std::string& fileName,
 			    const std::string& ctxFileName);
 		}

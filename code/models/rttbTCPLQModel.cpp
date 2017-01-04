@@ -29,7 +29,6 @@
 
 #include "rttbTCPLQModel.h"
 #include "rttbDvhBasedModels.h"
-#include "rttbBaseTypeModels.h"
 #include "rttbIntegration.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbExceptionMacros.h"

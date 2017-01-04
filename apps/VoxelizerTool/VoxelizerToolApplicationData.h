@@ -23,9 +23,10 @@
 #ifndef __VoxelizerApplicationData_h
 #define __VoxelizerApplicationData_h
 
-#include <boost/shared_ptr.hpp>
+#include "boost/shared_ptr.hpp"
 
-#include "VoxelizerToolCmdLineParser.h"
+#include <vector>
+#include <string>
 
 namespace rttb
 {
@@ -33,8 +34,9 @@ namespace rttb
 	{
 		namespace voxelizerTool
 		{
+            class VoxelizerCmdLineParser;
 			/*! @class ApplicationData
-			@brief Class for storing all relevant variables needed in DoseTool
+			@brief Class for storing all relevant variables needed in VoxelizerTool
 			*/
 			class ApplicationData
 			{

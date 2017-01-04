@@ -21,6 +21,7 @@
 #include <sstream>
 
 #include "rttbMaskRectStructTester.h"
+#include "rttbGeometricInfo.h"
 
 namespace rttb
 {

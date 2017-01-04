@@ -23,12 +23,11 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "rttbStructureSet.h"
-
 namespace rttb
 {
 	namespace core
 	{
+        class StructureSet;
 		/*! @class StructureSetGeneratorInterface
 			@brief Interface for all structure set generating classes
 		*/

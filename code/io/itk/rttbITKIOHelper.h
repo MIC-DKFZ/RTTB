@@ -21,13 +21,11 @@
 #ifndef __ITK_IO_HELPER_H
 #define __ITK_IO_HELPER_H
 
-#include "rttbDoseAccessorGeneratorBase.h"
 #include "rttbBaseType.h"
-#include "rttbITKImageAccessorConverter.h"
 #include "rttbGenericImageReader.h"
 
 #include "itkImage.h"
-#include "itkCastImageFilter.h"
+
 
 
 namespace rttb

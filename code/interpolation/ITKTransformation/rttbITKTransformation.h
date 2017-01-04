@@ -25,7 +25,6 @@
 
 #include "itkTransform.h"
 
-#include "rttbDoseAccessorInterface.h"
 #include "rttbTransformationInterface.h"
 
 #include "RTTBInterpolationITKTransformationExports.h"

@@ -20,8 +20,10 @@
 */
 
 #include "rttbDoseStatistics.h"
-#include "rttbDataNotAvailableException.h"
 
+#include "boost/make_shared.hpp"
+
+#include "rttbDataNotAvailableException.h"
 #include "rttbInvalidParameterException.h"
 
 namespace rttb

@@ -21,14 +21,9 @@
 #ifndef __DVH_CALCULATOR_H
 #define __DVH_CALCULATOR_H
 
-#include <string>
-#include <vector>
-#include <exception>
-
 #include "rttbBaseType.h"
 #include "rttbDoseIteratorInterface.h"
 #include "rttbMaskedDoseIteratorInterface.h"
-#include "rttbDVH.h"
 #include "rttbDVHGeneratorInterface.h"
 
 #include "RTTBCoreExports.h"

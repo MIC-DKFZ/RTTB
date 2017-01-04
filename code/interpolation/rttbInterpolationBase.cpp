@@ -20,6 +20,7 @@
 */
 
 #include <list>
+#include <assert.h>
 
 #include "rttbInterpolationBase.h"
 #include "rttbInvalidParameterException.h"

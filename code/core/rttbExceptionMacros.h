@@ -42,7 +42,7 @@
 		throw e_; /* Explicit naming to work around Intel compiler bug.  */ \
 	}
 
-/*!@def mapExceptionMacro
+/*!@def rttbExceptionMacro
 * This macro is used to throw the passed exception class within an object method.
 * The macro presumes that the object owns a method this->GetNameOfClass().\n
 * The macro will set file name, line number and function signiture to the exception

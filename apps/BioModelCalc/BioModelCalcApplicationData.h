@@ -23,10 +23,11 @@
 #ifndef __BIO_MODEL_CALC_APPLICATION_DATA_H
 #define __BIO_MODEL_CALC_APPLICATION_DATA_H
 
+#include <deque>
+
 #include <boost/shared_ptr.hpp>
 
 #include "rttbDoseAccessorInterface.h"
-#include "BioModelCmdLineParser.h"
 
 namespace rttb
 {
@@ -34,6 +35,7 @@ namespace rttb
 	{
 		namespace bioModelCalc
 		{
+            class BioModelCmdLineParser;
 			/*! @class ApplicationData
 				@brief Class for storing all relevant variables needed in BioModelCalc
 			*/

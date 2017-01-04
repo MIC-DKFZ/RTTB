@@ -19,6 +19,8 @@
 // @author  $Author$ (last changed by)
 */
 
+#include "rttbDVHTxtFileReader.h"
+
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -27,9 +29,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include "rttbDVHTxtFileReader.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbBaseType.h"
 
 namespace rttb
 {
@@ -212,13 +212,13 @@ namespace rttb
 				return _dvh;
 			}
 
-			void DVHTxtFileReader::calculateDataCumulative(std::deque<DoseTypeGy>& dataCumulative, 
-				std::deque<DoseTypeGy>& dataDifferential, unsigned int numberOfBins)
+			void DVHTxtFileReader::calculateDataCumulative(const std::deque<DoseTypeGy>& dataCumulative, 
+				std::deque<DoseTypeGy>& dataDifferential, unsigned int numberOfBins) const
 			{
 				DoseCalcType differentialDVHi = 0;
-				std::deque<DoseCalcType>::iterator it;
+				std::deque<DoseCalcType>::const_iterator it;
 
-				for (it = dataCumulative.begin(); it != dataCumulative.end(); ++it)
+				for (it = dataCumulative.cbegin(); it != dataCumulative.cend(); ++it)
 				{
 					if (dataDifferential.size() == numberOfBins - 1)
 					{
@@ -233,7 +233,7 @@ namespace rttb
 				}
 			}
 
-			void DVHTxtFileReader::loadData(const std::string& line, std::deque<DoseTypeGy>& data)
+			void DVHTxtFileReader::loadData(const std::string& line, std::deque<DoseTypeGy>& data) const
 			{
 				std::vector<std::string> dataBuffer;
 				boost::split(dataBuffer, line, boost::is_any_of(","));

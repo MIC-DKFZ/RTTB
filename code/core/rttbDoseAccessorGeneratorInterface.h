@@ -21,8 +21,6 @@
 #ifndef __DOSE_ACCESSOR_GENERATOR_INTERFACE_H
 #define __DOSE_ACCESSOR_GENERATOR_INTERFACE_H
 
-#include <boost/shared_ptr.hpp>
-
 #include "rttbDoseAccessorInterface.h"
 
 namespace rttb

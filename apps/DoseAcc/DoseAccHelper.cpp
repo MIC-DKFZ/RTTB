@@ -22,6 +22,8 @@
 
 #include "DoseAccHelper.h"
 
+#include "boost/make_shared.hpp"
+
 #include "mapRegistrationFileReader.h"
 #include "itkImageFileWriter.h"
 

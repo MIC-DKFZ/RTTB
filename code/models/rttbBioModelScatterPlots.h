@@ -22,15 +22,17 @@
 #ifndef __MODEL_SCATTER_H
 #define __MODEL_SCATTER_H
 
-#include "rttbBioModel.h"
+#include "rttbBaseType.h"
+#include "rttbBaseTypeModels.h"
 
 namespace rttb
 {
 	namespace models
 	{
-
+        class BioModel;
 		// maps dose to a pair of model value and probability
 		typedef std::multimap<double , std::pair<double, double> > ScatterPlotType;
+        typedef std::vector<BioModelParamType> ParamVectorType;
 
 		/*! @brief Get the points (TCP/NTCP Value, probability of the value) if 1 parameter vary from a normal-
 		distribution with mean=aMean, variance=aVariance.
@@ -80,7 +82,7 @@ namespace rttb
 		@exception InvalidParameterException Thrown if aNormalisationDose<=0 or aMinDose<=aMaxiDose
 		*/
 		ScatterPlotType getScatterPlotVaryParameters(BioModel& aModel, std::vector<int> aParamIdVec,
-		        BioModel::ParamVectorType aMeanVec, BioModel::ParamVectorType aVarianceVec,
+		       ParamVectorType aMeanVec, ParamVectorType aVarianceVec,
 		        DoseTypeGy aNormalisationDose, int numberOfPoints = 50, DoseTypeGy aMinDose = 0,
 		        DoseTypeGy aMaxDose = 150);
 

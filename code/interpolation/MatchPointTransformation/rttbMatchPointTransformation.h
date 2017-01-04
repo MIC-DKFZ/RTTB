@@ -21,12 +21,9 @@
 #ifndef __MATCHPOINT_TRANSFORMATION_H
 #define __MATCHPOINT_TRANSFORMATION_H
 
-#include <boost/shared_ptr.hpp>
-
 #include "mapRegistration.h"
 
 #include "rttbTransformationInterface.h"
-#include "rttbBaseType.h"
 
 #include "RTTBInterpolationMatchPointTransformationExports.h"
 

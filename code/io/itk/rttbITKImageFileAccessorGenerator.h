@@ -21,16 +21,10 @@
 #ifndef __ITK_IMAGE_FILE_ACCESSOR_GENERATOR_H
 #define __ITK_IMAGE_FILE_ACCESSOR_GENERATOR_H
 
-#include <string>
-#include <exception>
-
 #include "rttbDoseAccessorGeneratorBase.h"
 #include "rttbBaseType.h"
-#include "rttbITKImageAccessorConverter.h"
-#include "rttbGenericImageReader.h"
 
 #include "itkImage.h"
-#include "itkCastImageFilter.h"
 
 
 namespace rttb

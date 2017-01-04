@@ -21,6 +21,8 @@
 
 #include "DoseAccApplicationData.h"
 
+#include "DoseAccCmdLineParser.h"
+
 namespace rttb
 {
 	namespace apps
