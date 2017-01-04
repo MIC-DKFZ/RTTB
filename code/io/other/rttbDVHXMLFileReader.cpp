@@ -28,7 +28,6 @@
 
 #include "rttbDVHXMLFileReader.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbBaseType.h"
 
 namespace rttb
 {

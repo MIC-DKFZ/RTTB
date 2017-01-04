@@ -21,19 +21,17 @@
 #ifndef __DOSE_ACCESSOR_CONVERSION_SETTING_INTERFACE_H
 #define __DOSE_ACCESSOR_CONVERSION_SETTING_INTERFACE_H
 
-#include "rttbBaseType.h"
-
 namespace rttb
 {
 	namespace core
 	{
 		/*! @class DoseAccessorConversionSettingInterface
-			@brief Interface for specifying settings for dose accessor convertors (e.g. how to handle invalid dose voxels)
+			@brief Interface for specifying settings for dose accessor converters (e.g. how to handle invalid dose voxels)
 		*/
 		class DoseAccessorConversionSettingInterface
 		{
 		public:
-			/* Defines if the conversion process should fail (with an exception) if an invalid id/voxel occures.*/
+			/* Defines if the conversion process should fail (with an exception) if an invalid id/voxel occurs.*/
 			void setFailOnInvalidIDs(bool failOnInvalid)
 			{
 				_failedOnInvalidID = failOnInvalid;

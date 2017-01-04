@@ -24,7 +24,6 @@
 #include <boost/shared_ptr.hpp>
 
 #include "rttbBaseType.h"
-#include "rttbGeometricInfo.h"
 #include "rttbMaskVoxel.h"
 #include "rttbIndexConversionInterface.h"
 
@@ -32,6 +31,7 @@ namespace rttb
 {
 	namespace core
 	{
+        class GeometricInfo;
 		/*! @class MaskAccessorInterface
 			@brief This class triggers the voxelization and gives acess to the masked voxels.
 		*/

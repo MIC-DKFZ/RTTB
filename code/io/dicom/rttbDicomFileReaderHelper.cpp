@@ -26,11 +26,8 @@
 #include <boost/lexical_cast.hpp>
 #include "boost/filesystem/operations.hpp"
 #include "boost/filesystem/path.hpp"
-#include "boost/progress.hpp"
 
-#include "rttbInvalidDoseException.h"
 #include "rttbDcmrtException.h"
-#include "rttbIndexOutOfBoundsException.h"
 #include "rttbInvalidParameterException.h"
 
 namespace rttb

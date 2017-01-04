@@ -22,8 +22,6 @@
 #define __ITK_IMAGE_ACCESSOR_GENERATOR_H
 
 #include "rttbDoseAccessorGeneratorBase.h"
-#include "rttbBaseType.h"
-#include "rttbITKImageAccessorConverter.h"
 
 #include "itkImage.h"
 

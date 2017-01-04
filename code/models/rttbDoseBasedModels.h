@@ -18,7 +18,6 @@
 // @date    $Date$ (last change date)
 // @author  $Author$ (last changed by)
 */
-#include "rttbBaseType.h"
 #include "rttbBaseTypeModels.h"
 
 

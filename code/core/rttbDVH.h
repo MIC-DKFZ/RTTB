@@ -24,8 +24,9 @@
 #include <deque>
 #include <ostream>
 
+#include "boost/shared_ptr.hpp"
+
 #include "rttbBaseType.h"
-#include "rttbStructure.h"
 
 #include "RTTBCoreExports.h"
 
@@ -34,7 +35,7 @@ namespace rttb
 	namespace core
 	{
 
-		class Structure;
+		//class Structure;
 
 		/*! @class DVH
 		@brief This is a class representing a dose volume histogram (DVH)

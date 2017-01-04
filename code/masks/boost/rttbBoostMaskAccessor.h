@@ -23,9 +23,7 @@
 
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
-#include "rttbMaskVoxel.h"
 #include "rttbMaskAccessorInterface.h"
-#include "rttbGenericDoseIterator.h"
 #include "rttbStructure.h"
 
 #include "RTTBBoostMaskExports.h"

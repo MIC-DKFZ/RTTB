@@ -105,7 +105,7 @@ rttb::apps::doseTool4V::loadVirtuosDose(const std::string& fileName, const std::
 	return generator.generateDoseAccessor();
 }
 
-rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::doseTool4V::loadStruct(
+rttb::apps::doseTool4V::StructureSetPointer rttb::apps::doseTool4V::loadStruct(
     const std::string& fileName, const LoadingStyleArgType& args,
     const std::string& structNameRegex)
 {
@@ -135,7 +135,7 @@ rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::dose
 	return result;
 }
 
-rttb::core::StructureSetGeneratorInterface::StructureSetPointer
+rttb::apps::doseTool4V::StructureSetPointer
 rttb::apps::doseTool4V::loadDicomStruct(
 const std::string& fileName, const std::string& structNameRegex)
 {
@@ -150,7 +150,7 @@ const std::string& fileName, const std::string& structNameRegex)
 	return generator.generateStructureSet();
 }
 
-rttb::core::StructureSetGeneratorInterface::StructureSetPointer
+rttb::apps::doseTool4V::StructureSetPointer
 rttb::apps::doseTool4V::loadVirtuosStruct(
     const std::string& fileName, const std::string& ctxFileName)
 {

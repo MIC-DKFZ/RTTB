@@ -19,8 +19,6 @@
 // @author  $Author$ (last changed by)
 */
 
-#include <assert.h>
-
 #include "rttbDVHDicomFileReader.h"
 #include "rttbException.h"
 

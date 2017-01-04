@@ -25,14 +25,13 @@
 
 #include "rttbBaseType.h"
 #include "rttbInterpolationBase.h"
-#include "rttbTransformationInterface.h"
 #include "rttbMappableDoseAccessorInterface.h"
 
 namespace rttb
 {
 	namespace interpolation
 	{
-
+        class TransformationInterface;
 		/*! @class RosuMappableDoseAccessor
 		@brief Class for dose mapping based on interpolation described in the Rosu2005 paper
 		@details implementation of the following paper: Rosu, M., Chetty, I. J., Balter, J. M., Kessler, M. L., McShan, D. L., & Ten Haken, R. K. (2005). Dose reconstruction in deforming lung anatomy: Dose grid size effects and clinical implications. Medical Physics, 32(8), 2487.
@@ -45,6 +44,7 @@ namespace rttb
 
 		public:
 			typedef boost::shared_ptr<RosuMappableDoseAccessor> Pointer;
+            typedef boost::shared_ptr<TransformationInterface> TransformationPointer;
 
 			/*! @brief Constructor. Just hands values over to base class constructor.
 				@note no interpolation as parameter since linear interpolation is fixed.
@@ -52,7 +52,7 @@ namespace rttb
 			*/
 			RosuMappableDoseAccessor(const core::GeometricInfo& geoInfoTargetImage,
 			                         const DoseAccessorPointer doseMovingImage,
-			                         const TransformationInterface::Pointer aTransformation,
+                                     const TransformationPointer aTransformation,
 			                         bool acceptPadding = true,
 			                         DoseTypeGy defaultOutsideValue = 0.0);
 

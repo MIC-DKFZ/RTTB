@@ -24,6 +24,7 @@
 #include <boost/random.hpp>
 #include <boost/random/normal_distribution.hpp>
 
+#include "rttbBioModel.h"
 #include "rttbBioModelScatterPlots.h"
 #include "rttbInvalidParameterException.h"
 

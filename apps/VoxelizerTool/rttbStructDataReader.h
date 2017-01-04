@@ -22,7 +22,6 @@
 #define __StructDataReader_h
 
 #include "rttbStructureSetGeneratorInterface.h"
-#include "rttbMaskAccessorInterface.h"
 #include "rttbGenericDoseIterator.h"
 
 namespace rttb

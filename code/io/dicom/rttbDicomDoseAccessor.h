@@ -24,7 +24,6 @@
 #include "osconfig.h"    /* make sure OS specific configuration is included first */
 #include "drtdose.h"
 
-#include <string>
 #include <vector>
 #include <exception>
 
@@ -40,7 +39,6 @@ namespace rttb
 	{
 		namespace dicom
 		{
-
 			/*! @class DicomDoseAccessor
 			@brief This class gives access to dose information from DRTDoseIOD and DcmItem
 			*/

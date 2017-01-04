@@ -27,7 +27,6 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/shared_mutex.hpp>
 
-#include "rttbBaseType.h"
 #include "rttbDoseIteratorInterface.h"
 #include "rttbDoseStatistics.h"
 

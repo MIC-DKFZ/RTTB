@@ -25,14 +25,13 @@
 #include <boost/shared_ptr.hpp>
 
 #include "rttbBaseType.h"
-#include "rttbGeometricInfo.h"
 #include "rttbDoseAccessorInterface.h"
 
 namespace rttb
 {
 	namespace core
 	{
-
+        class GeometricInfo;
 		/*! @class DoseIteratorInterface
 		@brief This class represents the dose iterator interface.
 		*/
@@ -53,13 +52,13 @@ namespace rttb
 			DoseAccessorPointer _spDoseAccessor;
 
 		public:
-			/*!  @brief Constructor with a DoseIterator this should be the default for all implememntations.
+			/*!  @brief Constructor with a DoseIterator this should be the default for all implementations.
 			*/
 			DoseIteratorInterface(DoseAccessorPointer aDoseAccessor);
 
 			virtual ~DoseIteratorInterface() {};
 
-			/*! @brief Set the itterator to the start of the dose.
+			/*! @brief Set the iterator to the start of the dose.
 			*/
 			virtual bool reset() = 0;
 

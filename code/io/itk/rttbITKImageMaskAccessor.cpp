@@ -23,6 +23,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "rttbITKImageMaskAccessor.h"
+#include "rttbGeometricInfo.h"
 #include "rttbInvalidDoseException.h"
 
 namespace rttb

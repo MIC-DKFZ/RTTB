@@ -21,9 +21,7 @@
 #ifndef __DICOM_FILE_READER_HELPER_H
 #define __DICOM_FILE_READER_HELPER_H
 
-#include <string>
 #include <vector>
-#include <exception>
 
 #include "osconfig.h"    /* make sure OS specific configuration is included first */
 #include "drtdose.h"
@@ -37,7 +35,6 @@ namespace rttb
 	{
 		namespace dicom
 		{
-
 			struct Modality
 			{
 				enum Type

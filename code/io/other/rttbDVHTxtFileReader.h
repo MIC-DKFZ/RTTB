@@ -22,7 +22,6 @@
 #define __DVH_TXT_FILE_READER_H
 
 #include "rttbBaseType.h"
-#include "rttbDVH.h"
 #include "rttbDVHGeneratorInterface.h"
 
 namespace rttb
@@ -48,12 +47,12 @@ namespace rttb
 				*/
 				void createDVH();
 
-				void calculateDataCumulative(std::deque<DoseTypeGy>& dataCumulative, std::deque<DoseTypeGy>& dataDifferential, unsigned int numberOfBins);
+				void calculateDataCumulative(const std::deque<DoseTypeGy>& dataCumulative, std::deque<DoseTypeGy>& dataDifferential, unsigned int numberOfBins) const;
 
 				/*! @brief Load the DVH data either in a vector for differential data or in one for cumulative data
 					@exception InvalidParameterException Thrown if splitting of a line in the file is invalid
 				*/
-				void loadData(const std::string& line, std::deque<DoseTypeGy>& data);
+				void loadData(const std::string& line, std::deque<DoseTypeGy>& data) const;
 
 			public:
 				/*! @brief Constructor.

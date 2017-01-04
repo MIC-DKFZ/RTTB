@@ -24,7 +24,6 @@
 
 #include "rttbITKImageMaskAccessorConverter.h"
 #include "rttbGeometricInfo.h"
-#include "rttbITKImageMaskAccessor.h"
 #include "itkMaskAccessorImageSource.h"
 
 namespace rttb

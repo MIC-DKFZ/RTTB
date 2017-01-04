@@ -25,9 +25,7 @@
 
 #include "mapRegistration.h"
 
-#include "rttbBaseType.h"
 #include "rttbDoseAccessorInterface.h"
-#include "DoseAccCmdLineParser.h"
 
 namespace rttb
 {
@@ -35,7 +33,7 @@ namespace rttb
 	{
 		namespace doseAcc
 		{
-
+            class DoseAccCmdLineParser;
 			class ApplicationData
 			{
 			public:

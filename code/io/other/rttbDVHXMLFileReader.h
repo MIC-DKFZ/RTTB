@@ -22,7 +22,6 @@
 #define __DVH_XML_FILE_READER_H
 
 #include "rttbBaseType.h"
-#include "rttbDVH.h"
 #include "rttbDVHGeneratorInterface.h"
 
 namespace rttb

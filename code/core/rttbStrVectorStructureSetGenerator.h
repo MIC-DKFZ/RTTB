@@ -25,10 +25,10 @@
 
 #include <vector>
 
-#include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include "rttbStructureSetGeneratorInterface.h"
+#include "rttbStructureSet.h"
 
 #include "RTTBCoreExports.h"
 

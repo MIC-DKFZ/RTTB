@@ -21,8 +21,7 @@
 #ifndef __MaskWriter_h
 #define __MaskWriter_h
 
-#include "rttbITKImageMaskAccessorConverter.h"
-#include "rttbITKImageFileMaskAccessorGenerator.h"
+#include "rttbITKImageMaskAccessor.h"
 
 namespace rttb
 {
@@ -35,7 +34,6 @@ namespace rttb
 			*/
 			class MaskWriter
 			{
-
 			public:
 				typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
 				typedef io::itk::ITKImageMaskAccessor::ITKMaskImageType::Pointer ITKImageTypePointer;

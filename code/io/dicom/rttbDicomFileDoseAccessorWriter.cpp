@@ -28,7 +28,6 @@
 #include "rttbDicomFileDoseAccessorWriter.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbGeometricInfo.h"
-#include "rttbGeometricInfo.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbDoseStatisticsCalculator.h"
 

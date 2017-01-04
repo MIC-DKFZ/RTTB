@@ -31,6 +31,8 @@ namespace rttb
 		DoseIndex::DoseIndex(DoseTypeGy aDoseReference)
 			: _doseReference(aDoseReference), _initSuccess(false) {}
 
+        DoseIndex::~DoseIndex(){}
+
 		bool DoseIndex::init()
 		{
 			if (!(this->checkInputs()))

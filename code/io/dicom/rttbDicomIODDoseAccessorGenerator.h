@@ -21,15 +21,10 @@
 #ifndef __DICOM_IOD_DOSE_ACCESSOR_GENERATOR_H
 #define __DICOM_IOD_DOSE_ACCESSOR_GENERATOR_H
 
-#include <string>
-#include <vector>
-#include <exception>
-
 #include "osconfig.h"    /* make sure OS specific configuration is included first */
 #include "drtdose.h"
 
 #include "rttbDoseAccessorGeneratorBase.h"
-#include "rttbBaseType.h"
 
 
 namespace rttb
@@ -60,7 +55,7 @@ namespace rttb
 			public:
 				~DicomIODDoseAccessorGenerator();
 
-				/*! @brief Constructor. Initialisation with a boost shared pointer of DRTDoseIOD
+				/*! @brief Constructor. Initialization with a boost shared pointer of DRTDoseIOD
 
 				*/
 				DicomIODDoseAccessorGenerator(DRTDoseIODPtr aDRTDoseIODP);

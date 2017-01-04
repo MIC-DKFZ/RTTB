@@ -24,7 +24,6 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "rttbDoseAccessorInterface.h"
 #include "rttbBaseType.h"
 
 #include "RTTBInterpolationExports.h"

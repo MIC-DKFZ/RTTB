@@ -21,9 +21,6 @@
 #ifndef __COVERAGE_INDEX_H
 #define __COVERAGE_INDEX_H
 
-#include <string>
-#include <vector>
-
 #include "rttbDvhBasedDoseIndex.h"
 #include "rttbBaseType.h"
 #include "rttbDVHSet.h"
@@ -55,16 +52,12 @@ namespace rttb
 			*/
 			CoverageIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference);
 
-
 			/*! @brief Dose index calculation for tvIndex-th treated volume
 			 *  @param tvIndex: index in the vector of DVH TV
 			 *  @return Return index value
 			    @exception InvalidParameterException Thrown if tvIndex invalid
 			*/
 			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex);
-
-
-
 		};
 
 	}

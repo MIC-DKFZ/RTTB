@@ -21,17 +21,12 @@
 #ifndef __DICOM_HELAX_DOSE_ACCESSOR_H
 #define __DICOM_HELAX_DOSE_ACCESSOR_H
 
-#include <string>
 #include <vector>
-#include <exception>
-
-#include <boost/numeric/ublas/matrix.hpp>
 
 #include "osconfig.h"    /* make sure OS specific configuration is included first */
 #include "drtdose.h"
 
 #include "rttbAccessorWithGeoInfoBase.h"
-#include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
 
 

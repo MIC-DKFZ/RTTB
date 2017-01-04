@@ -28,9 +28,7 @@
 #include "rttbVirtuosPlanFileDoseAccessorGenerator.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomHelaxFileDoseAccessorGenerator.h"
-
 #include "rttbITKImageAccessorConverter.h"
-#include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbSimpleMappableDoseAccessor.h"
 #include "rttbMatchPointTransformation.h"
 #include "rttbLinearInterpolation.h"

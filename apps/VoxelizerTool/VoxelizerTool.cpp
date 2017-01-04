@@ -33,10 +33,10 @@
 #include "VoxelizerToolApplicationData.h"
 #include "RTToolboxConfigure.h"
 
-rttb::apps::voxelizerTool::ApplicationData appData;
-
 int main(int argc, const char** argv)
 {
+    rttb::apps::voxelizerTool::ApplicationData appData;
+
 	typedef rttb::core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
 
     const std::string appCategory = "RT-Toolbox App";

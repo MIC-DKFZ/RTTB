@@ -28,10 +28,8 @@
 #endif
 
 #include "itkImage.h"
-#include "itkImageSource.h"
 #include "itkImageFileWriter.h"
 #include "rttbBaseType.h"
-#include "rttbITKImageMaskAccessor.h"
 
 #include "RTTBITKIOExports.h"
 

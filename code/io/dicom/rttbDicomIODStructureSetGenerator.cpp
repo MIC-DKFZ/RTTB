@@ -25,15 +25,13 @@
 #include <stdlib.h>
 #include <map>
 
-#include <boost/lexical_cast.hpp>
+#include <boost/make_shared.hpp>
 #include <boost/regex.hpp>
 
-#include "rttbNullPointerException.h"
-#include "rttbInvalidParameterException.h"
 #include "rttbStructure.h"
-
 #include "rttbDicomIODStructureSetGenerator.h"
 #include "rttbDcmrtException.h"
+#include "rttbInvalidParameterException.h"
 
 
 namespace rttb

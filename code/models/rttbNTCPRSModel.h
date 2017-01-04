@@ -23,9 +23,7 @@
 #define __NTCP_RS_MODEL_H
 
 #include <string>
-#include <vector>
 
-#include "rttbBaseType.h"
 #include "rttbNTCPModel.h"
 #include "rttbBaseTypeModels.h"
 

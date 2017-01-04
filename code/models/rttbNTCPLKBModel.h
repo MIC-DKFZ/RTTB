@@ -22,9 +22,7 @@
 #define __NTCP_LKB_MODEL_H
 
 #include <string>
-#include <vector>
 
-#include "rttbBaseType.h"
 #include "rttbNTCPModel.h"
 #include "rttbBaseTypeModels.h"
 

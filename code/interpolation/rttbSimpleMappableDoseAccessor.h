@@ -22,9 +22,7 @@
 #define __SIMPLE_MAPPABLE_DOSE_ACCESSOR_H
 
 #include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
 
-#include "rttbBaseType.h"
 #include "rttbInterpolationBase.h"
 #include "rttbLinearInterpolation.h"
 #include "rttbTransformationInterface.h"

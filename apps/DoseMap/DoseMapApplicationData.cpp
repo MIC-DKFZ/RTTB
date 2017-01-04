@@ -21,6 +21,7 @@
 
 #include "DoseMapApplicationData.h"
 
+#include "DoseMapCmdLineParser.h"
 
 namespace rttb
 {

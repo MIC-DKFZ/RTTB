@@ -22,8 +22,10 @@
 #ifndef __BIO_MODEL_CALC_HELPER_H
 #define __BIO_MODEL_CALC_HELPER_H
 
-#include "BioModelCalcApplicationData.h"
+#include <deque>
+
 #include "rttbAccessorInterface.h"
+#include "rttbDoseAccessorInterface.h"
 
 namespace rttb
 {
@@ -31,11 +33,13 @@ namespace rttb
 	{
 		namespace bioModelCalc
 		{
+            class ApplicationData;
+            typedef std::vector<std::string> LoadingStyleArgType;
 			/*! @brief loads a dose from a file based on the loadingStyle.
 				@details Throws an rttb::Exception if loading fails
 			*/
 			core::DoseAccessorInterface::DoseAccessorPointer loadDose(const std::string& fileName,
-			        const rttb::apps::bioModelCalc::ApplicationData::LoadingStyleArgType& args);
+                const LoadingStyleArgType& args);
 			/*! @brief loads a dicom dose from a file.
 				@details Throws an rttb::Exception if loading fails
 				@sa DicomFileDoseAccessorGenerator

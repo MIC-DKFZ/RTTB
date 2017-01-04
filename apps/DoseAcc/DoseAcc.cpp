@@ -28,12 +28,11 @@
 
 #include "RTToolboxConfigure.h"
 
-rttb::apps::doseAcc::ApplicationData appData;
-
 int main(int argc, const char** argv)
 {
 	int result = 0;
 
+    rttb::apps::doseAcc::ApplicationData appData;
     boost::shared_ptr<rttb::apps::doseAcc::DoseAccCmdLineParser> argParser;
 
     try

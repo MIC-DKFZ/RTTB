@@ -21,14 +21,10 @@
 #ifndef __DOSE_STATISTICS_XML_READER_H
 #define __DOSE_STATISTICS_XML_READER_H
 
-
 #include "rttbDoseStatistics.h"
-#include "rttbBaseType.h"
 
 /*boost includes*/
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <boost/make_shared.hpp>
+
 #include <boost/shared_ptr.hpp>
 
 namespace rttb
@@ -37,7 +33,6 @@ namespace rttb
 	{
 		namespace other
 		{
-
 			class DoseStatisticsXMLReader{
 			public:
 				typedef boost::shared_ptr<rttb::algorithms::DoseStatistics> DoseStatisticsPtr;

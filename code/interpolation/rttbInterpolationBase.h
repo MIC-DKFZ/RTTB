@@ -22,13 +22,10 @@
 #ifndef __INTERPOLATION_BASE_H
 #define __INTERPOLATION_BASE_H
 
-#include <assert.h>
-
 #include <boost/shared_ptr.hpp>
 #include <boost/array.hpp>
 
 #include "rttbAccessorInterface.h"
-#include "rttbBaseType.h"
 
 #include "RTTBInterpolationExports.h"
 

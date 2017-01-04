@@ -34,6 +34,8 @@
 #include "rttbITKImageAccessorGenerator.h"
 #include "rttbITKImageFileAccessorGenerator.h"
 
+#include "itkImageFileReader.h"
+
 
 namespace rttb
 {

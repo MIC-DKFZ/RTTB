@@ -30,12 +30,11 @@
 
 #include "rttbException.h"
 
-rttb::apps::bioModelCalc::ApplicationData appData;
-
 int main(int argc, const char** argv)
 {
 	int result = 0;
 
+    rttb::apps::bioModelCalc::ApplicationData appData;
 	boost::shared_ptr<rttb::apps::bioModelCalc::BioModelCmdLineParser> argParser;
 
 	try

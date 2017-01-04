@@ -25,17 +25,19 @@
 #include "boost/make_shared.hpp"
 #include "boost/shared_ptr.hpp"
 #include "boost/property_tree/ptree.hpp"
-#include <boost/property_tree/xml_parser.hpp>
+#include "boost/property_tree/xml_parser.hpp"
 #include "boost/filesystem.hpp"
 
 #include "rttbExceptionMacros.h"
 
+#include "DoseToolApplicationData.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomHelaxFileDoseAccessorGenerator.h"
 #include "rttbITKImageFileAccessorGenerator.h"
-#include "rttbStructureSetGeneratorInterface.h"
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbITKImageFileMaskAccessorGenerator.h"
+#include "rttbDoseStatistics.h"
+#include "rttbDVH.h"
 #include "rttbDVHCalculator.h"
 #include "rttbDVHXMLFileWriter.h"
 #include "rttbDoseStatisticsCalculator.h"
@@ -46,7 +48,7 @@
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseTool::loadDose(const std::string& fileName,
-                               const rttb::apps::doseTool::ApplicationData::LoadingStyleArgType& args)
+                               const LoadingStyleArgType& args)
 {
 	rttb::core::DoseAccessorInterface::DoseAccessorPointer result;
 
@@ -139,73 +141,6 @@ rttb::apps::doseTool::loadDicomStruct(
 }
 
 
-void
-rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData)
-{
-	std::cout << std::endl << "generating masks... ";
-	std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskAccessorPtrVector = generateMasks(
-	            appData);
-	std::cout << "done." << std::endl;
-
-	for (size_t i = 0; i < maskAccessorPtrVector.size(); i++)
-	{
-		core::DoseIteratorInterface::DoseIteratorPointer spDoseIterator(generateMaskedDoseIterator(
-		            maskAccessorPtrVector.at(i),
-		            appData._dose));
-
-		if (appData._computeDoseStatistics)
-		{
-			std::cout << std::endl << "computing dose statistics... ";
-			algorithms::DoseStatistics::DoseStatisticsPointer statistics = calculateDoseStatistics(
-			            spDoseIterator,
-			            appData._computeComplexDoseStatistics, appData._prescribedDose);
-			std::cout << "done." << std::endl;
-
-			std::cout << std::endl << "writing dose statistics to file... ";
-			std::string outputFilename;
-
-			if (appData._multipleStructsMode)
-			{
-				outputFilename = assembleFilenameWithStruct(appData._doseStatisticOutputFileName,
-				                 appData._structNames.at(i));
-			}
-			else
-			{
-				outputFilename = appData._doseStatisticOutputFileName;
-			}
-
-			writeDoseStatisticsFile(statistics, outputFilename, appData._structNames.at(i), appData);
-			std::cout << "done." << std::endl;
-		}
-
-		if (appData._computeDVH)
-		{
-			std::cout << std::endl << "computing DVH... ";
-			core::DVH::DVHPointer dvh = calculateDVH(spDoseIterator, appData._struct->getUID(),
-			                            appData._dose->getUID());
-			std::cout << "done." << std::endl;
-
-			std::cout << std::endl << "writing DVH to file... ";
-			std::string outputFilename;
-
-			if (appData._multipleStructsMode)
-			{
-				outputFilename = assembleFilenameWithStruct(appData._dvhOutputFilename, appData._structNames.at(i));
-			}
-			else
-			{
-				outputFilename = appData._dvhOutputFilename;
-			}
-
-
-			writeDVHFile(dvh, outputFilename);
-			std::cout << "done." << std::endl;
-		}
-	}
-
-}
-
-
 std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer>
 rttb::apps::doseTool::generateMasks(
     rttb::apps::doseTool::ApplicationData& appData)
@@ -267,9 +202,9 @@ rttb::apps::doseTool::generateMaskedDoseIterator(
 }
 
 rttb::algorithms::DoseStatistics::DoseStatisticsPointer
-rttb::apps::doseTool::calculateDoseStatistics(
-    core::DoseIteratorInterface::DoseIteratorPointer doseIterator, bool calculateComplexDoseStatistics,
-    DoseTypeGy prescribedDose)
+calculateDoseStatistics(
+    rttb::core::DoseIteratorInterface::DoseIteratorPointer doseIterator, bool calculateComplexDoseStatistics,
+    rttb::DoseTypeGy prescribedDose)
 {
 	rttb::algorithms::DoseStatisticsCalculator doseStatsCalculator(doseIterator);
 
@@ -284,17 +219,29 @@ rttb::apps::doseTool::calculateDoseStatistics(
 }
 
 
-rttb::core::DVH::DVHPointer rttb::apps::doseTool::calculateDVH(
-    core::DoseIteratorInterface::DoseIteratorPointer
-    doseIterator, IDType structUID, IDType doseUID)
+rttb::core::DVH::DVHPointer calculateDVH(
+    rttb::core::DoseIteratorInterface::DoseIteratorPointer
+    doseIterator, rttb::IDType structUID, rttb::IDType doseUID)
 {
 	rttb::core::DVHCalculator calc(doseIterator, structUID, doseUID);
 	rttb::core::DVH::DVHPointer dvh = calc.generateDVH();
 	return dvh;
 }
 
+std::string rttb::apps::doseTool::assembleFilenameWithStruct(const std::string& originalFilename,
+    const std::string& structName)
+{
+    boost::filesystem::path originalFile(originalFilename);
+    std::string newFilename = originalFile.stem().string() + "_" + structName +
+        originalFile.extension().string();
+    boost::filesystem::path newFile(originalFile.parent_path() / newFilename);
+    return newFile.string();
+}
 
-void rttb::apps::doseTool::writeDoseStatisticsFile(
+/*! @brief Writes the dose statistics as XML to a file
+@details adds a <config>....</config> part to the RTTB generated xml where the used files and struct names are stored.
+*/
+void writeDoseStatisticsFile(
     rttb::algorithms::DoseStatistics::DoseStatisticsPointer statistics,
     const std::string& filename, const std::string& structName,
     rttb::apps::doseTool::ApplicationData& appData)
@@ -319,19 +266,75 @@ void rttb::apps::doseTool::writeDoseStatisticsFile(
 
 }
 
-std::string rttb::apps::doseTool::assembleFilenameWithStruct(const std::string& originalFilename,
-        const std::string& structName)
+void writeDVHFile(rttb::core::DVH::DVHPointer dvh, const std::string& filename)
 {
-	boost::filesystem::path originalFile(originalFilename);
-	std::string newFilename = originalFile.stem().string() + "_" + structName +
-	                          originalFile.extension().string();
-	boost::filesystem::path newFile(originalFile.parent_path() / newFilename);
-	return newFile.string();
-}
-
-void rttb::apps::doseTool::writeDVHFile(core::DVH::DVHPointer dvh, const std::string& filename)
-{
-	DVHType typeCum = { DVHType::Cumulative };
+	rttb::DVHType typeCum = { rttb::DVHType::Cumulative };
 	rttb::io::other::DVHXMLFileWriter dvhWriter(filename, typeCum);
 	dvhWriter.writeDVH(dvh);
+}
+
+void
+rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData)
+{
+    std::cout << std::endl << "generating masks... ";
+    std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskAccessorPtrVector = generateMasks(
+        appData);
+    std::cout << "done." << std::endl;
+
+    for (size_t i = 0; i < maskAccessorPtrVector.size(); i++)
+    {
+        core::DoseIteratorInterface::DoseIteratorPointer spDoseIterator(generateMaskedDoseIterator(
+            maskAccessorPtrVector.at(i),
+            appData._dose));
+
+        if (appData._computeDoseStatistics)
+        {
+            std::cout << std::endl << "computing dose statistics... ";
+            algorithms::DoseStatistics::DoseStatisticsPointer statistics = calculateDoseStatistics(
+                spDoseIterator,
+                appData._computeComplexDoseStatistics, appData._prescribedDose);
+            std::cout << "done." << std::endl;
+
+            std::cout << std::endl << "writing dose statistics to file... ";
+            std::string outputFilename;
+
+            if (appData._multipleStructsMode)
+            {
+                outputFilename = assembleFilenameWithStruct(appData._doseStatisticOutputFileName,
+                    appData._structNames.at(i));
+            }
+            else
+            {
+                outputFilename = appData._doseStatisticOutputFileName;
+            }
+
+            writeDoseStatisticsFile(statistics, outputFilename, appData._structNames.at(i), appData);
+            std::cout << "done." << std::endl;
+        }
+
+        if (appData._computeDVH)
+        {
+            std::cout << std::endl << "computing DVH... ";
+            core::DVH::DVHPointer dvh = calculateDVH(spDoseIterator, appData._struct->getUID(),
+                appData._dose->getUID());
+            std::cout << "done." << std::endl;
+
+            std::cout << std::endl << "writing DVH to file... ";
+            std::string outputFilename;
+
+            if (appData._multipleStructsMode)
+            {
+                outputFilename = assembleFilenameWithStruct(appData._dvhOutputFilename, appData._structNames.at(i));
+            }
+            else
+            {
+                outputFilename = appData._dvhOutputFilename;
+            }
+
+
+            writeDVHFile(dvh, outputFilename);
+            std::cout << "done." << std::endl;
+        }
+    }
+
 }

@@ -21,12 +21,7 @@
 #ifndef __ITK_IMAGE_ACCESSOR_H
 #define __ITK_IMAGE_ACCESSOR_H
 
-#include <exception>
-
-#include <boost/shared_ptr.hpp>
-
 #include "rttbAccessorWithGeoInfoBase.h"
-#include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
 
 #include "itkImage.h"

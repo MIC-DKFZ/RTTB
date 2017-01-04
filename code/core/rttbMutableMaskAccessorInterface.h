@@ -25,13 +25,12 @@
 
 #include "rttbMaskAccessorInterface.h"
 #include "rttbBaseType.h"
-#include "rttbMaskVoxel.h"
 
 namespace rttb
 {
 	namespace core
 	{
-
+        class MaskVoxel;
 		/*! @class MutableMaskAccessorInterface
 		@brief Extends the MaskAccessorInterface to provide writing access to the data.
 		This interface is created for external manipulation of generated masks. For example to store

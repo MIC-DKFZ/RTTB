@@ -22,14 +22,12 @@
 #define __BINARY_FUNCTOR_ACCESSOR_H
 
 #include "rttbAccessorInterface.h"
-#include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
 
 namespace rttb
 {
 	namespace algorithms
 	{
-
 		/*! @class BinaryFunctorAccessor
 		@brief Class that allows to access the results of a binary operation.
 		@details this Accessor takes two accessors as operants (the operants must have the same geometry)

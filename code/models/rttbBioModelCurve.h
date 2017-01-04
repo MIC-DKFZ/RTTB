@@ -22,14 +22,12 @@
 #ifndef __MODEL_CURVE_H
 #define __MODEL_CURVE_H
 
-#include "rttbBioModel.h"
-#include "rttbBaseType.h"
-#include "rttbNTCPLKBModel.h"
-
 namespace rttb
 {
 	namespace models
 	{
+        class BioModel;
+        class NTCPLKBModel;
 		//map of dose value and model value
 		typedef std::map<double, double> CurveDataType;
 		//pair of dose value and model value

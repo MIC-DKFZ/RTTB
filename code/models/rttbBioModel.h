@@ -22,7 +22,6 @@
 #ifndef __BIO_MODEL_H
 #define __BIO_MODEL_H
 
-#include "rttbBaseType.h"
 #include "rttbDVH.h"
 #include "rttbBaseTypeModels.h"
 
@@ -66,6 +65,7 @@ namespace rttb
 		public:
 			BioModel(): _value(0) {};
 			BioModel(DVHPointer aDvh): _dvh(aDvh), _value(0) {};
+            virtual ~BioModel(){};
 
 			/*! @brief Start the calculation. If any parameter changed, init() should be called again and return =true
 				before getValue() is called!

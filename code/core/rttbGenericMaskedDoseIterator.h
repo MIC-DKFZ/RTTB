@@ -25,7 +25,7 @@
 
 #include "rttbBaseType.h"
 #include "rttbMaskedDoseIteratorInterface.h"
-#include "rttbMaskVoxel.h"
+#include "rttbMaskAccessorInterface.h"
 
 #include "RTTBCoreExports.h"
 

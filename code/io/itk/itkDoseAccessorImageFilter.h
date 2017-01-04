@@ -23,7 +23,6 @@
 #define __itkDoseAccessorImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImageIterator.h"
 
 #include "rttbDoseAccessorInterface.h"
 #include "rttbITKImageAccessor.h"

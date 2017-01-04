@@ -27,7 +27,6 @@
 
 #include "rttbDoseAccessorInterface.h"
 #include "rttbStructureSetGeneratorInterface.h"
-#include "DoseToolCmdLineParser.h"
 
 namespace rttb
 {
@@ -35,6 +34,7 @@ namespace rttb
 	{
 		namespace doseTool
 		{
+            class DoseToolCmdLineParser;
 			/*! @class ApplicationData
 				@brief Class for storing all relevant variables needed in DoseTool
 			*/

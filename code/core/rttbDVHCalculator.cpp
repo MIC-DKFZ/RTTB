@@ -19,13 +19,11 @@
 // @author  $Author$ (last changed by)
 */
 
-#include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
 
 #include "rttbDVHCalculator.h"
 #include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbMaskedDoseIteratorInterface.h"
 
 
 namespace rttb

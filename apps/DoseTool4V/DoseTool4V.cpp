@@ -31,12 +31,11 @@
 
 #include "rttbException.h"
 
-rttb::apps::doseTool::ApplicationData appData;
-
 int main(int argc, const char** argv)
 {
 	int result = 0;
 
+    rttb::apps::doseTool::ApplicationData appData;
 	boost::shared_ptr<rttb::apps::doseTool::DoseToolCmdLineParser> argParser;
 
 	try

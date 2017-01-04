@@ -19,6 +19,8 @@
 // @author  $Author$ (last changed by)
 */
 
+#include "drtdose.h"
+
 #include <boost/lexical_cast.hpp>
 
 #include <stdlib.h>

@@ -26,6 +26,8 @@
 #include "itkProgressReporter.h"
 #include "itkExceptionObject.h"
 
+#include "rttbGeometricInfo.h"
+
 namespace itk
 {
 	/**

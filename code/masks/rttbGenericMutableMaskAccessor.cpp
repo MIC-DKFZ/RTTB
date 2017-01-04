@@ -20,6 +20,7 @@
 */
 
 #include "rttbGenericMutableMaskAccessor.h"
+#include "rttbMaskVoxel.h"
 #include "rttbNullPointerException.h"
 
 #include <boost/make_shared.hpp>

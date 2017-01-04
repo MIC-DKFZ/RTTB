@@ -62,7 +62,7 @@ namespace rttb
 
 			/*! @brief Constructor with the referece dose*/
 			DoseIndex(DoseTypeGy aDoseReference);
-
+            virtual ~DoseIndex();
 			/*! @brief Set the reference dose
 			*/
 			void setDoseReference(DoseTypeGy aDoseReference);

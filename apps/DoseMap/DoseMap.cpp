@@ -32,8 +32,6 @@
 
 #include "mapDummyRegistrationAlgorithm.h"
 
-rttb::apps::doseMap::ApplicationData appData;
-
 /**
  Main function of dose mapper.
  @retval 0 normal program execution
@@ -47,6 +45,7 @@ int main(int argc,  const char** argv)
 {
 	int result = 0;
 
+    rttb::apps::doseMap::ApplicationData appData;
 	boost::shared_ptr<rttb::apps::doseMap::DoseMapCmdLineParser> argParser;
 	
 	try
