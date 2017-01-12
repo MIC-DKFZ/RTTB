@@ -1,8 +1,9 @@
 OPTION(BUILD_InterpolationMatchPointTransformation
 	   "Determine if the MatchPoint transformation for dose interpolation classes will be generated." OFF)
-IF(BUILD_InterpolationMatchPointTransformation)
+IF(BUILD_All_Modules OR BUILD_InterpolationMatchPointTransformation)
 	ADD_SUBDIRECTORY(MatchPointTransformation)
-ENDIF(BUILD_InterpolationMatchPointTransformation)
+	SET(BUILD_InterpolationMatchPointTransformation ON CACHE BOOL ON FORCE)
+ENDIF()
 ADD_SUBDIRECTORY(ITKTransformation)
 
 RTTB_CREATE_MODULE(RTTBInterpolation DEPENDS RTTBCore PACKAGE_DEPENDS Boost)

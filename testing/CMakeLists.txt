@@ -38,14 +38,6 @@ ExternalProject_Add(
 MAKE_DIRECTORY(${RTTBTesting_BINARY_DIR}/Temporary)
 
 OPTION(BUILD_Tester_All "All testing modules will be built" OFF)
-IF(BUILD_Tester_All)
-	get_cmake_property(_variableNames VARIABLES)
-	string (REGEX MATCHALL "(^|;)BUILD_Tester_[A-Za-z0-9_]*" _matchedVars "${_variableNames}")
-	foreach (_var ${_matchedVars})
-		get_property(currentHelpString CACHE "${_var}" PROPERTY HELPSTRING)
-		set(${_var} ON CACHE BOOL ${currentHelpString} FORCE)
-	endforeach()
-ENDIF()
 
 MESSAGE(STATUS "Process All Tests...")
 
@@ -62,41 +54,41 @@ OPTION(BUILD_Tester_Interpolation "build project on/off" OFF)
 OPTION(BUILD_Tester_Apps "build project on/off" OFF)
 OPTION(BUILD_Tester_Validation "build project on/off" OFF)
 
-IF(BUILD_Tester_Core)
+IF(BUILD_Tester_All OR BUILD_Tester_Core)
 	ADD_SUBDIRECTORY(core)
 ENDIF()
 
-IF(BUILD_Tester_Examples)
+IF(BUILD_Tester_All OR BUILD_Tester_Examples)
 	ADD_SUBDIRECTORY(examples)
 	IF(RTTB_VIRTUOS_SUPPORT AND BUILD_IO_Virtuos)
 		ADD_SUBDIRECTORY(examples_virtuos)
 	ENDIF()
 ENDIF()
 
-IF(BUILD_Tester_Algorithms)
+IF(BUILD_Tester_All OR BUILD_Tester_Algorithms)
 	ADD_SUBDIRECTORY(algorithms)
 ENDIF()
 
-IF(BUILD_Tester_Models)
+IF(BUILD_Tester_All OR BUILD_Tester_Models)
 	ADD_SUBDIRECTORY(models)
 ENDIF()
 
-IF(BUILD_Tester_IO)
+IF(BUILD_Tester_All OR BUILD_Tester_IO)
 	ADD_SUBDIRECTORY(io)
 ENDIF()
 
-IF(BUILD_Tester_Masks)
+IF(BUILD_Tester_All OR BUILD_Tester_Masks)
 	ADD_SUBDIRECTORY(masks)
 ENDIF()
 
-IF(BUILD_Tester_Interpolation)
+IF(BUILD_Tester_All OR BUILD_Tester_Interpolation)
 	ADD_SUBDIRECTORY(interpolation)
 ENDIF()
 
-IF(BUILD_Tester_Validation)
+IF(BUILD_Tester_All OR BUILD_Tester_Validation)
 	ADD_SUBDIRECTORY(validation)
 ENDIF()
 
-IF(BUILD_Tester_Apps)
+IF(BUILD_Tester_All OR BUILD_Tester_Apps)
 	ADD_SUBDIRECTORY(apps)
 ENDIF()

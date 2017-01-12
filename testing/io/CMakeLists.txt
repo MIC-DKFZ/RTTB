@@ -23,5 +23,5 @@
   ENDIF()
    
 IF(BUILD_IO_Virtuos)
-ADD_SUBDIRECTORY(virtuos)
+	ADD_SUBDIRECTORY(virtuos)
 ENDIF(BUILD_IO_Virtuos)
