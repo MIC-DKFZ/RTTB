@@ -65,6 +65,7 @@ namespace rttb
 			command += " -s \"" + structFile + "\"";
 			command += " -r \"" + referenceFile + "\"";
 			command += " -e " + structName;
+            command += " -o testOutputVoxelValue.hdr";
 
 			int returnValue = system(command.c_str());
 			CHECK_EQUAL(returnValue, 0);
@@ -89,8 +90,9 @@ namespace rttb
 			std::vector<ImageType::PixelType> expectedVoxelValues = boost::assign::list_of(1.0)(1.0)(0.0)(0.0)(
 			            0.265865)(0.819613);
 
-			std::string filenameHDRWithVoxelization = tempDirectory + "/out.hdr";
-			std::string filenameIMGWithVoxelization = tempDirectory + "/out.img";
+			std::string filenameHDRWithVoxelization = tempDirectory + "/testOutputVoxelValue.hdr";
+			std::string filenameIMGWithVoxelization = tempDirectory + "/testOutputVoxelValue.img";
+            std::cout << "filename: " << filenameHDRWithVoxelization << std::endl;
 			CHECK(boost::filesystem::exists(filenameHDRWithVoxelization));
 			CHECK(boost::filesystem::exists(filenameIMGWithVoxelization));
 
@@ -116,7 +118,7 @@ namespace rttb
 						CHECK_CLOSE(voxelValue, expectedVoxelValue, 1e-4);
 					}
 				}
-
+                
 				if (boost::filesystem::exists(filenameHDRWithVoxelization))
 				{
 					boost::filesystem::remove(filenameHDRWithVoxelization);

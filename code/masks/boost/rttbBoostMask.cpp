@@ -175,7 +175,7 @@ namespace rttb
 				for (int i = 0; i < polygonMapVector.size(); ++i)
 				{
 					BoostMaskVoxelizationThread t(polygonMapVector.at(i), _globalBoundingBox,
-                        _voxelizationMap, aMutex);
+                        _voxelizationMap, aMutex, _strict);
 					threads.create_thread(t);
 				}
 

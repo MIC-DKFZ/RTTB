@@ -34,8 +34,8 @@ namespace rttb
 		namespace boost
 		{
 			BoostMaskVoxelizationThread::BoostMaskVoxelizationThread(const BoostPolygonMap& APolygonMap,
-                const VoxelIndexVector& aGlobalBoundingBox, BoostArrayMapPointer anArrayMap, ::boost::shared_ptr<::boost::shared_mutex> aMutex) : _geometryCoordinateBoostPolygonMap(APolygonMap),
-                _globalBoundingBox(aGlobalBoundingBox), _resultVoxelization(anArrayMap), _mutex(aMutex)
+                const VoxelIndexVector& aGlobalBoundingBox, BoostArrayMapPointer anArrayMap, ::boost::shared_ptr<::boost::shared_mutex> aMutex, bool strict) : _geometryCoordinateBoostPolygonMap(APolygonMap),
+                _globalBoundingBox(aGlobalBoundingBox), _resultVoxelization(anArrayMap), _mutex(aMutex), _strict(strict)
 			{
 			}
 
@@ -69,15 +69,11 @@ namespace rttb
 
 							//Calc areas of all intersection polygons
 							double volumeFraction = calcArea(polygons);
-
-							if (volumeFraction > 1 && (volumeFraction - 1) <= errorConstant)
-							{
-								volumeFraction = 1;
-							}
-							else if (volumeFraction < 0 || (volumeFraction - 1) > errorConstant)
-							{
-								throw rttb::core::InvalidParameterException("Mask calculation failed! The volume fraction should >= 0 and <= 1!");
-							}
+                            volumeFraction = correctForErrorAndStrictness(volumeFraction, _strict);
+                            if (volumeFraction < 0 || volumeFraction > 1 )
+                            {
+                                throw rttb::core::InvalidParameterException("Mask calculation failed! The volume fraction should >= 0 and <= 1!");
+                            }
 
 							maskArray[x][y] = volumeFraction;
 						}
@@ -154,6 +150,26 @@ namespace rttb
 
 				return area;
 			}
-		}
+
+            double BoostMaskVoxelizationThread::correctForErrorAndStrictness(double volumeFraction, bool strict) const
+            {
+                if (strict){
+                    if (volumeFraction > 1 && (volumeFraction - 1) <= errorConstant)
+                    {
+                        volumeFraction = 1;
+                    }
+                }
+                else {
+                    if (volumeFraction > 1){
+                        volumeFraction = 1;
+                    }
+                    else if (volumeFraction < 0){
+                        volumeFraction = 0;
+                    }
+                }
+                return volumeFraction;
+            }
+
+        }
 	}
 }

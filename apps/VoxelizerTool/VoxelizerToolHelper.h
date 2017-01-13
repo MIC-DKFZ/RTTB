@@ -31,7 +31,7 @@ namespace rttb
 			/**@brief ListofExpression contains input expression
 			@return a vector of found labels
 			*/
-			std::vector<int> filterForExpression(const std::vector<std::string>& listOfExpressions,
+            std::vector<unsigned int> filterForExpression(const std::vector<std::string>& listOfExpressions,
 			                                     const std::string& inputExpression);
 			/**@brief Search the label with the position from index
 			@return a label from the list as string

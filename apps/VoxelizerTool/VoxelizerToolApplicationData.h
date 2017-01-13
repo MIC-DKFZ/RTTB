@@ -48,7 +48,7 @@ namespace rttb
 				bool _multipleStructs;
 				bool _booleanVoxelization;
 				bool _addStructures;
-				bool _allowSelfIntersections;
+				bool _noStrictVoxelization;
 
 				/*! @brief Resets the variables.
 				*/

@@ -68,8 +68,6 @@ namespace rttb
 				               _spStructure, _strict);
 
 				_spRelevantVoxelVector = mask.getRelevantVoxelVector();
-
-				return;
 			}
 
 			BoostMaskAccessor::MaskVoxelListPointer BoostMaskAccessor::getRelevantVoxelVector()

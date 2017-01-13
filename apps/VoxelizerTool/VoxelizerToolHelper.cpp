@@ -31,13 +31,12 @@ namespace rttb
 		namespace voxelizerTool
 		{
 
-			std::vector<int> filterForExpression(const std::vector<std::string>& listOfExpressions,
+			std::vector<unsigned int> filterForExpression(const std::vector<std::string>& listOfExpressions,
 			                                     const std::string& inputExpression)
 			{
+				std::vector<unsigned int> listOfFoundElements;
 
-				std::vector<int> listOfFoundElements;
-
-				for (int j = 0; j < listOfExpressions.size(); j++)
+				for (unsigned int j = 0; j < listOfExpressions.size(); j++)
 				{
 					boost::regex e(boost::algorithm::to_lower_copy(inputExpression));
 					std::string s = boost::algorithm::to_lower_copy(listOfExpressions.at(j));

@@ -44,7 +44,7 @@ namespace rttb
 				_multipleStructs = false;
 				_booleanVoxelization = false;
 				_addStructures = false;
-				_allowSelfIntersections = false;
+                _noStrictVoxelization = false;
 			}
 
 			void populateAppData(boost::shared_ptr<VoxelizerCmdLineParser> argParser, ApplicationData& appData)
@@ -79,9 +79,9 @@ namespace rttb
 					appData._addStructures = true;
 				}
 
-				if (argParser->isSet(argParser->OPTION_ALLOW_SELF_INTERSECTIONS))
+				if (argParser->isSet(argParser->OPTION_NO_STRICT_VOXELIZATION))
 				{
-					appData._allowSelfIntersections = true;
+					appData._noStrictVoxelization = true;
 				}
 			}
 		}
