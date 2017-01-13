@@ -439,7 +439,7 @@ namespace rttb
 				double countVoxels = 0;
 				double sum = 0;
 
-				for (size_t i = _doseVector.size() - 1; i >= 0; i--)
+				for (int i = _doseVector.size() - 1; i >= 0; i--)
 				{
 					double voxelProportion = _voxelProportionVector.at(i);
 					countVoxels += voxelProportion;
