@@ -59,8 +59,8 @@ namespace rttb
 				std::string structureLabel;
 				std::string dvhType;
 				unsigned int numberOfBins;
-				DoseTypeGy prescribedDose;
-				double estimated_max_dose_prescribed_dose_ratio;
+				DoseTypeGy prescribedDose=-1;
+				double estimated_max_dose_prescribed_dose_ratio=1.0;
 				std::deque<DoseTypeGy> dataDifferential;
 				std::deque<DoseTypeGy> dataCumulative;
 

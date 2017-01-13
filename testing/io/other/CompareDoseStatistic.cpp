@@ -31,8 +31,7 @@ namespace rttb
 	{
 		const double errorConstant = 1e-3;// errorConstant is so small because the double are castet to float when they are written
 		bool checkEqualDoseStatistic(DoseStatisticsPtr aDoseStatistc1, DoseStatisticsPtr aDoseStatistic2){
-			bool result;
-			result = lit::AreClose(aDoseStatistc1->getNumberOfVoxels(), aDoseStatistic2->getNumberOfVoxels(), 0.01);
+			bool result = lit::AreClose(aDoseStatistc1->getNumberOfVoxels(), aDoseStatistic2->getNumberOfVoxels(), 0.01);
 			result = result &&  lit::AreClose(aDoseStatistc1->getVolume(), aDoseStatistc1->getVolume(), errorConstant);
 			result = result &&  lit::AreClose(aDoseStatistc1->getMinimum(), aDoseStatistic2->getMinimum(), errorConstant);
 			result = result &&  lit::AreClose(aDoseStatistc1->getMaximum(), aDoseStatistic2->getMaximum(), errorConstant);

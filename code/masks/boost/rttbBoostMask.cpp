@@ -530,7 +530,7 @@ namespace rttb
                 auto it = _voxelizationMap->cbegin();
                 auto it2 = ++_voxelizationMap->cbegin();
 				for (;
-				     it != _voxelizationMap->cend(), it2 != _voxelizationMap->cend(); ++it, ++it2)
+				     it != _voxelizationMap->cend() && it2 != _voxelizationMap->cend(); ++it, ++it2)
 				{
 					if (thickness == 0)
 					{

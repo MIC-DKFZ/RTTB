@@ -116,7 +116,7 @@ namespace rttb
 			    boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, spDoseAccessor);
 			DoseIteratorPointer spMaskedDoseIterator(spTestMaskedDoseIterator);
 
-			CHECK_NO_THROW(core::DVHCalculator myDVHCalc(spMaskedDoseIterator, structureID, doseID));
+			CHECK_NO_THROW(core::DVHCalculator myDVHCalc2(spMaskedDoseIterator, structureID, doseID));
 
 			//actual calculation is still missing
 
