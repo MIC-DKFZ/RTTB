@@ -41,8 +41,8 @@ namespace rttb
                 addInformationForXML(OPTION_REFERENCE_FILE, cmdlineparsing::XMLGenerator::paramType::INPUT, { "dcm" });
 				addOptionWithDefaultValue<std::string>(OPTION_OUTPUT_FILE_NAME, OPTION_GROUP_REQUIRED,
 					"Set output file name. Remark: if it used in conjunction with flag -m, it is only regarded as "
-          "hint for the file name pattern. VoxelizerTool will add a suffix indicating the voxelized "
-          "structure to each filename.","out.hdr","out.hdr", 'o', true);
+                    "hint for the file name pattern. VoxelizerTool will add a suffix indicating the voxelized "
+                    "structure to each filename.","out.hdr","out.hdr", 'o', true);
                 addInformationForXML(OPTION_OUTPUT_FILE_NAME, cmdlineparsing::XMLGenerator::paramType::OUTPUT, { "nrrd", "hdr" });
 				
 				addPositionalOption(OPTION_STRUCT_FILE,1);
@@ -75,10 +75,10 @@ namespace rttb
 				addOption(OPTION_ADDSTRUCTURES, OPTION_GROUP_OPTIONAL,
 					"Voxelizes multiple structs in one result file.",'a');
                 addInformationForXML(OPTION_ADDSTRUCTURES, cmdlineparsing::XMLGenerator::paramType::BOOLEAN);
-				addOption(OPTION_ALLOW_SELF_INTERSECTIONS, OPTION_GROUP_OPTIONAL,
-					"If self intersections of polygons should be tolerated.",'i');
-                addInformationForXML(OPTION_ALLOW_SELF_INTERSECTIONS, cmdlineparsing::XMLGenerator::paramType::BOOLEAN);
-							
+                addOption(OPTION_NO_STRICT_VOXELIZATION, OPTION_GROUP_OPTIONAL,
+					"Deviations of wrong voxel volumes are tolerated and corrected.",'i');
+                addInformationForXML(OPTION_NO_STRICT_VOXELIZATION, cmdlineparsing::XMLGenerator::paramType::BOOLEAN);
+
 				parse(argc, argv);
 			}
 

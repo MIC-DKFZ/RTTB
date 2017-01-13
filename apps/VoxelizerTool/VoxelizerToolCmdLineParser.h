@@ -55,7 +55,7 @@ namespace rttb
 				const std::string OPTION_MULTIPLE_STRUCTS = "multipleStructs";
 				const std::string OPTION_BOOLEAN_VOXELIZATION = "booleanVoxelization";
 				const std::string OPTION_ADDSTRUCTURES = "addStructures";
-				const std::string OPTION_ALLOW_SELF_INTERSECTIONS = "allowSelfIntersections";
+				const std::string OPTION_NO_STRICT_VOXELIZATION = "noStrictVoxelization";
 
 			};
 		}

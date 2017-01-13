@@ -56,15 +56,17 @@ namespace rttb
                 typedef ::boost::shared_ptr<BoostArray2D> BoostArray2DPointer;
                 typedef ::boost::shared_ptr<std::map<double, BoostArray2DPointer > > BoostArrayMapPointer;
 
+                /*! @brief Constructor
+                * @param aMutex a mutex for thread-safe handling of the _resultVoxelization
+                * @param strict true means that volumeFractions of <0 and >1 are NOT corrected. Otherwise, they are automatically corrected to 0 or 1, respectively.
+                */
 				BoostMaskVoxelizationThread(const BoostPolygonMap& APolygonMap,
-                    const VoxelIndexVector& aGlobalBoundingBox, BoostArrayMapPointer anArrayMap, ::boost::shared_ptr<::boost::shared_mutex> aMutex);
+                    const VoxelIndexVector& aGlobalBoundingBox, BoostArrayMapPointer anArrayMap, ::boost::shared_ptr<::boost::shared_mutex> aMutex, bool strict);
 
 				void operator()();
 
 
 			private:
-
-
 				typedef std::deque<BoostPolygon2D> BoostPolygonDeque;
 				typedef ::boost::geometry::model::ring< ::boost::geometry::model::d2::point_xy<double> >
 				BoostRing2D;
@@ -75,6 +77,7 @@ namespace rttb
 				VoxelIndexVector _globalBoundingBox;
                 BoostArrayMapPointer _resultVoxelization;
                 ::boost::shared_ptr<::boost::shared_mutex> _mutex;
+                bool _strict;
 
 				/*! @brief Get intersection polygons of the contour and a voxel polygon
 				* @param aVoxelIndex3D The 3d grid index of the voxel
@@ -92,7 +95,12 @@ namespace rttb
 				* @return Return the area of all polygons
 				*/
 				static double calcArea(const BoostPolygonDeque& aPolygonDeque);
-			};
+                /*! @brief Corrects the volumeFraction
+                * @details the volume fraction is corrected in case of strict=true. Otherwise, it's only corrected for double imprecision
+                * @return The corrected volumeFraction
+                */
+                double correctForErrorAndStrictness(double volumeFraction, bool strict) const;
+            };
 
 		}
 
