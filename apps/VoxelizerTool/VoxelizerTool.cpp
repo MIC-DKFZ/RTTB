@@ -180,6 +180,12 @@ int main(int argc, const char** argv)
 
 		    }
         }
+        catch (rttb::core::Exception& e)
+        {
+            std::cerr << "RTTB Error while doing voxelization!!!" << std::endl;
+            std::cerr << e.what() << std::endl;
+            return 2;
+        }
         catch (itk::ExceptionObject& err)
         {
             std::cerr << "ExceptionObject caught !" << std::endl;
