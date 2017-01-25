@@ -1,0 +1,25 @@
+/** 
+\page Structure Directory structure
+The RTToolbox code is divided into topic related directories:
+- \c apps: the CLI apps that encapsulate different tasks.
+- \c cmake: CMake functionality.
+  - \c PackageDepends: CMake configuration files for third party dependencies.
+- \c code: all code for RT data evaluation.
+	- \c core: The main code of the RTToolbox. It includes all interface classes, the main objects used and the DVH calculation.
+	- \c algorithm: Contains the code for dose statistics and dose arithmetics.
+	- \c indices: The code for dose comparison indices can be found here.
+	- \c interpolation: Contains code for dose mapping (transform dose information into another geometry)
+	  - \c ITKTransformation: dose mapping with ITK transformation (\e ITK is required).
+	  - \c MatchPointTransformation: dose mapping with MatchPoint transformation (\e MatchPoint is required).
+	- \c io: Contains sub folders for reading and writing of different formats.
+		- \c dicom: Support for reading and writing of dicom format files (\e DCMTK is required).
+		- \c itk: Support for reading and writing various image formats, e.g. into \c DoseAccessors (\e ITK is required).
+		- \c helax: Support for reading helax dicom format files (\e DCMTK is required).
+		- \c other: Reading and writing data from text and XML based formats, e.g. for \c DoseStatistics.
+		- \c models: XML-based writing of model information. 
+	- \c masks: Here the code for the voxelization can be found.
+	- \c models: It contains the code for the calculation of models, e.g. TCP and NTCP and linear quadratic models.
+- \c documentation: Files needed for doxygen documentation.
+- \c testing: unit tests (similar folder structure as in code).
+- \c utilities: Third party projects ArgumentParsingLib and Litmus needed to build RTToolbox (depending on the activated modules).
+**/

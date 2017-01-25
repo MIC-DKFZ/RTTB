@@ -31,7 +31,7 @@ namespace rttb
 		namespace voxelizerTool
 		{
 			/*! @class StructDataReader
-			@brief StructDataReader read struct and reference file
+			@brief Reads struct and reference file
 			*/
 			class StructDataReader
 			{

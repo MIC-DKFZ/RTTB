@@ -9,10 +9,10 @@ ELSE(MatchPoint_FOUND)
           "Cannot build without MATCHPOINT.  Please set MATCHPOINT_DIR.")
 ENDIF(MatchPoint_FOUND)
 
-IF(${MatchPoint_VERSION_MAJOR} EQUAL 0 AND ${MatchPoint_VERSION_MINOR} LESS 11)
+IF(${MatchPoint_VERSION_MAJOR} EQUAL 0 AND ${MatchPoint_VERSION_MINOR} LESS 12)
   MESSAGE(FATAL_ERROR
-          "Outdated MatchPoint version. Cannot build RTToolbox without sufficient MatchPoint version. MatchPoint 0.11 or above is needed.")
-ENDIF(${MatchPoint_VERSION_MAJOR} EQUAL 0 AND ${MatchPoint_VERSION_MINOR} LESS 11)
+          "Outdated MatchPoint version. Cannot build RTToolbox without sufficient MatchPoint version. MatchPoint 0.12 or above is needed.")
+ENDIF()
 
 LIST(APPEND ALL_INCLUDE_DIRECTORIES ${MatchPoint_INCLUDE_DIRS} ${MatchPoint_ITK_INCLUDE_DIRS})
 LIST(APPEND ALL_LIBRARIES MAPCore MAPAlgorithms MAPAlgorithmsITK MAPDeployment MAPIO ${MatchPoint_ITK_LIBRARIES})

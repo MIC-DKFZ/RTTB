@@ -34,6 +34,9 @@ namespace rttb
 		namespace doseAcc
 		{
             class DoseAccCmdLineParser;
+            /*! @class ApplicationData
+            @brief Class for storing all relevant variables needed in DoseAcc
+            */
 			class ApplicationData
 			{
 			public:

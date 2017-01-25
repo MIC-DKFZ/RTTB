@@ -35,6 +35,7 @@ namespace rttb
 
 			/*! @class DVHTxtFileWriter
 			@brief Writes DVHs to simple text files.
+            @deprecated Please use DVHXMLFileWriter.
 			*/
 			class DVHTxtFileWriter: public DVHWriterInterface
 			{

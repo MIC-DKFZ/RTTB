@@ -32,7 +32,8 @@ namespace rttb
 	namespace indices
 	{
 		/*! @class HomogeneityIndex
-			@brief This class representing a HomogeneityIndex Object. Homogeneity Index (HI) = (Dmax(PTV)-Dmin(PTV))/Dref
+			@brief This class representing a HomogeneityIndex Object. 
+            @details Homogeneity Index \f$(HI) = \frac{D_{max}(PTV)-D_{min}(PTV)}{D_{ref}}\f$
 			@ingroup indices
 		*/
         class RTTBIndices_EXPORT HomogeneityIndex : public DvhBasedDoseIndex

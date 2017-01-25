@@ -36,7 +36,7 @@ namespace rttb
 	{
 
 		/*! @class NullPointerException
-			@brief This exception will be thrown if any pointer is NULL.
+			@brief This exception will be thrown if any pointer is nullptr.
 		*/
 		class RTTBCore_EXPORT NullPointerException : public Exception
 		{

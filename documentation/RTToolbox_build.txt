@@ -1,0 +1,204 @@
+/**
+\page Build Build instructions
+
+\tableofcontents
+
+\section tests Compiler tests
+
+RTToolbox is currently tested with the following compilers (only x64):
+- Visual Studio 2010
+- Visual Studio 2013
+- GCC 4.9
+
+Other compiler versions or other compilers may or may not work. 
+\note The apps can't be compiled with Visual Studio 2010.
+
+\section linking Static/Dynamic library support
+
+Can be changed with advanced option \c BUILD_SHARED_LIBS
+
+\warning building RTToolbox as dynamic library under windows and as static library under Linux is an experimental feature.
+
+\section thirdPartyLibraries Needed Third Party Libraries
+
+Please load and compile the following third party libraries/tools:
+
+\subsection required Required
+- <a href="https://cmake.org">CMake</a>  (version 3.1 or higher)
+- <a href="http://www.boost.org">boost</a> (version 1.58.0 or higher)
+
+\subsection optional Optional
+- <a href="http://dicom.offis.de/dcmtk.php.en">DCMTK</a> (with RT support - 3.6.1_20121102 or newer)
+  - if you want DICOM support
+- <a href="https://itk.org">ITK</a> (version 4.4 or higher)
+  - if you want DoseInterpolation support with \c itk::Transform or ITK File IO support
+- <a href="http://mitk.org/download/thirdparty/MatchPoint_rev1610.tar.gz">MatchPoint</a> (version 0.12 or higher)
+  - if you want DoseInterpolation support with MatchPoint Registration objects)
+- <a href="https://www.doxygen.org">doxygen</a>
+  - if you want to generate a source code documentation
+
+\subsection installing Third party installation Instruction
+
+\note To make sure everything runs smoothly, please make sure that all libraries and the RTToolbox are either compiled with \c /MD or \c /MT flags.
+
+If third party library packages cannot be found automatically, CMake will ask for them. Please give the location of the binary folder, where the libraries where built for boost, DCMTK, ITK and MatchPoint.
+
+\subsubsection boost Boost
+
+Build (using the same compiler options as RTToolbox, usually \c STATIC LINKING and x64 architecture). 
+The following components are needed: 
+- \c filesystem, 
+- \c regex, 
+- \c system, 
+- \c thread, 
+- \c regex and 
+- \c program_options.
+
+\subsubsection DCMTK DCMTK
+
+For Windows:
+
+To compile DCMTK with \c /MD flags (standard for all other libs), you need to patch the CMAKE options of DCMTK (PathToDCMTK\CMake\dcmtkPrepare.cmake), either by replacing \c "/MT" with \c "/MD" or by explicitly replacing lines 135 to 171 with the following lines:
+
+\code{.cmake} 
+IF(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS AND NOT BUILD_SHARED_LIBS)
+
+  
+	# settings for Microsoft Visual Studio
+  
+	IF(CMAKE_GENERATOR MATCHES "Visual Studio .*")
+    
+		# get Visual Studio Version
+    
+		STRING(REGEX REPLACE "Visual Studio ([0-9]+).*" "\\1" VS_VERSION "${CMAKE_GENERATOR}")
+    
+		# these settings never change even for C or C++
+    
+		SET(CMAKE_C_FLAGS_DEBUG "/MDd /Z7 /Od")
+    
+		SET(CMAKE_C_FLAGS_RELEASE "/DNDEBUG /MD /O2")
+    
+		SET(CMAKE_C_FLAGS_MINSIZEREL "/DNDEBUG /MD /O2")
+    
+		SET(CMAKE_C_FLAGS_RELWITHDEBINFO "/DNDEBUG /MDd /Z7 /Od")
+
+    
+		SET(CMAKE_CXX_FLAGS_DEBUG "/MDd /Z7 /Od")
+    
+		SET(CMAKE_CXX_FLAGS_RELEASE "/DNDEBUG /MD /O2")
+    
+		SET(CMAKE_CXX_FLAGS_MINSIZEREL "/DNDEBUG /MD /O2")
+    
+		SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/DNDEBUG /MDd /Z7 /Od")
+    
+		# specific settings for the various Visual Studio versions
+    
+		IF(VS_VERSION EQUAL 6)
+      
+			SET(CMAKE_C_FLAGS "/nologo /W3 /GX /Gy /YX")
+      
+			SET(CMAKE_CXX_FLAGS "/nologo /W3 /GX /Gy /YX /Zm500") # /Zm500 increments heap size which is needed on some system to compile templates in dcmimgle
+    
+		ENDIF(VS_VERSION EQUAL 6)
+    
+		IF(VS_VERSION EQUAL 7)
+      
+			SET(CMAKE_C_FLAGS "/nologo /W3 /Gy")
+      
+			SET(CMAKE_CXX_FLAGS "/nologo /W3 /Gy")
+    
+		ENDIF(VS_VERSION EQUAL 7)
+    
+		IF(VS_VERSION GREATER 7)
+      
+			SET(CMAKE_C_FLAGS "/nologo /W3 /Gy /EHsc")
+      
+			SET(CMAKE_CXX_FLAGS "/nologo /W3 /Gy /EHsc")
+    
+		ENDIF(VS_VERSION GREATER 7)
+  
+	ENDIF(CMAKE_GENERATOR MATCHES "Visual Studio .*")
+
+
+ENDIF(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS AND NOT BUILD_SHARED_LIBS)
+\endcode
+
+Then build DCMTK. \c BUILD_APPS can be switched off.
+
+\subsubsection ITK ITK
+
+Build ITK. The default configuration is fine.
+\warning Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
+
+\subsubsection MatchPoint MatchPoint
+
+Build MatchPoint. The default configuration is fine.
+\warning Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
+
+\section installation RT-Toolbox installation Instruction
+
+\subsection build Configure/Build RTToolbox
+
+\subsubsection Modules Modules
+
+- Configure with CMake
+- Set \c BOOST_INCLUDE_DIR and \c BOOST_DIR to the main boost directory (where "boost_build.jam" is located)
+- Select all packages you like to build (Parameters \c "BUILD_*" ; e.g. \c BUILD_IO_Dicom). 
+	- \c BUILD_IO_Dicom: Reading and writing of DICOM-RT files
+	- \c BUILD_IO_HELAX: Reading of Helax DICOM files
+	- \c BUILD_IO_ITK: Generic reading/writing with ITK
+	- \c BUILD_Interpolation: Dose Interpolation
+	- \c BUILD_InterpolationMatchPointTransformation: Dose Interpolation with Match Point registration support.
+	- \c BUILD_Masks: Voxelization support
+	- \c BUILD_Masks_Legacy: Legacy voxelization support. 
+	- \c BUILD_Models: Calculation of dosimetrical models like TCP, NTCP etc.
+	
+Some modules of RT-Toolbox are mandatory (e.g. \c RTTBCore) and build automatically.
+	
+\warning The \c BUILD_Masks_Legacy module is not supported anymore and may yield to wrong results.	
+\note \c BUILD_All_Modules builds all modules (except Apps, Testing modules and Masks_Legacy).
+
+\subsubsection Apps Apps
+	
+If you want to use the RTTB command line apps, select \c BUILD_Apps. You can select out of five apps:
+	- \c BioModelCalc: calculate the radiobiological effect based on dose
+	- \c DoseAcc: Do dose accumulation
+	- \c DoseMap: Do dose mapping
+	- \c DoseTool: Compute Dose statistics and DVH
+	- \c VoxelizerTool: Voxelize an RTSTRUCT file
+	
+\note The apps can't be compiled with Visual Studio 2010.
+
+- Generate CMake configuration
+- Build RTToolbox and have fun!
+
+\subsubsection optionalDependencies Optional third party dependencies
+
+- If you select \c BUILD_IO_DICOM, the configuration will ask you for the DCMTK main directory (parameter \c DCMTK_DIR; where you have built DCMTK).
+- If you select \c BUILD_Interpolation or \c BUILD_IO_ITK, set \c ITK_DIR to the binary directory of ITK.
+- If you select \c BUILD_InterpolationMatchPointTransformation, set \c MatchPoint_DIR to the binary directory of MatchPoint.
+
+\note If you have built DCMTK as out source build you have to also set the CMake parameter \c DCMTK_SOURCE_DIR to the root directory of the DCMTK source.
+
+\subsection testRTTB Testing RTToolbox
+
+<a href="https://cmake.org/Wiki/CMake/Testing_With_CTest">CTest</a> is used as testing framework. See their documentation for general testing questions.
+
+- Enable \c BUILD_TESTING
+- Configure with CMake
+- Enable tests of interest
+- Generate CMake configuration
+- Run tests (build \c RUN_TESTS project or call \c ctest in commandline) to ensure that everything is correct.
+
+\note \c BUILD_Tester_All builds all test modules.
+
+\subsection documentation Documentation
+
+Generate the documentation using <a href="www.doxygen.org">doxygen</a> and the configuration found in "RTTB_binary_dir/documentation/doxygen.config".
+
+\subsection examples Examples
+
+- Enable \c BUILD_TESTING
+- Enable \c BUILD_RTToolbox_Test_examples
+- Run tests (build \c RUN_TESTS project or call \c ctest in commandline) to also run the examples. These examples (located in testing/examples/) are a good starting point for own projects and show basic functionality of RTToolbox like DVH generation.
+**/

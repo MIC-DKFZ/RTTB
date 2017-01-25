@@ -29,7 +29,7 @@ namespace rttb
 	namespace core
 	{
 
-		/*! @class MutableAccessorInterface
+		/*! @class MutableDoseAccessorInterface
 			@brief Extends the DoseAccessorInterface to provide writing access to the data.
 		*/
 		class MutableDoseAccessorInterface: public DoseAccessorInterface

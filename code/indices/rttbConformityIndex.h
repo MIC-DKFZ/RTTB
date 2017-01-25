@@ -34,7 +34,8 @@ namespace rttb
 	{
 
 		/*! @class ConformityIndex
-			@brief This class representing a ConformityIndex Object. Conformity Index (CI): CI(D)=IFtv(D)*(1-IFht(D)), D:reference dose,
+			@brief This class representing a ConformityIndex Object. 
+            @details: Conformity Index (CI): \f$CI(D)=IFtv(D)*(1-IFht(D))\f$, D:reference dose,
 			IFtv(D): the irradiation factor of the PTV, defined as the fraction of the PTV receiving a dose higher than D
 			IFht(D): the irradiation factor of healthy tissue, defined as the radio of the volume of tissue outside the PTV receiving a dose greater than D to the volume of isodose D
 			@ingroup indices

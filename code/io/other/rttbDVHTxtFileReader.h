@@ -33,6 +33,7 @@ namespace rttb
 
 			/*! @class DVHTxtFileReader
 			@brief Reads DVH data from txt files.
+            @deprecated Please use DVHXMLFileReader.
 			*/
 			class DVHTxtFileReader: public core::DVHGeneratorInterface
 			{

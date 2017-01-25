@@ -50,6 +50,7 @@ namespace rttb
 		{
 			/*! @class OTBMaskAccessor
 			*   @brief Implementation of original toolbox voxelization by M. Hub.
+                @deprecated please use boost::BoostMaskAccessor
 			*/
             class RTTBLegacyMask_EXPORT OTBMaskAccessor : public core::MaskAccessorInterface
 			{

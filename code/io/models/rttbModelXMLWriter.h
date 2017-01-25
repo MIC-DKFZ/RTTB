@@ -33,6 +33,9 @@ namespace rttb
 	{
 		namespace models
 		{
+            /*! @class ModelXMLWriter
+            @brief Writes a model (TCP, NTCP, ...) to an xml file
+            */
 			class ModelXMLWriter
 			{
 			private:

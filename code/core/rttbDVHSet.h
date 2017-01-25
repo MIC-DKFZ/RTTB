@@ -37,8 +37,8 @@ namespace rttb
 	{
 
 		/*! @class DVHSet
-			@brief This is a class representing a RT DVHSet including Target Volume and Organ at Risk
-			A DVHSet consists of three subsets: one for the target volume (_dvhTVSet), one for healthy tissue (_dvhHTSet),
+			@brief This is a class representing a RT DVHSet including Target Volume and Organ at Risk.
+			@details A DVHSet consists of three subsets: one for the target volume (_dvhTVSet), one for healthy tissue (_dvhHTSet),
 			and one for the whole volume (_dvhWVSet).
 		*/
 		class RTTBCore_EXPORT DVHSet

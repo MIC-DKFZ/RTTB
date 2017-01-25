@@ -1,0 +1,18 @@
+/** 
+\page Examples Examples
+For a quick start, look into testing/examples. There you find the following projects:
+
+- \c RTBioModelExampleTest: Computation of Biological model indices (TCP/NTCP) from a given DVH
+- \c RTDoseIndexTest: Computation of dose indices (Conformation Number, Conformal Index, Conformity index) from a given DVH
+- \c RTDoseStatisticsDicomTest: Computation of dose statistics (max dose/mean dose/min dose/Dx/Vx) based on dose data for a specified structure
+- \c RTDVHTest: Computation of statistics (max value/mean value/min value/Dx/Vx) based on a DVH
+
+DVH Calculation (testing/core):
+- \c DVHCalculatorTest: Computation of a DVH from dose and structure
+
+Voxelization (testing/validation):
+- \c VoxelizationValidationTest: Computation of a voxelization
+
+Image saving (testing/io/itk):
+- \c ITKDoseAccessorConverterTest: Saving image RTToolbox image data as an ITK file
+**/

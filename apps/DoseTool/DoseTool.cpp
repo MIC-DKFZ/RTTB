@@ -30,6 +30,8 @@
 
 #include "rttbException.h"
 
+/*! \file DoseTool.cpp main function for DoseTool 
+*/
 int main(int argc, const char** argv)
 {
 	int result = 0;

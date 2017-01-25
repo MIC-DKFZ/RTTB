@@ -30,7 +30,7 @@ namespace rttb
 	{
 		namespace voxelizerTool
 		{
-			/*! @class rttbVoxelizerCmdLineParser
+			/*! @class VoxelizerCmdLineParser
 			@brief Argument parsing is parametrized here based on ArgParserLib
 			@see cmdlineparsing::CmdLineParserBase
 			*/

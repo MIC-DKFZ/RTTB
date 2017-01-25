@@ -29,7 +29,7 @@ namespace rttb
 	{
 		namespace doseTool
 		{
-			/*! @class BioModelCmdLineParser
+			/*! @class DoseToolCmdLineParser
 			@brief Argument parsing is parametrized here based on ArgParserLib
 			@see cmdlineparsing::CmdLineParserBase
 			*/

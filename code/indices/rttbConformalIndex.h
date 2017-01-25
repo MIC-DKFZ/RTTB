@@ -35,8 +35,9 @@ namespace rttb
 	{
 
 		/*! @class ConformalIndex
-			@brief This class representing a ConformalIndex Object. Conformal Index (COIN)= Conformation Number(CN)* (1-Vref,0/Vnt,0)*(1-Vref,1/Vnt,1)... i: i-th critiacal organ
-			Conformation Number (CN)= (TVref/TV) * (TVref/Vref)
+			@brief This class representing a ConformalIndex Object. 
+            @details Conformal Index \f$(COIN)= Conformation Number(CN)* (1-Vref,0/Vnt,0)*(1-Vref,1/Vnt,1)... i\f$, i: i-th critiacal organ
+			Conformation Number \f$(CN)= \frac{TVref}{TV} * \frac{TVref}{Vref}\f$
 			@ingroup indices
 		*/
         class RTTBIndices_EXPORT ConformalIndex : public DvhBasedDoseIndex

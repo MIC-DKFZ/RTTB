@@ -41,7 +41,7 @@ namespace rttb
 		@param aMean mean value for the distribution of the varied parameter
 		@param aVariance variance of the varied parameter. The variance may not be exactly zero. If so, it is set to 1e-30
 		to avoid numerical instability.
-		@param normalisationDose prescribed dose of the current _dvh
+		@param aNormalisationDose prescribed dose of the current _dvh
 		@param numberOfPoints the size of the map, number of points to be calculated
 		@param aMinDose dose will be randomly selected from [aMinDose] (uniform distribution).
 		They will define the minvalue for x axis
@@ -67,7 +67,7 @@ namespace rttb
 		@param aMeanVec a vector of mean values for the distribution of individually the varied parameters
 		@param aVarianceVec a vector of variance values of the individually varied parameter. The variance may not be exactly zero for
 		any parameter. If so, it is set to 1e-30 to avoid numerical instability.
-		@param normalisationDose prescribed dose of the current _dvh
+		@param aNormalisationDose prescribed dose of the current _dvh
 		@param numberOfPoints the size of the map, number of points to be calculated
 		@param aMinDose dose will be randomly selected from [aMinDose] (uniform distribution).
 		They will define the min value for x axis

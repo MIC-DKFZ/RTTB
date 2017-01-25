@@ -35,8 +35,6 @@ namespace rttb
 	namespace core
 	{
 
-		//class Structure;
-
 		/*! @class DVH
 		@brief This is a class representing a dose volume histogram (DVH)
 		*/

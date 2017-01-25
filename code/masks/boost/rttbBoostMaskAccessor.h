@@ -69,7 +69,7 @@ namespace rttb
 
 				/*! @brief Constructor with a structure pointer and a geometric info pointer
 				* @param aStructurePointer smart pointer of the structure
-				* @param aGeometricInfoPtr smart pointer of the geometricInfo of the dose
+				* @param aGeometricInfo smart pointer of the geometricInfo of the dose
 				* @param strict indicates whether to allow self intersection in the structure. If it is set to true, an exception will be thrown when the given structure has self intersection.
 				* @exception InvalidParameterException thrown if strict is true and the structure has self intersections
 				*/

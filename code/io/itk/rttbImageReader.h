@@ -140,7 +140,7 @@ namespace rttb
 
 				/** Function to access the member variable _rescaleMin. _rescaleMin represents
 				* the minimum of the intensity rescale filter. Changing the rescale minimum out dates the ImageReader.
-				* @param [in] dRescaleMin The minimum of the intensity rescale filter.*/
+				* @param [in] rescaleMin The minimum of the intensity rescale filter.*/
 				void setRescaleMinimum(const RescaleValueType& rescaleMin);
 
 				/** Function to access the member variable _rescaleMin. _rescaleMax represents
@@ -150,7 +150,7 @@ namespace rttb
 
 				/** Function to access the member variable _rescaleMin. _rescaleMax represents
 				* the minimum of the intensity rescale filter. Changing the rescale maximum out dates the ImageReader.
-				* @param [in] dRescaleMax The minimum of the intensity rescale filter.*/
+				* @param [in] rescaleMax The minimum of the intensity rescale filter.*/
 				void setRescaleMaximum(const RescaleValueType& rescaleMax);
 
 				/** Function to access the member variable _rescaleImage. _rescaleImage indicates if a

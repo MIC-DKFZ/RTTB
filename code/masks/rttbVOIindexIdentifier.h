@@ -31,6 +31,9 @@ namespace rttb
 {
 	namespace masks
 	{
+        /*! @class VOIindexIdentifier
+        @brief Collection of functions for the identification of structs in RTSTRUCT files.
+        */
 		class RTTBMasks_EXPORT VOIindexIdentifier
 		{
 
@@ -72,7 +75,7 @@ namespace rttb
 			* @pre index must specify a valid index value
 			* @pre spStructSet must point to a valid structure set.
 			* @param spStructSet Pointer to the structure set that should be checked for the named VOI.
-			* @param name Index of the VOI
+			* @param index Index of the VOI
 			* @exception  ::rttb::core::Exception on invalid spStructSet or index>maxLabelIndex
 			* @return voi name */
 			static const std::string getVoiNameByIndex(StructSetTypePointer spStructSet,

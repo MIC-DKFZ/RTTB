@@ -33,6 +33,9 @@ namespace rttb
 	{
 		namespace other
 		{
+            /*! @class DoseStatisticsXMLReader
+            @brief Reads a dose statistics XML into a DoseStatistics object
+            */
 			class DoseStatisticsXMLReader{
 			public:
 				typedef boost::shared_ptr<rttb::algorithms::DoseStatistics> DoseStatisticsPtr;

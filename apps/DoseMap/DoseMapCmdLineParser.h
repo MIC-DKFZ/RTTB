@@ -30,7 +30,7 @@ namespace rttb
 	{
 		namespace doseMap
 		{
-			/*! @class BioModelCmdLineParser
+			/*! @class DoseMapCmdLineParser
 			@brief Argument parsing is parametrized here based on ArgParserLib
 			@see cmdlineparsing::CmdLineParserBase
 			*/
