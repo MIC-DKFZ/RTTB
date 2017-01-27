@@ -35,7 +35,7 @@ namespace rttb
 
 		/*! @brief Get the curve TCP/NTCP Value vs normalisationDose, normalisationDose variant between minDose and
 			maxDose.
-			@param bin the size of the map
+			@param aBin the size of the map
 			@param minDose min value for x axis
 			@param maxDose max value for x axis
 			@param normalisationDose prescribed dose of the current _dvh or mean/maximum.
@@ -44,7 +44,7 @@ namespace rttb
 		                                     double minDose = 0.1, double maxDose = 150);
 
 		/*! @brief Get the curve NTCP Value vs EUD, dvh variant between minFactor*deltaD and maxFactor*deltaD.
-			@param bin the size of the map
+			@param aBin the size of the map
 			@param minFactor min factor for dvh deltaD
 			@param maxFactor max factor for dvh deltaD
 		*/

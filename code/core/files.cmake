@@ -17,7 +17,6 @@ SET(CPP_FILES
   rttbMaskVoxel.cpp
   rttbNullPointerException.cpp
   rttbPaddingException.cpp
-  rttbPhysicalInfo.cpp
   rttbStructure.cpp
   rttbStructureSet.cpp
   rttbStrVectorStructureSetGenerator.cpp
@@ -57,7 +56,6 @@ SET(H_FILES
   rttbMutableMaskAccessorInterface.h
   rttbNullPointerException.h
   rttbPaddingException.h
-  rttbPhysicalInfo.h
   rttbStructure.h
   rttbStructureSet.h
   rttbStructureSetGeneratorInterface.h

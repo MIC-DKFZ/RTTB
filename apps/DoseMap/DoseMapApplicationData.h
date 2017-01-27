@@ -35,6 +35,9 @@ namespace rttb
 		namespace doseMap
 		{
             class DoseMapCmdLineParser;
+			/*! @class ApplicationData
+				@brief Class for storing all relevant variables needed in DoseMap
+			*/
 			class ApplicationData
 			{
 			public:

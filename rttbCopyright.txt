@@ -1,3 +1,4 @@
+/**
 RTToolbox - DKFZ radiotherapy quantitative evaluation library
 
 Copyright (C) 2015 German Cancer Research Center (DKFZ),
@@ -24,7 +25,5 @@ Software Development for Integrated Diagnostics and Therapy (SIDT),
 German Cancer Research Center (DKFZ), Heidelberg, Germany. 
 
 Web:    http://www.dkfz.de/en/sidt/index.html
-Tel.:   +49 6221 42-30-21.
-E-mail: l.zhang@dkfz.de (L. Zhang) or sbr@dkfz.de
-
-
+E-mail: sbr@dkfz.de
+**/

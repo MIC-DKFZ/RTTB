@@ -80,7 +80,7 @@ namespace rttb
 			//DoseStatistics();
 
 			/*! @brief Constructor
-				@detail the dose statistic values are set. Complex values maximumVoxelLocation, maximumVoxelLocation, Dx, Vx, MOHx, MOCx, MaxOHx and MinOCx are optional
+				@details the dose statistic values are set. Complex values maximumVoxelLocation, maximumVoxelLocation, Dx, Vx, MOHx, MOCx, MaxOHx and MinOCx are optional
 			*/
 			DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum, DoseStatisticType mean,
 			               DoseStatisticType stdDeviation, VoxelNumberType numVoxels, VolumeType volume,

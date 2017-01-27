@@ -34,7 +34,8 @@ namespace rttb
 	{
 
 		/*! @class CoverageIndex
-		    @brief This class representing a CoverageIndex Object. Coverage Index fraction of the target volume receiving a dose >= the reference dose
+		    @brief This class representing a CoverageIndex Object. 
+            @details Coverage Index fraction of the target volume receiving a dose >= the reference dose
 			@ingroup indices
 		*/
         class RTTBIndices_EXPORT CoverageIndex : public DvhBasedDoseIndex

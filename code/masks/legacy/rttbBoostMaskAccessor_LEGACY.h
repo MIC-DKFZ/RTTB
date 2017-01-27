@@ -46,6 +46,7 @@ namespace rttb
 			*   the polygons on the same slice have no intersection between each other, unless the case of a donut. A donut is accepted.)
 			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored
 			*   and the mask will be calculated, however, it may cause errors in the mask results.
+            *   @deprecated please use boost::BoostMaskAccessor
 			*/
             class RTTBLegacyMask_EXPORT BoostMaskAccessor : public core::MaskAccessorInterface
 			{

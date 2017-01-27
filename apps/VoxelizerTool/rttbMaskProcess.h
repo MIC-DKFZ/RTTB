@@ -32,7 +32,7 @@ namespace rttb
 		namespace voxelizerTool
 		{
 			/*! @class MaskProcess
-			@brief MaskProcess create a Mask with the struct and reference object
+			@brief Creates a mask with the struct and reference object
 			*/
 			class MaskProcess
 			{

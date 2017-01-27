@@ -50,7 +50,8 @@ namespace rttb
 
 			public:
 				/*! @brief Constructor
-				@param aFileName a xml file name to write the DVH to aDVHType: DIFFERENTIAL or CUMULATIVE.
+				@param aFileName a xml file name to write 
+                @param aDVHType: DIFFERENTIAL or CUMULATIVE.
 				*/
 				DVHXMLFileWriter(FileNameString aFileName, DVHType aDVHType);
 

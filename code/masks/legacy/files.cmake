@@ -11,6 +11,7 @@ SET(CPP_FILES
 	rttbStructure_LEGACY.cpp
 	rttbBoostMask_LEGACY.cpp
 	rttbBoostMaskAccessor_LEGACY.cpp
+	rttbPhysicalInfo.cpp
  )
 
 SET(H_FILES 
@@ -29,5 +30,5 @@ SET(H_FILES
 	rttbStructure_LEGACY.h
 	rttbBoostMask_LEGACY.h
 	rttbBoostMaskAccessor_LEGACY.h
-
+	rttbPhysicalInfo.h
 )

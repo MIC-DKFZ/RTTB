@@ -34,7 +34,8 @@ namespace rttb
 	{
 
 		/*! @class ConformationNumber
-			@brief This class representing a ConformationNumber Object. Conformation Number (CN)= (TVref/TV) * (TVref/Vref)
+			@brief This class representing a ConformationNumber Object. 
+            @details Conformation Number \f$(CN)= (TVref/TV) * (TVref/Vref)\f$
 			@ingroup indices
 		*/
         class RTTBIndices_EXPORT ConformationNumber : public DvhBasedDoseIndex

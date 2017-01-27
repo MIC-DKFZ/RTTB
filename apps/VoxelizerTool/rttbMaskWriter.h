@@ -30,7 +30,7 @@ namespace rttb
 		namespace voxelizerTool
 		{
 			/*! @class MaskWriter
-			@brief MaskWriter write a mask into a file
+			@brief Writes a mask into a file
 			*/
 			class MaskWriter
 			{

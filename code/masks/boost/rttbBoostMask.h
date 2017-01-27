@@ -58,6 +58,8 @@ namespace rttb
 
 				/*! @brief Constructor
 				* @exception rttb::core::NullPointerException thrown if aDoseGeoInfo or aStructure is NULL
+                * @param aDoseGeoInfo the GeometricInfo
+                * @param aStructure the structure set
 				* @param strict indicates whether to allow self intersection in the structure. If it is set to true, an exception will be thrown when the given structure has self intersection.
 				* @param numberOfThreads number of threads used for voxelization. default value 0 means automatic detection, using the number of Hardware thread/cores
 				* @exception InvalidParameterException thrown if strict is true and the structure has self intersections
@@ -92,26 +94,26 @@ namespace rttb
 				StructPointer _structure;
 
 				/*! @brief The map of z index and a vector of boost ring 2d (without holes)
-				*	Key: the double z grid index
+				*	@details Key: the double z grid index
 				*	Value: the vector of boost ring 2d (without holes)
 				*/
 				BoostRingMap _ringMap;
 
 				/*! @brief The min and max index of the global bounding box.
-				*	The first index has the minimum for x/y/z of the global bounding box.
+				*	@details The first index has the minimum for x/y/z of the global bounding box.
 				*	The second index has the maximum for x/y/z of the global bounding index.
 				*/
 				VoxelIndexVector _globalBoundingBox;
 
 				/*! @brief The voxelization map
-				*	key: the converted double z grid index of a contour plane
+				*	@details key: the converted double z grid index of a contour plane
 				*	value: the 2d mask, array[i][j] = the mask value of the position (i,j) in the global bounding box,
 				*			i: 0 - (_globalBoundingBoxSize0-1), j: 0 - (_globalBoundingBoxSize1-1)
 				*/
                 BoostArrayMapPointer _voxelizationMap;
 
 				//@brief The thickness of the voxelization plane (the contour plane), in double dose grid index
-				//(for example, the first contour has the double grid index 0.1, the second 0.3, the third 0.5, then the thickness is 0.2)
+				//@details for example, the first contour has the double grid index 0.1, the second 0.3, the third 0.5, then the thickness is 0.2
 				double _voxelizationThickness;
 
 				bool _strict;
@@ -133,7 +135,7 @@ namespace rttb
 				void calcMask();
 
 				/*! @brief The preprocessing step, wich consists of the following logic and Sub setps:
-				*	For all contours in a struct:
+				*	@details For all contours in a struct:
 				*	1) Transfer the contour polygons into boost::geometry structures
 				*		1a) Convert the contur points from world coordinates into geometry coordinates.
 				*		1b) get min and max for x/y/z of a contour
@@ -144,15 +146,15 @@ namespace rttb
 
 				/*! @brief The voxelization step, which computes the voxelization planes (in x/y) for all contours of an struct.
 
-				*	For each contour (that is in the z-Range of the reference geometry) of the struct:
+				*	@details For each contour (that is in the z-Range of the reference geometry) of the struct:
 				*	1) Allocate result array (voxelization plane) based on the bounding box (see Preprocessing Step 3)
 				*	2) Generate voxelization plane for the contour (based on the x-y-raster of the reference geometry).
 				*	3) Add result Array (key is the z-Value of the contour)
 				*/
 				void voxelization();
 
-				/*! @final mask voxel Generation step which transfers the voxelization planes into the (z-)geometry of the reference geometry.
-				*	It consists of following Sub steps :
+				/*! @brief mask voxel Generation step which transfers the voxelization planes into the (z-)geometry of the reference geometry.
+				*	@details It consists of following Sub steps :
 				*	For all "slices" in the reference geometry :
 				*	1) generate weight vector for all voxelization planes for a given z - value of a slice
 				*		Iterate over the bounding box of a struct.For each voxel :

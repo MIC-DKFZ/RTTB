@@ -33,7 +33,7 @@ namespace rttb
 {
 	namespace interpolation
 	{
-		/*! @class ITKMappableDoseAccessor
+		/*! @class ITKTransformation
 		@brief This class can deal with dose information that has to be transformed into another geometry than the original dose image (transformation specified by ITK transformation object).
 		*/
         class RTTBInterpolationITKTransformation_EXPORT ITKTransformation : public TransformationInterface
@@ -57,7 +57,7 @@ namespace rttb
 
 		public:
 			/*! @brief Constructor.
-				@param aRegistration registration given in MatchPoint format (note the pointer format since itkSmartPointer does not support inheritance)
+				@param aTransformation transformation in ITK format.
 				@sa MappableDoseAccessorBase
 				@pre all input parameters have to be valid
 				@exception core::NullPointerException if one input parameter is NULL

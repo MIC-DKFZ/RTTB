@@ -26,15 +26,16 @@ namespace rttb
 	namespace models
 	{
 		/*! @brief Calculate biological LinearQuadratic Model of a dose
-		@details LQ = exp(-(alpha*d+beta*d^2))
+		@details \f$LQ = exp(-\frac{alpha*d+beta*d^2}{nFractions})\f$
 		@param dose
 		@param alpha
 		@param beta
+        @param nFractions the number of fractions
 		@pre dose>=0
 		@pre alpha>=0
 		@pre beta>=0
 		@return The LQ value
-		@exception InvalidParameterException Thrown if parameters were not set correctly.
+		@exception rttb::core::InvalidParameterException Thrown if parameters were not set correctly.
 		*/
 		BioModelValueType calcLQ(DoseTypeGy dose, DoseCalcType alpha,
 		                         DoseCalcType beta, unsigned int nFractions=1);

@@ -32,7 +32,9 @@ namespace rttb
 	{
 		namespace itk
 		{
-
+            /*! @class ITKImageMaskAccessorGenerator
+            @brief Generate ITKImageMaskAccessor wrapping an itk image as object (not as file).
+            */
             class RTTBITKIO_EXPORT ITKImageMaskAccessorGenerator : public core::MaskAccessorGeneratorBase
 			{
 			public:

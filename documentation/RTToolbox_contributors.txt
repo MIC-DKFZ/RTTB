@@ -1,0 +1,11 @@
+/** 
+\page Contributors List of contributors
+- Lanlan Zhang
+- Sarah Mang
+- Ralf Floca
+- Martina Hub
+- Clemens Hentschke
+- Simon Strubel
+- Fabrizio Ciccarese
+- Melanie Braun
+**/

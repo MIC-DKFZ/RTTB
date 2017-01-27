@@ -37,42 +37,40 @@ namespace rttb
 			typedef boost::shared_ptr<rttb::algorithms::DoseStatistics> DoseStatisticsPtr;
 
 			/*! @brief Write statistics to boost::property_tree::ptree.
-			@param aReferenceDose A reference dose for the calculation of Vx
 			@param aDoseStatistics DoseStatistics to write
 			@pre aReferenceDose must >0
-			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
+			@exception rttb::core::InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			@note The precision is float
 			*/
             boost::property_tree::ptree RTTBOtherIO_EXPORT writeDoseStatistics(DoseStatisticsPtr aDoseStatistics);
 
 			/*! @brief Write statistics to String.
-			@param aReferenceDose A reference dose for the calculation of Vx
 			@param aDoseStatistics DoseStatistics to write
 			@pre aReferenceDose must >0
-			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
+			@exception rttb::core::InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			@note The precision is float
 			*/
             XMLString RTTBOtherIO_EXPORT writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics);
 
-			/*! @brief Write statistics to xml file, including
-			numberOfVoxels,
-			volume,
-			minimum,
-			maximum,
-			mean,
-			standard deviation,
-			variance,
-			D2,D5,D10,D90,D95,D98,
-			V2,V5,V10,V90,V95,V98,
-			MOH2,MOH5,MOH10,
-			MOC2,MOC5,MOC10,
-			MaxOH2,MaxOH5,MaxOH10,
-			MinOC2,MinOC5,MinOC10.
-			@param aReferenceDose A reference dose for the calculation of Vx
+			/*! @brief Write statistics to xml file.
+			@details includes the following statistics: 
+            - numberOfVoxels,
+			- volume,
+			- minimum,
+			- maximum,
+			- mean,
+			- standard deviation,
+			- variance,
+			- D2,D5,D10,D90,D95,D98,
+			- V2,V5,V10,V90,V95,V98,
+			- MOH2,MOH5,MOH10,
+			- MOC2,MOC5,MOC10,
+			- MaxOH2,MaxOH5,MaxOH10,
+			- MinOC2,MinOC5,MinOC10.
 			@param aDoseStatistics DoseStatistics to write
 			@param aFileName To write dose statistics
 			@pre aReferenceDose must >0
-			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
+			@exception rttb::core::InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			@note The precision is float
 			*/
             void RTTBOtherIO_EXPORT writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName);
@@ -83,11 +81,11 @@ namespace rttb
 			        const std::string& attributeName,
 			        int xValue);
 
-			/*! @brief Write statistics to String to generate a table: "Volume mm3@Max@Min@Mean@Std.Dev.@Variance@D2@D5@D10@D90@D95@D98@V2@V5@V10@V90@V95@V98@MOH2@MOH5@MOH10@MOC2@MOC5@MOC10@MaxOH2@MaxOH5@MaxOH10@MinOC2@MinOC5@MinOC10"
-			@param aReferenceDose A reference dose for the calculation of Vx
+			/*! @brief Write statistics to String to generate a table 
+            @details The table is: "Volume mm3@Max@Min@Mean@Std.Dev.@Variance@D2@D5@D10@D90@D95@D98@V2@V5@V10@V90@V95@V98@MOH2@MOH5@MOH10@MOC2@MOC5@MOC10@MaxOH2@MaxOH5@MaxOH10@MinOC2@MinOC5@MinOC10"
 			@param aDoseStatistics DoseStatistics to write
 			@pre aReferenceDose must >0
-			@exception InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
+			@exception rttb::core::InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			@note is used for the Mevislab-Linking of RTTB
 			@note The precision is float
 			*/
