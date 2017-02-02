@@ -207,12 +207,19 @@ namespace rttb
 
 			aIndex = DoubleVoxelGridIndex3D(resultS(0), resultS(1), resultS(2));
 
-			//check if it is inside
-			VoxelGridIndex3D indexInt = VoxelGridIndex3D(GridIndexType(aIndex(0) + 0.5),
-			                            GridIndexType(aIndex(1) + 0.5),
-			                            GridIndexType(aIndex(2) + 0.5));
+            //if we convert DoubleVoxelGridIndex3D (double) to VoxelGridIndex3D (unsigned int), we can't find out if it's negative. 
+            //So we have to check before.
+            if (aIndex(0) < -0.5 || aIndex(1) < -0.5 || aIndex(2) < -0.5){
+                return false;
+            }
+            else {
+                //check if it is inside
+                VoxelGridIndex3D indexInt = VoxelGridIndex3D(GridIndexType(aIndex(0) + 0.5),
+                    GridIndexType(aIndex(1) + 0.5),
+                    GridIndexType(aIndex(2) + 0.5));
 
-			return isInside(indexInt);
+                return isInside(indexInt);
+            }
 		}
 
 		bool GeometricInfo::worldCoordinateToIndex(const WorldCoordinate3D& aWorldCoordinate,
@@ -222,8 +229,8 @@ namespace rttb
 			DoubleVoxelGridIndex3D doubleIndex;
 			bool inside = worldCoordinateToGeometryCoordinate(aWorldCoordinate, doubleIndex);
 
-			aIndex = VoxelGridIndex3D(GridIndexType(doubleIndex(0) + 0.5), GridIndexType(doubleIndex(1) + 0.5),
-			                          GridIndexType(doubleIndex(2) + 0.5));
+			aIndex = VoxelGridIndex3D(GridIndexType(doubleIndex(0)+0.5), GridIndexType(doubleIndex(1)+0.5),
+			                          GridIndexType(doubleIndex(2)+0.5));
 
 			return inside;
 		}
@@ -244,10 +251,17 @@ namespace rttb
 
 			aWorldCoordinate = result + _imagePositionPatient;
 
-			VoxelGridIndex3D indexInt = VoxelGridIndex3D(GridIndexType(aIndex(0) + 0.5),
-			                            GridIndexType(aIndex(1) + 0.5),
-			                            GridIndexType(aIndex(2) + 0.5));
-			return isInside(indexInt);
+            //if we convert DoubleVoxelGridIndex3D (double) to VoxelGridIndex3D (unsigned int), we can't find out if it's negative. 
+            //So we have to check before.
+            if (aIndex(0) < -0.5 || aIndex(1) < -0.5 || aIndex(2) < -0.5){
+                return false;
+            }
+            else {
+                VoxelGridIndex3D indexInt = VoxelGridIndex3D(GridIndexType(aIndex(0) + 0.5),
+                    GridIndexType(aIndex(1) + 0.5),
+                    GridIndexType(aIndex(2) + 0.5));
+                return isInside(indexInt);
+            }
 		}
 
 
@@ -255,8 +269,8 @@ namespace rttb
 		        WorldCoordinate3D& aWorldCoordinate)
 		const
 		{
-			DoubleVoxelGridIndex3D indexDouble = DoubleVoxelGridIndex3D(aIndex(0) - 0.5, aIndex(1) - 0.5,
-			                                     aIndex(2) - 0.5);
+			DoubleVoxelGridIndex3D indexDouble = DoubleVoxelGridIndex3D(aIndex(0), aIndex(1),
+			                                     aIndex(2));
 			return geometryCoordinateToWorldCoordinate(indexDouble, aWorldCoordinate);
 		}
 

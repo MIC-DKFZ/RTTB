@@ -104,47 +104,42 @@ namespace rttb
 			rttb::SpacingVectorType3D pixelSpacing = doseAccessor1->getGeometricInfo().getSpacing();
 			int size[] = {doseAccessor1->getGeometricInfo().getNumColumns(), doseAccessor1->getGeometricInfo().getNumRows(), doseAccessor1->getGeometricInfo().getNumSlices()};
 
-			//check position [0 0 0], [max/2, max/2, max/2], [max max max] and combinations (as pixel positions are given at middle, correct with PixelSpacing/2)
-			//outermost position of the image max_x = (coordinatesZeroAndMaxX.at(0) + (size[0]*pixelSpacing.x()) can't be used, because this is already outside of the image, thus test max-0.001.
-			std::vector<double> coordinatesZeroAndMaxX;
-			coordinatesZeroAndMaxX.push_back(imagePositionPatient.x() - (pixelSpacing.x() * 0.5));
-			coordinatesZeroAndMaxX.push_back(coordinatesZeroAndMaxX.at(0) + (size[0]
-			                                 *pixelSpacing.x() - 0.001));
-			coordinatesZeroAndMaxX.push_back(coordinatesZeroAndMaxX.at(0) + ((size[0] - 1)*pixelSpacing.x() *
-			                                 0.5));
-			std::vector<double> coordinatesZeroAndMaxY;
-			coordinatesZeroAndMaxY.push_back(imagePositionPatient.y() - (pixelSpacing.y() * 0.5));
-			coordinatesZeroAndMaxY.push_back(coordinatesZeroAndMaxY.at(0) + (size[1]
-			                                 *pixelSpacing.y() - 0.001));
-			coordinatesZeroAndMaxY.push_back(coordinatesZeroAndMaxY.at(0) + ((size[1] - 1)*pixelSpacing.y() *
-			                                 0.5));
-			std::vector<double> coordinatesZeroAndMaxZ;
-			coordinatesZeroAndMaxZ.push_back(imagePositionPatient.z() - (pixelSpacing.z() * 0.5));
-			coordinatesZeroAndMaxZ.push_back(coordinatesZeroAndMaxZ.at(0) + (size[2]
-			                                 *pixelSpacing.z() - 0.001));
-			coordinatesZeroAndMaxZ.push_back(coordinatesZeroAndMaxZ.at(0) + ((size[2] - 1)*pixelSpacing.z() *
-			                                 0.5));
+			//Which voxels to check is irrelevant. The following three situations are checked:
+            // - exactly in-between two voxels: v_i=(0.5*v1 + 0.5*v2) --> target 0.5
+            // - the middle of a voxel: v_i = 1*v1 --> target 0 (semantically equivalent with target 1 and left/right flipped)
+            // - 10% shifted from the middle: v_i=0.1*v1 + 0.9*v2 --> target 0.9
+			std::vector<double> coordinatesX;
+			coordinatesX.push_back(imagePositionPatient.x() - (pixelSpacing.x() * 0.5));
+            coordinatesX.push_back(imagePositionPatient.x() + 5 * pixelSpacing.x());
+            coordinatesX.push_back(imagePositionPatient.x() + 9.9 * pixelSpacing.x());
+			std::vector<double> coordinatesY;
+			coordinatesY.push_back(imagePositionPatient.y() - (pixelSpacing.y() * 0.5));
+            coordinatesY.push_back(imagePositionPatient.y() + 5 * pixelSpacing.y());
+            coordinatesY.push_back(imagePositionPatient.x() + 9.9 * pixelSpacing.y());
+			std::vector<double> coordinatesZ;
+			coordinatesZ.push_back(imagePositionPatient.z() - (pixelSpacing.z() * 0.5));
+            coordinatesZ.push_back(imagePositionPatient.z() + 5 * pixelSpacing.z());
+            coordinatesZ.push_back(imagePositionPatient.z() + 9.9 * pixelSpacing.z());
 
 			std::vector<rttb::WorldCoordinate3D> coordinatesToCheck;
 
-			for (int x = 0; x < coordinatesZeroAndMaxX.size(); x++)
+			for (int x = 0; x < coordinatesX.size(); x++)
 			{
-				for (int y = 0; y < coordinatesZeroAndMaxY.size(); y++)
+				for (int y = 0; y < coordinatesY.size(); y++)
 				{
-					for (int z = 0; z < coordinatesZeroAndMaxZ.size(); z++)
+					for (int z = 0; z < coordinatesZ.size(); z++)
 					{
-						coordinatesToCheck.push_back(rttb::WorldCoordinate3D(coordinatesZeroAndMaxX.at(x),
-						                             coordinatesZeroAndMaxY.at(y), coordinatesZeroAndMaxZ.at(z)));
+						coordinatesToCheck.push_back(rttb::WorldCoordinate3D(coordinatesX.at(x),
+						                             coordinatesY.at(y), coordinatesZ.at(z)));
 					}
 				}
 			}
 
 			rttb::WorldCoordinate3D positionOutsideOfImageLeft = imagePositionPatient - rttb::WorldCoordinate3D(
 			            pixelSpacing.x() * 2.0, pixelSpacing.y() * 2.0, pixelSpacing.z() * 2.0);
-			rttb::WorldCoordinate3D positionOutsideOfImageRight = imagePositionPatient +
-			        rttb::WorldCoordinate3D(size[0] * pixelSpacing.x(), size[1] * pixelSpacing.y(),
-			                                size[2] * pixelSpacing.z()) + rttb::WorldCoordinate3D(pixelSpacing.x() * 2.0,
-			                                        pixelSpacing.y() * 2.0, pixelSpacing.z() * 2.0);
+            rttb::WorldCoordinate3D positionOutsideOfImageRight = imagePositionPatient +
+                rttb::WorldCoordinate3D(size[0] * pixelSpacing.x(), size[1] * pixelSpacing.y(),
+                size[2] * pixelSpacing.z());
 
 			//precomputed values for Nearest neighbor + Linear interpolator
 			double expectedDoseIncreaseXNearest[27];
@@ -155,17 +150,17 @@ namespace rttb
 				if (i < 9)
 				{
 					expectedDoseIncreaseXNearest[i] = 0.0;
-					expectedDoseIncreaseXLinear[i] = 0.0;
+                    expectedDoseIncreaseXLinear[i] = 1.41119e-005;
 				}
 				else if (i < 18)
 				{
-					expectedDoseIncreaseXNearest[i] = 0.00186277;
-					expectedDoseIncreaseXLinear[i] = 0.00186277;
+                    expectedDoseIncreaseXNearest[i] = 0.000141119;
+                    expectedDoseIncreaseXLinear[i] = 0.000141119;
 				}
 				else
 				{
-					expectedDoseIncreaseXNearest[i] = 0.000931387;
-					expectedDoseIncreaseXLinear[i] = 0.000931387;
+                    expectedDoseIncreaseXNearest[i] = 0.000282239;
+                    expectedDoseIncreaseXLinear[i] = 0.000279416;
 				}
 			}
 

@@ -73,7 +73,7 @@ namespace rttb
             //(-20, 0.5, 41.25); (-12.5, 0.5, 41.25); (-12.5, 10.5, 41.25); (-20, 10.5, 41.25);
 			core::Structure myTestStruct = myStructGenerator.CreateRectangularStructureCentered(2,3);
 			StructTypePointer spMyStruct = boost::make_shared<core::Structure>(myTestStruct);
-			
+
             //generate test structure 2. contours are (-20,0.5,38.75); (-12.5,0.5,38.75); (-12.5,10.5,38.75); (-20,10.5,38.75); 
             //(-20, 0.5, 40); (-12.5, 0.5, 40); (-12.5, 10.5, 40); (-20, 10.5, 40);
             core::Structure myTestStruct2 = myStructGenerator.CreateRectangularStructureCenteredContourPlaneThicknessNotEqualDosePlaneThickness(2);

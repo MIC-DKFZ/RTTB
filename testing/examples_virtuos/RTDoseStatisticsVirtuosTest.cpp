@@ -105,8 +105,8 @@ namespace rttb
 			//comparison values computed with "old" DoseStatistics implementation
 			CHECK_CLOSE(doseStatisticsVirtuos->getMinimum(), 6.4089, reducedErrorConstant);
 			CHECK_CLOSE(doseStatisticsVirtuos->getMaximum(), 39.0734, reducedErrorConstant);
-			CHECK_CLOSE(doseStatisticsVirtuos->getMean(), 22.5779, reducedErrorConstant);
-			CHECK_CLOSE(doseStatisticsVirtuos->getStdDeviation(), 6.28857, reducedErrorConstant);
+            CHECK_CLOSE(doseStatisticsVirtuos->getMean(), 22.5763, reducedErrorConstant);
+            CHECK_CLOSE(doseStatisticsVirtuos->getStdDeviation(), 6.28916, reducedErrorConstant);
 
 			ResultListPointer maxPositions = doseStatisticsVirtuos->getMaximumVoxelPositions();
 			ResultListPointer minPositions = doseStatisticsVirtuos->getMinimumVoxelPositions();
@@ -121,9 +121,9 @@ namespace rttb
 			            reducedErrorConstant);
 			CHECK_CLOSE(doseStatisticsVirtuos->getVx(0.9 * doseStatisticsVirtuos->getMaximum()), 0.471747,
 			            reducedErrorConstant);
-			CHECK_CLOSE(doseStatisticsVirtuos->getMOHx(0.1 * doseStatisticsVirtuos->getVolume()), 31.3266,
+            CHECK_CLOSE(doseStatisticsVirtuos->getMOHx(0.1 * doseStatisticsVirtuos->getVolume()), 31.3207,
 			            reducedErrorConstant);
-			CHECK_CLOSE(doseStatisticsVirtuos->getMOCx(0.05 * doseStatisticsVirtuos->getVolume()), 9.01261,
+            CHECK_CLOSE(doseStatisticsVirtuos->getMOCx(0.05 * doseStatisticsVirtuos->getVolume()), 9.01655,
 			            reducedErrorConstant);
 			CHECK_CLOSE(doseStatisticsVirtuos->getMaxOHx(0.95 * doseStatisticsVirtuos->getVolume()), 10.3764,
 			            reducedErrorConstant);

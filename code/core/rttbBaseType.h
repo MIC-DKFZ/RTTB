@@ -25,8 +25,6 @@
 #include <string>
 #include <vector>
 #include <list>
-#include <exception>
-#include <map>
 #include <iostream>
 #include <sstream>
 #include <ostream>
@@ -177,7 +175,7 @@ namespace rttb
 
 
 	/*! @class WorldCoordinate3D
-		@brief 3D coordinate in real world coordinates.
+		@brief 3D coordinate in real world coordinates like in DICOM to define ImagePositionPatient.
 	*/
 	class WorldCoordinate3D: public boost::numeric::ublas::vector<WorldCoordinate>
 	{
@@ -307,6 +305,7 @@ namespace rttb
 
 	};
 
+    /* ! @brief continuous index */
 	typedef WorldCoordinate3D DoubleVoxelGridIndex3D;
 
 	typedef UnsignedIndex3D ImageSize;
@@ -512,7 +511,8 @@ namespace rttb
 	typedef unsigned int GridIndexType;
 
 	/*! @class VoxelGridIndex3D
-		@brief 3D voxel grid index.
+		@brief 3D voxel grid index in a discret geometry (matrix/image).
+        @details analogous to DICOM where ImagePositionPatient gives the position of the center of the first coordinate (0/0/0)
 	*/
 	class VoxelGridIndex3D: public boost::numeric::ublas::vector<GridIndexType>
 	{

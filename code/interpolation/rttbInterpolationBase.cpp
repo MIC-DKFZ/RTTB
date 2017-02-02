@@ -83,7 +83,7 @@ namespace rttb
 								leftTopFrontCoordinate[i] = aIndex[i] - 1;
 								target[i] = (aWorldCoordinate[i] - (theNextVoxel[i] - pixelSpacing[i])) / pixelSpacing[i];
 							}
-							//@todo: this is a workaround, not a good solution
+							//@todo: see T22315
 							else
 							{
 								leftTopFrontCoordinate[i] = aIndex[i];

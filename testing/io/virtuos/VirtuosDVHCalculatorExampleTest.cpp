@@ -116,14 +116,13 @@ namespace rttb
 
 			CHECK_CLOSE(4.08178, dvhPtr->getMaximum(), errorConstant);
 			CHECK_CLOSE(0.0151739, dvhPtr->getMinimum(), errorConstant);
-			CHECK_CLOSE(0.755342, dvhPtr->getMean(), errorConstant);
+            CHECK_CLOSE(0.755357, dvhPtr->getMean(), errorConstant);
 			CHECK_CLOSE(0.440044, dvhPtr->getMedian(), errorConstant);
 			CHECK_CLOSE(0.0151739, dvhPtr->getModal(), errorConstant);
 			CHECK_CLOSE(0.835792, dvhPtr->getStdDeviation(), errorConstant);
 			CHECK_CLOSE(0.698549, dvhPtr->getVariance(), errorConstant);
             //reduced error constant because values differ with boost versions
-            CHECK_CLOSE(46573.01838, dvhPtr->getNumberOfVoxels(), 0.01);
-
+            CHECK_CLOSE(46572.03509, dvhPtr->getNumberOfVoxels(), 0.01);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

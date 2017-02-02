@@ -19,6 +19,7 @@
 // @author  $Author$ (last changed by)
 */
 
+#include <map>
 #include <istream>
 #include <sstream>
 #include <fstream>

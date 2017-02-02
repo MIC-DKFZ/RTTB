@@ -70,7 +70,6 @@ namespace rttb
 		PolygonType CreateTestStructure::createPolygonCenter(std::vector<VoxelGridIndex2D> aVoxelVector,
 		        GridIndexType sliceNumber)
 		{
-
 			PolygonType polygon;
 
 			for (size_t i = 0; i < aVoxelVector.size(); i++)
@@ -82,17 +81,18 @@ namespace rttb
 
 				WorldCoordinate3D p1;
 				_geoInfo.indexToWorldCoordinate(voxelIndex, p1);
-				SpacingVectorType3D delta = _geoInfo.getSpacing();
 
 				WorldCoordinate3D p;
-				p(0) = p1.x() + delta.x() / 2;
-				p(1) = p1.y() + delta.y() / 2;
-				p(2) = p1.z();
+				p(0) = p1.x() ;
+				p(1) = p1.y() ;
+                //This can be done directly for x/y coordinates, but not for z. Thus, we do it in this function.
+                p(2) = p1.z() - _geoInfo.getSpacing().z() / 2;
+
+                std::cout << p << std::endl;
 
 				polygon.push_back(p);
 			}
 
-			std::cout << std::endl;
 			return polygon;
 		}
 
@@ -112,10 +112,8 @@ namespace rttb
                 _geoInfo.geometryCoordinateToWorldCoordinate(indexDouble, p1);
             
                 polygon.push_back(p1);
-		std::cout << "(" << p1.x() << "," << p1.y() << "," << p1.z() << ")" << "; ";
             }
 
-            std::cout << std::endl;
             return polygon;
         }
 
