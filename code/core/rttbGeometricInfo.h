@@ -135,30 +135,48 @@ namespace rttb
 
 			bool equalsAlmost(const GeometricInfo& another, double errorConstant = 1e-5) const;
 
-			/*! @brief convert world coordinates to voxel grid index.
-				The conversion of values is done even if the target index is not inside the given voxel grid (return false).
-				If the target is inside the grid return true.
+			/*! @brief converts world coordinates to voxel grid index.
+                @details the voxels world coordinates are defined by spacing, orientation and imagePositionPatient.
+                         (-0.5/-0.5/-0.5) --> (0/0/0) and (0.4999/0.4999/0.4999) --> (0/0/0) define the outer coordinates of a voxel
+                         with spacing=1, orientation= x y z (identity matrix) and imagePositionPatient=(0/0/0). 
+                @sa WorldCoordinate3D VoxelGridIndex3D
+				@note The conversion of values is done even if the target index is not inside the given voxel grid.
+                @returns false if aWorldCoordinate is outside the voxel grid, true otherwise.
 			*/
 			bool worldCoordinateToIndex(const WorldCoordinate3D& aWorldCoordinate,
 			                            VoxelGridIndex3D& aIndex) const;
 
-			/*! @brief convert world coordinates to double geometry coordinate. The world coordinate of the image position patient (center of the first voxel) will be convert to the double voxel (0.0, 0.0, 0.0)
-			The conversion of values is done even if the target index is not inside the given voxel grid (return false).
-			If the target is inside the grid return true.
+			/*! @brief converts world coordinates to double geometry coordinate. 
+                @details This is needed because of a double precision voxel coordinate system for voxelization. 
+                The world coordinate of the image position patient is the center of the first voxel (0.0/0.0/0.0).
+                (-0.5/-0.5/-0.5) --> (-0.5/-0.5/-0.5) and (0.4999/0.4999/0.4999) --> (0.4999/0.4999/0.4999)
+                with spacing=1, orientation= x y z (identity matrix) and imagePositionPatient=(0/0/0).
+                @sa WorldCoordinate3D, DoubleVoxelGridIndex3D
+                @note The conversion of values is done even if the target index is not inside the given voxel grid.
+                @returns false if aWorldCoordinate is outside the voxel grid, true otherwise.
 			*/
 			bool worldCoordinateToGeometryCoordinate(const WorldCoordinate3D& aWorldCoordinate,
 			        DoubleVoxelGridIndex3D& aIndex) const;
 
-			/*! @brief convert double geometry coordinate to world coordinates. The double voxel index (0.0, 0.0, 0.0) will be convert to the world coordinate of the image postion patient (center of the first voxel)
-				The conversion of values is done even if the target is not inside the given voxel grid (return false).
-				If the target is inside the voxel grid return true.
+			/*! @brief converts double geometry coordinate to world coordinates. 
+                @details This is needed because of a double precision voxel coordinate system for voxelization.
+                The world coordinate of the image position patient is the center of the first voxel (0.0/0.0/0.0).
+                (-0.5/-0.5/-0.5) --> (-0.5/-0.5/-0.5) and (5.5/3.2/1.0) --> (5.5/3.2/1.0)
+                with spacing=1, orientation= x y z (identity matrix) and imagePositionPatient=(0/0/0).
+                @sa DoubleVoxelGridIndex3D, WorldCoordinate3D
+                @note The conversion of values is done even if the target index is not inside the given voxel grid.
+                @returns false if aWorldCoordinate is outside the voxel grid, true otherwise.
 			*/
 			bool geometryCoordinateToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
 			        WorldCoordinate3D& aWorldCoordinate) const;
 
-			/*! @brief convert int voxel grid index to world coordinates. It is the upper left corner of the voxel.
-			The conversion of values is done even if the target is not inside the given voxel grid (return false).
-			If the target is inside the voxel grid return true.
+			/*! @brief convert voxel grid index to world coordinates
+                @details The world coordinate of the image position patient (center of the first voxel) is the center of the first voxel (0.0/0.0/0.0)
+                (0/0/0) --> (0.0/0.0/0.0) and (1/1/2) --> (1.0/1.0/2.0) with spacing=1, orientation= x y z (identity matrix) and imagePositionPatient=(0/0/0).
+                Thus, the center of the voxel is taken and converted.
+                @sa VoxelGridIndex3D, WorldCoordinate3D
+                @note The conversion of values is done even if the target index is not inside the given voxel grid.
+                @returns false if aWorldCoordinate is outside the voxel grid, true otherwise.
 			*/
 			bool indexToWorldCoordinate(const VoxelGridIndex3D& aIndex,
 			                            WorldCoordinate3D& aWorldCoordinate) const;

@@ -103,8 +103,8 @@ namespace rttb
             CHECK(checkEqualDoseStatistic(doseStatisticsComplexExpected, doseStatisticsComplexActual));
 
 			//delete file again
-			CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
-			CHECK_EQUAL(std::remove(complexOutputFilename.c_str()), 0);
+            CHECK_EQUAL(std::remove(defaultOutputFilename.c_str()), 0);
+            CHECK_EQUAL(std::remove(complexOutputFilename.c_str()), 0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

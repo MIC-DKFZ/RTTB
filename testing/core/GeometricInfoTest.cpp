@@ -42,8 +42,9 @@ namespace rttb
 			9) test equalsAlmost
 			10) test world to index coordinate conversion
 			11) test isInside and index to world coordinate conversion
-			12) test getNumberOfVoxels
-			13) Test convert, validID and validIndex
+            12) test with simple Geometry: isInside, geometryCoordinateToWorldCoordinate(), worldCoordinateToGeometryCoordinate(), indexToWorldCoordinate()
+			13) test getNumberOfVoxels
+			14) Test convert, validID and validIndex
 		*/
 
 		int GeometricInfoTest(int argc, char* argv[])
@@ -293,28 +294,29 @@ namespace rttb
 			CHECK(!(geoInfo.indexToWorldCoordinate(insideTest4, testInside)));
 			CHECK(!(geoInfo.isInside(testInside)));
 
+            WorldCoordinate3D testWorldCoordinate;
+            DoubleVoxelGridIndex3D testDoubleIndex;
+
 			DoubleVoxelGridIndex3D doubleIndex1 = DoubleVoxelGridIndex3D(0.1, 0, -0.3);
 			const WorldCoordinate3D expectedDoubleIndex1(20.1, 100, -1000.3);
 			DoubleVoxelGridIndex3D doubleIndex2 = DoubleVoxelGridIndex3D(11, 6, 15); //outside
 			const WorldCoordinate3D expectedDoubleIndex2(31, 106, -985);
-			DoubleVoxelGridIndex3D doubleIndex3 = DoubleVoxelGridIndex3D(9.6, 5.0,
+			DoubleVoxelGridIndex3D doubleIndex3 = DoubleVoxelGridIndex3D(10.1, 5.0,
 			                                      3.0); // outside: Grid dimension = [10,5,3]
-			const WorldCoordinate3D expectedDoubleIndex3(29.6, 105, -997);
+			const WorldCoordinate3D expectedDoubleIndex3(30.1, 105, -997);
 			DoubleVoxelGridIndex3D doubleIndex4 = DoubleVoxelGridIndex3D(0.0, 0.0, 0.0);
 			const WorldCoordinate3D expectedDoubleIndex4 = geoInfo.getImagePositionPatient();
 
 			//test double index to world coordinate
-			WorldCoordinate3D test;
-			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex1, test);
-			CHECK_EQUAL(test, expectedDoubleIndex1);
-			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex2, test);
-			CHECK_EQUAL(test, expectedDoubleIndex2);
-			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex3, test);
-			CHECK_EQUAL(test, expectedDoubleIndex3);
-			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex4, test);
-			CHECK_EQUAL(test, expectedDoubleIndex4);
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex1, testWorldCoordinate);
+			CHECK_EQUAL(testWorldCoordinate, expectedDoubleIndex1);
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex2, testWorldCoordinate);
+			CHECK_EQUAL(testWorldCoordinate, expectedDoubleIndex2);
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex3, testWorldCoordinate);
+			CHECK_EQUAL(testWorldCoordinate, expectedDoubleIndex3);
+			geoInfo.geometryCoordinateToWorldCoordinate(doubleIndex4, testWorldCoordinate);
+			CHECK_EQUAL(testWorldCoordinate, expectedDoubleIndex4);
 
-			DoubleVoxelGridIndex3D testDoubleIndex;
 			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex4, testDoubleIndex);
 			CHECK_EQUAL(testDoubleIndex, doubleIndex4);
 			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex3, testDoubleIndex);
@@ -350,16 +352,15 @@ namespace rttb
 			CHECK_NO_THROW(geoInfo.setSpacing(SpacingVectorType3D(1)));
 
 			//values for testing were generated with a dedicated MeVisLab routine
-			//expected world coordinates need to accommodate the half voxel shift
-			//caused by the use of the central position in the voxel for conversion.
+            //no half voxel shift anymore because we changed indexToWorldCoordinate/worldCoordinateToIndex
 			insideTest1 = VoxelGridIndex3D(0, 0, 0); //origin (inside)
-			const WorldCoordinate3D expectedIndex1(19.75, 101.5, -1000.5);
+			const WorldCoordinate3D expectedIndex1(20, 100, -1000);
 			insideTest2 = VoxelGridIndex3D(6, 0, 2); //inside
-			const WorldCoordinate3D expectedIndex2(22.75, 95.5, -1000.5);
+			const WorldCoordinate3D expectedIndex2(23, 94, -1000);
 			insideTest3 = VoxelGridIndex3D(11, 6, 15); //outside
-			const WorldCoordinate3D expectedIndex3(25.25, 56.5, -994.5);
+			const WorldCoordinate3D expectedIndex3(25.5, 55, -994);
 			insideTest4 = VoxelGridIndex3D(10, 5, 3); // outside: Grid dimension = [10,5,3]
-			const WorldCoordinate3D expectedIndex4(24.75, 92.5, -995.5);
+			const WorldCoordinate3D expectedIndex4(25, 91, -995);
 
 			CHECK(geoInfo.isInside(insideTest1));
 			CHECK_EQUAL(geoInfo.isInside(insideTest1), geoInfo.isInside(expectedIndex1));
@@ -386,11 +387,159 @@ namespace rttb
 			CHECK(!(geoInfo.isInside(testInside)));
 			CHECK_EQUAL(expectedIndex4, testInside);
 
-			//12) test getNumberOfVoxels
+            //12) test with simple Geometry: isInside, geometryCoordinateToWorldCoordinate(), worldCoordinateToGeometryCoordinate(), indexToWorldCoordinate()
+            core::GeometricInfo geoInfoSimple;
+            ImageSize rttbSimpleSize = ImageSize(10, 10, 10);
+            geoInfoSimple.setImageSize(rttbSimpleSize);
+            SpacingVectorType3D spacingSimple(1, 1, 1);
+            geoInfoSimple.setSpacing(spacingSimple);
+            OrientationMatrix OMOnes;
+            geoInfoSimple.setOrientationMatrix(OMOnes);
+
+            const DoubleVoxelGridIndex3D doubleIndexPixelOutside1 = DoubleVoxelGridIndex3D(-0.501, 0.0, 0.0);
+            const DoubleVoxelGridIndex3D doubleIndexPixelOutside2 = DoubleVoxelGridIndex3D(0.0, 9.501, 0.0);
+            const DoubleVoxelGridIndex3D doubleIndexPixelZero1 = DoubleVoxelGridIndex3D(0.0, 0.0, 0.0);
+            const DoubleVoxelGridIndex3D doubleIndexPixelZero2 = DoubleVoxelGridIndex3D(-0.5, -0.5, -0.5);
+            const DoubleVoxelGridIndex3D doubleIndexPixelZero3 = DoubleVoxelGridIndex3D(0.499999, 0.499999, 0.499999);
+            const DoubleVoxelGridIndex3D doubleIndexPixelOne1 = DoubleVoxelGridIndex3D(1.0, 0.0, 0.0);
+            const DoubleVoxelGridIndex3D doubleIndexPixelOne2 = DoubleVoxelGridIndex3D(0.5, 0.499999, 0.499999);
+            const DoubleVoxelGridIndex3D doubleIndexPixelOne3 = DoubleVoxelGridIndex3D(1.49, -0.5, -0.5);
+            const DoubleVoxelGridIndex3D doubleIndexPixelLast1 = DoubleVoxelGridIndex3D(9.0, 9.0, 9.0);
+            const DoubleVoxelGridIndex3D doubleIndexPixelLast2 = DoubleVoxelGridIndex3D(9.4999, 9.4999, 9.4999);
+            const DoubleVoxelGridIndex3D doubleIndexPixelLast3 = DoubleVoxelGridIndex3D(8.501, 8.501, 8.501);
+
+            const VoxelGridIndex3D indexPixelOutside = VoxelGridIndex3D(11, 0, 0);
+            const VoxelGridIndex3D indexPixelZero = VoxelGridIndex3D(0, 0, 0);
+            const VoxelGridIndex3D indexPixelOne = VoxelGridIndex3D(1, 0, 0);
+            const VoxelGridIndex3D indexPixelLast = VoxelGridIndex3D(9, 9, 9);
+
+            const WorldCoordinate3D worldCoordinateOutside1(doubleIndexPixelOutside1(0), doubleIndexPixelOutside1(1), doubleIndexPixelOutside1(2));
+            const WorldCoordinate3D worldCoordinateOutside2(doubleIndexPixelOutside2(0), doubleIndexPixelOutside2(1), doubleIndexPixelOutside2(2));
+            const WorldCoordinate3D worldCoordinatePixelZero1(doubleIndexPixelZero1(0), doubleIndexPixelZero1(1), doubleIndexPixelZero1(2));
+            const WorldCoordinate3D worldCoordinatePixelZero2(doubleIndexPixelZero2(0), doubleIndexPixelZero2(1), doubleIndexPixelZero2(2));
+            const WorldCoordinate3D worldCoordinatePixelZero3(doubleIndexPixelZero3(0), doubleIndexPixelZero3(1), doubleIndexPixelZero3(2));
+            const WorldCoordinate3D worldCoordinatePixelOne1(doubleIndexPixelOne1(0), doubleIndexPixelOne1(1), doubleIndexPixelOne1(2));
+            const WorldCoordinate3D worldCoordinatePixelOne2(doubleIndexPixelOne2(0), doubleIndexPixelOne2(1), doubleIndexPixelOne2(2));
+            const WorldCoordinate3D worldCoordinatePixelOne3(doubleIndexPixelOne3(0), doubleIndexPixelOne3(1), doubleIndexPixelOne3(2));
+            const WorldCoordinate3D worldCoordinatePixelLast1(doubleIndexPixelLast1(0), doubleIndexPixelLast1(1), doubleIndexPixelLast1(2));
+            const WorldCoordinate3D worldCoordinatePixelLast2(doubleIndexPixelLast2(0), doubleIndexPixelLast2(1), doubleIndexPixelLast2(2));
+            const WorldCoordinate3D worldCoordinatePixelLast3(doubleIndexPixelLast3(0), doubleIndexPixelLast3(1), doubleIndexPixelLast3(2));
+
+            bool isInside;
+            
+            isInside = geoInfoSimple.geometryCoordinateToWorldCoordinate(doubleIndexPixelOutside1, testWorldCoordinate);
+            CHECK(!isInside);
+            isInside = geoInfoSimple.geometryCoordinateToWorldCoordinate(doubleIndexPixelOutside2, testWorldCoordinate);
+            CHECK(!isInside);
+            isInside = geoInfoSimple.geometryCoordinateToWorldCoordinate(doubleIndexPixelZero1, testWorldCoordinate);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelZero1);
+            CHECK(isInside);
+            isInside = geoInfoSimple.geometryCoordinateToWorldCoordinate(doubleIndexPixelZero2, testWorldCoordinate);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelZero2);
+            CHECK(isInside);
+            isInside = geoInfoSimple.geometryCoordinateToWorldCoordinate(doubleIndexPixelZero3, testWorldCoordinate);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelZero3);
+            CHECK(isInside);
+            isInside = geoInfoSimple.geometryCoordinateToWorldCoordinate(doubleIndexPixelOne1, testWorldCoordinate);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelOne1);
+            CHECK(isInside);
+            isInside = geoInfoSimple.geometryCoordinateToWorldCoordinate(doubleIndexPixelOne2, testWorldCoordinate);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelOne2);
+            CHECK(isInside);
+            isInside = geoInfoSimple.geometryCoordinateToWorldCoordinate(doubleIndexPixelOne3, testWorldCoordinate);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelOne3);
+            CHECK(isInside);
+            isInside = geoInfoSimple.geometryCoordinateToWorldCoordinate(doubleIndexPixelLast1, testWorldCoordinate);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelLast1);
+            CHECK(isInside);
+            isInside = geoInfoSimple.geometryCoordinateToWorldCoordinate(doubleIndexPixelLast2, testWorldCoordinate);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelLast2);
+            CHECK(isInside);
+            isInside = geoInfoSimple.geometryCoordinateToWorldCoordinate(doubleIndexPixelLast3, testWorldCoordinate);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelLast3);
+            CHECK(isInside);
+
+            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinateOutside1, testDoubleIndex);
+            CHECK(!isInside);
+            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinateOutside2, testDoubleIndex);
+            CHECK(!isInside);
+            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelZero1, testDoubleIndex);
+            CHECK_EQUAL(testDoubleIndex, doubleIndexPixelZero1);
+            CHECK(isInside);
+            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelZero2, testDoubleIndex);
+            CHECK_EQUAL(testDoubleIndex, doubleIndexPixelZero2);
+            CHECK(isInside);
+            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelZero3, testDoubleIndex);
+            CHECK_EQUAL(testDoubleIndex, doubleIndexPixelZero3);
+            CHECK(isInside);
+            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelOne1, testDoubleIndex);
+            CHECK_EQUAL(testDoubleIndex, doubleIndexPixelOne1);
+            CHECK(isInside);
+            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelOne2, testDoubleIndex);
+            CHECK_EQUAL(testDoubleIndex, doubleIndexPixelOne2);
+            CHECK(isInside);
+            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelOne3, testDoubleIndex);
+            CHECK_EQUAL(testDoubleIndex, doubleIndexPixelOne3);
+            CHECK(isInside);
+            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelLast1, testDoubleIndex);
+            CHECK_EQUAL(testDoubleIndex, doubleIndexPixelLast1);
+            CHECK(isInside);
+            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelLast2, testDoubleIndex);
+            CHECK_EQUAL(testDoubleIndex, doubleIndexPixelLast2);
+            CHECK(isInside);
+            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelLast3, testDoubleIndex);
+            CHECK_EQUAL(testDoubleIndex, doubleIndexPixelLast3);
+            CHECK(isInside);
+
+            isInside = geoInfoSimple.indexToWorldCoordinate(indexPixelOutside, testWorldCoordinate);
+            CHECK(!isInside);
+            isInside = geoInfoSimple.indexToWorldCoordinate(indexPixelZero, testWorldCoordinate);
+            CHECK(isInside);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelZero1);
+            isInside = geoInfoSimple.indexToWorldCoordinate(indexPixelOne, testWorldCoordinate);
+            CHECK(isInside);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelOne1);
+            isInside = geoInfoSimple.indexToWorldCoordinate(indexPixelLast, testWorldCoordinate);
+            CHECK(isInside);
+            CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelLast1);
+
+            isInside = geoInfoSimple.worldCoordinateToIndex(worldCoordinateOutside1, testIntIndex);
+            CHECK(!isInside);
+            isInside = geoInfoSimple.worldCoordinateToIndex(worldCoordinateOutside2, testIntIndex);
+            CHECK(!isInside);
+            isInside = geoInfoSimple.worldCoordinateToIndex(worldCoordinatePixelZero1, testIntIndex);
+            CHECK(isInside);
+            CHECK_EQUAL(testIntIndex, indexPixelZero);
+            isInside = geoInfoSimple.worldCoordinateToIndex(worldCoordinatePixelZero2, testIntIndex);
+            CHECK(isInside);
+            CHECK_EQUAL(testIntIndex, indexPixelZero);
+            isInside = geoInfoSimple.worldCoordinateToIndex(worldCoordinatePixelZero3, testIntIndex);
+            CHECK(isInside);
+            CHECK_EQUAL(testIntIndex, indexPixelZero);
+            isInside = geoInfoSimple.worldCoordinateToIndex(worldCoordinatePixelOne1, testIntIndex);
+            CHECK(isInside);
+            CHECK_EQUAL(testIntIndex, indexPixelOne);
+            isInside = geoInfoSimple.worldCoordinateToIndex(worldCoordinatePixelOne2, testIntIndex);
+            CHECK(isInside);
+            CHECK_EQUAL(testIntIndex, indexPixelOne);
+            isInside = geoInfoSimple.worldCoordinateToIndex(worldCoordinatePixelOne3, testIntIndex);
+            CHECK(isInside);
+            CHECK_EQUAL(testIntIndex, indexPixelOne);
+            isInside = geoInfoSimple.worldCoordinateToIndex(worldCoordinatePixelLast1, testIntIndex);
+            CHECK(isInside);
+            CHECK_EQUAL(testIntIndex, indexPixelLast);
+            isInside = geoInfoSimple.worldCoordinateToIndex(worldCoordinatePixelLast2, testIntIndex);
+            CHECK(isInside);
+            CHECK_EQUAL(testIntIndex, indexPixelLast);
+            isInside = geoInfoSimple.worldCoordinateToIndex(worldCoordinatePixelLast3, testIntIndex);
+            CHECK(isInside);
+            CHECK_EQUAL(testIntIndex, indexPixelLast);
+
+			//13) test getNumberOfVoxels
 			CHECK_EQUAL(expectedVoxelDims(0)*expectedVoxelDims(1)*expectedVoxelDims(2),
 			            geoInfo.getNumberOfVoxels());
 
-			//13) Test convert, validID and validIndex
+			//14) Test convert, validID and validIndex
 			geoInfo.setNumColumns(50);
 			geoInfo.setNumRows(30);
 			geoInfo.setNumSlices(40);

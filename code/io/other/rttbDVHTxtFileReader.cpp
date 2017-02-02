@@ -21,6 +21,7 @@
 
 #include "rttbDVHTxtFileReader.h"
 
+#include <map>
 #include <istream>
 #include <sstream>
 #include <fstream>

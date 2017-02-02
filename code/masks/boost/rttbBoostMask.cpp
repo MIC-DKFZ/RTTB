@@ -117,10 +117,11 @@ namespace rttb
 					geometryCoordinatePolygonVector.push_back(geometryCoordinatePolygon);
 				}
 
-				rttb::VoxelGridIndex3D minIndex = VoxelGridIndex3D(GridIndexType(globalMinGridIndex(0) + 0.5),
-				                                  GridIndexType(globalMinGridIndex(1) + 0.5), GridIndexType(globalMinGridIndex(2) + 0.5));
-				rttb::VoxelGridIndex3D maxIndex = VoxelGridIndex3D(GridIndexType(globalMaxGridIndex(0) + 0.5),
-				                                  GridIndexType(globalMaxGridIndex(1) + 0.5), GridIndexType(globalMaxGridIndex(2) + 0.5));
+				rttb::VoxelGridIndex3D minIndex = VoxelGridIndex3D(GridIndexType(globalMinGridIndex(0) ),
+				                                  GridIndexType(globalMinGridIndex(1) ), GridIndexType(globalMinGridIndex(2) ));
+				rttb::VoxelGridIndex3D maxIndex = VoxelGridIndex3D(GridIndexType(globalMaxGridIndex(0) ),
+				                                  GridIndexType(globalMaxGridIndex(1) ), GridIndexType(globalMaxGridIndex(2) ));
+
 				_globalBoundingBox.push_back(minIndex);
 				_globalBoundingBox.push_back(maxIndex);
 
@@ -164,6 +165,7 @@ namespace rttb
 					count++;
 
 				}
+
                 _voxelizationMap = ::boost::make_shared<std::map<double, BoostArray2DPointer> >();
 
 				polygonMapVector.push_back(polygonMap); //insert the last one
