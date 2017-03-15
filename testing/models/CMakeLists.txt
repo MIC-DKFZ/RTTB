@@ -20,6 +20,3 @@ ADD_TEST(LQModelAccessorTest ${MODELS_TESTS} LQModelAccessorTest "${TEST_DATA_RO
 
 RTTB_CREATE_TEST_MODULE(rttbModel DEPENDS RTTBModels RTTBDicomIO PACKAGE_DEPENDS Boost Litmus DCMTK)
 
-IF (NOT WIN32)
-	target_compile_features(rttbModelTests PRIVATE cxx_auto_type cxx_nullptr cxx_override)
-ENDIF()

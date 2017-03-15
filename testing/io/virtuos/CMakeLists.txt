@@ -43,8 +43,5 @@ ADD_TEST(VirtuosDVHCalculatorExampleTest ${VIRTUOSIO_TEST} VirtuosDVHCalculatorE
 "${TEST_DATA_ROOT}/Virtuos/prostate_ac/prostate_ac000.ctx.gz" )
 
 RTTB_CREATE_TEST_MODULE(rttbVirtuosIO DEPENDS RTTBVirtuosIO RTTBMasks RTTBBoostMask PACKAGE_DEPENDS Boost Litmus VirtuosIO)
-IF (NOT WIN32)
-	#CMake 3.1 provides target_compile_features(RTTB_Interpolation cxx_auto_type cxx_nullptr cxx_override) to 			automatically add required compiler flags
-	set(CMAKE_CXX_FLAGS "-std=c++11")
-ENDIF()
+
 

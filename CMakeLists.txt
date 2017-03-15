@@ -204,6 +204,16 @@ endif()
 
 #-----------------------------------------------------------------------------
 # RTToolbox build configuration options.
+
+IF (NOT RTTB_CXX_STANDARD)
+ set(RTTB_CXX_STANDARD 11)
+ENDIF (NOT RTTB_CXX_STANDARD)
+
+set(CMAKE_CXX_STANDARD ${RTTB_CXX_STANDARD} CACHE STRING "")
+set(CMAKE_CXX_STANDARD_REQUIRED 1)
+OPTION(CMAKE_CXX_EXTENSIONS "" ON)
+MARK_AS_ADVANCED(CMAKE_CXX_STANDARD CMAKE_CXX_STANDARD_REQUIRED CMAKE_CXX_EXTENSIONS)
+
 IF (WIN32)
   OPTION(BUILD_SHARED_LIBS "Build RTToolbox with shared libraries." OFF)
 ELSE (WIN32)

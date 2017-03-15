@@ -1,5 +1,2 @@
 RTTB_CREATE_MODULE(RTTBITKIO DEPENDS RTTBCore PACKAGE_DEPENDS Boost ITK)
-IF (NOT WIN32)
-	target_compile_features(RTTBITKIO PRIVATE cxx_auto_type cxx_nullptr cxx_override)
-	set(CMAKE_CXX_FLAGS "-fpermissive")
-ENDIF()
+

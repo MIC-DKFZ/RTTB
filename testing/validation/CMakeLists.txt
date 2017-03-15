@@ -25,7 +25,3 @@ ADD_TEST(VoxelizationValidationTest ${CORE_TEST_VALIDATION} VoxelizationValidati
 
 RTTB_CREATE_TEST_MODULE(rttbValidation DEPENDS RTTBCore RTTBBoostMask RTTBDicomIO RTTBITKIO RTTBOtherIO PACKAGE_DEPENDS Litmus ITK)
 
-IF (NOT WIN32)
-	target_compile_features(rttbValidationTests PRIVATE cxx_auto_type cxx_nullptr cxx_override)
-	set(CMAKE_CXX_FLAGS "-fpermissive")
-ENDIF()

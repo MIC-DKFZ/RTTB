@@ -17,6 +17,4 @@ ADD_TEST(BoostMaskTest ${Boost_Mask_TESTS} BoostMaskTest
 )
 
 RTTB_CREATE_TEST_MODULE(rttbBoostMask DEPENDS RTTBDicomIO RTTBMasks RTTBBoostMask PACKAGE_DEPENDS BoostBinaries Litmus DCMTK)
-IF (NOT WIN32)
-	set(CMAKE_CXX_FLAGS "-std=c++11")
-ENDIF()
+

@@ -16,7 +16,3 @@ ADD_TEST(SimpleMappableDoseAccessorWithMatchPointTest ${INTERPOLATION_MP_TRANSFO
 
 RTTB_CREATE_TEST_MODULE(rttbInterpolationMPTransformation DEPENDS RTTBInterpolation RTTBInterpolationMatchPointTransformation RTTBDicomIO PACKAGE_DEPENDS Litmus MatchPoint)
 
-IF (NOT WIN32)
-	target_compile_features(rttbInterpolationMPTransformationTests PRIVATE cxx_auto_type cxx_nullptr cxx_override)
-	set(CMAKE_CXX_FLAGS "-fpermissive")
-ENDIF()
