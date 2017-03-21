@@ -1,11 +1,5 @@
 MESSAGE(STATUS "processing RTToolbox apps")
 
-IF (WIN32)
-	IF (MSVC_VERSION LESS 1800)
-		MESSAGE(FATAL_ERROR "The apps of RTToolbox requires C++11 features (Visual Studio 2013 or higher).")
-	ENDIF(MSVC_VERSION LESS 1800)
-ENDIF(WIN32)
-
 
 #extract and build ArgumentParsingLib
 include(ExternalProject)
