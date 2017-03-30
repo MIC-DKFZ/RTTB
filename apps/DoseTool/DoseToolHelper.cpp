@@ -151,6 +151,7 @@ rttb::apps::doseTool::generateMasks(
 	{
 		maskAccessorPtrVector.push_back(rttb::io::itk::ITKImageFileMaskAccessorGenerator(
 		                                    appData._structFileName).generateMaskAccessor());
+        appData._structNames.push_back(appData._structNameRegex);
 	}
 	else
 	{
@@ -315,8 +316,20 @@ rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData
         if (appData._computeDVH)
         {
             std::cout << std::endl << "computing DVH... ";
-            core::DVH::DVHPointer dvh = calculateDVH(spDoseIterator, appData._struct->getUID(),
-                appData._dose->getUID());
+            rttb::IDType structUID;
+            rttb::IDType doseUID;
+            //Generate random UID
+            if (appData._structLoadStyle.front() == "itk"){
+                structUID = "struct42";
+                doseUID = "dose42";
+            }
+            else {
+                structUID = appData._struct->getUID();
+                doseUID = appData._dose->getUID();
+            }
+
+            core::DVH::DVHPointer dvh = calculateDVH(spDoseIterator, structUID,
+                doseUID);
             std::cout << "done." << std::endl;
 
             std::cout << std::endl << "writing DVH to file... ";
