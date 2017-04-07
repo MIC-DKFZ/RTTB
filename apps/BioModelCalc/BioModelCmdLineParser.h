@@ -16,7 +16,9 @@ namespace rttb
 			{
 			public:
 				BioModelCmdLineParser(int argc, const char** argv, const std::string& name,
-				                      const std::string& version, bool virtuosSupport = false);
+					const std::string& version, bool virtuosSupport = false);
+				BioModelCmdLineParser(int argc, const char** argv, const std::string& name, const std::string& version,
+					const std::string& description, const std::string& contributor, const std::string& category, bool virtuosSupport = false);
 				void validateInput() const;
 				void printHelp() const;
 
