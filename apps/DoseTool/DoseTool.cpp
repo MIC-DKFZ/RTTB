@@ -39,13 +39,16 @@ int main(int argc, const char** argv)
     rttb::apps::doseTool::ApplicationData appData;
 	boost::shared_ptr<rttb::apps::doseTool::DoseToolCmdLineParser> argParser;
 
+	const std::string appCategory = "RT-Toolbox App";
+	const std::string appName = "DoseTool";
+	const std::string appDesc = "An App to calculate the dose statistics and compute the DVH. The GUI for this app is currently under development and in an experimental state.";
+	const std::string appContributor = "SIDT@DKFZ";
+	const std::string appVersion = RTTB_FULL_VERSION_STRING;
+
 	try
 	{
-		std::string appName = "DoseTool";
-		std::string appVersion = RTTB_FULL_VERSION_STRING;
-
 		argParser = boost::make_shared<rttb::apps::doseTool::DoseToolCmdLineParser>(argc, argv, appName,
-		            appVersion);
+		            appVersion, appDesc, appContributor, appCategory);
 	}
 	catch (const std::exception& e)
 	{
@@ -56,7 +59,7 @@ int main(int argc, const char** argv)
 	// This is vital. The application needs to exit if the "help" or "version" parameter is set
 	// because this means the other parameters won't be parsed.
 
-	if (argParser->isSet(argParser->OPTION_HELP) || argParser->isSet(argParser->OPTION_VERSION))
+	if (argParser->isSet(argParser->OPTION_HELP) || argParser->isSet(argParser->OPTION_VERSION) || argParser->isSet(argParser->OPTION_XML))
 	{
 		return 0;
 	}
