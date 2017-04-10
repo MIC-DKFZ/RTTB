@@ -37,12 +37,12 @@ namespace rttb
 				addOption<std::string>(OPTION_DOSE_FILE, OPTION_GROUP_REQUIRED,
 					"The name of the dose file. Can be omitted if used as "
 					"positional argument (see above).", 'd', true);
-				addInformationForXML(OPTION_DOSE_FILE, cmdlineparsing::XMLGenerator::paramType::INPUT, {"dcm", "*" });
+				addInformationForXML(OPTION_DOSE_FILE, cmdlineparsing::XMLGenerator::paramType::INPUT, { "*" });
 
 				addOption<std::string>(OPTION_STRUCT_FILE, OPTION_GROUP_REQUIRED,
 					"The name of the struct file. Can be omitted if used as "
 					"positional argument (see above).", 's', true);
-				addInformationForXML(OPTION_STRUCT_FILE, cmdlineparsing::XMLGenerator::paramType::INPUT, {"dcm", "*" });
+				addInformationForXML(OPTION_STRUCT_FILE, cmdlineparsing::XMLGenerator::paramType::INPUT, { "*" });
 
 				addOptionWithDefaultValue<std::string>(OPTION_STRUCT_NAME, OPTION_GROUP_REQUIRED,
 					"The name of the struct as regular expression. Can be omitted if used as "
@@ -93,11 +93,11 @@ namespace rttb
 				addOption<std::string>(OPTION_DOSE_STATISTICS, OPTION_GROUP_OPTIONAL,
 					"If dose statistics should be computed. The argument is the output file. Can be omitted if used as "
 					"positional argument (see above).", 'y');
-				addInformationForXML(OPTION_DOSE_STATISTICS, cmdlineparsing::XMLGenerator::paramType::OUTPUT, {"xml", "*" });
+				addInformationForXML(OPTION_DOSE_STATISTICS, cmdlineparsing::XMLGenerator::paramType::OUTPUT, { "*" });
 
 				addOption<std::string>(OPTION_DVH, OPTION_GROUP_OPTIONAL,
 					"If the DVH should be computed. The argument is the output file", 'z');
-				addInformationForXML(OPTION_DVH, cmdlineparsing::XMLGenerator::paramType::OUTPUT, { "xml", "*" });
+				addInformationForXML(OPTION_DVH, cmdlineparsing::XMLGenerator::paramType::OUTPUT, { "*" });
 
 				addOption(OPTION_COMPLEX_STATISTICS, OPTION_GROUP_OPTIONAL,
 					"If the complex dose statistics (Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx) should be computed.", 'f');

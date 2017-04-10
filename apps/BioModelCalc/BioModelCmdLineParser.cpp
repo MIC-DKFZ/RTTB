@@ -14,12 +14,12 @@ namespace rttb
 				addOption<std::string>(OPTION_DOSE_FILE, OPTION_GROUP_REQUIRED,
 					"The name of the dose file. Can be omitted if used as "
 					"positional argument (see above).", 'd', true);
-				addInformationForXML(OPTION_DOSE_FILE, cmdlineparsing::XMLGenerator::paramType::INPUT, { "mhd", "*" });
+				addInformationForXML(OPTION_DOSE_FILE, cmdlineparsing::XMLGenerator::paramType::INPUT, { "*" });
 
 				addOption<std::string>(OPTION_OUTPUT_FILE, OPTION_GROUP_REQUIRED,
 					"The name of the output file. Can be omitted if used as "
 					"positional argument (see above).", 'o', true);
-				addInformationForXML(OPTION_OUTPUT_FILE, cmdlineparsing::XMLGenerator::paramType::OUTPUT, { "mhd", "*" });
+				addInformationForXML(OPTION_OUTPUT_FILE, cmdlineparsing::XMLGenerator::paramType::OUTPUT, { "*" });
 
 				addPositionalOption(OPTION_DOSE_FILE, 1);
 				addPositionalOption(OPTION_OUTPUT_FILE, 1);

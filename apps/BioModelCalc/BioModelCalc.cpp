@@ -39,7 +39,7 @@ int main(int argc, const char** argv)
 
 	const std::string appCategory = "RT-Toolbox App";
 	const std::string appName = "BioModelCalc";
-	const std::string appDesc = "An App to calculate the Linear quadratic (LQ) BioModel. This app is currently under development and in an experimental state.";
+	const std::string appDesc = "An App to calculate the Linear quadratic (LQ) BioModel. The GUI for this app is currently under development and in an experimental state.";
 	const std::string appContributor = "SIDT@DKFZ";
 	const std::string appVersion = RTTB_FULL_VERSION_STRING;
 	try

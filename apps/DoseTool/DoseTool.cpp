@@ -41,7 +41,7 @@ int main(int argc, const char** argv)
 
 	const std::string appCategory = "RT-Toolbox App";
 	const std::string appName = "DoseTool";
-	const std::string appDesc = "An App to calculate the dose statistics and compute the DVH. This app is currently under development and in an experimental state.";
+	const std::string appDesc = "An App to calculate the dose statistics and compute the DVH. The GUI for this app is currently under development and in an experimental state.";
 	const std::string appContributor = "SIDT@DKFZ";
 	const std::string appVersion = RTTB_FULL_VERSION_STRING;
 

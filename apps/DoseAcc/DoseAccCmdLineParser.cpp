@@ -34,15 +34,15 @@ namespace rttb
 				//REQUIRED
 				addOption<std::string>(OPTION_DOSE1_FILENAME, OPTION_GROUP_REQUIRED,
 					"File path to the first dose.", 'd', true);
-				addInformationForXML(OPTION_DOSE1_FILENAME, cmdlineparsing::XMLGenerator::paramType::INPUT, { "mhd", "*" });
+				addInformationForXML(OPTION_DOSE1_FILENAME, cmdlineparsing::XMLGenerator::paramType::INPUT, { "*" });
 
 				addOption<std::string>(OPTION_DOSE2_FILENAME, OPTION_GROUP_REQUIRED,
 					"File path to the second dose.", 'e', true);
-				addInformationForXML(OPTION_DOSE2_FILENAME, cmdlineparsing::XMLGenerator::paramType::INPUT, { "mhd", "*" });
+				addInformationForXML(OPTION_DOSE2_FILENAME, cmdlineparsing::XMLGenerator::paramType::INPUT, { "*" });
 
 				addOption<std::string>(OPTION_OUTPUT_FILENAME, OPTION_GROUP_REQUIRED,
 					"File path where the output should be stored.", 'o', true);
-				addInformationForXML(OPTION_OUTPUT_FILENAME, cmdlineparsing::XMLGenerator::paramType::OUTPUT, { "mhd", "*" });
+				addInformationForXML(OPTION_OUTPUT_FILENAME, cmdlineparsing::XMLGenerator::paramType::OUTPUT, { "*" });
 
 				addOptionWithDefaultValue<std::string>(OPTION_INTERPOLATOR, OPTION_GROUP_REQUIRED,
 					"Specifies the interpolator that should be used for mapping. Available options are: "
@@ -64,7 +64,7 @@ namespace rttb
 					"Specifies name and location of the registration file that should be used to map dose 2 before accumulating it with dose 1."
 					"The registration should be stored as MatchPoint registration.",
 					"", "no mapping", 'r', true);
-				addInformationForXML(OPTION_REGISTRATION_FILENAME, cmdlineparsing::XMLGenerator::paramType::INPUT, { "mapr", "*" });
+				addInformationForXML(OPTION_REGISTRATION_FILENAME, cmdlineparsing::XMLGenerator::paramType::INPUT, { "mapr" });
 
 				std::vector<std::string> defaultLoadingStyle;
 				defaultLoadingStyle.push_back("dicom");

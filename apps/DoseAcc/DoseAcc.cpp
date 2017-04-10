@@ -37,7 +37,7 @@ int main(int argc, const char** argv)
       
 	const std::string appCategory = "RT-Toolbox App";
 	const std::string appName = "DoseAcc";
-	const std::string appDesc = "An App to accumulate two doses. This app is currently under development and in an experimental state.";
+	const std::string appDesc = "An App to accumulate two doses. The GUI for this app is currently under development and in an experimental state.";
 	const std::string appContributor = "SIDT@DKFZ";
     const std::string appVersion = RTTB_FULL_VERSION_STRING;
 
