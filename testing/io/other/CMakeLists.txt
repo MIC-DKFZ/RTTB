@@ -3,7 +3,6 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-
 SET(OTHERIO_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbOtherIOTests)
 
 SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)

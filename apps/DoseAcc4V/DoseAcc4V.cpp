@@ -38,13 +38,16 @@ int main(int argc, const char** argv)
     rttb::apps::doseAcc::ApplicationData appData;
 	boost::shared_ptr<rttb::apps::doseAcc::DoseAccCmdLineParser> argParser;
 
+	const std::string appCategory = "RT-Toolbox App";
+	const std::string appName = "DoseAcc4V";
+	const std::string appDesc = "An App to accumulate two doses with virtuos support. The GUI for this app is currently under development and in an experimental state.";
+	const std::string appContributor = "SIDT@DKFZ";
+	const std::string appVersion = RTTB_FULL_VERSION_STRING;
+
 	try
 	{
-        std::string appName = "DoseAcc";
-        std::string appVersion = RTTB_FULL_VERSION_STRING;
-
         argParser = boost::make_shared<rttb::apps::doseAcc::DoseAccCmdLineParser>(argc, argv, appName,
-            appVersion, true);
+            appVersion, appDesc, appContributor, appCategory, true);
 	}
 	catch (const std::exception& e)
 	{

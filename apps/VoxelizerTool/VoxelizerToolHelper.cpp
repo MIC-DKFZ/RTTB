@@ -20,8 +20,10 @@
 */
 
 #include "VoxelizerToolHelper.h"
+
+#include <regex>
+
 #include <boost/algorithm/string/case_conv.hpp>
-#include <boost/regex.hpp>
 #include <boost/filesystem.hpp>
 
 namespace rttb
@@ -38,10 +40,10 @@ namespace rttb
 
 				for (unsigned int j = 0; j < listOfExpressions.size(); j++)
 				{
-					boost::regex e(boost::algorithm::to_lower_copy(inputExpression));
+					std::regex e(boost::algorithm::to_lower_copy(inputExpression));
 					std::string s = boost::algorithm::to_lower_copy(listOfExpressions.at(j));
 
-					if (boost::regex_match(s, e))
+					if (std::regex_match(s, e))
 					{
 						listOfFoundElements.push_back(j);
 					}

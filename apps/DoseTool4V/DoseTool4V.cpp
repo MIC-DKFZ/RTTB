@@ -38,13 +38,16 @@ int main(int argc, const char** argv)
     rttb::apps::doseTool::ApplicationData appData;
 	boost::shared_ptr<rttb::apps::doseTool::DoseToolCmdLineParser> argParser;
 
+	const std::string appCategory = "RT-Toolbox App";
+	const std::string appName = "DoseTool4V";
+	const std::string appDesc = "An App to calculate the dose statistics and compute the DVH  with virtuos support. The GUI for this app is currently under development and in an experimental state.";
+	const std::string appContributor = "SIDT@DKFZ";
+	const std::string appVersion = RTTB_FULL_VERSION_STRING;
+
 	try
 	{
-		std::string appName = "DoseTool4V";
-		std::string appVersion = RTTB_FULL_VERSION_STRING;
-
 		argParser = boost::make_shared<rttb::apps::doseTool::DoseToolCmdLineParser>(argc, argv, appName,
-		            appVersion, true);
+			appVersion, appDesc, appContributor, appCategory, true);
 	}
 	catch (const std::exception& e)
 	{

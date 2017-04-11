@@ -22,7 +22,7 @@
 
 #include "rttbVOIindexIdentifier.h"
 
-#include <boost/regex.hpp>
+#include <regex>
 
 #include "rttbExceptionMacros.h"
 
@@ -44,7 +44,7 @@ namespace rttb
 
 			std::vector<std::string> voiLabelList;
 			std::vector<unsigned int> resultVOiIndices;
-			boost::regex e(nameAsRegEx);
+			std::regex e(nameAsRegEx);
 
 			for (size_t i = 0; i < spStructSet->getNumberOfStructures(); i++)
 			{
@@ -52,7 +52,7 @@ namespace rttb
 
 				std::string s = spStructSet->getStructure(i)->getLabel();
 
-				if (boost::regex_match(s, e))
+				if (std::regex_match(s, e))
 				{
 					resultVOiIndices.push_back(i);
 				}

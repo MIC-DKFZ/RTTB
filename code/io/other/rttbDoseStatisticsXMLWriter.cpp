@@ -21,6 +21,7 @@
 
 #include "rttbDoseStatisticsXMLWriter.h"
 
+#include <cmath>
 #include <ostream>
 
 #include <boost/property_tree/xml_parser.hpp>
@@ -129,42 +130,42 @@ namespace rttb
 				for (it = AllDx.begin(); it != AllDx.end(); ++it)
 				{
 					ptree DxNode = createNodeWithNameAndXAttribute(static_cast<float>(it->second), "Dx",
-					               round(convertToPercent(it->first, absoluteVolume)));
+					               std::round(convertToPercent(it->first, absoluteVolume)));
 					pt.add_child(statisticsTag + "." + propertyTag, DxNode);
 				}
 
 				for (vxIt = AllVx.begin(); vxIt != AllVx.end(); ++vxIt)
 				{
 					ptree VxNode = createNodeWithNameAndXAttribute(static_cast<float>(vxIt->second), "Vx",
-                        round(convertToPercent(vxIt->first, referenceDose)));
+                        std::round(convertToPercent(vxIt->first, referenceDose)));
 					pt.add_child(statisticsTag + "." + propertyTag, VxNode);
 				}
 
 				for (it = AllMOHx.begin(); it != AllMOHx.end(); ++it)
 				{
 					ptree mohxNode = createNodeWithNameAndXAttribute(static_cast<float>(it->second), "MOHx",
-                        round(convertToPercent(it->first, absoluteVolume)));
+                        std::round(convertToPercent(it->first, absoluteVolume)));
 					pt.add_child(statisticsTag + "." + propertyTag, mohxNode);
 				}
 
 				for (it = AllMOCx.begin(); it != AllMOCx.end(); ++it)
 				{
 					ptree mocxNode = createNodeWithNameAndXAttribute(static_cast<float>(it->second), "MOCx",
-                        round(convertToPercent(it->first, absoluteVolume)));
+                        std::round(convertToPercent(it->first, absoluteVolume)));
 					pt.add_child(statisticsTag + "." + propertyTag, mocxNode);
 				}
 
 				for (it = AllMaxOHx.begin(); it != AllMaxOHx.end(); ++it)
 				{
 					ptree maxOhxNode = createNodeWithNameAndXAttribute(static_cast<float>(it->second), "MaxOHx",
-                        round(convertToPercent(it->first, absoluteVolume)));
+                        std::round(convertToPercent(it->first, absoluteVolume)));
 					pt.add_child(statisticsTag + "." + propertyTag, maxOhxNode);
 				}
 
 				for (it = AllMinOCx.begin(); it != AllMinOCx.end(); ++it)
 				{
 					ptree minOCxNode = createNodeWithNameAndXAttribute(static_cast<float>(it->second), "MinOCx",
-                        round(convertToPercent(it->first, absoluteVolume)));
+                        std::round(convertToPercent(it->first, absoluteVolume)));
 					pt.add_child(statisticsTag + "." + propertyTag, minOCxNode);
 				}
 
@@ -295,13 +296,6 @@ namespace rttb
             {
                 return (value / maximum) * 100;
             }
-
-            int round(double value)
-            {
-                return value < 0.0 ? static_cast<int>(ceil(value - 0.5)) : static_cast<int>(floor(value + 0.5));
-            }
-
-
 
 		}//end namespace other
 	}//end namespace io

@@ -92,9 +92,6 @@ namespace rttb
             StatisticsString RTTBOtherIO_EXPORT writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics);
 
             double RTTBOtherIO_EXPORT convertToPercent(double value, double maximum);
-            /*! @brief rounds a value to the next int (since std::round is available only in C++11)
-            */
-            int RTTBOtherIO_EXPORT round(double value);
 		}
 	}
 }

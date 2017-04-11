@@ -21,6 +21,8 @@
 
 #include "rttbModelXMLWriter.h"
 
+#include <cmath>
+
 /*boost includes*/
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
@@ -114,7 +116,7 @@ namespace rttb
 				{
 					double value = it->second;
 
-					if (value - static_cast<double>(other::round(value)) < errorConstant)
+					if (value - static_cast<double>(std::round(value)) < errorConstant)
 					{
 						propertynode.put("", static_cast<int>(value));
 					}

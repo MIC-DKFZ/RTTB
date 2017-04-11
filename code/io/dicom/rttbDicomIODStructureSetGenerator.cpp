@@ -24,9 +24,9 @@
 #include <sstream>
 #include <stdlib.h>
 #include <map>
+#include <regex>
 
 #include <boost/make_shared.hpp>
-#include <boost/regex.hpp>
 
 #include "rttbStructure.h"
 #include "rttbDicomIODStructureSetGenerator.h"
@@ -60,7 +60,7 @@ namespace rttb
 
         //generate map of relevant ROIs
         std::map<OFString, std::string> filteredROIs;
-        ::boost::regex e(this->getFilterRegEx());
+        std::regex e(this->getFilterRegEx());
 
         for (unsigned long i = 0; i < rois->getNumberOfItems(); i++)
         {
@@ -72,7 +72,7 @@ namespace rttb
           roisItem->getROIName(ofRoiName);
           std::string roiName(ofRoiName.c_str());
 
-          if (!this->getStructureLabelFilterActive() || boost::regex_match(roiName, e))
+          if (!this->getStructureLabelFilterActive() || std::regex_match(roiName, e))
           {
             filteredROIs.insert(std::make_pair(roiNumber, roiName));
           }
