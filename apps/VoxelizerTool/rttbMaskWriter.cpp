@@ -22,9 +22,9 @@
 
 #include "rttbITKImageMaskAccessorConverter.h"
 #include "rttbITKImageFileMaskAccessorGenerator.h"
+#include "rttbImageWriter.h"
 
 #include "itkImage.h"
-#include "itkImageFileWriter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkAddImageFilter.h"
 
@@ -61,7 +61,8 @@ namespace rttb
 						itkImage = applyThresholdFilter(itkImage);
 					}
 
-					writeITKImageToFile(itkImage, outputFileName, true);
+					io::itk::ImageWriter writer(outputFileName, itkImage);
+					writer.writeFile();
 				}
 			}
 

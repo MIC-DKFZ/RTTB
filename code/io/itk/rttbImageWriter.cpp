@@ -28,7 +28,7 @@ namespace rttb
 	{
 		namespace itk
 		{
-			ImageWriter::ImageWriter(FileNameString aFileName, ITKImageTypePointer aITKImage)
+			ImageWriter::ImageWriter(const FileNameString& aFileName, ITKImageTypeConstPointer aITKImage)
 				: _fileName(aFileName), _itkImage(aITKImage)
 			{
 

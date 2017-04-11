@@ -18,7 +18,7 @@
 	ADD_SUBDIRECTORY(itk)
   ENDIF(BUILD_IO_ITK)
   
-  IF(BUILD_Models)
+  IF(BUILD_All_Modules OR BUILD_Models)
 	ADD_SUBDIRECTORY(models)
   ENDIF()
    

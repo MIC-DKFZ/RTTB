@@ -33,7 +33,6 @@
 #endif
 
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
 
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"

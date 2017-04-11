@@ -25,7 +25,6 @@
 #include "boost/make_shared.hpp"
 
 #include "mapRegistrationFileReader.h"
-#include "itkImageFileWriter.h"
 
 #include "rttbExceptionMacros.h"
 
@@ -41,6 +40,7 @@
 #include "rttbITKImageFileAccessorGenerator.h"
 #include "rttbArithmetic.h"
 #include "rttbBinaryFunctorAccessor.h"
+#include "rttbImageWriter.h"
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
 rttb::apps::doseAcc::loadDose(const std::string& fileName,
@@ -232,13 +232,9 @@ rttb::apps::doseAcc::processData(rttb::apps::doseAcc::ApplicationData& appData)
 	io::itk::ITKImageAccessorConverter::ITKImageType::Pointer itkImage = converter.getITKImage();
 	std::cout << "done." << std::endl;
 
-	typedef ::itk::ImageFileWriter<io::itk::ITKImageAccessorConverter::ITKImageType> WriterType;
-
 	std::cout << std::endl << "write output image... ";
-	WriterType::Pointer writer = WriterType::New();
-	writer->SetInput(itkImage);
-	writer->SetFileName(appData._outputFileName);
-	writer->SetUseCompression(true);
-	writer->Write();
+	io::itk::ImageWriter writer(appData._outputFileName, itkImage.GetPointer());
+	writer.writeFile();
+
 	std::cout << "done." << std::endl;
 };

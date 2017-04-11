@@ -23,7 +23,6 @@
 #include "DoseMapHelper.h"
 
 #include "mapRegistrationFileReader.h"
-#include "itkImageFileWriter.h"
 
 #include "rttbVirtuosPlanFileDoseAccessorGenerator.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
@@ -38,6 +37,7 @@
 #include "rttbArithmetic.h"
 #include "rttbBinaryFunctorAccessor.h"
 #include "rttbExceptionMacros.h"
+#include "rttbImageWriter.h"
 
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer
@@ -196,12 +196,9 @@ rttb::apps::doseMap::processData(rttb::apps::doseMap::ApplicationData& appData)
 	io::itk::ITKImageAccessorConverter::ITKImageType::Pointer itkImage = converter.getITKImage();
 	std::cout << "done." << std::endl;
 
-	typedef ::itk::ImageFileWriter<io::itk::ITKImageAccessorConverter::ITKImageType> WriterType;
-
 	std::cout << std::endl << "write output image... ";
-	WriterType::Pointer writer = WriterType::New();
-	writer->SetInput(itkImage);
-	writer->SetFileName(appData._outputFileName);
-	writer->Write();
+	io::itk::ImageWriter writer(appData._outputFileName, itkImage.GetPointer());
+	writer.writeFile();
+
 	std::cout << "done." << std::endl;
 };

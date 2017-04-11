@@ -48,16 +48,16 @@ namespace rttb
             class RTTBITKIO_EXPORT ImageWriter
 			{
 				typedef ::itk::Image<DoseTypeGy, 3> ITKMaskImageType;
-				typedef ITKMaskImageType::Pointer ITKImageTypePointer;
+				typedef ITKMaskImageType::ConstPointer ITKImageTypeConstPointer;
 				typedef ::itk::ImageFileWriter<ITKMaskImageType> WriterType;
 
 			private:
 				FileNameString _fileName;
-				ITKImageTypePointer _itkImage;
+				ITKImageTypeConstPointer _itkImage;
 
 
 			public:
-				ImageWriter(FileNameString aFileName, ITKImageTypePointer aITKImage);
+				ImageWriter(const FileNameString& aFileName, ITKImageTypeConstPointer aITKImage);
 
 				/*! @brief Write itk image to file
 				@return Return true if successful.
