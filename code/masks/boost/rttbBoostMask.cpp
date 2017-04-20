@@ -544,7 +544,8 @@ namespace rttb
 						//if not homogeneous (leave out double imprecisions), return false
 						if (std::abs(thickness-curThickness)>errorConstant)
 						{
-							return false;
+							//return false;
+							std::cout << "Two polygons are far from each other?" << std::endl;
 						}
 					}
 

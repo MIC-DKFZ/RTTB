@@ -79,6 +79,15 @@ namespace rttb
             core::Structure myTestStruct2 = myStructGenerator.CreateRectangularStructureCenteredContourPlaneThicknessNotEqualDosePlaneThickness(2);
             StructTypePointer spMyStruct2 = boost::make_shared<core::Structure>(myTestStruct2);
 
+			//generate test structure. contours are 
+			//(-20,0.5,38.75); (-12.5,0.5,38.75); (-12.5,10.5,38.75); (-20,10.5,38.75); 
+			//(-20, 0.5, 41.25); (-12.5, 0.5, 41.25); (-12.5, 10.5, 41.25); (-20, 10.5, 41.25);
+			//(-20, 0.5, 48.75); (-12.5, 0.5, 48.75); (-12.5, 10.5, 48.75); (-20, 10.5, 48.75);
+			//(-20, 0.5, 51.25); (-12.5, 0.5, 51.25); (-12.5, 10.5, 51.25); (-20, 10.5, 51.25);
+			//to test calcVoxelizationThickness bug 
+			core::Structure myTestStruct3 = myStructGenerator.CreateRectangularStructureCentered(2, 3, 6, 7);
+			StructTypePointer spMyStruct3 = boost::make_shared<core::Structure>(myTestStruct3);
+
 			//1) test BoostMask & BoostMaskAccessor constructor
 			CHECK_NO_THROW(rttb::masks::boost::BoostMask(geometricPtr, spMyStruct));
 			rttb::masks::boost::BoostMask boostMask = rttb::masks::boost::BoostMask(
@@ -234,6 +243,14 @@ namespace rttb
             CHECK_EQUAL(tmpMV1, tmpMV2);
             CHECK_EQUAL(0, tmpMV1.getRelevantVolumeFraction());
             //CHECK_EQUAL(testId,tmpMV1.getVoxelGridID()); -> return value will not be valid outside the mask
+
+			//3) test calcVoxelizationThickness bug 
+			rttb::masks::boost::BoostMask boostMask3 = rttb::masks::boost::BoostMask(
+				geometricPtr, spMyStruct3);
+			CHECK_NO_THROW(boostMask3.getRelevantVoxelVector());
+			rttb::masks::boost::BoostMaskAccessor boostMaskAccessor3(spMyStruct3,
+				spTestDoseAccessor->getGeometricInfo(), true);
+			CHECK_NO_THROW(boostMaskAccessor3.getRelevantVoxelVector());
 
             RETURN_AND_REPORT_TEST_SUCCESS;
 		}

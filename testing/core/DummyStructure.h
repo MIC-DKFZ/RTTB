@@ -61,9 +61,13 @@ namespace rttb
             */
             core::Structure CreateRectangularStructureCenteredContourPlaneThicknessNotEqualDosePlaneThickness(GridIndexType zPlane);
 
-            /* Generate rectangular structure for the z slices fromm fromZPlane(included) to toZPlane(included)
+            /* Generate rectangular structure for the z slices from fromZPlane(included) to toZPlane(included)
             */
             core::Structure CreateRectangularStructureCentered(GridIndexType fromZPlane, GridIndexType toZPlane);
+
+			/* Generate rectangular structure for the z slices from fromZPlane(included) to toZPlane(included) and from fromZPlane2(included) to toZPlane2(included)
+			*/
+			core::Structure CreateRectangularStructureCentered(GridIndexType fromZPlane, GridIndexType toZPlane, GridIndexType fromZPlane2, GridIndexType toZPlane2);
 
 			core::Structure CreateTestStructureCircle(GridIndexType zPlane);
 
