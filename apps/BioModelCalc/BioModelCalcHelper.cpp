@@ -114,7 +114,7 @@ rttb::apps::bioModelCalc::processData(rttb::apps::bioModelCalc::ApplicationData&
 	io::itk::ITKImageAccessorConverter::ITKImageType::Pointer itkImage = converter.getITKImage();
 	std::cout << "done." << std::endl;
 	std::cout << std::endl << "write output image... ";
-	io::itk::ImageWriter writer(appData._outputFileName, itkImage);
+	io::itk::ImageWriter writer(appData._outputFileName, itkImage.GetPointer());
 	writer.writeFile();
 	std::cout << "done." << std::endl;
 }

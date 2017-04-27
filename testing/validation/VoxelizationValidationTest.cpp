@@ -139,14 +139,14 @@ namespace rttb
 
                     boost::filesystem::path redesignFilename(BoostMask_DIRNAME);
                     redesignFilename /= boost::lexical_cast<std::string>(j)+".nrrd";
-                    rttb::io::itk::ImageWriter writerR(redesignFilename.string(), itkConverterR.getITKImage());
+                    rttb::io::itk::ImageWriter writerR(redesignFilename.string(), itkConverterR.getITKImage().GetPointer());
                     CHECK(writerR.writeFile());
 
                     auto subtractedRedesignImage = subtractImages(otbMaskImage, itkConverterR.getITKImage());
 
                     boost::filesystem::path subtractRedesignFilename(BoostMask_DIRNAME);
                     subtractRedesignFilename /= boost::lexical_cast<std::string>(j)+"_subtracted.nrrd";
-                    rttb::io::itk::ImageWriter writerRSubtracted(subtractRedesignFilename.string(), subtractedRedesignImage);
+                    rttb::io::itk::ImageWriter writerRSubtracted(subtractRedesignFilename.string(), subtractedRedesignImage.GetPointer());
 
                     CHECK(writerRSubtracted.writeFile());
                 }
