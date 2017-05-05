@@ -102,7 +102,7 @@ namespace rttb
 			rttb::WorldCoordinate3D imagePositionPatient =
 			    doseAccessor1->getGeometricInfo().getImagePositionPatient();
 			rttb::SpacingVectorType3D pixelSpacing = doseAccessor1->getGeometricInfo().getSpacing();
-			int size[] = {doseAccessor1->getGeometricInfo().getNumColumns(), doseAccessor1->getGeometricInfo().getNumRows(), doseAccessor1->getGeometricInfo().getNumSlices()};
+			unsigned int size[] = {doseAccessor1->getGeometricInfo().getNumColumns(), doseAccessor1->getGeometricInfo().getNumRows(), doseAccessor1->getGeometricInfo().getNumSlices()};
 
 			//Which voxels to check is irrelevant. The following three situations are checked:
             // - exactly in-between two voxels: v_i=(0.5*v1 + 0.5*v2) --> target 0.5

@@ -76,8 +76,8 @@ namespace rttb
 			CHECK_THROW_EXPLICIT(testVOIindexId.getIndicesByVoiRegex(emptyPointer, "Leber"),
 			                     ::rttb::core::Exception);
 
-			std::vector<unsigned int> vectorActual;
-			std::vector<unsigned int> vectorExpected;
+			std::vector<size_t> vectorActual;
+			std::vector<size_t> vectorExpected;
 			vectorExpected.push_back(5);
 			CHECK_NO_THROW(vectorActual = testVOIindexId.getIndicesByVoiRegex(rtStructureSet, "Leber"));
 			CHECK_EQUAL(vectorActual.size(), vectorExpected.size());

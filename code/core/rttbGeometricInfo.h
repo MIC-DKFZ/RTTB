@@ -133,7 +133,7 @@ namespace rttb
 			*/
             friend bool RTTBCore_EXPORT operator == (const GeometricInfo& gInfo, const GeometricInfo& gInfo1);
 
-			bool equalsAlmost(const GeometricInfo& another, double errorConstant = 1e-5) const;
+			bool equalsAlmost(const GeometricInfo& another, double errorConstantGI = 1e-5) const;
 
 			/*! @brief converts world coordinates to voxel grid index.
                 @details the voxels world coordinates are defined by spacing, orientation and imagePositionPatient.

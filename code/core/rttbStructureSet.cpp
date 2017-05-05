@@ -55,14 +55,13 @@ namespace rttb
 
 		}
 
-		StructureSet::StructTypePointer StructureSet::getStructure(int aStructureNo) const
+		StructureSet::StructTypePointer StructureSet::getStructure(size_t aStructureNo) const
 		{
-			int size = static_cast<int>(this->getNumberOfStructures() - 1);
-
-			if (aStructureNo < 0 || aStructureNo > size)
+			auto size = this->getNumberOfStructures();
+			if (aStructureNo >= size)
 			{
 				std::stringstream sstr;
-				sstr << "aStructureNo must between 0 and " << size;
+				sstr << "aStructureNo must be between 0 and " << size;
 				throw InvalidParameterException(sstr.str());
 			}
 

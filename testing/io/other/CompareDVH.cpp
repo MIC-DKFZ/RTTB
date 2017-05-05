@@ -34,21 +34,21 @@ namespace rttb
 		{
 
 			bool result;
-			const double errorConstant = 1e-4;
-			result = lit::AreClose(aDVH1->getDeltaD(), aDVH2->getDeltaD(), errorConstant);
-			result = result && lit::AreClose(aDVH1->getDeltaV(), aDVH2->getDeltaV(), errorConstant);
+			const double errorConstantDVH = 1e-4;
+			result = lit::AreClose(aDVH1->getDeltaD(), aDVH2->getDeltaD(), errorConstantDVH);
+			result = result && lit::AreClose(aDVH1->getDeltaV(), aDVH2->getDeltaV(), errorConstantDVH);
 			result = result && (aDVH1->getDoseID() == aDVH2->getDoseID());
 			result = result && (aDVH1->getStructureID() == aDVH2->getStructureID());
-			result = result && lit::AreClose(aDVH1->getMaximum(), aDVH2->getMaximum(), errorConstant);
-			result = result && lit::AreClose(aDVH1->getMinimum(), aDVH2->getMinimum(), errorConstant);
-			result = result && lit::AreClose(aDVH1->getMean(), aDVH2->getMean(), errorConstant);
+			result = result && lit::AreClose(aDVH1->getMaximum(), aDVH2->getMaximum(), errorConstantDVH);
+			result = result && lit::AreClose(aDVH1->getMinimum(), aDVH2->getMinimum(), errorConstantDVH);
+			result = result && lit::AreClose(aDVH1->getMean(), aDVH2->getMean(), errorConstantDVH);
 			result = result && (aDVH1->getDataDifferential().size() == aDVH2->getDataDifferential().size());
 
 			for (size_t i = 0; i < aDVH1->getDataDifferential().size(); i++)
 			{
 				result = result
 				         && lit::AreClose(aDVH1->getDataDifferential().at(i), aDVH2->getDataDifferential().at(i),
-				                          errorConstant);
+							 errorConstantDVH);
 			}
 
 			return result;

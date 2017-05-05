@@ -101,7 +101,7 @@ namespace rttb
             VoxelGridIndex2D another_i4(2, 5);
             PolygonSequenceType another_polySeq;
 
-            for (int i = fromZPlane; i <= toZPlane; ++i){
+            for (unsigned int i = fromZPlane; i <= toZPlane; ++i){
                 another_voxelVector.clear();
                 another_voxelVector.push_back(another_i1);
                 another_voxelVector.push_back(another_i2);

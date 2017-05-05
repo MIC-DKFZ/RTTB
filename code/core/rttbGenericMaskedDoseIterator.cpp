@@ -53,7 +53,6 @@ namespace rttb
 			else
 			{
 				throw InvalidParameterException("Inhomogeneous grids are currently not supported! ");
-				return _currentVoxelVolume;
 			}
 		}
 

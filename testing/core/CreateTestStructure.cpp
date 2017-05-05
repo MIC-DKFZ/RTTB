@@ -297,10 +297,10 @@ namespace rttb
                 wp_intermediate(0) = 0;
                 wp_intermediate(1) = 0;
 
-                for (int i = 0; i < 1000; i++)
+                for (int j = 0; j < 1000; j++)
                 {
-                    wp_intermediate(0) = wp1.x() + i * diffX;
-                    wp_intermediate(1) = wp1.y() + i * diffY;
+                    wp_intermediate(0) = wp1.x() + j * diffX;
+                    wp_intermediate(1) = wp1.y() + j * diffY;
 
                     polygon.push_back(wp_intermediate);
                 }
