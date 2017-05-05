@@ -286,7 +286,7 @@ namespace rttb
 			return true;
 		}
 
-		bool equalsAlmost(const WorldCoordinate3D& another, double errorConstant = 1e-5) const
+		bool equalsAlmost(const WorldCoordinate3D& another, double errorConstantWC = 1e-5) const
 		{
 			if (size() != another.size())
 			{
@@ -294,7 +294,7 @@ namespace rttb
 			}
 
 			double dist = norm_2(*this - another);
-			return dist < errorConstant;
+			return dist < errorConstantWC;
 		}
 
 		friend std::ostream& operator<<(std::ostream& s, const WorldCoordinate3D& aVector)
@@ -406,7 +406,7 @@ namespace rttb
 			return true;
 		}
 
-		bool equalsAlmost(const SpacingVectorType3D& another, double errorConstant) const
+		bool equalsAlmost(const SpacingVectorType3D& another, double errorConstantSV) const
 		{
 			if ((*this).size() != another.size())
 			{
@@ -414,7 +414,7 @@ namespace rttb
 			}
 
 			double dist = norm_2(*this - another);
-			return dist < errorConstant;
+			return dist < errorConstantSV;
 		}
 
 		friend std::ostream& operator<<(std::ostream& s, const SpacingVectorType3D& aVector)
@@ -442,7 +442,7 @@ namespace rttb
 		OrientationMatrix(const WorldCoordinate value) : boost::numeric::ublas::matrix<WorldCoordinate>(3,
 			        3, value) {}
 
-		bool equalsAlmost(const OrientationMatrix& anOrientationMatrix, double errorConstant) const
+		bool equalsAlmost(const OrientationMatrix& anOrientationMatrix, double errorConstantOM) const
 		{
 			if (anOrientationMatrix.size1() == (*this).size1())
 			{
@@ -452,7 +452,7 @@ namespace rttb
 					{
 						for (std::size_t n = 0; n < anOrientationMatrix.size2(); n++)
 						{
-							if ((std::abs((*this)(m, n) - anOrientationMatrix(m, n)) > errorConstant))
+							if ((std::abs((*this)(m, n) - anOrientationMatrix(m, n)) > errorConstantOM))
 							{
 								return false;
 							}
@@ -640,7 +640,7 @@ namespace rttb
 	typedef long GridSizeType;
 
 	typedef int VoxelGridID; //starts from 0 and is continuously counting all positions on the grid
-	typedef int VoxelGridDimensionType;
+	typedef unsigned int VoxelGridDimensionType;
 
 	typedef boost::numeric::ublas::vector<VoxelGridDimensionType> VoxelGridDimensionVectorType;
 

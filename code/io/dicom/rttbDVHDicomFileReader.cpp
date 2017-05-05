@@ -37,7 +37,6 @@ namespace rttb
 			void DVHDicomFileReader::setFileName(FileNameString aFileName)
 			{
 				_fileName = aFileName;
-				this->createDVH();
 			}
 
 			void DVHDicomFileReader::createDVH()

@@ -74,7 +74,7 @@ namespace rttb
 				@exception InvalidParameterException Thrown if structureNo not between 0 and number of structures
 				of structureSet.
 			*/
-			StructTypePointer getStructure(int aStructureNo) const;
+			StructTypePointer getStructure(size_t aStructureNo) const;
 
 			/*! @brief Get the number of structures
 				@return Return the number of structures.

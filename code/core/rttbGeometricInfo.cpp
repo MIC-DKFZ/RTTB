@@ -139,7 +139,7 @@ namespace rttb
 
 		const ImageSize GeometricInfo::getImageSize() const
 		{
-			return ImageSize(getNumColumns(), getNumRows(), getNumSlices());
+			return ImageSize(static_cast<UnsignedIndex1D>(getNumColumns()), static_cast<UnsignedIndex1D>(getNumRows()), static_cast<UnsignedIndex1D>(getNumSlices()));
 		}
 
 		void GeometricInfo::setNumColumns(const VoxelGridDimensionType aValue)
@@ -182,11 +182,11 @@ namespace rttb
 
 
 		bool GeometricInfo::equalsAlmost(const GeometricInfo& another,
-		                                 double errorConstant /*= 1e-5*/) const
+		                                 double errorConstantGI /*= 1e-5*/) const
 		{
-			return (getImagePositionPatient().equalsAlmost(another.getImagePositionPatient(), errorConstant)
-			        && getOrientationMatrix().equalsAlmost(another.getOrientationMatrix(), errorConstant)
-			        && getSpacing().equalsAlmost(another.getSpacing(), errorConstant)
+			return (getImagePositionPatient().equalsAlmost(another.getImagePositionPatient(), errorConstantGI)
+			        && getOrientationMatrix().equalsAlmost(another.getOrientationMatrix(), errorConstantGI)
+			        && getSpacing().equalsAlmost(another.getSpacing(), errorConstantGI)
 			        && getNumColumns() == another.getNumColumns()
 			        && getNumRows() == another.getNumRows() && getNumSlices() == another.getNumSlices());
 		}

@@ -282,13 +282,16 @@ namespace rttb
 				DoseStatistics::Dx);
 			VolumeToDoseFunctionType MOHx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst,
 				DoseStatistics::MOHx);
+			std::cout << 4 << std::endl;
 			VolumeToDoseFunctionType MOCx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst,
 				DoseStatistics::MOCx);
+			std::cout << 5 << std::endl;
 			VolumeToDoseFunctionType MaxOHx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst,
 				DoseStatistics::MaxOHx);
+			std::cout << 6 << std::endl;
 			VolumeToDoseFunctionType MinOCx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst,
 				DoseStatistics::MinOCx);
-
+			std::cout << 7 << std::endl;
 			_statistics->setVx(Vx);
 			_statistics->setDx(Dx);
 			_statistics->setMOHx(MOHx);
@@ -402,7 +405,7 @@ namespace rttb
 			DoseTypeGy resultDose = 0;
 
 			double countVoxels = 0;
-			int i = _doseVector.size() - 1;
+			auto i = _doseVector.size() - 1;
 			for (; i >= 0; i--)
 			{
 				countVoxels += _voxelProportionVector.at(i);
@@ -439,7 +442,7 @@ namespace rttb
 				double countVoxels = 0;
 				double sum = 0;
 
-				for (int i = _doseVector.size() - 1; i >= 0; i--)
+				for (auto i = _doseVector.size() - 1; i >= 0; i--)
 				{
 					double voxelProportion = _voxelProportionVector.at(i);
 					countVoxels += voxelProportion;
@@ -489,11 +492,12 @@ namespace rttb
 
 		DoseTypeGy DoseStatisticsCalculator::computeMaxOHx(DoseTypeGy xVolumeAbsolute) const
 		{
+			std::cout << "computeMaxOHx0" << std::endl;
 			double noOfVoxel = xVolumeAbsolute / _doseIterator->getCurrentVoxelVolume();
 			DoseTypeGy resultDose = 0;
-
+			std::cout << "computeMaxOHx1" << std::endl;
 			double countVoxels = 0;
-			int i = _doseVector.size() - 1;
+			auto i = _doseVector.size() - 1;
 			for (; i >= 0; i--)
 			{
 				countVoxels += _voxelProportionVector.at(i);
@@ -503,11 +507,14 @@ namespace rttb
 					break;
 				}
 			}
+			std::cout << "computeMaxOHx2" << std::endl;
+			std::cout << i << std::endl;
 
-			if (i - 1 >= 0)
+			if (i>0)
 			{
 				resultDose = _doseVector.at(i - 1);
 			}
+			std::cout << "computeMaxOHx3" << std::endl;
 
 			return resultDose;
 		}
@@ -613,6 +620,7 @@ namespace rttb
 
 			VolumeToDoseFunctionType multiValues;
 			VolumeType volume = _statistics->getVolume();
+			std::cout << "mt: " << _multiThreading << std::endl;
 
 			for (size_t i = 0; i < precomputeVolumeValues.size(); ++i)
 			{

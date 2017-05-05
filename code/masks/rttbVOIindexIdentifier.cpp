@@ -33,7 +33,7 @@ namespace rttb
 	namespace masks
 	{
 
-		const std::vector<unsigned int> VOIindexIdentifier::getIndicesByVoiRegex(
+		const std::vector<size_t> VOIindexIdentifier::getIndicesByVoiRegex(
 		    StructSetTypePointer spStructSet,
 		    const std::string& nameAsRegEx)
 		{
@@ -42,14 +42,11 @@ namespace rttb
 				rttbDefaultExceptionStaticMacro("spStructSet is NULL");
 			}
 
-			std::vector<std::string> voiLabelList;
-			std::vector<unsigned int> resultVOiIndices;
+			std::vector<size_t> resultVOiIndices;
 			std::regex e(nameAsRegEx);
 
 			for (size_t i = 0; i < spStructSet->getNumberOfStructures(); i++)
 			{
-				voiLabelList.push_back(spStructSet->getStructure(i)->getLabel());
-
 				std::string s = spStructSet->getStructure(i)->getLabel();
 
 				if (std::regex_match(s, e))

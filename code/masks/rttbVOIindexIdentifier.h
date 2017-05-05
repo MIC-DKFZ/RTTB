@@ -56,7 +56,7 @@ namespace rttb
 			* @param name Regular expression of the VOI
 			* @exception  ::rttb::core::Exception on invalid spStructSet
 			* @return a vector of all found indices */
-			static const std::vector<unsigned int> getIndicesByVoiRegex(StructSetTypePointer spStructSet,
+			static const std::vector<size_t> getIndicesByVoiRegex(StructSetTypePointer spStructSet,
 			        const std::string& name);
 
 			/*!@brief get the index of the corresponding VOI name

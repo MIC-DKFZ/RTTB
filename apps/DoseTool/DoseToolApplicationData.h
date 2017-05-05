@@ -49,7 +49,7 @@ namespace rttb
 				core::DoseAccessorInterface::DoseAccessorPointer _dose;
 				core::StructureSetGeneratorInterface::StructureSetPointer _struct;
 				std::string _structNameRegex;
-				std::vector<unsigned int> _structIndices;
+				std::vector<size_t> _structIndices;
 				std::vector<std::string> _structNames;
 				std::string  _doseFileName;
 				std::string  _structFileName;

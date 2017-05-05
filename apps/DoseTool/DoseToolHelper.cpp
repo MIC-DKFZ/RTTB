@@ -155,10 +155,10 @@ rttb::apps::doseTool::generateMasks(
 	}
 	else
 	{
-		std::vector<unsigned int> foundIndices = rttb::masks::VOIindexIdentifier::getIndicesByVoiRegex(
+		auto foundIndices = rttb::masks::VOIindexIdentifier::getIndicesByVoiRegex(
 		            appData._struct,
 		            appData._structNameRegex);
-		std::vector<unsigned int> relevantIndices;
+		std::vector<size_t> relevantIndices;
 
 		if (appData._multipleStructsMode)
 		{

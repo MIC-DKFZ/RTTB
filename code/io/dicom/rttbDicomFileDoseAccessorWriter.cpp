@@ -143,8 +143,8 @@ namespace rttb
 				_dataset->putAndInsertString(DCM_FrameIncrementPointer,
 				                             "(3004,000c)");
 
-				_dataset->putAndInsertUint16(DCM_Rows, geometricInfo.getNumRows());
-				_dataset->putAndInsertUint16(DCM_Columns, geometricInfo.getNumColumns());
+				_dataset->putAndInsertUint16(DCM_Rows, static_cast<Uint16>(geometricInfo.getNumRows()));
+				_dataset->putAndInsertUint16(DCM_Columns, static_cast<Uint16>(geometricInfo.getNumColumns()));
 				sstr.str("");
 				sstr << geometricInfo.getSpacing()(1) << "\\" << geometricInfo.getSpacing()(0);
 				_dataset->putAndInsertString(DCM_PixelSpacing, sstr.str().c_str());
@@ -159,7 +159,7 @@ namespace rttb
 
 				sstr.str("0");
 
-				for (int i = 1; i < geometricInfo.getNumSlices(); i++)
+				for (unsigned int i = 1; i < geometricInfo.getNumSlices(); i++)
 				{
 					sstr << "\\" <<  i* geometricInfo.getSpacing()(2);
 				}
