@@ -27,6 +27,7 @@
 #include "drtdose.h"
 
 #include "rttbBaseType.h"
+#include "boost/shared_ptr.hpp"
 
 
 namespace rttb
