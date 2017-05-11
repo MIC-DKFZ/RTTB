@@ -71,11 +71,9 @@ namespace rttb
 			{
 				baseCommand += " -n " + structName;
 			}
-			else
-			{
+			if (boost::filesystem::extension(structFilename).compare(".nrrd") == 0) {
 				baseCommand += " -u itk ";
 			}
-
 			std::string defaultDoseStatisticsCommand = baseCommand + " -y " + defaultOutputFilename;
 			std::cout << "Command line call: " + defaultDoseStatisticsCommand << std::endl;
 			CHECK_EQUAL(system(defaultDoseStatisticsCommand.c_str()), 0);

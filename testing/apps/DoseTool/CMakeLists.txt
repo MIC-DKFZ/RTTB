@@ -27,6 +27,9 @@ ADD_TEST(DoseToolDicomDoseDicomStructTest ${DOSETOOL_TEST} DoseToolDicomDoseTest
 "${TEST_DATA_ROOT}/DoseStatistics/XML/dicom.xml" "${TEST_DATA_ROOT}/DVH/XML/dicompylerDVH.xml" "${TEST_DATA_ROOT}/DoseStatistics/XML/dicomComplex.xml")
 ADD_TEST(DoseToolITKDoseDicomStructTest ${DOSETOOL_TEST} DoseToolITKDoseTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/Dose/ITK/dicompylerTestDose.mhd" "${TEST_DATA_ROOT}/StructureSet/DICOM/rtss.dcm" "Nodes"
 "${TEST_DATA_ROOT}/DoseStatistics/XML/itkDicomStruct.xml" "${TEST_DATA_ROOT}/DoseStatistics/XML/itkDicomStructComplex.xml")
+ADD_TEST(DoseToolITKDoseITKStructTest ${DOSETOOL_TEST} DoseToolITKDoseTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/Dose/ITK/dicompylerTestDose.mhd" "${TEST_DATA_ROOT}/StructureSet/ITK/voxelizedNodes.nrrd" "Nodes"
+"${TEST_DATA_ROOT}/DoseStatistics/XML/itkDicomStruct.xml" "${TEST_DATA_ROOT}/DoseStatistics/XML/itkDicomStructComplex.xml")
+#"${TEST_DATA_ROOT}/DoseStatistics/XML/itkitkStruct.xml" "${TEST_DATA_ROOT}/DoseStatistics/XML/itkitkStructComplex.xml")
 ADD_TEST(DoseToolDicomDoseDicomStructRegexTest ${DOSETOOL_TEST} DoseToolRegexTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/Dose/DICOM/dicompylerTestDose.dcm" "dicom" "${TEST_DATA_ROOT}/StructureSet/DICOM/rtss.dcm" "dicom" "Nodes|Heart"
 "${TEST_DATA_ROOT}/DoseStatistics/XML/dicom.xml" "${TEST_DATA_ROOT}/DoseStatistics/XML/dicom_heart.xml")
 ADD_TEST(DoseToolDVHTest ${DOSETOOL_TEST} DoseToolDVHTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/Dose/DICOM/dicompylerTestDose.dcm" "${TEST_DATA_ROOT}/StructureSet/DICOM/rtss.dcm" "Nodes"
