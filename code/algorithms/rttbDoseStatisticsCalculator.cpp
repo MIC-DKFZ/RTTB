@@ -405,22 +405,20 @@ namespace rttb
 			DoseTypeGy resultDose = 0;
 
 			double countVoxels = 0;
-			auto i = _doseVector.size() - 1;
-			for (; i >= 0; i--)
+			bool voxelOverflow = false;
+			for (auto i = _doseVector.size() - 1; i != -1; i--)
 			{
 				countVoxels += _voxelProportionVector.at(i);
 
 				if (countVoxels >= noOfVoxel)
 				{
+					voxelOverflow = true;
+					resultDose = _doseVector.at(i);
 					break;
 				}
 			}
 
-			if (i >= 0)
-			{
-				resultDose = _doseVector.at(i);
-			}
-			else
+			if (!voxelOverflow)			
 			{
 				resultDose = _statistics->getMinimum();
 			}
@@ -442,7 +440,7 @@ namespace rttb
 				double countVoxels = 0;
 				double sum = 0;
 
-				for (auto i = _doseVector.size() - 1; i >= 0; i--)
+				for (auto i = _doseVector.size() - 1; i != -1; i--)
 				{
 					double voxelProportion = _voxelProportionVector.at(i);
 					countVoxels += voxelProportion;
@@ -495,21 +493,19 @@ namespace rttb
 			double noOfVoxel = xVolumeAbsolute / _doseIterator->getCurrentVoxelVolume();
 			DoseTypeGy resultDose = 0;
 
-			double countVoxels = 0;
-			auto i = _doseVector.size() - 1;
-			for (; i >= 0; i--)
+			double countVoxels = 0;			
+			for (auto i = _doseVector.size() - 1; i != -1; i--)
 			{
 				countVoxels += _voxelProportionVector.at(i);
 
 				if (countVoxels >= noOfVoxel)
 				{
+					if (i > 0)
+					{
+						resultDose = _doseVector.at(i - 1);
+					}
 					break;
 				}
-			}
-
-			if (i>0)
-			{
-				resultDose = _doseVector.at(i - 1);
 			}
 
 			return resultDose;
