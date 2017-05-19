@@ -229,14 +229,6 @@ ELSE (WIN32)
   OPTION(BUILD_SHARED_LIBS "Build RTToolbox with shared libraries." ON)
 ENDIF (WIN32)
 
-OPTION (RTTB_VIRTUOS_SUPPORT "Build RTToolbox with Virtuos support." OFF)
-
-IF (RTTB_VIRTUOS_SUPPORT)
-	SET(RTToolbox_VIRTUOS_SUPPORT "1")
-ELSE()
-	SET(RTToolbox_VIRTUOS_SUPPORT "0")
-ENDIF()
-
 IF(NOT BUILD_SHARED_LIBS)
   IF(UNIX)
   MESSAGE(FATAL_ERROR "RTToolbox currently does not support a static build on unix like systems. We are working on that...")
