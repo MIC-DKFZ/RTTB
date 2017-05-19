@@ -28,8 +28,8 @@ namespace rttb
 		namespace doseAcc
 		{
 			DoseAccCmdLineParser::DoseAccCmdLineParser(int argc, const char** argv, const std::string& name, const std::string& version,
-				const std::string& description, const std::string& contributor, const std::string& category, bool virtuosSupport) :
-				CmdLineParserBase(name, version, description, contributor, category), _virtuosSupport(virtuosSupport)
+				const std::string& description, const std::string& contributor, const std::string& category) :
+				CmdLineParserBase(name, version, description, contributor, category)
 			{
 				//REQUIRED
 				addOption<std::string>(OPTION_DOSE1_FILENAME, OPTION_GROUP_REQUIRED,
@@ -71,14 +71,6 @@ namespace rttb
 				std::string doseLoadStyleDescription = "Options are:\n \"dicom\": normal dicom dose\n"
 					"\"itk\": use itk image loading\n\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).";
 
-
-				if (_virtuosSupport)
-				{
-					doseLoadStyleDescription += "\n"
-						"\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--"
-						+ OPTION_LOAD_STYLE_DOSE1 + " or " + OPTION_LOAD_STYLE_DOSE2 + " virtuos myFavorite.pln\")";
-				}
-
 				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_LOAD_STYLE_DOSE1, OPTION_GROUP_REQUIRED,
 					"Load style for dose 1. " + doseLoadStyleDescription,
 					defaultLoadingStyle, defaultLoadingStyle.at(0),
@@ -108,7 +100,7 @@ namespace rttb
                 std::vector<std::string> doseLoadStyle1 = get<std::vector<std::string> >(OPTION_LOAD_STYLE_DOSE1);
 				std::string doseLoadStyleAbbreviation1 = doseLoadStyle1.at(0);
 
-				if (doseLoadStyleAbbreviation1 != "dicom" && (!_virtuosSupport || doseLoadStyleAbbreviation1 != "virtuos")
+				if (doseLoadStyleAbbreviation1 != "dicom" 
 				    && doseLoadStyleAbbreviation1 != "itk"
 				    && doseLoadStyleAbbreviation1 != "helax")
 				{
@@ -117,32 +109,16 @@ namespace rttb
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 
-				if (_virtuosSupport && doseLoadStyleAbbreviation1 == "virtuos")
-				{
-					if (doseLoadStyle1.size() < 2)
-					{
-						throw cmdlineparsing::InvalidConstraintException("Cannot load virtuos dose. Plan file is missing. Specify plan file as 2nd io style argument.");
-					}
-				}
-
                 std::vector<std::string> doseLoadStyle2 = get<std::vector<std::string> >(OPTION_LOAD_STYLE_DOSE2);
                 std::string doseLoadStyleAbbreviation2 = doseLoadStyle2.at(0);
 
-                if (doseLoadStyleAbbreviation2 != "dicom" && (!_virtuosSupport || doseLoadStyleAbbreviation2 != "virtuos")
+                if (doseLoadStyleAbbreviation2 != "dicom" 
                     && doseLoadStyleAbbreviation2 != "itk"
                     && doseLoadStyleAbbreviation2 != "helax")
                 {
                     throw cmdlineparsing::InvalidConstraintException("Unknown load style for dose2 file: " +
                         doseLoadStyleAbbreviation2 +
                         ".\nPlease refer to the help for valid loading style settings.");
-                }
-
-                if (_virtuosSupport && doseLoadStyleAbbreviation2 == "virtuos")
-                {
-                    if (doseLoadStyle2.size() < 2)
-                    {
-                        throw cmdlineparsing::InvalidConstraintException("Cannot load virtuos dose. Plan file is missing. Specify plan file as 2nd io style argument.");
-                    }
                 }
 
                 std::string interpolator = get<std::string>(OPTION_INTERPOLATOR);
@@ -179,11 +155,6 @@ namespace rttb
                 std::cout << " DoseAcc dose1.mhd dose2.mhd result.mhd --" + OPTION_LOAD_STYLE_DOSE1 + " itk --" + OPTION_LOAD_STYLE_DOSE2 + " itk --" + OPTION_WEIGHT1 + " 2 -r reg.mapr" << std::endl << std::endl;
                 std::cout << " This will accumulate \"dose1.mhd\" and \"dose2.mhd\" by using \"reg.mapr\" to map dose 2.";
                 std::cout << " For the accumulation, dose 1 will be multiplied by 2. The resulting dose will be stored in \"result.mhd\"." << std::endl << std::endl;
-                if (_virtuosSupport){
-                    std::cout << " DoseAcc dose1.dcm dose2.dos.gz result.mhd --" + OPTION_LOAD_STYLE_DOSE2 + " virtuos dose2.pln -r reg.mapr" << std::endl << std::endl;
-                    std::cout << " This will accumulate \"dose1.dcm\" (using default dicom io) and \"dose2.dos.gz\" (using virtuos io and plan file dose2.pln)";
-                    std::cout << " by using \"reg.mapr\" to map dose 2. The resulting dose will be stored in \"result.mhd\"." << std::endl;
-                }
 			}
 
 		}

@@ -29,8 +29,8 @@ namespace rttb
 		{
 
 			DoseToolCmdLineParser::DoseToolCmdLineParser(int argc, const char** argv, const std::string& name, const std::string& version,
-				const std::string& description, const std::string& contributor, const std::string& category, bool virtuosSupport) :
-				CmdLineParserBase(name, version, description, contributor, category), _virtuosSupport(virtuosSupport)
+				const std::string& description, const std::string& contributor, const std::string& category) :
+				CmdLineParserBase(name, version, description, contributor, category)
 			{
 				//REQUIRED
 				typedef double DoseTypeGy;
@@ -59,14 +59,6 @@ namespace rttb
 				std::string doseLoadStyleDescription = "\"dicom\": normal dicom dose\n"
 					"\"itk\": use itk image loading\n\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).";
 
-
-				if (_virtuosSupport)
-				{
-					doseLoadStyleDescription += "\n"
-						"\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--"
-						+ OPTION_DOSE_LOAD_STYLE + " virtuos myFavorite.pln\")";
-				}
-
 				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_DOSE_LOAD_STYLE, OPTION_GROUP_REQUIRED,
 					doseLoadStyleDescription,
 					defaultLoadingStyle, defaultLoadingStyle.at(0),
@@ -75,13 +67,6 @@ namespace rttb
 
 				std::string structLoadStyleDescription = "\"dicom\": normal dicom dose\n"
 					"\"itk\": use itk image loading\"";
-
-				if (_virtuosSupport)
-				{
-					structLoadStyleDescription += "\n"
-						"\"virtuos\": load of a virtuos struct file (This style is a multi argument. The second argument specifies the ctx file, e.g. : \"--"
-						+ OPTION_STRUCT_LOAD_STYLE + " virtuos myImage.ctx\")";
-				}
 
 				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_STRUCT_LOAD_STYLE,
 					OPTION_GROUP_REQUIRED, structLoadStyleDescription,
@@ -125,7 +110,7 @@ namespace rttb
 				std::vector<std::string> doseLoadStyle = get<std::vector<std::string> >(OPTION_DOSE_LOAD_STYLE);
 				std::string doseLoadStyleAbbreviation = doseLoadStyle.at(0);
 
-				if (doseLoadStyleAbbreviation != "dicom" && (!_virtuosSupport || doseLoadStyleAbbreviation != "virtuos")
+				if (doseLoadStyleAbbreviation != "dicom"
 				    && doseLoadStyleAbbreviation != "itk"
 				    && doseLoadStyleAbbreviation != "helax")
 				{
@@ -134,18 +119,10 @@ namespace rttb
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 
-				if (_virtuosSupport && doseLoadStyleAbbreviation == "virtuos")
-				{
-					if (doseLoadStyle.size() < 2)
-					{
-						throw cmdlineparsing::InvalidConstraintException("Cannot load virtuos dose. Plan file is missing. Specify plan file as 2nd io style argument.");
-					}
-				}
-
 				std::vector<std::string> structLoadStyle = get<std::vector<std::string> >(OPTION_STRUCT_LOAD_STYLE);
 				std::string structLoadStyleAbbreviation = structLoadStyle.at(0);
 
-				if (structLoadStyleAbbreviation != "dicom" && (!_virtuosSupport || structLoadStyleAbbreviation != "virtuos")
+				if (structLoadStyleAbbreviation != "dicom"
 				    && structLoadStyleAbbreviation != "itk")
 				{
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style for struct file:" +
@@ -153,21 +130,13 @@ namespace rttb
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 
-				if (structLoadStyleAbbreviation == "dicom" || (_virtuosSupport && structLoadStyleAbbreviation == "virtuos")
+				if (structLoadStyleAbbreviation == "dicom"
 				    || structLoadStyleAbbreviation == "helax")
 				{
 					if (get<std::string>(OPTION_STRUCT_NAME) == "")
 					{
 						throw cmdlineparsing::InvalidConstraintException("The struct name (--" + OPTION_STRUCT_NAME +
-						        ") has to be defined for dicom, virtuos or helax struct files.");
-					}
-				}
-
-				if (_virtuosSupport && structLoadStyleAbbreviation == "virtuos")
-				{
-					if (structLoadStyle.size() < 2)
-					{
-						throw cmdlineparsing::InvalidConstraintException("Cannot load virtuos struct file. CTX file is missing. Specify CTX file as 2nd io style argument.");
+						        ") has to be defined for dicom or helax struct files.");
 					}
 				}
 

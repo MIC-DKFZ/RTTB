@@ -55,12 +55,6 @@ namespace rttb
 				@sa ITKImageFileAccessorGenerator
 			*/
 			core::DoseAccessorInterface::DoseAccessorPointer loadITKDose(const std::string& fileName);
-			/*! @brief loads a virtuos dose from a file.
-			@details Throws an rttb::Exception if loading fails
-			@sa VirtuosPlanFileDoseAccessorGenerator
-			*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadVirtuosDose(const std::string& fileName,
-			        const std::string& planFileName);
 
 			/*! @brief Contains the business logic of processing all information to calculate a bioModel from the dose and writing it back to an image.
 			@details Uses appData for the input data and the correct configuration.

@@ -37,7 +37,7 @@ namespace rttb
 			{
 			public:
 				DoseAccCmdLineParser(int argc, const char** argv, const std::string& name, const std::string& version,
-					const std::string& description, const std::string& contributor, const std::string& category, bool virtuosSupport = false);
+					const std::string& description, const std::string& contributor, const std::string& category);
 				void validateInput() const override;
 				void printHelp() const override;
 
@@ -56,8 +56,6 @@ namespace rttb
                 const std::string OPTION_LOAD_STYLE_DOSE1 = "loadStyle1";
                 const std::string OPTION_LOAD_STYLE_DOSE2 = "loadStyle2";
 				const std::string OPTION_OPERATOR = "operator";
-
-				bool _virtuosSupport;
 			};
 
 		}

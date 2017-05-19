@@ -86,17 +86,6 @@ namespace rttb
 			std::cout << "Command line call: " + invalidStructLoadOption << std::endl;
 			CHECK_EQUAL(system(invalidStructLoadOption.c_str()) != 0, true);
 
-			//call with virtuos dose load option, but without plan/ctx
-			std::string invalidVirtuosDoseLoadOption = minimalCLI;
-			invalidVirtuosDoseLoadOption += "-u virtuos";
-			std::cout << "Command line call: " + invalidVirtuosDoseLoadOption << std::endl;
-			CHECK_EQUAL(system(invalidVirtuosDoseLoadOption.c_str()) != 0, true);
-
-			std::string invalidVirtuosStructLoadOption = minimalCLI;
-			invalidVirtuosStructLoadOption += "-t virtuos";
-			std::cout << "Command line call: " + invalidVirtuosStructLoadOption << std::endl;
-			CHECK_EQUAL(system(invalidVirtuosStructLoadOption.c_str()) != 0, true);
-
 			//call with complex dose statistics, but without prescribed dose
 			std::string complexDoseWithoutPrescribedDoseCommand = minimalCLI;
 			complexDoseWithoutPrescribedDoseCommand += "-f";
