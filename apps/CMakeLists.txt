@@ -38,7 +38,7 @@ IF(BUILD_App_DoseAcc)
 ENDIF()
 
 OPTION(BUILD_App_DoseMap "Determine if the application DoseMap will be generated." ON)
-IF(BUILD_App_DoseMap AND BUILD_IO_Virtuos)
+IF(BUILD_App_DoseMap)
 	ADD_SUBDIRECTORY(DoseMap)
 ENDIF()
 
