@@ -4,6 +4,8 @@ SET(CPP_FILES
 	ArithmeticTest.cpp
 	BinaryFunctorAccessorTest.cpp
 	rttbAlgorithmsTests.cpp
+	../io/other/CompareDoseStatistic.cpp
+	../../code/io/other/rttbDoseStatisticsXMLReader.cpp
 	
 	#include dummy accessor files
 	../core/DummyDoseAccessor.cpp
@@ -13,6 +15,9 @@ SET(CPP_FILES
   )
 
 SET(H_FILES 
+	../io/other/CompareDoseStatistic.h
+	../../code/io/other/rttbDoseStatisticsXMLReader.h
+	
 	#include dummy accessor files
 	../core/DummyDoseAccessor.h
 	../core/DummyMaskAccessor.h

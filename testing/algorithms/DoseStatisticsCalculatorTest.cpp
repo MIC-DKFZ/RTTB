@@ -33,6 +33,14 @@
 #include "rttbInvalidParameterException.h"
 #include "rttbDataNotAvailableException.h"
 
+#include "rttbDicomFileDoseAccessorGenerator.h"
+#include "rttbDicomFileStructureSetGenerator.h"
+#include "rttbVOIindexIdentifier.h"
+#include "rttbBoostMaskAccessor.h"
+#include "rttbGenericMaskedDoseIterator.h"
+#include "../io/other/CompareDoseStatistic.h"
+#include "../../code/io/other/rttbDoseStatisticsXMLReader.h"
+
 #include "../core/DummyDoseAccessor.h"
 
 namespace rttb
@@ -56,22 +64,32 @@ namespace rttb
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
+			std::string referenceXMLFilename;
+			std::string doseFilename, structFilename;
+
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor = boost::make_shared<DummyDoseAccessor>();
 			DoseAccessorPointer spDoseAccessor(spTestDoseAccessor);
 			const std::vector<DoseTypeGy>* doseVals = spTestDoseAccessor->getDoseVector();
 
 			boost::shared_ptr<core::GenericDoseIterator> spTestDoseIterator =
-			    boost::make_shared<core::GenericDoseIterator>(spDoseAccessor);
+				boost::make_shared<core::GenericDoseIterator>(spDoseAccessor);
 			DoseIteratorPointer spDoseIterator(spTestDoseIterator);
 
 			DoseIteratorPointer spDoseIteratorNull;
+
+			if (argc > 3)
+			{
+				referenceXMLFilename = argv[1];
+				doseFilename = argv[2];
+				structFilename = argv[3];
+			}
 
 			//1) test constructors
 			// the values cannot be accessed from outside, therefore correct default values are not tested
 
 			CHECK_THROW_EXPLICIT(rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(
-			                         spDoseIteratorNull),
-			                     core::NullPointerException);
+				spDoseIteratorNull),
+				core::NullPointerException);
 
 			CHECK_NO_THROW(rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(spDoseIterator));
 			rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(spDoseIterator);
@@ -112,7 +130,7 @@ namespace rttb
 			//check manually set reference dose and the default x values
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(100.0));
 			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.1 * theStatistics->getMaximum()),
-			                     core::DataNotAvailableException);
+				core::DataNotAvailableException);
 			CHECK_NO_THROW(theStatistics->getVx(0.1 * 100.0));
 			CHECK_NO_THROW(theStatistics->getDx(0.1 * theStatistics->getVolume()));
 			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatistics->getVolume()));
@@ -131,32 +149,32 @@ namespace rttb
 			precomputeVolumeValues.push_back(0.99);
 
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(precomputeDoseValues,
-			                               precomputeVolumeValues));
+				precomputeVolumeValues));
 			CHECK_NO_THROW(theStatistics->getVx(0.01 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getVx(0.02 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getVx(0.05 * theStatistics->getMaximum()));
 			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.03 * theStatistics->getMaximum()),
-			                     core::DataNotAvailableException);
+				core::DataNotAvailableException);
 			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatistics->getVolume()));
 			CHECK_NO_THROW(theStatistics->getDx(0.95 * theStatistics->getVolume()));
 			CHECK_NO_THROW(theStatistics->getDx(0.99 * theStatistics->getVolume()));
 			CHECK_THROW_EXPLICIT(theStatistics->getDx(0.03 * theStatistics->getVolume()),
-			                     core::DataNotAvailableException);
+				core::DataNotAvailableException);
 
 			CHECK_EQUAL(theStatistics->getVx(0.02 * theStatistics->getMaximum()),
-			            theStatisticsDefault->getVx(0.02 * theStatistics->getMaximum()));
+				theStatisticsDefault->getVx(0.02 * theStatistics->getMaximum()));
 			CHECK_EQUAL(theStatistics->getVx(0.05 * theStatistics->getMaximum()),
-			            theStatisticsDefault->getVx(0.05 * theStatistics->getMaximum()));
+				theStatisticsDefault->getVx(0.05 * theStatistics->getMaximum()));
 			CHECK_EQUAL(theStatistics->getDx(0.9 * theStatistics->getVolume()),
-			            theStatisticsDefault->getDx(0.9 * theStatistics->getVolume()));
+				theStatisticsDefault->getDx(0.9 * theStatistics->getVolume()));
 			CHECK_EQUAL(theStatistics->getDx(0.95 * theStatistics->getVolume()),
-			            theStatisticsDefault->getDx(0.95 * theStatistics->getVolume()));
+				theStatisticsDefault->getDx(0.95 * theStatistics->getVolume()));
 
 			//check manually set reference dose and x values
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(precomputeDoseValues,
-			                               precomputeVolumeValues, 100.0));
+				precomputeVolumeValues, 100.0));
 			CHECK_THROW_EXPLICIT(theStatistics->getVx(0.01 * theStatistics->getMaximum()),
-			                     core::DataNotAvailableException);
+				core::DataNotAvailableException);
 			CHECK_NO_THROW(theStatistics->getVx(0.01 * 100.0));
 			CHECK_NO_THROW(theStatistics->getDx(0.9 * theStatistics->getVolume()));
 			CHECK_EQUAL(theStatistics->getReferenceDose(), 100.0);
@@ -251,15 +269,15 @@ namespace rttb
 			CHECK_EQUAL(minimaPositions->size(), nMin);
 
 			for (auto maximaPositionsIterator = std::begin(*maximaPositions);
-			     maximaPositionsIterator != std::end(*maximaPositions);
-			     ++maximaPositionsIterator)
+				maximaPositionsIterator != std::end(*maximaPositions);
+				++maximaPositionsIterator)
 			{
 				CHECK_EQUAL(maximaPositionsIterator->first, theStatistics->getMaximum());
 			}
 
 			for (auto minimaPositionsIterator = std::begin(*minimaPositions);
-			     minimaPositionsIterator != std::end(*minimaPositions);
-			     ++minimaPositionsIterator)
+				minimaPositionsIterator != std::end(*minimaPositions);
+				++minimaPositionsIterator)
 			{
 				CHECK_EQUAL(minimaPositionsIterator->first, theStatistics->getMinimum());
 			}
@@ -284,11 +302,11 @@ namespace rttb
 			geoInfo.setNumSlices(5);
 
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor2 =
-			    boost::make_shared<DummyDoseAccessor>(aDoseVector, geoInfo);
+				boost::make_shared<DummyDoseAccessor>(aDoseVector, geoInfo);
 			DoseAccessorPointer spDoseAccessor2(spTestDoseAccessor2);
 
 			boost::shared_ptr<core::GenericDoseIterator> spTestDoseIterator2 =
-			    boost::make_shared<core::GenericDoseIterator>(spDoseAccessor2);
+				boost::make_shared<core::GenericDoseIterator>(spDoseAccessor2);
 			DoseIteratorPointer spDoseIterator2(spTestDoseIterator2);
 
 			rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator2(spDoseIterator2);
@@ -306,19 +324,49 @@ namespace rttb
 			CHECK_EQUAL(minimaPositions->empty(), false);
 
 			for (auto maximaPositionsIterator = std::begin(*maximaPositions);
-			     maximaPositionsIterator != std::end(*maximaPositions);
-			     ++maximaPositionsIterator)
+				maximaPositionsIterator != std::end(*maximaPositions);
+				++maximaPositionsIterator)
 			{
 				CHECK_EQUAL(maximaPositionsIterator->first, theStatistics3->getMaximum());
 			}
 
 			for (auto minimaPositionsIterator = std::begin(*minimaPositions);
-			     minimaPositionsIterator != std::end(*minimaPositions);
-			     ++minimaPositionsIterator)
+				minimaPositionsIterator != std::end(*minimaPositions);
+				++minimaPositionsIterator)
 			{
 				CHECK_EQUAL(minimaPositionsIterator->first, theStatistics3->getMinimum());
 			}
 
+			// compare with actual XML
+			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator(doseFilename.c_str());
+			core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPointer(doseAccessorGenerator.generateDoseAccessor());
+
+			rttb::io::dicom::DicomFileStructureSetGenerator structAccessorGenerator(structFilename.c_str());
+			core::StructureSetGeneratorInterface::StructureSetPointer structerSetGeneratorPointer = structAccessorGenerator.generateStructureSet();
+			
+			std::vector<size_t> foundIndices = rttb::masks::VOIindexIdentifier::getIndicesByVoiRegex(
+				structerSetGeneratorPointer, "Heart");
+
+			CHECK_EQUAL(foundIndices.size(), 1);
+
+			core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPointer = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+				(structerSetGeneratorPointer->getStructure(foundIndices.at(0)), doseAccessorPointer->getGeometricInfo(), true);
+			maskAccessorPointer->updateMask();
+
+			boost::shared_ptr<core::GenericMaskedDoseIterator> maskedDoseIterator =
+				boost::make_shared<core::GenericMaskedDoseIterator>(maskAccessorPointer, doseAccessorPointer);
+			rttb::core::DoseIteratorInterface::DoseIteratorPointer doseIteratorPointer(maskedDoseIterator);
+			
+			rttb::algorithms::DoseStatisticsCalculator doseStatisticsCalculator(doseIteratorPointer);
+			
+			DoseStatisticsPointer doseStatisticsActual = doseStatisticsCalculator.calculateDoseStatistics(14.0);
+
+			io::other::DoseStatisticsXMLReader readerDefaultExpected(referenceXMLFilename);
+			auto doseStatisticsExpected = readerDefaultExpected.generateDoseStatistic();	
+
+			CHECK(checkEqualDoseStatistic(doseStatisticsExpected, doseStatisticsActual));
+			
+			
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
 
