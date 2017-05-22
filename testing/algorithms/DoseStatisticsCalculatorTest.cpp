@@ -36,7 +36,7 @@
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbVOIindexIdentifier.h"
-#include "../../code/masks/boost/rttbBoostMaskAccessor.h"
+#include "rttbBoostMaskAccessor.h"
 #include "rttbGenericMaskedDoseIterator.h"
 #include "../io/other/CompareDoseStatistic.h"
 #include "../../code/io/other/rttbDoseStatisticsXMLReader.h"
@@ -77,7 +77,7 @@ namespace rttb
 
 			DoseIteratorPointer spDoseIteratorNull;
 
-			if (argc > 1)
+			if (argc > 3)
 			{
 				referenceXMLFilename = argv[1];
 				doseFilename = argv[2];
@@ -346,6 +346,8 @@ namespace rttb
 			
 			std::vector<size_t> foundIndices = rttb::masks::VOIindexIdentifier::getIndicesByVoiRegex(
 				structerSetGeneratorPointer, "Heart");
+
+			CHECK_EQUAL(foundIndices.size(), 1);
 
 			core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPointer = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
 				(structerSetGeneratorPointer->getStructure(foundIndices.at(0)), doseAccessorPointer->getGeometricInfo(), true);
