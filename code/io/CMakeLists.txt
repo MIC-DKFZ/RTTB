@@ -17,15 +17,7 @@ IF(BUILD_All_Modules OR BUILD_IO_ITK)
 	SET(BUILD_IO_ITK ON CACHE BOOL ON FORCE)
 ENDIF()
 
-
 IF(BUILD_All_Modules OR BUILD_Models)
 	ADD_SUBDIRECTORY(models)
-ENDIF()
-
-IF (RTTB_VIRTUOS_SUPPORT)
-	OPTION(BUILD_IO_Virtuos "Determine if the IO class wrappers for Virtuos format will be generated." OFF)
-	IF(BUILD_All_Modules OR BUILD_IO_Virtuos)
-		ADD_SUBDIRECTORY(virtuos)
-	ENDIF()
 ENDIF()
 

@@ -54,7 +54,7 @@ int main(int argc,  const char** argv)
 		std::string appVersion = RTTB_FULL_VERSION_STRING;
 
 		argParser = boost::make_shared<rttb::apps::doseMap::DoseMapCmdLineParser>(argc, argv, appName,
-			appVersion,true);
+			appVersion);
 
 	}
 	catch (const std::exception& e)

@@ -45,7 +45,7 @@ int main(int argc, const char** argv)
     {
 
         argParser = boost::make_shared<rttb::apps::doseAcc::DoseAccCmdLineParser>(argc, argv, appName,
-            appVersion, appDesc, appContributor, appCategory, false);
+            appVersion, appDesc, appContributor, appCategory);
     }
     catch (const std::exception& e)
     {

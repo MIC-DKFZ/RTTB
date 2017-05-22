@@ -5,9 +5,6 @@ MESSAGE (STATUS "Process All apps Tests...")
 #-----------------------------------------------------------------------------
 IF(BUILD_App_DoseTool)
   ADD_SUBDIRECTORY (DoseTool)
-  IF(RTTB_VIRTUOS_SUPPORT AND BUILD_IO_Virtuos)
-	ADD_SUBDIRECTORY (DoseTool4V)
-  ENDIF()
 ENDIF()
 
 IF(BUILD_App_VoxelizerTool)

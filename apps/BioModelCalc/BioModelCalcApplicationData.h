@@ -43,8 +43,7 @@ namespace rttb
 			{
 			public:
 				/**Vector of arguments used to specify the loading style (always the first argument)
-				 * and, if needed, additional arguments for the specified loading style (e.g. location of the
-				 * Virtuos plan file for the Virtuos IO style).
+				 * and, if needed, additional arguments for the specified loading style.
 				 */
 				typedef std::vector<std::string> LoadingStyleArgType;
 

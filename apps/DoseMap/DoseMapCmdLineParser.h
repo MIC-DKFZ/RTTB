@@ -38,7 +38,7 @@ namespace rttb
 			{
 			public:
 				DoseMapCmdLineParser(int argc, const char** argv, const std::string& name,
-					const std::string& version, bool virtuosSupport = false);
+					const std::string& version);
 				void validateInput() const;
 				void printHelp() const;
 
@@ -54,9 +54,6 @@ namespace rttb
 				const std::string OPTION_REF_DOSE_FILE = "refDoseFile";
 				const std::string OPTION_REF_DOSE_LOAD_STYLE = "refDoseLoadStyle";
 				const std::string OPTION_INPUT_DOSE_LOAD_STYLE = "inputDoseLoadStyle";
-
-
-				bool _virtuosSupport;
 			};
 
 		}

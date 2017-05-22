@@ -7,8 +7,8 @@ namespace rttb
 		namespace bioModelCalc
 		{
 			BioModelCmdLineParser::BioModelCmdLineParser(int argc, const char** argv, const std::string& name, const std::string& version,
-				const std::string& description, const std::string& contributor, const std::string& category, bool virtuosSupport) :
-				CmdLineParserBase(name, version, description, contributor, category), _virtuosSupport(virtuosSupport)
+				const std::string& description, const std::string& contributor, const std::string& category) :
+				CmdLineParserBase(name, version, description, contributor, category)
 			{
 				//REQUIRED
 				addOption<std::string>(OPTION_DOSE_FILE, OPTION_GROUP_REQUIRED,
@@ -40,14 +40,6 @@ namespace rttb
 					"\"dicom\": normal dicom dose\n"
 					"\"itk\": use itk image loading\n"
 					"\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).";
-
-
-				if (_virtuosSupport)
-				{
-					doseLoadStyleDescription += "\n"
-						"\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--"
-						+ OPTION_LOAD_STYLE + " virtuos myFavorite.pln\")";
-				}
 
 				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_LOAD_STYLE, OPTION_GROUP_REQUIRED, doseLoadStyleDescription,
 					defaultLoadingStyle, defaultLoadingStyle.at(0),
@@ -99,19 +91,12 @@ namespace rttb
 				std::vector<std::string> loadStyle = get<std::vector<std::string> >(OPTION_LOAD_STYLE);
 				std::string loadStyleAbbreviation = loadStyle.at(0);
 
-				if (loadStyleAbbreviation != "dicom" && (!_virtuosSupport || loadStyleAbbreviation != "virtuos")
+				if (loadStyleAbbreviation != "dicom"
 				    && loadStyleAbbreviation != "itk"
 				    && loadStyleAbbreviation != "helax")
 				{
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style: " + loadStyleAbbreviation +
 					        ".\nPlease refer to the help for valid loading style settings.");
-				}
-				else if (_virtuosSupport && loadStyleAbbreviation == "virtuos")
-				{
-					if (loadStyle.size() < 2)
-					{
-						throw cmdlineparsing::InvalidConstraintException("Cannot load virtuos dose. Plan file is missing. Specify plan file as 2nd io style argument.");
-					}
 				}
 
 				double doseScaling = get<double>(OPTION_DOSE_SCALING);

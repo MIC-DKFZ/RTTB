@@ -691,7 +691,7 @@ namespace rttb
 
 	typedef std::string DBStringType;
 
-	typedef std::string VirtuosFileNameString, DICOMRTFileNameString;
+	typedef std::string DICOMRTFileNameString;
 
 	typedef unsigned short Uint16;
 

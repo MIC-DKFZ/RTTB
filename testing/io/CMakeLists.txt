@@ -21,7 +21,3 @@
   IF(BUILD_All_Modules OR BUILD_Models)
 	ADD_SUBDIRECTORY(models)
   ENDIF()
-   
-IF(BUILD_IO_Virtuos)
-	ADD_SUBDIRECTORY(virtuos)
-ENDIF(BUILD_IO_Virtuos)

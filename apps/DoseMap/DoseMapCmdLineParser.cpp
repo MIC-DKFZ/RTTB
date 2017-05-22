@@ -29,13 +29,12 @@ namespace rttb
 		{
 
 			DoseMapCmdLineParser::DoseMapCmdLineParser(int argc, const char** argv, const std::string& name,
-				const std::string& version, bool virtuosSupport) :
-				CmdLineParserBase(name, version), _virtuosSupport(virtuosSupport)
+				const std::string& version) :
+				CmdLineParserBase(name, version)
 			{
 				std::vector<std::string> defaultLoadingStyle;
 				defaultLoadingStyle.push_back("dicom");
 				std::string doseLoadStyleDescription = "Indicates the load style that should be used for the input dose. Available styles: \"dicom\": normal dicom dose (default);"
-					"\"virtuos\": load of a virtuos dose (This style is a multi argument. The second argument specifies the virtuos plan file, e.g. : \"--loadStyle1 virtuos myFavorite.pln\");"
 					"\"itk\": use itk image loading; \"helax\": load a helax dose (choosing this style, the dose path should only be a directory).";
 
 				addOption<std::string>(OPTION_INPUT_DOSE_FILE_NAME, OPTION_GROUP_REQUIRED,
@@ -45,13 +44,13 @@ namespace rttb
 					"The name of the output file. Can be omitted if used as positional argument (see above).", 'o', true);
 
 				addOptionWithDefaultValue<std::string>(OPTION_INTERPOLATOR, OPTION_GROUP_REQUIRED, "Specifies the interpolator that should be used for mapping."
-					"Available options are: \"nn\": nearest neighbour,\"linear\": linear interpolation, \"rosu\" interpolation based on the concept of Rosu et al.. Default interpolator is \"linear\".",
+					"Available options are: \"nn\": nearest neighbor,\"linear\": linear interpolation, \"rosu\" interpolation based on the concept of Rosu et al..",
 					"linear", "linear", 'i', true);
 
 				addOptionWithDefaultValue<std::string>(OPTION_REG_FILE_NAME, OPTION_GROUP_REQUIRED, "Specifies name and location of the registration file that should be used to map the input dose. "
 					"Default is no mapping, thus an identity transform is used. The registration should be stored as MatchPoint registration.", "", "no mapping", 'r',true);
 
-				addOption<std::string>(OPTION_REF_DOSE_FILE, OPTION_GROUP_OPTIONAL, "Specifies name and location of the dose file that should be the reference/template for the grid to mapp into. "
+				addOption<std::string>(OPTION_REF_DOSE_FILE, OPTION_GROUP_OPTIONAL, "Specifies name and location of the dose file that should be the reference/template for the grid to map into. "
 					"If flag is not specified, the input dose is the reference.", 't');
 
 				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_INPUT_DOSE_LOAD_STYLE, OPTION_GROUP_REQUIRED, doseLoadStyleDescription,
@@ -80,8 +79,7 @@ namespace rttb
 
 				std::vector<std::string> inputDoseLoadStyle = get<std::vector<std::string> >(OPTION_INPUT_DOSE_LOAD_STYLE);
 				std::string indoseLoadStyleAbbreviation = inputDoseLoadStyle.at(0);
-				if (indoseLoadStyleAbbreviation != "dicom" && indoseLoadStyleAbbreviation != "virtuos"
-					&& indoseLoadStyleAbbreviation != "itk"  && indoseLoadStyleAbbreviation != "helax")
+				if (indoseLoadStyleAbbreviation != "dicom" && indoseLoadStyleAbbreviation != "itk"  && indoseLoadStyleAbbreviation != "helax")
 				{
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style for input dose file: " +
 						indoseLoadStyleAbbreviation +
@@ -91,8 +89,7 @@ namespace rttb
 				if (isSet(OPTION_REF_DOSE_FILE)){
 					std::vector<std::string> refDoseLoadStyle = get<std::vector<std::string> >(OPTION_REF_DOSE_LOAD_STYLE);
 					std::string refDoseLoadStyleAbbreviation = refDoseLoadStyle.at(0);
-					if (refDoseLoadStyleAbbreviation != "dicom" && refDoseLoadStyleAbbreviation != "virtuos"
-						&& refDoseLoadStyleAbbreviation != "itk"  && refDoseLoadStyleAbbreviation != "helax")
+					if (refDoseLoadStyleAbbreviation != "dicom"	&& refDoseLoadStyleAbbreviation != "itk"  && refDoseLoadStyleAbbreviation != "helax")
 					{
 						throw cmdlineparsing::InvalidConstraintException("Unknown load style for reference dose file: " +
 							refDoseLoadStyleAbbreviation +

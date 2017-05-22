@@ -60,9 +60,6 @@ ENDIF()
 
 IF(BUILD_Tester_All OR BUILD_Tester_Examples)
 	ADD_SUBDIRECTORY(examples)
-	IF(RTTB_VIRTUOS_SUPPORT AND BUILD_IO_Virtuos)
-		ADD_SUBDIRECTORY(examples_virtuos)
-	ENDIF()
 ENDIF()
 
 IF(BUILD_Tester_All OR BUILD_Tester_Algorithms)

@@ -44,8 +44,7 @@ namespace rttb
 				typedef map::core::Registration<3, 3> RegistrationType;
 
 				/**Vector of arguments used to specify the loading style (always the first argument)
-				* and, if needed, additional arguments for the specified loading style (e.g. location of the
-				* Virtuos plan file for the Virtuos IO style).
+				* and, if needed, additional arguments for the specified loading style.
 				*/
 				typedef std::vector<std::string> LoadingStyleArgType;
 				/** Loaded Dose.*/
