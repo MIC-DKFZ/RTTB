@@ -184,6 +184,12 @@ namespace rttb
 			core::DVH aDVH(myOtherDVH);
 			CHECK_EQUAL(aDVH, myOtherDVH);
 
+			std::map <DoseTypeGy, PercentType> normalizedDVH = myDVH.getNormalizedDVH();
+			for (auto elem : normalizedDVH)
+			{				
+				CHECK_EQUAL(aDataDifferential.at(round(elem.first / binSize)), (elem.second / voxelVolume)); //or +0,5
+			}
+
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
 

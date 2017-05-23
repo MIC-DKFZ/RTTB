@@ -23,6 +23,7 @@
 
 #include <deque>
 #include <ostream>
+#include <map>
 
 #include "boost/shared_ptr.hpp"
 
@@ -187,6 +188,7 @@ namespace rttb
 			*/
 			VolumeType getAbsoluteVolume(int relativePercent);
 
+			std::map <DoseTypeGy, PercentType> getNormalizedDVH(bool differential = false);
 		};
 	}
 }
