@@ -61,67 +61,73 @@ namespace rttb
 				return _dvhType;
 			}
 
-			void DVHXMLFileWriter::writeDVH(DVHPointer aDvh)
+			void DVHXMLFileWriter::writeDVH(DVHPointer aDvh, bool normalized)
 			{
 				if (!aDvh)
 				{
 					throw core::NullPointerException("aDvh must not be NULL! ");
 				}
 
-
 				using boost::property_tree::ptree;
 				ptree pt;
+				DataDifferentialType data;
+				std::map <DoseTypeGy, PercentType> normalizedData;
 
 				if (_dvhType.Type == DVHType::Differential)
 				{
 					pt.put("dvh.type", "DIFFERENTIAL");
+					if (normalized) {
+						normalizedData = aDvh->getNormalizedDVH();
+					} 
+					else 
+					{
+						data = aDvh->getDataDifferential();
+					}					
 				}
 				else if (_dvhType.Type == DVHType::Cumulative)
 				{
 					pt.put("dvh.type", "CUMULATIVE");
+					if (normalized) {
+						normalizedData = aDvh->getNormalizedDVH(true);
+					}
+					else
+					{
+						data = aDvh->calcCumulativeDVH();
+					}
 				}
 				else
 				{
 					throw core::InvalidParameterException("DVH Type not acceptable: Only: DIFFERENTIAL/CUMULATIVE!");
 				}
 
-
-				DataDifferentialType dataDifferential = aDvh->getDataDifferential();
-				size_t numberOfBins = dataDifferential.size();
 				pt.put("dvh.deltaD", aDvh->getDeltaD());
 				pt.put("dvh.deltaV", aDvh->getDeltaV());
 				pt.put("dvh.structureID", aDvh->getStructureID());
 				pt.put("dvh.doseID", aDvh->getDoseID());
+				pt.put("dvh.normalized", normalized);
 
-
-				if (_dvhType.Type == DVHType::Differential)
-				{
-
-					for (size_t i = 0; i < numberOfBins; i++)
+				if (normalized) {
+					for (auto elem : normalizedData) 
 					{
 						boost::property_tree::ptree node;
-						node.put("", dataDifferential[i]);
+						node.put("", elem.second);
+						node.put("<xmlattr>.doseGy", elem.first);
+
+						pt.add_child("dvh.data.volumeInCcm", node);
+					}
+				}
+				else
+				{
+					for (size_t i = 0; i < data.size(); i++)
+					{
+						boost::property_tree::ptree node;
+						node.put("", data[i]);
 						node.put("<xmlattr>.dosebin", i);
 
 						pt.add_child("dvh.data.volume", node);
 					}
 				}
-				else if (_dvhType.Type == DVHType::Cumulative)
-				{
-
-					DataDifferentialType dataCumulative = aDvh->calcCumulativeDVH();
-
-					for (size_t i = 0; i < numberOfBins; i++)
-					{
-						boost::property_tree::ptree node;
-						node.put("", dataCumulative[i]);
-						node.put("<xmlattr>.dosebin", i);
-
-						pt.add_child("dvh.data.volume", node);
-					}
-				}
-
-
+				
 				try
 				{
 					boost::property_tree::xml_parser::xml_writer_settings<std::string> settings =

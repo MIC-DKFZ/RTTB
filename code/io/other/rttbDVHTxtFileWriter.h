@@ -62,10 +62,11 @@ namespace rttb
 				/*! @brief Write aDvh to txt file with the name: _fileName
 				@exception NullPointerException Thrown if _aDvh is NULL
 				@exception InvalidParameterException Thrown if _fileName invalid: could not open;
+				@exception InvalidParameterException Thrown if normalized is true;
 				or if _dvhType invalid: only DIFFERENTIAL or CUMULATIVE is accepted!
 				@exception Exception thrown if dvh init error
 				*/
-				void writeDVH(DVHPointer aDvh);
+				void writeDVH(DVHPointer aDvh, bool normalized = false);
 			};
 		}
 	}

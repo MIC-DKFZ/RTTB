@@ -39,7 +39,7 @@ namespace rttb
 			/*! @brief Write aDvh
 			*/
 		public:
-			virtual void writeDVH(DVHPointer aDvh) = 0;
+			virtual void writeDVH(DVHPointer aDvh, bool normalized = false) = 0;
 		};
 	}
 

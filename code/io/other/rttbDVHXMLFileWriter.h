@@ -67,7 +67,7 @@ namespace rttb
 				or if _dvhType invalid: only DIFFERENTIAL or CUMULATIVE is accepted!
 				@exception Exception thrown if dvh init error
 				*/
-				void writeDVH(DVHPointer aDvh);
+				void writeDVH(DVHPointer aDvh, bool normalized = false);
 			};
 		}
 	}
