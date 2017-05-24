@@ -186,7 +186,7 @@ namespace rttb
 
 			std::map <DoseTypeGy, PercentType> normalizedDVH = myDVH.getNormalizedDVH(true);
 			for (auto elem : normalizedDVH)
-			{				
+			{
 				CHECK_EQUAL(aDataDifferential.at(std::round(elem.first / binSize)), (elem.second / voxelVolume));
 			}
 

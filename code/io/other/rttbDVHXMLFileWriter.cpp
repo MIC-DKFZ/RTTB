@@ -77,7 +77,7 @@ namespace rttb
 				{
 					pt.put("dvh.type", "DIFFERENTIAL");
 					if (normalized) {
-						normalizedData = aDvh->getNormalizedDVH();
+						normalizedData = aDvh->getNormalizedDVH(true);
 					} 
 					else 
 					{
@@ -88,7 +88,7 @@ namespace rttb
 				{
 					pt.put("dvh.type", "CUMULATIVE");
 					if (normalized) {
-						normalizedData = aDvh->getNormalizedDVH(true);
+						normalizedData = aDvh->getNormalizedDVH();
 					}
 					else
 					{

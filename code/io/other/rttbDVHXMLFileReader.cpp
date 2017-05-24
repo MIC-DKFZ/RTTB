@@ -74,12 +74,23 @@ namespace rttb
 				DoseVoxelVolumeType deltaV = 0;
 				IDType strID;
 				IDType doseID;
+				bool normalized;
 
 				dvhType = pt.get<std::string>("dvh.type");
 				deltaD = pt.get<DoseTypeGy>("dvh.deltaD");
 				deltaV = pt.get<DoseVoxelVolumeType>("dvh.deltaV");
 				strID = pt.get<IDType>("dvh.structureID");
 				doseID = pt.get<IDType>("dvh.doseID");
+				boost::optional<bool> dvhNormalized = pt.get_optional<bool>("dvh.normalized");
+
+				if (dvhNormalized) 
+				{
+					normalized = dvhNormalized.get();
+				}
+				else
+				{
+					normalized = false;
+				}
 
 				if (dvhType != "DIFFERENTIAL" && dvhType != "CUMULATIVE")
 				{
@@ -91,12 +102,12 @@ namespace rttb
 				{
 					if (dvhType == "DIFFERENTIAL")
 					{
-						dataDifferential.push_back(boost::lexical_cast<DoseTypeGy>(v.second.data()));
+						dataDifferential.push_back(boost::lexical_cast<DoseTypeGy>(v.second.data()) / (normalized ? deltaV : 1));
 
 					}
 					else if (dvhType == "CUMULATIVE")
 					{
-						dataCumulative.push_back(boost::lexical_cast<DoseTypeGy>(v.second.data()));
+						dataCumulative.push_back(boost::lexical_cast<DoseTypeGy>(v.second.data()) / (normalized ? deltaV : 1));
 					}
 
 				}

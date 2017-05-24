@@ -133,6 +133,33 @@ namespace rttb
 
 			CHECK(checkEqualDVH(importedDVH2, readDVH_cum));
 
+			//write dvh to a normalized xml file as differential
+			FileNameString toWrite_normalized_diff = "test_normalized_diff.xml";
+			io::other::DVHXMLFileWriter xmlWriter_normalized_dif(toWrite_normalized_diff, typeDiff);
+			xmlWriter_normalized_dif.writeDVH(importedDVH2, true);
+
+			io::other::DVHXMLFileReader xmlReader_normalized_diff(toWrite_normalized_diff);
+			DVHPointer readDVH_normalized_diff = xmlReader.generateDVH();
+
+			CHECK(checkEqualDVH(importedDVH2, readDVH_normalized_diff));
+
+			//write dvh to a normalized xml file as cummulative
+			FileNameString toWrite_normalized_cum = "test_normalized_cum.xml";
+			io::other::DVHXMLFileWriter xmlWriter_normalized_cum(toWrite_normalized_cum, typeCum);
+			xmlWriter_normalized_cum.writeDVH(importedDVH2, true);
+
+			io::other::DVHXMLFileReader xmlReader_normalized_cum(toWrite_normalized_cum);
+			DVHPointer readDVH_normalized_cum = xmlReader_normalized_cum.generateDVH();
+
+			CHECK(checkEqualDVH(importedDVH2, readDVH_normalized_cum));
+
+			//delete files again
+			CHECK_EQUAL(std::remove(toWrite_diff.c_str()), 0);
+			CHECK_EQUAL(std::remove(toWrite_cum.c_str()), 0);
+			CHECK_EQUAL(std::remove(toWrite_normalized_diff.c_str()), 0);
+			CHECK_EQUAL(std::remove(toWrite_normalized_cum.c_str()), 0);
+
+
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
 
