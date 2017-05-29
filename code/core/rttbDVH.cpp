@@ -415,12 +415,12 @@ namespace rttb
 			return _label;
 		}
 
-		std::map <DoseTypeGy, PercentType> DVH::getNormalizedDVH(bool differential) {
+		std::map <DoseTypeGy, PercentType> DVH::getNormalizedDVH(DVHType dvhType) {
 			std::map <DoseTypeGy, PercentType> normalizedDVH;
 			DataDifferentialType data = getDataDifferential();
 			size_t numberOfVolumes = data.size();
 			
-			if (!differential) {
+			if (dvhType.Type == DVHType::Cumulative) {
 				data = calcCumulativeDVH();
 			}
 			for (size_t i = 0; i < numberOfVolumes; i++)
