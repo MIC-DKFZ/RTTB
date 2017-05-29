@@ -23,6 +23,7 @@
 
 #include <deque>
 #include <ostream>
+#include <map>
 
 #include "boost/shared_ptr.hpp"
 
@@ -187,6 +188,10 @@ namespace rttb
 			*/
 			VolumeType getAbsoluteVolume(int relativePercent);
 
+			/*	@brief Multiplies each values with its Delta value. Values depend on DVHType.
+				@param The DVHType that is being used DVHType::Cumulative or DVHType::Differential
+			*/
+			std::map <DoseTypeGy, PercentType> getNormalizedDVH(DVHType dvhType = { DVHType::Cumulative });
 		};
 	}
 }

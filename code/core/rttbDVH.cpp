@@ -415,5 +415,20 @@ namespace rttb
 			return _label;
 		}
 
+		std::map <DoseTypeGy, PercentType> DVH::getNormalizedDVH(DVHType dvhType) {
+			std::map <DoseTypeGy, PercentType> normalizedDVH;
+			DataDifferentialType data = getDataDifferential();
+			size_t numberOfVolumes = data.size();
+			
+			if (dvhType.Type == DVHType::Cumulative) {
+				data = calcCumulativeDVH();
+			}
+			for (size_t i = 0; i < numberOfVolumes; i++)
+			{
+				normalizedDVH.insert(std::pair<DoseTypeGy, PercentType>(i * getDeltaD(), data[i] * getDeltaV()));
+			}
+			return normalizedDVH;
+		}
+
 	}//end namespace core
 }//end namespace rttb

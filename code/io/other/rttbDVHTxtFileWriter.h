@@ -64,8 +64,10 @@ namespace rttb
 				@exception InvalidParameterException Thrown if _fileName invalid: could not open;
 				or if _dvhType invalid: only DIFFERENTIAL or CUMULATIVE is accepted!
 				@exception Exception thrown if dvh init error
+				@exception InvalidParameterException Thrown if normalized is true. 
+				This feature is not implemented because this Writer is deprecated.
 				*/
-				void writeDVH(DVHPointer aDvh);
+				void writeDVH(DVHPointer aDvh, bool normalized = false);
 			};
 		}
 	}

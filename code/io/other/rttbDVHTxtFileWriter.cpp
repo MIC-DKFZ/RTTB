@@ -60,11 +60,15 @@ namespace rttb
 				return _dvhType;
 			}
 
-			void DVHTxtFileWriter::writeDVH(DVHPointer aDvh)
+			void DVHTxtFileWriter::writeDVH(DVHPointer aDvh, bool normalized)
 			{
 				if (!aDvh)
 				{
 					throw core::NullPointerException("aDvh must not be NULL! ");
+				}
+				
+				if (normalized) {
+					throw core::InvalidParameterException("DVHTxtFileWriter doesnt support normalized DVH output.");
 				}
 
 				std::ofstream out_dvh_ofstream(this->_fileName.c_str(), std::ios::out);
