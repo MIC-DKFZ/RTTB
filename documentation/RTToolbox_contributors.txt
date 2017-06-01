@@ -8,4 +8,6 @@
 - Simon Strubel
 - Fabrizio Ciccarese
 - Melanie Braun
+- Simon Jung
+- Philipp Strubel
 **/
