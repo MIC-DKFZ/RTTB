@@ -30,8 +30,8 @@ RTToolbox homepage: http://www.dkfz.de/en/sidt/projects/rttb/info.html\n\n
 Software Development for Integrated Diagnostics and Therapy (SIDT),\n
 German Cancer Research Center (DKFZ), Heidelberg, Germany.\n
 
-Web: http://www.dkfz.de/en/sidt/index.html\n
-E-mail: sbr(at)dkfz.de, l.zhang(at)dkfz.de (L. Zhang) or c.hentschke(at)dkfz.de (C. Hentschke)\n
+Web:  https://www.dkfz-heidelberg.de/en/mic/research/SIDT/sidt_projects.html\n
+E-mail: rttb(at)dkfz.de \n
 
 \section copyright Copyright
 

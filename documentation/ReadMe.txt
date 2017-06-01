@@ -4,8 +4,8 @@
 \section tests Compiler tests
 
 RTToolbox is currently tested with the following compilers (only x64):
-- Visual Studio 2010
 - Visual Studio 2013
+- Visual Studio 2015
 - GCC 4.9
 
 \section linking Static/Dynamic library support
