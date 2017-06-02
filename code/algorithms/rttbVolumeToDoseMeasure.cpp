@@ -7,10 +7,10 @@ namespace rttb
 
 	namespace algorithms
 	{
-		VolumeToDoseMeasure::VolumeToDoseMeasure(DoseStatistics::complexStatistics name, VolumeToDoseFunctionType values) :
-			name(name), values(values) {}
+		VolumeToDoseMeasure::VolumeToDoseMeasure(std::string name, VolumeToDoseFunctionType values, VolumeType volume) :
+			name(name), values(values), _volume(volume) {}
 
-		DoseStatistics::complexStatistics VolumeToDoseMeasure::getName()
+		std::string VolumeToDoseMeasure::getName() const
 		{
 			return this->name;
 		}
@@ -23,43 +23,40 @@ namespace rttb
 		DoseTypeGy VolumeToDoseMeasure::getValue(VolumeType xVolumeAbsolute)
 		{
 			VolumeType dummy;
-			return getValue(xVolumeAbsolute, false, dummy);
-			return DoseTypeGy();
+			return getSpecificValue(xVolumeAbsolute, false, dummy);
 		}
+
 		DoseTypeGy VolumeToDoseMeasure::getValue(VolumeType xVolumeAbsolute, bool findNearestValue, VolumeType & nearestXVolume)
 		{
-			return getValue(xVolumeAbsolute, findNearestValue, nearestXVolume);
-			return DoseTypeGy();
+			return getSpecificValue(xVolumeAbsolute, findNearestValue, nearestXVolume);
 		}
 		DoseTypeGy VolumeToDoseMeasure::getValueRelative(VolumeType xVolumeRelative)
 		{
 			if (xVolumeRelative >= 0 && xVolumeRelative <= 1) {
 				DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
 				VolumeType dummy;
-				return getValue(xVolumeAbsolute, false, dummy);
+				return getSpecificValue(xVolumeAbsolute, false, dummy);
 			}
 			else {
 				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
 			}
-			return DoseTypeGy();
 		}
 		DoseTypeGy VolumeToDoseMeasure::getValueRelative(VolumeType xVolumeRelative, bool findNearestValue, VolumeType & nearestXVolume)
 		{
 			if (xVolumeRelative >= 0 && xVolumeRelative <= 1) {
 				DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
-				return getValue(xVolumeAbsolute, findNearestValue, nearestXVolume);
+				return getSpecificValue(xVolumeAbsolute, findNearestValue, nearestXVolume);
 			}
 			else {
 				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
 			}
-			return DoseTypeGy();
 		}
-		VolumeToDoseMeasure::VolumeToDoseFunctionType VolumeToDoseMeasure::getAllValues()
+		VolumeToDoseMeasure::VolumeToDoseFunctionType VolumeToDoseMeasure::getAllValues() const
 		{
 			return this->values;
 		}
 
-		double VolumeToDoseMeasure::getValue(double key,
+		double VolumeToDoseMeasure::getSpecificValue(double key,
 			bool findNearestValueInstead, double& storedKey) const
 		{
 			if (values.find(key) != std::end(values))
@@ -88,6 +85,7 @@ namespace rttb
 				}
 			}
 		}
+
 		std::map<double, double>::const_iterator VolumeToDoseMeasure::findNearestKeyInMap(
 			const std::map<double, double>& aMap,
 			double key) const
@@ -123,5 +121,13 @@ namespace rttb
 			--iterator;
 			return iterator;
 		}
-	}
+
+		bool operator==(const VolumeToDoseMeasure& volumeToDoseMesure,const VolumeToDoseMeasure& otherVolumeToDoseMesure)
+		{
+			if (volumeToDoseMesure.getName() == otherVolumeToDoseMesure.getName() && volumeToDoseMesure.getAllValues() == otherVolumeToDoseMesure.getAllValues()) {
+				return true;
+			}
+			return false;
+		}
+}
 }

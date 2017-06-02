@@ -67,4 +67,3 @@ namespace rttb
 
 
 #endif
-#pragma once

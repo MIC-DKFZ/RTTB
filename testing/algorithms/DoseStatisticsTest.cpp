@@ -28,6 +28,8 @@
 #include "rttbDoseStatistics.h"
 #include "rttbDataNotAvailableException.h"
 
+#include "rttbVolumeToDoseMeasure.h"
+
 namespace rttb
 {
 	namespace testing
@@ -75,10 +77,9 @@ namespace rttb
 			DoseToVolumeFunctionType Vx;
 			Vx.insert(std::make_pair(1.1, 1000));
 			Vx.insert(std::make_pair(106.9, 99000));
-
-			VolumeToDoseFunctionType Dx;
-			Dx.insert(std::make_pair(1000, 1.1));
-			Dx.insert(std::make_pair(99000, 106.9));
+			algorithms::VolumeToDoseMeasure Dx = algorithms::VolumeToDoseMeasure("Dx", std::map<VolumeType, DoseTypeGy>(), volume);
+			Dx.insertValue(std::make_pair(1000, 1.1));
+			Dx.insertValue(std::make_pair(99000, 106.9));
 
 			VolumeToDoseFunctionType MOHx;
 			MOHx.insert(std::make_pair(1000, 5));
@@ -116,7 +117,7 @@ namespace rttb
 			//check default values for unset complex values
 			CHECK_EQUAL(aDoseStatistic.getMaximumVoxelPositions()->empty(), true);
 			CHECK_EQUAL(aDoseStatistic.getMinimumVoxelPositions()->empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getAllDx().empty(), true);
+			CHECK_EQUAL(aDoseStatistic.getDx().getAllValues().empty(), true);
 			CHECK_EQUAL(aDoseStatistic.getAllVx().empty(), true);
 			CHECK_EQUAL(aDoseStatistic.getAllMOHx().empty(), true);
 			CHECK_EQUAL(aDoseStatistic.getAllMOCx().empty(), true);
@@ -133,7 +134,7 @@ namespace rttb
 
 			CHECK_EQUAL(aDoseStatisticComplex.getMaximumVoxelPositions(), resultsMaxVoxels);
 			CHECK_EQUAL(aDoseStatisticComplex.getMinimumVoxelPositions(), resultsMinVoxels);
-			CHECK_EQUAL(aDoseStatisticComplex.getAllDx() == Dx, true);
+			CHECK_EQUAL(aDoseStatisticComplex.getDx().getAllValues()== Dx.getAllValues(), true);
 			CHECK_EQUAL(aDoseStatisticComplex.getAllVx() == Vx, true);
 			CHECK_EQUAL(aDoseStatisticComplex.getAllMOHx() == MOHx, true);
 			CHECK_EQUAL(aDoseStatisticComplex.getAllMOCx() == MOCx, true);
@@ -152,7 +153,7 @@ namespace rttb
 
 			CHECK_EQUAL(aDoseStatistic.getMaximumVoxelPositions(), resultsMaxVoxels);
 			CHECK_EQUAL(aDoseStatistic.getMinimumVoxelPositions(), resultsMinVoxels);
-			CHECK_EQUAL(aDoseStatistic.getAllDx() == Dx, true);
+			CHECK_EQUAL(aDoseStatistic.getDx().getAllValues() == Dx.getAllValues(), true);
 			CHECK_EQUAL(aDoseStatistic.getAllVx() == Vx, true);
 			CHECK_EQUAL(aDoseStatistic.getAllMOHx() == MOHx, true);
 			CHECK_EQUAL(aDoseStatistic.getAllMOCx() == MOCx, true);
@@ -167,13 +168,10 @@ namespace rttb
 			Vx.insert(std::make_pair(90, 90500));
 			Vx.insert(std::make_pair(107, 99000));
 
-			Dx.clear();
-			Dx.insert(std::make_pair(1000, 1.1));
-			Dx.insert(std::make_pair(2000, 2.0));
-			Dx.insert(std::make_pair(5000, 10.8));
-			Dx.insert(std::make_pair(90000, 89.5));
-			Dx.insert(std::make_pair(98000, 104.4));
-			Dx.insert(std::make_pair(99000, 106.9));
+			Dx.insertValue(std::make_pair(2000, 2.0));
+			Dx.insertValue(std::make_pair(5000, 10.8));
+			Dx.insertValue(std::make_pair(90000, 89.5));
+			Dx.insertValue(std::make_pair(98000, 104.4));
 
 			rttb::algorithms::DoseStatistics aDoseStatisticNewValues(minimum, maximum, mean, stdDeviation,
 			        numVoxels, volume);
@@ -182,39 +180,39 @@ namespace rttb
 
 			CHECK_NO_THROW(aDoseStatisticNewValues.getVx(1.1));
 			CHECK_NO_THROW(aDoseStatisticNewValues.getVx(90));
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(1000));
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(98000));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDx().getValue(1000));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDx().getValue(98000));
 
 			CHECK_EQUAL(aDoseStatisticNewValues.getVx(1.1), Vx.find(1.1)->second);
 			CHECK_EQUAL(aDoseStatisticNewValues.getVx(90), Vx.find(90)->second);
-			CHECK_EQUAL(aDoseStatisticNewValues.getDx(1000), Dx.find(1000)->second);
-			CHECK_EQUAL(aDoseStatisticNewValues.getDx(98000), Dx.find(98000)->second);
+			CHECK_EQUAL(aDoseStatisticNewValues.getDx().getValue(1000), Dx.getAllValues().find(1000)->second);
+			CHECK_EQUAL(aDoseStatisticNewValues.getDx().getValue(98000), Dx.getAllValues().find(98000)->second);
 
 			//test if key-value combination NOT in map
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getDx(1001), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getDx().getValue(1001), core::DataNotAvailableException);
 			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getVx(10), core::DataNotAvailableException);
 
 			double closestDxKey, closestVxKey;
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(900, true, closestDxKey));
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(99001, true, closestDxKey));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDx().getValue(900, true, closestDxKey));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDx().getValue(99001, true, closestDxKey));
 			CHECK_NO_THROW(aDoseStatisticNewValues.getVx(10, true, closestVxKey));
-			CHECK_EQUAL(aDoseStatisticNewValues.getDx(900, true, closestDxKey), Dx.find(1000)->second);
-			CHECK_EQUAL(aDoseStatisticNewValues.getDx(99001, true, closestDxKey), Dx.find(99000)->second);
+			CHECK_EQUAL(aDoseStatisticNewValues.getDx().getValue(900, true, closestDxKey), Dx.getAllValues().find(1000)->second);
+			CHECK_EQUAL(aDoseStatisticNewValues.getDx().getValue(99001, true, closestDxKey), Dx.getAllValues().find(99000)->second);
 			CHECK_EQUAL(aDoseStatisticNewValues.getVx(10, true, closestVxKey), Vx.find(5.0)->second);
 			CHECK_EQUAL(closestDxKey, 99000);
 			CHECK_EQUAL(closestVxKey, 5);
 			
 			// relatives only between 0 and 1
 			CHECK_NO_THROW(aDoseStatisticNewValues.getVxRelative(1.1 / aDoseStatistic.getReferenceDose()));
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDxRelative(1000 / aDoseStatistic.getVolume()));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDx().getValueRelative(1000 / aDoseStatistic.getVolume()));
 			CHECK_THROW(aDoseStatisticNewValues.getVxRelative(-0.3));
 			CHECK_THROW(aDoseStatisticNewValues.getVxRelative(1.1));
-			CHECK_THROW(aDoseStatisticNewValues.getDxRelative(0.5));
+			CHECK_THROW(aDoseStatisticNewValues.getDx().getValueRelative(0.5));
 
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDxRelative(900 / aDoseStatistic.getVolume(), true, closestDxKey));
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDxRelative(0.5, true, closestDxKey));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDx().getValueRelative(900 / aDoseStatistic.getVolume(), true, closestDxKey));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDx().getValueRelative(0.5, true, closestDxKey));
 			CHECK_NO_THROW(aDoseStatisticNewValues.getVxRelative(10 / aDoseStatistic.getReferenceDose(), true, closestVxKey));
-			CHECK_EQUAL(aDoseStatisticNewValues.getDxRelative(900 / aDoseStatistic.getVolume(), true, closestDxKey), Dx.find(1000)->second);
+			CHECK_EQUAL(aDoseStatisticNewValues.getDx().getValueRelative(900 / aDoseStatistic.getVolume(), true, closestDxKey), Dx.getAllValues().find(1000)->second);
 			
 			CHECK_EQUAL(aDoseStatisticNewValues.getVxRelative(10 / aDoseStatistic.getReferenceDose(), true, closestVxKey), Vx.find(5.0)->second);
 			CHECK_EQUAL(closestVxKey, 5);
@@ -222,9 +220,9 @@ namespace rttb
 	
 
 			//equal distance to two values. First value is returned.
-			CHECK_NO_THROW(aDoseStatisticNewValues.getDx(1500, true, closestDxKey));
+			CHECK_NO_THROW(aDoseStatisticNewValues.getDx().getValue(1500, true, closestDxKey));
 			CHECK_NO_THROW(aDoseStatisticNewValues.getVx(98.5, true, closestVxKey));
-			CHECK_EQUAL(aDoseStatisticNewValues.getDx(1500, true, closestDxKey), Dx.find(1000)->second);
+			CHECK_EQUAL(aDoseStatisticNewValues.getDx().getValue(1500, true, closestDxKey), Dx.getAllValues().find(1000)->second);
 			CHECK_EQUAL(aDoseStatisticNewValues.getVx(98.5, true, closestVxKey), Vx.find(90.0)->second);
 			CHECK_EQUAL(closestDxKey, 1000);
 			CHECK_EQUAL(closestVxKey, 90.0);

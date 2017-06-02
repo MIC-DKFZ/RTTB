@@ -30,6 +30,8 @@
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
 
+#include "rttbDxVolumeToDoseMeasureCalculator.h"
+
 #include <boost/thread/thread.hpp>
 
 namespace rttb
@@ -275,11 +277,11 @@ namespace rttb
 					0.95)(0.98);
 				precomputeVolumeValuesNonConst = defaultPrecomputeVolumeValues;
 			}
-
+			DxVolumeToDoseMeasureCalculator test = DxVolumeToDoseMeasureCalculator(precomputeVolumeValuesNonConst, _statistics->getVolume(),
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum());
+			test.compute();
 			DoseToVolumeFunctionType Vx = computeDoseToVolumeFunctionMulti(referenceDose,
 				precomputeDoseValuesNonConst, DoseStatistics::Vx);
-			VolumeToDoseFunctionType Dx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst,
-				DoseStatistics::Dx);
 			VolumeToDoseFunctionType MOHx = computeVolumeToDoseFunctionMulti(precomputeVolumeValuesNonConst,
 				DoseStatistics::MOHx);
 
@@ -293,7 +295,7 @@ namespace rttb
 				DoseStatistics::MinOCx);
 
 			_statistics->setVx(Vx);
-			_statistics->setDx(Dx);
+			_statistics->setDx(test.getMeasure());
 			_statistics->setMOHx(MOHx);
 			_statistics->setMOCx(MOCx);
 			_statistics->setMaxOHx(MaxOHx);
@@ -643,11 +645,6 @@ namespace rttb
 
 			switch (name)
 			{
-			case DoseStatistics::Dx:
-				multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
-					computeDx(xAbsolute)));
-				break;
-
 			case DoseStatistics::MOHx:
 				multiValues.insert(std::pair<VolumeType, DoseTypeGy>(xAbsolute,
 					computeMOHx(xAbsolute)));

@@ -36,7 +36,7 @@ namespace rttb
 		                               DoseStatisticType stdDeviation, VoxelNumberType numVoxels, VolumeType volume,
 		                               ResultListPointer maximumVoxelPositions /*= ResultListPointer()*/,
 		                               ResultListPointer minimumVoxelPositions /*= ResultListPointer()*/,
-		                               VolumeToDoseFunctionType Dx /*= std::map<DoseTypeGy, VolumeType>()*/,
+									   VolumeToDoseMeasure Dx /*= std::map<DoseTypeGy, VolumeType>()*/,
 		                               DoseToVolumeFunctionType Vx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
@@ -96,7 +96,7 @@ namespace rttb
 			_maximumVoxelPositions = maximumVoxelPositions;
 		}
 
-		void DoseStatistics::setDx(const DoseToVolumeFunctionType& DxValues)
+		void DoseStatistics::setDx(const VolumeToDoseMeasure& DxValues)
 		{
 			_Dx = DxValues;
 		}
@@ -211,42 +211,6 @@ namespace rttb
 			}
 			else {
 				throw rttb::core::InvalidParameterException("Reference dose must be > 0 and 0 <= relative Dose <= 1");
-			}
-		}
-
-		DoseTypeGy DoseStatistics::getDx(VolumeType xVolumeAbsolute, bool findNearestValue,
-		                                 VolumeType& nearestXVolume) const
-		{
-
-			return getValue(_Dx, xVolumeAbsolute, findNearestValue, nearestXVolume);
-		}
-
-		DoseTypeGy DoseStatistics::getDx(VolumeType xVolumeAbsolute) const
-		{
-			VolumeType dummy;
-			return getValue(_Dx, xVolumeAbsolute, false, dummy);
-		}
-		DoseTypeGy DoseStatistics::getDxRelative(VolumeType xVolumeRelative, bool findNearestValue,
-			VolumeType& nearestXVolume) const
-		{
-			if ( xVolumeRelative>=0 && xVolumeRelative <= 1){
-			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
-			return getValue(_Dx, xVolumeAbsolute, findNearestValue, nearestXVolume);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
-			}
-		}
-
-		DoseTypeGy DoseStatistics::getDxRelative(VolumeType xVolumeRelative) const
-		{
-			if (xVolumeRelative >= 0 && xVolumeRelative <= 1){
-			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
-			VolumeType dummy;
-			return getValue(_Dx, xVolumeAbsolute, false, dummy);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
 			}
 		}
 
@@ -475,7 +439,7 @@ namespace rttb
 			return _Vx;
 		}
 
-		DoseStatistics::VolumeToDoseFunctionType DoseStatistics::getAllDx() const
+		VolumeToDoseMeasure DoseStatistics::getDx() const
 		{
 			return _Dx;
 		}

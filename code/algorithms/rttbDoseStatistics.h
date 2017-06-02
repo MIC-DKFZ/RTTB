@@ -31,6 +31,8 @@
 
 #include "RTTBAlgorithmsExports.h"
 
+#include "rttbVolumeToDoseMeasure.h"
+
 namespace rttb
 {
 
@@ -66,7 +68,7 @@ namespace rttb
 			VoxelNumberType _numVoxels;
 			VolumeType _volume;
 			DoseTypeGy _referenceDose; //for Vx computation
-			VolumeToDoseFunctionType _Dx;
+			VolumeToDoseMeasure _Dx;
 			DoseToVolumeFunctionType _Vx;
 			VolumeToDoseFunctionType _MOHx;
 			VolumeToDoseFunctionType _MOCx;
@@ -88,7 +90,7 @@ namespace rttb
 			                   NULL,
 			               ResultListPointer maximumVoxelPositions =
 			                   NULL,
-			               VolumeToDoseFunctionType Dx = VolumeToDoseFunctionType(),
+						   VolumeToDoseMeasure _Dx = VolumeToDoseMeasure("Dx", std::map<VolumeType, DoseTypeGy>(), 0.0),
 			               DoseToVolumeFunctionType Vx = DoseToVolumeFunctionType(),
 			               VolumeToDoseFunctionType MOHx = VolumeToDoseFunctionType(),
 			               VolumeToDoseFunctionType MOCx = VolumeToDoseFunctionType(),
@@ -101,7 +103,7 @@ namespace rttb
 
 			void setMinimumVoxelPositions(ResultListPointer minimumVoxelPositions);
 			void setMaximumVoxelPositions(ResultListPointer maximumVoxelPositions);
-			void setDx(const DoseToVolumeFunctionType& DxValues);
+			void setDx(const VolumeToDoseMeasure& DxValues);
 			void setVx(const VolumeToDoseFunctionType& VxValues);
 			void setMOHx(const VolumeToDoseFunctionType& MOHxValues);
 			void setMOCx(const VolumeToDoseFunctionType& MOCxValues);
@@ -169,17 +171,7 @@ namespace rttb
 				DoseTypeGy& nearestXDose) const;
 			DoseToVolumeFunctionType getAllVx() const;
 
-			/*! @brief Get Dx: the minimal dose delivered to part x of the current volume.
-				@return Return dose value in Gy.
-				@exception InvalidDoseException if the Dx values have not been set (i.e. the vector is empty)
-			*/
-			DoseTypeGy getDx(VolumeType xVolumeAbsolute, bool findNearestValue,
-			                 VolumeType& nearestXVolume) const;
-			DoseTypeGy getDx(VolumeType xVolumeAbsolute) const;
-			DoseTypeGy getDxRelative(VolumeType xDoseRelative, bool findNearestValue,
-				VolumeType& nearestXVolume) const;
-			DoseTypeGy getDxRelative(VolumeType xDoseRelative) const;
-			VolumeToDoseFunctionType getAllDx() const;
+			VolumeToDoseMeasure getDx() const;
 
 			/*! @brief Get MOHx: mean dose of the hottest x voxels.
 				@return Return dose value in Gy.

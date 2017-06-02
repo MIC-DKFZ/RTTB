@@ -25,8 +25,6 @@
 #include <vector>
 #include <map>
 
-#include "boost/shared_ptr.hpp"
-
 #include "rttbBaseType.h"
 
 #include "RTTBAlgorithmsExports.h"
@@ -44,27 +42,27 @@ namespace rttb
 			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
 
 		private:
-			DoseStatistics::complexStatistics name;
+			std::string name;
 			VolumeToDoseFunctionType values;
+			VolumeType _volume;
 
 		public:
-			VolumeToDoseMeasure(DoseStatistics::complexStatistics name, VolumeToDoseFunctionType values);
-			DoseStatistics::complexStatistics getName();
+			VolumeToDoseMeasure(std::string name, VolumeToDoseFunctionType values, VolumeType volume);
+			std::string getName() const;
 			void insertValue(std::pair<VolumeType, DoseTypeGy> value);
 			DoseTypeGy getValue(VolumeType xVolumeAbsolute);
 			DoseTypeGy getValue(VolumeType xVolumeAbsolute, bool findNearestValue, VolumeType& nearestXDose);
 			DoseTypeGy getValueRelative(VolumeType xDoseRelative);
 			DoseTypeGy getValueRelative(VolumeType xDoseRelative, bool findNearestValue, VolumeType& nearestXDose);
-			VolumeToDoseFunctionType getAllValues();
+			VolumeToDoseFunctionType getAllValues() const;
+			friend bool operator==(const VolumeToDoseMeasure& volumeToDoseMesure, const VolumeToDoseMeasure& otherVolumeToDoseMesure);
 
 		private:
-			double getValue(double key, bool findNearestValueInstead, double& storedKey) const;
+			double getSpecificValue(double key, bool findNearestValueInstead, double& storedKey) const;
 			std::map<double, double>::const_iterator findNearestKeyInMap(const std::map<double, double>& aMap, double key) const;
 		};
-
 	}
 }
 
 
 #endif
-#pragma once
