@@ -100,7 +100,7 @@ namespace rttb
                 double stdDeviation=-1;
                 boost::shared_ptr<std::vector<std::pair<double, int> > > minimumVoxelPositions = nullptr;
                 boost::shared_ptr<std::vector<std::pair<double, int> > > maximumVoxelPositions = nullptr;
-				rttb::algorithms::VolumeToDoseMeasure Dx = rttb::algorithms::VolumeToDoseMeasure("Dx");
+				rttb::algorithms::VolumeToDoseMeasure Dx = rttb::algorithms::VolumeToDoseMeasure(rttb::algorithms::VolumeToDoseMeasure::complexStatistics::Dx);
                 std::map<DoseTypeGy, VolumeType> Vx;
                 std::map<VolumeType, DoseTypeGy> MOHx;
                 std::map<VolumeType, DoseTypeGy> MOCx;

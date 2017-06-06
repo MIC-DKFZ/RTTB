@@ -36,7 +36,7 @@ namespace rttb
 		                               DoseStatisticType stdDeviation, VoxelNumberType numVoxels, VolumeType volume,
 		                               ResultListPointer maximumVoxelPositions /*= ResultListPointer()*/,
 		                               ResultListPointer minimumVoxelPositions /*= ResultListPointer()*/,
-									   VolumeToDoseMeasure Dx /*= std::map<DoseTypeGy, VolumeType>()*/,
+									   VolumeToDoseMeasure Dx /*= VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::Dx)*/,
 		                               DoseToVolumeFunctionType Vx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               VolumeToDoseFunctionType MOCx /*= std::map<VolumeType, DoseTypeGy>()*/,

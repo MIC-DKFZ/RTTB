@@ -6,8 +6,8 @@ namespace rttb
 	{
 		DxVolumeToDoseMeasureCalculator::DxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, 
 			const VolumeType& volume, const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, 
-			const DoseVoxelVolumeType& currentVoxelVolume, const DoseStatisticType& minimum) : VolumeToDoseMeasureCalculator(precomputeVolumeValues, volume, 
-				doseVector, voxelProportionVector, currentVoxelVolume), _minimum(minimum) {}
+			const DoseVoxelVolumeType& currentVoxelVolume, const DoseStatisticType& minimum, VolumeToDoseMeasure::complexStatistics name) : VolumeToDoseMeasureCalculator(precomputeVolumeValues, volume,
+				doseVector, voxelProportionVector, currentVoxelVolume, name), _minimum(minimum) {}
 
 	void rttb::algorithms::DxVolumeToDoseMeasureCalculator::computeSpecificValue(double xAbsolute)
 	{

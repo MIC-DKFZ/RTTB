@@ -7,10 +7,10 @@ namespace rttb
 
 	namespace algorithms
 	{
-		VolumeToDoseMeasure::VolumeToDoseMeasure(std::string name, VolumeToDoseFunctionType values, VolumeType volume) :
+		VolumeToDoseMeasure::VolumeToDoseMeasure(complexStatistics name, VolumeToDoseFunctionType values, VolumeType volume) :
 			name(name), values(values), _volume(volume) {}
 
-		std::string VolumeToDoseMeasure::getName() const
+		VolumeToDoseMeasure::complexStatistics VolumeToDoseMeasure::getName() const
 		{
 			return this->name;
 		}

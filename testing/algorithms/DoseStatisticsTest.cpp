@@ -77,7 +77,7 @@ namespace rttb
 			DoseToVolumeFunctionType Vx;
 			Vx.insert(std::make_pair(1.1, 1000));
 			Vx.insert(std::make_pair(106.9, 99000));
-			algorithms::VolumeToDoseMeasure Dx = algorithms::VolumeToDoseMeasure("Dx", std::map<VolumeType, DoseTypeGy>(), volume);
+			algorithms::VolumeToDoseMeasure Dx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::complexStatistics::Dx, std::map<VolumeType, DoseTypeGy>(), volume);
 			Dx.insertValue(std::make_pair(1000, 1.1));
 			Dx.insertValue(std::make_pair(99000, 106.9));
 

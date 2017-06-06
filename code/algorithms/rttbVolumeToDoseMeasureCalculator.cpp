@@ -8,9 +8,9 @@ namespace rttb
 	namespace algorithms
 	{
 		VolumeToDoseMeasureCalculator::VolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType& volume,
-			const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, const DoseVoxelVolumeType& currentVoxelVolume) :
-			measure(VolumeToDoseMeasure("dx")), _precomputeVolumeValues(precomputeVolumeValues), _volume(volume),
-			_doseVector(doseVector), _voxelProportionVector(voxelProportionVector), _currentVoxelVolume(currentVoxelVolume) {}
+			const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, const DoseVoxelVolumeType& currentVoxelVolume, 
+			VolumeToDoseMeasure::complexStatistics name) : measure(VolumeToDoseMeasure(name)), _precomputeVolumeValues(precomputeVolumeValues),
+			_volume(volume), _doseVector(doseVector), _voxelProportionVector(voxelProportionVector), _currentVoxelVolume(currentVoxelVolume) {}
 
 		void VolumeToDoseMeasureCalculator::compute()
 		{

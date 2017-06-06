@@ -278,7 +278,7 @@ namespace rttb
 				precomputeVolumeValuesNonConst = defaultPrecomputeVolumeValues;
 			}
 			DxVolumeToDoseMeasureCalculator test = DxVolumeToDoseMeasureCalculator(precomputeVolumeValuesNonConst, _statistics->getVolume(),
-				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum());
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), VolumeToDoseMeasure::complexStatistics::Dx);
 			test.compute();
 			DoseToVolumeFunctionType Vx = computeDoseToVolumeFunctionMulti(referenceDose,
 				precomputeDoseValuesNonConst, DoseStatistics::Vx);

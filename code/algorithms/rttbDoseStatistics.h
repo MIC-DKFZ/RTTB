@@ -90,7 +90,7 @@ namespace rttb
 			                   NULL,
 			               ResultListPointer maximumVoxelPositions =
 			                   NULL,
-						   VolumeToDoseMeasure _Dx = VolumeToDoseMeasure("Dx"),
+						   VolumeToDoseMeasure Dx = VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::Dx),
 			               DoseToVolumeFunctionType Vx = DoseToVolumeFunctionType(),
 			               VolumeToDoseFunctionType MOHx = VolumeToDoseFunctionType(),
 			               VolumeToDoseFunctionType MOCx = VolumeToDoseFunctionType(),

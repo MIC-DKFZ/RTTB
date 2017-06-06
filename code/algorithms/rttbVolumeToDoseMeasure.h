@@ -37,16 +37,17 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT VolumeToDoseMeasure {
 
 		public:
+			enum complexStatistics { Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx };
 			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
 
 		private:
-			std::string name;
+			complexStatistics name;
 			VolumeToDoseFunctionType values;
 			VolumeType _volume;
 
 		public:
-			VolumeToDoseMeasure(std::string name, VolumeToDoseFunctionType values = std::map<VolumeType, DoseTypeGy>(), VolumeType volume = -1);
-			std::string getName() const;
+			VolumeToDoseMeasure(complexStatistics name, VolumeToDoseFunctionType values = std::map<VolumeType, DoseTypeGy>(), VolumeType volume = -1);
+			complexStatistics getName() const;
 			void insertValue(std::pair<VolumeType, DoseTypeGy> value);
 			DoseTypeGy getValue(VolumeType xVolumeAbsolute);
 			DoseTypeGy getValue(VolumeType xVolumeAbsolute, bool findNearestValue, VolumeType& nearestXDose);

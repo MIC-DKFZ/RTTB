@@ -53,7 +53,8 @@ namespace rttb
 
 		public:
 			VolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType& volume,
-				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, const DoseVoxelVolumeType& currentVoxelVolume);
+				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, 
+				const DoseVoxelVolumeType& currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
 			void compute();
 			VolumeToDoseMeasure getMeasure();
 			virtual void computeSpecificValue(double xAbsolute) = 0;
