@@ -29,8 +29,8 @@
 
 
 #include "RTTBAlgorithmsExports.h"
-#include "rttbvolumetodosemeasureCalculator.h"
-#include "rttbvolumetodosemeasure.h"
+#include "rttbVolumeToDoseMeasureCalculator.h"
+#include "rttbVolumetoDoseMeasure.h"
 
 namespace rttb
 {

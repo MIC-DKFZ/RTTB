@@ -86,17 +86,15 @@ namespace rttb
 			*/
 			DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum, DoseStatisticType mean,
 			               DoseStatisticType stdDeviation, VoxelNumberType numVoxels, VolumeType volume,
-			               ResultListPointer minimumVoxelPositions =
-			                   NULL,
-			               ResultListPointer maximumVoxelPositions =
-			                   NULL,
-						   VolumeToDoseMeasure Dx = VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::Dx),
-			               DoseToVolumeFunctionType Vx = DoseToVolumeFunctionType(),
-				VolumeToDoseMeasure MOHx = VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::MOHx),
-				VolumeToDoseMeasure MOCx = VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::MOCx),
-				VolumeToDoseMeasure MaxOHx = VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::MaxOHx),
-				VolumeToDoseMeasure MinOCx = VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::MinOCx),
-			               DoseTypeGy referenceDose = -1);
+				ResultListPointer minimumVoxelPositions = NULL,
+				ResultListPointer maximumVoxelPositions = NULL,
+				VolumeToDoseMeasure Dx = VolumeToDoseMeasure(VolumeToDoseMeasure::Dx),
+			    DoseToVolumeFunctionType Vx = DoseToVolumeFunctionType(),
+				VolumeToDoseMeasure MOHx = VolumeToDoseMeasure(VolumeToDoseMeasure::MOHx),
+				VolumeToDoseMeasure MOCx = VolumeToDoseMeasure(VolumeToDoseMeasure::MOCx),
+				VolumeToDoseMeasure MaxOHx = VolumeToDoseMeasure(VolumeToDoseMeasure::MaxOHx),
+				VolumeToDoseMeasure MinOCx = VolumeToDoseMeasure(VolumeToDoseMeasure::MinOCx),
+			    DoseTypeGy referenceDose = -1);
 
 			~DoseStatistics();
 

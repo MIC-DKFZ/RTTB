@@ -77,23 +77,23 @@ namespace rttb
 			DoseToVolumeFunctionType Vx;
 			Vx.insert(std::make_pair(1.1, 1000));
 			Vx.insert(std::make_pair(106.9, 99000));
-			algorithms::VolumeToDoseMeasure Dx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::complexStatistics::Dx, std::map<VolumeType, DoseTypeGy>(), volume);
+			algorithms::VolumeToDoseMeasure Dx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::Dx, std::map<VolumeType, DoseTypeGy>(), volume);
 			Dx.insertValue(std::make_pair(1000, 1.1));
 			Dx.insertValue(std::make_pair(99000, 106.9));
 
-			algorithms::VolumeToDoseMeasure MOHx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::complexStatistics::MOHx, std::map<VolumeType, DoseTypeGy>(), volume);
+			algorithms::VolumeToDoseMeasure MOHx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MOHx, std::map<VolumeType, DoseTypeGy>(), volume);
 			MOHx.insertValue(std::make_pair(1000, 5));
 			MOHx.insertValue(std::make_pair(99000, 105.5));
 			
-			algorithms::VolumeToDoseMeasure MOCx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::complexStatistics::MOCx, std::map<VolumeType, DoseTypeGy>(), volume);
+			algorithms::VolumeToDoseMeasure MOCx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MOCx, std::map<VolumeType, DoseTypeGy>(), volume);
 			MOCx.insertValue(std::make_pair(1000, 10));
 			MOCx.insertValue(std::make_pair(99000, 99));
 
-			algorithms::VolumeToDoseMeasure MaxOHx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::complexStatistics::MaxOHx, std::map<VolumeType, DoseTypeGy>(), volume);
+			algorithms::VolumeToDoseMeasure MaxOHx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MaxOHx, std::map<VolumeType, DoseTypeGy>(), volume);
 			MaxOHx.insertValue(std::make_pair(1000, 40));
 			MaxOHx.insertValue(std::make_pair(99000, 98.3));
 
-			algorithms::VolumeToDoseMeasure MinOCx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::complexStatistics::MinOCx, std::map<VolumeType, DoseTypeGy>(), volume);
+			algorithms::VolumeToDoseMeasure MinOCx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MinOCx, std::map<VolumeType, DoseTypeGy>(), volume);
 			MinOCx.insertValue(std::make_pair(1000, 25.5));
 			MinOCx.insertValue(std::make_pair(99000, 102.7));
 

@@ -31,18 +31,17 @@ namespace rttb
 
 	namespace algorithms
 	{
-		DoseStatistics::DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum,
-		                               DoseStatisticType mean,
-		                               DoseStatisticType stdDeviation, VoxelNumberType numVoxels, VolumeType volume,
-		                               ResultListPointer maximumVoxelPositions /*= ResultListPointer()*/,
-		                               ResultListPointer minimumVoxelPositions /*= ResultListPointer()*/,
-									   VolumeToDoseMeasure Dx /*= VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::Dx)*/,
-		                               DoseToVolumeFunctionType Vx /*= std::map<VolumeType, DoseTypeGy>()*/,
-			VolumeToDoseMeasure MOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
-			VolumeToDoseMeasure MOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
-			VolumeToDoseMeasure MaxOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
-			VolumeToDoseMeasure MinOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
-		                               DoseTypeGy referenceDose /*=-1*/):
+		DoseStatistics::DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum, DoseStatisticType mean,
+			DoseStatisticType stdDeviation, VoxelNumberType numVoxels, VolumeType volume,
+		    ResultListPointer maximumVoxelPositions /*= ResultListPointer()*/,
+		    ResultListPointer minimumVoxelPositions /*= ResultListPointer()*/,
+			VolumeToDoseMeasure Dx,
+		    DoseToVolumeFunctionType Vx,
+			VolumeToDoseMeasure MOHx,
+			VolumeToDoseMeasure MOCx,
+			VolumeToDoseMeasure MaxOHx,
+			VolumeToDoseMeasure MinOCx,
+		    DoseTypeGy referenceDose /*=-1*/):
 			_minimum(minimum), _maximum(maximum), _mean(mean), _stdDeviation(stdDeviation),
 			_numVoxels(numVoxels), _volume(volume),
 			_Dx(Dx), _Vx(Vx),
