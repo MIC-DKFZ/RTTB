@@ -29,8 +29,6 @@
 
 #include "RTTBAlgorithmsExports.h"
 
-#include "rttbDoseStatistics.h"
-
 namespace rttb
 {
 
@@ -47,7 +45,7 @@ namespace rttb
 			VolumeType _volume;
 
 		public:
-			VolumeToDoseMeasure(std::string name, VolumeToDoseFunctionType values, VolumeType volume);
+			VolumeToDoseMeasure(std::string name, VolumeToDoseFunctionType values = std::map<VolumeType, DoseTypeGy>(), VolumeType volume = -1);
 			std::string getName() const;
 			void insertValue(std::pair<VolumeType, DoseTypeGy> value);
 			DoseTypeGy getValue(VolumeType xVolumeAbsolute);
@@ -56,6 +54,7 @@ namespace rttb
 			DoseTypeGy getValueRelative(VolumeType xDoseRelative, bool findNearestValue, VolumeType& nearestXDose);
 			VolumeToDoseFunctionType getAllValues() const;
 			friend bool operator==(const VolumeToDoseMeasure& volumeToDoseMesure, const VolumeToDoseMeasure& otherVolumeToDoseMesure);
+			void setVolume(VolumeType volume);
 
 		private:
 			double getSpecificValue(double key, bool findNearestValueInstead, double& storedKey) const;

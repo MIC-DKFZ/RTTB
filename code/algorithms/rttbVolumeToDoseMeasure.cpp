@@ -56,6 +56,11 @@ namespace rttb
 			return this->values;
 		}
 
+		void VolumeToDoseMeasure::setVolume(VolumeType volume)
+		{
+			this->_volume = volume;
+		}
+
 		double VolumeToDoseMeasure::getSpecificValue(double key,
 			bool findNearestValueInstead, double& storedKey) const
 		{
@@ -121,7 +126,7 @@ namespace rttb
 			--iterator;
 			return iterator;
 		}
-
+		
 		bool operator==(const VolumeToDoseMeasure& volumeToDoseMesure,const VolumeToDoseMeasure& otherVolumeToDoseMesure)
 		{
 			if (volumeToDoseMesure.getName() == otherVolumeToDoseMesure.getName() && volumeToDoseMesure.getAllValues() == otherVolumeToDoseMesure.getAllValues()) {
@@ -129,5 +134,5 @@ namespace rttb
 			}
 			return false;
 		}
-}
+	}
 }

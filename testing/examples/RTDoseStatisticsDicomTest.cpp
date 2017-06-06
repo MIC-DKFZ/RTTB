@@ -96,7 +96,7 @@ namespace rttb
 			double dummy;
 			DoseTypeGy vx = doseStatistics->getVx(expectedVal, true, dummy);
 			CHECK_EQUAL(vx, doseStatistics->getVx(0));
-			CHECK_CLOSE(expectedVal, doseStatistics->getDx(vx), reducedErrorConstant);
+			CHECK_CLOSE(expectedVal, doseStatistics->getDx().getValue(vx), reducedErrorConstant);
 
 			CHECK_CLOSE(doseStatistics->getMaximum(), expectedVal, errorConstant);
 
@@ -106,7 +106,7 @@ namespace rttb
 			CHECK_EQUAL(maxListPtr->size(), 10);
 			CHECK_EQUAL(minListPtr->size(), 10);
 
-			CHECK_CLOSE(doseStatistics->getDx(24120), doseStatistics->getMinimum(), 0.001);
+			CHECK_CLOSE(doseStatistics->getDx().getValue(24120), doseStatistics->getMinimum(), 0.001);
 			CHECK_CLOSE(doseStatistics->getMOHx(24120), doseStatistics->getMean(), reducedErrorConstant);
 			CHECK_CLOSE(doseStatistics->getMOCx(20000), doseStatistics->getMean(), reducedErrorConstant);
 			CHECK_CLOSE(doseStatistics->getMinOCx(20000), doseStatistics->getMean(), reducedErrorConstant);

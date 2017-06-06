@@ -9,7 +9,7 @@ namespace rttb
 	{
 		VolumeToDoseMeasureCalculator::VolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType& volume,
 			const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, const DoseVoxelVolumeType& currentVoxelVolume) :
-			measure(VolumeToDoseMeasure("dx", std::map<VolumeType, DoseTypeGy>(), volume)), _precomputeVolumeValues(precomputeVolumeValues), _volume(volume),
+			measure(VolumeToDoseMeasure("dx")), _precomputeVolumeValues(precomputeVolumeValues), _volume(volume),
 			_doseVector(doseVector), _voxelProportionVector(voxelProportionVector), _currentVoxelVolume(currentVoxelVolume) {}
 
 		void VolumeToDoseMeasureCalculator::compute()

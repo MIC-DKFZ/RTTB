@@ -115,7 +115,7 @@ namespace rttb
 				double absoluteVolume = aDoseStatistics->getVolume();
 				double referenceDose = aDoseStatistics->getReferenceDose();
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType AllVx = aDoseStatistics->getAllVx();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getAllDx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getDx().getAllValues();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getAllMOHx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getAllMOCx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx =
@@ -224,7 +224,7 @@ namespace rttb
 				sstr << static_cast<float>(aDoseStatistics->getVariance()) << columnSeparator;
 
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType AllVx = aDoseStatistics->getAllVx();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getAllDx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getDx().getAllValues();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getAllMOHx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getAllMOCx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx =

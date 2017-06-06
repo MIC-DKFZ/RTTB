@@ -37,7 +37,7 @@ namespace rttb
 			result = result &&  lit::AreClose(aDoseStatistc1->getMaximum(), aDoseStatistic2->getMaximum(), errorConstant);
 			result = result &&  lit::AreClose(aDoseStatistc1->getMean(), aDoseStatistic2->getMean(), errorConstant);
 			result = result &&  lit::AreClose(aDoseStatistc1->getStdDeviation(), aDoseStatistic2->getStdDeviation(), errorConstant);
-			result = result && mapCompare(aDoseStatistc1->getAllDx(), aDoseStatistic2->getAllDx());
+			result = result && mapCompare(aDoseStatistc1->getDx().getAllValues(), aDoseStatistic2->getDx().getAllValues());
 			result = result && mapCompare(aDoseStatistc1->getAllVx(), aDoseStatistic2->getAllVx());
 			result = result && mapCompare(aDoseStatistc1->getAllMaxOHx(), aDoseStatistic2->getAllMaxOHx());
 			result = result && mapCompare(aDoseStatistc1->getAllMinOCx(), aDoseStatistic2->getAllMinOCx());

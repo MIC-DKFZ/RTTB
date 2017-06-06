@@ -30,6 +30,8 @@
 
 #include "rttbInvalidParameterException.h"
 
+#include "rttbVolumeToDoseMeasure.h"
+
 namespace rttb
 {
     namespace io
@@ -98,7 +100,7 @@ namespace rttb
                 double stdDeviation=-1;
                 boost::shared_ptr<std::vector<std::pair<double, int> > > minimumVoxelPositions = nullptr;
                 boost::shared_ptr<std::vector<std::pair<double, int> > > maximumVoxelPositions = nullptr;
-                std::map<DoseTypeGy, VolumeType> Dx;
+				rttb::algorithms::VolumeToDoseMeasure Dx = rttb::algorithms::VolumeToDoseMeasure("Dx");
                 std::map<DoseTypeGy, VolumeType> Vx;
                 std::map<VolumeType, DoseTypeGy> MOHx;
                 std::map<VolumeType, DoseTypeGy> MOCx;
@@ -145,6 +147,7 @@ namespace rttb
                     else if (name == "volume")
                     {
                         volume = boost::lexical_cast<double>(datum);
+						Dx.setVolume(volume);
                     }
                     else if (name == "referenceDose")
                     {
@@ -180,7 +183,7 @@ namespace rttb
                     }
                     else if (name == "Dx")
                     {
-                        Dx[boost::lexical_cast<double>(x)*volume / 100] = boost::lexical_cast<double>(datum);
+                        Dx.insertValue(std::pair<VolumeType, DoseTypeGy>(boost::lexical_cast<double>(x)*volume / 100, boost::lexical_cast<double>(datum)));
                     }
                     else if (name == "Vx")
                     {

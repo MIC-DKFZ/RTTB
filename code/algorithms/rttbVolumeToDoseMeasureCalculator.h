@@ -39,7 +39,7 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT VolumeToDoseMeasureCalculator {
 
 		public:
-			typedef DoseStatistics::VolumeToDoseFunctionType VolumeToDoseFunctionType;
+			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
 
 		protected:
 			std::vector<DoseTypeGy> _doseVector;
