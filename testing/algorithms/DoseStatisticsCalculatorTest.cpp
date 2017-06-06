@@ -105,10 +105,10 @@ namespace rttb
 			CHECK_EQUAL(theStatistics->getAllVx().empty(), true);
 			CHECK_EQUAL(theStatistics->getDx().getAllValues().empty(), true);
 			CHECK_EQUAL(theStatistics->getAllVx().empty(), true);
-			CHECK_EQUAL(theStatistics->getAllMaxOHx().empty(), true);
-			CHECK_EQUAL(theStatistics->getAllMOHx().empty(), true);
-			CHECK_EQUAL(theStatistics->getAllMOCx().empty(), true);
-			CHECK_EQUAL(theStatistics->getAllMinOCx().empty(), true);
+			CHECK_EQUAL(theStatistics->getMaxOHx().getAllValues().empty(), true);
+			CHECK_EQUAL(theStatistics->getMOHx().getAllValues().empty(), true);
+			CHECK_EQUAL(theStatistics->getMOCx().getAllValues().empty(), true);
+			CHECK_EQUAL(theStatistics->getMinOCx().getAllValues().empty(), true);
 
 			//check default values for computeComplexMeasures=true
 			DoseStatisticsPointer theStatisticsDefault;
@@ -134,8 +134,8 @@ namespace rttb
 			CHECK_NO_THROW(theStatistics->getVx(0.1 * 100.0));
 			CHECK_NO_THROW(theStatistics->getDx().getValue(0.1 * theStatistics->getVolume()));
 			CHECK_NO_THROW(theStatistics->getDx().getValue(0.9 * theStatistics->getVolume()));
-			CHECK_NO_THROW(theStatistics->getMOHx(0.95 * theStatistics->getVolume()));
-			CHECK_NO_THROW(theStatistics->getMOCx(0.98 * theStatistics->getVolume()));
+			CHECK_NO_THROW(theStatistics->getMOHx().getValue(0.95 * theStatistics->getVolume()));
+			CHECK_NO_THROW(theStatistics->getMOCx().getValue(0.98 * theStatistics->getVolume()));
 			CHECK_EQUAL(theStatistics->getReferenceDose(), 100.0);
 
 			//check manually set x values

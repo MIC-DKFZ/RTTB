@@ -70,10 +70,10 @@ namespace rttb
 			DoseTypeGy _referenceDose; //for Vx computation
 			VolumeToDoseMeasure _Dx;
 			DoseToVolumeFunctionType _Vx;
-			VolumeToDoseFunctionType _MOHx;
-			VolumeToDoseFunctionType _MOCx;
-			VolumeToDoseFunctionType _MaxOHx;
-			VolumeToDoseFunctionType _MinOCx;
+			VolumeToDoseMeasure _MOHx;
+			VolumeToDoseMeasure _MOCx;
+			VolumeToDoseMeasure _MaxOHx;
+			VolumeToDoseMeasure _MinOCx;
 
 
 		public:
@@ -92,10 +92,10 @@ namespace rttb
 			                   NULL,
 						   VolumeToDoseMeasure Dx = VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::Dx),
 			               DoseToVolumeFunctionType Vx = DoseToVolumeFunctionType(),
-			               VolumeToDoseFunctionType MOHx = VolumeToDoseFunctionType(),
-			               VolumeToDoseFunctionType MOCx = VolumeToDoseFunctionType(),
-			               VolumeToDoseFunctionType MaxOHx = VolumeToDoseFunctionType(),
-			               VolumeToDoseFunctionType MinOCx = VolumeToDoseFunctionType(),
+				VolumeToDoseMeasure MOHx = VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::MOHx),
+				VolumeToDoseMeasure MOCx = VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::MOCx),
+				VolumeToDoseMeasure MaxOHx = VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::MaxOHx),
+				VolumeToDoseMeasure MinOCx = VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::MinOCx),
 			               DoseTypeGy referenceDose = -1);
 
 			~DoseStatistics();
@@ -105,10 +105,10 @@ namespace rttb
 			void setMaximumVoxelPositions(ResultListPointer maximumVoxelPositions);
 			void setDx(const VolumeToDoseMeasure& DxValues);
 			void setVx(const VolumeToDoseFunctionType& VxValues);
-			void setMOHx(const VolumeToDoseFunctionType& MOHxValues);
-			void setMOCx(const VolumeToDoseFunctionType& MOCxValues);
-			void setMaxOHx(const VolumeToDoseFunctionType& MaxOHxValues);
-			void setMinOCx(const VolumeToDoseFunctionType& MinOCxValues);
+			void setMOHx(const VolumeToDoseMeasure& MOHxValues);
+			void setMOCx(const VolumeToDoseMeasure& MOCxValues);
+			void setMaxOHx(const VolumeToDoseMeasure& MaxOHxValues);
+			void setMinOCx(const VolumeToDoseMeasure& MinOCxValues);
 			void setReferenceDose(DoseTypeGy referenceDose);
 
 			/*! @brief Get number of voxels in doseIterator, with sub-voxel accuracy.
@@ -172,54 +172,10 @@ namespace rttb
 			DoseToVolumeFunctionType getAllVx() const;
 
 			VolumeToDoseMeasure getDx() const;
-
-			/*! @brief Get MOHx: mean dose of the hottest x voxels.
-				@return Return dose value in Gy.
-				@exception InvalidDoseException if the values have not been set (i.e. the vector is empty)
-			*/
-			DoseTypeGy getMOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
-			                   VolumeType& nearestXVolume) const;
-			DoseTypeGy getMOHx(VolumeType xVolumeAbsolute) const;
-			DoseTypeGy getMOHxRelative(VolumeType xDoseRelative, bool findNearestValue,
-				VolumeType& nearestXVolume) const;
-			DoseTypeGy getMOHxRelative(VolumeType xDoseRelative) const;
-			VolumeToDoseFunctionType getAllMOHx() const;
-
-			/*! @brief Get MOCx: mean dose of the coldest x voxels.
-				@return Return dose value in Gy.
-				@exception InvalidDoseException if the values have not been set (i.e. the vector is empty)
-			*/
-			DoseTypeGy getMOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
-			                   VolumeType& nearestXVolume) const;
-			DoseTypeGy getMOCx(VolumeType xVolumeAbsolute) const;
-			DoseTypeGy getMOCxRelative(VolumeType xDoseRelative, bool findNearestValue,
-				VolumeType& nearestXVolume) const;
-			DoseTypeGy getMOCxRelative(VolumeType xDoseRelative) const;
-			VolumeToDoseFunctionType getAllMOCx() const;
-
-			/*! @brief Get MaxOHx: Maximum outside of the hottest x voxels.
-				@return Return dose value in Gy.
-				@exception InvalidDoseException if the values have not been set (i.e. the vector is empty)
-			*/
-			DoseTypeGy getMaxOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
-			                     VolumeType& nearestXVolume) const;
-			DoseTypeGy getMaxOHx(VolumeType xVolumeAbsolute) const;
-			DoseTypeGy getMaxOHxRelative(VolumeType xDoseRelative, bool findNearestValue,
-				VolumeType& nearestXVolum) const;
-			DoseTypeGy getMaxOHxRelative(VolumeType xDoseRelative) const;
-			VolumeToDoseFunctionType getAllMaxOHx() const;
-
-			/*! @brief Get MinOCx: Minimum outside of the coldest x voxels.
-				@return Return dose value in Gy.
-				@exception InvalidDoseException if the values have not been set (i.e. the vector is empty)
-			*/
-			DoseTypeGy getMinOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
-			                     VolumeType& nearestXVolume) const;
-			DoseTypeGy getMinOCx(VolumeType xVolumeAbsolute) const;
-			DoseTypeGy getMinOCxRelative(VolumeType xDoseRelative, bool findNearestValue,
-				VolumeType& nearestXVolume) const;
-			DoseTypeGy getMinOCxRelative(VolumeType xDoseRelative) const;
-			VolumeToDoseFunctionType getAllMinOCx() const;
+			VolumeToDoseMeasure getMOHx() const;
+			VolumeToDoseMeasure getMOCx() const;
+			VolumeToDoseMeasure getMaxOHx() const;
+			VolumeToDoseMeasure getMinOCx() const;
 		};
 
 	}

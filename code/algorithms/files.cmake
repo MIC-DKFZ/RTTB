@@ -3,6 +3,7 @@ SET(CPP_FILES
   rttbDoseStatisticsCalculator.cpp
   rttbArithmetic.cpp
   rttbDxVolumeToDoseMeasureCalculator.cpp
+  rttbMOHxVolumeToDoseMeasureCalculator.cpp
   rttbVolumeToDoseMeasureCalculator.cpp
   rttbVolumeToDoseMeasure.cpp
   )
@@ -13,6 +14,7 @@ SET(H_FILES
   rttbArithmetic.h
   rttbBinaryFunctorAccessor.h
   rttbDxVolumeToDoseMeasureCalculator.h
+  rttbMOHxVolumeToDoseMeasureCalculator.h
   rttbVolumeToDoseMeasureCalculator.h
   rttbVolumeToDoseMeasure.h
 )

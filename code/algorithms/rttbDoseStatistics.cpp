@@ -38,10 +38,10 @@ namespace rttb
 		                               ResultListPointer minimumVoxelPositions /*= ResultListPointer()*/,
 									   VolumeToDoseMeasure Dx /*= VolumeToDoseMeasure(VolumeToDoseMeasure::complexStatistics::Dx)*/,
 		                               DoseToVolumeFunctionType Vx /*= std::map<VolumeType, DoseTypeGy>()*/,
-		                               VolumeToDoseFunctionType MOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
-		                               VolumeToDoseFunctionType MOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
-		                               VolumeToDoseFunctionType MaxOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
-		                               VolumeToDoseFunctionType MinOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
+			VolumeToDoseMeasure MOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
+			VolumeToDoseMeasure MOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
+			VolumeToDoseMeasure MaxOHx /*= std::map<VolumeType, DoseTypeGy>()*/,
+			VolumeToDoseMeasure MinOCx /*= std::map<VolumeType, DoseTypeGy>()*/,
 		                               DoseTypeGy referenceDose /*=-1*/):
 			_minimum(minimum), _maximum(maximum), _mean(mean), _stdDeviation(stdDeviation),
 			_numVoxels(numVoxels), _volume(volume),
@@ -106,22 +106,22 @@ namespace rttb
 			_Vx = VxValues;
 		}
 
-		void DoseStatistics::setMOHx(const VolumeToDoseFunctionType& MOHxValues)
+		void DoseStatistics::setMOHx(const VolumeToDoseMeasure& MOHxValues)
 		{
 			_MOHx = MOHxValues;
 		}
 
-		void DoseStatistics::setMOCx(const VolumeToDoseFunctionType& MOCxValues)
+		void DoseStatistics::setMOCx(const VolumeToDoseMeasure& MOCxValues)
 		{
 			_MOCx = MOCxValues;
 		}
 
-		void DoseStatistics::setMaxOHx(const VolumeToDoseFunctionType& MaxOHValues)
+		void DoseStatistics::setMaxOHx(const VolumeToDoseMeasure& MaxOHValues)
 		{
 			_MaxOHx = MaxOHValues;
 		}
 
-		void DoseStatistics::setMinOCx(const VolumeToDoseFunctionType& MinOCValues)
+		void DoseStatistics::setMinOCx(const VolumeToDoseMeasure& MinOCValues)
 		{
 			_MinOCx = MinOCValues;
 		}
@@ -214,150 +214,7 @@ namespace rttb
 			}
 		}
 
-		DoseTypeGy DoseStatistics::getMOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
-		                                   VolumeType& nearestXVolume) const
-		{
-			return getValue(_MOHx, xVolumeAbsolute, findNearestValue, nearestXVolume);
-		}
-
-		DoseTypeGy DoseStatistics::getMOHx(VolumeType xVolumeAbsolute) const
-		{
-			VolumeType dummy;
-			return getValue(_MOHx, xVolumeAbsolute, false, dummy);
-		}
-
-		DoseTypeGy DoseStatistics::getMOHxRelative(VolumeType xVolumeRelative, bool findNearestValue,
-			VolumeType& nearestXVolume) const
-		{
-			if (xVolumeRelative >= 0 && xVolumeRelative <= 1){
-			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
-			return getValue(_MOHx, xVolumeAbsolute, findNearestValue, nearestXVolume);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
-			}
-		}
-
-		DoseTypeGy DoseStatistics::getMOHxRelative(VolumeType xVolumeRelative) const
-		{
-			if (xVolumeRelative >= 0 && xVolumeRelative <= 1){
-			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
-			VolumeType dummy;
-			return getValue(_MOHx, xVolumeAbsolute, false, dummy);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
-			}
-		}
-
-
-		DoseTypeGy DoseStatistics::getMOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
-		                                   VolumeType& maximumDistanceFromOriginalVolume) const
-		{
-			return getValue(_MOCx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
-		}
-
-		DoseTypeGy DoseStatistics::getMOCx(VolumeType xVolumeAbsolute) const
-		{
-			VolumeType dummy;
-			return getValue(_MOCx, xVolumeAbsolute, false, dummy);
-		}
-
-		DoseTypeGy DoseStatistics::getMOCxRelative(VolumeType xVolumeRelative, bool findNearestValue,
-			VolumeType& maximumDistanceFromOriginalVolume) const
-		{
-			if (xVolumeRelative >= 0 && xVolumeRelative <= 1){
-			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
-			return getValue(_MOCx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
-			}
-		}
-
-		DoseTypeGy DoseStatistics::getMOCxRelative(VolumeType xVolumeRelative) const
-		{
-			if (xVolumeRelative >= 0 && xVolumeRelative <= 1){
-			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
-			VolumeType dummy;
-			return getValue(_MOCx, xVolumeAbsolute, false, dummy);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
-			}
-		}
-
-		DoseTypeGy DoseStatistics::getMaxOHx(VolumeType xVolumeAbsolute, bool findNearestValue,
-		                                     VolumeType& maximumDistanceFromOriginalVolume) const
-		{
-			return getValue(_MaxOHx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
-		}
-
-		DoseTypeGy DoseStatistics::getMaxOHx(VolumeType xVolumeAbsolute) const
-		{
-			VolumeType dummy;
-			return getValue(_MaxOHx, xVolumeAbsolute, false, dummy);
-		}
-
-		DoseTypeGy DoseStatistics::getMaxOHxRelative(VolumeType xVolumeRelative, bool findNearestValue,
-			VolumeType& maximumDistanceFromOriginalVolume) const
-		{
-			if (xVolumeRelative >= 0 && xVolumeRelative <= 1){
-			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
-			return getValue(_MaxOHx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
-			}
-		}
-
-		DoseTypeGy DoseStatistics::getMaxOHxRelative(VolumeType xVolumeRelative) const
-		{
-			if (xVolumeRelative >= 0 && xVolumeRelative <= 1){
-			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
-			VolumeType dummy;
-			return getValue(_MaxOHx, xVolumeAbsolute, false, dummy);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
-			}
-		}
-
-		DoseTypeGy DoseStatistics::getMinOCx(VolumeType xVolumeAbsolute, bool findNearestValue,
-		                                     VolumeType& maximumDistanceFromOriginalVolume) const
-		{
-			return getValue(_MinOCx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
-		}
-
-		DoseTypeGy DoseStatistics::getMinOCx(VolumeType xVolumeAbsolute) const
-		{
-			VolumeType dummy;
-			return getValue(_MinOCx, xVolumeAbsolute, false, dummy);
-		}
-		DoseTypeGy DoseStatistics::getMinOCxRelative(VolumeType xVolumeRelative, bool findNearestValue,
-			VolumeType& maximumDistanceFromOriginalVolume) const
-		{
-			if (xVolumeRelative >= 0 && xVolumeRelative <= 1){
-			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
-			return getValue(_MinOCx, xVolumeAbsolute, findNearestValue, maximumDistanceFromOriginalVolume);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
-			}
-		}
-
-		DoseTypeGy DoseStatistics::getMinOCxRelative(VolumeType xVolumeRelative) const
-		{
-			if (xVolumeRelative >= 0 && xVolumeRelative <= 1){
-			DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
-			VolumeType dummy;
-			return getValue(_MinOCx, xVolumeAbsolute, false, dummy);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
-			}
-		}
-
+		
 		double DoseStatistics::getValue(const std::map<double, double>& aMap, double key,
 		                                bool findNearestValueInstead, double& storedKey) const
 		{
@@ -444,22 +301,22 @@ namespace rttb
 			return _Dx;
 		}
 
-		DoseStatistics::VolumeToDoseFunctionType DoseStatistics::getAllMOHx() const
+		VolumeToDoseMeasure DoseStatistics::getMOHx() const
 		{
 			return _MOHx;
 		}
 
-		DoseStatistics::VolumeToDoseFunctionType DoseStatistics::getAllMOCx() const
+		VolumeToDoseMeasure DoseStatistics::getMOCx() const
 		{
 			return _MOCx;
 		}
 
-		DoseStatistics::VolumeToDoseFunctionType DoseStatistics::getAllMaxOHx() const
+		VolumeToDoseMeasure DoseStatistics::getMaxOHx() const
 		{
 			return _MaxOHx;
 		}
 
-		DoseStatistics::VolumeToDoseFunctionType DoseStatistics::getAllMinOCx() const
+		VolumeToDoseMeasure DoseStatistics::getMinOCx() const
 		{
 			return _MinOCx;
 		}

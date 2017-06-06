@@ -86,24 +86,13 @@ namespace rttb
 			ResultListPointer computeMinimumPositions(unsigned int maxNumberMinimaPositions) const;
 
 			VolumeType computeVx(DoseTypeGy xDoseAbsolute) const;
-			DoseTypeGy computeDx(VolumeType xVolumeAbsolute) const;
-			DoseTypeGy computeMOHx(VolumeType xVolumeAbsolute) const;
-			DoseTypeGy computeMOCx(DoseTypeGy xVolumeAbsolute) const;
-			DoseTypeGy computeMaxOHx(DoseTypeGy xVolumeAbsolute) const;
-			DoseTypeGy computeMinOCx(DoseTypeGy xVolumeAbsolute) const;
 
 			DoseToVolumeFunctionType computeDoseToVolumeFunctionMulti(DoseTypeGy referenceDose,
 			        const std::vector<double>& precomputeDoseValues,
 			        DoseStatistics::complexStatistics name) const;
-			VolumeToDoseFunctionType computeVolumeToDoseFunctionMulti(const std::vector<double>&
-			        precomputeVolumeValues,
-			        DoseStatistics::complexStatistics name) const;
 
 			void computeDoseToVolumeSingle(DoseTypeGy referenceDose,
-				 double precomputeDoseValue, DoseStatistics::complexStatistics name, DoseToVolumeFunctionType& VxMulti) const;
-
-			void computeVolumeToDoseSingle(const double& precomputeVolumeValue,
-				DoseStatistics::complexStatistics name, VolumeToDoseFunctionType& multiValues, VolumeType volume) const;
+				double precomputeDoseValue, DoseStatistics::complexStatistics name, DoseToVolumeFunctionType& VxMulti) const;
 
 			/*! @brief Calculates simple dose statistics (min, mean, max, stdDev, minDosePositions, maxDosePositions)
 				@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed

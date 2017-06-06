@@ -9,30 +9,30 @@ namespace rttb
 			const DoseVoxelVolumeType& currentVoxelVolume, const DoseStatisticType& minimum, VolumeToDoseMeasure::complexStatistics name) : VolumeToDoseMeasureCalculator(precomputeVolumeValues, volume,
 				doseVector, voxelProportionVector, currentVoxelVolume, name), _minimum(minimum) {}
 
-	void rttb::algorithms::DxVolumeToDoseMeasureCalculator::computeSpecificValue(double xAbsolute)
-	{
-		double noOfVoxel = xAbsolute / _currentVoxelVolume;
-		DoseTypeGy resultDose = 0;
-
-		double countVoxels = 0;
-		bool voxelOverflow = false;
-		for (auto i = _doseVector.size() - 1; i != -1; i--)
+		void DxVolumeToDoseMeasureCalculator::computeSpecificValue(double xAbsolute)
 		{
-			countVoxels += _voxelProportionVector.at(i);
+			double noOfVoxel = xAbsolute / _currentVoxelVolume;
+			DoseTypeGy resultDose = 0;
 
-			if (countVoxels >= noOfVoxel)
+			double countVoxels = 0;
+			bool voxelOverflow = false;
+			for (auto i = _doseVector.size() - 1; i != -1; i--)
 			{
-				voxelOverflow = true;
-				resultDose = _doseVector.at(i);
-				break;
-			}
-		}
+				countVoxels += _voxelProportionVector.at(i);
 
-		if (!voxelOverflow)
-		{
-			resultDose = _minimum;
+				if (countVoxels >= noOfVoxel)
+				{
+					voxelOverflow = true;
+					resultDose = _doseVector.at(i);
+					break;
+				}
+			}
+
+			if (!voxelOverflow)
+			{
+				resultDose = _minimum;
+			}
+			insertIntoMeasure(xAbsolute, resultDose);
 		}
-		insertIntoMeasure(xAbsolute, resultDose);
 	}
-}
 }

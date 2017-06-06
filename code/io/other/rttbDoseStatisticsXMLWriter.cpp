@@ -116,12 +116,12 @@ namespace rttb
 				double referenceDose = aDoseStatistics->getReferenceDose();
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType AllVx = aDoseStatistics->getAllVx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getDx().getAllValues();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getAllMOHx();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getAllMOCx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getMOHx().getAllValues();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getMOCx().getAllValues();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx =
-				    aDoseStatistics->getAllMaxOHx();
+				    aDoseStatistics->getMaxOHx().getAllValues();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMinOCx =
-				    aDoseStatistics->getAllMinOCx();
+				    aDoseStatistics->getMinOCx().getAllValues();
 
 
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;
@@ -225,12 +225,12 @@ namespace rttb
 
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType AllVx = aDoseStatistics->getAllVx();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getDx().getAllValues();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getAllMOHx();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getAllMOCx();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getMOHx().getAllValues();
+				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getMOCx().getAllValues();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx =
-				    aDoseStatistics->getAllMaxOHx();
+				    aDoseStatistics->getMaxOHx().getAllValues();
 				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMinOCx =
-				    aDoseStatistics->getAllMinOCx();
+				    aDoseStatistics->getMinOCx().getAllValues();
 
 
 				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;

@@ -39,10 +39,10 @@ namespace rttb
 			result = result &&  lit::AreClose(aDoseStatistc1->getStdDeviation(), aDoseStatistic2->getStdDeviation(), errorConstant);
 			result = result && mapCompare(aDoseStatistc1->getDx().getAllValues(), aDoseStatistic2->getDx().getAllValues());
 			result = result && mapCompare(aDoseStatistc1->getAllVx(), aDoseStatistic2->getAllVx());
-			result = result && mapCompare(aDoseStatistc1->getAllMaxOHx(), aDoseStatistic2->getAllMaxOHx());
-			result = result && mapCompare(aDoseStatistc1->getAllMinOCx(), aDoseStatistic2->getAllMinOCx());
-			result = result && mapCompare(aDoseStatistc1->getAllMOCx(), aDoseStatistic2->getAllMOCx());
-			result = result && mapCompare(aDoseStatistc1->getAllMOHx(), aDoseStatistic2->getAllMOHx());
+			result = result && mapCompare(aDoseStatistc1->getMaxOHx().getAllValues(), aDoseStatistic2->getMaxOHx().getAllValues());
+			result = result && mapCompare(aDoseStatistc1->getMinOCx().getAllValues(), aDoseStatistic2->getMinOCx().getAllValues());
+			result = result && mapCompare(aDoseStatistc1->getMOCx().getAllValues(), aDoseStatistic2->getMOCx().getAllValues());
+			result = result && mapCompare(aDoseStatistc1->getMOHx().getAllValues(), aDoseStatistic2->getMOHx().getAllValues());
 
 			return result;
 		}

@@ -107,9 +107,9 @@ namespace rttb
 			CHECK_EQUAL(minListPtr->size(), 10);
 
 			CHECK_CLOSE(doseStatistics->getDx().getValue(24120), doseStatistics->getMinimum(), 0.001);
-			CHECK_CLOSE(doseStatistics->getMOHx(24120), doseStatistics->getMean(), reducedErrorConstant);
-			CHECK_CLOSE(doseStatistics->getMOCx(20000), doseStatistics->getMean(), reducedErrorConstant);
-			CHECK_CLOSE(doseStatistics->getMinOCx(20000), doseStatistics->getMean(), reducedErrorConstant);
+			CHECK_CLOSE(doseStatistics->getMOHx().getValue(24120), doseStatistics->getMean(), reducedErrorConstant);
+			CHECK_CLOSE(doseStatistics->getMOCx().getValue(20000), doseStatistics->getMean(), reducedErrorConstant);
+			CHECK_CLOSE(doseStatistics->getMinOCx().getValue(20000), doseStatistics->getMean(), reducedErrorConstant);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

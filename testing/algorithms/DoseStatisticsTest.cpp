@@ -81,21 +81,21 @@ namespace rttb
 			Dx.insertValue(std::make_pair(1000, 1.1));
 			Dx.insertValue(std::make_pair(99000, 106.9));
 
-			VolumeToDoseFunctionType MOHx;
-			MOHx.insert(std::make_pair(1000, 5));
-			MOHx.insert(std::make_pair(99000, 105.5));
+			algorithms::VolumeToDoseMeasure MOHx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::complexStatistics::MOHx, std::map<VolumeType, DoseTypeGy>(), volume);
+			MOHx.insertValue(std::make_pair(1000, 5));
+			MOHx.insertValue(std::make_pair(99000, 105.5));
+			
+			algorithms::VolumeToDoseMeasure MOCx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::complexStatistics::MOCx, std::map<VolumeType, DoseTypeGy>(), volume);
+			MOCx.insertValue(std::make_pair(1000, 10));
+			MOCx.insertValue(std::make_pair(99000, 99));
 
-			VolumeToDoseFunctionType MOCx;
-			MOCx.insert(std::make_pair(1000, 10));
-			MOCx.insert(std::make_pair(99000, 99));
+			algorithms::VolumeToDoseMeasure MaxOHx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::complexStatistics::MaxOHx, std::map<VolumeType, DoseTypeGy>(), volume);
+			MaxOHx.insertValue(std::make_pair(1000, 40));
+			MaxOHx.insertValue(std::make_pair(99000, 98.3));
 
-			VolumeToDoseFunctionType MaxOHx;
-			MaxOHx.insert(std::make_pair(1000, 40));
-			MaxOHx.insert(std::make_pair(99000, 98.3));
-
-			VolumeToDoseFunctionType MinOCx;
-			MinOCx.insert(std::make_pair(1000, 25.5));
-			MinOCx.insert(std::make_pair(99000, 102.7));
+			algorithms::VolumeToDoseMeasure MinOCx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::complexStatistics::MinOCx, std::map<VolumeType, DoseTypeGy>(), volume);
+			MinOCx.insertValue(std::make_pair(1000, 25.5));
+			MinOCx.insertValue(std::make_pair(99000, 102.7));
 
 
 			//1) test constructors
@@ -119,10 +119,10 @@ namespace rttb
 			CHECK_EQUAL(aDoseStatistic.getMinimumVoxelPositions()->empty(), true);
 			CHECK_EQUAL(aDoseStatistic.getDx().getAllValues().empty(), true);
 			CHECK_EQUAL(aDoseStatistic.getAllVx().empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getAllMOHx().empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getAllMOCx().empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getAllMaxOHx().empty(), true);
-			CHECK_EQUAL(aDoseStatistic.getAllMinOCx().empty(), true);
+			CHECK_EQUAL(aDoseStatistic.getMOHx().getAllValues().empty(), true);
+			CHECK_EQUAL(aDoseStatistic.getMOCx().getAllValues().empty(), true);
+			CHECK_EQUAL(aDoseStatistic.getMaxOHx().getAllValues().empty(), true);
+			CHECK_EQUAL(aDoseStatistic.getMinOCx().getAllValues().empty(), true);
 
 			CHECK_NO_THROW(rttb::algorithms::DoseStatistics aDoseStatisticComplex(minimum, maximum, mean,
 			               stdDeviation, numVoxels,
@@ -134,12 +134,12 @@ namespace rttb
 
 			CHECK_EQUAL(aDoseStatisticComplex.getMaximumVoxelPositions(), resultsMaxVoxels);
 			CHECK_EQUAL(aDoseStatisticComplex.getMinimumVoxelPositions(), resultsMinVoxels);
-			CHECK_EQUAL(aDoseStatisticComplex.getDx().getAllValues()== Dx.getAllValues(), true);
+			CHECK_EQUAL(aDoseStatisticComplex.getDx() == Dx, true);
 			CHECK_EQUAL(aDoseStatisticComplex.getAllVx() == Vx, true);
-			CHECK_EQUAL(aDoseStatisticComplex.getAllMOHx() == MOHx, true);
-			CHECK_EQUAL(aDoseStatisticComplex.getAllMOCx() == MOCx, true);
-			CHECK_EQUAL(aDoseStatisticComplex.getAllMaxOHx() == MaxOHx, true);
-			CHECK_EQUAL(aDoseStatisticComplex.getAllMinOCx() == MinOCx, true);
+			CHECK_EQUAL(aDoseStatisticComplex.getMOHx() == MOHx, true);
+			CHECK_EQUAL(aDoseStatisticComplex.getMOCx() == MOCx, true);
+			CHECK_EQUAL(aDoseStatisticComplex.getMaxOHx() == MaxOHx, true);
+			CHECK_EQUAL(aDoseStatisticComplex.getMinOCx() == MinOCx, true);
 
 			//2) test setters (only complex statistics have setters)
 			CHECK_NO_THROW(aDoseStatistic.setMaximumVoxelPositions(resultsMaxVoxels));
@@ -153,12 +153,12 @@ namespace rttb
 
 			CHECK_EQUAL(aDoseStatistic.getMaximumVoxelPositions(), resultsMaxVoxels);
 			CHECK_EQUAL(aDoseStatistic.getMinimumVoxelPositions(), resultsMinVoxels);
-			CHECK_EQUAL(aDoseStatistic.getDx().getAllValues() == Dx.getAllValues(), true);
+			CHECK_EQUAL(aDoseStatistic.getDx() == Dx, true);
 			CHECK_EQUAL(aDoseStatistic.getAllVx() == Vx, true);
-			CHECK_EQUAL(aDoseStatistic.getAllMOHx() == MOHx, true);
-			CHECK_EQUAL(aDoseStatistic.getAllMOCx() == MOCx, true);
-			CHECK_EQUAL(aDoseStatistic.getAllMaxOHx() == MaxOHx, true);
-			CHECK_EQUAL(aDoseStatistic.getAllMinOCx() == MinOCx, true);
+			CHECK_EQUAL(aDoseStatistic.getMOHx() == MOHx, true);
+			CHECK_EQUAL(aDoseStatistic.getMOCx() == MOCx, true);
+			CHECK_EQUAL(aDoseStatistic.getMaxOHx() == MaxOHx, true);
+			CHECK_EQUAL(aDoseStatistic.getMinOCx() == MinOCx, true);
 
 			//3) test getters of complex statistics(with stored key and without stored key)
 			//getAll*() already tested in (2)
@@ -228,18 +228,18 @@ namespace rttb
 			CHECK_EQUAL(closestVxKey, 90.0);
 
 			double dummy;
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCx(25), core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx(9999), core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCx(25, true, dummy),
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCx().getValue(25), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx().getValue(9999), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCx().getValue(25, true, dummy),
 			                     core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx(9999, true, dummy),
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx().getValue(9999, true, dummy),
 			                     core::DataNotAvailableException);
 
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCxRelative(25 / aDoseStatistic.getVolume()), core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHxRelative(9999 / aDoseStatistic.getVolume()), core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCxRelative(25 / aDoseStatistic.getVolume(), true, dummy),
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCx().getValueRelative(25 / aDoseStatistic.getVolume()), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx().getValueRelative(9999 / aDoseStatistic.getVolume()), core::DataNotAvailableException);
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMinOCx().getValueRelative(25 / aDoseStatistic.getVolume(), true, dummy),
 				core::DataNotAvailableException);
-			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHxRelative(9999 / aDoseStatistic.getVolume(), true, dummy),
+			CHECK_THROW_EXPLICIT(aDoseStatisticNewValues.getMOHx().getValueRelative(9999 / aDoseStatistic.getVolume(), true, dummy),
 				core::DataNotAvailableException);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
