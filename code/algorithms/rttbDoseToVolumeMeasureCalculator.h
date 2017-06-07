@@ -19,41 +19,47 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#ifndef __VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
-#define __VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
+#ifndef __DOSE_TO_VOLUME_MEASURE_CALCULATOR_H
+#define __DOSE_TO_VOLUME_MEASURE_CALCULATOR_H
 
-#include "rttbVolumeToDoseMeasure.h"
+#include <vector>
+#include <map>
+
+#include "rttbBaseType.h"
+
+
+#include "RTTBAlgorithmsExports.h"
+#include "rttbDoseToVolumeMeasure.h"
+
+#include "rttbDoseIteratorInterface.h"
 
 namespace rttb
 {
 
 	namespace algorithms
 	{
-		class RTTBAlgorithms_EXPORT VolumeToDoseMeasureCalculator {
+		class RTTBAlgorithms_EXPORT DoseToVolumeMeasureCalculator {
 
 		public:
-			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
+			typedef std::map<DoseTypeGy, VolumeType> VolumeToDoseFunctionType;
 
 		protected:
-			std::vector<DoseTypeGy> _doseVector;
-			DoseVoxelVolumeType _currentVoxelVolume;
-			std::vector<double> _voxelProportionVector;
+			core::DoseIteratorInterface::DoseIteratorPointer _doseIterator;
 
 		private:
-			VolumeType _volume;
-			VolumeToDoseMeasure measure;
+			DoseTypeGy _referenceDose;
+			DoseToVolumeMeasure measure;
 			std::vector<double> _precomputeVolumeValues;
 
 		public:
-			VolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType& volume,
-				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, 
-				const DoseVoxelVolumeType& currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
+			DoseToVolumeMeasureCalculator(const std::vector<double>& precomputeVolumeValues,
+				const DoseTypeGy& referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name);
 			void compute();
-			VolumeToDoseMeasure getMeasure();
+			DoseToVolumeMeasure getMeasure();
 			virtual void computeSpecificValue(double xAbsolute) = 0;
 
 		protected:
-			void insertIntoMeasure(VolumeType xAbsolute, DoseTypeGy resultDose);
+			void insertIntoMeasure(DoseTypeGy xAbsolute, VolumeType resultVolume);
 		};
 
 	}

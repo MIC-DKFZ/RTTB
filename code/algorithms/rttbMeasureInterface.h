@@ -19,25 +19,34 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#ifndef __MOCX_VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
-#define __MOCX_VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
+#ifndef __MEASURE_INTERFACE_H
+#define __MEASURE_INTERFACE_H
 
-#include "rttbVolumeToDoseMeasureCalculator.h"
+#include <vector>
+#include <map>
+
+#include "rttbBaseType.h"
+
+#include "RTTBAlgorithmsExports.h"
 
 namespace rttb
 {
 
 	namespace algorithms
 	{
-		class RTTBAlgorithms_EXPORT MOCxVolumeToDoseMeasureCalculator : public VolumeToDoseMeasureCalculator {
+		class RTTBAlgorithms_EXPORT MeasureInterface {
 
 		public:
-			MOCxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType& volume,
-				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-				const DoseVoxelVolumeType& currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
+			enum complexStatistics { Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx };
 
-		private:
-			void computeSpecificValue(double xAbsolute);
+		protected:
+			complexStatistics name;
+
+		public:
+			complexStatistics getName() const;
+
+		protected:
+			std::map<double, double>::const_iterator findNearestKeyInMap(const std::map<double, double>& aMap, double key) const;
 		};
 	}
 }

@@ -19,25 +19,27 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#ifndef __MOCX_VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
-#define __MOCX_VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
+#ifndef __DV_DOSE_TO_VOLUME_MEASURE_CALCULATOR_H
+#define __DV_DOSE_TO_VOLUME_MEASURE_CALCULATOR_H
 
-#include "rttbVolumeToDoseMeasureCalculator.h"
+#include "rttbDoseToVolumeMeasureCalculator.h"
 
 namespace rttb
 {
 
 	namespace algorithms
 	{
-		class RTTBAlgorithms_EXPORT MOCxVolumeToDoseMeasureCalculator : public VolumeToDoseMeasureCalculator {
-
-		public:
-			MOCxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType& volume,
-				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-				const DoseVoxelVolumeType& currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
+		class RTTBAlgorithms_EXPORT VxDoseToVolumeMeasureCalculator : public DoseToVolumeMeasureCalculator {
 
 		private:
-			void computeSpecificValue(double xAbsolute);
+			DoseStatisticType _minimum;
+
+		public:			
+			VxDoseToVolumeMeasureCalculator(const std::vector<double>& precomputeVolumeValues,
+				const DoseTypeGy& referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name);
+
+		private:
+			void computeSpecificValue(double xAbsolute);			
 		};
 	}
 }

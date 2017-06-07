@@ -22,15 +22,7 @@
 #ifndef __MAXOHX_VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
 #define __MAXOHX_VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
 
-#include <vector>
-#include <map>
-
-#include "rttbBaseType.h"
-
-
-#include "RTTBAlgorithmsExports.h"
-#include "rttbvolumetodosemeasureCalculator.h"
-#include "rttbvolumetodosemeasure.h"
+#include "rttbVolumeToDoseMeasureCalculator.h"
 
 namespace rttb
 {

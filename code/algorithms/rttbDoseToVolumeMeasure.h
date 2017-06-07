@@ -19,8 +19,8 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#ifndef __VOLUME_TO_DOSE_MEASURE_H
-#define __VOLUME_TO_DOSE_MEASURE_H
+#ifndef __DOSE_TO_VOLUME_MEASURE_H
+#define __DOSE_TO_VOLUME_MEASURE_H
 
 #include "rttbMeasureInterface.h"
 
@@ -29,26 +29,26 @@ namespace rttb
 
 	namespace algorithms
 	{
-		class RTTBAlgorithms_EXPORT VolumeToDoseMeasure : public MeasureInterface {
+		class RTTBAlgorithms_EXPORT DoseToVolumeMeasure : public MeasureInterface {
 
 		public:
-			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
+			typedef std::map<DoseTypeGy, VolumeType> DoseToVolumeFunctionType;
 
 		private:
 			complexStatistics name;
-			VolumeToDoseFunctionType values;
-			VolumeType _volume;
+			DoseToVolumeFunctionType values;
+			DoseTypeGy _referenceDose;
 
 		public:
-			VolumeToDoseMeasure(complexStatistics name, VolumeToDoseFunctionType values = std::map<VolumeType, DoseTypeGy>(), VolumeType volume = -1);
-			void insertValue(std::pair<VolumeType, DoseTypeGy> value);
-			DoseTypeGy getValue(VolumeType xVolumeAbsolute) const;
-			DoseTypeGy getValue(VolumeType xVolumeAbsolute, bool findNearestValue, VolumeType& nearestXDose) const;
-			DoseTypeGy getValueRelative(VolumeType xDoseRelative) const;
-			DoseTypeGy getValueRelative(VolumeType xDoseRelative, bool findNearestValue, VolumeType& nearestXDose) const;
-			VolumeToDoseFunctionType getAllValues() const;
-			friend bool operator==(const VolumeToDoseMeasure& volumeToDoseMesure, const VolumeToDoseMeasure& otherVolumeToDoseMesure);
-			void setVolume(VolumeType volume);
+			DoseToVolumeMeasure(complexStatistics name, DoseToVolumeFunctionType values = std::map<DoseTypeGy, VolumeType>(), DoseTypeGy referenceDose = -1);
+			void insertValue(std::pair<DoseTypeGy, VolumeType> value);
+			VolumeType getValue(DoseTypeGy xVolumeAbsolute) const;
+			VolumeType getValue(DoseTypeGy xVolumeAbsolute, bool findNearestValue, DoseTypeGy& nearestXDose) const;
+			VolumeType getValueRelative(DoseTypeGy xDoseRelative) const;
+			VolumeType getValueRelative(DoseTypeGy xDoseRelative, bool findNearestValue, DoseTypeGy& nearestXDose) const;
+			DoseToVolumeFunctionType getAllValues() const;
+			friend bool operator==(const DoseToVolumeMeasure& volumeToDoseMesure, const DoseToVolumeMeasure& otherVolumeToDoseMesure);
+			void setReferenceDose(DoseTypeGy referenceDose);
 		private:
 			double getSpecificValue(double key, bool findNearestValueInstead, double& storedKey) const;
 		};

@@ -10,30 +10,25 @@ namespace rttb
 		VolumeToDoseMeasure::VolumeToDoseMeasure(complexStatistics name, VolumeToDoseFunctionType values, VolumeType volume) :
 			name(name), values(values), _volume(volume) {}
 
-		VolumeToDoseMeasure::complexStatistics VolumeToDoseMeasure::getName() const
-		{
-			return this->name;
-		}
-
 		void VolumeToDoseMeasure::insertValue(std::pair<VolumeType, DoseTypeGy> value)
 		{
 			this->values.insert(value);
 		}
 
-		DoseTypeGy VolumeToDoseMeasure::getValue(VolumeType xVolumeAbsolute)
+		DoseTypeGy VolumeToDoseMeasure::getValue(VolumeType xVolumeAbsolute) const
 		{
 			VolumeType dummy;
 			return getSpecificValue(xVolumeAbsolute, false, dummy);
 		}
 
-		DoseTypeGy VolumeToDoseMeasure::getValue(VolumeType xVolumeAbsolute, bool findNearestValue, VolumeType & nearestXVolume)
+		DoseTypeGy VolumeToDoseMeasure::getValue(VolumeType xVolumeAbsolute, bool findNearestValue, VolumeType & nearestXVolume) const
 		{
 			return getSpecificValue(xVolumeAbsolute, findNearestValue, nearestXVolume);
 		}
-		DoseTypeGy VolumeToDoseMeasure::getValueRelative(VolumeType xVolumeRelative)
+		DoseTypeGy VolumeToDoseMeasure::getValueRelative(VolumeType xVolumeRelative) const
 		{
 			if (xVolumeRelative >= 0 && xVolumeRelative <= 1) {
-				DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
+				DoseTypeGy xVolumeAbsolute = xVolumeRelative * _volume;
 				VolumeType dummy;
 				return getSpecificValue(xVolumeAbsolute, false, dummy);
 			}
@@ -41,10 +36,10 @@ namespace rttb
 				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
 			}
 		}
-		DoseTypeGy VolumeToDoseMeasure::getValueRelative(VolumeType xVolumeRelative, bool findNearestValue, VolumeType & nearestXVolume)
+		DoseTypeGy VolumeToDoseMeasure::getValueRelative(VolumeType xVolumeRelative, bool findNearestValue, VolumeType & nearestXVolume) const
 		{
 			if (xVolumeRelative >= 0 && xVolumeRelative <= 1) {
-				DoseTypeGy xVolumeAbsolute = xVolumeRelative*_volume;
+				DoseTypeGy xVolumeAbsolute = xVolumeRelative * _volume;
 				return getSpecificValue(xVolumeAbsolute, findNearestValue, nearestXVolume);
 			}
 			else {
@@ -89,43 +84,7 @@ namespace rttb
 					}
 				}
 			}
-		}
-
-		std::map<double, double>::const_iterator VolumeToDoseMeasure::findNearestKeyInMap(
-			const std::map<double, double>& aMap,
-			double key) const
-		{
-			double minDistance = 1e19;
-			double minDistanceLast = 1e20;
-
-			auto iterator = std::begin(aMap);
-
-			while (iterator != std::end(aMap))
-			{
-				minDistanceLast = minDistance;
-				minDistance = fabs(iterator->first - key);
-
-				if (minDistanceLast > minDistance)
-				{
-					++iterator;
-				}
-				else
-				{
-					if (iterator != std::begin(aMap))
-					{
-						--iterator;
-						return iterator;
-					}
-					else
-					{
-						return std::begin(aMap);
-					}
-				}
-			}
-
-			--iterator;
-			return iterator;
-		}
+		}		
 		
 		bool operator==(const VolumeToDoseMeasure& volumeToDoseMesure,const VolumeToDoseMeasure& otherVolumeToDoseMesure)
 		{

@@ -38,6 +38,7 @@ namespace rttb
 		{
 			return measure;
 		}
+
 		void VolumeToDoseMeasureCalculator::insertIntoMeasure(VolumeType  xAbsolute, DoseTypeGy resultDose)
 		{
 			measure.insertValue(std::pair<VolumeType, DoseTypeGy>(xAbsolute, resultDose));
