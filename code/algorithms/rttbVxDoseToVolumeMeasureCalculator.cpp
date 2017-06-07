@@ -4,9 +4,9 @@ namespace rttb
 
 	namespace algorithms
 	{
-		VxDoseToVolumeMeasureCalculator::VxDoseToVolumeMeasureCalculator(const std::vector<double>& precomputeVolumeValues,
+		VxDoseToVolumeMeasureCalculator::VxDoseToVolumeMeasureCalculator(const std::vector<double>& precomputeDoseValues,
 			const DoseTypeGy& referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name) : 
-			DoseToVolumeMeasureCalculator(precomputeVolumeValues, referenceDose, doseIterator, name) {}
+			DoseToVolumeMeasureCalculator(precomputeDoseValues, referenceDose, doseIterator, name) {}
 
 		void VxDoseToVolumeMeasureCalculator::computeSpecificValue(double xAbsolute)
 		{

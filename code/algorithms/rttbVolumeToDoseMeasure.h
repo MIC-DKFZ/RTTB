@@ -35,22 +35,27 @@ namespace rttb
 			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
 
 		private:
+			VolumeType _volume;
 			complexStatistics name;
 			VolumeToDoseFunctionType values;
-			VolumeType _volume;
 
 		public:
 			VolumeToDoseMeasure(complexStatistics name, VolumeToDoseFunctionType values = std::map<VolumeType, DoseTypeGy>(), VolumeType volume = -1);
+
+			void setVolume(VolumeType volume);
 			void insertValue(std::pair<VolumeType, DoseTypeGy> value);
+
+			/*! @brief Gets the x of the current volume, depending on the complexStatistics name.
+				@return Return dose value in Gy.
+				@exception InvalidDoseException if the Dx values have not been set (i.e. the vector is empty)
+			*/
 			DoseTypeGy getValue(VolumeType xVolumeAbsolute) const;
 			DoseTypeGy getValue(VolumeType xVolumeAbsolute, bool findNearestValue, VolumeType& nearestXDose) const;
 			DoseTypeGy getValueRelative(VolumeType xDoseRelative) const;
 			DoseTypeGy getValueRelative(VolumeType xDoseRelative, bool findNearestValue, VolumeType& nearestXDose) const;
 			VolumeToDoseFunctionType getAllValues() const;
+
 			friend bool operator==(const VolumeToDoseMeasure& volumeToDoseMesure, const VolumeToDoseMeasure& otherVolumeToDoseMesure);
-			void setVolume(VolumeType volume);
-		private:
-			double getSpecificValue(double key, bool findNearestValueInstead, double& storedKey) const;
 		};
 	}
 }

@@ -36,7 +36,7 @@ namespace rttb
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
 				const DoseVoxelVolumeType& currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
 
-		private:
+		protected:
 			void computeSpecificValue(double xAbsolute);
 		};
 	}

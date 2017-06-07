@@ -36,21 +36,27 @@ namespace rttb
 
 		private:
 			complexStatistics name;
-			DoseToVolumeFunctionType values;
 			DoseTypeGy _referenceDose;
+			DoseToVolumeFunctionType values;
 
 		public:
 			DoseToVolumeMeasure(complexStatistics name, DoseToVolumeFunctionType values = std::map<DoseTypeGy, VolumeType>(), DoseTypeGy referenceDose = -1);
+			
+			void setReferenceDose(DoseTypeGy referenceDose);
 			void insertValue(std::pair<DoseTypeGy, VolumeType> value);
+
+			/*! @brief Gets the volume irradiated with a dose >= x, depending on the complexStatistics name.
+				@return Return absolute volume in absolute cm^3.
+				@exception NoDataException if the Vx values have not been set (i.e. the vector is empty)
+				@excon NoDataException if the requested Dose is not in the vector
+			*/
 			VolumeType getValue(DoseTypeGy xVolumeAbsolute) const;
 			VolumeType getValue(DoseTypeGy xVolumeAbsolute, bool findNearestValue, DoseTypeGy& nearestXDose) const;
 			VolumeType getValueRelative(DoseTypeGy xDoseRelative) const;
 			VolumeType getValueRelative(DoseTypeGy xDoseRelative, bool findNearestValue, DoseTypeGy& nearestXDose) const;
 			DoseToVolumeFunctionType getAllValues() const;
+
 			friend bool operator==(const DoseToVolumeMeasure& volumeToDoseMesure, const DoseToVolumeMeasure& otherVolumeToDoseMesure);
-			void setReferenceDose(DoseTypeGy referenceDose);
-		private:
-			double getSpecificValue(double key, bool findNearestValueInstead, double& storedKey) const;
 		};
 	}
 }

@@ -46,7 +46,8 @@ namespace rttb
 			complexStatistics getName() const;
 
 		protected:
-			std::map<double, double>::const_iterator findNearestKeyInMap(const std::map<double, double>& aMap, double key) const;
+			double getSpecificValue(const std::map<double, double>& values, double key, bool findNearestValueInstead, double& storedKey) const;
+			std::map<double, double>::const_iterator findNearestKeyInMap(const std::map<double, double>& values, double key) const;
 		};
 	}
 }

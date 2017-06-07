@@ -49,17 +49,20 @@ namespace rttb
 		private:
 			DoseTypeGy _referenceDose;
 			DoseToVolumeMeasure measure;
-			std::vector<double> _precomputeVolumeValues;
+			std::vector<double> _precomputeDoseValues;
 
 		public:
-			DoseToVolumeMeasureCalculator(const std::vector<double>& precomputeVolumeValues,
-				const DoseTypeGy& referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name);
+			/*!  @brief Computes the measure. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
+			*/
 			void compute();
 			DoseToVolumeMeasure getMeasure();
-			virtual void computeSpecificValue(double xAbsolute) = 0;
 
 		protected:
+			DoseToVolumeMeasureCalculator(const std::vector<double>& precomputeDoseValues,
+				const DoseTypeGy& referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name);
+
 			void insertIntoMeasure(DoseTypeGy xAbsolute, VolumeType resultVolume);
+			virtual void computeSpecificValue(double xAbsolute) = 0;
 		};
 
 	}
