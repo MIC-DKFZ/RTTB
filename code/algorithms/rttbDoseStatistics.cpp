@@ -36,7 +36,7 @@ namespace rttb
 		    ResultListPointer maximumVoxelPositions /*= ResultListPointer()*/,
 		    ResultListPointer minimumVoxelPositions /*= ResultListPointer()*/,
 			VolumeToDoseMeasure Dx,
-		    DoseToVolumeFunctionType Vx,
+		    DoseToVolumeMeasure Vx,
 			VolumeToDoseMeasure MOHx,
 			VolumeToDoseMeasure MOCx,
 			VolumeToDoseMeasure MaxOHx,
@@ -100,7 +100,7 @@ namespace rttb
 			_Dx = DxValues;
 		}
 
-		void DoseStatistics::setVx(const VolumeToDoseFunctionType& VxValues)
+		void DoseStatistics::setVx(const DoseToVolumeMeasure& VxValues)
 		{
 			_Vx = VxValues;
 		}
@@ -178,41 +178,6 @@ namespace rttb
 		{
 			return _stdDeviation * _stdDeviation;
 		}
-
-		VolumeType DoseStatistics::getVx(DoseTypeGy xDoseAbsolute, bool findNearestValue,
-		                                 DoseTypeGy& nearestXDose) const
-		{
-			return getValue(_Vx, xDoseAbsolute, findNearestValue, nearestXDose);
-		}
-
-		VolumeType DoseStatistics::getVx(DoseTypeGy xDoseAbsolute) const
-		{
-			DoseTypeGy dummy;
-			return getValue(_Vx, xDoseAbsolute, false, dummy);
-		}
-		VolumeType DoseStatistics::getVxRelative(DoseTypeGy xDoseRelative)  const 
-		{
-			if (_referenceDose != -1 && xDoseRelative >=0 && xDoseRelative <=1){
-				DoseTypeGy xDoseAbsolute = xDoseRelative * _referenceDose;
-				DoseTypeGy dummy;
-				return getValue(_Vx, xDoseAbsolute, false, dummy);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Reference dose must be > 0 and 0 <= relative Dose <= 1");
-			}
-		}
-		VolumeType DoseStatistics::getVxRelative(DoseTypeGy xDoseRelative, bool findNearestValue,
-			DoseTypeGy& nearestXDose) const
-		{
-			if (_referenceDose != -1 && xDoseRelative >= 0 && xDoseRelative <= 1){
-				DoseTypeGy xDoseAbsolute = xDoseRelative * _referenceDose;
-				return getValue(_Vx, xDoseAbsolute, findNearestValue, nearestXDose);
-			}
-			else {
-				throw rttb::core::InvalidParameterException("Reference dose must be > 0 and 0 <= relative Dose <= 1");
-			}
-		}
-
 		
 		double DoseStatistics::getValue(const std::map<double, double>& aMap, double key,
 		                                bool findNearestValueInstead, double& storedKey) const
@@ -290,7 +255,7 @@ namespace rttb
 			return _minimumVoxelPositions;
 		}
 
-		DoseStatistics::DoseToVolumeFunctionType DoseStatistics::getAllVx() const
+		DoseToVolumeMeasure DoseStatistics::getVx() const
 		{
 			return _Vx;
 		}

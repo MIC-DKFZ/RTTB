@@ -51,8 +51,6 @@ namespace rttb
 			typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
 			typedef DoseStatistics::ResultListPointer ResultListPointer;
 			typedef DoseStatistics::DoseStatisticsPointer DoseStatisticsPointer;
-			typedef DoseStatistics::DoseToVolumeFunctionType DoseToVolumeFunctionType;
-			typedef DoseStatistics::VolumeToDoseFunctionType VolumeToDoseFunctionType;
 
 		private:
 			DoseIteratorPointer _doseIterator;
@@ -84,16 +82,7 @@ namespace rttb
 				@pre minimumDose must be defined in _statistics with the correct value
 			*/
 			ResultListPointer computeMinimumPositions(unsigned int maxNumberMinimaPositions) const;
-
-			VolumeType computeVx(DoseTypeGy xDoseAbsolute) const;
-
-			DoseToVolumeFunctionType computeDoseToVolumeFunctionMulti(DoseTypeGy referenceDose,
-			        const std::vector<double>& precomputeDoseValues,
-			        DoseStatistics::complexStatistics name) const;
-
-			void computeDoseToVolumeSingle(DoseTypeGy referenceDose,
-				double precomputeDoseValue, DoseStatistics::complexStatistics name, DoseToVolumeFunctionType& VxMulti) const;
-
+			
 			/*! @brief Calculates simple dose statistics (min, mean, max, stdDev, minDosePositions, maxDosePositions)
 				@param maxNumberMinimaPositions the maximal amount of computed positions where the dose has its minimum that is computed
 				@param maxNumberMaximaPositions the maximal amount of computed positions where the dose has its maximum that is computed

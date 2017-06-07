@@ -28,7 +28,8 @@
 
 #include "rttbInvalidParameterException.h"
 #include "rttbNullPointerException.h"
-
+#include "rttbVolumeToDoseMeasure.h"
+#include "rttbDoseToVolumeMeasure.h"
 
 namespace rttb
 {
@@ -114,18 +115,18 @@ namespace rttb
 
 				double absoluteVolume = aDoseStatistics->getVolume();
 				double referenceDose = aDoseStatistics->getReferenceDose();
-				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType AllVx = aDoseStatistics->getAllVx();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getDx().getAllValues();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getMOHx().getAllValues();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getMOCx().getAllValues();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx =
+				rttb::algorithms::DoseToVolumeMeasure::DoseToVolumeFunctionType AllVx = aDoseStatistics->getVx().getAllValues();
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType AllDx = aDoseStatistics->getDx().getAllValues();
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getMOHx().getAllValues();
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getMOCx().getAllValues();
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType AllMaxOHx =
 				    aDoseStatistics->getMaxOHx().getAllValues();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMinOCx =
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType AllMinOCx =
 				    aDoseStatistics->getMinOCx().getAllValues();
 
 
-				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType::iterator it;
+				rttb::algorithms::DoseToVolumeMeasure::DoseToVolumeFunctionType::iterator vxIt;
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType::iterator it;
 
 				for (it = AllDx.begin(); it != AllDx.end(); ++it)
 				{
@@ -223,18 +224,17 @@ namespace rttb
 				sstr << static_cast<float>(aDoseStatistics->getStdDeviation()) << columnSeparator;
 				sstr << static_cast<float>(aDoseStatistics->getVariance()) << columnSeparator;
 
-				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType AllVx = aDoseStatistics->getAllVx();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllDx = aDoseStatistics->getDx().getAllValues();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getMOHx().getAllValues();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getMOCx().getAllValues();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMaxOHx =
-				    aDoseStatistics->getMaxOHx().getAllValues();
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType AllMinOCx =
-				    aDoseStatistics->getMinOCx().getAllValues();
+				rttb::algorithms::DoseToVolumeMeasure::DoseToVolumeFunctionType AllVx = aDoseStatistics->getVx().getAllValues();
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType AllDx = aDoseStatistics->getDx().getAllValues();
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType AllMOHx = aDoseStatistics->getMOHx().getAllValues();
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType AllMOCx = aDoseStatistics->getMOCx().getAllValues();
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType AllMaxOHx =
+					aDoseStatistics->getMaxOHx().getAllValues();
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType AllMinOCx =
+					aDoseStatistics->getMinOCx().getAllValues();
 
-
-				rttb::algorithms::DoseStatistics::DoseToVolumeFunctionType::iterator vxIt;
-				rttb::algorithms::DoseStatistics::VolumeToDoseFunctionType::iterator it;
+				rttb::algorithms::DoseToVolumeMeasure::DoseToVolumeFunctionType::iterator vxIt;
+				rttb::algorithms::VolumeToDoseMeasure::VolumeToDoseFunctionType::iterator it;
 
 				for (it = AllDx.begin(); it != AllDx.end(); ++it)
 				{

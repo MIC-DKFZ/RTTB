@@ -94,8 +94,8 @@ namespace rttb
 			CHECK_CLOSE(doseStatistics->getVariance(), 0, errorConstant);
 
 			double dummy;
-			DoseTypeGy vx = doseStatistics->getVx(expectedVal, true, dummy);
-			CHECK_EQUAL(vx, doseStatistics->getVx(0));
+			DoseTypeGy vx = doseStatistics->getVx().getValue(expectedVal, true, dummy);
+			CHECK_EQUAL(vx, doseStatistics->getVx().getValue(0));
 			CHECK_CLOSE(expectedVal, doseStatistics->getDx().getValue(vx), reducedErrorConstant);
 
 			CHECK_CLOSE(doseStatistics->getMaximum(), expectedVal, errorConstant);

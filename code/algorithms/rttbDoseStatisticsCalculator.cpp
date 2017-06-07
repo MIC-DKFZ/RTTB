@@ -31,6 +31,7 @@
 #include "rttbInvalidParameterException.h"
 
 #include "rttbDxVolumeToDoseMeasureCalculator.h"
+#include "rttbVxDoseToVolumeMeasureCalculator.h"
 #include "rttbMOHxVolumeToDoseMeasureCalculator.h"
 #include "rttbMOCxVolumeToDoseMeasureCalculator.h"
 #include "rttbMaxOHxVolumeToDoseMeasureCalculator.h"
@@ -285,8 +286,8 @@ namespace rttb
 				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), VolumeToDoseMeasure::Dx);
 			Dx.compute();
 
-			DoseToVolumeFunctionType Vx = computeDoseToVolumeFunctionMulti(referenceDose,
-				precomputeDoseValuesNonConst, DoseStatistics::Vx);
+			VxDoseToVolumeMeasureCalculator Vx = VxDoseToVolumeMeasureCalculator(precomputeDoseValuesNonConst, referenceDose, _doseIterator, DoseToVolumeMeasure::Vx);
+			Vx.compute();
 
 			MOHxVolumeToDoseMeasureCalculator MOHx = MOHxVolumeToDoseMeasureCalculator(precomputeVolumeValuesNonConst, _statistics->getVolume(),
 				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), VolumeToDoseMeasure::MOHx);
@@ -304,7 +305,7 @@ namespace rttb
 				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), _statistics->getMaximum(), VolumeToDoseMeasure::MinOCx);
 			MinOCx.compute();
 
-			_statistics->setVx(Vx);
+			_statistics->setVx(Vx.getMeasure());
 			_statistics->setDx(Dx.getMeasure());
 			_statistics->setMOHx(MOHx.getMeasure());
 			_statistics->setMOCx(MOCx.getMeasure());
@@ -387,80 +388,6 @@ namespace rttb
 			}
 
 			return minVoxelVector;
-		}
-
-		VolumeType DoseStatisticsCalculator::computeVx(DoseTypeGy xDoseAbsolute) const
-		{
-			rttb::FractionType count = 0;
-			_doseIterator->reset();
-
-			DoseTypeGy currentDose = 0;
-
-			while (_doseIterator->isPositionValid())
-			{
-				currentDose = _doseIterator->getCurrentDoseValue();
-
-				if (currentDose >= xDoseAbsolute)
-				{
-					count += _doseIterator->getCurrentRelevantVolumeFraction();
-				}
-
-				_doseIterator->next();
-			}
-
-			return count * this->_doseIterator->getCurrentVoxelVolume();
-		}		
-
-		DoseStatisticsCalculator::DoseToVolumeFunctionType
-			DoseStatisticsCalculator::computeDoseToVolumeFunctionMulti(DoseTypeGy referenceDose,
-			const std::vector<double>& precomputeDoseValues, DoseStatistics::complexStatistics name) const
-		{
-			std::vector<boost::thread> threads;
-
-			DoseToVolumeFunctionType VxMulti;
-
-			for (size_t i = 0; i < precomputeDoseValues.size(); ++i)
-			{
-				if (_multiThreading)
-				{
-					threads.push_back(boost::thread(&DoseStatisticsCalculator::computeDoseToVolumeSingle, this,
-						referenceDose, precomputeDoseValues.at(i), name, std::ref(VxMulti)));
-				}
-				else
-				{
-					DoseStatisticsCalculator::computeDoseToVolumeSingle(referenceDose, precomputeDoseValues.at(i),
-						name, std::ref(VxMulti));
-				}
-			}
-
-			for (unsigned int i=0; i<threads.size();i++)
-			{
-				threads.at(i).join();
-			}
-
-			return VxMulti;
-		}
-
-		void DoseStatisticsCalculator::computeDoseToVolumeSingle(DoseTypeGy referenceDose,
-			double precomputeDoseValue, DoseStatistics::complexStatistics name, DoseToVolumeFunctionType& VxMulti) const
-		{
-			if (name == DoseStatistics::Vx)
-			{
-				double xAbsolue = precomputeDoseValue * referenceDose;
-				if (_multiThreading){
-					::boost::unique_lock<::boost::shared_mutex> lock(*_mutex);
-					VxMulti.insert(std::pair<DoseTypeGy, VolumeType>(xAbsolue,
-						computeVx(xAbsolue)));
-				}
-				else {
-					VxMulti.insert(std::pair<DoseTypeGy, VolumeType>(xAbsolue,
-						computeVx(xAbsolue)));
-				}
-			}
-			else
-			{
-				throw core::InvalidParameterException("unknown DoseStatistics name!");
-			}
 		}
 
 		void DoseStatisticsCalculator::setMultiThreading(const bool choice) 

@@ -101,11 +101,11 @@ namespace rttb
                 boost::shared_ptr<std::vector<std::pair<double, int> > > minimumVoxelPositions = nullptr;
                 boost::shared_ptr<std::vector<std::pair<double, int> > > maximumVoxelPositions = nullptr;
 				rttb::algorithms::VolumeToDoseMeasure Dx = rttb::algorithms::VolumeToDoseMeasure(rttb::algorithms::VolumeToDoseMeasure::Dx);
+				rttb::algorithms::DoseToVolumeMeasure Vx = rttb::algorithms::DoseToVolumeMeasure(rttb::algorithms::DoseToVolumeMeasure::Vx);
 				rttb::algorithms::VolumeToDoseMeasure MOHx = rttb::algorithms::VolumeToDoseMeasure(rttb::algorithms::VolumeToDoseMeasure::MOHx);
 				rttb::algorithms::VolumeToDoseMeasure MOCx = rttb::algorithms::VolumeToDoseMeasure(rttb::algorithms::VolumeToDoseMeasure::MOCx);
 				rttb::algorithms::VolumeToDoseMeasure MaxOHx = rttb::algorithms::VolumeToDoseMeasure(rttb::algorithms::VolumeToDoseMeasure::MaxOHx);
 				rttb::algorithms::VolumeToDoseMeasure MinOCx = rttb::algorithms::VolumeToDoseMeasure(rttb::algorithms::VolumeToDoseMeasure::MinOCx);
-                std::map<DoseTypeGy, VolumeType> Vx;
 
                 BOOST_FOREACH(boost::property_tree::ptree::value_type & data, pt.get_child("statistics.results"))
                 {
@@ -187,7 +187,7 @@ namespace rttb
                     }
                     else if (name == "Vx")
                     {
-                        Vx[boost::lexical_cast<double>(x)*referenceDose / 100] = boost::lexical_cast<double>(datum);
+                        Vx.insertValue(std::pair<VolumeType, DoseTypeGy>(boost::lexical_cast<double>(x)*referenceDose / 100, boost::lexical_cast<double>(datum)));
                     }
                     else if (name == "MOHx")
                     {

@@ -32,6 +32,7 @@
 #include "RTTBAlgorithmsExports.h"
 
 #include "rttbVolumeToDoseMeasure.h"
+#include "rttbDoseToVolumeMeasure.h"
 
 namespace rttb
 {
@@ -49,8 +50,6 @@ namespace rttb
 			enum complexStatistics { Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx };
 			typedef boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultListPointer;
 			typedef boost::shared_ptr<DoseStatistics> DoseStatisticsPointer;
-			typedef std::map<DoseTypeGy, VolumeType> DoseToVolumeFunctionType;
-			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
 
 		private:
 			double getValue(const std::map<double, double>& aMap, double key, bool findNearestValueInstead,
@@ -69,7 +68,7 @@ namespace rttb
 			VolumeType _volume;
 			DoseTypeGy _referenceDose; //for Vx computation
 			VolumeToDoseMeasure _Dx;
-			DoseToVolumeFunctionType _Vx;
+			DoseToVolumeMeasure _Vx;
 			VolumeToDoseMeasure _MOHx;
 			VolumeToDoseMeasure _MOCx;
 			VolumeToDoseMeasure _MaxOHx;
@@ -89,7 +88,7 @@ namespace rttb
 				ResultListPointer minimumVoxelPositions = NULL,
 				ResultListPointer maximumVoxelPositions = NULL,
 				VolumeToDoseMeasure Dx = VolumeToDoseMeasure(VolumeToDoseMeasure::Dx),
-			    DoseToVolumeFunctionType Vx = DoseToVolumeFunctionType(),
+			    DoseToVolumeMeasure Vx = DoseToVolumeMeasure(DoseToVolumeMeasure::Vx),
 				VolumeToDoseMeasure MOHx = VolumeToDoseMeasure(VolumeToDoseMeasure::MOHx),
 				VolumeToDoseMeasure MOCx = VolumeToDoseMeasure(VolumeToDoseMeasure::MOCx),
 				VolumeToDoseMeasure MaxOHx = VolumeToDoseMeasure(VolumeToDoseMeasure::MaxOHx),
@@ -102,7 +101,7 @@ namespace rttb
 			void setMinimumVoxelPositions(ResultListPointer minimumVoxelPositions);
 			void setMaximumVoxelPositions(ResultListPointer maximumVoxelPositions);
 			void setDx(const VolumeToDoseMeasure& DxValues);
-			void setVx(const VolumeToDoseFunctionType& VxValues);
+			void setVx(const DoseToVolumeMeasure& VxValues);
 			void setMOHx(const VolumeToDoseMeasure& MOHxValues);
 			void setMOCx(const VolumeToDoseMeasure& MOCxValues);
 			void setMaxOHx(const VolumeToDoseMeasure& MaxOHxValues);
@@ -156,20 +155,8 @@ namespace rttb
 			*/
 			DoseStatisticType getVariance() const;
 
-			/*! @brief Get Vx: the volume irradiated with a dose >= x.
-				@return Return absolute volume in absolute cm^3.
-				@exception NoDataException if the Vx values have not been set (i.e. the vector is empty)
-				@exception NoDataException if the requested Dose is not in the vector
-			*/
-			VolumeType getVx(DoseTypeGy xDoseAbsolute) const;
-			VolumeType getVx(DoseTypeGy xDoseAbsolute, bool findNearestValue,
-			                 DoseTypeGy& nearestXDose) const;
-			VolumeType getVxRelative(DoseTypeGy xDoseRelative) const;
-			VolumeType getVxRelative(DoseTypeGy xDoseRelative, bool findNearestValue,
-				DoseTypeGy& nearestXDose) const;
-			DoseToVolumeFunctionType getAllVx() const;
-
 			VolumeToDoseMeasure getDx() const;
+			DoseToVolumeMeasure getVx() const;
 			VolumeToDoseMeasure getMOHx() const;
 			VolumeToDoseMeasure getMOCx() const;
 			VolumeToDoseMeasure getMaxOHx() const;
