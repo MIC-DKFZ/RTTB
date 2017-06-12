@@ -5,17 +5,17 @@ namespace rttb
 	namespace algorithms
 	{
 		MOHxVolumeToDoseMeasureCalculator::MOHxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues,
-			const VolumeType& volume, const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, 
-			const DoseVoxelVolumeType& currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name) : VolumeToDoseMeasureCalculator(precomputeVolumeValues, volume,
+			const VolumeType volume, const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
+			const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name) : VolumeToDoseMeasureCalculator(precomputeVolumeValues, volume,
 				doseVector, voxelProportionVector, currentVoxelVolume, name) {}
 
-		void MOHxVolumeToDoseMeasureCalculator::computeSpecificValue(double xAbsolute)
+		DoseTypeGy MOHxVolumeToDoseMeasureCalculator::computeSpecificValue(double xAbsolute) const
 		{
 			double noOfVoxel = xAbsolute / _currentVoxelVolume;
 
 			if (noOfVoxel == 0)
 			{
-				return insertIntoMeasure(xAbsolute, 0);
+				return 0;
 			}
 			else
 			{
@@ -33,7 +33,7 @@ namespace rttb
 						break;
 					}
 				}
-				insertIntoMeasure(xAbsolute, (DoseTypeGy)(sum / noOfVoxel));
+				return (DoseTypeGy)(sum / noOfVoxel);
 			}
 		}
 	}

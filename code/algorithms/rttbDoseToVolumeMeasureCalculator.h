@@ -62,7 +62,7 @@ namespace rttb
 				const DoseTypeGy& referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name);
 
 			void insertIntoMeasure(DoseTypeGy xAbsolute, VolumeType resultVolume);
-			virtual void computeSpecificValue(double xAbsolute) = 0;
+			virtual VolumeType computeSpecificValue(double xAbsolute) const = 0;
 		};
 
 	}

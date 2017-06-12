@@ -36,10 +36,10 @@ namespace rttb
 
 		public:			
 			VxDoseToVolumeMeasureCalculator(const std::vector<double>& precomputeDoseValues,
-				const DoseTypeGy& referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name);
+				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name);
 
 		protected:
-			void computeSpecificValue(double xAbsolute);			
+			VolumeType computeSpecificValue(double xAbsolute) const;
 		};
 	}
 }

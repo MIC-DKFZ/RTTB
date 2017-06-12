@@ -32,12 +32,12 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT MOCxVolumeToDoseMeasureCalculator : public VolumeToDoseMeasureCalculator {
 
 		public:
-			MOCxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType& volume,
+			MOCxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-				const DoseVoxelVolumeType& currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
+				const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
 
 		protected:
-			void computeSpecificValue(double xAbsolute);
+			DoseTypeGy computeSpecificValue(double xAbsolute) const;
 		};
 	}
 }

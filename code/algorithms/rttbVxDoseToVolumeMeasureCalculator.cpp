@@ -5,10 +5,10 @@ namespace rttb
 	namespace algorithms
 	{
 		VxDoseToVolumeMeasureCalculator::VxDoseToVolumeMeasureCalculator(const std::vector<double>& precomputeDoseValues,
-			const DoseTypeGy& referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name) : 
+			const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name) :
 			DoseToVolumeMeasureCalculator(precomputeDoseValues, referenceDose, doseIterator, name) {}
 
-		void VxDoseToVolumeMeasureCalculator::computeSpecificValue(double xAbsolute)
+		VolumeType VxDoseToVolumeMeasureCalculator::computeSpecificValue(double xAbsolute) const
 		{
 
 			rttb::FractionType count = 0;
@@ -27,7 +27,7 @@ namespace rttb
 
 				_doseIterator->next();
 			}
-			insertIntoMeasure(xAbsolute, count * this->_doseIterator->getCurrentVoxelVolume());
+			return count * this->_doseIterator->getCurrentVoxelVolume();
 		}
 	}
 }

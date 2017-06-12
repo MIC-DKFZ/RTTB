@@ -35,12 +35,12 @@ namespace rttb
 			DoseStatisticType _minimum;
 
 		public:			
-			DxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType& volume,
+			DxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, 
-				const DoseVoxelVolumeType& currentVoxelVolume, const DoseStatisticType& minimum, VolumeToDoseMeasure::complexStatistics name);
+				const DoseVoxelVolumeType currentVoxelVolume, const DoseStatisticType minimum, VolumeToDoseMeasure::complexStatistics name);
 
 		protected:
-			void computeSpecificValue(double xAbsolute);			
+			DoseTypeGy computeSpecificValue(double xAbsolute) const;
 		};
 	}
 }

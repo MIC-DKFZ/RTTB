@@ -7,8 +7,8 @@ namespace rttb
 
 	namespace algorithms
 	{
-		VolumeToDoseMeasureCalculator::VolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType& volume,
-			const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, const DoseVoxelVolumeType& currentVoxelVolume, 
+		VolumeToDoseMeasureCalculator::VolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
+			const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, const DoseVoxelVolumeType currentVoxelVolume,
 			VolumeToDoseMeasure::complexStatistics name) : measure(VolumeToDoseMeasure(name)), _precomputeVolumeValues(precomputeVolumeValues),
 			_volume(volume), _doseVector(doseVector), _voxelProportionVector(voxelProportionVector), _currentVoxelVolume(currentVoxelVolume) {}
 
@@ -18,13 +18,14 @@ namespace rttb
 
 			for (size_t i = 0; i < _precomputeVolumeValues.size(); ++i)
 			{
+				double xAbsolute = _precomputeVolumeValues.at(i) * _volume;
 				if (false)//_multiThreading)
 				{
-					threads.push_back(boost::thread(&VolumeToDoseMeasureCalculator::computeSpecificValue, this, _precomputeVolumeValues.at(i) * _volume));
+					threads.push_back(boost::thread(&VolumeToDoseMeasureCalculator::insertIntoMeasure, this, xAbsolute, computeSpecificValue(xAbsolute)));
 				}
 				else
 				{
-					this->computeSpecificValue(_precomputeVolumeValues.at(i) * _volume);
+					insertIntoMeasure(xAbsolute, this->computeSpecificValue(xAbsolute));
 				}
 			}
 

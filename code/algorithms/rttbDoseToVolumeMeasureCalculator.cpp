@@ -18,13 +18,15 @@ namespace rttb
 
 			for (size_t i = 0; i < _precomputeDoseValues.size(); ++i)
 			{
+				double xAbsolute = _precomputeDoseValues.at(i) * _referenceDose;
 				if (false)//_multiThreading)
 				{
-					threads.push_back(boost::thread(&DoseToVolumeMeasureCalculator::computeSpecificValue, this, _precomputeDoseValues.at(i) * _referenceDose));
+					threads.push_back(boost::thread(&DoseToVolumeMeasureCalculator::insertIntoMeasure, this , xAbsolute, computeSpecificValue(xAbsolute)));
 				}
 				else
 				{
-					this->computeSpecificValue(_precomputeDoseValues.at(i) * _referenceDose);
+
+					insertIntoMeasure(xAbsolute, this->computeSpecificValue(xAbsolute));
 				}
 			}
 

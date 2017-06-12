@@ -22,7 +22,6 @@
 #ifndef __MEASURE_INTERFACE_H
 #define __MEASURE_INTERFACE_H
 
-#include <vector>
 #include <map>
 
 #include "rttbBaseType.h"

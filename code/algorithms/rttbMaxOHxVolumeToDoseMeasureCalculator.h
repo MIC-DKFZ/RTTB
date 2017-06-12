@@ -34,12 +34,12 @@ namespace rttb
 		private:
 
 		public:
-			MaxOHxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType& volume,
+			MaxOHxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-				const DoseVoxelVolumeType& currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
+				const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
 
 		protected:
-			void computeSpecificValue(double xAbsolute);
+			DoseTypeGy computeSpecificValue(double xAbsolute) const;
 		};
 	}
 }
