@@ -40,7 +40,7 @@ namespace rttb
 			VolumeToDoseFunctionType values;
 
 		public:
-			VolumeToDoseMeasure(complexStatistics name, VolumeToDoseFunctionType values = std::map<VolumeType, DoseTypeGy>(), VolumeType volume = -1);
+			VolumeToDoseMeasure(complexStatistics name, VolumeType volume = -1);
 
 			void setVolume(VolumeType volume);
 			void insertValue(std::pair<VolumeType, DoseTypeGy> value);

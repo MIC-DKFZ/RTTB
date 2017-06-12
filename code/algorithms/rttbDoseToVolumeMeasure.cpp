@@ -1,13 +1,14 @@
 #include "rttbDoseToVolumeMeasure.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbDataNotAvailableException.h"
 
 namespace rttb
 {
 
 	namespace algorithms
 	{
-		DoseToVolumeMeasure::DoseToVolumeMeasure(complexStatistics name, DoseToVolumeFunctionType values, DoseTypeGy referenceDose) :
-			name(name), values(values), _referenceDose(referenceDose) {}
+		DoseToVolumeMeasure::DoseToVolumeMeasure(complexStatistics name, DoseTypeGy referenceDose) :
+			name(name), values(std::map<VolumeType, DoseTypeGy>()), _referenceDose(referenceDose) {}
 
 		void DoseToVolumeMeasure::setReferenceDose(DoseTypeGy referenceDose)
 		{

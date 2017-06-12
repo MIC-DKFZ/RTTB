@@ -72,27 +72,27 @@ namespace rttb
 			ResultListPointer resultsMaxVoxels =
 			    boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >(maxVoxels);
 
-			algorithms::DoseToVolumeMeasure Vx = algorithms::DoseToVolumeMeasure(algorithms::DoseToVolumeMeasure::Vx, std::map<DoseTypeGy, VolumeType>(), maximum);
+			algorithms::DoseToVolumeMeasure Vx = algorithms::DoseToVolumeMeasure(algorithms::DoseToVolumeMeasure::Vx, maximum);
 			Vx.insertValue(std::make_pair(1.1, 1000));
 			Vx.insertValue(std::make_pair(106.9, 99000));
 
-			algorithms::VolumeToDoseMeasure Dx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::Dx, std::map<VolumeType, DoseTypeGy>(), volume);
+			algorithms::VolumeToDoseMeasure Dx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::Dx, volume);
 			Dx.insertValue(std::make_pair(1000, 1.1));
 			Dx.insertValue(std::make_pair(99000, 106.9));
 
-			algorithms::VolumeToDoseMeasure MOHx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MOHx, std::map<VolumeType, DoseTypeGy>(), volume);
+			algorithms::VolumeToDoseMeasure MOHx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MOHx, volume);
 			MOHx.insertValue(std::make_pair(1000, 5));
 			MOHx.insertValue(std::make_pair(99000, 105.5));
 			
-			algorithms::VolumeToDoseMeasure MOCx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MOCx, std::map<VolumeType, DoseTypeGy>(), volume);
+			algorithms::VolumeToDoseMeasure MOCx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MOCx, volume);
 			MOCx.insertValue(std::make_pair(1000, 10));
 			MOCx.insertValue(std::make_pair(99000, 99));
 
-			algorithms::VolumeToDoseMeasure MaxOHx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MaxOHx, std::map<VolumeType, DoseTypeGy>(), volume);
+			algorithms::VolumeToDoseMeasure MaxOHx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MaxOHx, volume);
 			MaxOHx.insertValue(std::make_pair(1000, 40));
 			MaxOHx.insertValue(std::make_pair(99000, 98.3));
 
-			algorithms::VolumeToDoseMeasure MinOCx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MinOCx, std::map<VolumeType, DoseTypeGy>(), volume);
+			algorithms::VolumeToDoseMeasure MinOCx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::MinOCx, volume);
 			MinOCx.insertValue(std::make_pair(1000, 25.5));
 			MinOCx.insertValue(std::make_pair(99000, 102.7));
 
@@ -161,13 +161,13 @@ namespace rttb
 
 			//3) test getters of complex statistics(with stored key and without stored key)
 			//getAll*() already tested in (2)
-			Vx = algorithms::DoseToVolumeMeasure(algorithms::DoseToVolumeMeasure::Vx, std::map<DoseTypeGy, VolumeType>(), maximum);
+			Vx = algorithms::DoseToVolumeMeasure(algorithms::DoseToVolumeMeasure::Vx, maximum);
 			Vx.insertValue(std::make_pair(1.1, 1000));
 			Vx.insertValue(std::make_pair(5.0, 2300));
 			Vx.insertValue(std::make_pair(90, 90500));
 			Vx.insertValue(std::make_pair(107, 99000));
 
-			Dx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::Dx, std::map<VolumeType, DoseTypeGy>(), volume);
+			Dx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::Dx, volume);
 			Dx.insertValue(std::make_pair(1000, 1.1));
 			Dx.insertValue(std::make_pair(2000, 2.0));
 			Dx.insertValue(std::make_pair(5000, 10.8));

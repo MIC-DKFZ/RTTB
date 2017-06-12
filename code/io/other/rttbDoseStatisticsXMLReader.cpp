@@ -148,10 +148,15 @@ namespace rttb
                     {
                         volume = boost::lexical_cast<double>(datum);
 						Dx.setVolume(volume);
+						MOHx.setVolume(volume);
+						MOCx.setVolume(volume);
+						MaxOHx.setVolume(volume);
+			
                     }
                     else if (name == "referenceDose")
                     {
                         referenceDose = boost::lexical_cast<double>(datum);
+						Vx.setReferenceDose(referenceDose);
                     }
                     else if (name == "mean")
                     {
