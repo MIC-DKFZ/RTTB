@@ -39,7 +39,7 @@ namespace rttb
 				const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
 
 		protected:
-			DoseTypeGy computeSpecificValue(double xAbsolute) const;
+			DoseTypeGy computeSpecificValue(double xAbsolute) const ;
 		};
 	}
 }

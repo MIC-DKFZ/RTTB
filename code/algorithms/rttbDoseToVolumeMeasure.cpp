@@ -15,9 +15,9 @@ namespace rttb
 			this->_referenceDose = referenceDose;
 		}
 
-		void DoseToVolumeMeasure::insertValue(std::pair<VolumeType, DoseTypeGy> value)
+		void DoseToVolumeMeasure::insertValue(DoseTypeGy dose, VolumeType volume)
 		{
-			this->values.insert(value);
+			this->values.insert(std::pair<DoseTypeGy, VolumeType>(dose, volume));
 		}
 
 		VolumeType DoseToVolumeMeasure::getValue(DoseTypeGy xVolumeAbsolute) const

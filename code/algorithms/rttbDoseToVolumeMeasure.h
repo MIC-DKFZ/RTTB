@@ -43,7 +43,7 @@ namespace rttb
 			DoseToVolumeMeasure(complexStatistics name, DoseTypeGy referenceDose = -1);
 			
 			void setReferenceDose(DoseTypeGy referenceDose);
-			void insertValue(std::pair<DoseTypeGy, VolumeType> value);
+			void insertValue(DoseTypeGy dose, VolumeType volume);
 
 			/*! @brief Gets the volume irradiated with a dose >= x, depending on the complexStatistics name.
 				@return Return absolute volume in absolute cm^3.

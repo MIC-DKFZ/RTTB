@@ -39,7 +39,7 @@ namespace rttb
 				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name);
 
 		protected:
-			VolumeType computeSpecificValue(double xAbsolute) const;
+			VolumeType computeSpecificValue(double xAbsolute) const override;
 		};
 	}
 }

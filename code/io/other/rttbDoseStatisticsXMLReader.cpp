@@ -100,12 +100,12 @@ namespace rttb
                 double stdDeviation=-1;
                 boost::shared_ptr<std::vector<std::pair<double, int> > > minimumVoxelPositions = nullptr;
                 boost::shared_ptr<std::vector<std::pair<double, int> > > maximumVoxelPositions = nullptr;
-				rttb::algorithms::VolumeToDoseMeasure Dx = rttb::algorithms::VolumeToDoseMeasure(rttb::algorithms::VolumeToDoseMeasure::Dx);
-				rttb::algorithms::DoseToVolumeMeasure Vx = rttb::algorithms::DoseToVolumeMeasure(rttb::algorithms::DoseToVolumeMeasure::Vx);
-				rttb::algorithms::VolumeToDoseMeasure MOHx = rttb::algorithms::VolumeToDoseMeasure(rttb::algorithms::VolumeToDoseMeasure::MOHx);
-				rttb::algorithms::VolumeToDoseMeasure MOCx = rttb::algorithms::VolumeToDoseMeasure(rttb::algorithms::VolumeToDoseMeasure::MOCx);
-				rttb::algorithms::VolumeToDoseMeasure MaxOHx = rttb::algorithms::VolumeToDoseMeasure(rttb::algorithms::VolumeToDoseMeasure::MaxOHx);
-				rttb::algorithms::VolumeToDoseMeasure MinOCx = rttb::algorithms::VolumeToDoseMeasure(rttb::algorithms::VolumeToDoseMeasure::MinOCx);
+				rttb::algorithms::VolumeToDoseMeasure Dx(rttb::algorithms::VolumeToDoseMeasure::Dx);
+				rttb::algorithms::DoseToVolumeMeasure Vx(rttb::algorithms::DoseToVolumeMeasure::Vx);
+				rttb::algorithms::VolumeToDoseMeasure MOHx(rttb::algorithms::VolumeToDoseMeasure::MOHx);
+				rttb::algorithms::VolumeToDoseMeasure MOCx(rttb::algorithms::VolumeToDoseMeasure::MOCx);
+				rttb::algorithms::VolumeToDoseMeasure MaxOHx(rttb::algorithms::VolumeToDoseMeasure::MaxOHx);
+				rttb::algorithms::VolumeToDoseMeasure MinOCx(rttb::algorithms::VolumeToDoseMeasure::MinOCx);
 
                 BOOST_FOREACH(boost::property_tree::ptree::value_type & data, pt.get_child("statistics.results"))
                 {
@@ -188,27 +188,27 @@ namespace rttb
                     }
                     else if (name == "Dx")
                     {
-                        Dx.insertValue(std::pair<VolumeType, DoseTypeGy>(boost::lexical_cast<double>(x)*volume / 100, boost::lexical_cast<double>(datum)));
+                        Dx.insertValue(static_cast<double>(x)*volume / 100, boost::lexical_cast<double>(datum));
                     }
                     else if (name == "Vx")
                     {
-                        Vx.insertValue(std::pair<VolumeType, DoseTypeGy>(boost::lexical_cast<double>(x)*referenceDose / 100, boost::lexical_cast<double>(datum)));
+                        Vx.insertValue(static_cast<double>(x)*referenceDose / 100, boost::lexical_cast<double>(datum));
                     }
                     else if (name == "MOHx")
                     {
-						MOHx.insertValue(std::pair<VolumeType, DoseTypeGy>(boost::lexical_cast<double>(x)*volume / 100, boost::lexical_cast<double>(datum)));
+						MOHx.insertValue(static_cast<double>(x)*volume / 100, boost::lexical_cast<double>(datum));
                     }
                     else if (name == "MOCx")
                     {
-                        MOCx.insertValue(std::pair<VolumeType, DoseTypeGy>(boost::lexical_cast<double>(x)*volume / 100, boost::lexical_cast<double>(datum)));
+                        MOCx.insertValue(static_cast<double>(x)*volume / 100, boost::lexical_cast<double>(datum));
                     }
                     else if (name == "MaxOHx")
                     {
-                        MaxOHx.insertValue(std::pair<VolumeType, DoseTypeGy>(boost::lexical_cast<double>(x)*volume / 100, boost::lexical_cast<double>(datum)));
+                        MaxOHx.insertValue(static_cast<double>(x)*volume / 100, boost::lexical_cast<double>(datum));
                     }
                     else if (name == "MinOCx")
                     {
-                        MinOCx.insertValue(std::pair<VolumeType, DoseTypeGy>(boost::lexical_cast<double>(x)*volume / 100, boost::lexical_cast<double>(datum)));
+                        MinOCx.insertValue(static_cast<double>(x)*volume / 100, boost::lexical_cast<double>(datum));
                     }
                 }
 

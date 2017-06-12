@@ -43,7 +43,7 @@ namespace rttb
 			VolumeToDoseMeasure(complexStatistics name, VolumeType volume = -1);
 
 			void setVolume(VolumeType volume);
-			void insertValue(std::pair<VolumeType, DoseTypeGy> value);
+			void insertValue(VolumeType volume, DoseTypeGy dose);
 
 			/*! @brief Gets the x of the current volume, depending on the complexStatistics name.
 				@return Return dose value in Gy.
