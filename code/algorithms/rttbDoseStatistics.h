@@ -31,8 +31,8 @@
 
 #include "RTTBAlgorithmsExports.h"
 
-#include "rttbVolumeToDoseMeasure.h"
-#include "rttbDoseToVolumeMeasure.h"
+#include "rttbVolumeToDoseMeasureCollection.h"
+#include "rttbDoseToVolumeMeasureCollection.h"
 
 namespace rttb
 {
@@ -67,12 +67,12 @@ namespace rttb
 			VoxelNumberType _numVoxels;
 			VolumeType _volume;
 			DoseTypeGy _referenceDose; //for Vx computation
-			VolumeToDoseMeasure _Dx;
-			DoseToVolumeMeasure _Vx;
-			VolumeToDoseMeasure _MOHx;
-			VolumeToDoseMeasure _MOCx;
-			VolumeToDoseMeasure _MaxOHx;
-			VolumeToDoseMeasure _MinOCx;
+			VolumeToDoseMeasureCollection _Dx;
+			DoseToVolumeMeasureCollection _Vx;
+			VolumeToDoseMeasureCollection _MOHx;
+			VolumeToDoseMeasureCollection _MOCx;
+			VolumeToDoseMeasureCollection _MaxOHx;
+			VolumeToDoseMeasureCollection _MinOCx;
 
 
 		public:
@@ -85,14 +85,14 @@ namespace rttb
 			*/
 			DoseStatistics(DoseStatisticType minimum, DoseStatisticType maximum, DoseStatisticType mean,
 			               DoseStatisticType stdDeviation, VoxelNumberType numVoxels, VolumeType volume,
-				ResultListPointer minimumVoxelPositions = NULL,
-				ResultListPointer maximumVoxelPositions = NULL,
-				VolumeToDoseMeasure Dx = VolumeToDoseMeasure(VolumeToDoseMeasure::Dx),
-			    DoseToVolumeMeasure Vx = DoseToVolumeMeasure(DoseToVolumeMeasure::Vx),
-				VolumeToDoseMeasure MOHx = VolumeToDoseMeasure(VolumeToDoseMeasure::MOHx),
-				VolumeToDoseMeasure MOCx = VolumeToDoseMeasure(VolumeToDoseMeasure::MOCx),
-				VolumeToDoseMeasure MaxOHx = VolumeToDoseMeasure(VolumeToDoseMeasure::MaxOHx),
-				VolumeToDoseMeasure MinOCx = VolumeToDoseMeasure(VolumeToDoseMeasure::MinOCx),
+				ResultListPointer minimumVoxelPositions = nullptr,
+				ResultListPointer maximumVoxelPositions = nullptr,
+				VolumeToDoseMeasureCollection Dx = VolumeToDoseMeasureCollection(VolumeToDoseMeasureCollection::Dx),
+			    DoseToVolumeMeasureCollection Vx = DoseToVolumeMeasureCollection(DoseToVolumeMeasureCollection::Vx),
+				VolumeToDoseMeasureCollection MOHx = VolumeToDoseMeasureCollection(VolumeToDoseMeasureCollection::MOHx),
+				VolumeToDoseMeasureCollection MOCx = VolumeToDoseMeasureCollection(VolumeToDoseMeasureCollection::MOCx),
+				VolumeToDoseMeasureCollection MaxOHx = VolumeToDoseMeasureCollection(VolumeToDoseMeasureCollection::MaxOHx),
+				VolumeToDoseMeasureCollection MinOCx = VolumeToDoseMeasureCollection(VolumeToDoseMeasureCollection::MinOCx),
 			    DoseTypeGy referenceDose = -1);
 
 			~DoseStatistics();
@@ -100,12 +100,12 @@ namespace rttb
 
 			void setMinimumVoxelPositions(ResultListPointer minimumVoxelPositions);
 			void setMaximumVoxelPositions(ResultListPointer maximumVoxelPositions);
-			void setDx(const VolumeToDoseMeasure& DxValues);
-			void setVx(const DoseToVolumeMeasure& VxValues);
-			void setMOHx(const VolumeToDoseMeasure& MOHxValues);
-			void setMOCx(const VolumeToDoseMeasure& MOCxValues);
-			void setMaxOHx(const VolumeToDoseMeasure& MaxOHxValues);
-			void setMinOCx(const VolumeToDoseMeasure& MinOCxValues);
+			void setDx(const VolumeToDoseMeasureCollection& DxValues);
+			void setVx(const DoseToVolumeMeasureCollection& VxValues);
+			void setMOHx(const VolumeToDoseMeasureCollection& MOHxValues);
+			void setMOCx(const VolumeToDoseMeasureCollection& MOCxValues);
+			void setMaxOHx(const VolumeToDoseMeasureCollection& MaxOHxValues);
+			void setMinOCx(const VolumeToDoseMeasureCollection& MinOCxValues);
 			void setReferenceDose(DoseTypeGy referenceDose);
 
 			/*! @brief Get number of voxels in doseIterator, with sub-voxel accuracy.
@@ -155,12 +155,12 @@ namespace rttb
 			*/
 			DoseStatisticType getVariance() const;
 
-			VolumeToDoseMeasure getDx() const;
-			DoseToVolumeMeasure getVx() const;
-			VolumeToDoseMeasure getMOHx() const;
-			VolumeToDoseMeasure getMOCx() const;
-			VolumeToDoseMeasure getMaxOHx() const;
-			VolumeToDoseMeasure getMinOCx() const;
+			VolumeToDoseMeasureCollection getDx() const;
+			DoseToVolumeMeasureCollection getVx() const;
+			VolumeToDoseMeasureCollection getMOHx() const;
+			VolumeToDoseMeasureCollection getMOCx() const;
+			VolumeToDoseMeasureCollection getMaxOHx() const;
+			VolumeToDoseMeasureCollection getMinOCx() const;
 		};
 
 	}

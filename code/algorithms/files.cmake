@@ -3,19 +3,19 @@ SET(CPP_FILES
   rttbDoseStatisticsCalculator.cpp
   rttbArithmetic.cpp
   
-  rttbVolumeToDoseMeasureCalculator.cpp
-  rttbDxVolumeToDoseMeasureCalculator.cpp
-  rttbMOHxVolumeToDoseMeasureCalculator.cpp
-  rttbMOCxVolumeToDoseMeasureCalculator.cpp
-  rttbMinOCxVolumeToDoseMeasureCalculator.cpp
-  rttbMaxOHxVolumeToDoseMeasureCalculator.cpp
+  rttbVolumeToDoseMeasureCollectionCalculator.cpp
+  rttbDxVolumeToDoseMeasureCollectionCalculator.cpp
+  rttbMOHxVolumeToDoseMeasureCollectionCalculator.cpp
+  rttbMOCxVolumeToDoseMeasureCollectionCalculator.cpp
+  rttbMinOCxVolumeToDoseMeasureCollectionCalculator.cpp
+  rttbMaxOHxVolumeToDoseMeasureCollectionCalculator.cpp
   
-  rttbDoseToVolumeMeasureCalculator.cpp
-  rttbVxDoseToVolumeMeasureCalculator.cpp
+  rttbDoseToVolumeMeasureCollectionCalculator.cpp
+  rttbVxDoseToVolumeMeasureCollectionCalculator.cpp
   
-  rttbMeasureInterface.cpp
-  rttbVolumeToDoseMeasure.cpp
-  rttbDoseToVolumeMeasure.cpp
+  rttbMeasureCollection.cpp
+  rttbVolumeToDoseMeasureCollection.cpp
+  rttbDoseToVolumeMeasureCollection.cpp
   )
 
 SET(H_FILES 
@@ -24,19 +24,19 @@ SET(H_FILES
   rttbArithmetic.h
   rttbBinaryFunctorAccessor.h
   
-  rttbVolumeToDoseMeasureCalculator.h
-  rttbDxVolumeToDoseMeasureCalculator.h
-  rttbMOHxVolumeToDoseMeasureCalculator.h
-  rttbMOCxVolumeToDoseMeasureCalculator.h
-  rttbMinOCxVolumeToDoseMeasureCalculator.h
-  rttbMaxOHxVolumeToDoseMeasureCalculator.h
+  rttbVolumeToDoseMeasureCollectionCalculator.h
+  rttbDxVolumeToDoseMeasureCollectionCalculator.h
+  rttbMOHxVolumeToDoseMeasureCollectionCalculator.h
+  rttbMOCxVolumeToDoseMeasureCollectionCalculator.h
+  rttbMinOCxVolumeToDoseMeasureCollectionCalculator.h
+  rttbMaxOHxVolumeToDoseMeasureCollectionCalculator.h
   
-  rttbDoseToVolumeMeasureCalculator.h
-  rttbVxDoseToVolumeMeasureCalculator.h
+  rttbDoseToVolumeMeasureCollectionCalculator.h
+  rttbVxDoseToVolumeMeasureCollectionCalculator.h
 	
-  rttbMeasureInterface.h
-  rttbVolumeToDoseMeasure.h
-  rttbDoseToVolumeMeasure.h
+  rttbMeasureCollection.h
+  rttbVolumeToDoseMeasureCollection.h
+  rttbDoseToVolumeMeasureCollection.h
 )
 
 SET(TXX_FILES

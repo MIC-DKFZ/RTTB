@@ -28,7 +28,7 @@
 #include "rttbDoseStatistics.h"
 #include "rttbDataNotAvailableException.h"
 
-#include "rttbVolumeToDoseMeasure.h"
+#include "rttbVolumeToDoseMeasureCollection.h"
 
 namespace rttb
 {
@@ -72,27 +72,27 @@ namespace rttb
 			ResultListPointer resultsMaxVoxels =
 			    boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >(maxVoxels);
 
-			algorithms::DoseToVolumeMeasure Vx = algorithms::DoseToVolumeMeasure(algorithms::DoseToVolumeMeasure::Vx, maximum);
+			algorithms::DoseToVolumeMeasureCollection Vx(algorithms::DoseToVolumeMeasureCollection::Vx, maximum);
 			Vx.insertValue(1.1, 1000);
 			Vx.insertValue(106.9, 99000);
 
-			algorithms::VolumeToDoseMeasure Dx(algorithms::VolumeToDoseMeasure::Dx, volume);
+			algorithms::VolumeToDoseMeasureCollection Dx(algorithms::VolumeToDoseMeasureCollection::Dx, volume);
 			Dx.insertValue(1000, 1.1);
 			Dx.insertValue(99000, 106.9);
 
-			algorithms::VolumeToDoseMeasure MOHx(algorithms::VolumeToDoseMeasure::MOHx, volume);
+			algorithms::VolumeToDoseMeasureCollection MOHx(algorithms::VolumeToDoseMeasureCollection::MOHx, volume);
 			MOHx.insertValue(1000, 5);
 			MOHx.insertValue(99000, 105.5);
 			
-			algorithms::VolumeToDoseMeasure MOCx(algorithms::VolumeToDoseMeasure::MOCx, volume);
+			algorithms::VolumeToDoseMeasureCollection MOCx(algorithms::VolumeToDoseMeasureCollection::MOCx, volume);
 			MOCx.insertValue(1000, 10);
 			MOCx.insertValue(99000, 99);
 
-			algorithms::VolumeToDoseMeasure MaxOHx(algorithms::VolumeToDoseMeasure::MaxOHx, volume);
+			algorithms::VolumeToDoseMeasureCollection MaxOHx(algorithms::VolumeToDoseMeasureCollection::MaxOHx, volume);
 			MaxOHx.insertValue(1000, 40);
 			MaxOHx.insertValue(99000, 98.3);
 
-			algorithms::VolumeToDoseMeasure MinOCx(algorithms::VolumeToDoseMeasure::MinOCx, volume);
+			algorithms::VolumeToDoseMeasureCollection MinOCx(algorithms::VolumeToDoseMeasureCollection::MinOCx, volume);
 			MinOCx.insertValue(1000, 25.5);
 			MinOCx.insertValue(99000, 102.7);
 
@@ -161,13 +161,13 @@ namespace rttb
 
 			//3) test getters of complex statistics(with stored key and without stored key)
 			//getAll*() already tested in (2)
-			Vx = algorithms::DoseToVolumeMeasure(algorithms::DoseToVolumeMeasure::Vx, maximum);
+			Vx = algorithms::DoseToVolumeMeasureCollection(algorithms::DoseToVolumeMeasureCollection::Vx, maximum);
 			Vx.insertValue(1.1, 1000);
 			Vx.insertValue(5.0, 2300);
 			Vx.insertValue(90, 90500);
 			Vx.insertValue(107, 99000);
 
-			Dx = algorithms::VolumeToDoseMeasure(algorithms::VolumeToDoseMeasure::Dx, volume);
+			Dx = algorithms::VolumeToDoseMeasureCollection(algorithms::VolumeToDoseMeasureCollection::Dx, volume);
 			Dx.insertValue(1000, 1.1);
 			Dx.insertValue(2000, 2.0);
 			Dx.insertValue(5000, 10.8);

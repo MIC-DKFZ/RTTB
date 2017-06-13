@@ -30,12 +30,12 @@
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
 
-#include "rttbDxVolumeToDoseMeasureCalculator.h"
-#include "rttbVxDoseToVolumeMeasureCalculator.h"
-#include "rttbMOHxVolumeToDoseMeasureCalculator.h"
-#include "rttbMOCxVolumeToDoseMeasureCalculator.h"
-#include "rttbMaxOHxVolumeToDoseMeasureCalculator.h"
-#include "rttbMinOCxVolumeToDoseMeasureCalculator.h"
+#include "rttbDxVolumeToDoseMeasureCollectionCalculator.h"
+#include "rttbVxDoseToVolumeMeasureCollectionCalculator.h"
+#include "rttbMOHxVolumeToDoseMeasureCollectionCalculator.h"
+#include "rttbMOCxVolumeToDoseMeasureCollectionCalculator.h"
+#include "rttbMaxOHxVolumeToDoseMeasureCollectionCalculator.h"
+#include "rttbMinOCxVolumeToDoseMeasureCollectionCalculator.h"
 
 #include <boost/thread/thread.hpp>
 
@@ -283,27 +283,27 @@ namespace rttb
 				precomputeVolumeValuesNonConst = defaultPrecomputeVolumeValues;
 			}
 
-			VxDoseToVolumeMeasureCalculator Vx = VxDoseToVolumeMeasureCalculator(precomputeDoseValuesNonConst, referenceDose, _doseIterator, DoseToVolumeMeasure::Vx);
+			VxDoseToVolumeMeasureCollectionCalculator Vx(precomputeDoseValuesNonConst, referenceDose, _doseIterator, DoseToVolumeMeasureCollection::Vx);
 			Vx.compute();
 
-			DxVolumeToDoseMeasureCalculator Dx = DxVolumeToDoseMeasureCalculator(precomputeVolumeValuesNonConst, _statistics->getVolume(),
-				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), VolumeToDoseMeasure::Dx);
+			DxVolumeToDoseMeasureCollectionCalculator Dx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), VolumeToDoseMeasureCollection::Dx);
 			Dx.compute();
 
-			MOHxVolumeToDoseMeasureCalculator MOHx = MOHxVolumeToDoseMeasureCalculator(precomputeVolumeValuesNonConst, _statistics->getVolume(),
-				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), VolumeToDoseMeasure::MOHx);
+			MOHxVolumeToDoseMeasureCollectionCalculator MOHx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), VolumeToDoseMeasureCollection::MOHx);
 			MOHx.compute();
 
-			MOCxVolumeToDoseMeasureCalculator MOCx = MOCxVolumeToDoseMeasureCalculator(precomputeVolumeValuesNonConst, _statistics->getVolume(),
-				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), VolumeToDoseMeasure::MOCx);
+			MOCxVolumeToDoseMeasureCollectionCalculator MOCx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), VolumeToDoseMeasureCollection::MOCx);
 			MOCx.compute();
 
-			MaxOHxVolumeToDoseMeasureCalculator MaxOHx = MaxOHxVolumeToDoseMeasureCalculator(precomputeVolumeValuesNonConst, _statistics->getVolume(),
-				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), VolumeToDoseMeasure::MaxOHx);
+			MaxOHxVolumeToDoseMeasureCollectionCalculator MaxOHx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), VolumeToDoseMeasureCollection::MaxOHx);
 			MaxOHx.compute();
 
-			MinOCxVolumeToDoseMeasureCalculator MinOCx = MinOCxVolumeToDoseMeasureCalculator(precomputeVolumeValuesNonConst, _statistics->getVolume(),
-				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), _statistics->getMaximum(), VolumeToDoseMeasure::MinOCx);
+			MinOCxVolumeToDoseMeasureCollectionCalculator MinOCx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), _statistics->getMaximum(), VolumeToDoseMeasureCollection::MinOCx);
 			MinOCx.compute();
 
 			_statistics->setVx(Vx.getMeasure());

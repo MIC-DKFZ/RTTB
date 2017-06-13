@@ -19,25 +19,25 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#ifndef __MOHX_VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
-#define __MOHX_VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
+#ifndef __MOHX_VOLUME_TO_DOSE_MEASURE_COLLECTION_CALCULATOR_H
+#define __MOHX_VOLUME_TO_DOSE_MEASURE_COLLECTION_CALCULATOR_H
 
-#include "rttbVolumeToDoseMeasureCalculator.h"
+#include "rttbVolumeToDoseMeasureCollectionCalculator.h"
 
 namespace rttb
 {
 
 	namespace algorithms
 	{
-		class RTTBAlgorithms_EXPORT MOHxVolumeToDoseMeasureCalculator : public VolumeToDoseMeasureCalculator {
+		class RTTBAlgorithms_EXPORT MOHxVolumeToDoseMeasureCollectionCalculator : public VolumeToDoseMeasureCollectionCalculator {
 
 		private:
 			DoseStatisticType _minimum;
 
 		public:
-			MOHxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
+			MOHxVolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-				const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
+				const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasureCollection::complexStatistics name);
 
 		protected:
 			DoseTypeGy computeSpecificValue(double xAbsolute) const override;

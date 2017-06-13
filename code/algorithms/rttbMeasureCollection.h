@@ -19,29 +19,34 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#ifndef __MINOCX_VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
-#define __MINOCX_VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
+#ifndef __MEASURE_COLLECTION_H
+#define __MEASURE_COLLECTION_H
 
-#include "rttbVolumeToDoseMeasureCalculator.h"
+#include <map>
+
+#include "rttbBaseType.h"
+
+#include "RTTBAlgorithmsExports.h"
 
 namespace rttb
 {
 
 	namespace algorithms
 	{
-		class RTTBAlgorithms_EXPORT MinOCxVolumeToDoseMeasureCalculator : public VolumeToDoseMeasureCalculator {
-
-		private:
-			DoseStatisticType _minimum;
-			DoseStatisticType _maximum;
+		class RTTBAlgorithms_EXPORT MeasureCollection {
 
 		public:
-			MinOCxVolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
-				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-				const DoseVoxelVolumeType currentVoxelVolume, const DoseStatisticType minimum, const DoseStatisticType maximum, VolumeToDoseMeasure::complexStatistics name);
+			enum complexStatistics { Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx };
 
 		protected:
-			DoseTypeGy computeSpecificValue(double xAbsolute) const override;
+			complexStatistics name;
+
+		public:
+			complexStatistics getName() const;
+
+		protected:
+			double getSpecificValue(const std::map<double, double>& values, double key, bool findNearestValueInstead, double& storedKey) const;
+			std::map<double, double>::const_iterator findNearestKeyInMap(const std::map<double, double>& values, double key) const;
 		};
 	}
 }

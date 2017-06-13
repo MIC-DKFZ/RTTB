@@ -30,7 +30,7 @@
 
 #include "rttbInvalidParameterException.h"
 
-#include "rttbVolumeToDoseMeasure.h"
+#include "rttbVolumeToDoseMeasureCollection.h"
 
 namespace rttb
 {
@@ -100,12 +100,12 @@ namespace rttb
                 double stdDeviation=-1;
                 boost::shared_ptr<std::vector<std::pair<double, int> > > minimumVoxelPositions = nullptr;
                 boost::shared_ptr<std::vector<std::pair<double, int> > > maximumVoxelPositions = nullptr;
-				rttb::algorithms::VolumeToDoseMeasure Dx(rttb::algorithms::VolumeToDoseMeasure::Dx);
-				rttb::algorithms::DoseToVolumeMeasure Vx(rttb::algorithms::DoseToVolumeMeasure::Vx);
-				rttb::algorithms::VolumeToDoseMeasure MOHx(rttb::algorithms::VolumeToDoseMeasure::MOHx);
-				rttb::algorithms::VolumeToDoseMeasure MOCx(rttb::algorithms::VolumeToDoseMeasure::MOCx);
-				rttb::algorithms::VolumeToDoseMeasure MaxOHx(rttb::algorithms::VolumeToDoseMeasure::MaxOHx);
-				rttb::algorithms::VolumeToDoseMeasure MinOCx(rttb::algorithms::VolumeToDoseMeasure::MinOCx);
+				rttb::algorithms::VolumeToDoseMeasureCollection Dx(rttb::algorithms::VolumeToDoseMeasureCollection::Dx);
+				rttb::algorithms::DoseToVolumeMeasureCollection Vx(rttb::algorithms::DoseToVolumeMeasureCollection::Vx);
+				rttb::algorithms::VolumeToDoseMeasureCollection MOHx(rttb::algorithms::VolumeToDoseMeasureCollection::MOHx);
+				rttb::algorithms::VolumeToDoseMeasureCollection MOCx(rttb::algorithms::VolumeToDoseMeasureCollection::MOCx);
+				rttb::algorithms::VolumeToDoseMeasureCollection MaxOHx(rttb::algorithms::VolumeToDoseMeasureCollection::MaxOHx);
+				rttb::algorithms::VolumeToDoseMeasureCollection MinOCx(rttb::algorithms::VolumeToDoseMeasureCollection::MinOCx);
 
                 BOOST_FOREACH(boost::property_tree::ptree::value_type & data, pt.get_child("statistics.results"))
                 {

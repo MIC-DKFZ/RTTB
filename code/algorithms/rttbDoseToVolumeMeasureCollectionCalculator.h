@@ -19,8 +19,8 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#ifndef __DOSE_TO_VOLUME_MEASURE_CALCULATOR_H
-#define __DOSE_TO_VOLUME_MEASURE_CALCULATOR_H
+#ifndef __DOSE_TO_VOLUME_MEASURE_COLLECTION_CALCULATOR_H
+#define __DOSE_TO_VOLUME_MEASURE_COLLECTION_CALCULATOR_H
 
 #include <vector>
 #include <map>
@@ -29,7 +29,7 @@
 
 
 #include "RTTBAlgorithmsExports.h"
-#include "rttbDoseToVolumeMeasure.h"
+#include "rttbDoseToVolumeMeasureCollection.h"
 
 #include "rttbDoseIteratorInterface.h"
 
@@ -38,7 +38,7 @@ namespace rttb
 
 	namespace algorithms
 	{
-		class RTTBAlgorithms_EXPORT DoseToVolumeMeasureCalculator {
+		class RTTBAlgorithms_EXPORT DoseToVolumeMeasureCollectionCalculator {
 
 		public:
 			typedef std::map<DoseTypeGy, VolumeType> VolumeToDoseFunctionType;
@@ -48,20 +48,20 @@ namespace rttb
 
 		private:
 			DoseTypeGy _referenceDose;
-			DoseToVolumeMeasure measure;
+			DoseToVolumeMeasureCollection measure;
 			std::vector<double> _precomputeDoseValues;
 
 		public:
 			/*!  @brief Computes the measure. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
 			*/
 			void compute();
-			DoseToVolumeMeasure getMeasure();
+			DoseToVolumeMeasureCollection getMeasure();
 
 		protected:
-			DoseToVolumeMeasureCalculator(const std::vector<double>& precomputeDoseValues,
-				const DoseTypeGy& referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasure::complexStatistics name);
+			DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
+				const DoseTypeGy& referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasureCollection::complexStatistics name);
 
-			void insertIntoMeasure(DoseTypeGy xAbsolute, VolumeType resultVolume);
+			void insertIntoMeasureCollection(DoseTypeGy xAbsolute, VolumeType resultVolume);
 			virtual VolumeType computeSpecificValue(double xAbsolute) const = 0;
 		};
 

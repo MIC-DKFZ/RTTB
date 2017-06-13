@@ -19,17 +19,17 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#ifndef __VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
-#define __VOLUME_TO_DOSE_MEASURE_CALCULATOR_H
+#ifndef __VOLUME_TO_DOSE_MEASURE_COLLECTION_CALCULATOR_H
+#define __VOLUME_TO_DOSE_MEASURE_COLLECTION_CALCULATOR_H
 
-#include "rttbVolumeToDoseMeasure.h"
+#include "rttbVolumeToDoseMeasureCollection.h"
 
 namespace rttb
 {
 
 	namespace algorithms
 	{
-		class RTTBAlgorithms_EXPORT VolumeToDoseMeasureCalculator {
+		class RTTBAlgorithms_EXPORT VolumeToDoseMeasureCollectionCalculator {
 
 		public:
 			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
@@ -41,19 +41,19 @@ namespace rttb
 
 		private:
 			VolumeType _volume;
-			VolumeToDoseMeasure measure;
+			VolumeToDoseMeasureCollection measure;
 			std::vector<double> _precomputeVolumeValues;
 
 		public:
 			/*!  @brief Computes the measure. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
 			*/
 			void compute();
-			VolumeToDoseMeasure getMeasure();
+			VolumeToDoseMeasureCollection getMeasure();
 
 		protected:
-			VolumeToDoseMeasureCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
+			VolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-				const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasure::complexStatistics name);
+				const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasureCollection::complexStatistics name);
 			void insertIntoMeasure(VolumeType xAbsolute, DoseTypeGy resultDose);
 			virtual DoseTypeGy computeSpecificValue(double xAbsolute) const = 0;
 		};

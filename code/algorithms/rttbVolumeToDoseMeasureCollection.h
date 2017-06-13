@@ -19,17 +19,17 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#ifndef __VOLUME_TO_DOSE_MEASURE_H
-#define __VOLUME_TO_DOSE_MEASURE_H
+#ifndef __VOLUME_TO_DOSE_MEASURE_COLLECTION_H
+#define __VOLUME_TO_DOSE_MEASURE_COLLECTION_H
 
-#include "rttbMeasureInterface.h"
+#include "rttbMeasureCollection.h"
 
 namespace rttb
 {
 
 	namespace algorithms
 	{
-		class RTTBAlgorithms_EXPORT VolumeToDoseMeasure : public MeasureInterface {
+		class RTTBAlgorithms_EXPORT VolumeToDoseMeasureCollection : public MeasureCollection {
 
 		public:
 			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
@@ -40,7 +40,7 @@ namespace rttb
 			VolumeToDoseFunctionType values;
 
 		public:
-			VolumeToDoseMeasure(complexStatistics name, VolumeType volume = -1);
+			VolumeToDoseMeasureCollection(complexStatistics name, VolumeType volume = -1);
 
 			void setVolume(VolumeType volume);
 			void insertValue(VolumeType volume, DoseTypeGy dose);
@@ -55,7 +55,7 @@ namespace rttb
 			DoseTypeGy getValueRelative(VolumeType xDoseRelative, bool findNearestValue, VolumeType& nearestXDose) const;
 			VolumeToDoseFunctionType getAllValues() const;
 
-			friend bool operator==(const VolumeToDoseMeasure& volumeToDoseMesure, const VolumeToDoseMeasure& otherVolumeToDoseMesure);
+			friend bool operator==(const VolumeToDoseMeasureCollection& volumeToDoseMesureCollection, const VolumeToDoseMeasureCollection& otherVolumeToDoseMesureCollection);
 		};
 	}
 }
