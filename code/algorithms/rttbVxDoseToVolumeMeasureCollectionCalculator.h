@@ -29,6 +29,10 @@ namespace rttb
 
 	namespace algorithms
 	{
+		/*! @class VxDoseToVolumeMeasureCollectionCalculator
+		@brief Class for calculating Vx DoseToVolume measures
+		@note Additionally needs _minimum to be set for the calculation to work
+		*/
 		class RTTBAlgorithms_EXPORT VxDoseToVolumeMeasureCollectionCalculator : public DoseToVolumeMeasureCollectionCalculator {
 
 		private:

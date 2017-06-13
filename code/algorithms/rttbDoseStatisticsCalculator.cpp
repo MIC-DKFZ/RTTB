@@ -306,12 +306,12 @@ namespace rttb
 				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), _statistics->getMaximum(), VolumeToDoseMeasureCollection::MinOCx);
 			MinOCx.compute();
 
-			_statistics->setVx(Vx.getMeasure());
-			_statistics->setDx(Dx.getMeasure());
-			_statistics->setMOHx(MOHx.getMeasure());
-			_statistics->setMOCx(MOCx.getMeasure());
-			_statistics->setMaxOHx(MaxOHx.getMeasure());
-			_statistics->setMinOCx(MinOCx.getMeasure());
+			_statistics->setVx(Vx.getMeasureCollection());
+			_statistics->setDx(Dx.getMeasureCollection());
+			_statistics->setMOHx(MOHx.getMeasureCollection());
+			_statistics->setMOCx(MOCx.getMeasureCollection());
+			_statistics->setMaxOHx(MaxOHx.getMeasureCollection());
+			_statistics->setMinOCx(MinOCx.getMeasureCollection());
 			_statistics->setReferenceDose(referenceDose);
 		}
 

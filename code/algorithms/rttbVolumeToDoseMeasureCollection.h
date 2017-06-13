@@ -29,6 +29,10 @@ namespace rttb
 
 	namespace algorithms
 	{
+		/*! @class VolumeToDoseMeasureCollection
+		@brief This class handels the access to the VolumeToDoseMeasureCollection elements for a specific complex statistic
+		@note _volume has to be set to use getValueRelative() otherwise an exception is thrown
+		*/
 		class RTTBAlgorithms_EXPORT VolumeToDoseMeasureCollection : public MeasureCollection {
 
 		public:
@@ -42,12 +46,16 @@ namespace rttb
 		public:
 			VolumeToDoseMeasureCollection(complexStatistics name, VolumeType volume = -1);
 
+			/*! @brief This has to be set >=0 to use getValueRelative()
+			*/
 			void setVolume(VolumeType volume);
+
 			void insertValue(VolumeType volume, DoseTypeGy dose);
 
 			/*! @brief Gets the x of the current volume, depending on the complexStatistics name.
 				@return Return dose value in Gy.
-				@exception InvalidDoseException if the Dx values have not been set (i.e. the vector is empty)
+				@exception InvalidDoseException if the vector values is empty
+				@exception DataNotAvailableException if _volume is not set
 			*/
 			DoseTypeGy getValue(VolumeType xVolumeAbsolute) const;
 			DoseTypeGy getValue(VolumeType xVolumeAbsolute, bool findNearestValue, VolumeType& nearestXDose) const;

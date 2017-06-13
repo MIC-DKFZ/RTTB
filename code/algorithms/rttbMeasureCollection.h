@@ -33,6 +33,9 @@ namespace rttb
 
 	namespace algorithms
 	{
+		/*! @class MeasureCollection
+		@brief This class handels the access to the MeasureCollection elements and defines which names can be used for them
+		*/
 		class RTTBAlgorithms_EXPORT MeasureCollection {
 
 		public:

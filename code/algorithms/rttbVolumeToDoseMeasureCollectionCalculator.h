@@ -29,6 +29,13 @@ namespace rttb
 
 	namespace algorithms
 	{
+		/*! @class VolumeToDoseMeasureCollectionCalculator
+		@brief Class for calculating VolumeToDose measures
+		@details This class is used as a basis for VolumeToDoseMeasureCollectionCalculator. It implements the compute() method
+		that is the same for every inheriting subclass, it accesses computeSpecificValue, which has to be implemented
+		for each different complex statistic.
+		@note _doseVector, _currentVoxelVolume, _voxelProportionVector and _precomputeVolumeValues have to be set for the calculation to work
+		*/
 		class RTTBAlgorithms_EXPORT VolumeToDoseMeasureCollectionCalculator {
 
 		public:
@@ -41,20 +48,25 @@ namespace rttb
 
 		private:
 			VolumeType _volume;
-			VolumeToDoseMeasureCollection measure;
+			VolumeToDoseMeasureCollection measureCollection;
 			std::vector<double> _precomputeVolumeValues;
 
 		public:
-			/*!  @brief Computes the measure. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
+			/*!  @brief Computes the measureCollection. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
 			*/
 			void compute();
-			VolumeToDoseMeasureCollection getMeasure();
+			VolumeToDoseMeasureCollection getMeasureCollection();
 
 		protected:
 			VolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
 				const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasureCollection::complexStatistics name);
-			void insertIntoMeasure(VolumeType xAbsolute, DoseTypeGy resultDose);
+
+			void insertIntoMeasureCollection(VolumeType xAbsolute, DoseTypeGy resultDose);
+
+			/*! @brief Computes the specific DoseTypeGy depending on the complext statistic
+			@note has to be overwritten
+			*/
 			virtual DoseTypeGy computeSpecificValue(double xAbsolute) const = 0;
 		};
 

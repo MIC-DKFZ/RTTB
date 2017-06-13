@@ -29,6 +29,10 @@ namespace rttb
 
 	namespace algorithms
 	{
+		/*! @class MinOCxVolumeToDoseMeasureCollectionCalculator
+		@brief Class for calculating MinOC VolumeToDose measures
+		@note Additionally needs _minimum and _maximum to be set for the calculation to work
+		*/
 		class RTTBAlgorithms_EXPORT MinOCxVolumeToDoseMeasureCollectionCalculator : public VolumeToDoseMeasureCollectionCalculator {
 
 		private:

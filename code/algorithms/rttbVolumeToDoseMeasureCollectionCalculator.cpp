@@ -30,7 +30,7 @@ namespace rttb
 	{
 		VolumeToDoseMeasureCollectionCalculator::VolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 			const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, const DoseVoxelVolumeType currentVoxelVolume,
-			VolumeToDoseMeasureCollection::complexStatistics name) : measure(VolumeToDoseMeasureCollection(name)), _precomputeVolumeValues(precomputeVolumeValues),
+			VolumeToDoseMeasureCollection::complexStatistics name) : measureCollection(VolumeToDoseMeasureCollection(name)), _precomputeVolumeValues(precomputeVolumeValues),
 			_volume(volume), _doseVector(doseVector), _voxelProportionVector(voxelProportionVector), _currentVoxelVolume(currentVoxelVolume) {}
 
 		void VolumeToDoseMeasureCollectionCalculator::compute()
@@ -42,11 +42,11 @@ namespace rttb
 				double xAbsolute = _precomputeVolumeValues.at(i) * _volume;
 				if (false)//_multiThreading)
 				{
-					threads.push_back(boost::thread(&VolumeToDoseMeasureCollectionCalculator::insertIntoMeasure, this, xAbsolute, computeSpecificValue(xAbsolute)));
+					threads.push_back(boost::thread(&VolumeToDoseMeasureCollectionCalculator::insertIntoMeasureCollection, this, xAbsolute, computeSpecificValue(xAbsolute)));
 				}
 				else
 				{
-					insertIntoMeasure(xAbsolute, this->computeSpecificValue(xAbsolute));
+					insertIntoMeasureCollection(xAbsolute, this->computeSpecificValue(xAbsolute));
 				}
 			}
 
@@ -56,14 +56,14 @@ namespace rttb
 			}
 		}
 
-		VolumeToDoseMeasureCollection VolumeToDoseMeasureCollectionCalculator::getMeasure()
+		VolumeToDoseMeasureCollection VolumeToDoseMeasureCollectionCalculator::getMeasureCollection()
 		{
-			return measure;
+			return measureCollection;
 		}
 
-		void VolumeToDoseMeasureCollectionCalculator::insertIntoMeasure(VolumeType  xAbsolute, DoseTypeGy resultDose)
+		void VolumeToDoseMeasureCollectionCalculator::insertIntoMeasureCollection(VolumeType  xAbsolute, DoseTypeGy resultDose)
 		{
-			measure.insertValue(xAbsolute, resultDose);
+			measureCollection.insertValue(xAbsolute, resultDose);
 		}
 	}
 }

@@ -29,6 +29,9 @@ namespace rttb
 
 	namespace algorithms
 	{
+		/*! @class MaxOHxVolumeToDoseMeasureCollectionCalculator
+		@brief Class for calculating MaxOH VolumeToDose measures
+		*/
 		class RTTBAlgorithms_EXPORT MaxOHxVolumeToDoseMeasureCollectionCalculator : public VolumeToDoseMeasureCollectionCalculator {
 
 		private:

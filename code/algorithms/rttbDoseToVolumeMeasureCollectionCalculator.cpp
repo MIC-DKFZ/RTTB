@@ -28,10 +28,10 @@ namespace rttb
 
 	namespace algorithms
 	{
-		DoseToVolumeMeasureCollectionCalculator::DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues, const DoseTypeGy& referenceDose,
-			const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasureCollection::complexStatistics name) :
-			measure(DoseToVolumeMeasureCollection(name)), _precomputeDoseValues(precomputeDoseValues),
-			_referenceDose(referenceDose), _doseIterator(doseIterator) {}
+		DoseToVolumeMeasureCollectionCalculator::DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
+			const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator,
+			DoseToVolumeMeasureCollection::complexStatistics name) : measureCollection(DoseToVolumeMeasureCollection(name)),
+			_precomputeDoseValues(precomputeDoseValues), _referenceDose(referenceDose), _doseIterator(doseIterator) {}
 
 		void DoseToVolumeMeasureCollectionCalculator::compute()
 		{
@@ -57,14 +57,14 @@ namespace rttb
 			}
 		}
 
-		DoseToVolumeMeasureCollection DoseToVolumeMeasureCollectionCalculator::getMeasure()
+		DoseToVolumeMeasureCollection DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
 		{
-			return measure;
+			return measureCollection;
 		}
 
 		void DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection(DoseTypeGy xAbsolute, VolumeType resultVolume)
 		{
-			measure.insertValue(xAbsolute, resultVolume);
+			measureCollection.insertValue(xAbsolute, resultVolume);
 		}
 	}
 }

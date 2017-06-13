@@ -29,6 +29,9 @@ namespace rttb
 
 	namespace algorithms
 	{
+		/*! @class MOCxVolumeToDoseMeasureCollectionCalculator
+		@brief Class for calculating MOCx VolumeToDose measures
+		*/
 		class RTTBAlgorithms_EXPORT MOCxVolumeToDoseMeasureCollectionCalculator : public VolumeToDoseMeasureCollectionCalculator {
 
 		public:
