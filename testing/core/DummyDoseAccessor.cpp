@@ -50,7 +50,7 @@ namespace rttb
 			_geoInfo.setImagePositionPatient(anOtherVector);
 			_geoInfo.setNumRows(11);
 			_geoInfo.setNumColumns(10);
-			_geoInfo.setNumSlices(5);
+			_geoInfo.setNumSlices(10);
 
 			OrientationMatrix unit = OrientationMatrix();
 			_geoInfo.setOrientationMatrix(unit);
