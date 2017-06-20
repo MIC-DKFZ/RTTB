@@ -125,13 +125,10 @@ rttb::core::DoseAccessorInterface::DoseAccessorPointer generateNNMappableAccesso
     const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
     const rttb::interpolation::TransformationInterface::Pointer aTransformation)
 {
-	rttb::interpolation::InterpolationBase::Pointer interpolate =
-	    rttb::interpolation::NearestNeighborInterpolation::Pointer(new
-	            rttb::interpolation::NearestNeighborInterpolation());
+  auto interpolate = boost::make_shared<rttb::interpolation::NearestNeighborInterpolation>();
 
-	return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
-	           new rttb::interpolation::SimpleMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
-	                   aTransformation, interpolate));
+  return boost::make_shared<rttb::interpolation::SimpleMappableDoseAccessor>(geoInfoTargetImage, doseMovingImage,
+    aTransformation, interpolate);
 }
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer generateLinearMappableAccessor(
@@ -139,13 +136,10 @@ rttb::core::DoseAccessorInterface::DoseAccessorPointer generateLinearMappableAcc
     const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
     const rttb::interpolation::TransformationInterface::Pointer aTransformation)
 {
-	rttb::interpolation::InterpolationBase::Pointer interpolate =
-	    rttb::interpolation::LinearInterpolation::Pointer(new
-	            rttb::interpolation::LinearInterpolation());
+  auto interpolate = boost::make_shared<rttb::interpolation::LinearInterpolation>();
 
-	return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
-	           new rttb::interpolation::SimpleMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
-	                   aTransformation, interpolate));
+  return boost::make_shared<rttb::interpolation::SimpleMappableDoseAccessor>(geoInfoTargetImage, doseMovingImage,
+    aTransformation, interpolate);
 }
 
 rttb::core::DoseAccessorInterface::DoseAccessorPointer generateRosuMappableAccessor(
@@ -153,9 +147,8 @@ rttb::core::DoseAccessorInterface::DoseAccessorPointer generateRosuMappableAcces
     const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
     const rttb::interpolation::TransformationInterface::Pointer aTransformation)
 {
-	return rttb::core::DoseAccessorInterface::DoseAccessorPointer(
-	           new rttb::interpolation::RosuMappableDoseAccessor(geoInfoTargetImage, doseMovingImage,
-	                   aTransformation));
+  return boost::make_shared<rttb::interpolation::RosuMappableDoseAccessor>(geoInfoTargetImage, doseMovingImage,
+    aTransformation);
 }
 
 /**Private helper function for processData(). Generates a suitable output accessor
@@ -169,9 +162,7 @@ assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 
 	if (appData._spReg.IsNotNull())
 	{
-		rttb::interpolation::TransformationInterface::Pointer transform =
-		    rttb::interpolation::TransformationInterface::Pointer(new
-		            rttb::interpolation::MatchPointTransformation(appData._spReg));
+    auto transform = boost::make_shared<rttb::interpolation::MatchPointTransformation>(appData._spReg);
 
 		if (appData._interpolatorName == "rosu")
 		{

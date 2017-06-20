@@ -103,7 +103,7 @@ namespace rttb
 			ITKImageMaskAccessor::MaskVoxelListPointer ITKImageMaskAccessor::getRelevantVoxelVector(
 			    float lowerThreshold)
 			{
-				MaskVoxelListPointer filteredVoxelVectorPointer(new MaskVoxelList);
+        auto filteredVoxelVectorPointer = boost::make_shared<MaskVoxelList>();
 				updateMask();
 				unsigned int size =  _geoInfo->getNumColumns() * _geoInfo->getNumRows() * _geoInfo->getNumSlices();
 				filteredVoxelVectorPointer->reserve(size);

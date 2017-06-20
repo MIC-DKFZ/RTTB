@@ -22,7 +22,7 @@
 #ifndef __LINEAR_INTERPOLATION_H
 #define __LINEAR_INTERPOLATION_H
 
-#include <boost/array.hpp>
+#include <array>
 
 #include "rttbInterpolationBase.h"
 
@@ -53,7 +53,7 @@ namespace rttb
 				@sa InterpolationBase for details about target and values
 				@note Source: http://en.wikipedia.org/wiki/Trilinear_interpolation
 			*/
-			DoseTypeGy trilinear(boost::array<double, 3> target, boost::shared_ptr<DoseTypeGy[]> values) const;
+			DoseTypeGy trilinear(std::array<double, 3> target, boost::shared_ptr<DoseTypeGy[]> values) const;
 		};
 
 	}

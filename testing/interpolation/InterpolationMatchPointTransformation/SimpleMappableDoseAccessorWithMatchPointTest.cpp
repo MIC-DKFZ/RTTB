@@ -107,24 +107,14 @@ namespace rttb
 			registration->_translation = translation;
 			registration->_limitedTarget = false;
 
-			NearestNeighborInterpolation::Pointer interpolationNN =
-			    NearestNeighborInterpolation::Pointer(new NearestNeighborInterpolation());
-			LinearInterpolation::Pointer interpolationLinear = LinearInterpolation::Pointer
-			        (new LinearInterpolation());
+      auto interpolationNN = ::boost::make_shared<NearestNeighborInterpolation>();
+			auto interpolationLinear = ::boost::make_shared<LinearInterpolation>();
 			NearestNeighborInterpolation::Pointer interpolationNull;
 
-			TransformationInterface::Pointer transformMP = TransformationInterface::Pointer(
-			            new MatchPointTransformation(
-			                registration.GetPointer()));
+			auto transformMP = ::boost::make_shared<MatchPointTransformation>(registration.GetPointer());
 
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityLinear =
-			    SimpleMappableDoseAccessor::Pointer(
-			        new SimpleMappableDoseAccessor(
-			            doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear));
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPIdentityNN =
-			    SimpleMappableDoseAccessor::Pointer(
-			        new SimpleMappableDoseAccessor(
-			            doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
+      auto aSimpleMappableDoseAccessorMPIdentityLinear = ::boost::make_shared<SimpleMappableDoseAccessor>(doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear);
+			auto aSimpleMappableDoseAccessorMPIdentityNN = ::boost::make_shared<SimpleMappableDoseAccessor>(doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN);
 
 			//1) Test constructor
 			CHECK_NO_THROW(SimpleMappableDoseAccessor(
@@ -158,13 +148,8 @@ namespace rttb
 			//Second: Translation (5mm/5mm/5mm) --> in voxel: (1/1/1) as pixelspacing = 5 mm
 			translation[0] = translation[1] = translation[2] = 5.0;
 			registration->_translation = translation;
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPTranslationLinear =
-			    SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(
-			            doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear));
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorMPTranslationNN =
-			    SimpleMappableDoseAccessor::Pointer(
-			        new SimpleMappableDoseAccessor(
-			            doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
+      auto aSimpleMappableDoseAccessorMPTranslationLinear = boost::make_shared<SimpleMappableDoseAccessor>(doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationLinear);
+      auto aSimpleMappableDoseAccessorMPTranslationNN = boost::make_shared<SimpleMappableDoseAccessor>(doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN);
 
 			rttb::VoxelGridIndex3D aIndexBeforeTransformation(0, 0, 0);
 			rttb::VoxelGridIndex3D aIndexAfterTransformation(1, 1, 1);
@@ -203,9 +188,7 @@ namespace rttb
 				Registration3D3DPointer registrationRealisticScenario =
 				    prepareRegistrationRealisticScenario.getRegistration();
 
-				TransformationInterface::Pointer transformRealistic = TransformationInterface::Pointer(
-				            new MatchPointTransformation(
-				                registrationRealisticScenario));
+				auto transformRealistic = boost::make_shared<MatchPointTransformation>(registrationRealisticScenario);
 
 				io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator3(RTDOSE_FILENAME_REALISTIC.c_str());
 				DoseAccessorPointer doseAccessor3(doseAccessorGenerator3.generateDoseAccessor());
@@ -219,9 +202,8 @@ namespace rttb
 				    prepareRegistrationRealisticScenario.getTargetImage()->GetLargestPossibleRegion().GetSize()[2]);
 
 				//Dose is related to BP-CT, map dose to fraction CT geometry
-				SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorRealisticScenarioLinear =
-				    SimpleMappableDoseAccessor::Pointer(new SimpleMappableDoseAccessor(geoInfoRealistic,
-				                                        doseAccessor3, transformRealistic, interpolationLinear));
+        auto aSimpleMappableDoseAccessorRealisticScenarioLinear = boost::make_shared<SimpleMappableDoseAccessor>(geoInfoRealistic,
+          doseAccessor3, transformRealistic, interpolationLinear);
 
 				//combination of 0, size/2 and size to check as coordinates
 				std::vector<unsigned int> coordinatesToCheckX, coordinatesToCheckY, coordinatesToCheckZ;

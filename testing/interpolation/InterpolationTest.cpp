@@ -22,6 +22,7 @@
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 
 #include "litCheckMacros.h"
 
@@ -78,26 +79,20 @@ namespace rttb
 			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
 
 			//doseAccessor1 is used as dose image
-			boost::shared_ptr<NearestNeighborInterpolation> interpolationNN =
-			    boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
+      auto interpolationNN = boost::make_shared<rttb::interpolation::NearestNeighborInterpolation>();
 			interpolationNN->setAccessorPointer(doseAccessor1);
-			boost::shared_ptr<LinearInterpolation> interpolationLinear = boost::shared_ptr<LinearInterpolation>
-			        (new LinearInterpolation());
+			auto interpolationLinear = boost::make_shared<rttb::interpolation::LinearInterpolation>();
 			interpolationLinear->setAccessorPointer(doseAccessor1);
 
 			//doseAccessor2 is used as dose image.
 			//RTDOSE_FILENAME_INCREASE_X and RTDOSE_FILENAME_CONSTANT_TWO have the same GeometricInfo
-			boost::shared_ptr<NearestNeighborInterpolation> interpolationNN2 =
-			    boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
+			auto interpolationNN2 = boost::make_shared<rttb::interpolation::NearestNeighborInterpolation>();
 			interpolationNN2->setAccessorPointer(doseAccessor2);
-			boost::shared_ptr<LinearInterpolation> interpolationLinear2 =
-			    boost::shared_ptr<LinearInterpolation>(new LinearInterpolation());
+			auto interpolationLinear2 = boost::make_shared<rttb::interpolation::LinearInterpolation>();
 			interpolationLinear2->setAccessorPointer(doseAccessor2);
 
-			boost::shared_ptr<NearestNeighborInterpolation> interpolationNullNN =
-			    boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation());
-			boost::shared_ptr<LinearInterpolation> interpolationNullLinear =
-			    boost::shared_ptr<LinearInterpolation>(new LinearInterpolation());
+			auto interpolationNullNN = boost::make_shared<rttb::interpolation::NearestNeighborInterpolation>();
+			auto interpolationNullLinear = boost::make_shared<rttb::interpolation::LinearInterpolation>();
 
 			rttb::WorldCoordinate3D imagePositionPatient =
 			    doseAccessor1->getGeometricInfo().getImagePositionPatient();
@@ -210,8 +205,8 @@ namespace rttb
 			                     core::NullPointerException);
 
 			//Check that no exception is thrown otherwise
-			CHECK_NO_THROW(boost::shared_ptr<NearestNeighborInterpolation>(new NearestNeighborInterpolation()));
-			CHECK_NO_THROW(boost::shared_ptr<LinearInterpolation>(new LinearInterpolation()));
+			CHECK_NO_THROW(boost::make_shared<NearestNeighborInterpolation>());
+			CHECK_NO_THROW(boost::make_shared<LinearInterpolation>());
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

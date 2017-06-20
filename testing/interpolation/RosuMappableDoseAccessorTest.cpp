@@ -21,6 +21,8 @@
 
 #include "litCheckMacros.h"
 
+#include <boost/make_shared.hpp>
+
 #include "rttbBaseType.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
@@ -74,16 +76,11 @@ namespace rttb
 
 			DoseAccessorPointer doseAccessorNull;
 
-			auto transformDummy = TransformationInterface::Pointer(new DummyTransformation());
+      auto transformDummy = boost::make_shared<DummyTransformation>();
 			TransformationInterface::Pointer transformNull;
 
-			auto aRosuMappableDoseAccessorDefault =
-			    RosuMappableDoseAccessor::Pointer(new RosuMappableDoseAccessor(
-			            doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy));
-
-			auto aRosuMappableDoseAccessorNoPadding =
-			    RosuMappableDoseAccessor::Pointer(new RosuMappableDoseAccessor(
-			            doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, false));
+      auto aRosuMappableDoseAccessorDefault = boost::make_shared<RosuMappableDoseAccessor>(doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy);
+			auto aRosuMappableDoseAccessorNoPadding = boost::make_shared<RosuMappableDoseAccessor>(doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, false);
 
 			//1) Constructor
 

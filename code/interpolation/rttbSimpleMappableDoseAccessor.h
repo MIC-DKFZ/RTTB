@@ -22,6 +22,7 @@
 #define __SIMPLE_MAPPABLE_DOSE_ACCESSOR_H
 
 #include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 
 #include "rttbInterpolationBase.h"
 #include "rttbLinearInterpolation.h"
@@ -53,8 +54,7 @@ namespace rttb
 			SimpleMappableDoseAccessor(const core::GeometricInfo& geoInfoTargetImage,
 			                           const DoseAccessorPointer doseMovingImage,
 			                           const TransformationInterface::Pointer aTransformation,
-			                           const InterpolationBase::Pointer aInterpolation = ::boost::shared_ptr<LinearInterpolation>
-			                                   (new LinearInterpolation()),
+			                           const InterpolationBase::Pointer aInterpolation = ::boost::make_shared<LinearInterpolation>(),
 			                           bool acceptPadding = true,
 			                           DoseTypeGy defaultOutsideValue = 0.0);
 

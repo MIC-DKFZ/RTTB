@@ -95,13 +95,9 @@ namespace rttb
 			CHECK_NO_THROW(BinaryFunctorAccessorAddWeightedType(spDoseAccessor, spDoseAccessor,
 			               addWeightedOP));
 
-			boost::shared_ptr<BinaryFunctorAccessorAddType> spBinaryFunctorDoseAccessorAdd(
-			    new BinaryFunctorAccessorAddType(spDoseAccessor, spDoseAccessor, addOP));
-			boost::shared_ptr<BinaryFunctorAccessorAddWeightedType> spBinaryFunctorDoseAccessorAddWeighted(
-			    new BinaryFunctorAccessorAddWeightedType(spDoseAccessor, spDoseAccessor, addWeightedOP));
-			boost::shared_ptr<BinaryFunctorAccessorAddWeightedType>
-			spBinaryFunctorDoseAccessorAddWeightedTwo(new BinaryFunctorAccessorAddWeightedType(
-			            spDoseAccessor, spDoseAccessor, addWeightedTwoOP));
+			auto spBinaryFunctorDoseAccessorAdd = boost::make_shared<BinaryFunctorAccessorAddType>(spDoseAccessor, spDoseAccessor, addOP);
+			auto spBinaryFunctorDoseAccessorAddWeighted = boost::make_shared<BinaryFunctorAccessorAddWeightedType>(spDoseAccessor, spDoseAccessor, addWeightedOP);
+			auto spBinaryFunctorDoseAccessorAddWeightedTwo = boost::make_shared<BinaryFunctorAccessorAddWeightedType>(spDoseAccessor, spDoseAccessor, addWeightedTwoOP);
 
 			//2) Test getDoseAt()
 			int lastIndex = spBinaryFunctorDoseAccessorAdd->getGeometricInfo().getNumberOfVoxels() - 1;

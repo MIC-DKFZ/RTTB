@@ -80,7 +80,7 @@ namespace rttb
 			BoostMaskAccessor::MaskVoxelListPointer BoostMaskAccessor::getRelevantVoxelVector(
 			    float lowerThreshold)
 			{
-				MaskVoxelListPointer filteredVoxelVectorPointer(new MaskVoxelList);
+        auto filteredVoxelVectorPointer = ::boost::make_shared<MaskVoxelList>();
 				updateMask();
 				// filter relevant voxels
 				BoostMaskAccessor::MaskVoxelList::iterator it = _spRelevantVoxelVector->begin();

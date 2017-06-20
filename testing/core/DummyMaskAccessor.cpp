@@ -94,7 +94,7 @@ namespace rttb
 		DummyMaskAccessor::MaskVoxelListPointer DummyMaskAccessor::getRelevantVoxelVector(
 		    float lowerThreshold)
 		{
-			MaskVoxelListPointer filteredVoxelVectorPointer(new MaskVoxelList);
+      auto filteredVoxelVectorPointer = boost::make_shared<MaskVoxelList>();
 			updateMask();
 			DummyMaskAccessor::MaskVoxelList::iterator it = _spRelevantVoxelVector->begin();
 

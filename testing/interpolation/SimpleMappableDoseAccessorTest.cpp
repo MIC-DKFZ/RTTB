@@ -81,16 +81,16 @@ namespace rttb
 
 			DoseAccessorPointer doseAccessorNull;
 
-            TransformationInterface::Pointer transformDummy = boost::make_shared<DummyTransformation>();
+      TransformationInterface::Pointer transformDummy = boost::make_shared<DummyTransformation>();
 			TransformationInterface::Pointer transformNull;
 
-            NearestNeighborInterpolation::Pointer interpolationNN = boost::make_shared<NearestNeighborInterpolation>();
-            LinearInterpolation::Pointer interpolationLinear = boost::make_shared<LinearInterpolation>();
-			boost::shared_ptr<NearestNeighborInterpolation> interpolationNull;
+      auto interpolationNN = boost::make_shared<NearestNeighborInterpolation>();
+      auto interpolationLinear = boost::make_shared<LinearInterpolation>();
+      boost::shared_ptr<NearestNeighborInterpolation> interpolationNull;
 
-            SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorDefault = boost::make_shared<SimpleMappableDoseAccessor>(
+      auto aSimpleMappableDoseAccessorDefault = boost::make_shared<SimpleMappableDoseAccessor>(
                 doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy);
-            SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorNoPadding = boost::make_shared<SimpleMappableDoseAccessor>(
+      auto aSimpleMappableDoseAccessorNoPadding = boost::make_shared<SimpleMappableDoseAccessor>(
                 doseAccessor1->getGeometricInfo(), doseAccessor2, transformDummy, interpolationLinear, false);
 
 			//1) Test constructor
