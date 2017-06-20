@@ -23,7 +23,7 @@
 #define __INTERPOLATION_BASE_H
 
 #include <boost/shared_ptr.hpp>
-#include <boost/array.hpp>
+#include <array>
 
 #include "rttbAccessorInterface.h"
 
@@ -69,13 +69,13 @@ namespace rttb
 				@param neighborhood voxel around coordinate (currently only 0 and 8 implemented)
 				@param target coordinates inside the standard cube with values [0 1] in each dimension.
 				@param values dose values at all corner points of the standard cube. Is of type boost:shared_ptr[neighborhood]
-				@pre target and values have to be correctly initialized (e.g. boost::array<double, 3> target = {0.0, 0.0, 0.0}; boost::shared_ptr<DoseTypeGy> values(new DoseTypeGy[8]()); where 8 is neighborhood)
+				@pre target and values have to be correctly initialized (e.g. std::array<double, 3> target = {0.0, 0.0, 0.0}; boost::shared_ptr<DoseTypeGy> values(new DoseTypeGy[8]()); where 8 is neighborhood)
 				@exception core::InvalidParameterException if neighborhood =! 0 && !=8
 				@exception core::MappingOutsideOfImageException if initial mapping of aWorldCoordinate is outside image
 				@exception core::NullPointerException if dose is NULL
 			*/
 			void getNeighborhoodVoxelValues(const WorldCoordinate3D& aWorldCoordinate,
-			                                unsigned int neighborhood, boost::array<double, 3>& target,
+			                                unsigned int neighborhood, std::array<double, 3>& target,
 			                                boost::shared_ptr<DoseTypeGy[]> values) const;
 
 			/*! @brief returns the nearest inside voxel value

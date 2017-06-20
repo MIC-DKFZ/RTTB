@@ -45,7 +45,7 @@ namespace rttb
 
 		void InterpolationBase::getNeighborhoodVoxelValues(
 		    const WorldCoordinate3D& aWorldCoordinate,
-		    unsigned int neighborhood, boost::array<double, 3>& target,
+		    unsigned int neighborhood, std::array<double, 3>& target,
 		    boost::shared_ptr<DoseTypeGy[]> values) const
 		{
 			if (_spOriginalData == NULL)

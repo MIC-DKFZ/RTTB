@@ -21,12 +21,14 @@
 
 #include "rttbLinearInterpolation.h"
 
+#include <boost/make_shared.hpp>
+
 namespace rttb
 {
 	namespace interpolation
 	{
 
-		DoseTypeGy LinearInterpolation::trilinear(boost::array<double, 3> target,
+		DoseTypeGy LinearInterpolation::trilinear(std::array<double, 3> target,
 		        boost::shared_ptr<DoseTypeGy[]> values) const
 		{
 			//4 linear interpolation in x direction
@@ -46,7 +48,7 @@ namespace rttb
 		DoseTypeGy LinearInterpolation::getValue(const WorldCoordinate3D& aWorldCoordinate) const
 		{
 			//proper initialization of target and values
-			boost::array<double, 3> target = {0.0, 0.0, 0.0};
+			std::array<double, 3> target = {0.0, 0.0, 0.0};
 			boost::shared_ptr<DoseTypeGy[]> values(new DoseTypeGy[8]());
 			getNeighborhoodVoxelValues(aWorldCoordinate, 8, target, values);
 
