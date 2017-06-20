@@ -49,7 +49,7 @@ namespace rttb
 		{
 			//proper initialization of target and values
 			std::array<double, 3> target = {0.0, 0.0, 0.0};
-			boost::shared_ptr<DoseTypeGy[]> values(new DoseTypeGy[8]());
+      auto values = boost::make_shared<DoseTypeGy[]>(8);
 			getNeighborhoodVoxelValues(aWorldCoordinate, 8, target, values);
 
 			return trilinear(target, values);

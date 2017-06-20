@@ -20,6 +20,9 @@
 */
 
 #include "rttbRosuMappableDoseAccessor.h"
+
+#include <boost/make_shared.hpp>
+
 #include "rttbNullPointerException.h"
 #include "rttbMappingOutsideOfImageException.h"
 #include "rttbLinearInterpolation.h"
@@ -36,8 +39,7 @@ namespace rttb
 			                aTransformation, acceptPadding, defaultOutsideValue)
 		{
 			//define linear interpolation
-			InterpolationBase::Pointer interpolationLinear = InterpolationBase::Pointer(
-			            new LinearInterpolation());
+      auto interpolationLinear = ::boost::make_shared<LinearInterpolation>();
 			_spInterpolation = interpolationLinear;
 			_spInterpolation->setAccessorPointer(_spOriginalDoseDataMovingImage);
 		}

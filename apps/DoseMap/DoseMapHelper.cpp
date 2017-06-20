@@ -22,6 +22,8 @@
 
 #include "DoseMapHelper.h"
 
+#include <boost/make_shared.hpp>
+
 #include "mapRegistrationFileReader.h"
 
 #include "rttbDicomFileDoseAccessorGenerator.h"
@@ -127,26 +129,20 @@ assembleOutputAccessor(rttb::apps::doseMap::ApplicationData& appData)
 
 	rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor = appData._inputDose;
 
-	rttb::interpolation::TransformationInterface::Pointer transform =
-	    rttb::interpolation::TransformationInterface::Pointer(new
-	            rttb::interpolation::MatchPointTransformation(appData._spReg));
+  auto transform = boost::make_shared<rttb::interpolation::MatchPointTransformation>(appData._spReg);
 
 	if (appData._interpolatorName == "rosu")
 	{
-		outputAccessor = rttb::core::DoseAccessorInterface::DoseAccessorPointer(
-		                     new rttb::interpolation::RosuMappableDoseAccessor(appData._refDose->getGeometricInfo(),
-		                             appData._inputDose, transform));
+		outputAccessor = boost::make_shared<rttb::interpolation::RosuMappableDoseAccessor>(appData._refDose->getGeometricInfo(),
+		                             appData._inputDose, transform);
 	}
 	else
 	{
-		rttb::interpolation::InterpolationBase::Pointer interpolate =
-		    rttb::interpolation::LinearInterpolation::Pointer(new
-		            rttb::interpolation::LinearInterpolation());
+    rttb::interpolation::InterpolationBase::Pointer interpolate = boost::make_shared<rttb::interpolation::LinearInterpolation>();
 
 		if (appData._interpolatorName == "nn")
 		{
-			interpolate = rttb::interpolation::NearestNeighborInterpolation::Pointer(new
-			              rttb::interpolation::NearestNeighborInterpolation());
+			interpolate = boost::make_shared<rttb::interpolation::NearestNeighborInterpolation>();
 		}
 		else if (appData._interpolatorName != "linear")
 		{
@@ -155,9 +151,8 @@ assembleOutputAccessor(rttb::apps::doseMap::ApplicationData& appData)
 			                                appData._interpolatorName);
 		}
 
-		outputAccessor = rttb::core::DoseAccessorInterface::DoseAccessorPointer(
-		                     new rttb::interpolation::SimpleMappableDoseAccessor(appData._refDose->getGeometricInfo(),
-		                             appData._inputDose, transform, interpolate));
+    outputAccessor = boost::make_shared<rttb::interpolation::SimpleMappableDoseAccessor>(appData._refDose->getGeometricInfo(),
+      appData._inputDose, transform, interpolate);
 	}
 
 	return outputAccessor;

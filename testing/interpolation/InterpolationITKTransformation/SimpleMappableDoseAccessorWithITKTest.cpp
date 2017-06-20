@@ -84,13 +84,8 @@ namespace rttb
 
 			core::GeometricInfo doseAccessor1GeometricInfo = doseAccessor1->getGeometricInfo();
 
-			NearestNeighborInterpolation::Pointer interpolationNN =
-			    NearestNeighborInterpolation::Pointer(new NearestNeighborInterpolation());
-			LinearInterpolation::Pointer interpolationLinear = LinearInterpolation::Pointer
-			        (new LinearInterpolation());
-
-			//auto transformITKIdentity = TransformationInterface::Pointer(new ITKTransformation(
-			//                                IdentityTransformType::New()));
+      auto interpolationNN = boost::make_shared<rttb::interpolation::NearestNeighborInterpolation>();
+      auto interpolationLinear = boost::make_shared<rttb::interpolation::LinearInterpolation>();
 
 			TranslationTransformType::Pointer transformITKIdentityTemporary =
 			    TranslationTransformType::New();
@@ -100,9 +95,7 @@ namespace rttb
 			translationIdentity[2] = 0.0;
 			transformITKIdentityTemporary->Translate(translationIdentity);
 
-			TransformationInterface::Pointer transformITKIdentity = TransformationInterface::Pointer(
-			            new ITKTransformation(
-			                transformITKIdentityTemporary));
+      auto transformITKIdentity = boost::make_shared<ITKTransformation>(transformITKIdentityTemporary);
 
 			TranslationTransformType::Pointer transformITKTranslationTemporary =
 			    TranslationTransformType::New();
@@ -112,18 +105,11 @@ namespace rttb
 			translation[2] = 5.0;
 			transformITKTranslationTemporary->Translate(translation);
 
-			TransformationInterface::Pointer transformITKTranslation = TransformationInterface::Pointer(
-			            new ITKTransformation(
-			                transformITKTranslationTemporary));
+			auto transformITKTranslation = boost::make_shared<ITKTransformation>(transformITKTranslationTemporary);
 
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorITKIdentity =
-			    SimpleMappableDoseAccessor::Pointer(
-			        new SimpleMappableDoseAccessor(
-			            doseAccessor1GeometricInfo, doseAccessor2, transformITKIdentity, interpolationLinear));
-			SimpleMappableDoseAccessor::Pointer aSimpleMappableDoseAccessorITKTranslation =
-			    SimpleMappableDoseAccessor::Pointer(
-			        new SimpleMappableDoseAccessor(
-			            doseAccessor1GeometricInfo, doseAccessor2, transformITKTranslation, interpolationLinear));
+      auto aSimpleMappableDoseAccessorITKIdentity = boost::make_shared<SimpleMappableDoseAccessor>(doseAccessor1GeometricInfo, doseAccessor2, transformITKIdentity, interpolationLinear);
+
+      auto aSimpleMappableDoseAccessorITKTranslation = boost::make_shared<SimpleMappableDoseAccessor>(doseAccessor1GeometricInfo, doseAccessor2, transformITKTranslation, interpolationLinear);
 
 			//1) Test constructor
 			CHECK_NO_THROW(SimpleMappableDoseAccessor(

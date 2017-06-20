@@ -205,13 +205,9 @@ namespace rttb
                 }
 
                 // make DoseStatistcs
-                //boost::make_shared is desireable here, but for VS2010 this doesn't work
-                //see http://stackoverflow.com/questions/19310062/error-no-instance-of-overloaded-function-stdmake-shared-matches-the-argumen
-                _doseStatistic = boost::shared_ptr<rttb::algorithms::DoseStatistics>(new
-                    rttb::algorithms::DoseStatistics(
+                _doseStatistic = boost::make_shared<rttb::algorithms::DoseStatistics>(
                     minimum, maximum, mean, stdDeviation, numVoxels, volume, minimumVoxelPositions,
-                    maximumVoxelPositions
-                    , Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx, referenceDose));
+                    maximumVoxelPositions , Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx, referenceDose);
             }
         }//end namespace other
     }//end namespace io

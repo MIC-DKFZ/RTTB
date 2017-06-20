@@ -61,7 +61,7 @@ namespace rttb
 		GenericMutableMaskAccessor::MaskVoxelListPointer GenericMutableMaskAccessor::getRelevantVoxelVector(
 		    float lowerThreshold)
 		{
-			MaskVoxelListPointer filteredVoxelVectorPointer(new MaskVoxelList);
+      auto filteredVoxelVectorPointer = boost::make_shared<MaskVoxelList>();
 			// filter relevant voxels
 			GenericMutableMaskAccessor::MaskVoxelList::iterator it = _spRelevantVoxelVector->begin();
 
