@@ -124,7 +124,6 @@ FIND_PROGRAM(DOXYGEN_EXECUTABLE "doxygen")
 # RTToolbox_INSTALL_NO_DEVELOPMENT   - do not install development files
 # RTToolbox_INSTALL_NO_RUNTIME       - do not install runtime files
 # RTToolbox_INSTALL_NO_DOCUMENTATION - do not install documentation files
-# Remark: needs directory are stored with no leading slash (CMake 2.4 and newer)
 #-----------------------------------------------------------------------------
 
 IF(NOT RTTOOLBOX_INSTALL_BIN_DIR)
