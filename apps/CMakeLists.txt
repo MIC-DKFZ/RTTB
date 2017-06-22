@@ -18,6 +18,7 @@ ENDIF(BUILD_SHARED_LIBS OR RTTB_USE_MITK_BOOST)
 ExternalProject_Add(
 	ArgumentParsingLib
 	URL ${RTToolbox_SOURCE_DIR}/utilities/ArgumentParsingLib/ArgumentParsingLib.tar.gz
+	URL_HASH SHA1=f8b18b107af82f9e62324c21b967ab925972b8de
 	SOURCE_DIR ${ArgumentParsingLib_SOURCE_DIR}
 	BINARY_DIR ${ArgumentParsingLib_BUILD_DIR}
 	PREFIX ${ArgumentParsingLib_CMAKE_DIR}
