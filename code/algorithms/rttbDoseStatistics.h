@@ -47,7 +47,6 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT DoseStatistics
 		{
 		public:
-			enum complexStatistics { Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx };
 			typedef boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultListPointer;
 			typedef boost::shared_ptr<DoseStatistics> DoseStatisticsPointer;
 
