@@ -33,6 +33,20 @@ ExternalProject_Add(
 		${ITK_DIRECTORY}
 )
 
+set(RTTBDATA_DIR "${CMAKE_BINARY_DIR}/external/RTTBData")
+set(TEST_DATA_ROOT ${RTTBDATA_DIR})
+
+#download RTTB data
+message(STATUS "RTTBdata will be automatically downloaded.")
+ExternalProject_Add(
+	RTTBData
+    SOURCE_DIR ${RTTBDATA_DIR}
+    GIT_REPOSITORY "ssh://git@phabricator.mitk.org:2222/source/rttb-data.git"
+	CONFIGURE_COMMAND ""
+	BUILD_COMMAND ""
+	INSTALL_COMMAND ""
+  )
+
 #-----------------------------------------------------------------------------
 # Configure Testing branch
 #-----------------------------------------------------------------------------
