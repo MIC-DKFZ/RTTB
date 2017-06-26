@@ -28,6 +28,3 @@ ADD_TEST(RTBioModelScatterPlotExampleTest ${CORE_TEST_EXAMPLES} RTBioModelScatte
 
 RTTB_CREATE_TEST_MODULE(rttbExamples DEPENDS RTTBCore RTTBAlgorithms RTTBMasks RTTBBoostMask RTTBIndices RTTBDicomIO RTTBITKIO RTTBOtherIO RTTBModels PACKAGE_DEPENDS Litmus)
 
-IF (NOT WIN32)
-	target_compile_features(rttbExamplesTests PRIVATE cxx_auto_type cxx_nullptr cxx_override)
-ENDIF()
