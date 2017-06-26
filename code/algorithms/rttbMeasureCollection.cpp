@@ -29,7 +29,7 @@ namespace rttb
 	{
 		MeasureCollection::complexStatistics MeasureCollection::getName() const
 		{
-			return this->name;
+			return this->_name;
 		}
 
 		double MeasureCollection::getSpecificValue(const std::map<double, double>& values, double key, bool findNearestValueInstead, double& storedKey) const

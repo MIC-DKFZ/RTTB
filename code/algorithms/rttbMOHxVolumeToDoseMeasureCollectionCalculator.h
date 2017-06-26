@@ -31,7 +31,6 @@ namespace rttb
 	{
 		/*! @class MOHxVolumeToDoseMeasureCollectionCalculator
 		@brief Class for calculating MOHx VolumeToDose measures
-		@note Additionally needs _minimum to be set for the calculation to work
 		*/
 		class RTTBAlgorithms_EXPORT MOHxVolumeToDoseMeasureCollectionCalculator : public VolumeToDoseMeasureCollectionCalculator {
 
@@ -41,7 +40,7 @@ namespace rttb
 		public:
 			MOHxVolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-				const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasureCollection::complexStatistics name);
+				const DoseVoxelVolumeType currentVoxelVolume, bool multiThreading = false);
 
 		protected:
 			DoseTypeGy computeSpecificValue(double xAbsolute) const override;

@@ -21,6 +21,7 @@
 
 #include "rttbDoseToVolumeMeasureCollectionCalculator.h"
 #include <boost/thread/thread.hpp>
+#include "rttbInvalidParameterException.h"
 //#include <boost/thread/locks.hpp> 
 
 namespace rttb
@@ -30,8 +31,8 @@ namespace rttb
 	{
 		DoseToVolumeMeasureCollectionCalculator::DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
 			const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator,
-			DoseToVolumeMeasureCollection::complexStatistics name) : measureCollection(DoseToVolumeMeasureCollection(name)),
-			_precomputeDoseValues(precomputeDoseValues), _referenceDose(referenceDose), _doseIterator(doseIterator) {}
+			DoseToVolumeMeasureCollection::complexStatistics name, bool multiThreading) : _measureCollection(DoseToVolumeMeasureCollection(name)),
+			_precomputeDoseValues(precomputeDoseValues), _referenceDose(referenceDose), _doseIterator(doseIterator), _multiThreading(multiThreading) {}
 
 		void DoseToVolumeMeasureCollectionCalculator::compute()
 		{
@@ -40,13 +41,13 @@ namespace rttb
 			for (size_t i = 0; i < _precomputeDoseValues.size(); ++i)
 			{
 				double xAbsolute = _precomputeDoseValues.at(i) * _referenceDose;
-				if (false)//_multiThreading)
+				if (true)
 				{
+					//throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
 					threads.push_back(boost::thread(&DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection, this , xAbsolute, computeSpecificValue(xAbsolute)));
 				}
 				else
 				{
-
 					insertIntoMeasureCollection(xAbsolute, this->computeSpecificValue(xAbsolute));
 				}
 			}
@@ -59,12 +60,12 @@ namespace rttb
 
 		DoseToVolumeMeasureCollection DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
 		{
-			return measureCollection;
+			return _measureCollection;
 		}
 
 		void DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection(DoseTypeGy xAbsolute, VolumeType resultVolume)
 		{
-			measureCollection.insertValue(xAbsolute, resultVolume);
+			_measureCollection.insertValue(xAbsolute, resultVolume);
 		}
 	}
 }

@@ -37,7 +37,7 @@ namespace rttb
 		public:
 			MOCxVolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-				const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasureCollection::complexStatistics name);
+				const DoseVoxelVolumeType currentVoxelVolume, bool multiThreading = false);
 
 		protected:
 			DoseTypeGy computeSpecificValue(double xAbsolute) const override;

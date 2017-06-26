@@ -42,7 +42,7 @@ namespace rttb
 			enum complexStatistics { Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx };
 
 		protected:
-			complexStatistics name;
+			complexStatistics _name;
 
 		public:
 			complexStatistics getName() const;

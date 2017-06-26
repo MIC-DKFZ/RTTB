@@ -29,8 +29,9 @@ namespace rttb
 		MinOCxVolumeToDoseMeasureCollectionCalculator::MinOCxVolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues,
 			const VolumeType volume, const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
 			const DoseVoxelVolumeType currentVoxelVolume, const DoseStatisticType minimum, const DoseStatisticType maximum, 
-			VolumeToDoseMeasureCollection::complexStatistics name) : VolumeToDoseMeasureCollectionCalculator(precomputeVolumeValues, volume,
-				doseVector, voxelProportionVector, currentVoxelVolume, name), _minimum(minimum), _maximum(maximum) {}
+			bool multiThreading) : VolumeToDoseMeasureCollectionCalculator(precomputeVolumeValues, volume,
+				doseVector, voxelProportionVector, currentVoxelVolume, VolumeToDoseMeasureCollection::MinOCx, 
+				multiThreading), _minimum(minimum), _maximum(maximum) {}
 
 		DoseTypeGy MinOCxVolumeToDoseMeasureCollectionCalculator::computeSpecificValue(double xAbsolute) const
 		{

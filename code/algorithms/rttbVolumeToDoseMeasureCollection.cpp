@@ -30,7 +30,7 @@ namespace rttb
 	namespace algorithms
 	{
 		VolumeToDoseMeasureCollection::VolumeToDoseMeasureCollection(complexStatistics name, VolumeType volume) :
-			name(name), values(std::map<VolumeType, DoseTypeGy>()), _volume(volume) {}
+			_name(name), _values(std::map<VolumeType, DoseTypeGy>()), _volume(volume) {}
 
 		void VolumeToDoseMeasureCollection::setVolume(VolumeType volume)
 		{
@@ -39,18 +39,18 @@ namespace rttb
 
 		void VolumeToDoseMeasureCollection::insertValue(VolumeType volume, DoseTypeGy dose)
 		{
-			this->values.insert(std::pair<VolumeType, DoseTypeGy>(volume, dose));
+			this->_values.insert(std::pair<VolumeType, DoseTypeGy>(volume, dose));
 		}
 
 		DoseTypeGy VolumeToDoseMeasureCollection::getValue(VolumeType xVolumeAbsolute) const
 		{
 			VolumeType dummy;
-			return getSpecificValue(values, xVolumeAbsolute, false, dummy);
+			return getSpecificValue(_values, xVolumeAbsolute, false, dummy);
 		}
 
 		DoseTypeGy VolumeToDoseMeasureCollection::getValue(VolumeType xVolumeAbsolute, bool findNearestValue, VolumeType & nearestXVolume) const
 		{
-			return getSpecificValue(values, xVolumeAbsolute, findNearestValue, nearestXVolume);
+			return getSpecificValue(_values, xVolumeAbsolute, findNearestValue, nearestXVolume);
 		}
 
 		DoseTypeGy VolumeToDoseMeasureCollection::getValueRelative(VolumeType xVolumeRelative) const
@@ -61,7 +61,7 @@ namespace rttb
 			if (xVolumeRelative >= 0 && xVolumeRelative <= 1) {
 				DoseTypeGy xVolumeAbsolute = xVolumeRelative * _volume;
 				VolumeType dummy;
-				return getSpecificValue(values, xVolumeAbsolute, false, dummy);
+				return getSpecificValue(_values, xVolumeAbsolute, false, dummy);
 			}
 			else {
 				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
@@ -75,7 +75,7 @@ namespace rttb
 			}
 			if (xVolumeRelative >= 0 && xVolumeRelative <= 1) {
 				DoseTypeGy xVolumeAbsolute = xVolumeRelative * _volume;
-				return getSpecificValue(values, xVolumeAbsolute, findNearestValue, nearestXVolume);
+				return getSpecificValue(_values, xVolumeAbsolute, findNearestValue, nearestXVolume);
 			}
 			else {
 				throw rttb::core::InvalidParameterException("Relative Volume must be >= 0 and <=1");
@@ -84,7 +84,7 @@ namespace rttb
 
 		VolumeToDoseMeasureCollection::VolumeToDoseFunctionType VolumeToDoseMeasureCollection::getAllValues() const
 		{
-			return this->values;
+			return this->_values;
 		}
 
 		bool operator==(const VolumeToDoseMeasureCollection& volumeToDoseMesureCollection,const VolumeToDoseMeasureCollection& otherVolumeToDoseMesureCollection)

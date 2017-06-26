@@ -28,8 +28,8 @@ namespace rttb
 	{
 		MOCxVolumeToDoseMeasureCollectionCalculator::MOCxVolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues,
 			const VolumeType volume, const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-			const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasureCollection::complexStatistics name) : VolumeToDoseMeasureCollectionCalculator(precomputeVolumeValues, volume,
-				doseVector, voxelProportionVector, currentVoxelVolume, name) {}
+			const DoseVoxelVolumeType currentVoxelVolume, bool multiThreading) : VolumeToDoseMeasureCollectionCalculator(precomputeVolumeValues, volume,
+				doseVector, voxelProportionVector, currentVoxelVolume, VolumeToDoseMeasureCollection::MOCx, multiThreading) {}
 
 		DoseTypeGy MOCxVolumeToDoseMeasureCollectionCalculator::computeSpecificValue(double xAbsolute) const
 		{
@@ -56,7 +56,7 @@ namespace rttb
 						break;
 					}
 				}
-				return (DoseTypeGy)(sum / noOfVoxel);
+				return static_cast<DoseTypeGy>(sum / noOfVoxel);
 			}
 		}
 	}

@@ -43,7 +43,6 @@ namespace rttb
 		@details This class is used as a basis for DoseToVolumeMeasureCollectionCalculators. It implements the compute() method 
 		that is the same for every inheriting subclass, it accesses computeSpecificValue, which has to be implemented
 		for each different complex statistic.
-		@note _doseIterator, _referenceDose and _precomputeDoseValues have to be set for the calculation to work
 		*/
 		class RTTBAlgorithms_EXPORT DoseToVolumeMeasureCollectionCalculator {
 
@@ -55,8 +54,9 @@ namespace rttb
 
 		private:
 			DoseTypeGy _referenceDose;
-			DoseToVolumeMeasureCollection measureCollection;
+			DoseToVolumeMeasureCollection _measureCollection;
 			std::vector<double> _precomputeDoseValues;
+			bool _multiThreading;
 
 		public:
 			/*! @brief Computes the measureCollection. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
@@ -66,7 +66,8 @@ namespace rttb
 
 		protected:
 			DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
-				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasureCollection::complexStatistics name);
+				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, 
+				DoseToVolumeMeasureCollection::complexStatistics name, bool multiThreading);
 
 			void insertIntoMeasureCollection(DoseTypeGy xAbsolute, VolumeType resultVolume);
 

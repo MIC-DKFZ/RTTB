@@ -28,8 +28,8 @@ namespace rttb
 	{
 		MaxOHxVolumeToDoseMeasureCollectionCalculator::MaxOHxVolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues,
 			const VolumeType volume, const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-			const DoseVoxelVolumeType currentVoxelVolume, VolumeToDoseMeasureCollection::complexStatistics name) : VolumeToDoseMeasureCollectionCalculator(precomputeVolumeValues, volume,
-				doseVector, voxelProportionVector, currentVoxelVolume, name) {}
+			const DoseVoxelVolumeType currentVoxelVolume, bool multiThreading) : VolumeToDoseMeasureCollectionCalculator(precomputeVolumeValues, volume,
+				doseVector, voxelProportionVector, currentVoxelVolume, VolumeToDoseMeasureCollection::MaxOHx, multiThreading) {}
 
 		DoseTypeGy MaxOHxVolumeToDoseMeasureCollectionCalculator::computeSpecificValue(double xAbsolute) const
 		{

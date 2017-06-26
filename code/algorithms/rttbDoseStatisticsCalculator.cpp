@@ -283,27 +283,27 @@ namespace rttb
 				precomputeVolumeValuesNonConst = defaultPrecomputeVolumeValues;
 			}
 
-			VxDoseToVolumeMeasureCollectionCalculator Vx(precomputeDoseValuesNonConst, referenceDose, _doseIterator, DoseToVolumeMeasureCollection::Vx);
+			VxDoseToVolumeMeasureCollectionCalculator Vx(precomputeDoseValuesNonConst, referenceDose, _doseIterator);
 			Vx.compute();
 
 			DxVolumeToDoseMeasureCollectionCalculator Dx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
-				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), VolumeToDoseMeasureCollection::Dx);
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum());
 			Dx.compute();
 
 			MOHxVolumeToDoseMeasureCollectionCalculator MOHx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
-				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), VolumeToDoseMeasureCollection::MOHx);
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume());
 			MOHx.compute();
 
 			MOCxVolumeToDoseMeasureCollectionCalculator MOCx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
-				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), VolumeToDoseMeasureCollection::MOCx);
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume());
 			MOCx.compute();
 
 			MaxOHxVolumeToDoseMeasureCollectionCalculator MaxOHx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
-				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), VolumeToDoseMeasureCollection::MaxOHx);
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume());
 			MaxOHx.compute();
 
 			MinOCxVolumeToDoseMeasureCollectionCalculator MinOCx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
-				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), _statistics->getMaximum(), VolumeToDoseMeasureCollection::MinOCx);
+				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), _statistics->getMaximum());
 			MinOCx.compute();
 
 			_statistics->setVx(Vx.getMeasureCollection());

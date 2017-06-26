@@ -31,7 +31,6 @@ namespace rttb
 	{
 		/*! @class DxVolumeToDoseMeasureCollectionCalculator
 		@brief Class for calculating Dx VolumeToDose measures
-		@note Additionally needs _minimum to be set for the calculation to work
 		*/
 		class RTTBAlgorithms_EXPORT DxVolumeToDoseMeasureCollectionCalculator: public VolumeToDoseMeasureCollectionCalculator {
 
@@ -41,7 +40,7 @@ namespace rttb
 		public:			
 			DxVolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, 
-				const DoseVoxelVolumeType currentVoxelVolume, const DoseStatisticType minimum, VolumeToDoseMeasureCollection::complexStatistics name);
+				const DoseVoxelVolumeType currentVoxelVolume, const DoseStatisticType minimum, bool multiThreading = false);
 
 		protected:
 			DoseTypeGy computeSpecificValue(double xAbsolute) const override;

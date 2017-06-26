@@ -31,7 +31,6 @@ namespace rttb
 	{
 		/*! @class MinOCxVolumeToDoseMeasureCollectionCalculator
 		@brief Class for calculating MinOC VolumeToDose measures
-		@note Additionally needs _minimum and _maximum to be set for the calculation to work
 		*/
 		class RTTBAlgorithms_EXPORT MinOCxVolumeToDoseMeasureCollectionCalculator : public VolumeToDoseMeasureCollectionCalculator {
 
@@ -42,7 +41,7 @@ namespace rttb
 		public:
 			MinOCxVolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
-				const DoseVoxelVolumeType currentVoxelVolume, const DoseStatisticType minimum, const DoseStatisticType maximum, VolumeToDoseMeasureCollection::complexStatistics name);
+				const DoseVoxelVolumeType currentVoxelVolume, const DoseStatisticType minimum, const DoseStatisticType maximum, bool multiThreading = false);
 
 		protected:
 			DoseTypeGy computeSpecificValue(double xAbsolute) const override;

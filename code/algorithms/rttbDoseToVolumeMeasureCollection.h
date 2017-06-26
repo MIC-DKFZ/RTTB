@@ -39,9 +39,9 @@ namespace rttb
 			typedef std::map<DoseTypeGy, VolumeType> DoseToVolumeFunctionType;
 
 		private:
-			complexStatistics name;
+			complexStatistics _name;
 			DoseTypeGy _referenceDose;
-			DoseToVolumeFunctionType values;
+			DoseToVolumeFunctionType _values;
 
 		public:
 			DoseToVolumeMeasureCollection(complexStatistics name, DoseTypeGy referenceDose = -1);

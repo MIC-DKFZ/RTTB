@@ -40,8 +40,8 @@ namespace rttb
 
 		private:
 			VolumeType _volume;
-			complexStatistics name;
-			VolumeToDoseFunctionType values;
+			complexStatistics _name;
+			VolumeToDoseFunctionType _values;
 
 		public:
 			VolumeToDoseMeasureCollection(complexStatistics name, VolumeType volume = -1);

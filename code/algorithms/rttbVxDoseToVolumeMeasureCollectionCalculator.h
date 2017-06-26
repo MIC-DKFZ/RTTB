@@ -31,16 +31,13 @@ namespace rttb
 	{
 		/*! @class VxDoseToVolumeMeasureCollectionCalculator
 		@brief Class for calculating Vx DoseToVolume measures
-		@note Additionally needs _minimum to be set for the calculation to work
 		*/
 		class RTTBAlgorithms_EXPORT VxDoseToVolumeMeasureCollectionCalculator : public DoseToVolumeMeasureCollectionCalculator {
 
-		private:
-			DoseStatisticType _minimum;
-
 		public:			
 			VxDoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
-				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, DoseToVolumeMeasureCollection::complexStatistics name);
+				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator,
+				bool multiThreading = false);
 
 		protected:
 			VolumeType computeSpecificValue(double xAbsolute) const override;
