@@ -3,10 +3,7 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-
 SET(CORE_TEST_VALIDATION ${EXECUTABLE_OUTPUT_PATH}/rttbValidationTests)
-
-SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/Temporary)
 
@@ -23,7 +20,7 @@ ADD_TEST(VoxelizationValidationTest ${CORE_TEST_VALIDATION} VoxelizationValidati
 "${TEST_DATA_ROOT}/Dose/DICOM/LinearIncrease3D.dcm" "${TEST_DATA_ROOT}/Mask/1.3.6.1.4.1.2452.6.2037938358.1234393433.864109958.30410275/BoostMask/" 
 "${TEST_DATA_ROOT}/Mask/1.3.6.1.4.1.2452.6.2037938358.1234393433.864109958.30410275/OTBMask/")
 
-RTTB_CREATE_TEST_MODULE(rttbValidation DEPENDS RTTBCore RTTBBoostMask RTTBDicomIO RTTBITKIO RTTBOtherIO PACKAGE_DEPENDS Litmus ITK)
+RTTB_CREATE_TEST_MODULE(rttbValidation DEPENDS RTTBCore RTTBBoostMask RTTBDicomIO RTTBITKIO RTTBOtherIO PACKAGE_DEPENDS Litmus ITK RTTBData)
 
 IF (CMAKE_COMPILER_IS_GNUCC)
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fext-numeric-literals")

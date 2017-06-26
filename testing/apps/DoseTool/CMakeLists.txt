@@ -5,8 +5,6 @@
 
 SET(DOSETOOL_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbDoseToolTests)
 
-SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
-
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 
@@ -35,8 +33,4 @@ ADD_TEST(DoseToolDicomDoseDicomStructRegexTest ${DOSETOOL_TEST} DoseToolRegexTes
 ADD_TEST(DoseToolDVHTest ${DOSETOOL_TEST} DoseToolDVHTest ${DOSETOOLEXE} "${TEST_DATA_ROOT}/Dose/DICOM/dicompylerTestDose.dcm" "${TEST_DATA_ROOT}/StructureSet/DICOM/rtss.dcm" "Nodes"
 "${TEST_DATA_ROOT}/DVH/XML/dicompylerDVH.xml")
 
-RTTB_CREATE_APPLICATION_TESTS(DoseTool DEPENDS RTTBOtherIO PACKAGE_DEPENDS Litmus BoostBinaries)
-
-IF (NOT WIN32)
-	target_compile_features(rttbDoseToolTests PRIVATE cxx_auto_type cxx_nullptr cxx_override)
-ENDIF()
+RTTB_CREATE_APPLICATION_TESTS(DoseTool DEPENDS RTTBOtherIO PACKAGE_DEPENDS Litmus BoostBinaries RTTBData)

@@ -21,6 +21,7 @@ ENDIF()
 ExternalProject_Add(
 	Litmus
 	URL ${RTToolbox_SOURCE_DIR}/utilities/Litmus/Litmus.tar.gz
+	URL_HASH SHA1=ca064c95e44b84542966523b4a3814554af30b49
 	SOURCE_DIR ${LITMUS_SOURCE_DIR}
 	BINARY_DIR ${LITMUS_BUILD_DIR}
 	PREFIX ${LITMUS_CMAKE_DIR}
@@ -31,6 +32,20 @@ ExternalProject_Add(
 		${ENABLE_ITK}
 		${ITK_DIRECTORY}
 )
+
+set(RTTBDATA_DIR "${CMAKE_BINARY_DIR}/external/RTTBData")
+set(TEST_DATA_ROOT ${RTTBDATA_DIR})
+
+#download RTTB data
+message(STATUS "RTTBdata will be automatically downloaded.")
+ExternalProject_Add(
+	RTTBData
+    SOURCE_DIR ${RTTBDATA_DIR}
+    GIT_REPOSITORY "ssh://git@phabricator.mitk.org:2222/source/rttb-data.git"
+	CONFIGURE_COMMAND ""
+	BUILD_COMMAND ""
+	INSTALL_COMMAND ""
+  )
 
 #-----------------------------------------------------------------------------
 # Configure Testing branch

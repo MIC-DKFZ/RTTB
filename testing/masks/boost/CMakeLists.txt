@@ -6,8 +6,6 @@
 
 SET(Boost_Mask_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbBoostMaskTests)
 
-SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
-
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 

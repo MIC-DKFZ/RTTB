@@ -6,8 +6,6 @@
 
 SET(INTERPOLATION_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbInterpolationTests)
 
-SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
-
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 
@@ -23,4 +21,4 @@ IF(BUILD_InterpolationMatchPointTransformation)
 	ADD_SUBDIRECTORY(InterpolationMatchPointTransformation)
 ENDIF(BUILD_InterpolationMatchPointTransformation)
 
-RTTB_CREATE_TEST_MODULE(rttbInterpolation DEPENDS RTTBInterpolation RTTBDicomIO PACKAGE_DEPENDS Litmus)
+RTTB_CREATE_TEST_MODULE(rttbInterpolation DEPENDS RTTBInterpolation RTTBDicomIO PACKAGE_DEPENDS Litmus RTTBData)
