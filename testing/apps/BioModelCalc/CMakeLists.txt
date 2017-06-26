@@ -6,8 +6,6 @@
 
 SET(BIOMODELCALC_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbBioModelCalcTests)
 
-SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
-
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 
@@ -29,4 +27,4 @@ ADD_TEST(BioModelCalcSimpleTest ${BIOMODELCALC_TEST} BioModelCalcSimpleTest ${BI
 ADD_TEST(BioModelCalcParameterMapsTest ${BIOMODELCALC_TEST} BioModelCalcParameterMapsTest ${BIOMODELCALCEXE} "${TEST_DATA_ROOT}/Dose/DICOM/ConstantTwo.dcm" "dicom" "LQ" 
 	"${TEST_DATA_ROOT}/Dose/ITK/constant01.nrrd ${TEST_DATA_ROOT}/Dose/ITK/constant001.nrrd" "itk" "${TEST_DATA_ROOT}/BioModel/Images/parameterMapsReference.nrrd")
 
-RTTB_CREATE_APPLICATION_TESTS(BioModelCalc DEPENDS RTTBITKIO PACKAGE_DEPENDS Litmus ITK BoostBinaries)
+RTTB_CREATE_APPLICATION_TESTS(BioModelCalc DEPENDS RTTBITKIO PACKAGE_DEPENDS Litmus ITK BoostBinaries RTTBData)

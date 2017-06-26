@@ -4,7 +4,6 @@
 #-----------------------------------------------------------------------------
 
 SET(VoxelizerTool_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbVoxelizerToolTests)
-SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
 SET(TEST_DATA ${RTToolbox_BINARY_DIR}/testing/apps/VoxelizerTool)
 
 IF (WIN32)
@@ -27,4 +26,4 @@ ADD_TEST(VoxelizerToolDifferentCommandsTest ${VoxelizerTool_TESTS} VoxelizerTool
 ADD_TEST(VoxelizerToolVoxelValueTest  ${VoxelizerTool_TESTS} VoxelizerToolVoxelValue 
 "${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE} "Leber")
 
-RTTB_CREATE_APPLICATION_TESTS(VoxelizerTool PACKAGE_DEPENDS Litmus ITK BoostBinaries)
+RTTB_CREATE_APPLICATION_TESTS(VoxelizerTool PACKAGE_DEPENDS Litmus ITK BoostBinaries RTTBData)

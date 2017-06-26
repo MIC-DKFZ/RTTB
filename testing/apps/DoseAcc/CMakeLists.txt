@@ -6,8 +6,6 @@
 
 SET(DOSEACC_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbDoseAccTests)
 
-SET(TEST_DATA_ROOT ${RTTBTesting_SOURCE_DIR}/data)
-
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 
@@ -27,4 +25,4 @@ ADD_TEST(DoseAccInvalidParametersTest ${DOSEACC_TEST} DoseAccInvalidParametersTe
 ADD_TEST(DoseAccSimpleTest ${DOSEACC_TEST} DoseAccSimpleTest ${DOSEACCEXE} "${TEST_DATA_ROOT}/Dose/DICOM/ConstantTwo.dcm" "${TEST_DATA_ROOT}/Dose/DICOM/ConstantFifty.dcm" "${TEST_DATA_ROOT}/Images/ITK/doseAccReference.nrrd") 
 ADD_TEST(DoseAccNeutralWeightTest ${DOSEACC_TEST} DoseAccNeutralWeightTest ${DOSEACCEXE} "${TEST_DATA_ROOT}/Dose/DICOM/ConstantFifty.dcm" "${TEST_DATA_ROOT}/Dose/ITK/constantFifty.nrrd" "${TEST_DATA_ROOT}/Dose/ITK/constant2500.nrrd") 
 
-RTTB_CREATE_APPLICATION_TESTS(DoseAcc DEPENDS RTTBITKIO PACKAGE_DEPENDS Litmus ITK BoostBinaries)
+RTTB_CREATE_APPLICATION_TESTS(DoseAcc DEPENDS RTTBITKIO PACKAGE_DEPENDS Litmus ITK BoostBinaries RTTBData)
