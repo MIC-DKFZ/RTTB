@@ -41,10 +41,10 @@ namespace rttb
 			for (size_t i = 0; i < _precomputeDoseValues.size(); ++i)
 			{
 				double xAbsolute = _precomputeDoseValues.at(i) * _referenceDose;
-				if (true)
+				if (_multiThreading)
 				{
-					//throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
-					threads.push_back(boost::thread(&DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection, this , xAbsolute, computeSpecificValue(xAbsolute)));
+					throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
+					//threads.push_back(boost::thread(&DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection, this , xAbsolute, computeSpecificValue(xAbsolute)));
 				}
 				else
 				{
