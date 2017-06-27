@@ -44,10 +44,12 @@ namespace rttb
 			std::string structName;
 			std::string referenceXMLFilename;
 			std::string referenceXMLComplexFilename;
+			std::string defaultOutputFilename;
+			std::string complexOutputFilename;
 
 			boost::filesystem::path callingPath(_callingAppPath);
 
-			if (argc > 6)
+			if (argc > 8)
 			{
 				doseToolExecutable = argv[1];
 				doseFilename = argv[2];
@@ -55,12 +57,11 @@ namespace rttb
 				structName = argv[4];
 				referenceXMLFilename = argv[5];
 				referenceXMLComplexFilename = argv[6];
+				defaultOutputFilename = argv[7];
+				complexOutputFilename = argv[8];
 			}
 
 			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExecutable;
-
-			std::string defaultOutputFilename = "itkOutput.xml";
-			std::string complexOutputFilename = "itkOutputComplex.xml";
 
 			std::string baseCommand = doseToolExeWithPath;
             baseCommand += " -d \"" + doseFilename + "\"";
