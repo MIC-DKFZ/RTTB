@@ -192,7 +192,7 @@ namespace rttb
 				}
 				catch (boost::bad_lexical_cast&)
 				{
-					throw core::InvalidDoseException("boost::lexical_cast ImageOrientation failed! Can not read image orientation X/Y/Z!")
+					throw core::InvalidDoseException("boost::lexical_cast WorldCoordinate failed! Can not read image orientation X/Y/Z!")
 					;
 				}
 
@@ -253,7 +253,7 @@ namespace rttb
 
 				_geoInfo.setSpacing(spacingVector);
 
-				if (_geoInfo.getPixelSpacingRow() == 0 || _geoInfo.getPixelSpacingColumn() == 0)
+				if (_geoInfo.getSpacing()(0) == 0 || _geoInfo.getSpacing()(1) == 0)
 				{
 					throw core::InvalidDoseException("Pixel spacing not readable or = 0!");
 				}
@@ -293,7 +293,7 @@ namespace rttb
 					else
 					{
 						std::cerr << "sliceThickness == 0! It will be replaced with pixelSpacingRow=" <<
-						          _geoInfo.getPixelSpacingRow()
+						          _geoInfo.getSpacing()(0)
 						          << "!" << std::endl;
 						spacingVector(2) = spacingVector(0);
 					}

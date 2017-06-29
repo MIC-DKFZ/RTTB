@@ -87,32 +87,6 @@ namespace rttb
 				return _orientationMatrix;
 			};
 
-			/*! @brief Returns the 1st row of the OrientationMatrix.
-				@deprecated please use getOrientationMatrix() (x,0) instead*/
-			const ImageOrientation getImageOrientationRow() const;
-
-			/*! @brief Returns the 2nd row of the OrientationMatrix.
-				@deprecated please use getOrientationMatrix() (x,1) instead*/
-			const ImageOrientation getImageOrientationColumn() const;
-
-			void setPixelSpacingRow(const GridVolumeType aValue);
-
-			/*! @brief Returns the spacing in the x-dimension (rows) of the data grid.
-				@deprecated please use getSpacing() (0) instead*/
-			const GridVolumeType getPixelSpacingRow() const;
-
-			void setPixelSpacingColumn(const GridVolumeType aValue);
-
-			/*! @brief Returns the spacing in the y-dimension (columns) of the data grid.
-				@deprecated please use getSpacing() (1) instead*/
-			const GridVolumeType getPixelSpacingColumn() const;
-
-			void setSliceThickness(const GridVolumeType aValue);
-
-			/*! @brief Returns the spacing in the z-dimension (slices) of the data grid.
-				@deprecated please use getSpacing() (2) instead*/
-			const GridVolumeType getSliceThickness() const;
-
 			void setImageSize(const ImageSize& aSize);
 
 			const ImageSize getImageSize() const;
@@ -131,7 +105,7 @@ namespace rttb
 
 			/*! @brief determines equality of two GeometricInfo objects.
 			*/
-            friend bool RTTBCore_EXPORT operator == (const GeometricInfo& gInfo, const GeometricInfo& gInfo1);
+      friend bool RTTBCore_EXPORT operator == (const GeometricInfo& gInfo, const GeometricInfo& gInfo1);
 
 			bool equalsAlmost(const GeometricInfo& another, double errorConstantGI = 1e-5) const;
 
@@ -185,7 +159,7 @@ namespace rttb
 			bool isInside(const VoxelGridIndex3D& aIndex) const;
 
 			/*! @brief check if a given world coordinate is inside the given voxel grid.*/
-			bool isInside(const WorldCoordinate3D& aWorldCoordinate);
+			bool isInside(const WorldCoordinate3D& aWorldCoordinate) const;
 
 			const GridSizeType getNumberOfVoxels() const;
 

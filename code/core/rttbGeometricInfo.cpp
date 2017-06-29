@@ -81,55 +81,6 @@ namespace rttb
 			return true;
 		}
 
-		const ImageOrientation GeometricInfo::getImageOrientationRow() const
-		{
-			ImageOrientation _imageOrientationRow(0);
-			_imageOrientationRow(0) = _orientationMatrix(0, 0);
-			_imageOrientationRow(1) = _orientationMatrix(1, 0);
-			_imageOrientationRow(2) = _orientationMatrix(2, 0);
-			return _imageOrientationRow;
-		}
-
-		const ImageOrientation GeometricInfo::getImageOrientationColumn() const
-		{
-			ImageOrientation _imageOrientationColumn(0);
-			_imageOrientationColumn(0) = _orientationMatrix(0, 1);
-			_imageOrientationColumn(1) = _orientationMatrix(1, 1);
-			_imageOrientationColumn(2) = _orientationMatrix(2, 1);
-			return _imageOrientationColumn;
-		}
-
-		void GeometricInfo::setPixelSpacingRow(const GridVolumeType aValue)
-		{
-			_spacing(0) = aValue;
-		}
-
-		const GridVolumeType GeometricInfo::getPixelSpacingRow() const
-		{
-			return _spacing(0);
-		}
-
-		void GeometricInfo::setPixelSpacingColumn(const GridVolumeType aValue)
-		{
-			_spacing(1) = aValue;
-		}
-
-		const GridVolumeType GeometricInfo::getPixelSpacingColumn() const
-		{
-			return _spacing(1);
-		}
-
-		void GeometricInfo::setSliceThickness(const GridVolumeType aValue)
-		{
-			_spacing(2) = aValue;
-		}
-
-		const GridVolumeType GeometricInfo::getSliceThickness() const
-		{
-			return _spacing(2);
-		}
-
-
 		void GeometricInfo::setImageSize(const ImageSize& aSize)
 		{
 			setNumColumns(aSize(0));
@@ -282,7 +233,7 @@ namespace rttb
 			        && aIndex(2) < static_cast<unsigned int>(_numberOfFrames));
 		}
 
-		bool GeometricInfo::isInside(const WorldCoordinate3D& aWorldCoordinate)
+		bool GeometricInfo::isInside(const WorldCoordinate3D& aWorldCoordinate) const
 		{
 			VoxelGridIndex3D currentIndex;
 			return (worldCoordinateToIndex(aWorldCoordinate, currentIndex));

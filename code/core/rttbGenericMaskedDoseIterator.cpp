@@ -61,7 +61,7 @@ namespace rttb
 			if (!(_currentMaskPos == _maskVoxelVec->end()))
 			{
 				assert(_spMask->getGeometricInfo().validID(_currentMaskPos->getVoxelGridID()));
-				return _currentMaskPos->getProportionInStr();
+				return _currentMaskPos->getRelevantVolumeFraction();
 			}
 
 			return 0;
