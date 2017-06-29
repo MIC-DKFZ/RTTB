@@ -70,25 +70,7 @@ namespace rttb
 
 			void setRelevantVolumeFraction(const FractionType aVolumeFraction);
 
-			/*! @brief Set the volume fraction of current voxel inside a given structure
-				@deprecated Please use setRelevantVolumeFraction instead.
-				@see setRelevantVolumeFraction
-			*/
-			void setProportionInStr(const FractionType aFraction)
-			{
-				setRelevantVolumeFraction(aFraction);
-			};
-
 			FractionType getRelevantVolumeFraction() const;
-
-			/*! @brief Get the volume fraction of current voxel inside a given structure
-				@deprecated Please use getRelevantVolumeFraction instead.
-				@see getRelevantVolumeFraction
-			*/
-			FractionType getProportionInStr() const
-			{
-				return getRelevantVolumeFraction();
-			};
 
 			friend std::ostream& operator<<(std::ostream& s, const MaskVoxel& maskVoxel)
 			{

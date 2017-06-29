@@ -33,7 +33,6 @@ namespace rttb
 		/*! @brief MaskVoxelTest - test the API of MaskVoxel
 			1) test constructors (values as expected?)
 			2) test set/getRelevantVolumeFraction
-			3) test legacy access
 			4) test operators "=="
 		*/
 
@@ -75,20 +74,6 @@ namespace rttb
 			CHECK_THROW_EXPLICIT(aMaskVoxel3.setRelevantVolumeFraction(aFraction + 2),
 			                     core::InvalidParameterException);
 			aMaskVoxel3.setRelevantVolumeFraction(aFraction);
-			CHECK_EQUAL(anID, aMaskVoxel3.getVoxelGridID());
-			CHECK_EQUAL(aFraction, aMaskVoxel3.getRelevantVolumeFraction());
-
-			//3) test legacy access
-			aFraction = aMaskVoxel3.getRelevantVolumeFraction();
-			anID = aMaskVoxel3.getVoxelGridID();
-			CHECK_EQUAL(aFraction, aMaskVoxel3.getProportionInStr());
-			CHECK_EQUAL(aMaskVoxel3.getProportionInStr(), aMaskVoxel3.getRelevantVolumeFraction());
-			aFraction = 0.84;
-			CHECK_NO_THROW(aMaskVoxel3.setProportionInStr(aFraction));
-			CHECK_THROW_EXPLICIT(aMaskVoxel3.setProportionInStr(-aFraction), core::InvalidParameterException);
-			CHECK_THROW_EXPLICIT(aMaskVoxel3.setProportionInStr(aFraction + 2),
-			                     core::InvalidParameterException);
-			aMaskVoxel3.setProportionInStr(aFraction);
 			CHECK_EQUAL(anID, aMaskVoxel3.getVoxelGridID());
 			CHECK_EQUAL(aFraction, aMaskVoxel3.getRelevantVolumeFraction());
 
