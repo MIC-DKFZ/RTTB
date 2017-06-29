@@ -62,6 +62,7 @@ namespace rttb
 			/*! @brief Computes the measureCollection. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
 			*/
 			void compute();
+			void computeAdditionalValues(const std::vector<double>& value);
 			DoseToVolumeMeasureCollection getMeasureCollection();
 
 		protected:

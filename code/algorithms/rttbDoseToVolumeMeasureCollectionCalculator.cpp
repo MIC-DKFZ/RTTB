@@ -36,11 +36,19 @@ namespace rttb
 
 		void DoseToVolumeMeasureCollectionCalculator::compute()
 		{
+			computeAdditionalValues(_precomputeDoseValues);
+		}
+		
+		void DoseToVolumeMeasureCollectionCalculator::computeAdditionalValues(const std::vector<double>& value)
+		{
 			std::vector<boost::thread> threads;
 
-			for (size_t i = 0; i < _precomputeDoseValues.size(); ++i)
+			for (size_t i = 0; i < value.size(); ++i)
 			{
-				double xAbsolute = _precomputeDoseValues.at(i) * _referenceDose;
+				if (value.at(i) > 1 || value.at(i) < 0) {
+					throw rttb::core::InvalidParameterException("Values must be between 1 and 0!");
+				}
+				double xAbsolute = value.at(i) * _referenceDose;
 				if (_multiThreading)
 				{
 					throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");

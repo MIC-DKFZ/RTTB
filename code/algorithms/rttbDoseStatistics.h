@@ -26,6 +26,7 @@
 #include <map>
 
 #include "boost/shared_ptr.hpp"
+#include <boost/make_shared.hpp>
 
 #include "rttbBaseType.h"
 
@@ -66,7 +67,7 @@ namespace rttb
 			VoxelNumberType _numVoxels;
 			VolumeType _volume;
 			DoseTypeGy _referenceDose; //for Vx computation
-			VolumeToDoseMeasureCollection _Dx;
+			::boost::shared_ptr<VolumeToDoseMeasureCollection> _Dx;
 			DoseToVolumeMeasureCollection _Vx;
 			VolumeToDoseMeasureCollection _MOHx;
 			VolumeToDoseMeasureCollection _MOCx;
@@ -99,7 +100,7 @@ namespace rttb
 
 			void setMinimumVoxelPositions(ResultListPointer minimumVoxelPositions);
 			void setMaximumVoxelPositions(ResultListPointer maximumVoxelPositions);
-			void setDx(const VolumeToDoseMeasureCollection& DxValues);
+			void setDx(::boost::shared_ptr<VolumeToDoseMeasureCollection> DxValues);
 			void setVx(const DoseToVolumeMeasureCollection& VxValues);
 			void setMOHx(const VolumeToDoseMeasureCollection& MOHxValues);
 			void setMOCx(const VolumeToDoseMeasureCollection& MOCxValues);

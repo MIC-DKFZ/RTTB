@@ -32,6 +32,13 @@
 
 #include "RTTBAlgorithmsExports.h"
 
+#include "rttbDxVolumeToDoseMeasureCollectionCalculator.h"
+#include "rttbVxDoseToVolumeMeasureCollectionCalculator.h"
+#include "rttbMOHxVolumeToDoseMeasureCollectionCalculator.h"
+#include "rttbMOCxVolumeToDoseMeasureCollectionCalculator.h"
+#include "rttbMaxOHxVolumeToDoseMeasureCollectionCalculator.h"
+#include "rttbMinOCxVolumeToDoseMeasureCollectionCalculator.h"
+
 namespace rttb
 {
 
@@ -67,10 +74,18 @@ namespace rttb
 			DoseStatisticsPointer _statistics;
 
 			bool _simpleDoseStatisticsCalculated;
+			bool _complexDoseStatisticsCalculated;
 
 			bool _multiThreading;
 
 			::boost::shared_ptr<boost::shared_mutex> _mutex;
+
+			::boost::shared_ptr<VxDoseToVolumeMeasureCollectionCalculator> _Vx;
+			::boost::shared_ptr<DxVolumeToDoseMeasureCollectionCalculator> _Dx;
+			::boost::shared_ptr<MOHxVolumeToDoseMeasureCollectionCalculator> _MOHx;
+			::boost::shared_ptr<MOCxVolumeToDoseMeasureCollectionCalculator> _MOCx;
+			::boost::shared_ptr<MaxOHxVolumeToDoseMeasureCollectionCalculator> _MaxOHx;
+			::boost::shared_ptr<MinOCxVolumeToDoseMeasureCollectionCalculator> _MinOCx;
 
 			/*! @brief Calculates the positions where the dose has its maximum
 				@param maxNumberMaximaPositions the maximal amount of computed positions
@@ -163,6 +178,8 @@ namespace rttb
 			        const std::vector<double>& precomputeVolumeValues, DoseTypeGy referenceDose = -1,
 			        unsigned int maxNumberMinimaPositions = 10,
 			        unsigned int maxNumberMaximaPositions = 10);
+
+			void calculateAdditionalComplexDoseStatistics(const std::vector<double>& values);
 
 			void setMultiThreading(bool choice);
 		};

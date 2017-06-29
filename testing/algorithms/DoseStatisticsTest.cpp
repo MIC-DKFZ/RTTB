@@ -143,7 +143,7 @@ namespace rttb
 			//2) test setters (only complex statistics have setters)
 			CHECK_NO_THROW(aDoseStatistic.setMaximumVoxelPositions(resultsMaxVoxels));
 			CHECK_NO_THROW(aDoseStatistic.setMinimumVoxelPositions(resultsMinVoxels));
-			CHECK_NO_THROW(aDoseStatistic.setDx(Dx));
+			CHECK_NO_THROW(aDoseStatistic.setDx(::boost::make_shared<algorithms::VolumeToDoseMeasureCollection>(Dx)));
 			CHECK_NO_THROW(aDoseStatistic.setVx(Vx));
 			CHECK_NO_THROW(aDoseStatistic.setMOHx(MOHx));
 			CHECK_NO_THROW(aDoseStatistic.setMOCx(MOCx));
@@ -177,7 +177,7 @@ namespace rttb
 
 			rttb::algorithms::DoseStatistics aDoseStatisticNewValues(minimum, maximum, mean, stdDeviation,
 			        numVoxels, volume);
-			aDoseStatisticNewValues.setDx(Dx);
+			aDoseStatisticNewValues.setDx(::boost::make_shared<algorithms::VolumeToDoseMeasureCollection>(Dx));
 			aDoseStatisticNewValues.setVx(Vx);
 
 			CHECK_NO_THROW(aDoseStatisticNewValues.getVx().getValue(1.1));

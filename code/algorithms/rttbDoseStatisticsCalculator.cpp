@@ -30,13 +30,6 @@
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
 
-#include "rttbDxVolumeToDoseMeasureCollectionCalculator.h"
-#include "rttbVxDoseToVolumeMeasureCollectionCalculator.h"
-#include "rttbMOHxVolumeToDoseMeasureCollectionCalculator.h"
-#include "rttbMOCxVolumeToDoseMeasureCollectionCalculator.h"
-#include "rttbMaxOHxVolumeToDoseMeasureCollectionCalculator.h"
-#include "rttbMinOCxVolumeToDoseMeasureCollectionCalculator.h"
-
 #include <boost/thread/thread.hpp>
 
 namespace rttb
@@ -57,6 +50,7 @@ namespace rttb
 			}
 
 			_simpleDoseStatisticsCalculated = false;
+			_complexDoseStatisticsCalculated = false;
 
 			_multiThreading = false;
 			_mutex = ::boost::make_shared<::boost::shared_mutex>();
@@ -283,39 +277,51 @@ namespace rttb
 				precomputeVolumeValuesNonConst = defaultPrecomputeVolumeValues;
 			}
 
-			VxDoseToVolumeMeasureCollectionCalculator Vx(precomputeDoseValuesNonConst, referenceDose, _doseIterator);
-			Vx.compute();
+			_Vx = ::boost::make_shared<VxDoseToVolumeMeasureCollectionCalculator>(precomputeDoseValuesNonConst, referenceDose, _doseIterator);
+			_Vx->compute();
 
-			DxVolumeToDoseMeasureCollectionCalculator Dx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
+			_Dx = ::boost::make_shared<DxVolumeToDoseMeasureCollectionCalculator>(precomputeVolumeValuesNonConst, _statistics->getVolume(),
 				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum());
-			Dx.compute();
+			_Dx->compute();
 
-			MOHxVolumeToDoseMeasureCollectionCalculator MOHx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
+			_MOHx = ::boost::make_shared<MOHxVolumeToDoseMeasureCollectionCalculator>(precomputeVolumeValuesNonConst, _statistics->getVolume(),
 				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume());
-			MOHx.compute();
+			_MOHx->compute();
 
-			MOCxVolumeToDoseMeasureCollectionCalculator MOCx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
+			_MOCx = ::boost::make_shared<MOCxVolumeToDoseMeasureCollectionCalculator>(precomputeVolumeValuesNonConst, _statistics->getVolume(),
 				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume());
-			MOCx.compute();
+			_MOCx->compute();
 
-			MaxOHxVolumeToDoseMeasureCollectionCalculator MaxOHx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
+			_MaxOHx = ::boost::make_shared<MaxOHxVolumeToDoseMeasureCollectionCalculator>(precomputeVolumeValuesNonConst, _statistics->getVolume(),
 				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume());
-			MaxOHx.compute();
+			_MaxOHx->compute();
 
-			MinOCxVolumeToDoseMeasureCollectionCalculator MinOCx(precomputeVolumeValuesNonConst, _statistics->getVolume(),
+			_MinOCx = ::boost::make_shared<MinOCxVolumeToDoseMeasureCollectionCalculator>(precomputeVolumeValuesNonConst, _statistics->getVolume(),
 				this->_doseVector, this->_voxelProportionVector, this->_doseIterator->getCurrentVoxelVolume(), _statistics->getMinimum(), _statistics->getMaximum());
-			MinOCx.compute();
+			_MinOCx->compute();
 
-			_statistics->setVx(Vx.getMeasureCollection());
-			_statistics->setDx(Dx.getMeasureCollection());
-			_statistics->setMOHx(MOHx.getMeasureCollection());
-			_statistics->setMOCx(MOCx.getMeasureCollection());
-			_statistics->setMaxOHx(MaxOHx.getMeasureCollection());
-			_statistics->setMinOCx(MinOCx.getMeasureCollection());
+			_statistics->setVx(_Vx->getMeasureCollection());
+			_statistics->setDx(_Dx->getMeasureCollection());
+			/*_statistics->setMOHx(_MOHx->getMeasureCollection());
+			_statistics->setMOCx(_MOCx->getMeasureCollection());
+			_statistics->setMaxOHx(_MaxOHx->getMeasureCollection());
+			_statistics->setMinOCx(_MinOCx->getMeasureCollection());*/
 			_statistics->setReferenceDose(referenceDose);
+			_complexDoseStatisticsCalculated = true;
 		}
 
-
+		void DoseStatisticsCalculator::calculateAdditionalComplexDoseStatistics(const std::vector<double>& values)
+		{
+			if (!_complexDoseStatisticsCalculated)
+			{
+				throw core::InvalidDoseException("Complex DoseStatistics have to be computed in order to call calculateAdditionalComplexDoseStatistics()");
+			}
+			// test ob complex ist calced
+			_Dx->computeAdditionalValues(values);
+			//_statistics->setVx(_Vx->getMeasureCollection());
+			//selbe mit Dx bis MinOCx
+		}
+		
 
 		DoseStatisticsCalculator::ResultListPointer DoseStatisticsCalculator::computeMaximumPositions(
 			unsigned int maxNumberMaxima) const

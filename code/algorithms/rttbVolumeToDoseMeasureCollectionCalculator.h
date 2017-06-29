@@ -23,6 +23,7 @@
 #define __VOLUME_TO_DOSE_MEASURE_COLLECTION_CALCULATOR_H
 
 #include "rttbVolumeToDoseMeasureCollection.h"
+#include <boost/shared_ptr.hpp>
 
 namespace rttb
 {
@@ -47,7 +48,7 @@ namespace rttb
 
 		private:
 			VolumeType _volume;
-			VolumeToDoseMeasureCollection measureCollection;
+			::boost::shared_ptr<VolumeToDoseMeasureCollection> measureCollection;
 			std::vector<double> _precomputeVolumeValues;
 			bool _multiThreading;
 
@@ -55,7 +56,8 @@ namespace rttb
 			/*!  @brief Computes the measureCollection. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
 			*/
 			void compute();
-			VolumeToDoseMeasureCollection getMeasureCollection();
+			void computeAdditionalValues(const std::vector<double>& value);
+			::boost::shared_ptr<VolumeToDoseMeasureCollection> getMeasureCollection();
 
 		protected:
 			VolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,

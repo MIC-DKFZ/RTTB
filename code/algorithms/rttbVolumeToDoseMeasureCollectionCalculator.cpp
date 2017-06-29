@@ -22,6 +22,8 @@
 #include "rttbVolumeToDoseMeasureCollectionCalculator.h"
 #include <boost/thread/thread.hpp>
 #include "rttbInvalidParameterException.h"
+
+#include <boost/make_shared.hpp>
 //#include <boost/thread/locks.hpp> 
 
 namespace rttb
@@ -31,16 +33,20 @@ namespace rttb
 	{
 		VolumeToDoseMeasureCollectionCalculator::VolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 			const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, const DoseVoxelVolumeType currentVoxelVolume,
-			VolumeToDoseMeasureCollection::complexStatistics name, bool multiThreading) : measureCollection(VolumeToDoseMeasureCollection(name)), _precomputeVolumeValues(precomputeVolumeValues),
+			VolumeToDoseMeasureCollection::complexStatistics name, bool multiThreading) : measureCollection(::boost::make_shared<VolumeToDoseMeasureCollection>(name)), _precomputeVolumeValues(precomputeVolumeValues),
 			_volume(volume), _doseVector(doseVector), _voxelProportionVector(voxelProportionVector), _currentVoxelVolume(currentVoxelVolume), _multiThreading(multiThreading) {}
 
 		void VolumeToDoseMeasureCollectionCalculator::compute()
 		{
+			computeAdditionalValues(_precomputeVolumeValues);
+		}
+		void VolumeToDoseMeasureCollectionCalculator::computeAdditionalValues(const std::vector<double>& value)
+		{
 			std::vector<boost::thread> threads;
 
-			for (size_t i = 0; i < _precomputeVolumeValues.size(); ++i)
+			for (size_t i = 0; i < value.size(); ++i)
 			{
-				double xAbsolute = _precomputeVolumeValues.at(i) * _volume;
+				double xAbsolute = value.at(i) * _volume;
 				if (_multiThreading)
 				{
 					throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
@@ -58,14 +64,14 @@ namespace rttb
 			}
 		}
 
-		VolumeToDoseMeasureCollection VolumeToDoseMeasureCollectionCalculator::getMeasureCollection()
+		::boost::shared_ptr<VolumeToDoseMeasureCollection> VolumeToDoseMeasureCollectionCalculator::getMeasureCollection()
 		{
 			return measureCollection;
 		}
 
 		void VolumeToDoseMeasureCollectionCalculator::insertIntoMeasureCollection(VolumeType  xAbsolute, DoseTypeGy resultDose)
 		{
-			measureCollection.insertValue(xAbsolute, resultDose);
+			measureCollection->insertValue(xAbsolute, resultDose);
 		}
 	}
 }

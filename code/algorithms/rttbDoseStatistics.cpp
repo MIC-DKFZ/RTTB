@@ -44,7 +44,7 @@ namespace rttb
 		    DoseTypeGy referenceDose /*=-1*/):
 			_minimum(minimum), _maximum(maximum), _mean(mean), _stdDeviation(stdDeviation),
 			_numVoxels(numVoxels), _volume(volume),
-			_Dx(Dx), _Vx(Vx),
+			_Dx(::boost::make_shared<VolumeToDoseMeasureCollection>(Dx)), _Vx(Vx),
 			_MOHx(MOHx),
 			_MOCx(MOCx), _MaxOHx(MaxOHx), _MinOCx(MinOCx)
 		{
@@ -95,7 +95,7 @@ namespace rttb
 			_maximumVoxelPositions = maximumVoxelPositions;
 		}
 
-		void DoseStatistics::setDx(const VolumeToDoseMeasureCollection& DxValues)
+		void DoseStatistics::setDx(::boost::shared_ptr<VolumeToDoseMeasureCollection> DxValues)
 		{
 			_Dx = DxValues;
 		}
@@ -262,7 +262,7 @@ namespace rttb
 
 		VolumeToDoseMeasureCollection DoseStatistics::getDx() const
 		{
-			return _Dx;
+			return *_Dx;
 		}
 
 		VolumeToDoseMeasureCollection DoseStatistics::getMOHx() const
