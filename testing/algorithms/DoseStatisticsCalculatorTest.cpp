@@ -153,13 +153,8 @@ namespace rttb
 
 			faultyValues.push_back(2);
 
-			CHECK_THROW_EXPLICIT(myDoseStatsCalculator.calculateAdditionalComplexDoseStatistics(additionalValues),
-				core::InvalidDoseException);
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(precomputeDoseValues,
 				precomputeVolumeValues));
-			std::cout << "hier:";
-			//std::cout << theStatistics->getDx().getValue(theStatistics->getMaximum())<<":";
-			std::cout << theStatistics->getDx().getValue(0.1 * theStatistics->getVolume());
 			CHECK_NO_THROW(theStatistics->getVx().getValue(0.01 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getVx().getValue(0.02 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getVx().getValue(0.05 * theStatistics->getMaximum()));
@@ -171,10 +166,10 @@ namespace rttb
 			CHECK_THROW_EXPLICIT(theStatistics->getDx().getValue(0.04 * theStatistics->getVolume()),
 				core::DataNotAvailableException);
 
-			CHECK_THROW_EXPLICIT(myDoseStatsCalculator.calculateAdditionalComplexDoseStatistics(additionalValues),
+			CHECK_THROW_EXPLICIT(myDoseStatsCalculator.calculateAdditionalComplexDoseStatisticMeasures(faultyValues),
 				core::InvalidParameterException);
-			CHECK_NO_THROW(myDoseStatsCalculator.calculateAdditionalComplexDoseStatistics(additionalValues));
-			//CHECK_NO_THROW(theStatistics->getVx().getValue(0.03 * theStatistics->getMaximum()));
+			CHECK_NO_THROW(myDoseStatsCalculator.calculateAdditionalComplexDoseStatisticMeasures(additionalValues));
+			CHECK_NO_THROW(theStatistics->getVx().getValue(0.03 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getDx().getValue(0.04 * theStatistics->getVolume()));
 
 

@@ -22,6 +22,7 @@
 #include "rttbDoseToVolumeMeasureCollectionCalculator.h"
 #include <boost/thread/thread.hpp>
 #include "rttbInvalidParameterException.h"
+#include <boost/make_shared.hpp>
 //#include <boost/thread/locks.hpp> 
 
 namespace rttb
@@ -31,7 +32,7 @@ namespace rttb
 	{
 		DoseToVolumeMeasureCollectionCalculator::DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
 			const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator,
-			DoseToVolumeMeasureCollection::complexStatistics name, bool multiThreading) : _measureCollection(DoseToVolumeMeasureCollection(name)),
+			DoseToVolumeMeasureCollection::complexStatistics name, bool multiThreading) : _measureCollection(::boost::make_shared<DoseToVolumeMeasureCollection>(name)),
 			_precomputeDoseValues(precomputeDoseValues), _referenceDose(referenceDose), _doseIterator(doseIterator), _multiThreading(multiThreading) {}
 
 		void DoseToVolumeMeasureCollectionCalculator::compute()
@@ -39,16 +40,16 @@ namespace rttb
 			computeAdditionalValues(_precomputeDoseValues);
 		}
 		
-		void DoseToVolumeMeasureCollectionCalculator::computeAdditionalValues(const std::vector<double>& value)
+		void DoseToVolumeMeasureCollectionCalculator::computeAdditionalValues(const std::vector<double>& values)
 		{
 			std::vector<boost::thread> threads;
 
-			for (size_t i = 0; i < value.size(); ++i)
+			for (size_t i = 0; i < values.size(); ++i)
 			{
-				if (value.at(i) > 1 || value.at(i) < 0) {
+				if (values.at(i) > 1 || values.at(i) < 0) {
 					throw rttb::core::InvalidParameterException("Values must be between 1 and 0!");
 				}
-				double xAbsolute = value.at(i) * _referenceDose;
+				double xAbsolute = values.at(i) * _referenceDose;
 				if (_multiThreading)
 				{
 					throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
@@ -66,14 +67,14 @@ namespace rttb
 			}
 		}
 
-		DoseToVolumeMeasureCollection DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
+		::boost::shared_ptr<DoseToVolumeMeasureCollection> DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
 		{
 			return _measureCollection;
 		}
 
 		void DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection(DoseTypeGy xAbsolute, VolumeType resultVolume)
 		{
-			_measureCollection.insertValue(xAbsolute, resultVolume);
+			_measureCollection->insertValue(xAbsolute, resultVolume);
 		}
 	}
 }

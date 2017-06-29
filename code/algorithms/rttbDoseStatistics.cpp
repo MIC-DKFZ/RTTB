@@ -44,9 +44,12 @@ namespace rttb
 		    DoseTypeGy referenceDose /*=-1*/):
 			_minimum(minimum), _maximum(maximum), _mean(mean), _stdDeviation(stdDeviation),
 			_numVoxels(numVoxels), _volume(volume),
-			_Dx(::boost::make_shared<VolumeToDoseMeasureCollection>(Dx)), _Vx(Vx),
-			_MOHx(MOHx),
-			_MOCx(MOCx), _MaxOHx(MaxOHx), _MinOCx(MinOCx)
+			_Dx(::boost::make_shared<VolumeToDoseMeasureCollection>(Dx)),
+			_Vx(::boost::make_shared<DoseToVolumeMeasureCollection>(Vx)),
+			_MOHx(::boost::make_shared<VolumeToDoseMeasureCollection>(MOHx)),
+			_MOCx(::boost::make_shared<VolumeToDoseMeasureCollection>(MOCx)), 
+			_MaxOHx(::boost::make_shared<VolumeToDoseMeasureCollection>(MaxOHx)), 
+			_MinOCx(::boost::make_shared<VolumeToDoseMeasureCollection>(MinOCx))
 		{
 			if (maximumVoxelPositions == NULL)
 			{
@@ -100,27 +103,27 @@ namespace rttb
 			_Dx = DxValues;
 		}
 
-		void DoseStatistics::setVx(const DoseToVolumeMeasureCollection& VxValues)
+		void DoseStatistics::setVx(::boost::shared_ptr<DoseToVolumeMeasureCollection> VxValues)
 		{
 			_Vx = VxValues;
 		}
 
-		void DoseStatistics::setMOHx(const VolumeToDoseMeasureCollection& MOHxValues)
+		void DoseStatistics::setMOHx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MOHxValues)
 		{
 			_MOHx = MOHxValues;
 		}
 
-		void DoseStatistics::setMOCx(const VolumeToDoseMeasureCollection& MOCxValues)
+		void DoseStatistics::setMOCx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MOCxValues)
 		{
 			_MOCx = MOCxValues;
 		}
 
-		void DoseStatistics::setMaxOHx(const VolumeToDoseMeasureCollection& MaxOHValues)
+		void DoseStatistics::setMaxOHx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MaxOHValues)
 		{
 			_MaxOHx = MaxOHValues;
 		}
 
-		void DoseStatistics::setMinOCx(const VolumeToDoseMeasureCollection& MinOCValues)
+		void DoseStatistics::setMinOCx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MinOCValues)
 		{
 			_MinOCx = MinOCValues;
 		}
@@ -257,7 +260,7 @@ namespace rttb
 
 		DoseToVolumeMeasureCollection DoseStatistics::getVx() const
 		{
-			return _Vx;
+			return *_Vx;
 		}
 
 		VolumeToDoseMeasureCollection DoseStatistics::getDx() const
@@ -267,22 +270,22 @@ namespace rttb
 
 		VolumeToDoseMeasureCollection DoseStatistics::getMOHx() const
 		{
-			return _MOHx;
+			return *_MOHx;
 		}
 
 		VolumeToDoseMeasureCollection DoseStatistics::getMOCx() const
 		{
-			return _MOCx;
+			return *_MOCx;
 		}
 
 		VolumeToDoseMeasureCollection DoseStatistics::getMaxOHx() const
 		{
-			return _MaxOHx;
+			return *_MaxOHx;
 		}
 
 		VolumeToDoseMeasureCollection DoseStatistics::getMinOCx() const
 		{
-			return _MinOCx;
+			return *_MinOCx;
 		}
 
 

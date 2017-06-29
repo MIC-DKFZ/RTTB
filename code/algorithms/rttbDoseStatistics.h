@@ -68,11 +68,11 @@ namespace rttb
 			VolumeType _volume;
 			DoseTypeGy _referenceDose; //for Vx computation
 			::boost::shared_ptr<VolumeToDoseMeasureCollection> _Dx;
-			DoseToVolumeMeasureCollection _Vx;
-			VolumeToDoseMeasureCollection _MOHx;
-			VolumeToDoseMeasureCollection _MOCx;
-			VolumeToDoseMeasureCollection _MaxOHx;
-			VolumeToDoseMeasureCollection _MinOCx;
+			::boost::shared_ptr<DoseToVolumeMeasureCollection> _Vx;
+			::boost::shared_ptr<VolumeToDoseMeasureCollection> _MOHx;
+			::boost::shared_ptr<VolumeToDoseMeasureCollection> _MOCx;
+			::boost::shared_ptr<VolumeToDoseMeasureCollection> _MaxOHx;
+			::boost::shared_ptr<VolumeToDoseMeasureCollection> _MinOCx;
 
 
 		public:
@@ -101,11 +101,11 @@ namespace rttb
 			void setMinimumVoxelPositions(ResultListPointer minimumVoxelPositions);
 			void setMaximumVoxelPositions(ResultListPointer maximumVoxelPositions);
 			void setDx(::boost::shared_ptr<VolumeToDoseMeasureCollection> DxValues);
-			void setVx(const DoseToVolumeMeasureCollection& VxValues);
-			void setMOHx(const VolumeToDoseMeasureCollection& MOHxValues);
-			void setMOCx(const VolumeToDoseMeasureCollection& MOCxValues);
-			void setMaxOHx(const VolumeToDoseMeasureCollection& MaxOHxValues);
-			void setMinOCx(const VolumeToDoseMeasureCollection& MinOCxValues);
+			void setVx(::boost::shared_ptr<DoseToVolumeMeasureCollection> VxValues);
+			void setMOHx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MOHxValues);
+			void setMOCx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MOCxValues);
+			void setMaxOHx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MaxOHxValues);
+			void setMinOCx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MinOCxValues);
 			void setReferenceDose(DoseTypeGy referenceDose);
 
 			/*! @brief Get number of voxels in doseIterator, with sub-voxel accuracy.

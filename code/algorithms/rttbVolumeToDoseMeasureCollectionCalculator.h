@@ -48,7 +48,7 @@ namespace rttb
 
 		private:
 			VolumeType _volume;
-			::boost::shared_ptr<VolumeToDoseMeasureCollection> measureCollection;
+			::boost::shared_ptr<VolumeToDoseMeasureCollection> _measureCollection;
 			std::vector<double> _precomputeVolumeValues;
 			bool _multiThreading;
 
@@ -56,7 +56,10 @@ namespace rttb
 			/*!  @brief Computes the measureCollection. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
 			*/
 			void compute();
-			void computeAdditionalValues(const std::vector<double>& value);
+			/*! @brief Computes additonal DoseMeasures with the given values vector.
+			@exception InvalidParameterException If values vector contains values that are not between 0 and 1
+			*/
+			void computeAdditionalValues(const std::vector<double>& values);
 			::boost::shared_ptr<VolumeToDoseMeasureCollection> getMeasureCollection();
 
 		protected:

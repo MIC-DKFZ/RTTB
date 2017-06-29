@@ -302,24 +302,26 @@ namespace rttb
 
 			_statistics->setVx(_Vx->getMeasureCollection());
 			_statistics->setDx(_Dx->getMeasureCollection());
-			/*_statistics->setMOHx(_MOHx->getMeasureCollection());
+			_statistics->setMOHx(_MOHx->getMeasureCollection());
 			_statistics->setMOCx(_MOCx->getMeasureCollection());
 			_statistics->setMaxOHx(_MaxOHx->getMeasureCollection());
-			_statistics->setMinOCx(_MinOCx->getMeasureCollection());*/
+			_statistics->setMinOCx(_MinOCx->getMeasureCollection());
 			_statistics->setReferenceDose(referenceDose);
 			_complexDoseStatisticsCalculated = true;
 		}
 
-		void DoseStatisticsCalculator::calculateAdditionalComplexDoseStatistics(const std::vector<double>& values)
+		void DoseStatisticsCalculator::calculateAdditionalComplexDoseStatisticMeasures(const std::vector<double>& values)
 		{
 			if (!_complexDoseStatisticsCalculated)
 			{
-				throw core::InvalidDoseException("Complex DoseStatistics have to be computed in order to call calculateAdditionalComplexDoseStatistics()");
+				throw core::InvalidDoseException("Complex DoseStatistics have to be computed in order to call calculateAdditionalComplexDoseStatisticMeasures()");
 			}
-			// test ob complex ist calced
+			_Vx->computeAdditionalValues(values);
 			_Dx->computeAdditionalValues(values);
-			//_statistics->setVx(_Vx->getMeasureCollection());
-			//selbe mit Dx bis MinOCx
+			_MOHx->computeAdditionalValues(values);
+			_MOCx->computeAdditionalValues(values);
+			_MaxOHx->computeAdditionalValues(values);
+			_MinOCx->computeAdditionalValues(values);
 		}
 		
 
