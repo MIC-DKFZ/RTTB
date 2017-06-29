@@ -102,7 +102,7 @@ namespace rttb
 				_dataset->putAndInsertString(DCM_PatientBirthDate, "");
 				_dataset->putAndInsertString(DCM_PatientSex, "O");
 				_dataset->putAndInsertString(DCM_SliceThickness,
-				                             boost::lexical_cast<std::string>(geometricInfo.getSliceThickness()).c_str());
+				                             boost::lexical_cast<std::string>(geometricInfo.getSpacing()(2)).c_str());
 				_dataset->putAndInsertString(DCM_SoftwareVersions,
 				                             "");
 				_dataset->putAndInsertString(DCM_StudyInstanceUID,
@@ -122,13 +122,16 @@ namespace rttb
 				_dataset->putAndInsertString(DCM_PatientOrientation, "L/P");
 				_dataset->putAndInsertString(DCM_ImagePositionPatient, sstr.str().c_str());
 
+        auto orientationMatrix = geometricInfo.getOrientationMatrix();
+
 				sstr.str("");
-				sstr << geometricInfo.getImageOrientationRow().x() << "\\"
-				     << geometricInfo.getImageOrientationRow().y() << "\\"
-				     << geometricInfo.getImageOrientationRow().z() << "\\"
-				     << geometricInfo.getImageOrientationColumn().x() << "\\"
-				     << geometricInfo.getImageOrientationColumn().y() << "\\"
-				     << geometricInfo.getImageOrientationColumn().z();
+				sstr << orientationMatrix(0,0) << "\\"
+				     << orientationMatrix(1,0) << "\\"
+				     << orientationMatrix(2,0) << "\\"
+				     << orientationMatrix(0,1) << "\\"
+				     << orientationMatrix(1,1) << "\\"
+				     << orientationMatrix(2,1);
+
 				_dataset->putAndInsertString(DCM_ImageOrientationPatient, sstr.str().c_str());
 				_dataset->putAndInsertString(DCM_FrameOfReferenceUID,
 				                             "");

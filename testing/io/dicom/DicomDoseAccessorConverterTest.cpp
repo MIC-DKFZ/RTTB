@@ -84,42 +84,15 @@ namespace rttb
 			        RTDOSE_FILENAME_W).generateDoseAccessor();
 
 			//Check geometricinfo
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getImagePositionPatient().x(),
-			            doseAccessor_w->getGeometricInfo().getImagePositionPatient().x(),
-				errorConstantDDA);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getImagePositionPatient().y(),
-			            doseAccessor_w->getGeometricInfo().getImagePositionPatient().y(),
-				errorConstantDDA);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getImagePositionPatient().z(),
-			            doseAccessor_w->getGeometricInfo().getImagePositionPatient().z(),
-				errorConstantDDA);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getImageOrientationColumn().x(),
-			            doseAccessor_w->getGeometricInfo().getImageOrientationColumn().x(),
-				errorConstantDDA);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getImageOrientationColumn().y(),
-			            doseAccessor_w->getGeometricInfo().getImageOrientationColumn().y(),
-				errorConstantDDA);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getImageOrientationColumn().z(),
-			            doseAccessor_w->getGeometricInfo().getImageOrientationColumn().z(),
-				errorConstantDDA);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getImageOrientationRow().x(),
-			            doseAccessor_w->getGeometricInfo().getImageOrientationRow().x(),
-				errorConstantDDA);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getImageOrientationRow().y(),
-			            doseAccessor_w->getGeometricInfo().getImageOrientationRow().y(),
-				errorConstantDDA);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getImageOrientationRow().z(),
-			            doseAccessor_w->getGeometricInfo().getImageOrientationRow().z(),
-				errorConstantDDA);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getSpacing().x(),
-			            doseAccessor_w->getGeometricInfo().getSpacing().x(),
-				errorConstantDDA);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getSpacing().y(),
-			            doseAccessor_w->getGeometricInfo().getSpacing().y(),
-				errorConstantDDA);
-			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getSpacing().z(),
-			            doseAccessor_w->getGeometricInfo().getSpacing().z(),
-				errorConstantDDA);
+      CHECK(doseAccessor_r->getGeometricInfo().getImagePositionPatient().equalsAlmost(
+        doseAccessor_w->getGeometricInfo().getImagePositionPatient(), errorConstantDDA));
+
+      CHECK(doseAccessor_r->getGeometricInfo().getOrientationMatrix().equalsAlmost(
+        doseAccessor_w->getGeometricInfo().getOrientationMatrix(), errorConstantDDA));
+
+      CHECK(doseAccessor_r->getGeometricInfo().getSpacing().equalsAlmost(
+        doseAccessor_w->getGeometricInfo().getSpacing(), errorConstantDDA));
+
 			CHECK_CLOSE(doseAccessor_r->getGeometricInfo().getNumColumns(),
 			            doseAccessor_w->getGeometricInfo().getNumColumns(),
 				errorConstantDDA);

@@ -203,9 +203,9 @@ namespace rttb
 
 				_geoInfo.setSpacing(spacingVector);
 
-				if (_geoInfo.getPixelSpacingRow() == 0 || _geoInfo.getPixelSpacingColumn() == 0)
+				if (_geoInfo.getSpacing()(0) == 0 || _geoInfo.getSpacing()(1) == 0)
 				{
-					throw core::InvalidDoseException("Pixel spacing = 0!");
+					throw core::InvalidDoseException("Pixel spacing is 0!");
 				}
 
 				_dose->getSliceThickness(sliceThicknessStr);
@@ -259,7 +259,7 @@ namespace rttb
 						if (spacingVector(2) == 0)
 						{
 							std::cerr << "sliceThickness == 0! It wird be replaced with pixelSpacingRow=" <<
-							          _geoInfo.getPixelSpacingRow()
+							          _geoInfo.getSpacing()(0)
 							          << "!" << std::endl;
 							spacingVector(2) = spacingVector(0);
 						}

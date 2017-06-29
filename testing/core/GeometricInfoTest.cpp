@@ -33,11 +33,9 @@ namespace rttb
 			@note ITK pixel indexing: Index[0] = col, Index[1] = row, Index[2] = slice.
 			1) test default constructor (values as expected?)
 			2) test set/getImagePositionPatient
-			3) test set/getPixelSpacingColumn/Row/SliceThickness
 			4) test set/getSpacing
 			5) test set/getNumColumns/Rows/Slices
 			6) test get/setOrientationMatrix
-			7) test getImageOrientationRow/Column
 			8) test operators "=="
 			9) test equalsAlmost
 			10) test world to index coordinate conversion
@@ -67,26 +65,10 @@ namespace rttb
 			geoInfo.setImagePositionPatient(testIPP);
 			CHECK_EQUAL(testIPP, geoInfo.getImagePositionPatient());
 
-			//3) test set/getPixelSpacingColumn/Row/SliceThickness
-			SpacingVectorType3D expectedSpacing(1, 2.2, 3.3);
-			CHECK_NO_THROW(geoInfo.setPixelSpacingRow(expectedSpacing(0)));
-			CHECK_EQUAL(expectedSpacing(0), geoInfo.getPixelSpacingRow());
-			CHECK_EQUAL(SpacingVectorType3D(expectedSpacing(0), 0, 0), geoInfo.getSpacing());
-			CHECK_EQUAL(geoInfo.getPixelSpacingRow(), geoInfo.getSpacing()(0));
-
-			CHECK_NO_THROW(geoInfo.setPixelSpacingColumn(expectedSpacing(1)));
-			CHECK_EQUAL(expectedSpacing(1), geoInfo.getPixelSpacingColumn());
-			CHECK_EQUAL(SpacingVectorType3D(expectedSpacing(0), expectedSpacing(1), 0), geoInfo.getSpacing());
-			CHECK_EQUAL(geoInfo.getPixelSpacingColumn(), geoInfo.getSpacing()(1));
-
-			CHECK_NO_THROW(geoInfo.setSliceThickness(expectedSpacing(2)));
-			CHECK_EQUAL(expectedSpacing(2), geoInfo.getSliceThickness());
-			CHECK_EQUAL(expectedSpacing, geoInfo.getSpacing());
-			CHECK_EQUAL(geoInfo.getSliceThickness(), geoInfo.getSpacing()(2));
-
 			//4) test set/getSpacing
 			//negative spacing does not make sense!
 			/*!@is related to #2028 Should SpacingTypeVector/GridVolumeType/OrientationMatrix be forced to be non-negative?*/
+      SpacingVectorType3D expectedSpacing(4.15, 2.35, 100);
 			expectedSpacing(0) = 4.15;
 			expectedSpacing(1) = 2.35;
 			expectedSpacing(2) = 100;
@@ -148,10 +130,6 @@ namespace rttb
 			CHECK_NO_THROW(geoInfo.setOrientationMatrix(testOM));
 			geoInfo.setOrientationMatrix(testOM);
 			CHECK_EQUAL(testOM, geoInfo.getOrientationMatrix());
-
-			//7) test getImageOrientationRow/Column
-			CHECK_EQUAL(testIORow, geoInfo.getImageOrientationRow());
-			CHECK_EQUAL(testIOColumn, geoInfo.getImageOrientationColumn());
 
 			//8) test operators "=="
 			core::GeometricInfo geoInfo2;
