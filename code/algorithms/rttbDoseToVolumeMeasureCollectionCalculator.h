@@ -33,6 +33,7 @@
 #include "rttbDoseIteratorInterface.h"
 
 #include <boost/shared_ptr.hpp>
+#include "rttbDoseStatistics.h"
 
 namespace rttb
 {
@@ -55,7 +56,7 @@ namespace rttb
 
 		private:
 			DoseTypeGy _referenceDose;
-			::boost::shared_ptr<DoseToVolumeMeasureCollection> _measureCollection;
+			DoseStatistics::DoseToVolumeMeasureCollectionPointer _measureCollection;
 			std::vector<double> _precomputeDoseValues;
 			bool _multiThreading;
 
@@ -67,7 +68,7 @@ namespace rttb
 				@exception InvalidParameterException If values vector contains values that are not between 0 and 1
 			*/
 			void computeAdditionalValues(const std::vector<double>& values);
-			::boost::shared_ptr<DoseToVolumeMeasureCollection> getMeasureCollection();
+			DoseStatistics::DoseToVolumeMeasureCollectionPointer getMeasureCollection();
 
 		protected:
 			DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,

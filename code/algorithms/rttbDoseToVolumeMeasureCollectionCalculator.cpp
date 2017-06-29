@@ -67,7 +67,7 @@ namespace rttb
 			}
 		}
 
-		::boost::shared_ptr<DoseToVolumeMeasureCollection> DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
+		DoseStatistics::DoseToVolumeMeasureCollectionPointer DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
 		{
 			return _measureCollection;
 		}

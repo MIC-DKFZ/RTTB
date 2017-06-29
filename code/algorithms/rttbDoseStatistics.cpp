@@ -98,32 +98,32 @@ namespace rttb
 			_maximumVoxelPositions = maximumVoxelPositions;
 		}
 
-		void DoseStatistics::setDx(::boost::shared_ptr<VolumeToDoseMeasureCollection> DxValues)
+		void DoseStatistics::setDx(VolumeToDoseMeasureCollectionPointer DxValues)
 		{
 			_Dx = DxValues;
 		}
 
-		void DoseStatistics::setVx(::boost::shared_ptr<DoseToVolumeMeasureCollection> VxValues)
+		void DoseStatistics::setVx(DoseToVolumeMeasureCollectionPointer VxValues)
 		{
 			_Vx = VxValues;
 		}
 
-		void DoseStatistics::setMOHx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MOHxValues)
+		void DoseStatistics::setMOHx(VolumeToDoseMeasureCollectionPointer MOHxValues)
 		{
 			_MOHx = MOHxValues;
 		}
 
-		void DoseStatistics::setMOCx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MOCxValues)
+		void DoseStatistics::setMOCx(VolumeToDoseMeasureCollectionPointer MOCxValues)
 		{
 			_MOCx = MOCxValues;
 		}
 
-		void DoseStatistics::setMaxOHx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MaxOHValues)
+		void DoseStatistics::setMaxOHx(VolumeToDoseMeasureCollectionPointer MaxOHValues)
 		{
 			_MaxOHx = MaxOHValues;
 		}
 
-		void DoseStatistics::setMinOCx(::boost::shared_ptr<VolumeToDoseMeasureCollection> MinOCValues)
+		void DoseStatistics::setMinOCx(VolumeToDoseMeasureCollectionPointer MinOCValues)
 		{
 			_MinOCx = MinOCValues;
 		}

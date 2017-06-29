@@ -24,6 +24,7 @@
 
 #include "rttbVolumeToDoseMeasureCollection.h"
 #include <boost/shared_ptr.hpp>
+#include "rttbDoseStatistics.h"
 
 namespace rttb
 {
@@ -48,7 +49,7 @@ namespace rttb
 
 		private:
 			VolumeType _volume;
-			::boost::shared_ptr<VolumeToDoseMeasureCollection> _measureCollection;
+			DoseStatistics::VolumeToDoseMeasureCollectionPointer _measureCollection;
 			std::vector<double> _precomputeVolumeValues;
 			bool _multiThreading;
 
@@ -60,7 +61,7 @@ namespace rttb
 			@exception InvalidParameterException If values vector contains values that are not between 0 and 1
 			*/
 			void computeAdditionalValues(const std::vector<double>& values);
-			::boost::shared_ptr<VolumeToDoseMeasureCollection> getMeasureCollection();
+			DoseStatistics::VolumeToDoseMeasureCollectionPointer getMeasureCollection();
 
 		protected:
 			VolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
