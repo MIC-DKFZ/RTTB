@@ -185,7 +185,7 @@ namespace rttb
 			bool isInside(const VoxelGridIndex3D& aIndex) const;
 
 			/*! @brief check if a given world coordinate is inside the given voxel grid.*/
-			bool isInside(const WorldCoordinate3D& aWorldCoordinate);
+			bool isInside(const WorldCoordinate3D& aWorldCoordinate) const;
 
 			const GridSizeType getNumberOfVoxels() const;
 

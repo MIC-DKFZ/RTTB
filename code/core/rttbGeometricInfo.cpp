@@ -282,7 +282,7 @@ namespace rttb
 			        && aIndex(2) < static_cast<unsigned int>(_numberOfFrames));
 		}
 
-		bool GeometricInfo::isInside(const WorldCoordinate3D& aWorldCoordinate)
+		bool GeometricInfo::isInside(const WorldCoordinate3D& aWorldCoordinate) const
 		{
 			VoxelGridIndex3D currentIndex;
 			return (worldCoordinateToIndex(aWorldCoordinate, currentIndex));
