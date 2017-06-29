@@ -192,7 +192,7 @@ namespace rttb
 				}
 				catch (boost::bad_lexical_cast&)
 				{
-					throw core::InvalidDoseException("boost::lexical_cast ImageOrientation failed! Can not read image orientation X/Y/Z!")
+					throw core::InvalidDoseException("boost::lexical_cast WorldCoordinate failed! Can not read image orientation X/Y/Z!")
 					;
 				}
 

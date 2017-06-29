@@ -310,13 +310,7 @@ namespace rttb
 
 	typedef UnsignedIndex3D ImageSize;
 
-	/*! @deprecated Use OrientationMatrix instead.
-	*/
-	typedef WorldCoordinate3D ImageOrientation;
-
 	typedef double GridVolumeType;
-
-
 
 	/*! @class SpacingVectorType3D
 		@brief 3D spacing vector.
