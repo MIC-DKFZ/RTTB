@@ -54,7 +54,7 @@ namespace rttb
 			bool _multiThreading;
 
 		public:
-			/*!  @brief Computes not already comupted values for the measureCollection. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
+			/*!  @brief Computes not already computed values for the measureCollection. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
 			*/
 			void compute();
 			/*! @brief Adds additional values to the _precomputeVolumeValues vector.
@@ -74,6 +74,9 @@ namespace rttb
 			@note has to be overwritten
 			*/
 			virtual DoseTypeGy computeSpecificValue(double xAbsolute) const = 0;
+
+		private:
+			bool VolumeToDoseMeasureCollectionCalculator::isInVector(double value);
 		};
 
 	}

@@ -179,12 +179,12 @@ namespace rttb
 			        unsigned int maxNumberMinimaPositions = 10,
 			        unsigned int maxNumberMaximaPositions = 10);
 
-			/*! @brief Adds additonal precompute values for all complext Dose Statistics
+			/*! @brief Adds additonal precompute values for all complex Dose Statistics
 				@exception InvalidDoseException if complexDoseStatistics are not already calculated
 			*/
 			void addPrecomputeValues(const std::vector<double>& values);
 
-			/*! @brief Recalculates the DoseMeasures for all complext Dose Statistics
+			/*! @brief Recalculates the DoseMeasures for all complex Dose Statistics
 				@exception InvalidDoseException if complexDoseStatistics are not already calculated
 			*/
 			void recalculateDoseStatistics();

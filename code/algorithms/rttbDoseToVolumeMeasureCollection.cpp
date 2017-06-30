@@ -81,7 +81,14 @@ namespace rttb
 		}
 
 		bool DoseToVolumeMeasureCollection::isInCollection(DoseTypeGy value) const {
-			return this->_values.find(value) != this->_values.end();
+			double doubleImprecision = 1e-5;
+			for (auto const& collectionElements : _values) {
+				if (collectionElements.first - doubleImprecision <= value && value <= collectionElements.first + doubleImprecision)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		bool operator==(const DoseToVolumeMeasureCollection& volumeToDoseMesureCollection, const DoseToVolumeMeasureCollection& otherVolumeToDoseMesureCollection)

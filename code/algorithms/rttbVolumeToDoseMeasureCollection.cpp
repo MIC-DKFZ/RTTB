@@ -87,8 +87,16 @@ namespace rttb
 			return this->_values;
 		}
 
-		bool VolumeToDoseMeasureCollection::isInCollection(VolumeType value) const {
-			return this->_values.find(value) != this->_values.end();
+		bool VolumeToDoseMeasureCollection::isInCollection(VolumeType value) const
+		{
+			double doubleImprecision = 1e-5;
+			for (auto const& collectionElements : _values) {
+				if (collectionElements.first - doubleImprecision <= value && value <= collectionElements.first + doubleImprecision)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		bool operator==(const VolumeToDoseMeasureCollection& volumeToDoseMesureCollection,const VolumeToDoseMeasureCollection& otherVolumeToDoseMesureCollection)
