@@ -37,33 +37,38 @@ namespace rttb
 
 		void DoseToVolumeMeasureCollectionCalculator::compute()
 		{
-			computeAdditionalValues(_precomputeDoseValues);
-		}
-		
-		void DoseToVolumeMeasureCollectionCalculator::computeAdditionalValues(const std::vector<double>& values)
-		{
 			std::vector<boost::thread> threads;
 
-			for (size_t i = 0; i < values.size(); ++i)
+			for (size_t i = 0; i < _precomputeDoseValues.size(); ++i)
 			{
-				if (values.at(i) > 1 || values.at(i) < 0) {
-					throw rttb::core::InvalidParameterException("Values must be between 1 and 0!");
-				}
-				double xAbsolute = values.at(i) * _referenceDose;
-				if (_multiThreading)
-				{
-					throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
-					//threads.push_back(boost::thread(&DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection, this , xAbsolute, computeSpecificValue(xAbsolute)));
-				}
-				else
-				{
-					insertIntoMeasureCollection(xAbsolute, this->computeSpecificValue(xAbsolute));
+
+				double xAbsolute = _precomputeDoseValues.at(i) * _referenceDose;
+				if (!_measureCollection->isInCollection(xAbsolute)) {
+					if (_multiThreading)
+					{
+						throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
+						//threads.push_back(boost::thread(&DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection, this , xAbsolute, computeSpecificValue(xAbsolute)));
+					}
+					else
+					{
+						insertIntoMeasureCollection(xAbsolute, this->computeSpecificValue(xAbsolute));
+					}
 				}
 			}
 
 			for (unsigned int i = 0; i<threads.size(); i++)
 			{
 				threads.at(i).join();
+			}
+		}
+		
+		void DoseToVolumeMeasureCollectionCalculator::addPrecomputeDoseValues(const std::vector<double>& values)
+		{
+			for (size_t i = 0; i < values.size(); ++i) {
+				if (values.at(i) > 1 || values.at(i) < 0) {
+					throw rttb::core::InvalidParameterException("Values must be between 1 and 0!");
+				}
+				_precomputeDoseValues.push_back(values.at(i));
 			}
 		}
 

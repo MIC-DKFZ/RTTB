@@ -310,20 +310,32 @@ namespace rttb
 			_complexDoseStatisticsCalculated = true;
 		}
 
-		void DoseStatisticsCalculator::calculateAdditionalComplexDoseStatisticMeasures(const std::vector<double>& values)
+		void DoseStatisticsCalculator::addPrecomputeValues(const std::vector<double>& values)
 		{
 			if (!_complexDoseStatisticsCalculated)
 			{
-				throw core::InvalidDoseException("Complex DoseStatistics have to be computed in order to call calculateAdditionalComplexDoseStatisticMeasures()");
+				throw core::InvalidDoseException("Complex DoseStatistics have to be computed in order to call addPrecomputeDoseValues()");
 			}
-			_Vx->computeAdditionalValues(values);
-			_Dx->computeAdditionalValues(values);
-			_MOHx->computeAdditionalValues(values);
-			_MOCx->computeAdditionalValues(values);
-			_MaxOHx->computeAdditionalValues(values);
-			_MinOCx->computeAdditionalValues(values);
+			_Vx->addPrecomputeDoseValues(values);
+			_Dx->addPrecomputeVolumeValues(values);
+			_MOHx->addPrecomputeVolumeValues(values);
+			_MOCx->addPrecomputeVolumeValues(values);
+			_MaxOHx->addPrecomputeVolumeValues(values);
+			_MinOCx->addPrecomputeVolumeValues(values);
 		}
-		
+		void DoseStatisticsCalculator::recalculateDoseStatistics()
+		{
+			if (!_complexDoseStatisticsCalculated)
+			{
+				throw core::InvalidDoseException("Complex DoseStatistics have to be computed in order to call recalculateDoseStatistics()");
+			}
+			_Vx->compute();			
+			_Dx->compute();
+			_MOHx->compute();
+			_MOCx->compute();
+			_MaxOHx->compute();
+			_MinOCx->compute();
+		}
 
 		DoseStatisticsCalculator::ResultListPointer DoseStatisticsCalculator::computeMaximumPositions(
 			unsigned int maxNumberMaxima) const

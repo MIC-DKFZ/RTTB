@@ -54,13 +54,13 @@ namespace rttb
 			bool _multiThreading;
 
 		public:
-			/*!  @brief Computes the measureCollection. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
+			/*!  @brief Computes not already comupted values for the measureCollection. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
 			*/
 			void compute();
-			/*! @brief Computes additonal DoseMeasures with the given values vector.
+			/*! @brief Adds additional values to the _precomputeVolumeValues vector.
 			@exception InvalidParameterException If values vector contains values that are not between 0 and 1
 			*/
-			void computeAdditionalValues(const std::vector<double>& values);
+			void addPrecomputeVolumeValues(const std::vector<double>& values);
 			DoseStatistics::VolumeToDoseMeasureCollectionPointer getMeasureCollection();
 
 		protected:

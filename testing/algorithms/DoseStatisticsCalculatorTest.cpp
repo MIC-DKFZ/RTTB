@@ -166,9 +166,10 @@ namespace rttb
 			CHECK_THROW_EXPLICIT(theStatistics->getDx().getValue(0.04 * theStatistics->getVolume()),
 				core::DataNotAvailableException);
 
-			CHECK_THROW_EXPLICIT(myDoseStatsCalculator.calculateAdditionalComplexDoseStatisticMeasures(faultyValues),
+			CHECK_THROW_EXPLICIT(myDoseStatsCalculator.addPrecomputeValues(faultyValues),
 				core::InvalidParameterException);
-			CHECK_NO_THROW(myDoseStatsCalculator.calculateAdditionalComplexDoseStatisticMeasures(additionalValues));
+			CHECK_NO_THROW(myDoseStatsCalculator.addPrecomputeValues(additionalValues));
+			CHECK_NO_THROW(myDoseStatsCalculator.recalculateDoseStatistics());
 			CHECK_NO_THROW(theStatistics->getVx().getValue(0.03 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getDx().getValue(0.04 * theStatistics->getVolume()));
 
