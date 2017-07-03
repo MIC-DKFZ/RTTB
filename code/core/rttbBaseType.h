@@ -25,8 +25,6 @@
 #include <string>
 #include <vector>
 #include <list>
-#include <iostream>
-#include <sstream>
 #include <ostream>
 
 #include <boost/numeric/ublas/vector.hpp>
@@ -39,26 +37,6 @@ namespace rttb
 	const double reducedErrorConstant = 0.0001;
 
 	typedef unsigned short UnsignedIndex1D;
-
-	/*! @class UnsignedIndex2D
-		@brief 2D index.
-	*/
-	class UnsignedIndex2D: public boost::numeric::ublas::vector<UnsignedIndex1D>
-	{
-	public:
-		UnsignedIndex2D() : boost::numeric::ublas::vector<UnsignedIndex1D>(2) {}
-		UnsignedIndex2D(const UnsignedIndex1D value) : boost::numeric::ublas::vector<UnsignedIndex1D>(2,
-			        value) {}
-
-		const UnsignedIndex1D x() const
-		{
-			return (*this)(0);
-		}
-		const UnsignedIndex1D y() const
-		{
-			return (*this)(1);
-		}
-	};
 
 	/*! @class UnsignedIndex3D
 		@brief 3D index.
@@ -122,58 +100,6 @@ namespace rttb
 
 	typedef double WorldCoordinate;
 
-
-	/*! @class WorldCoordinate2D
-		@brief 2D coordinate in real world coordinates.
-	*/
-	class WorldCoordinate2D: public boost::numeric::ublas::vector<WorldCoordinate>
-	{
-	public:
-		WorldCoordinate2D() : boost::numeric::ublas::vector<WorldCoordinate> (2) {}
-		WorldCoordinate2D(const WorldCoordinate value) : boost::numeric::ublas::vector<WorldCoordinate>(2,
-			        value) {}
-		WorldCoordinate2D(const WorldCoordinate xValue, const WorldCoordinate yValue)
-			: boost::numeric::ublas::vector<WorldCoordinate>(2, xValue)
-		{
-			(*this)(1) = yValue;
-		}
-
-		const WorldCoordinate x() const
-		{
-			return (*this)(0);
-		}
-		const WorldCoordinate y() const
-		{
-			return (*this)(1);
-		}
-
-		const std::string toString() const
-		{
-			std::stringstream ss;
-			ss << x() << ' ' << y();
-			return ss.str();
-		}
-
-		friend bool operator==(const WorldCoordinate2D& wc1, const WorldCoordinate2D& wc2)
-		{
-			if (wc1.size() != wc2.size())
-			{
-				return false;
-			}
-
-			for (size_t i = 0; i < wc1.size(); i++)
-			{
-				if (wc1(i) != wc2(i))
-				{
-					return false;
-				}
-			}
-
-			return true;
-		}
-	};
-
-
 	/*! @class WorldCoordinate3D
 		@brief 3D coordinate in real world coordinates like in DICOM to define ImagePositionPatient.
 	*/
@@ -221,16 +147,6 @@ namespace rttb
 			result(0) = y * aVector(2) - z * aVector(1);
 			result(1) = z * aVector(0) - x * aVector(2);
 			result(2) = x * aVector(1) - y * aVector(0);
-
-			return result;
-		}
-
-		WorldCoordinate2D getXY() const
-		{
-			WorldCoordinate2D result;
-
-			result(0) = (*this)(0);
-			result(1) = (*this)(1);
 
 			return result;
 		}
@@ -632,9 +548,7 @@ namespace rttb
 	typedef int VoxelGridID; //starts from 0 and is continuously counting all positions on the grid
 	typedef unsigned int VoxelGridDimensionType;
 
-	typedef boost::numeric::ublas::vector<VoxelGridDimensionType> VoxelGridDimensionVectorType;
-
-	typedef double FractionType, VoxelSizeType, DVHVoxelNumber;
+	typedef double FractionType, DVHVoxelNumber;
 
 	typedef double DoseCalcType, DoseTypeGy, GenericValueType, DoseVoxelVolumeType, VolumeType,
 	        GridVolumeType, PercentType,
@@ -665,11 +579,7 @@ namespace rttb
 		} Type;
 	};
 
-	typedef std::string PatientInfoString;
-
-	typedef std::string TimeString;
-
-	typedef std::string FileNameType;
+  typedef std::string FileNameType;
 
 	typedef std::vector<WorldCoordinate3D> PolygonType;
 
@@ -679,50 +589,9 @@ namespace rttb
 
 	typedef double DoseStatisticType;
 
-	typedef std::string DBStringType;
-
 	typedef std::string DICOMRTFileNameString;
 
 	typedef unsigned short Uint16;
-
-	struct Area2D
-	{
-
-		WorldCoordinate x_begin;
-		WorldCoordinate x_end;
-		WorldCoordinate y_begin;
-		WorldCoordinate y_end;
-		VoxelGridIndex2D index_begin;
-		VoxelGridIndex2D index_end;
-
-		void Init()
-		{
-			x_begin = -1000000;
-			x_end = -1000000;
-			y_begin = -1000000;
-			y_end = -1000000;
-			index_begin(0) = 0;
-			index_begin(1) = 0;
-			index_end(0) = 0;
-			index_end(1) = 0;
-		}
-	};
-
-	struct Segment2D
-	{
-		WorldCoordinate2D begin;
-		WorldCoordinate2D end;
-	};
-
-	struct Segment3D
-	{
-		WorldCoordinate3D begin;
-		WorldCoordinate3D end;
-	};
-
-	typedef int DistributionType;
-
-	typedef std::string PathType;
 
 	typedef std::string XMLString, StatisticsString;
 
@@ -730,4 +599,3 @@ namespace rttb
 }//end: namespace rttb
 
 #endif
-
