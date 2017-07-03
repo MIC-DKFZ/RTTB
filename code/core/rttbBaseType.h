@@ -237,9 +237,8 @@ namespace rttb
 
 		const std::string toString() const
 		{
-			std::stringstream ss;
-			ss << x() << ' ' << y() << ' ' << z();
-			return ss.str();
+      std::string s = std::to_string(x()) + " " + std::to_string(y()) + " " + std::to_string(z());
+			return s;
 		}
 
 		WorldCoordinate3D& operator=(const WorldCoordinate3D& wc)
@@ -353,9 +352,8 @@ namespace rttb
 
 		const std::string toString() const
 		{
-			std::stringstream ss;
-			ss << x() << ' ' << y() << ' ' << z();
-			return ss.str();
+      std::string s = std::to_string(x()) + " " + std::to_string(y()) + " " + std::to_string(z());
+      return s;
 		}
 
 		SpacingVectorType3D& operator=(const SpacingVectorType3D& wc)
@@ -536,9 +534,8 @@ namespace rttb
 
 		const std::string toString() const
 		{
-			std::stringstream ss;
-			ss << x() << ' ' << y() << ' ' << z();
-			return ss.str();
+      std::string s = std::to_string(x()) + " " + std::to_string(y()) + " " + std::to_string(z());
+      return s;
 		}
 
 		VoxelGridIndex3D& operator=(const UnsignedIndex3D& ui)
@@ -601,9 +598,8 @@ namespace rttb
 
 		const std::string toString() const
 		{
-			std::stringstream ss;
-			ss << x() << ' ' << y();
-			return ss.str();
+      std::string s = std::to_string(x()) + " " + std::to_string(y());
+      return s;
 		}
 
 		friend bool operator==(const VoxelGridIndex2D& gi1, const VoxelGridIndex2D& gi2)
