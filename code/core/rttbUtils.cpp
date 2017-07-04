@@ -30,7 +30,7 @@ namespace rttb
 	namespace core
 	{
 
-		static bool isKey(std::map<double, double> values, double value) {
+		static bool isKey(const std::map<double, double>& values, const double value) {
 			for (auto const& collectionElements : values) {
 				if (std::abs(collectionElements.first - value) <= rttb::errorConstant)
 				{
@@ -40,7 +40,7 @@ namespace rttb
 			return false;
 		}
 
-		static bool isKey(std::vector<double> values, double value) {
+		static bool isKey(const std::vector<double>& values, const double value) {
 			for (auto const& collectionElement : values) {
 				if (std::abs(collectionElement - value) <= rttb::errorConstant)
 				{
