@@ -74,9 +74,6 @@ namespace rttb
 			@note has to be overwritten
 			*/
 			virtual DoseTypeGy computeSpecificValue(double xAbsolute) const = 0;
-
-		private:
-			bool VolumeToDoseMeasureCollectionCalculator::isInVector(double value);
 		};
 
 	}

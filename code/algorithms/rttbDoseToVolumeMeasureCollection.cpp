@@ -80,17 +80,6 @@ namespace rttb
 			return this->_values;
 		}
 
-		bool DoseToVolumeMeasureCollection::isInCollection(DoseTypeGy value) const {
-			double doubleImprecision = 1e-5;
-			for (auto const& collectionElements : _values) {
-				if (collectionElements.first - doubleImprecision <= value && value <= collectionElements.first + doubleImprecision)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
 		bool operator==(const DoseToVolumeMeasureCollection& volumeToDoseMesureCollection, const DoseToVolumeMeasureCollection& otherVolumeToDoseMesureCollection)
 		{
 			if (volumeToDoseMesureCollection.getName() == otherVolumeToDoseMesureCollection.getName() && volumeToDoseMesureCollection.getAllValues() == otherVolumeToDoseMesureCollection.getAllValues()) {

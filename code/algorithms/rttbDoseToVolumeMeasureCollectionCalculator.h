@@ -81,9 +81,6 @@ namespace rttb
 			@note has to be overwritten
 			*/
 			virtual VolumeType computeSpecificValue(double xAbsolute) const = 0;
-
-		private:
-			bool isInVector(double value);
 		};
 
 	}

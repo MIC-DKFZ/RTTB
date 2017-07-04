@@ -62,9 +62,7 @@ namespace rttb
 			VolumeType getValueRelative(DoseTypeGy xDoseRelative) const;
 			VolumeType getValueRelative(DoseTypeGy xDoseRelative, bool findNearestValue, DoseTypeGy& nearestXDose) const;
 			DoseToVolumeFunctionType getAllValues() const;
-
-			bool isInCollection(DoseTypeGy value) const;
-
+			
 			friend bool operator==(const DoseToVolumeMeasureCollection& volumeToDoseMesureCollection, const DoseToVolumeMeasureCollection& otherVolumeToDoseMesureCollection);
 		};
 	}

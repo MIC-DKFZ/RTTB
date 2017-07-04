@@ -22,7 +22,10 @@
 #include "rttbDoseToVolumeMeasureCollectionCalculator.h"
 #include <boost/thread/thread.hpp>
 #include "rttbInvalidParameterException.h"
+#include "rttbUtils.cpp"
+
 #include <boost/make_shared.hpp>
+
 //#include <boost/thread/locks.hpp> 
 
 namespace rttb
@@ -41,9 +44,8 @@ namespace rttb
 
 			for (size_t i = 0; i < _precomputeDoseValues.size(); ++i)
 			{
-
 				double xAbsolute = _precomputeDoseValues.at(i) * _referenceDose;
-				if (!_measureCollection->isInCollection(xAbsolute)) {
+				if (!rttb::core::isKey(_measureCollection->getAllValues(), xAbsolute)) {
 					if (_multiThreading)
 					{
 						throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
@@ -68,23 +70,11 @@ namespace rttb
 				if (values.at(i) > 1 || values.at(i) < 0) {
 					throw rttb::core::InvalidParameterException("Values must be between 1 and 0!");
 				}
-				if (!isInVector(values.at(i))) {
+				if (!rttb::core::isKey(_precomputeDoseValues, values.at(i))) {
 					_precomputeDoseValues.push_back(values.at(i));
 				}
 			}
 		}
-
-		bool DoseToVolumeMeasureCollectionCalculator::isInVector(double value)
-		{
-			double doubleImprecision = 1e-5;
-			for (size_t i = 0; i < _precomputeDoseValues.size(); ++i) {
-				if (_precomputeDoseValues.at(i) - doubleImprecision <= value && value <= _precomputeDoseValues.at(i) + doubleImprecision)
-				{
-					return true;
-				}
-			}
-			return false;
-		}		
 
 		DoseStatistics::DoseToVolumeMeasureCollectionPointer DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
 		{

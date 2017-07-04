@@ -20,6 +20,7 @@ SET(CPP_FILES
   rttbStructure.cpp
   rttbStructureSet.cpp
   rttbStrVectorStructureSetGenerator.cpp
+  rttbUtils.cpp
   )
 
 SET(H_FILES 
