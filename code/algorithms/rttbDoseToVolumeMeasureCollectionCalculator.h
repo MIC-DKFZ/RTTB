@@ -27,11 +27,13 @@
 
 #include "rttbBaseType.h"
 
-
 #include "RTTBAlgorithmsExports.h"
 #include "rttbDoseToVolumeMeasureCollection.h"
 
 #include "rttbDoseIteratorInterface.h"
+
+#include <boost/shared_ptr.hpp>
+#include "rttbDoseStatistics.h"
 
 namespace rttb
 {
@@ -54,15 +56,19 @@ namespace rttb
 
 		private:
 			DoseTypeGy _referenceDose;
-			DoseToVolumeMeasureCollection _measureCollection;
+			DoseStatistics::DoseToVolumeMeasureCollectionPointer _measureCollection;
 			std::vector<double> _precomputeDoseValues;
 			bool _multiThreading;
 
 		public:
-			/*! @brief Computes the measureCollection. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
+			/*! @brief Computes not already computed values for the measureCollection. Algorithm for the specific complex Statistic has to be implemented in the corresponding subclass.
 			*/
 			void compute();
-			DoseToVolumeMeasureCollection getMeasureCollection();
+			/*! @brief Adds additional values to the _precomputeDoseValues vector.
+				@exception InvalidParameterException If values vector contains values that are not between 0 and 1
+			*/
+			void addPrecomputeDoseValues(const std::vector<double>& values);
+			DoseStatistics::DoseToVolumeMeasureCollectionPointer getMeasureCollection();
 
 		protected:
 			DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,

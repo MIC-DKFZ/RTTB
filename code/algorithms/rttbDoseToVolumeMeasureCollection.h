@@ -55,14 +55,14 @@ namespace rttb
 			/*! @brief Gets the volume irradiated with a dose >= x, depending on the complexStatistics name.
 				@return Return absolute volume in absolute cm^3.
 				@exception InvalidDoseException if the vector values is empty or _referenceDose is -1
-				@excon NoDataException if the requested Dose is not in the vector
+				@exception NoDataException if the requested Dose is not in the vector
 			*/
 			VolumeType getValue(DoseTypeGy xVolumeAbsolute) const;
 			VolumeType getValue(DoseTypeGy xVolumeAbsolute, bool findNearestValue, DoseTypeGy& nearestXDose) const;
 			VolumeType getValueRelative(DoseTypeGy xDoseRelative) const;
 			VolumeType getValueRelative(DoseTypeGy xDoseRelative, bool findNearestValue, DoseTypeGy& nearestXDose) const;
 			DoseToVolumeFunctionType getAllValues() const;
-
+			
 			friend bool operator==(const DoseToVolumeMeasureCollection& volumeToDoseMesureCollection, const DoseToVolumeMeasureCollection& otherVolumeToDoseMesureCollection);
 		};
 	}

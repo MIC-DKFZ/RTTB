@@ -22,6 +22,10 @@
 #include "rttbDoseToVolumeMeasureCollectionCalculator.h"
 #include <boost/thread/thread.hpp>
 #include "rttbInvalidParameterException.h"
+#include "rttbUtils.cpp"
+
+#include <boost/make_shared.hpp>
+
 //#include <boost/thread/locks.hpp> 
 
 namespace rttb
@@ -31,7 +35,7 @@ namespace rttb
 	{
 		DoseToVolumeMeasureCollectionCalculator::DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
 			const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator,
-			DoseToVolumeMeasureCollection::complexStatistics name, bool multiThreading) : _measureCollection(DoseToVolumeMeasureCollection(name)),
+			DoseToVolumeMeasureCollection::complexStatistics name, bool multiThreading) : _measureCollection(::boost::make_shared<DoseToVolumeMeasureCollection>(name)),
 			_precomputeDoseValues(precomputeDoseValues), _referenceDose(referenceDose), _doseIterator(doseIterator), _multiThreading(multiThreading) {}
 
 		void DoseToVolumeMeasureCollectionCalculator::compute()
@@ -41,14 +45,16 @@ namespace rttb
 			for (size_t i = 0; i < _precomputeDoseValues.size(); ++i)
 			{
 				double xAbsolute = _precomputeDoseValues.at(i) * _referenceDose;
-				if (_multiThreading)
-				{
-					throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
-					//threads.push_back(boost::thread(&DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection, this , xAbsolute, computeSpecificValue(xAbsolute)));
-				}
-				else
-				{
-					insertIntoMeasureCollection(xAbsolute, this->computeSpecificValue(xAbsolute));
+				if (!rttb::core::isKey(_measureCollection->getAllValues(), xAbsolute)) {
+					if (_multiThreading)
+					{
+						throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
+						//threads.push_back(boost::thread(&DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection, this , xAbsolute, computeSpecificValue(xAbsolute)));
+					}
+					else
+					{
+						insertIntoMeasureCollection(xAbsolute, this->computeSpecificValue(xAbsolute));
+					}
 				}
 			}
 
@@ -57,15 +63,27 @@ namespace rttb
 				threads.at(i).join();
 			}
 		}
+		
+		void DoseToVolumeMeasureCollectionCalculator::addPrecomputeDoseValues(const std::vector<double>& values)
+		{
+			for (size_t i = 0; i < values.size(); ++i) {
+				if (values.at(i) > 1 || values.at(i) < 0) {
+					throw rttb::core::InvalidParameterException("Values must be between 1 and 0!");
+				}
+				if (!rttb::core::isKey(_precomputeDoseValues, values.at(i))) {
+					_precomputeDoseValues.push_back(values.at(i));
+				}
+			}
+		}
 
-		DoseToVolumeMeasureCollection DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
+		DoseStatistics::DoseToVolumeMeasureCollectionPointer DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
 		{
 			return _measureCollection;
 		}
 
 		void DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection(DoseTypeGy xAbsolute, VolumeType resultVolume)
 		{
-			_measureCollection.insertValue(xAbsolute, resultVolume);
+			_measureCollection->insertValue(xAbsolute, resultVolume);
 		}
 	}
 }

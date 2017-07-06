@@ -139,7 +139,7 @@ namespace rttb
 			CHECK_EQUAL(theStatistics->getReferenceDose(), 100.0);
 
 			//check manually set x values
-			std::vector<double> precomputeDoseValues, precomputeVolumeValues;
+			std::vector<double> precomputeDoseValues, precomputeVolumeValues, additionalValues, faultyValues;
 			precomputeDoseValues.push_back(0.01);
 			precomputeDoseValues.push_back(0.02);
 			precomputeDoseValues.push_back(0.05);
@@ -147,6 +147,11 @@ namespace rttb
 			precomputeVolumeValues.push_back(0.9);
 			precomputeVolumeValues.push_back(0.95);
 			precomputeVolumeValues.push_back(0.99);
+
+			additionalValues.push_back(0.03);
+			additionalValues.push_back(0.04);
+
+			faultyValues.push_back(2);
 
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(precomputeDoseValues,
 				precomputeVolumeValues));
@@ -158,8 +163,16 @@ namespace rttb
 			CHECK_NO_THROW(theStatistics->getDx().getValue(0.9 * theStatistics->getVolume()));
 			CHECK_NO_THROW(theStatistics->getDx().getValue(0.95 * theStatistics->getVolume()));
 			CHECK_NO_THROW(theStatistics->getDx().getValue(0.99 * theStatistics->getVolume()));
-			CHECK_THROW_EXPLICIT(theStatistics->getDx().getValue(0.03 * theStatistics->getVolume()),
+			CHECK_THROW_EXPLICIT(theStatistics->getDx().getValue(0.04 * theStatistics->getVolume()),
 				core::DataNotAvailableException);
+
+			CHECK_THROW_EXPLICIT(myDoseStatsCalculator.addPrecomputeValues(faultyValues),
+				core::InvalidParameterException);
+			CHECK_NO_THROW(myDoseStatsCalculator.addPrecomputeValues(additionalValues));
+			CHECK_NO_THROW(myDoseStatsCalculator.recalculateDoseStatistics());
+			CHECK_NO_THROW(theStatistics->getVx().getValue(0.03 * theStatistics->getMaximum()));
+			CHECK_NO_THROW(theStatistics->getDx().getValue(0.04 * theStatistics->getVolume()));
+
 
 			CHECK_EQUAL(theStatistics->getVx().getValue(0.02 * theStatistics->getMaximum()),
 				theStatisticsDefault->getVx().getValue(0.02 * theStatistics->getMaximum()));
