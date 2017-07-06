@@ -37,6 +37,7 @@ namespace rttb
 		/*! @brief GenericDoseIteratorTest - test the API of GenericDoseIterator
 			1) test constructor (values as expected?)
 			2) test reset/next/get current values/isPositionValid
+      3) test DoseIteratorInterface functions
 		*/
 		int GenericDoseIteratorTest(int argc, char* argv[])
 		{
@@ -84,6 +85,10 @@ namespace rttb
 			genDoseIterator.reset();
 			CHECK_EQUAL(defaultDoseVoxelGridID, genDoseIterator.getCurrentVoxelGridID());
 			CHECK(genDoseIterator.isPositionValid());//before start of dose
+
+      //3) test DoseIteratorInterface functions
+      CHECK_EQUAL(genDoseIterator.getVoxelizationID(), "");
+      CHECK_EQUAL(genDoseIterator.getDoseUID(), spTestDoseAccessor->getUID());
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
