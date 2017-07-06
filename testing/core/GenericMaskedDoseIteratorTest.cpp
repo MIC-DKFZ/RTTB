@@ -77,6 +77,7 @@ namespace rttb
 			spMaskAccessor.swap(spMaskAccessorTemp);
 			CHECK_NO_THROW(core::GenericMaskedDoseIterator genMaskedDoseIterator(spMaskAccessor,
 			               spDoseAccessor));
+      CHECK_EQUAL(spMaskAccessor->isGridHomogeneous(), true);
 			core::GenericMaskedDoseIterator genMaskedDoseIterator(spMaskAccessor, spDoseAccessor);
 
 			//2) test reset/next

@@ -80,6 +80,8 @@ namespace rttb
 				position++;
 			}
 
+      CHECK_EQUAL(spTestDoseAccessor->getGridSize(), spTestDoseAccessor->getGeometricInfo().getNumberOfVoxels());
+
 			//check isPositionValid() in invalid positions
 			CHECK(!(genDoseIterator.isPositionValid())); //after end of dose
 			genDoseIterator.reset();
