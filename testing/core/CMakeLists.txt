@@ -20,6 +20,7 @@ ADD_TEST(DVHTest ${CORE_TESTS} DVHTest)
 ADD_TEST(DVHSetTest ${CORE_TESTS} DVHSetTest)
 ADD_TEST(StructureTest ${CORE_TESTS} StructureTest)
 ADD_TEST(StrVectorStructureSetGeneratorTest ${CORE_TESTS} StrVectorStructureSetGeneratorTest)
+ADD_TEST(StructureSetTest ${CORE_TESTS} StructureSetTest)
 
 RTTB_CREATE_TEST_MODULE(rttbCore DEPENDS RTTBCore PACKAGE_DEPENDS Boost Litmus)
 

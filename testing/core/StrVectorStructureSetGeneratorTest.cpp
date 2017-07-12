@@ -29,7 +29,6 @@
 #include "DummyDoseAccessor.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbStructure.h"
-#include "rttbStructureSet.h"
 
 namespace rttb
 {
