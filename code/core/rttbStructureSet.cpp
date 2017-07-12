@@ -33,10 +33,7 @@ namespace rttb
 {
 	namespace core
 	{
-
-		StructureSet::StructureSet() {}
-
-		StructureSet::StructureSet(std::vector<StructTypePointer> aStructureVector,
+		StructureSet::StructureSet(const std::vector<StructTypePointer>& aStructureVector,
 		                           IDType aPatientUID, IDType aUID)
 		{
 			_structureSetVector = aStructureVector;
@@ -73,14 +70,13 @@ namespace rttb
 			return _structureSetVector.size();
 		}
 
-		IDType StructureSet::getUID()
+		IDType StructureSet::getUID() const
 		{
 			return _UID;
 		}
 
-		IDType StructureSet::getPatientUID()
+		IDType StructureSet::getPatientUID() const
 		{
-
 			return _patientUID;
 		}
 
