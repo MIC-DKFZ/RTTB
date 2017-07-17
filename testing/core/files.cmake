@@ -16,6 +16,7 @@ SET(CPP_FILES
 	DVHSetTest.cpp
 	StrVectorStructureSetGeneratorTest.cpp
 	StructureSetTest.cpp
+	BaseTypeTest.cpp
   )
 
 SET(H_FILES 

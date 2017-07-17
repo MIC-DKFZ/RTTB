@@ -48,6 +48,7 @@ namespace rttb
 			LIT_REGISTER_TEST(StructureTest);
 			LIT_REGISTER_TEST(StrVectorStructureSetGeneratorTest);
 			LIT_REGISTER_TEST(StructureSetTest);
+      LIT_REGISTER_TEST(BaseTypeTest);
 		}
 	}
 }
