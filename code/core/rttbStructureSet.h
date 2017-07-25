@@ -19,12 +19,6 @@
 // @author  $Author$ (last changed by)
 */
 
-/* Changes in Architecture:
-The class is useful in the IO classes for structure import. It needs to contain no datatype specific information.
-UIDs are omitted.
-
-Is "PhysicalInfo" important information that should be stored here?
-*/
 #ifndef __STRUCTURE_SET_H
 #define __STRUCTURE_SET_H
 
@@ -59,14 +53,13 @@ namespace rttb
 
 
 		public:
-			StructureSet();
 			virtual ~StructureSet() {};
 
 			/*! @brief Constructor
 				@param aPatientUID the patient UID.
 				@param aUID the structure set UID. If it is empty, it will be calculated in the constructor
 			*/
-			StructureSet(std::vector<StructTypePointer> aStructureVector, IDType aPatientUID = "",
+			StructureSet(const std::vector<StructTypePointer>& aStructureVector, IDType aPatientUID = "",
 			             IDType aUID = "");
 
 			/*! @brief Get the Structure with the index aStructureNo
@@ -81,9 +74,9 @@ namespace rttb
 			*/
 			NumberOfStructuresType getNumberOfStructures() const;
 
-			virtual IDType getUID();
+			virtual IDType getUID() const;
 
-			virtual IDType getPatientUID();
+			virtual IDType getPatientUID() const;
 
 		};
 	}

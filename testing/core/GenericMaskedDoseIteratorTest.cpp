@@ -27,8 +27,10 @@
 #include "rttbBaseType.h"
 #include "rttbGenericMaskedDoseIterator.h"
 #include "rttbNullPointerException.h"
+#include "rttbInvalidParameterException.h"
 #include "rttbException.h"
 #include "DummyDoseAccessor.h"
+#include "DummyInhomogeneousDoseAccessor.h"
 #include "DummyMaskAccessor.h"
 
 namespace rttb
@@ -49,6 +51,8 @@ namespace rttb
 
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor = boost::make_shared<DummyDoseAccessor>();
 			DoseAccessorPointer spDoseAccessor(spTestDoseAccessor);
+      boost::shared_ptr<DummyInhomogeneousDoseAccessor> spTestDoseAccessorInhomo = boost::make_shared<DummyInhomogeneousDoseAccessor>();
+      DoseAccessorPointer spDoseAccessorInhomo(spTestDoseAccessorInhomo);
 			const std::vector<DoseTypeGy>* doseVals = spTestDoseAccessor->getDoseVector();
 
 			core::GeometricInfo geoInfo;
@@ -77,7 +81,9 @@ namespace rttb
 			spMaskAccessor.swap(spMaskAccessorTemp);
 			CHECK_NO_THROW(core::GenericMaskedDoseIterator genMaskedDoseIterator(spMaskAccessor,
 			               spDoseAccessor));
+      CHECK_EQUAL(spMaskAccessor->isGridHomogeneous(), true);
 			core::GenericMaskedDoseIterator genMaskedDoseIterator(spMaskAccessor, spDoseAccessor);
+      core::GenericMaskedDoseIterator genMaskedDoseIteratorInhomo(spMaskAccessor, spDoseAccessorInhomo);
 
 			//2) test reset/next
 			const DummyMaskAccessor::MaskVoxelListPointer maskedVoxelListPtr =
@@ -89,6 +95,14 @@ namespace rttb
 			geoInfo = spDoseAccessor->getGeometricInfo();
 			SpacingVectorType3D spacing = geoInfo.getSpacing();
 			CHECK_EQUAL(spacing(0)*spacing(1)*spacing(2) / 1000, genMaskedDoseIterator.getCurrentVoxelVolume());
+
+      CHECK_THROW_EXPLICIT(genMaskedDoseIteratorInhomo.getCurrentVoxelVolume(), core::InvalidParameterException);
+
+      genMaskedDoseIterator.reset();
+      for (unsigned int i = 0; i < maskedVoxelListPtr->size(); i++) {
+        CHECK_NO_THROW(genMaskedDoseIterator.next());
+      }
+      CHECK_EQUAL(genMaskedDoseIterator.getCurrentRelevantVolumeFraction(), 0);
 
 			//check if the correct voxels are accessed
 			genMaskedDoseIterator.reset();

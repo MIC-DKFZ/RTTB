@@ -133,7 +133,7 @@ rttb::apps::doseTool::loadDicomStruct(
 
 	if (!structNameRegex.empty())
 	{
-		generator.setStructureLableFilterActive(true);
+		generator.setStructureLabelFilterActive(true);
 		generator.setFilterRegEx(structNameRegex);
 	}
 

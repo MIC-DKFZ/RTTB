@@ -41,7 +41,7 @@ namespace rttb
 
 		/*! @brief DVHTest - test the API of DVH
 		1) test constructors (values as expected?)
-		2) test asignement
+		2) test assignement
 		3) test set/getLabel
 		4) test set/get<Values>
 		5) test equality
@@ -87,6 +87,26 @@ namespace rttb
 				squareSum += value * pow((i + 0.5) * binSize, 2);
 			}
 
+      double medianVoxel = 0;
+      double modalVoxel = 0;
+      unsigned int count = 0;
+      unsigned int medianCount = 0;
+      unsigned int modalCount = 0;
+      for (const auto& aValue : aDataDifferential) {
+        std::cout << aValue << std::endl;
+        if (medianVoxel < numberOfVoxels - medianVoxel) {
+          medianVoxel += aValue;
+          medianCount = count;
+        }
+        if (modalVoxel < aValue) {
+          modalVoxel = aValue;
+          modalCount = count;
+        }
+        count++;
+      }
+      DoseStatisticType median = (medianCount + 0.5)*binSize;
+      DoseStatisticType modal = (modalCount + 0.5)*binSize;
+
 			DoseStatisticType mean = sum / numberOfVoxels;
 			DoseStatisticType variance = (squareSum / numberOfVoxels - mean * mean);
 			DoseStatisticType stdDeviation = pow(variance, 0.5);
@@ -98,9 +118,9 @@ namespace rttb
 				aDataDifferentialRelative.push_back((*it) / numberOfVoxels);
 			}
 
-			const IDType structureID = "myStructure";
-			const IDType doseID = "myDose";
-			const IDType voxelizationID = "myVoxelization";
+			IDType structureID = "myStructure";
+			IDType doseID = "myDose";
+			IDType voxelizationID = "myVoxelization";
 
 			//1) test default constructor (values as expected?)
 			CHECK_THROW(core::DVH(anEmptyDataDifferential, binSize, voxelVolume, structureID, doseID,
@@ -114,13 +134,13 @@ namespace rttb
 			CHECK_THROW(core::DVH(aDataDifferential, binSize, 0, structureID, doseID, voxelizationID));
 			CHECK_THROW(core::DVH(aDataDifferential, binSize, 0, structureID, doseID));
 
-			//2) test asignement
+			//2) test assignment
 			core::DVH myTestDVH(aDataDifferential, binSize, voxelVolume, structureID, doseID);
 			CHECK_NO_THROW(core::DVH myOtherDVH = myTestDVH);
 
-			const core::DVH myOtherDVH = myTestDVH;
+			core::DVH myOtherDVH(myTestDVH);
 
-			CHECK_NO_THROW(core::DVH aDVH(myOtherDVH));
+			CHECK_NO_THROW(myOtherDVH = myTestDVH);
 
 			//3) test set/getLabel
 			core::DVH myDVH(aDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID);
@@ -170,6 +190,13 @@ namespace rttb
 			CHECK_EQUAL(myDVH.getMean(), mean);
 			CHECK_EQUAL(myDVH.getVariance(), variance);
 			CHECK_EQUAL(myDVH.getStdDeviation(), stdDeviation);
+      CHECK_EQUAL(myDVH.getMedian(), median);
+      CHECK_EQUAL(myDVH.getModal(), modal);
+
+      CHECK_CLOSE(myDVH.getVx(0), 395848.994415, errorConstant);
+      CHECK_CLOSE(myDVH.getVx(7), 126268.990143, errorConstant);
+      CHECK_CLOSE(myDVH.getDx(0), 9.9, errorConstant);
+      CHECK_CLOSE(myDVH.getDx(100000), 7.5, errorConstant);
 
 
 			int percentage = 20;
@@ -177,9 +204,18 @@ namespace rttb
 			CHECK_EQUAL(myDVH.getAbsoluteVolume(percentage), absVol);
 
 			//5) test equality
+      structureID = myDVH.getStructureID();
+      doseID = myDVH.getDoseID();
+      voxelizationID = myDVH.getVoxelizationID();
 			core::DVH myDVH2(aDataDifferential2, binSize, voxelVolume, structureID, doseID);
+      core::DVH myDVH3(aDataDifferential, binSize, voxelVolume, structureID+"_diff", doseID);
+      core::DVH myDVH4(aDataDifferential, binSize, voxelVolume, structureID, doseID+"_diff");
+      core::DVH myDVH5(aDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID+"_diff");
 
 			CHECK(!(myDVH == myDVH2));
+      CHECK(!(myDVH == myDVH3));
+      CHECK(!(myDVH == myDVH4));
+      CHECK(!(myDVH == myDVH5));
 			CHECK_EQUAL(myDVH, myDVH);
 			core::DVH aDVH(myOtherDVH);
 			CHECK_EQUAL(aDVH, myOtherDVH);
@@ -195,6 +231,8 @@ namespace rttb
 			{
 				CHECK_EQUAL(myDVH.calcCumulativeDVH().at(std::round(elem.first / binSize)), (elem.second / voxelVolume));
 			}
+
+      CHECK_NO_THROW(myDVH.calcCumulativeDVH(true));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

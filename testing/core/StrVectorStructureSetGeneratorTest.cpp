@@ -29,16 +29,16 @@
 #include "DummyDoseAccessor.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbStructure.h"
-#include "rttbStructureSet.h"
 
 namespace rttb
 {
 	namespace testing
 	{
 
-		/*! @brief StructureTest - tests the API for Structure
-		1) constructors
-		2) get/setXX
+		/*! @brief StrVectorStructureSetGeneratorTest - tests the API for Structure
+		1) empty structure vector
+		2) dummy structure
+    3) with regex
 		*/
 		int StrVectorStructureSetGeneratorTest(int argc, char* argv[])
 		{
@@ -59,7 +59,7 @@ namespace rttb
 			                         strVector).generateStructureSet()->getStructure(0), core::InvalidParameterException);
 
 
-			//1) dummy structure
+			//2) dummy structure
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor =
 			    boost::make_shared<DummyDoseAccessor>();
 
@@ -67,6 +67,7 @@ namespace rttb
 			GridIndexType zPlane = 4;
 			core::Structure rect = myStructGenerator.CreateRectangularStructureCentered(zPlane);
 			StructTypePointer rectStrPtr = boost::make_shared<core::Structure>(rect);
+      rectStrPtr->setLabel("test");
 
 			strVector.push_back(rectStrPtr);
 
@@ -77,7 +78,17 @@ namespace rttb
 			CHECK_NO_THROW(core::StrVectorStructureSetGenerator(strVector).generateStructureSet()->getStructure(
 			                   0));
 
+      //3) with regex
+      StructTypePointer rectStrPtr2 = boost::make_shared<core::Structure>(rect);
+      rectStrPtr2->setLabel("none");
+      strVector.push_back(rectStrPtr2);
 
+      core::StrVectorStructureSetGenerator generator(strVector);
+      generator.setStructureLabelFilterActive(true);
+      generator.setFilterRegEx("test");
+      CHECK_NO_THROW(generator.generateStructureSet());
+      CHECK_EQUAL(generator.generateStructureSet()->getNumberOfStructures(), 1);
+      CHECK_EQUAL(generator.generateStructureSet()->getStructure(0)->getLabel(), "test");
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

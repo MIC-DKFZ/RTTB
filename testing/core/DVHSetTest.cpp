@@ -118,6 +118,7 @@ namespace rttb
 
 			//4) test insert/retrieve individual DVHs
 			DVHRole roleTV = {DVHRole::TargetVolume};
+      DVHRole roleUser = { DVHRole::UserDefined };
 			structureID = structureIDPrefix + "_TV_";
 			core::DVH tv = dvhGenerator.generateDVH(structureID + boost::lexical_cast<std::string>
 			                                        (tvSet.size()), doseID);
@@ -127,6 +128,7 @@ namespace rttb
 			std::size_t currentSize = myDvhSet2.size();
 			CHECK_NO_THROW(myDvhSet2.insert(tv, roleTV));
 			CHECK_EQUAL(myDvhSet2.size(), currentSize + 1);
+      CHECK_THROW_EXPLICIT(myDvhSet2.insert(tv, roleUser), core::InvalidParameterException);
 
 			DVHRole roleHT = {DVHRole::HealthyTissue};
 			structureID = structureIDPrefix + "_HT_";
@@ -161,6 +163,15 @@ namespace rttb
 			dvhPtr = myDvhSet3.getDVH(structureIDPrefix + "_TV_2");
 			CHECK_EQUAL(*dvhPtr, tvSet.at(2));
 
+      dvhPtr = myDvhSet3.getDVH(structureIDPrefix + "_HT_2");
+      CHECK_EQUAL(*dvhPtr, htSet.at(2));
+
+      dvhPtr = myDvhSet3.getDVH(structureIDPrefix + "_WV_0");
+      CHECK_EQUAL(*dvhPtr, wvSet.at(0));
+
+      dvhPtr = myDvhSet3.getDVH("wrongID");
+      CHECK(!dvhPtr);
+
 			DVHSetType tvTest =  myDvhSet3.getTargetVolumeSet();
 			CHECK_EQUAL(tvTest, tvSet);
 
@@ -175,6 +186,19 @@ namespace rttb
 			CHECK_EQUAL(0, myDvhSet3.getHealthyTissueVolume(aDoseAbsolute));
 			CHECK_EQUAL(0, myDvhSet3.getTargetVolume(aDoseAbsolute));
 			CHECK_EQUAL(0, myDvhSet3.getWholeVolume(aDoseAbsolute));
+
+      //7) Test equality
+      core::DVHSet myDvhSet4(myDvhSet1.getStrSetID(), myDvhSet1.getDoseID());
+      myDvhSet4.insert(tv, roleTV);
+      myDvhSet4.insert(ht, roleHT);
+      myDvhSet4.insert(wv, roleWV);
+      CHECK_EQUAL(myDvhSet1 == myDvhSet2, false);
+      CHECK_EQUAL(myDvhSet1 == myDvhSet4, true);
+      myDvhSet4.setDoseID("bla");
+      CHECK_EQUAL(myDvhSet1 == myDvhSet4, false);
+      myDvhSet4.setDoseID(myDvhSet1.getDoseID());
+      myDvhSet4.insert(tv, roleTV);
+      CHECK_EQUAL(myDvhSet1 == myDvhSet4, false);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
