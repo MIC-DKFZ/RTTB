@@ -26,6 +26,8 @@
 #include "rttbBaseType.h"
 #include "rttbGenericDoseIterator.h"
 #include "DummyDoseAccessor.h"
+#include "DummyInhomogeneousDoseAccessor.h"
+#include "rttbInvalidParameterException.h"
 
 namespace rttb
 {
@@ -46,6 +48,8 @@ namespace rttb
 			//create dummy DoseAccessor
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor = boost::make_shared<DummyDoseAccessor>();
 			DoseAccessorPointer spDoseAccessor(spTestDoseAccessor);
+      boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessorInhomo = boost::make_shared<DummyInhomogeneousDoseAccessor>();
+      DoseAccessorPointer spDoseAccessorInhomo(spTestDoseAccessorInhomo);
 
 			//1) test constructor (values as expected?)
 			CHECK_NO_THROW(core::GenericDoseIterator genDoseIterator(spDoseAccessor));
@@ -55,6 +59,8 @@ namespace rttb
 			CHECK_EQUAL(defaultDoseVoxelGridID, genDoseIterator.getCurrentVoxelGridID());
 			CHECK_EQUAL(defaultVoxelVolume, genDoseIterator.getCurrentVoxelVolume());
 
+      core::GenericDoseIterator genDoseIteratorInhomo(spDoseAccessorInhomo);
+
 			//2) test reset/next
 			genDoseIterator.reset();
 			const DoseVoxelVolumeType homogeneousVoxelVolume = genDoseIterator.getCurrentVoxelVolume();
@@ -63,6 +69,8 @@ namespace rttb
 			core::GeometricInfo geoInfo = spTestDoseAccessor->getGeometricInfo();
 			SpacingVectorType3D spacing = geoInfo.getSpacing();
 			CHECK_EQUAL(spacing(0)*spacing(1)*spacing(2) / 1000, genDoseIterator.getCurrentVoxelVolume());
+
+      CHECK_THROW_EXPLICIT(genDoseIteratorInhomo.reset(), core::InvalidParameterException);
 
 			//check if the correct voxels are accessed
 			const std::vector<DoseTypeGy>* doseVals = spTestDoseAccessor->getDoseVector();
@@ -84,13 +92,17 @@ namespace rttb
 
 			//check isPositionValid() in invalid positions
 			CHECK(!(genDoseIterator.isPositionValid())); //after end of dose
+      CHECK_EQUAL(genDoseIterator.getCurrentDoseValue(), 0);
 			genDoseIterator.reset();
 			CHECK_EQUAL(defaultDoseVoxelGridID, genDoseIterator.getCurrentVoxelGridID());
 			CHECK(genDoseIterator.isPositionValid());//before start of dose
+      
 
       //3) test DoseIteratorInterface functions
       CHECK_EQUAL(genDoseIterator.getVoxelizationID(), "");
       CHECK_EQUAL(genDoseIterator.getDoseUID(), spTestDoseAccessor->getUID());
+
+      CHECK_THROW_EXPLICIT(genDoseIteratorInhomo.getCurrentVoxelVolume(), core::InvalidParameterException);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
