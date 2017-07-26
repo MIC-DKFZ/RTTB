@@ -102,7 +102,7 @@ namespace rttb
 				}
 
         io::dicom::DicomIODStructureSetGenerator iodGenerator(drtStrSetIODPtr);
-        iodGenerator.setStructureLableFilterActive(this->getStructureLabelFilterActive());
+        iodGenerator.setStructureLabelFilterActive(this->getStructureLabelFilterActive());
         iodGenerator.setFilterRegEx(this->getFilterRegEx());
 				return iodGenerator.generateStructureSet();
 			}

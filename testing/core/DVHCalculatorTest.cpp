@@ -30,6 +30,7 @@
 #include "rttbBaseType.h"
 #include "rttbDVHCalculator.h"
 #include "rttbGenericMaskedDoseIterator.h"
+#include "rttbGeometricInfo.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
@@ -107,6 +108,30 @@ namespace rttb
 			CHECK_THROW_EXPLICIT(myDVHCalc.generateDVH(),
 			                     core::InvalidParameterException);//_numberOfBins must be > max(aDoseIterator)/aDeltaD!
 
+      //generateDVH (only test basic functionality here and test it in RTTBDicomIOTests and RTTBITKIOTests)
+
+       //create dummy DoseAccessor with values 0 to check if _deltaD is set to 0.1
+      std::vector<DoseTypeGy> zeros(1000, 0);
+      core::GeometricInfo geoInfo;
+      geoInfo.setNumColumns(10);
+      geoInfo.setNumRows(10);
+      geoInfo.setNumSlices(10);
+      geoInfo.setSpacing({1.0, 1.0, 1.0});
+
+      boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessorZeros = boost::make_shared<DummyDoseAccessor>(zeros, geoInfo);
+      DoseAccessorPointer spDoseAccessorZeros(spTestDoseAccessorZeros);
+      boost::shared_ptr<core::GenericDoseIterator> spTestDoseIteratorZeros =
+        boost::make_shared<core::GenericDoseIterator>(spDoseAccessorZeros);
+      DoseIteratorPointer spDoseIteratorZeros(spTestDoseIteratorZeros);
+      CHECK_NO_THROW(core::DVHCalculator myDVHCalc2(spDoseIteratorZeros, structureID, doseID, 0,
+        numBins));
+      core::DVHCalculator myDVHCalc2(spDoseIteratorZeros, structureID, doseID, 0,
+        numBins);
+      core::DVHCalculator::DVHPointer dvh;
+      CHECK_NO_THROW(dvh = myDVHCalc2.generateDVH());
+      CHECK(dvh);
+      CHECK_CLOSE(dvh->getDeltaD(), 0.1, errorConstant);
+
 			//create dummy MaskAccessor
 			boost::shared_ptr<DummyMaskAccessor> spTestMaskAccessor =
 			    boost::make_shared<DummyMaskAccessor>(spDoseAccessor->getGeometricInfo());
@@ -114,12 +139,13 @@ namespace rttb
 			//create corresponding MaskedDoseIterator
 			boost::shared_ptr<core::GenericMaskedDoseIterator> spTestMaskedDoseIterator =
 			    boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, spDoseAccessor);
-			DoseIteratorPointer spMaskedDoseIterator(spTestMaskedDoseIterator);
+			MaskedDoseIteratorPointer spMaskedDoseIterator(spTestMaskedDoseIterator);
 
-			CHECK_NO_THROW(core::DVHCalculator myDVHCalc2(spMaskedDoseIterator, structureID, doseID));
+			CHECK_NO_THROW(core::DVHCalculator myDVHCalc3(spMaskedDoseIterator, structureID, doseID));
+      core::DVHCalculator myDVHCalc3(spMaskedDoseIterator, structureID, doseID);
 
-			//actual calculation is still missing
-
+      CHECK_NO_THROW(dvh = myDVHCalc3.generateDVH());
+      CHECK(dvh);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

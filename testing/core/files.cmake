@@ -1,6 +1,7 @@
 SET(CPP_FILES 
 	rttbCoreTests.cpp
 	DummyDoseAccessor.cpp
+	DummyInhomogeneousDoseAccessor.cpp
 	DummyMaskAccessor.cpp
 	DummyMutableDoseAccessor.cpp
 	DummyDVHGenerator.cpp
@@ -15,12 +16,15 @@ SET(CPP_FILES
 	DVHTest.cpp
 	DVHSetTest.cpp
 	StrVectorStructureSetGeneratorTest.cpp
+	StructureSetTest.cpp
+	BaseTypeTest.cpp
   )
 
 SET(H_FILES 
 	DummyStructure.h
 	CreateTestStructure.h
 	DummyDoseAccessor.h
+	DummyInhomogeneousDoseAccessor.h
 	DummyMaskAccessor.h
 	DummyMutableDoseAccessor.h
 	DummyDVHGenerator.h

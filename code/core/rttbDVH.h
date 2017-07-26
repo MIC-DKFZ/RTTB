@@ -113,8 +113,12 @@ namespace rttb
 			DVH& operator=(const DVH& copy);
 
 			/*! equality operator
-				DVHs are considered equal if they have the same structure, dose and voxelization ID
-				and the same number of voxels.
+				DVHs are considered equal if the following are equal (let alone double inconsistencies):
+        - structureID
+        - doseID
+        - voxelizationID
+        - number of voxels
+        - Histogram entries.
 			*/
 			bool friend operator==(const DVH& aDVH, const DVH& otherDVH);
 
@@ -193,6 +197,7 @@ namespace rttb
 			*/
 			std::map <DoseTypeGy, PercentType> getNormalizedDVH(DVHType dvhType = { DVHType::Cumulative });
 		};
+    static bool valueIsClose(double v1, double v2, double specificErrorConstant = 1e-5);
 	}
 }
 

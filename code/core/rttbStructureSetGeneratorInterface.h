@@ -55,7 +55,7 @@ namespace rttb
 
 		public:
 
-      void setStructureLableFilterActive(bool active)
+      void setStructureLabelFilterActive(bool active)
       {
         _activeFilter = active;
       };

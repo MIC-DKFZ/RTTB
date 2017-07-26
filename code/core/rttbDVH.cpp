@@ -89,27 +89,30 @@ namespace rttb
 
 		bool operator==(const DVH& aDVH, const DVH& otherDVH)
 		{
-			if (aDVH.getStructureID() != otherDVH.getStructureID())
-			{
-				return false;
-			}
+      bool result;
+      //larger error constant because especially numberOfVoxels differ quite a bit after serialization
+      const double errorConstantDVH = 1e-4;
+      result = valueIsClose(aDVH.getDeltaD(), otherDVH.getDeltaD(), errorConstantDVH);
+      result = result && valueIsClose(aDVH.getDeltaV(), otherDVH.getDeltaV(), errorConstantDVH);
+      result = result && (aDVH.getDoseID() == otherDVH.getDoseID());
+      result = result && (aDVH.getStructureID() == otherDVH.getStructureID());
+      result = result && (aDVH.getVoxelizationID() == otherDVH.getVoxelizationID());
+      result = result && valueIsClose(aDVH.getNumberOfVoxels(),otherDVH.getNumberOfVoxels(), errorConstantDVH);
+      result = result && valueIsClose(aDVH.getMaximum(), otherDVH.getMaximum(), errorConstantDVH);
+      result = result && valueIsClose(aDVH.getMinimum(), otherDVH.getMinimum(), errorConstantDVH);
+      result = result && valueIsClose(aDVH.getMean(), otherDVH.getMean(), errorConstantDVH);
+      result = result && (aDVH.getDataDifferential().size() == otherDVH.getDataDifferential().size());
+      if (!result) {
+        return result;
+      }
+      for (size_t i = 0; i < aDVH.getDataDifferential().size(); i++)
+      {
+        result = result
+          && valueIsClose(aDVH.getDataDifferential().at(i), otherDVH.getDataDifferential().at(i),
+            errorConstantDVH);
+      }
 
-			if (aDVH.getDoseID() != otherDVH.getDoseID())
-			{
-				return false;
-			}
-
-			if (aDVH.getVoxelizationID() != otherDVH.getVoxelizationID())
-			{
-				return false;
-			}
-
-			if (aDVH.getNumberOfVoxels() != otherDVH.getNumberOfVoxels())
-			{
-				return false;
-			}
-
-			return true;
+			return result;
 		}
 
 		std::ostream& operator<<(std::ostream& s, const DVH& aDVH)
@@ -429,6 +432,10 @@ namespace rttb
 			}
 			return normalizedDVH;
 		}
+
+    bool valueIsClose(double v1, double v2, double specificErrorConstant) {
+      return std::abs(v1 - v2) < specificErrorConstant;
+    }
 
 	}//end namespace core
 }//end namespace rttb

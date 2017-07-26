@@ -71,23 +71,12 @@ namespace rttb
 			/*! @brief Return volume of one voxel (in cm3)*/ //previously getDeltaV()
 			virtual DoseVoxelVolumeType getCurrentVoxelVolume() const = 0;
 
-
 			virtual DoseTypeGy getCurrentDoseValue() const = 0;
-
-			inline const core::GeometricInfo& getGeometricInfo() const
-			{
-				return _spDoseAccessor->getGeometricInfo();
-			};
 
 			/*! @return If this is a masked dose iterator, return the voxel proportion inside a given structure,
 				value 0~1; Otherwise, 1
 			*/
 			virtual FractionType getCurrentRelevantVolumeFraction() const = 0;
-
-			inline const DoseAccessorPointer getDoseAccessor() const
-			{
-				return _spDoseAccessor;
-			};
 
 			virtual VoxelGridID getCurrentVoxelGridID() const = 0;
 

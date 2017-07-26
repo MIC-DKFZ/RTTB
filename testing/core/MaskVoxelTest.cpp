@@ -33,7 +33,8 @@ namespace rttb
 		/*! @brief MaskVoxelTest - test the API of MaskVoxel
 			1) test constructors (values as expected?)
 			2) test set/getRelevantVolumeFraction
-			4) test operators "=="
+			3) test operators "=="
+      4) test operator "<"
 		*/
 
 		int MaskVoxelTest(int argc, char* argv[])
@@ -77,7 +78,7 @@ namespace rttb
 			CHECK_EQUAL(anID, aMaskVoxel3.getVoxelGridID());
 			CHECK_EQUAL(aFraction, aMaskVoxel3.getRelevantVolumeFraction());
 
-			//4) test operators "=="
+			//3) test operators "=="
 			CHECK(!(aMaskVoxel2 == aMaskVoxel3)); //not equal
 			core::MaskVoxel aMaskVoxel4(aMaskVoxel3.getVoxelGridID());
 			CHECK(!(aMaskVoxel4 == aMaskVoxel3)); //equal ID, but unequal volume fraction -> not equal
@@ -85,6 +86,12 @@ namespace rttb
 			CHECK_EQUAL(aMaskVoxel4, aMaskVoxel3); //equal
 			aMaskVoxel2.setRelevantVolumeFraction(aMaskVoxel3.getRelevantVolumeFraction());
 			CHECK(!(aMaskVoxel2 == aMaskVoxel3)); //no equal ID -> not equal
+
+      //4) test operator "<"
+      core::MaskVoxel aMaskVoxel5(2);
+      CHECK(aMaskVoxel2 < aMaskVoxel3);
+      CHECK(!(aMaskVoxel3 < aMaskVoxel4));
+      CHECK(!(aMaskVoxel4 < aMaskVoxel5));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

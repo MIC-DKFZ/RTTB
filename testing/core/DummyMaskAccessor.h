@@ -70,11 +70,6 @@ namespace rttb
 
 			bool getMaskAt(const VoxelGridIndex3D& gridIndex, core::MaskVoxel& voxel) const;
 
-			bool isGridHomogeneous() const
-			{
-				return true;
-			}
-
 			IDType getMaskUID() const
 			{
 				return _maskUID;
