@@ -26,75 +26,16 @@
 
 #include "mapRegistrationFileReader.h"
 
-#include "rttbDicomFileDoseAccessorGenerator.h"
-#include "rttbDicomHelaxFileDoseAccessorGenerator.h"
 #include "rttbITKImageAccessorConverter.h"
 #include "rttbSimpleMappableDoseAccessor.h"
 #include "rttbMatchPointTransformation.h"
 #include "rttbLinearInterpolation.h"
 #include "rttbNearestNeighborInterpolation.h"
 #include "rttbRosuMappableDoseAccessor.h"
-#include "rttbITKImageFileAccessorGenerator.h"
 #include "rttbArithmetic.h"
 #include "rttbBinaryFunctorAccessor.h"
 #include "rttbExceptionMacros.h"
 #include "rttbImageWriter.h"
-
-
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
-rttb::apps::doseMap::loadDose(const std::string& fileName,
-                              const rttb::apps::doseMap::ApplicationData::LoadingStyleArgType& args)
-{
-	rttb::core::DoseAccessorInterface::DoseAccessorPointer result;
-
-	std::cout << std::endl << "read dose file... ";
-
-	if (args.empty() || args[0] == "dicom")
-	{
-		std::cout << "use RTTB dicom IO... ";
-		result = loadDicomDose(fileName);
-	}
-	else if (args[0] == "helax")
-	{
-		std::cout << "use RTTB Helax IO... ";
-		result = loadHelaxDose(fileName);
-	}
-	else if (args[0] == "itk")
-	{
-		std::cout << "use RTTB itk IO... ";
-		result = loadITKDose(fileName);
-	}
-	else
-	{
-		rttbDefaultExceptionStaticMacro( << "Unknown io style selected. Cannot load data. Selected style: "
-		                                 << args[0]);
-	}
-
-	std::cout << "done." << std::endl;
-
-	return result;
-};
-
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
-rttb::apps::doseMap::loadDicomDose(const std::string& fileName)
-{
-	rttb::io::dicom::DicomFileDoseAccessorGenerator generator(fileName);
-	return generator.generateDoseAccessor();
-};
-
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
-rttb::apps::doseMap::loadHelaxDose(const std::string& path)
-{
-	rttb::io::helax::DicomHelaxFileDoseAccessorGenerator generator(path);
-	return generator.generateDoseAccessor();
-};
-
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
-rttb::apps::doseMap::loadITKDose(const std::string& fileName)
-{
-	rttb::io::itk::ITKImageFileAccessorGenerator generator(fileName);
-	return generator.generateDoseAccessor();
-};
 
 rttb::apps::doseMap::ApplicationData::RegistrationType::Pointer
 rttb::apps::doseMap::loadRegistration(const std::string& fileName)

@@ -30,6 +30,8 @@
 
 #include "rttbException.h"
 
+#include "rttbDoseLoader.cpp"
+
 int main(int argc, const char** argv)
 {
 	int result = 0;
@@ -100,9 +102,9 @@ int main(int argc, const char** argv)
 
 	try
 	{
-		appData._dose = rttb::apps::bioModelCalc::loadDose(appData._doseFileName, appData._doseLoadStyle);
+		appData._dose = rttb::io::utils::loadDose(appData._doseFileName, appData._doseLoadStyle);
         for (const auto& filename : appData._modelParameterMapsFilename){
-            appData._modelParameterMaps.push_front(rttb::apps::bioModelCalc::loadDose(filename, appData._parameterMapsLoadStyle));
+            appData._modelParameterMaps.push_front(rttb::io::utils::loadDose(filename, appData._parameterMapsLoadStyle));
         }
 	}
 	catch (rttb::core::Exception& e)

@@ -30,6 +30,8 @@
 
 #include "rttbException.h"
 
+#include "rttbDoseLoader.cpp"
+
 /*! \file DoseTool.cpp main function for DoseTool 
 */
 int main(int argc, const char** argv)
@@ -91,7 +93,7 @@ int main(int argc, const char** argv)
 
 	try
 	{
-		appData._dose = rttb::apps::doseTool::loadDose(appData._doseFileName, appData._doseLoadStyle);
+		appData._dose = rttb::io::utils::loadDose(appData._doseFileName, appData._doseLoadStyle);
 	}
 	catch (rttb::core::Exception& e)
 	{

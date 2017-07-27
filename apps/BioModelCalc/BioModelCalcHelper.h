@@ -33,32 +33,8 @@ namespace rttb
 	{
 		namespace bioModelCalc
 		{
-            class ApplicationData;
-            typedef std::vector<std::string> LoadingStyleArgType;
-			/*! @brief loads a dose from a file based on the loadingStyle.
-				@details Throws an rttb::Exception if loading fails
-			*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadDose(const std::string& fileName,
-                const LoadingStyleArgType& args);
-			/*! @brief loads a dicom dose from a file.
-				@details Throws an rttb::Exception if loading fails
-				@sa DicomFileDoseAccessorGenerator
-			*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadDicomDose(const std::string& fileName);
-			/*! @brief loads a helax dose from a file.
-				@details Throws an rttb::Exception if loading fails
-				@sa DicomHelaxFileDoseAccessorGenerator
-			*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadHelaxDose(const std::string& path);
-			/*! @brief loads an itk dose from a file.
-				@details Throws an rttb::Exception if loading fails. Might be of all formats that ITK know (*.mhd, *.nrrd, ...). The absolute image values are taken as dose.
-				@sa ITKImageFileAccessorGenerator
-			*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadITKDose(const std::string& fileName);
-
-			/*! @brief Contains the business logic of processing all information to calculate a bioModel from the dose and writing it back to an image.
-			@details Uses appData for the input data and the correct configuration.
-			*/
+      class ApplicationData;
+            
 			void processData(ApplicationData& appData);
 
 			core::AccessorInterface::AccessorPointer generateBioModel(
