@@ -1,0 +1,83 @@
+[1mdiff --git a/CMakeLists.txt b/CMakeLists.txt[m
+[1mindex 9f1a9ff..c412be1 100644[m
+[1m--- a/CMakeLists.txt[m
+[1m+++ b/CMakeLists.txt[m
+[36m@@ -234,7 +234,7 @@[m [mIF (WIN32)[m
+ 	ENDIF()[m
+ ELSE()[m
+ 	IF (CMAKE_COMPILER_IS_GNUCC)[m
+[31m-		set(CMAKE_CXX_FLAGS "-W4")[m
+[32m+[m		[32mset(CMAKE_CXX_FLAGS "-Wall")[m[41m[m
+ 	ENDIF()[m
+ ENDIF()[m
+ [m
+[1mdiff --git a/code/interpolation/ITKTransformation/CMakeLists.txt b/code/interpolation/ITKTransformation/CMakeLists.txt[m
+[1mindex 1a2fbb4..4ab2371 100644[m
+[1m--- a/code/interpolation/ITKTransformation/CMakeLists.txt[m
+[1m+++ b/code/interpolation/ITKTransformation/CMakeLists.txt[m
+[36m@@ -1 +1 @@[m
+[31m-RTTB_CREATE_MODULE(RTTBInterpolationITKTransformation DEPENDS RTTBCore RTTBInterpolation RTTBITKIO PACKAGE_DEPENDS Boost ITK)[m
+\ No newline at end of file[m
+[32m+[m[32mRTTB_CREATE_MODULE(RTTBInterpolationITKTransformation DEPENDS RTTBCore RTTBInterpolation RTTBITKIO PACKAGE_DEPENDS Boost ITK)[m
+[1mdiff --git a/code/interpolation/MatchPointTransformation/CMakeLists.txt b/code/interpolation/MatchPointTransformation/CMakeLists.txt[m
+[1mindex efe5fd1..68feb4f 100644[m
+[1m--- a/code/interpolation/MatchPointTransformation/CMakeLists.txt[m
+[1m+++ b/code/interpolation/MatchPointTransformation/CMakeLists.txt[m
+[36m@@ -1,2 +1 @@[m
+ RTTB_CREATE_MODULE(RTTBInterpolationMatchPointTransformation DEPENDS RTTBCore RTTBInterpolation PACKAGE_DEPENDS Boost MatchPoint ITK)[m
+[31m-[m
+[1mdiff --git a/documentation/RTToolbox_build.txt b/documentation/RTToolbox_build.txt[m
+[1mindex 071fd6b..6ff1b02 100644[m
+[1m--- a/documentation/RTToolbox_build.txt[m
+[1m+++ b/documentation/RTToolbox_build.txt[m
+[36m@@ -48,10 +48,8 @@[m [mIf third party library packages cannot be found automatically, CMake will ask fo[m
+ Build (using the same compiler options as RTToolbox, usually \c STATIC LINKING and x64 architecture). [m
+ The following components are needed: [m
+ - \c filesystem, [m
+[31m-- \c regex, [m
+ - \c system, [m
+[31m-- \c thread, [m
+[31m-- \c regex and [m
+[32m+[m[32m- \c thread and[m[41m [m
+ - \c program_options.[m
+ [m
+ \subsubsection DCMTK DCMTK[m
+[36m@@ -127,13 +125,17 @@[m [mThen build DCMTK. \c BUILD_APPS can be switched off.[m
+ [m
+ \subsubsection ITK ITK[m
+ [m
+[31m-Build ITK. The default configuration is fine.[m
+[32m+[m[32mEnsure that CMAKE_CXX_STANDARD=11.[m[41m[m
+[32m+[m[32mBuild ITK.[m[41m[m
+ \warning Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.[m
+[32m+[m[32m\warning ensure that compiler enables C++11 features[m[41m[m
+ [m
+ \subsubsection MatchPoint MatchPoint[m
+ [m
+[31m-Build MatchPoint. The default configuration is fine.[m
+[32m+[m[32mEnsure that CMAKE_CXX_STANDARD=11.[m[41m[m
+[32m+[m[32mBuild MatchPoint.[m[41m[m
+ \warning Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.[m
+[32m+[m[32m\warning ensure that compiler enables C++11 features[m[41m[m
+ [m
+ \section installation RT-Toolbox installation Instruction[m
+ [m
+[36m@@ -201,4 +203,4 @@[m [mGenerate the documentation using <a href="www.doxygen.org">doxygen</a> and the c[m
+ - Enable \c BUILD_TESTING[m
+ - Enable \c BUILD_RTToolbox_Test_examples[m
+ - Run tests (build \c RUN_TESTS project or call \c ctest in commandline) to also run the examples. These examples (located in testing/examples/) are a good starting point for own projects and show basic functionality of RTToolbox like DVH generation.[m
+[31m-**/[m
+\ No newline at end of file[m
+[32m+[m[32m**/[m[41m[m
+[1mdiff --git a/testing/CMakeLists.txt b/testing/CMakeLists.txt[m
+[1mindex ee66e97..ae08331 100644[m
+[1m--- a/testing/CMakeLists.txt[m
+[1m+++ b/testing/CMakeLists.txt[m
+[36m@@ -29,6 +29,7 @@[m [mExternalProject_Add([m
+ 	UPDATE_COMMAND "" # Don't update SVN on every build[m
+ 	CMAKE_ARGS [m
+ 		-DBUILD_TESTING:BOOL=OFF[m
+[32m+[m		[32m-DCMAKE_CXX_STANDARD=11[m[41m[m
+ 		${ENABLE_ITK}[m
+ 		${ITK_DIRECTORY}[m
+ )[m

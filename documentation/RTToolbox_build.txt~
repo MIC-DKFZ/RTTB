@@ -125,17 +125,13 @@ Then build DCMTK. \c BUILD_APPS can be switched off.
 
 \subsubsection ITK ITK
 
-Ensure that CMAKE_CXX_STANDARD=11.
-Build ITK.
+Build ITK. The default configuration is fine.
 \warning Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
-\warning ensure that compiler enables C++11 features
 
 \subsubsection MatchPoint MatchPoint
 
-Ensure that CMAKE_CXX_STANDARD=11.
-Build MatchPoint.
+Build MatchPoint. The default configuration is fine.
 \warning Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
-\warning ensure that compiler enables C++11 features
 
 \section installation RT-Toolbox installation Instruction
 

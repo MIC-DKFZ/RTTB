@@ -1,0 +1,1 @@
+RTTB_CREATE_MODULE(RTTBInterpolationMatchPointTransformation DEPENDS RTTBCore RTTBInterpolation PACKAGE_DEPENDS Boost MatchPoint ITK)
