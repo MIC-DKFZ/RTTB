@@ -48,10 +48,8 @@ If third party library packages cannot be found automatically, CMake will ask fo
 Build (using the same compiler options as RTToolbox, usually \c STATIC LINKING and x64 architecture). 
 The following components are needed: 
 - \c filesystem, 
-- \c regex, 
 - \c system, 
-- \c thread, 
-- \c regex and 
+- \c thread and 
 - \c program_options.
 
 \subsubsection DCMTK DCMTK
@@ -127,13 +125,17 @@ Then build DCMTK. \c BUILD_APPS can be switched off.
 
 \subsubsection ITK ITK
 
-Build ITK. The default configuration is fine.
+Ensure that CMAKE_CXX_STANDARD=11.
+Build ITK.
 \warning Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
+\warning ensure that compiler enables C++11 features
 
 \subsubsection MatchPoint MatchPoint
 
-Build MatchPoint. The default configuration is fine.
+Ensure that CMAKE_CXX_STANDARD=11.
+Build MatchPoint.
 \warning Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
+\warning ensure that compiler enables C++11 features
 
 \section installation RT-Toolbox installation Instruction
 

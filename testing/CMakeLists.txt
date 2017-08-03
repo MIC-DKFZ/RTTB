@@ -29,6 +29,7 @@ ExternalProject_Add(
 	UPDATE_COMMAND "" # Don't update SVN on every build
 	CMAKE_ARGS 
 		-DBUILD_TESTING:BOOL=OFF
+		-DCMAKE_CXX_STANDARD=11
 		${ENABLE_ITK}
 		${ITK_DIRECTORY}
 )
