@@ -35,27 +35,6 @@ namespace rttb
 		namespace doseTool
 		{
             class ApplicationData;
-            typedef std::vector<std::string> LoadingStyleArgType;
-		
-			/*! @brief loads a struct from a file based on the loadingStyle.
-			You may pass a structure name regex. If is not empty, it will be used to filter structure in the
-			loading process. Only structures with a name matching the reg ex will be loaded. This speeds up the
-			loading process significantly if you need only one structure out of a structure set.
-			@exception Throws an rttb::Exception if loading fails
-			@details voxelized itk images are read in generateMask() directly
-			*/
-			core::StructureSetGeneratorInterface::StructureSetPointer loadStruct(const std::string& fileName,
-			        const LoadingStyleArgType& args, const std::string& structNameRegex = "");
-
-			/*! @brief loads a dicom struct from a file.
-			You may pass a structure name regex. If is not empty, it will be used to filter structure in the
-			loading process. Only structures with a name matching the reg ex will be loaded. This speeds up the
-			loading process significantly if you need only one structure out of a structure set.
-			@exception Throws an rttb::Exception if loading fails
-			@sa DicomFileStructureSetGenerator
-			*/
-			core::StructureSetGeneratorInterface::StructureSetPointer loadDicomStruct(
-			    const std::string& fileName, const std::string& structNameRegex = "");
 
 			/*! @brief Contains the business logic of processing all information to calculate the dose statistics and writing them to an xml file.
 			@details Uses appData for the input data and the correct configuration.
