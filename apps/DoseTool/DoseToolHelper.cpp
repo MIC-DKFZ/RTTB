@@ -28,8 +28,6 @@
 #include "boost/property_tree/xml_parser.hpp"
 #include "boost/filesystem.hpp"
 
-#include "rttbExceptionMacros.h"
-
 #include "DoseToolApplicationData.h"
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbITKImageFileMaskAccessorGenerator.h"
@@ -42,45 +40,6 @@
 #include "rttbGenericMaskedDoseIterator.h"
 #include "rttbDoseStatisticsXMLWriter.h"
 #include "rttbVOIindexIdentifier.h"
-
-
-rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::doseTool::loadStruct(
-    const std::string& fileName, const ApplicationData::LoadingStyleArgType& args, const std::string& structNameRegex)
-{
-	rttb::core::StructureSetGeneratorInterface::StructureSetPointer result;
-
-	std::cout << std::endl << "read struct file... ";
-
-	if (args.empty() || args[0] == "dicom")
-	{
-		std::cout << "use RTTB dicom IO... ";
-		result = loadDicomStruct(fileName, structNameRegex);
-	}
-	else
-	{
-		rttbDefaultExceptionStaticMacro( << "Unknown io style selected. Cannot load data. Selected style: "
-		                                 << args[0]);
-	}
-
-	std::cout << "done." << std::endl;
-
-	return result;
-}
-
-rttb::core::StructureSetGeneratorInterface::StructureSetPointer
-rttb::apps::doseTool::loadDicomStruct(
-    const std::string& fileName, const std::string& structNameRegex)
-{
-	rttb::io::dicom::DicomFileStructureSetGenerator generator(fileName);
-
-	if (!structNameRegex.empty())
-	{
-		generator.setStructureLabelFilterActive(true);
-		generator.setFilterRegEx(structNameRegex);
-	}
-
-	return generator.generateStructureSet();
-}
 
 
 std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer>

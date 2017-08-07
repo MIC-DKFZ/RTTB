@@ -31,6 +31,7 @@
 #include "rttbException.h"
 
 #include "rttbDoseLoader.cpp"
+#include "rttbStructLoader.cpp"
 
 /*! \file DoseTool.cpp main function for DoseTool 
 */
@@ -118,7 +119,7 @@ int main(int argc, const char** argv)
 	{
 		try
 		{
-			appData._struct = rttb::apps::doseTool::loadStruct(appData._structFileName,
+			appData._struct = rttb::io::utils::loadStruct(appData._structFileName,
 			                  appData._structLoadStyle, appData._structNameRegex);
 		}
 		catch (rttb::core::Exception& e)
