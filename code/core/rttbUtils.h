@@ -19,37 +19,22 @@
 // @author  $Author: hentsch $ (last changed by)
 */
 
-#include "rttbUtils.h"
+#ifndef __RTTB_UTILS_H
+#define __RTTB_UTILS_H
 
-#include <rttbBaseType.h>
+#include <map>
+#include <vector>
 
 namespace rttb
 {
 	namespace core
 	{
 
-		bool isKey(const std::map<double, double>& values, double value) {
-			for (auto const& collectionElements : values) {
-				if (std::abs(collectionElements.first - value) <= errorConstant)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
+    bool isKey(const std::map<double, double>& values, double value);
 
-		bool isKey(const std::vector<double>& values, double value) {
-			for (auto const& collectionElement : values) {
-				if (std::abs(collectionElement - value) <= errorConstant)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
+    bool isKey(const std::vector<double>& values, double value);
 
-    bool valueIsClose(double value1, double value2, double specificErrorConstant) {
-      return std::abs(value1 - value2) < specificErrorConstant;
-    }
+    bool valueIsClose(double value1, double value2, double specificErrorConstant = 1e-5);
 	}
 }
+#endif

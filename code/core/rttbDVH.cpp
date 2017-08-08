@@ -25,7 +25,7 @@
 #include "rttbDVH.h"
 #include "rttbException.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbUtils.cpp"
+#include "rttbUtils.h"
 
 namespace rttb
 {
