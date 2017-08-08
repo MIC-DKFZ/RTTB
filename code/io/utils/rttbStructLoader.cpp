@@ -68,11 +68,8 @@ namespace rttb
             {
                 rttb::core::StructureSetGeneratorInterface::StructureSetPointer result;
 
-                std::cout << std::endl << "read struct file... ";
-
                 if (args.empty() || args[0] == "dicom")
                 {
-                    std::cout << "use RTTB dicom IO... ";
                     result = rttb::io::utils::loadDicomStruct(fileName, structNameRegex);
                 }
                 else
@@ -80,8 +77,6 @@ namespace rttb
                     rttbDefaultExceptionStaticMacro(<< "Unknown io style selected. Cannot load data. Selected style: "
                         << args[0]);
                 }
-
-                std::cout << "done." << std::endl;
 
                 return result;
             }
