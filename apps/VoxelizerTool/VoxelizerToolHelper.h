@@ -22,12 +22,22 @@
 #include <string>
 #include <vector>
 
+#include "rttbStructureSetGeneratorInterface.h"
+#include "rttbMaskAccessorInterface.h"
+#include "rttbITKImageMaskAccessor.h"
+#include "rttbDoseAccessorInterface.h"
+
 namespace rttb
 {
 	namespace apps
 	{
 		namespace voxelizerTool
 		{
+            class ApplicationData;
+            
+
+            void processData(ApplicationData& appData);
+
 			/**@brief ListofExpression contains input expression
 			@return a vector of found labels
 			*/
@@ -37,6 +47,30 @@ namespace rttb
 			@return a label from the list as string
 			*/
 			void removeSpecialCharacters(std::string& label);
+
+            std::vector<std::string> getAllLabels(rttb::core::StructureSetGeneratorInterface::StructureSetPointer& structureSetPtr);
+
+            /**@brief create a mask with _rtStructureSet and _doseAccessor object.
+            @return a mask object
+            */
+            core::MaskAccessorInterface::MaskAccessorPointer createMask(
+                core::DoseAccessorInterface::DoseAccessorPointer& doseAccessorPtr,
+                core::StructureSetGeneratorInterface::StructureSetPointer& structureSetPtr,
+                bool strict, unsigned int indexOfStructure);
+
+            /**@brief write the mask into the outputfile
+            @param Outputfilename
+            */
+            void writeMaskToFile(std::vector<core::MaskAccessorInterface::MaskAccessorPointer>& maskVector,
+                const std::string& outputFileName, bool voxelization);
+
+            io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer addMultipleStructsToImage(
+                std::vector<core::MaskAccessorInterface::MaskAccessorPointer>& maskVector);
+            io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer applyThresholdFilter(
+                io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer& itkImage);
+            void writeITKImageToFile(io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer& itkImage,
+                const std::string& outputfilename, bool useCompression);
+
 			std::string getFilenameWithoutEnding(const std::string& outfilename);
 			std::string getFileEnding(const std::string& outfilename);
 		}

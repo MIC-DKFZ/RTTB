@@ -20,24 +20,16 @@
 */
 #include <iostream>
 
-#include "boost/make_shared.hpp"
-
-#include "itkMacro.h"
-
 #include "VoxelizerToolHelper.h"
-#include "rttbMaskProcess.h"
-#include "rttbMaskWriter.h"
-#include "rttbStructDataReader.h"
-#include "rttbException.h"
 #include "VoxelizerToolCmdLineParser.h"
 #include "VoxelizerToolApplicationData.h"
-#include "RTToolboxConfigure.h"
+
+#include "rttbDoseLoader.cpp"
+#include "rttbStructLoader.cpp"
 
 int main(int argc, const char** argv)
 {
     rttb::apps::voxelizerTool::ApplicationData appData;
-
-	typedef rttb::core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
 
 	const std::string appCategory = "RT-Toolbox App";
 	const std::string appName = "VoxelizerTool";
@@ -78,136 +70,78 @@ int main(int argc, const char** argv)
     std::cout << "Multiple Struct: " << appData._multipleStructs << std::endl;
 	std::cout << "No Strict voxelization: " << appData._noStrictVoxelization << std::endl << std::endl;
 
-	boost::shared_ptr<rttb::apps::voxelizerTool::StructDataReader> reader =
-	    boost::make_shared<rttb::apps::voxelizerTool::StructDataReader>(appData._structFile,
-	            appData._referenceFile, appData._referenceFileLoadStyle, appData._regEx);
 	std::cout << "reading reference and structure file..." << std::endl;
 
-	try
-	{
-		reader->read();
-	}
-	catch (rttb::core::Exception& e)
-	{
-		std::cerr << "RTTB Error!!!" << std::endl;
-		std::cerr << e.what() << std::endl;
-		return 2;
-	}
-	catch (const std::exception& e)
-	{
-		std::cerr << "Error!!!" << std::endl;
-		std::cerr << e.what() << std::endl;
-		return 2;
-	}
-	catch (...)
-	{
-		std::cerr << "Error!!! unknown error while reading input image." << std::endl;
-		return 2;
-	}
+    try
+    {
+        appData._dose = rttb::io::utils::loadDose(appData._referenceFile, appData._referenceFileLoadStyle);
+    }
+    catch (rttb::core::Exception& e)
+    {
+        std::cerr << "RTTB Error!!!" << std::endl;
+        std::cerr << e.what() << std::endl;
+        return 2;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Error!!!" << std::endl;
+        std::cerr << e.what() << std::endl;
+        return 2;
+    }
+    catch (...)
+    {
+        std::cerr << "Error!!! unknown error while reading input dose image." << std::endl;
+        return 2;
+    }
 
-	std::cout << "done." << std::endl;
+    try
+    {
+        appData._struct = rttb::io::utils::loadStruct(appData._structFile, appData._referenceFileLoadStyle, appData._regEx);       
+    }
+    catch (rttb::core::Exception& e)
+    {
+        std::cerr << "RTTB Error!!!" << std::endl;
+        std::cerr << e.what() << std::endl;
+        return 2;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Error!!!" << std::endl;
+        std::cerr << e.what() << std::endl;
+        return 2;
+    }
+    catch (...)
+    {
+        std::cerr << "Error!!! unknown error while reading input struct image." << std::endl;
+        return 2;
+    }
 
-	std::cout << "searching for structs...";
-	std::vector<unsigned int> listOfCorrectElements;
-
-	std::vector<unsigned int> indexOfCorrectElements;
-	indexOfCorrectElements = rttb::apps::voxelizerTool::filterForExpression(reader->getAllLabels(),
-	                         appData._regEx);
-	std::copy(indexOfCorrectElements.begin(), indexOfCorrectElements.end(),
-	          std::back_inserter(listOfCorrectElements));
-
-	std::cout << "done." << std::endl;
-
-	boost::shared_ptr<rttb::apps::voxelizerTool::MaskProcess> maskProcessor =
-	    boost::make_shared<rttb::apps::voxelizerTool::MaskProcess>(reader->getStructureSetPointer(),
-	            reader->getDoseAccessorPointer(), !appData._noStrictVoxelization);
-
-	if (!listOfCorrectElements.empty())
-	{
-        try
-        {
-		std::vector<MaskAccessorPointer> maskVector;
-
-		std::vector<std::string> labelVector = reader->getAllLabels();
-
-		    if (appData._addStructures)
-		    {
-			    for (unsigned int i = 0; i < listOfCorrectElements.size(); i++)
-			    {
-				    unsigned int labelIndex = listOfCorrectElements.at(i);
-				    maskVector.push_back(maskProcessor->createMask(labelIndex));
-			    }
-
-			    boost::shared_ptr<rttb::apps::voxelizerTool::MaskWriter> writer =
-			        boost::make_shared<rttb::apps::voxelizerTool::MaskWriter>(maskVector,
-			                appData._booleanVoxelization);
-			    writer->writeMaskToFile(appData._outputFilename);
-
-		    }
-		    else
-		    {
-			    unsigned int maxIterationCount = 1;
-
-			    if (appData._multipleStructs)
-			    {
-				    maxIterationCount = listOfCorrectElements.size();
-			    }
-
-			    for (unsigned int i = 0; i < maxIterationCount; i++)
-			    {
-				    std::cout << "creating mask...";
-				    maskVector.push_back(maskProcessor->createMask(listOfCorrectElements.at(i)));
-				    std::cout << "done" << std::endl;
-				    int labelIndex = listOfCorrectElements.at(i);
-				    std::string labelOfInterest = labelVector.at(labelIndex);
-				    rttb::apps::voxelizerTool::removeSpecialCharacters(labelOfInterest);
-				    boost::shared_ptr<rttb::apps::voxelizerTool::MaskWriter> writer =
-				        boost::make_shared<rttb::apps::voxelizerTool::MaskWriter>(maskVector,
-				                appData._booleanVoxelization);
-                    
-
-				    std::string outputName = appData._outputFilename;
-
-				    if (appData._multipleStructs)
-				    {
-					    std::string fileName = rttb::apps::voxelizerTool::getFilenameWithoutEnding(
-					                               appData._outputFilename);
-					    std::string fileEnding = rttb::apps::voxelizerTool::getFileEnding(appData._outputFilename);
-					    outputName = fileName + "_" + labelOfInterest + fileEnding;
-				    }
-                    writer->writeMaskToFile(outputName);
-			    }
-
-		    }
-        }
-        catch (rttb::core::Exception& e)
-        {
-            std::cerr << "RTTB Error while doing voxelization!!!" << std::endl;
-            std::cerr << e.what() << std::endl;
-            return 2;
-        }
-        catch (itk::ExceptionObject& err)
-        {
-            std::cerr << "ExceptionObject caught !" << std::endl;
-            std::cerr << err << std::endl;
-            return 3;
-        }
-        catch (const std::exception& e)
-        {
-            std::cerr << "Error!!!" << std::endl;
-            std::cerr << e.what() << std::endl;
-            return 3;
-        }
-        catch (...)
-        {
-            std::cerr << "Error!!! unknown error while doing voxelization." << std::endl;
-            return 3;
-        }
-	}
-	else
-	{
-		std::cout << "No struct found" << std::endl;
-	}
-
+    try
+    {
+      rttb::apps::voxelizerTool::processData(appData);
+    }
+    catch (rttb::core::Exception& e)
+    {
+        std::cerr << "RTTB Error while doing voxelization!!!" << std::endl;
+        std::cerr << e.what() << std::endl;
+        return 2;
+    }
+    catch (itk::ExceptionObject& err)
+    {
+        std::cerr << "ExceptionObject caught !" << std::endl;
+        std::cerr << err << std::endl;
+        return 3;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Error!!!" << std::endl;
+        std::cerr << e.what() << std::endl;
+        return 3;
+    }
+    catch (...)
+    {
+        std::cerr << "Error!!! unknown error while doing voxelization." << std::endl;
+        return 3;
+    }
 	return 0;
 }
