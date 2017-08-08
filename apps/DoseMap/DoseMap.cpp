@@ -97,10 +97,13 @@ int main(int argc,  const char** argv)
 		std::cout << "Reference dose style:         " << appData._refDoseLoadStyle.at(0) << std::endl;
 	}
 
+    std::cout << std::endl << "read dose file... ";
+
 	try
 	{
 		appData._inputDose = rttb::io::utils::loadDose(appData._inputDoseFileName,
 		                     appData._inputDoseLoadStyle);
+        std::cout << "done." << std::endl;
 	}
 	catch (::itk::ExceptionObject& e)
 	{

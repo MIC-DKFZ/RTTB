@@ -70,6 +70,7 @@ namespace rttb
             }
 
             /*! @brief loads a dose from a file based on the loadingStyle.
+                @params args[0]: determines the loadingStyle
                 @exception Throws an rttb::Exception if loading fails
             */
             rttb::core::DoseAccessorInterface::DoseAccessorPointer
@@ -78,21 +79,16 @@ namespace rttb
             {
                 rttb::core::DoseAccessorInterface::DoseAccessorPointer result;
 
-                std::cout << std::endl << "read dose file... ";
-
                 if (args.empty() || args[0] == "dicom")
                 {
-                    std::cout << "use RTTB dicom IO... ";
                     result = loadDicomDose(fileName);
                 }
                 else if (args[0] == "helax")
                 {
-                    std::cout << "use RTTB Helax IO... ";
                     result = loadHelaxDose(fileName);
                 }
                 else if (args[0] == "itk")
                 {
-                    std::cout << "use RTTB itk IO... ";
                     result = loadITKDose(fileName);
                 }
                 else
@@ -100,8 +96,6 @@ namespace rttb
                     rttbDefaultExceptionStaticMacro(<< "Unknown io style selected. Cannot load data. Selected style: "
                         << args[0]);
                 }
-
-                std::cout << "done." << std::endl;
 
                 return result;
             }

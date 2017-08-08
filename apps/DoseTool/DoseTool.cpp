@@ -91,9 +91,12 @@ int main(int argc, const char** argv)
 		std::cout << "DVH output file: " << appData._dvhOutputFilename << std::endl;
 	}
 
+    std::cout << std::endl << "read dose file... ";
+
 	try
 	{
 		appData._dose = rttb::io::utils::loadDose(appData._doseFileName, appData._doseLoadStyle);
+        std::cout << "done." << std::endl;
 	}
 	catch (rttb::core::Exception& e)
 	{
