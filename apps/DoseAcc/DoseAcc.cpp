@@ -28,6 +28,8 @@
 
 #include "RTToolboxConfigure.h"
 
+#include "rttbDoseLoader.cpp"
+
 int main(int argc, const char** argv)
 {
 	int result = 0;
@@ -77,9 +79,11 @@ int main(int argc, const char** argv)
 	std::cout << "Dose 2 weight:      " << appData._weightDose2 << std::endl;
 	std::cout << "Operator:           " << appData._operator << std::endl;
 
+    std::cout << std::endl << "read dose file... ";
+
 	try
 	{
-		appData._dose1 = rttb::apps::doseAcc::loadDose(appData._dose1FileName, appData._dose1LoadStyle);
+		appData._dose1 = rttb::io::utils::loadDose(appData._dose1FileName, appData._dose1LoadStyle);
 	}
 	catch (::itk::ExceptionObject& e)
 	{
@@ -101,7 +105,8 @@ int main(int argc, const char** argv)
 
 	try
 	{
-		appData._dose2 = rttb::apps::doseAcc::loadDose(appData._dose2FileName, appData._dose2LoadStyle);
+		appData._dose2 = rttb::io::utils::loadDose(appData._dose2FileName, appData._dose2LoadStyle);
+        std::cout << "done." << std::endl;
 	}
 	catch (::itk::ExceptionObject& e)
 	{

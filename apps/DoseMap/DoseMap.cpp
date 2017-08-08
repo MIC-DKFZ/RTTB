@@ -32,6 +32,8 @@
 
 #include "mapDummyRegistrationAlgorithm.h"
 
+#include "rttbDoseLoader.cpp"
+
 /**
  Main function of dose mapper.
  @retval 0 normal program execution
@@ -95,10 +97,13 @@ int main(int argc,  const char** argv)
 		std::cout << "Reference dose style:         " << appData._refDoseLoadStyle.at(0) << std::endl;
 	}
 
+    std::cout << std::endl << "read dose file... ";
+
 	try
 	{
-		appData._inputDose = rttb::apps::doseMap::loadDose(appData._inputDoseFileName,
+		appData._inputDose = rttb::io::utils::loadDose(appData._inputDoseFileName,
 		                     appData._inputDoseLoadStyle);
+        std::cout << "done." << std::endl;
 	}
 	catch (::itk::ExceptionObject& e)
 	{
@@ -122,7 +127,7 @@ int main(int argc,  const char** argv)
 	{
 		try
 		{
-			appData._refDose = rttb::apps::doseMap::loadDose(appData._refDoseFileName,
+			appData._refDose = rttb::io::utils::loadDose(appData._refDoseFileName,
 			                   appData._refDoseLoadStyle);
 		}
 		catch (::itk::ExceptionObject& e)

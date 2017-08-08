@@ -30,20 +30,6 @@ namespace rttb
 	{
 		namespace doseMap
 		{
-
-			/**loads the dose from a file. Throws exception if loading fails*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadDose(const std::string& fileName,
-			        const rttb::apps::doseMap::ApplicationData::LoadingStyleArgType& args);
-
-			/**loads the dose from a file using the dicom dose generator. Throws exception if loading fails*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadDicomDose(const std::string& fileName);
-
-			/**loads the dose from a path using the helax io dose generator. Throws exception if loading fails*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadHelaxDose(const std::string& path);
-
-			/**loads the dose from a file stored in an ITK supported data format. Throws exception if loading fails*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadITKDose(const std::string& fileName);
-
 			ApplicationData::RegistrationType::Pointer loadRegistration(const std::string& fileName);
 
 			/**Contains the business logic for the accumulation of the doses and the storing of the result.

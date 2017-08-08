@@ -36,28 +36,7 @@ namespace rttb
 		{
             class ApplicationData;
             typedef std::vector<std::string> LoadingStyleArgType;
-			/*! @brief loads a dose from a file based on the loadingStyle.
-				@exception Throws an rttb::Exception if loading fails
-			*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadDose(const std::string& fileName,
-			        const LoadingStyleArgType& args);
-			/*! @brief loads a dicom dose from a file.
-				@exception Throws an rttb::Exception if loading fails
-				@sa DicomFileDoseAccessorGenerator
-			*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadDicomDose(const std::string& fileName);
-			/*! @brief loads a helax dose from a file.
-				@exception Throws an rttb::Exception if loading fails
-				@sa DicomHelaxFileDoseAccessorGenerator
-			*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadHelaxDose(const std::string& path);
-			/*! @brief loads an itk dose from a file.
-				@exception Throws an rttb::Exception if loading fails.
-				@details Might be of all formats that ITK know (*.mhd, *.nrrd, ...). The absolute image values are taken as dose.
-				@sa ITKImageFileAccessorGenerator
-			*/
-			core::DoseAccessorInterface::DoseAccessorPointer loadITKDose(const std::string& fileName);
-
+		
 			/*! @brief loads a struct from a file based on the loadingStyle.
 			You may pass a structure name regex. If is not empty, it will be used to filter structure in the
 			loading process. Only structures with a name matching the reg ex will be loaded. This speeds up the

@@ -31,9 +31,6 @@
 #include "rttbExceptionMacros.h"
 
 #include "DoseToolApplicationData.h"
-#include "rttbDicomFileDoseAccessorGenerator.h"
-#include "rttbDicomHelaxFileDoseAccessorGenerator.h"
-#include "rttbITKImageFileAccessorGenerator.h"
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbITKImageFileMaskAccessorGenerator.h"
 #include "rttbDoseStatistics.h"
@@ -45,61 +42,6 @@
 #include "rttbGenericMaskedDoseIterator.h"
 #include "rttbDoseStatisticsXMLWriter.h"
 #include "rttbVOIindexIdentifier.h"
-
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
-rttb::apps::doseTool::loadDose(const std::string& fileName,
-                               const LoadingStyleArgType& args)
-{
-	rttb::core::DoseAccessorInterface::DoseAccessorPointer result;
-
-	std::cout << std::endl << "read dose file... ";
-
-	if (args.empty() || args[0] == "dicom")
-	{
-		std::cout << "use RTTB dicom IO... ";
-		result = loadDicomDose(fileName);
-	}
-	else if (args[0] == "helax")
-	{
-		std::cout << "use RTTB Helax IO... ";
-		result = loadHelaxDose(fileName);
-	}
-	else if (args[0] == "itk")
-	{
-		std::cout << "use RTTB itk IO... ";
-		result = loadITKDose(fileName);
-	}
-	else
-	{
-		rttbDefaultExceptionStaticMacro( << "Unknown io style selected. Cannot load data. Selected style: "
-		                                 << args[0]);
-	}
-
-	std::cout << "done." << std::endl;
-
-	return result;
-}
-
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
-rttb::apps::doseTool::loadDicomDose(const std::string& fileName)
-{
-	rttb::io::dicom::DicomFileDoseAccessorGenerator generator(fileName);
-	return generator.generateDoseAccessor();
-}
-
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
-rttb::apps::doseTool::loadHelaxDose(const std::string& path)
-{
-	rttb::io::helax::DicomHelaxFileDoseAccessorGenerator generator(path);
-	return generator.generateDoseAccessor();
-}
-
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
-rttb::apps::doseTool::loadITKDose(const std::string& fileName)
-{
-	rttb::io::itk::ITKImageFileAccessorGenerator generator(fileName);
-	return generator.generateDoseAccessor();
-}
 
 
 rttb::core::StructureSetGeneratorInterface::StructureSetPointer rttb::apps::doseTool::loadStruct(
