@@ -48,9 +48,9 @@ namespace rttb
 			std::vector<double> _voxelProportionVector;
 
 		private:
+      std::vector<double> _precomputeVolumeValues;
 			VolumeType _volume;
 			DoseStatistics::VolumeToDoseMeasureCollectionPointer _measureCollection;
-			std::vector<double> _precomputeVolumeValues;
 			bool _multiThreading;
 
 		public:

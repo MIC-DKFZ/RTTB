@@ -42,7 +42,7 @@ namespace rttb
 			VolumeToDoseMeasureCollection MaxOHx,
 			VolumeToDoseMeasureCollection MinOCx,
 		    DoseTypeGy referenceDose /*=-1*/):
-			_minimum(minimum), _maximum(maximum), _mean(mean), _stdDeviation(stdDeviation),
+      _minimum(minimum), _maximum(maximum), _mean(mean), _stdDeviation(stdDeviation),
 			_numVoxels(numVoxels), _volume(volume),
 			_Dx(::boost::make_shared<VolumeToDoseMeasureCollection>(Dx)),
 			_Vx(::boost::make_shared<DoseToVolumeMeasureCollection>(Vx)),

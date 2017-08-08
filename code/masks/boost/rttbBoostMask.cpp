@@ -174,7 +174,7 @@ namespace rttb
 				::boost::thread_group threads;
                 auto aMutex = ::boost::make_shared<::boost::shared_mutex>();
 
-				for (int i = 0; i < polygonMapVector.size(); ++i)
+				for (unsigned int i = 0; i < polygonMapVector.size(); ++i)
 				{
 					BoostMaskVoxelizationThread t(polygonMapVector.at(i), _globalBoundingBox,
                         _voxelizationMap, aMutex, _strict);

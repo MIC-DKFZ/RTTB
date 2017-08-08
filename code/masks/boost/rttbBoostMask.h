@@ -93,6 +93,19 @@ namespace rttb
 
 				StructPointer _structure;
 
+        bool _strict;
+
+        /*! @brief The number of threads
+        */
+        unsigned int _numberOfThreads;
+
+        //@brief The thickness of the voxelization plane (the contour plane), in double dose grid index
+        //@details for example, the first contour has the double grid index 0.1, the second 0.3, the third 0.5, then the thickness is 0.2
+        double _voxelizationThickness;
+
+        //@brief vector of the MaskVoxel inside the structure
+        MaskVoxelListPointer _voxelInStructure;
+
 				/*! @brief The map of z index and a vector of boost ring 2d (without holes)
 				*	@details Key: the double z grid index
 				*	Value: the vector of boost ring 2d (without holes)
@@ -112,23 +125,9 @@ namespace rttb
 				*/
                 BoostArrayMapPointer _voxelizationMap;
 
-				//@brief The thickness of the voxelization plane (the contour plane), in double dose grid index
-				//@details for example, the first contour has the double grid index 0.1, the second 0.3, the third 0.5, then the thickness is 0.2
-				double _voxelizationThickness;
-
-				bool _strict;
-
-				//@brief vector of the MaskVoxel inside the structure
-				MaskVoxelListPointer _voxelInStructure;
-
 				/*! @brief If the mask is up to date
 				*/
 				bool _isUpToDate;
-
-
-				/*! @brief The number of threads
-				*/
-				unsigned int _numberOfThreads;
 
 				/*! @brief Voxelization and generate mask
 				*/

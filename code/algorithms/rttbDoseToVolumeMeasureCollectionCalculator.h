@@ -55,9 +55,9 @@ namespace rttb
 			core::DoseIteratorInterface::DoseIteratorPointer _doseIterator;
 
 		private:
+      std::vector<double> _precomputeDoseValues;
 			DoseTypeGy _referenceDose;
 			DoseStatistics::DoseToVolumeMeasureCollectionPointer _measureCollection;
-			std::vector<double> _precomputeDoseValues;
 			bool _multiThreading;
 
 		public:

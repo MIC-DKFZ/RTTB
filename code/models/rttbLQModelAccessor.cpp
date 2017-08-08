@@ -37,7 +37,7 @@ namespace rttb
 		LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, BioModelParamType alpha,
             BioModelParamType beta, unsigned int nFractions,
 		                                 double doseScaling) :
-                                         _dose(dose), _alpha(alpha), _beta(beta), _nFractions(nFractions), _betaMap(nullptr), _alphaMap(nullptr), _doseScaling(doseScaling), _withAlphaBetaMaps(false)
+                                         _dose(dose), _alpha(alpha), _beta(beta), _nFractions(nFractions), _alphaMap(nullptr), _betaMap(nullptr), _doseScaling(doseScaling), _withAlphaBetaMaps(false)
 		{
 			if (_dose == nullptr)
 			{
@@ -53,7 +53,7 @@ namespace rttb
 		}
 
         LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, DoseAccessorPointer alphaMap, DoseAccessorPointer betaMap, unsigned int nFractions,
-            double doseScaling) :_dose(dose), _alpha(-1.), _beta(-1.), _nFractions(nFractions), _betaMap(alphaMap), _alphaMap(betaMap), _doseScaling(doseScaling), _withAlphaBetaMaps(true)
+            double doseScaling) :_dose(dose), _alpha(-1.), _beta(-1.), _nFractions(nFractions), _alphaMap(betaMap), _betaMap(alphaMap), _doseScaling(doseScaling), _withAlphaBetaMaps(true)
         {
             if (_dose == nullptr || _alphaMap == nullptr || _betaMap == nullptr)
             {

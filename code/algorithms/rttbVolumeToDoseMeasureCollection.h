@@ -39,8 +39,8 @@ namespace rttb
 			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
 
 		private:
+      complexStatistics _name;
 			VolumeType _volume;
-			complexStatistics _name;
 			VolumeToDoseFunctionType _values;
 
 		public:

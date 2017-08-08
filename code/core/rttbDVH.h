@@ -197,7 +197,6 @@ namespace rttb
 			*/
 			std::map <DoseTypeGy, PercentType> getNormalizedDVH(DVHType dvhType = { DVHType::Cumulative });
 		};
-    static bool valueIsClose(double v1, double v2, double specificErrorConstant = 1e-5);
 	}
 }
 

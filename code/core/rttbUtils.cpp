@@ -23,6 +23,7 @@
 #define __RTTB_UTILS_H
 
 #include <map>
+#include <vector>
 #include <rttbBaseType.h>
 
 namespace rttb
@@ -32,7 +33,7 @@ namespace rttb
 
 		static bool isKey(const std::map<double, double>& values, const double value) {
 			for (auto const& collectionElements : values) {
-				if (std::abs(collectionElements.first - value) <= rttb::errorConstant)
+				if (std::abs(collectionElements.first - value) <= errorConstant)
 				{
 					return true;
 				}
@@ -42,13 +43,17 @@ namespace rttb
 
 		static bool isKey(const std::vector<double>& values, const double value) {
 			for (auto const& collectionElement : values) {
-				if (std::abs(collectionElement - value) <= rttb::errorConstant)
+				if (std::abs(collectionElement - value) <= errorConstant)
 				{
 					return true;
 				}
 			}
 			return false;
 		}
+
+    static bool valueIsClose(double value1, double value2, double specificErrorConstant = 1e-5) {
+      return std::abs(value1 - value2) < specificErrorConstant;
+    }
 	}
 }
 #endif
