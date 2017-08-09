@@ -22,7 +22,7 @@
 #include "rttbVolumeToDoseMeasureCollectionCalculator.h"
 #include <boost/thread/thread.hpp>
 #include "rttbInvalidParameterException.h"
-#include "rttbUtils.cpp"
+#include "rttbUtils.h"
 
 #include <boost/make_shared.hpp>
 //#include <boost/thread/locks.hpp> 
@@ -34,8 +34,11 @@ namespace rttb
 	{
 		VolumeToDoseMeasureCollectionCalculator::VolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 			const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector, const DoseVoxelVolumeType currentVoxelVolume,
-			VolumeToDoseMeasureCollection::complexStatistics name, bool multiThreading) : _measureCollection(::boost::make_shared<VolumeToDoseMeasureCollection>(name)), _precomputeVolumeValues(precomputeVolumeValues),
-			_volume(volume), _doseVector(doseVector), _voxelProportionVector(voxelProportionVector), _currentVoxelVolume(currentVoxelVolume), _multiThreading(multiThreading) {}
+			VolumeToDoseMeasureCollection::complexStatistics name, bool multiThreading) : _measureCollection(::boost::make_shared<VolumeToDoseMeasureCollection>(name)),
+			_volume(volume), _doseVector(doseVector), _voxelProportionVector(voxelProportionVector), _currentVoxelVolume(currentVoxelVolume), _multiThreading(multiThreading)
+        {
+            addPrecomputeVolumeValues(precomputeVolumeValues);
+        }
 
 		void VolumeToDoseMeasureCollectionCalculator::compute()
 		{

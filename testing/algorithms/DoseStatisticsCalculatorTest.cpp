@@ -153,8 +153,15 @@ namespace rttb
 
 			faultyValues.push_back(2);
 
+            CHECK_THROW_EXPLICIT(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(precomputeDoseValues,
+                faultyValues), core::InvalidParameterException);
+
+            CHECK_THROW_EXPLICIT(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(faultyValues,
+                precomputeVolumeValues), core::InvalidParameterException);
+
 			CHECK_NO_THROW(theStatistics = myDoseStatsCalculator.calculateDoseStatistics(precomputeDoseValues,
 				precomputeVolumeValues));
+
 			CHECK_NO_THROW(theStatistics->getVx().getValue(0.01 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getVx().getValue(0.02 * theStatistics->getMaximum()));
 			CHECK_NO_THROW(theStatistics->getVx().getValue(0.05 * theStatistics->getMaximum()));

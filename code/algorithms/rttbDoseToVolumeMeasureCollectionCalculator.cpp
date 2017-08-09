@@ -22,7 +22,7 @@
 #include "rttbDoseToVolumeMeasureCollectionCalculator.h"
 #include <boost/thread/thread.hpp>
 #include "rttbInvalidParameterException.h"
-#include "rttbUtils.cpp"
+#include "rttbUtils.h"
 
 #include <boost/make_shared.hpp>
 
@@ -36,7 +36,10 @@ namespace rttb
 		DoseToVolumeMeasureCollectionCalculator::DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
 			const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator,
 			DoseToVolumeMeasureCollection::complexStatistics name, bool multiThreading) : _measureCollection(::boost::make_shared<DoseToVolumeMeasureCollection>(name)),
-			_precomputeDoseValues(precomputeDoseValues), _referenceDose(referenceDose), _doseIterator(doseIterator), _multiThreading(multiThreading) {}
+			_referenceDose(referenceDose), _doseIterator(doseIterator), _multiThreading(multiThreading)
+        {
+            addPrecomputeDoseValues(precomputeDoseValues);
+        }
 
 		void DoseToVolumeMeasureCollectionCalculator::compute()
 		{
