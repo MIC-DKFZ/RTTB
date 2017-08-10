@@ -38,17 +38,10 @@ namespace rttb
 
             void processData(ApplicationData& appData);
 
-			/**@brief ListofExpression contains input expression
-			@return a vector of found labels
-			*/
-            std::vector<unsigned int> filterForExpression(const std::vector<std::string>& listOfExpressions,
-			                                     const std::string& inputExpression);
 			/**@brief Search the label with the position from index
 			@return a label from the list as string
 			*/
 			void removeSpecialCharacters(std::string& label);
-
-            std::vector<std::string> getAllLabels(rttb::core::StructureSetGeneratorInterface::StructureSetPointer& structureSetPtr);
 
             /**@brief create a mask with _rtStructureSet and _doseAccessor object.
             @return a mask object

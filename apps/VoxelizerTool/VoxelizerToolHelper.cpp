@@ -32,31 +32,14 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkAddImageFilter.h"
 
+#include "rttbVOIindexIdentifier.h"
+
 #include <regex>
 
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/filesystem.hpp>
 
 #include "rttbDicomFileStructureSetGenerator.h"
-
-std::vector<unsigned int> rttb::apps::voxelizerTool::filterForExpression(const std::vector<std::string>& listOfExpressions,
-			                            const std::string& inputExpression)
-{
-	std::vector<unsigned int> listOfFoundElements;
-
-	for (unsigned int j = 0; j < listOfExpressions.size(); j++)
-	{
-		std::regex e(boost::algorithm::to_lower_copy(inputExpression));
-		std::string s = boost::algorithm::to_lower_copy(listOfExpressions.at(j));
-
-		if (std::regex_match(s, e))
-		{
-			listOfFoundElements.push_back(j);
-		}
-	}
-
-	return listOfFoundElements;
-}
 
 void rttb::apps::voxelizerTool::removeSpecialCharacters(std::string& label)
 {
@@ -83,22 +66,6 @@ std::string rttb::apps::voxelizerTool::getFileEnding(const std::string& outfilen
 {
 	boost::filesystem::path p(outfilename);
 	return p.extension().string();
-}
-
-std::vector<std::string> rttb::apps::voxelizerTool::getAllLabels(
-    core::StructureSetGeneratorInterface::StructureSetPointer& structureSetPtr)
-{
-    std::vector<std::string> allLabels;
-
-    if (structureSetPtr != NULL)
-    {
-        for (int j = 0; j < structureSetPtr->getNumberOfStructures(); j++)
-        {
-            allLabels.push_back(structureSetPtr->getStructure(j)->getLabel());
-        }
-    }
-
-    return allLabels;
 }
 
 rttb::core::MaskAccessorInterface::MaskAccessorPointer rttb::apps::voxelizerTool::createMask(
@@ -220,11 +187,10 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
 
     std::cout << "searching for structs...";
 
-    std::vector<unsigned int> listOfCorrectElements, indexOfCorrectElements;
+    std::vector<size_t> listOfCorrectElements, indexOfCorrectElements;
 
-    std::vector<std::string> labelVector = getAllLabels(appData._struct);
+    indexOfCorrectElements = rttb::masks::VOIindexIdentifier::getIndicesByVoiRegex(appData._struct, appData._regEx);
 
-    indexOfCorrectElements = filterForExpression(labelVector, appData._regEx);
     std::copy(indexOfCorrectElements.begin(), indexOfCorrectElements.end(),
         std::back_inserter(listOfCorrectElements));
 
@@ -238,9 +204,8 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
         {
             for (unsigned int i = 0; i < listOfCorrectElements.size(); i++)
             {
-                unsigned int labelIndex = listOfCorrectElements.at(i);
                 maskVector.push_back(createMask(appData._dose, appData._struct,
-                    !appData._noStrictVoxelization, labelIndex));
+                    !appData._noStrictVoxelization, listOfCorrectElements.at(i)));
             }
 
             writeMaskToFile(maskVector, appData._outputFilename, appData._booleanVoxelization);
@@ -261,17 +226,16 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
                 maskVector.push_back(createMask(appData._dose, appData._struct,
                     !appData._noStrictVoxelization, listOfCorrectElements.at(i)));
                 std::cout << "done" << std::endl;
-                int labelIndex = listOfCorrectElements.at(i);
-                std::string labelOfInterest = labelVector.at(labelIndex);
-                rttb::apps::voxelizerTool::removeSpecialCharacters(labelOfInterest);
+                std::string labelOfInterest = rttb::masks::VOIindexIdentifier::getVoiNameByIndex(appData._struct, i);
+                removeSpecialCharacters(labelOfInterest);
 
                 std::string outputName = appData._outputFilename;
 
                 if (appData._multipleStructs)
                 {
-                    std::string fileName = rttb::apps::voxelizerTool::getFilenameWithoutEnding(
+                    std::string fileName = getFilenameWithoutEnding(
                         appData._outputFilename);
-                    std::string fileEnding = rttb::apps::voxelizerTool::getFileEnding(appData._outputFilename);
+                    std::string fileEnding = getFileEnding(appData._outputFilename);
                     outputName = fileName + "_" + labelOfInterest + fileEnding;
                 }
                 writeMaskToFile(maskVector, outputName, appData._booleanVoxelization);
