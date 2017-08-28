@@ -56,7 +56,6 @@ namespace rttb
 
 		int DVHXMLIOTest(int argc, char* argv[])
 		{
-			typedef core::DVHSet::DVHSetType DVHSetType;
 			typedef core::DVH::DVHPointer DVHPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;

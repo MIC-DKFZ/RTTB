@@ -138,7 +138,7 @@ namespace rttb
 			expectedValues.push_back(22.0 * doseGridScaling);
 			expectedValues.push_back(30.0 * doseGridScaling);
 
-			for (int i = 0; i < voxelsAsIndexToTest.size(); i++)
+			for (unsigned int i = 0; i < voxelsAsIndexToTest.size(); i++)
 			{
 				VoxelGridID currentId;
 				doseAccessor1GeometricInfo.convert(voxelsAsIndexToTest.at(i), currentId);
