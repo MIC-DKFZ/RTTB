@@ -61,4 +61,5 @@ SET(H_FILES
   rttbStructureSet.h
   rttbStructureSetGeneratorInterface.h
   rttbStrVectorStructureSetGenerator.h
+  rttbUtils.h
 )
