@@ -25,6 +25,9 @@
 
 #include "boost/shared_ptr.hpp"
 
+#include "rttbDoseAccessorInterface.h"
+#include "rttbStructureSetGeneratorInterface.h"
+
 #include <vector>
 #include <string>
 
@@ -41,12 +44,14 @@ namespace rttb
 			class ApplicationData
 			{
 			public:
-				
+                typedef std::vector<std::string> LoadingStyleArgType;
+                core::DoseAccessorInterface::DoseAccessorPointer _dose;
+                core::StructureSetGeneratorInterface::StructureSetPointer _struct;
 				std::string _structFile;
 				std::string _referenceFile;
-				std::vector<std::string> _referenceFileLoadStyle;
 				std::string _outputFilename;
-				std::string _regEx;
+                std::string _regEx;
+                LoadingStyleArgType _referenceFileLoadStyle;
 				bool _multipleStructs;
 				bool _booleanVoxelization;
 				bool _addStructures;
