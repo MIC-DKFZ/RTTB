@@ -60,7 +60,6 @@ namespace rttb
 		{
 			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
 			typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
-			typedef boost::shared_ptr<rttb::algorithms::DoseStatisticsCalculator> DoseStatisticsCalculatorPtr;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 

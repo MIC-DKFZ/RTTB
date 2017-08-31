@@ -30,19 +30,19 @@ namespace rttb
 	namespace testing
 	{
 		const double errorConstant = 1e-3;// errorConstant is so small because the double are castet to float when they are written
-		bool checkEqualDoseStatistic(DoseStatisticsPtr aDoseStatistc1, DoseStatisticsPtr aDoseStatistic2){
-			bool result = lit::AreClose(aDoseStatistc1->getNumberOfVoxels(), aDoseStatistic2->getNumberOfVoxels(), 0.01);
-			result = result &&  lit::AreClose(aDoseStatistc1->getVolume(), aDoseStatistic2->getVolume(), errorConstant);
-			result = result &&  lit::AreClose(aDoseStatistc1->getMinimum(), aDoseStatistic2->getMinimum(), errorConstant);
-			result = result &&  lit::AreClose(aDoseStatistc1->getMaximum(), aDoseStatistic2->getMaximum(), errorConstant);
-			result = result &&  lit::AreClose(aDoseStatistc1->getMean(), aDoseStatistic2->getMean(), errorConstant);
-			result = result &&  lit::AreClose(aDoseStatistc1->getStdDeviation(), aDoseStatistic2->getStdDeviation(), errorConstant);
-			result = result && mapCompare(aDoseStatistc1->getDx().getAllValues(), aDoseStatistic2->getDx().getAllValues());
-			result = result && mapCompare(aDoseStatistc1->getVx().getAllValues(), aDoseStatistic2->getVx().getAllValues());
-			result = result && mapCompare(aDoseStatistc1->getMaxOHx().getAllValues(), aDoseStatistic2->getMaxOHx().getAllValues());
-			result = result && mapCompare(aDoseStatistc1->getMinOCx().getAllValues(), aDoseStatistic2->getMinOCx().getAllValues());
-			result = result && mapCompare(aDoseStatistc1->getMOCx().getAllValues(), aDoseStatistic2->getMOCx().getAllValues());
-			result = result && mapCompare(aDoseStatistc1->getMOHx().getAllValues(), aDoseStatistic2->getMOHx().getAllValues());
+		bool checkEqualDoseStatistic(DoseStatisticsPtr aDoseStatistic1, DoseStatisticsPtr aDoseStatistic2){
+			bool result = lit::AreClose(aDoseStatistic1->getNumberOfVoxels(), aDoseStatistic2->getNumberOfVoxels(), 0.01);
+			result = result &&  lit::AreClose(aDoseStatistic1->getVolume(), aDoseStatistic2->getVolume(), errorConstant);
+			result = result &&  lit::AreClose(aDoseStatistic1->getMinimum(), aDoseStatistic2->getMinimum(), errorConstant);
+			result = result &&  lit::AreClose(aDoseStatistic1->getMaximum(), aDoseStatistic2->getMaximum(), errorConstant);
+			result = result &&  lit::AreClose(aDoseStatistic1->getMean(), aDoseStatistic2->getMean(), errorConstant);
+			result = result &&  lit::AreClose(aDoseStatistic1->getStdDeviation(), aDoseStatistic2->getStdDeviation(), errorConstant);
+			result = result && mapCompare(aDoseStatistic1->getDx().getAllValues(), aDoseStatistic2->getDx().getAllValues());
+			result = result && mapCompare(aDoseStatistic1->getVx().getAllValues(), aDoseStatistic2->getVx().getAllValues());
+			result = result && mapCompare(aDoseStatistic1->getMaxOHx().getAllValues(), aDoseStatistic2->getMaxOHx().getAllValues());
+			result = result && mapCompare(aDoseStatistic1->getMinOCx().getAllValues(), aDoseStatistic2->getMinOCx().getAllValues());
+			result = result && mapCompare(aDoseStatistic1->getMOCx().getAllValues(), aDoseStatistic2->getMOCx().getAllValues());
+			result = result && mapCompare(aDoseStatistic1->getMOHx().getAllValues(), aDoseStatistic2->getMOHx().getAllValues());
 
 			return result;
 		}

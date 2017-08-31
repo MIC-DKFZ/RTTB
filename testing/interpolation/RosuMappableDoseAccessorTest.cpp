@@ -113,14 +113,14 @@ namespace rttb
 			expectedValues.push_back(30.0 * doseGridScaling);
 
 			//convert VoxelGridIndex3D to VoxelGridID
-			for (int i = 0; i < voxelsAsIndexToTest.size(); i++)
+			for (unsigned int i = 0; i < voxelsAsIndexToTest.size(); i++)
 			{
 				VoxelGridID currentId;
 				doseAccessor1->getGeometricInfo().convert(voxelsAsIndexToTest.at(i), currentId);
 				voxelsAsIdToTest.push_back(currentId);
 			}
 
-			for (int i = 0; i < voxelsAsIndexToTest.size(); i++)
+			for (unsigned int i = 0; i < voxelsAsIndexToTest.size(); i++)
 			{
 				//test if the expected interpolation values are computed
 				CHECK_CLOSE(aRosuMappableDoseAccessorDefault->getValueAt(voxelsAsIndexToTest.at(i)),

@@ -23,15 +23,20 @@
 #define __RTTB_UTILS_H
 
 #include <map>
+#include <vector>
 #include <rttbBaseType.h>
 
 namespace rttb
 {
-    namespace core
-    {
-        bool isKey(const std::map<double, double>& values, const double value);
-        bool isKey(const std::vector<double>& values, const double value);
-    }
+	namespace core
+	{
+
+    bool isKey(const std::map<double, double>& values, double value);
+
+    bool isKey(const std::vector<double>& values, double value);
+
+    bool valueIsClose(double value1, double value2, double specificErrorConstant = 1e-5);
+	}
 }
 
 #endif

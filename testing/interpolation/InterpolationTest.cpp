@@ -118,11 +118,11 @@ namespace rttb
 
 			std::vector<rttb::WorldCoordinate3D> coordinatesToCheck;
 
-			for (int x = 0; x < coordinatesX.size(); x++)
+			for (unsigned int x = 0; x < coordinatesX.size(); x++)
 			{
-				for (int y = 0; y < coordinatesY.size(); y++)
+				for (unsigned int y = 0; y < coordinatesY.size(); y++)
 				{
-					for (int z = 0; z < coordinatesZ.size(); z++)
+					for (unsigned int z = 0; z < coordinatesZ.size(); z++)
 					{
 						coordinatesToCheck.push_back(rttb::WorldCoordinate3D(coordinatesX.at(x),
 						                             coordinatesY.at(y), coordinatesZ.at(z)));

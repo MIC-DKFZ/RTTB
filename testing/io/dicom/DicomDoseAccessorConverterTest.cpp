@@ -51,7 +51,6 @@ namespace rttb
 
 		int DicomDoseAccessorConverterTest(int argc, char* argv[])
 		{
-			typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPointer;
 			typedef rttb::io::dicom::DicomDoseAccessor::DoseAccessorPointer DoseAccessorPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;

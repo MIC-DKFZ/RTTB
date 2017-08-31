@@ -29,7 +29,7 @@ namespace rttb
 	namespace algorithms
 	{
 		DoseToVolumeMeasureCollection::DoseToVolumeMeasureCollection(complexStatistics name, DoseTypeGy referenceDose) :
-			_name(name), _values(std::map<VolumeType, DoseTypeGy>()), _referenceDose(referenceDose) {}
+			_name(name), _referenceDose(referenceDose), _values(std::map<VolumeType, DoseTypeGy>()) {}
 
 		void DoseToVolumeMeasureCollection::setReferenceDose(DoseTypeGy referenceDose)
 		{

@@ -25,6 +25,7 @@
 #include "rttbDVH.h"
 #include "rttbException.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbUtils.h"
 
 namespace rttb
 {
@@ -432,10 +433,6 @@ namespace rttb
 			}
 			return normalizedDVH;
 		}
-
-    bool valueIsClose(double v1, double v2, double specificErrorConstant) {
-      return std::abs(v1 - v2) < specificErrorConstant;
-    }
 
 	}//end namespace core
 }//end namespace rttb

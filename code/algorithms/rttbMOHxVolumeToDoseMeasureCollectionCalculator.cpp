@@ -45,7 +45,7 @@ namespace rttb
 				double countVoxels = 0;
 				double sum = 0;
 
-				for (auto i = _doseVector.size() - 1; i != -1; i--)
+				for (auto i = _doseVector.size() - 1; i!=static_cast<size_t>(-1); i--)
 				{
 					double voxelProportion = _voxelProportionVector.at(i);
 					countVoxels += voxelProportion;

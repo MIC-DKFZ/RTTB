@@ -49,8 +49,6 @@ namespace rttb
 		int DicomStructureSetGeneratorTest(int argc, char* argv[])
 		{
 			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
-			//typedef boost::shared_ptr<DRTStructureSetIOD> DRTStrSetIODPtr;
-			typedef io::dicom::DicomIODStructureSetGenerator::DRTStrSetIODPtr DRTStrSetIODPtr;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//ARGUMENTS: 1: structure file name

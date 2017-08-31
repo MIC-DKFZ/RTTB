@@ -52,13 +52,9 @@ namespace rttb
 		*/
 		int BoostMaskTest(int argc, char* argv[])
 		{
-			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
-			typedef core::DVHCalculator::DoseIteratorPointer DoseIteratorPointer;
-			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
-			typedef core::GenericMaskedDoseIterator::MaskAccessorPointer MaskAccessorPointer;
-            typedef core::Structure::StructTypePointer StructTypePointer;
-
 			PREPARE_DEFAULT_TEST_REPORTING;
+
+      typedef core::Structure::StructTypePointer StructTypePointer;
 
 			// generate test dose. geometric info: patient position (-25, -2, 35), center of the 1st.voxel 
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor =
@@ -113,14 +109,14 @@ namespace rttb
             const VoxelGridIndex3D outMask2(2, 1, 0);
             const VoxelGridIndex3D outMask3(2, 1, 4);
             VoxelGridID testId;
-            double errorConstant = 1e-7;
+            double errorConstantBoostMask = 1e-7;
 
             core::MaskVoxel tmpMV1(0), tmpMV2(0);
             CHECK(boostMaskAccessor.getMaskAt(inMask1, tmpMV1));
             geometricPtr->convert(inMask1, testId);
             CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
             CHECK_EQUAL(tmpMV1, tmpMV2);
-            CHECK_CLOSE(0.25, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_CLOSE(0.25, tmpMV1.getRelevantVolumeFraction(), errorConstantBoostMask);
             CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
 
             CHECK(boostMaskAccessor.getMaskAt(inMask2, tmpMV1));
@@ -134,28 +130,28 @@ namespace rttb
             CHECK(geometricPtr->convert(inMask3, testId));
             CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
             CHECK_EQUAL(tmpMV1, tmpMV2);
-            CHECK_CLOSE(0.5, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_CLOSE(0.5, tmpMV1.getRelevantVolumeFraction(), errorConstantBoostMask);
             CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
 
             CHECK(boostMaskAccessor.getMaskAt(inMask4, tmpMV1));
             CHECK(geometricPtr->convert(inMask4, testId));
             CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
             CHECK_EQUAL(tmpMV1, tmpMV2);
-            CHECK_CLOSE(0.125, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_CLOSE(0.125, tmpMV1.getRelevantVolumeFraction(), errorConstantBoostMask);
             CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
 
             CHECK(boostMaskAccessor.getMaskAt(inMask5, tmpMV1));
             CHECK(geometricPtr->convert(inMask5, testId));
             CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
             CHECK_EQUAL(tmpMV1, tmpMV2);
-            CHECK_CLOSE(0.125, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_CLOSE(0.125, tmpMV1.getRelevantVolumeFraction(), errorConstantBoostMask);
             CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
 
             CHECK(boostMaskAccessor.getMaskAt(inMask6, tmpMV1));
             CHECK(geometricPtr->convert(inMask6, testId));
             CHECK(boostMaskAccessor.getMaskAt(testId, tmpMV2));
             CHECK_EQUAL(tmpMV1, tmpMV2);
-            CHECK_CLOSE(0.5, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_CLOSE(0.5, tmpMV1.getRelevantVolumeFraction(), errorConstantBoostMask);
             CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
 
             CHECK(!boostMaskAccessor.getMaskAt(outMask1, tmpMV1));
@@ -188,7 +184,7 @@ namespace rttb
             CHECK(boostMaskAccessor2.getMaskAt(testId, tmpMV2));
             CHECK_EQUAL(tmpMV1, tmpMV2);
             //corner, the first contour weight 0.25, the second contour weights 0.5  -> volumeFraction = 0.25*0.25 + 1.25*0.5 = 0.1875 
-            CHECK_CLOSE(0.1875, tmpMV1.getRelevantVolumeFraction(), errorConstant); 
+            CHECK_CLOSE(0.1875, tmpMV1.getRelevantVolumeFraction(), errorConstantBoostMask); 
             CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
 
             CHECK(boostMaskAccessor2.getMaskAt(inMask2, tmpMV1));
@@ -204,7 +200,7 @@ namespace rttb
             CHECK(boostMaskAccessor2.getMaskAt(testId, tmpMV2));
             CHECK_EQUAL(tmpMV1, tmpMV2);
             //side the first contour weight 0.25, the second contour weights 0.5  -> ->volumeFraction = 0.5*0.25 + 0.5*0.5 = 0.75 
-            CHECK_CLOSE(0.375, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_CLOSE(0.375, tmpMV1.getRelevantVolumeFraction(), errorConstantBoostMask);
             CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());			
 
             CHECK(boostMaskAccessor2.getMaskAt(inMask4, tmpMV1));
@@ -212,7 +208,7 @@ namespace rttb
             CHECK(boostMaskAccessor2.getMaskAt(testId, tmpMV2));
             CHECK_EQUAL(tmpMV1, tmpMV2);
             //corner on the first contour slice, weight 0.25 -> volumeFraction = 0.25*0.25 = 0.0625
-            CHECK_CLOSE(0.0625, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_CLOSE(0.0625, tmpMV1.getRelevantVolumeFraction(), errorConstantBoostMask);
             CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
 
             CHECK(boostMaskAccessor2.getMaskAt(inMask6, tmpMV1));
@@ -220,7 +216,7 @@ namespace rttb
             CHECK(boostMaskAccessor2.getMaskAt(testId, tmpMV2));
             CHECK_EQUAL(tmpMV1, tmpMV2);
             //inside on the first contour slice, weight 0.25 ->volumeFraction = 1 * 0.25 = 0.25
-            CHECK_CLOSE(0.25, tmpMV1.getRelevantVolumeFraction(), errorConstant);
+            CHECK_CLOSE(0.25, tmpMV1.getRelevantVolumeFraction(), errorConstantBoostMask);
             CHECK_EQUAL(testId, tmpMV1.getVoxelGridID());
 
             CHECK(!boostMaskAccessor2.getMaskAt(outMask1, tmpMV1));

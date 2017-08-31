@@ -51,18 +51,14 @@ namespace rttb
 				typedef core::Structure::StructTypePointer StructTypePointer;
 
 			private:
-
+        StructTypePointer _spStructure;
 				core::GeometricInfo _geoInfo;
+        bool _strict;
 
 				/*! vector containing list of mask voxels*/
 				MaskVoxelListPointer _spRelevantVoxelVector;
 
-				StructTypePointer _spStructure;
-
 				IDType _maskUID;
-
-				bool _strict;
-
 
 			public:
 

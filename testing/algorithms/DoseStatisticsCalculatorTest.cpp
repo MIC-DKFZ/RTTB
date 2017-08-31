@@ -228,7 +228,6 @@ namespace rttb
 			}
 
 			mean /= doseVals->size();
-			DoseTypeGy compMean = (int(mean * 100)) / 100;
 
 			doseIt = doseVals->begin();
 

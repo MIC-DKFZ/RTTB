@@ -60,22 +60,21 @@ namespace rttb
 			std::map<double, double>::const_iterator findNearestKeyInMap(const std::map<double, double>& aMap,
 			        double key) const;
 
+      DoseStatisticType _minimum;
 			DoseStatisticType _maximum;
-			DoseStatisticType _minimum;
+      DoseStatisticType _mean;
+      DoseStatisticType _stdDeviation;
+      VoxelNumberType _numVoxels;
+      VolumeType _volume;
+      ResultListPointer _minimumVoxelPositions;
 			ResultListPointer _maximumVoxelPositions;
-			ResultListPointer _minimumVoxelPositions;
-			DoseStatisticType _mean;
-			DoseStatisticType _stdDeviation;
-			VoxelNumberType _numVoxels;
-			VolumeType _volume;
-			DoseTypeGy _referenceDose; //for Vx computation
 			VolumeToDoseMeasureCollectionPointer _Dx;
 			DoseToVolumeMeasureCollectionPointer _Vx;
 			VolumeToDoseMeasureCollectionPointer _MOHx;
 			VolumeToDoseMeasureCollectionPointer _MOCx;
 			VolumeToDoseMeasureCollectionPointer _MaxOHx;
 			VolumeToDoseMeasureCollectionPointer _MinOCx;
-
+      DoseTypeGy _referenceDose; //for Vx computation
 
 		public:
 			/*! @brief Standard Constructor

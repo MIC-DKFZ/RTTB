@@ -104,7 +104,6 @@ namespace rttb
 			maskAccessorConverter2.process();
 
 			typedef itk::Image< DoseTypeGy, 3 >         MaskImageType;
-			typedef itk::ImageFileReader<MaskImageType> ReaderType;
 
 			ITKImageTypePointer convertedImagePtr = maskAccessorConverter2.getITKImage();
 

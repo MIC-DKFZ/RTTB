@@ -21,22 +21,31 @@
 
 #include <rttbUtils.h>
 
-bool rttb::core::isKey(const std::map<double, double>& values, const double value) {
-	for (auto const& collectionElements : values) {
-		if (std::abs(collectionElements.first - value) <= rttb::errorConstant)
-		{
-			return true;
+namespace rttb {
+  namespace core {
+    bool isKey(const std::map<double, double>& values, const double value) {
+			for (auto const& collectionElements : values) {
+				if (std::abs(collectionElements.first - value) <= errorConstant)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
-	}
-	return false;
-}
 
-bool rttb::core::isKey(const std::vector<double>& values, const double value) {
-	for (auto const& collectionElement : values) {
-		if (std::abs(collectionElement - value) <= rttb::errorConstant)
-		{
-			return true;
+		bool isKey(const std::vector<double>& values, double value) {
+			for (auto const& collectionElement : values) {
+				if (std::abs(collectionElement - value) <= errorConstant)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
-	}
-	return false;
+
+
+    bool valueIsClose(double value1, double value2, double specificErrorConstant) {
+      return std::abs(value1 - value2) < specificErrorConstant;
+    }
+  }
 }

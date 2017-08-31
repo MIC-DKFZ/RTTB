@@ -38,7 +38,7 @@ namespace rttb
 		/*! Compare 2 DoseStatistics and return the results.
 		@result Indicates if the test was successful (true) or if it failed (false)
 		*/
-		bool checkEqualDoseStatistic(DoseStatisticsPtr aDoseStatistc1, DoseStatisticsPtr aDoseStatistic2);
+		bool checkEqualDoseStatistic(DoseStatisticsPtr aDoseStatistic1, DoseStatisticsPtr aDoseStatistic2);
 
 		std::map<double, double>::const_iterator findNearestKeyInMap(const std::map<double, double>& aMap, double key);
 

@@ -39,13 +39,12 @@ namespace rttb
 		private:
 			DoseAccessorPointer _dose;
 			BioModelParamType _alpha;
-            DoseAccessorPointer _alphaMap;
-			BioModelParamType _beta;
-            DoseAccessorPointer _betaMap;
-            unsigned int _nFractions;
-            bool _withAlphaBetaMaps;
-
-			double _doseScaling;
+      BioModelParamType _beta;
+      unsigned int _nFractions;
+      DoseAccessorPointer _alphaMap;
+      DoseAccessorPointer _betaMap;
+      double _doseScaling;
+      bool _withAlphaBetaMaps;
 
 			IDType _bioModelUID;
 

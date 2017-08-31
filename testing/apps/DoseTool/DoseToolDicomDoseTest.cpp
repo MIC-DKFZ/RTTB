@@ -64,9 +64,9 @@ namespace rttb
 
 			std::string doseToolExeWithPath = callingPath.parent_path().string() + "/" + doseToolExecutable;
 
-			std::string defaultOutputFilename = "dicomOutput.xml";
-			std::string defaultDVHOutputFilename = "dicomDVHOutput.xml";
-			std::string complexOutputFilename = "dicomOutputComplex.xml";
+			std::string defaultOutputFilename = "dicomDoseOutput.xml";
+			std::string defaultDVHOutputFilename = "dicomDoseDVHOutput.xml";
+			std::string complexOutputFilename = "dicomDoseOutputComplex.xml";
 
 			std::string baseCommand = doseToolExeWithPath;
 			baseCommand += " -d \"" + doseFilename + "\"";
