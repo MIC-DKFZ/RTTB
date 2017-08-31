@@ -290,17 +290,11 @@ ENDIF (BUILD_TESTING)
 
 ADD_SUBDIRECTORY (documentation)
 
-
-
 #-----------------------------------------------------------------------------
 # Help other projects use RTToolbox.
 #-----------------------------------------------------------------------------
 
 EXPORT(PACKAGE RTToolbox)
-
-# Copy the UseRTToolbox.cmake file to the binary tree for backward compatability.
-CONFIGURE_FILE(${RTToolbox_SOURCE_DIR}/UseRTToolbox.cmake.in
-               ${RTToolbox_BINARY_DIR}/UseRTToolbox.cmake COPYONLY IMMEDIATE)
 
 # Save library dependencies.
 EXPORT_LIBRARY_DEPENDENCIES(${RTToolbox_BINARY_DIR}/RTToolboxLibraryDepends.cmake)

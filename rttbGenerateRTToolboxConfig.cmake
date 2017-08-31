@@ -5,9 +5,6 @@
 #-----------------------------------------------------------------------------
 # Settings specific to the build tree.
 
-# The "use" file.
-SET(RTToolbox_USE_FILE ${RTToolbox_BINARY_DIR}/UseRTToolbox.cmake)
-
 # The library dependencies file.
 SET(RTToolbox_LIBRARY_DEPENDS_FILE ${RTToolbox_BINARY_DIR}/RTToolboxLibraryDepends.cmake)
 
@@ -35,9 +32,6 @@ CONFIGURE_FILE(${RTToolbox_SOURCE_DIR}/RTToolboxConfig.cmake.in
 
 #-----------------------------------------------------------------------------
 # Settings specific to the install tree.
-
-# The "use" file.
-SET(RTToolbox_USE_FILE ${CMAKE_INSTALL_PREFIX}${RTToolbox_INSTALL_PACKAGE_DIR}/UseRTToolbox.cmake)
 
 # The library dependencies file.
 SET(RTToolbox_LIBRARY_DEPENDS_FILE
