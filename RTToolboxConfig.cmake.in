@@ -25,10 +25,7 @@ SET(RTToolbox_VERSION_MINOR "@RTToolbox_VERSION_MINOR@")
 SET(RTToolbox_VERSION_PATCH "@RTToolbox_VERSION_PATCH@")
 
 
-# The location of the UseRTToolbox.cmake file.
-SET(RTToolbox_USE_FILE "@RTToolbox_USE_FILE@")
-
-# The location of the MatchPointTargets.cmake file.
+# The location of the RTToolboxTargets.cmake file.
 SET(RTToolbox_TARGETS_FILE "@RTToolbox_TARGETS_FILE@")
 
 # The RTToolbox library dependencies.
