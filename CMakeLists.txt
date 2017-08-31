@@ -40,9 +40,6 @@ IF(COMMAND CMAKE_POLICY)
   # greater than 3.0
   # See http://www.cmake.org/cmake/help/v3.0/policy/CMP0033.html
   CMAKE_POLICY(SET CMP0033 OLD)
-  IF(POLICY CMP0062)
-    CMAKE_POLICY(SET CMP0062 OLD)
-  ENDIF()
 ENDIF(COMMAND CMAKE_POLICY)
 
 #-----------------------------------------------------------------------------
@@ -256,7 +253,7 @@ CONFIGURE_FILE(${RTToolbox_SOURCE_DIR}/RTToolboxConfigure.h.in
   ${RTToolbox_BINARY_DIR}/RTToolboxConfigure.h)
   
 IF(NOT RTTOOLBOX_INSTALL_NO_DEVELOPMENT)
-  INSTALL(FILES ${RTToolbox_BINARY_DIR}/RTToolboxConfigure.h
+  INSTALL(FILES RTToolboxConfigure.h
     DESTINATION ${RTTOOLBOX_INSTALL_INCLUDE_DIR}
     COMPONENT Development)
 ENDIF(NOT RTTOOLBOX_INSTALL_NO_DEVELOPMENT)
@@ -312,11 +309,10 @@ EXPORT_LIBRARY_DEPENDENCIES(${RTToolbox_BINARY_DIR}/RTToolboxLibraryDepends.cmak
 INCLUDE (${RTToolbox_SOURCE_DIR}/rttbGenerateRTToolboxConfig.cmake)
 
 IF(NOT RTToolbox_INSTALL_NO_DEVELOPMENT)
-  INSTALL(FILES
-    ${RTToolbox_BINARY_DIR}/RTToolboxConfig.cmake
-    ${RTToolbox_BINARY_DIR}/RTToolboxTargets.cmake
-    ${RTToolbox_BINARY_DIR}/RTToolboxLibraryDepends.cmake
-    ${RTToolbox_BINARY_DIR}/UseRTToolbox.cmake
+	INSTALL(FILES
+    RTToolboxConfig.cmake
+    RTToolboxTargets.cmake
+    RTToolboxLibraryDepends.cmake
     DESTINATION ${RTTOOLBOX_INSTALL_PACKAGE_DIR}
     COMPONENT Development
     )
