@@ -92,7 +92,7 @@ namespace rttb
 
 			std::string filenameHDRWithVoxelization = tempDirectory + "/testOutputVoxelValue.hdr";
 			std::string filenameIMGWithVoxelization = tempDirectory + "/testOutputVoxelValue.img";
-            std::cout << "filename: " << filenameHDRWithVoxelization << std::endl;
+
 			CHECK(boost::filesystem::exists(filenameHDRWithVoxelization));
 			CHECK(boost::filesystem::exists(filenameIMGWithVoxelization));
 
