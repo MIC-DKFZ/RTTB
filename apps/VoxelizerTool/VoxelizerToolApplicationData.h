@@ -53,7 +53,7 @@ namespace rttb
                 std::string _regEx;
                 LoadingStyleArgType _referenceFileLoadStyle;
 				bool _multipleStructs;
-				bool _booleanVoxelization;
+				bool _binaryVoxelization;
 				bool _addStructures;
 				bool _noStrictVoxelization;
 

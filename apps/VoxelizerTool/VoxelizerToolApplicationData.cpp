@@ -44,7 +44,7 @@ namespace rttb
 				_outputFilename = "";
 				_regEx="";
 				_multipleStructs = false;
-				_booleanVoxelization = false;
+				_binaryVoxelization = false;
 				_addStructures = false;
                 _noStrictVoxelization = false;
 			}
@@ -70,9 +70,9 @@ namespace rttb
 					}
 				}
 
-				if (argParser->isSet(argParser->OPTION_BOOLEAN_VOXELIZATION))
+				if (argParser->isSet(argParser->OPTION_BINARY_VOXELIZATION))
 				{
-					appData._booleanVoxelization = true;
+					appData._binaryVoxelization = true;
 				}
 
 				if (argParser->isSet(argParser->OPTION_ADDSTRUCTURES))

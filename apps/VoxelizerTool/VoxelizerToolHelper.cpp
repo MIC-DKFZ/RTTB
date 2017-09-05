@@ -208,7 +208,7 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
                     !appData._noStrictVoxelization, listOfCorrectElements.at(i)));
             }
 
-            writeMaskToFile(maskVector, appData._outputFilename, appData._booleanVoxelization);
+            writeMaskToFile(maskVector, appData._outputFilename, appData._binaryVoxelization);
 
         }
         else
@@ -238,7 +238,7 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
                     std::string fileEnding = getFileEnding(appData._outputFilename);
                     outputName = fileName + "_" + labelOfInterest + fileEnding;
                 }
-                writeMaskToFile(maskVector, outputName, appData._booleanVoxelization);
+                writeMaskToFile(maskVector, outputName, appData._binaryVoxelization);
             }
         }
     }

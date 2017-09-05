@@ -69,9 +69,9 @@ namespace rttb
 					"If structures 'Kidney_left' and 'Kidney_right' are defined,\n"
 					"both are written under the names outputFile_Kidney_left.mhd and outputFile_Kidney_right.mhd",'m');
                 addInformationForXML(OPTION_MULTIPLE_STRUCTS, cmdlineparsing::XMLGenerator::paramType::BOOLEAN);
-				addOption(OPTION_BOOLEAN_VOXELIZATION, OPTION_GROUP_OPTIONAL,
+				addOption(OPTION_BINARY_VOXELIZATION, OPTION_GROUP_OPTIONAL,
 					"Determines if the voxelization should be binarized (only values 0 or 1), the threshold value is by 0.5",'z');
-                addInformationForXML(OPTION_BOOLEAN_VOXELIZATION, cmdlineparsing::XMLGenerator::paramType::BOOLEAN);
+                addInformationForXML(OPTION_BINARY_VOXELIZATION, cmdlineparsing::XMLGenerator::paramType::BOOLEAN);
 				addOption(OPTION_ADDSTRUCTURES, OPTION_GROUP_OPTIONAL,
 					"Voxelizes multiple structs in one result file.",'a');
                 addInformationForXML(OPTION_ADDSTRUCTURES, cmdlineparsing::XMLGenerator::paramType::BOOLEAN);
