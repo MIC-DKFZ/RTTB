@@ -33,15 +33,6 @@ ELSE (WIN32)
 	ENDIF()
 ENDIF(WIN32)
 
-
-IF(COMMAND CMAKE_POLICY)
-  # Enable old CMake behaviour when dealing with export_library_dependencies().
-  # This is necessary to avoid warnings in CMake versions
-  # greater than 3.0
-  # See http://www.cmake.org/cmake/help/v3.0/policy/CMP0033.html
-  CMAKE_POLICY(SET CMP0033 OLD)
-ENDIF(COMMAND CMAKE_POLICY)
-
 #-----------------------------------------------------------------------------
 # CMake Function(s) and Macro(s)
 #-----------------------------------------------------------------------------
@@ -296,9 +287,6 @@ ADD_SUBDIRECTORY (documentation)
 
 EXPORT(PACKAGE RTToolbox)
 
-# Save library dependencies.
-EXPORT_LIBRARY_DEPENDENCIES(${RTToolbox_BINARY_DIR}/RTToolboxLibraryDepends.cmake)
-
 # Create the RTToolboxConfig.cmake file containing the RTToolbox configuration.
 INCLUDE (${RTToolbox_SOURCE_DIR}/rttbGenerateRTToolboxConfig.cmake)
 
@@ -306,7 +294,6 @@ IF(NOT RTToolbox_INSTALL_NO_DEVELOPMENT)
 	INSTALL(FILES
     RTToolboxConfig.cmake
     RTToolboxTargets.cmake
-    RTToolboxLibraryDepends.cmake
     DESTINATION ${RTTOOLBOX_INSTALL_PACKAGE_DIR}
     COMPONENT Development
     )

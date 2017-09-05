@@ -5,9 +5,6 @@
 #-----------------------------------------------------------------------------
 # Settings specific to the build tree.
 
-# The library dependencies file.
-SET(RTToolbox_LIBRARY_DEPENDS_FILE ${RTToolbox_BINARY_DIR}/RTToolboxLibraryDepends.cmake)
-
 # Library directory.
 SET(RTToolbox_LIBRARY_DIRS_CONFIG ${RTToolbox_LIBRARY_PATH})
 
@@ -32,10 +29,6 @@ CONFIGURE_FILE(${RTToolbox_SOURCE_DIR}/RTToolboxConfig.cmake.in
 
 #-----------------------------------------------------------------------------
 # Settings specific to the install tree.
-
-# The library dependencies file.
-SET(RTToolbox_LIBRARY_DEPENDS_FILE
-    ${CMAKE_INSTALL_PREFIX}${RTToolbox_INSTALL_PACKAGE_DIR}/RTToolboxLibraryDepends.cmake)
 
 # Include directories.
 SET(RTToolbox_INCLUDE_DIRS_CONFIG
