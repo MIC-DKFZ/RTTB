@@ -27,10 +27,3 @@ SET(RTToolbox_VERSION_PATCH "@RTToolbox_VERSION_PATCH@")
 
 # The location of the RTToolboxTargets.cmake file.
 SET(RTToolbox_TARGETS_FILE "@RTToolbox_TARGETS_FILE@")
-
-# The RTToolbox library dependencies.
-IF(NOT RTToolbox_NO_LIBRARY_DEPENDS AND
-    EXISTS "@RTToolbox_LIBRARY_DEPENDS_FILE@")
-  INCLUDE("@RTToolbox_LIBRARY_DEPENDS_FILE@")
-ENDIF(NOT RTToolbox_NO_LIBRARY_DEPENDS AND
-  EXISTS "@RTToolbox_LIBRARY_DEPENDS_FILE@")
