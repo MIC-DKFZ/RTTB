@@ -36,19 +36,13 @@ namespace rttb
 
 		DVH::DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD,
 		         const DoseVoxelVolumeType& aDeltaV,
-		         IDType aStructureID, IDType aDoseID): _deltaD(aDeltaD), _deltaV(aDeltaV),
-			_structureID(aStructureID),
-			_doseID(aDoseID), _voxelizationID("NONE")
+		         const IDType& aStructureID, const IDType& aDoseID): DVH(aDataDifferential, aDeltaD, aDeltaV, aStructureID, aDoseID, "NONE")
 		{
-			_dataDifferential.clear();
-			_dataDifferential = aDataDifferential;
-
-			this->init();
 		}
 
 		DVH::DVH(const DataDifferentialType& aDataDifferential, DoseTypeGy aDeltaD,
 		         DoseVoxelVolumeType aDeltaV,
-		         IDType aStructureID, IDType aDoseID, IDType aVoxelizationID): _deltaD(aDeltaD), _deltaV(aDeltaV),
+		         const IDType& aStructureID, const IDType& aDoseID, const IDType& aVoxelizationID): _deltaD(aDeltaD), _deltaV(aDeltaV),
 			_structureID(aStructureID), _doseID(aDoseID), _voxelizationID(aVoxelizationID)
 		{
 			_dataDifferential.clear();
@@ -57,15 +51,9 @@ namespace rttb
 			this->init();
 		}
 
-		DVH::DVH(const DVH& copy) : _structureID(copy._structureID), _doseID(copy._doseID),
-			_voxelizationID(copy._voxelizationID), _label(copy._label)
+		DVH::DVH(const DVH& copy) : DVH(copy._dataDifferential, copy._deltaD, copy._deltaV, copy._structureID, copy._doseID, copy._voxelizationID)
 		{
-			_deltaD = copy._deltaD;
-			_deltaV = copy._deltaV;
-
-			_dataDifferential.clear();
-			_dataDifferential = copy._dataDifferential;
-			this->init();
+      _label = copy._label;
 		}
 
 		DVH& DVH::operator=(const DVH& copy)

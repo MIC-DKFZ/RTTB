@@ -95,14 +95,14 @@ namespace rttb
 			*/
 			DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD,
 			    const DoseVoxelVolumeType& aDeltaV,
-			    IDType aStructureID, IDType aDoseID);
+			    const IDType& aStructureID, const IDType& aDoseID);
 
 			/*!
 				@throw <InvalidParameterException> if _deltaV or _deltaD are zero
 				@throw <InvalidParameterException> is _data differential is empty
 			*/
 			DVH(const DataDifferentialType& aDataDifferential, DoseTypeGy aDeltaD, DoseVoxelVolumeType aDeltaV,
-			    IDType aStructureID, IDType aDoseID, IDType aVoxelizationID);
+			    const IDType& aStructureID, const IDType& aDoseID, const IDType& aVoxelizationID);
 
 			DVH(const DVH& copy);
 
