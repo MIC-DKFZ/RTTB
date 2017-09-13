@@ -126,6 +126,18 @@ namespace rttb
 			}
 		}
 
+    std::deque<DoseCalcType> DVH::getDataCumulative(bool relativeVolume) const
+    {
+      if (!relativeVolume)
+      {
+        return _dataCumulative;
+      }
+      else
+      {
+        return _dataCumulativeRelative;
+      }
+    }
+
 		DoseVoxelVolumeType DVH::getDeltaV() const
 		{
 			return _deltaV;
@@ -209,8 +221,8 @@ namespace rttb
 			_maximum = 0;
 			_minimum = 0;
 			_dataCumulative.clear();
-			this->_dataCumulativeRelative.clear();
-			this->_dataDifferentialRelative.clear();
+			_dataCumulativeRelative.clear();
+			_dataDifferentialRelative.clear();
 
 			DataDifferentialType::iterator it;
 
@@ -248,10 +260,10 @@ namespace rttb
 			_variance = (squareSum / _numberOfVoxels - _mean * _mean);
 			_stdDeviation = pow(_variance, 0.5);
 
-			_dataCumulative = this->calcCumulativeDVH();
+			this->calcCumulativeDVH();
 		}
 
-		std::deque<DoseCalcType> DVH::calcCumulativeDVH(bool relativeVolume)
+		void DVH::calcCumulativeDVH()
 		{
 
 			_dataCumulative.clear();
@@ -264,24 +276,8 @@ namespace rttb
 			for (size_t i = 0; i < size; i++)
 			{
 				cumulativeDVHi += _dataDifferential.at(size - i - 1);
-
-				if (!relativeVolume)
-				{
-					_dataCumulative.push_front(cumulativeDVHi);
-				}
-				else
-				{
-					_dataCumulativeRelative.push_front(cumulativeDVHi / this->getNumberOfVoxels());
-				}
-			}
-
-			if (!relativeVolume)
-			{
-				return _dataCumulative;
-			}
-			else
-			{
-				return _dataCumulativeRelative;
+				_dataCumulative.push_front(cumulativeDVHi);
+				_dataCumulativeRelative.push_front(cumulativeDVHi / this->getNumberOfVoxels());
 			}
 		}
 
@@ -407,15 +403,22 @@ namespace rttb
 			return _label;
 		}
 
-		std::map <DoseTypeGy, PercentType> DVH::getNormalizedDVH(DVHType dvhType) {
+		std::map <DoseTypeGy, PercentType> DVH::getNormalizedDVH(DVHType dvhType) const {
 			std::map <DoseTypeGy, PercentType> normalizedDVH;
-			DataDifferentialType data = getDataDifferential();
-			size_t numberOfVolumes = data.size();
+			DataDifferentialType data;
 			
 			if (dvhType.Type == DVHType::Cumulative) {
-				data = calcCumulativeDVH();
+				data = getDataCumulative();
 			}
-			for (size_t i = 0; i < numberOfVolumes; i++)
+      else {
+        data = getDataDifferential();
+      }
+
+      if (data.empty()) {
+        throw InvalidParameterException("DVH data is empty. Can't retrieve normalized DVH");
+      }
+
+			for (size_t i = 0; i < data.size(); i++)
 			{
 				normalizedDVH.insert(std::pair<DoseTypeGy, PercentType>(i * getDeltaD(), data[i] * getDeltaV()));
 			}

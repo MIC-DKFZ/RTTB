@@ -85,6 +85,10 @@ namespace rttb
 			*/
 			void init();
 
+      /*! @brief Calculate the cumulative data of dvh
+      */
+      void calcCumulativeDVH();
+
 
 		public:
 			~DVH();
@@ -135,6 +139,13 @@ namespace rttb
 			*/
 			DataDifferentialType getDataDifferential(bool relativeVolume = false) const;
 
+      /*! @param relativeVolume default false-> Value is the voxel number of the dose bin;
+      if true-> value is the relative volume % between 0 and 1,
+      (the voxel number of this dose bin)/(number of voxels)
+      @return Return cumulative data of the dvh
+      */
+      DataDifferentialType getDataCumulative(bool relativeVolume = false) const;
+
 			DoseVoxelVolumeType getDeltaV() const;
 			DoseTypeGy getDeltaD() const;
 			IDType getStructureID() const;
@@ -168,14 +179,6 @@ namespace rttb
 			DoseStatisticType getStdDeviation() const;
 			DoseStatisticType getVariance() const;
 
-			/*! @brief Calculate the cumulative data of dvh
-				@param relativeVolume default false-> Value is the voxel number of the dose bin;
-				if true-> value is the relative volume % between 0 and 1,
-				(the voxel number of this dose bin)/(number of voxels)
-				@return Return cumulative dvh value i-voxel number in dose-bin i
-			*/
-			DataDifferentialType calcCumulativeDVH(bool relativeVolume = false);
-
 			/*! @brief Get Vx the volume irradiated to >= x
 				@return Return absolute Volume in absolute cm3
 				Return -1 if not initialized
@@ -195,7 +198,7 @@ namespace rttb
 			/*	@brief Multiplies each values with its Delta value. Values depend on DVHType.
 				@param The DVHType that is being used DVHType::Cumulative or DVHType::Differential
 			*/
-			std::map <DoseTypeGy, PercentType> getNormalizedDVH(DVHType dvhType = { DVHType::Cumulative });
+			std::map <DoseTypeGy, PercentType> getNormalizedDVH(DVHType dvhType = { DVHType::Cumulative }) const;
 		};
 	}
 }

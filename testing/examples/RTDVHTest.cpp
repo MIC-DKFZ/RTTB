@@ -75,7 +75,7 @@ namespace rttb
 			CHECK_NO_THROW(models::calcLQED2DVH(dvh, 15, 10));
 
 			CHECK_NO_THROW(dvh->getDataDifferential(true));
-			CHECK_EQUAL(1, dvh->calcCumulativeDVH(true).at(0));
+			CHECK_EQUAL(1, dvh->getDataCumulative(true).at(0));
 			CHECK_NO_THROW(models::calcBEDDVH(dvh, 15, 15, true));
 			CHECK_NO_THROW(models::calcLQED2DVH(dvh, 15, 10, true));
 
@@ -87,14 +87,14 @@ namespace rttb
 			CHECK_CLOSE(expectedValue, dvh->getMedian(), errorConstant);
 			CHECK_CLOSE(expectedValue, dvh->getModal(), errorConstant);
 			CHECK_EQUAL(0, dvh->getVx(0.014));
-			CHECK_EQUAL(0.125, dvh->getVx(0.01));
+			CHECK_EQUAL(250, dvh->getVx(0.01));
 			CHECK_CLOSE(0.0131, dvh->getDx(100), errorConstant + errorConstant * 10);
 			CHECK_CLOSE(0.013, dvh->getDx(249), errorConstant);
 			CHECK_EQUAL(0, dvh->getDx(251));
 
 
 			//test statistics (absolute cumulative data)
-			CHECK_EQUAL(2000, dvh->calcCumulativeDVH(false).at(0));
+			CHECK_EQUAL(2000, dvh->getDataCumulative(false).at(0));
 			CHECK_EQUAL(0, dvh->getVx(0.014));
 			CHECK_EQUAL(250, dvh->getVx(0.01));
 			CHECK_CLOSE(0.0131, dvh->getDx(100), errorConstant + errorConstant * 10);
