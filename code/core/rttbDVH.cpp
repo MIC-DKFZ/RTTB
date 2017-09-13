@@ -323,7 +323,7 @@ namespace rttb
 			return modal;
 		}
 
-		VolumeType DVH::getVx(DoseTypeGy xDoseAbsolute)
+		VolumeType DVH::getVx(DoseTypeGy xDoseAbsolute) const
 		{
 
 			GridIndexType i = static_cast<GridIndexType>(xDoseAbsolute / _deltaD);
@@ -346,7 +346,7 @@ namespace rttb
 			}
 		}
 
-		DoseTypeGy DVH::getDx(VolumeType xVolumeAbsolute)
+		DoseTypeGy DVH::getDx(VolumeType xVolumeAbsolute) const
 		{
 
 			GridIndexType i = 0;
@@ -392,7 +392,7 @@ namespace rttb
 			}
 		}
 
-		VolumeType DVH::getAbsoluteVolume(int relativePercent)
+		VolumeType DVH::getAbsoluteVolume(int relativePercent) const
 		{
 			return (relativePercent * getNumberOfVoxels() * getDeltaV() / 100.0);
 		}

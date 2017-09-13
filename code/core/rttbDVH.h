@@ -180,17 +180,17 @@ namespace rttb
 				@return Return absolute Volume in absolute cm3
 				Return -1 if not initialized
 			*/
-			VolumeType getVx(DoseTypeGy xDoseAbsolute);
+			VolumeType getVx(DoseTypeGy xDoseAbsolute) const;
 			/*! @brief Get Dx the minimal dose delivered to x
 				@return Return absolute dose value in Gy
 				Return -1 if not initialized
 			*/
-			DoseTypeGy getDx(VolumeType xVolumeAbsolute);
+			DoseTypeGy getDx(VolumeType xVolumeAbsolute) const;
 
 			/*! @brief Calculate the absolute volume in cm3
 				@param relativePercent 0~100, the percent of the whole volume
 			*/
-			VolumeType getAbsoluteVolume(int relativePercent);
+			VolumeType getAbsoluteVolume(int relativePercent) const;
 
 			/*	@brief Multiplies each values with its Delta value. Values depend on DVHType.
 				@param The DVHType that is being used DVHType::Cumulative or DVHType::Differential
