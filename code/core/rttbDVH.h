@@ -85,6 +85,10 @@ namespace rttb
 			*/
 			void init();
 
+      /*! @brief Calculate the cumulative data of dvh
+      */
+      void calcCumulativeDVH();
+
 
 		public:
 			~DVH();
@@ -95,14 +99,14 @@ namespace rttb
 			*/
 			DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD,
 			    const DoseVoxelVolumeType& aDeltaV,
-			    IDType aStructureID, IDType aDoseID);
+			    const IDType& aStructureID, const IDType& aDoseID);
 
 			/*!
 				@throw <InvalidParameterException> if _deltaV or _deltaD are zero
 				@throw <InvalidParameterException> is _data differential is empty
 			*/
 			DVH(const DataDifferentialType& aDataDifferential, DoseTypeGy aDeltaD, DoseVoxelVolumeType aDeltaV,
-			    IDType aStructureID, IDType aDoseID, IDType aVoxelizationID);
+			    const IDType& aStructureID, const IDType& aDoseID, const IDType& aVoxelizationID);
 
 			DVH(const DVH& copy);
 
@@ -134,6 +138,13 @@ namespace rttb
 				input parameter).
 			*/
 			DataDifferentialType getDataDifferential(bool relativeVolume = false) const;
+
+      /*! @param relativeVolume default false-> Value is the voxel number of the dose bin;
+      if true-> value is the relative volume % between 0 and 1,
+      (the voxel number of this dose bin)/(number of voxels)
+      @return Return cumulative data of the dvh
+      */
+      DataDifferentialType getDataCumulative(bool relativeVolume = false) const;
 
 			DoseVoxelVolumeType getDeltaV() const;
 			DoseTypeGy getDeltaD() const;
@@ -168,34 +179,26 @@ namespace rttb
 			DoseStatisticType getStdDeviation() const;
 			DoseStatisticType getVariance() const;
 
-			/*! @brief Calculate the cumulative data of dvh
-				@param relativeVolume default false-> Value is the voxel number of the dose bin;
-				if true-> value is the relative volume % between 0 and 1,
-				(the voxel number of this dose bin)/(number of voxels)
-				@return Return cumulative dvh value i-voxel number in dose-bin i
-			*/
-			DataDifferentialType calcCumulativeDVH(bool relativeVolume = false);
-
 			/*! @brief Get Vx the volume irradiated to >= x
 				@return Return absolute Volume in absolute cm3
 				Return -1 if not initialized
 			*/
-			VolumeType getVx(DoseTypeGy xDoseAbsolute);
+			VolumeType getVx(DoseTypeGy xDoseAbsolute) const;
 			/*! @brief Get Dx the minimal dose delivered to x
 				@return Return absolute dose value in Gy
 				Return -1 if not initialized
 			*/
-			DoseTypeGy getDx(VolumeType xVolumeAbsolute);
+			DoseTypeGy getDx(VolumeType xVolumeAbsolute) const;
 
 			/*! @brief Calculate the absolute volume in cm3
 				@param relativePercent 0~100, the percent of the whole volume
 			*/
-			VolumeType getAbsoluteVolume(int relativePercent);
+			VolumeType getAbsoluteVolume(int relativePercent) const;
 
 			/*	@brief Multiplies each values with its Delta value. Values depend on DVHType.
 				@param The DVHType that is being used DVHType::Cumulative or DVHType::Differential
 			*/
-			std::map <DoseTypeGy, PercentType> getNormalizedDVH(DVHType dvhType = { DVHType::Cumulative });
+			std::map <DoseTypeGy, PercentType> getNormalizedDVH(DVHType dvhType = { DVHType::Cumulative }) const;
 		};
 	}
 }

@@ -114,7 +114,7 @@ namespace rttb
 					}
 					else if (_dvhType.Type == DVHType::Cumulative)
 					{
-						DataDifferentialType dataCumulative = aDvh->calcCumulativeDVH();
+						DataDifferentialType dataCumulative = aDvh->getDataCumulative();
 
 						for (size_t i = 0; i < dataCumulative.size(); i++)
 						{

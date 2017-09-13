@@ -92,7 +92,7 @@ namespace rttb
 					}
 					else
 					{
-						data = aDvh->calcCumulativeDVH();
+						data = aDvh->getDataCumulative();
 					}
 				}
 				else

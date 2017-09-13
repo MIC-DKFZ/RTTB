@@ -229,10 +229,10 @@ namespace rttb
 			std::map <DoseTypeGy, PercentType> normalizedDVHCum = myDVH.getNormalizedDVH();
 			for (auto elem : normalizedDVHCum)
 			{
-				CHECK_EQUAL(myDVH.calcCumulativeDVH().at(std::round(elem.first / binSize)), (elem.second / voxelVolume));
+				CHECK_EQUAL(myDVH.getDataCumulative().at(std::round(elem.first / binSize)), (elem.second / voxelVolume));
 			}
 
-      CHECK_NO_THROW(myDVH.calcCumulativeDVH(true));
+      CHECK_NO_THROW(myDVH.getDataCumulative(true));
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

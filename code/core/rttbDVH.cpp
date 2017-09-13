@@ -36,19 +36,13 @@ namespace rttb
 
 		DVH::DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD,
 		         const DoseVoxelVolumeType& aDeltaV,
-		         IDType aStructureID, IDType aDoseID): _deltaD(aDeltaD), _deltaV(aDeltaV),
-			_structureID(aStructureID),
-			_doseID(aDoseID), _voxelizationID("NONE")
+		         const IDType& aStructureID, const IDType& aDoseID): DVH(aDataDifferential, aDeltaD, aDeltaV, aStructureID, aDoseID, "NONE")
 		{
-			_dataDifferential.clear();
-			_dataDifferential = aDataDifferential;
-
-			this->init();
 		}
 
 		DVH::DVH(const DataDifferentialType& aDataDifferential, DoseTypeGy aDeltaD,
 		         DoseVoxelVolumeType aDeltaV,
-		         IDType aStructureID, IDType aDoseID, IDType aVoxelizationID): _deltaD(aDeltaD), _deltaV(aDeltaV),
+		         const IDType& aStructureID, const IDType& aDoseID, const IDType& aVoxelizationID): _deltaD(aDeltaD), _deltaV(aDeltaV),
 			_structureID(aStructureID), _doseID(aDoseID), _voxelizationID(aVoxelizationID)
 		{
 			_dataDifferential.clear();
@@ -57,15 +51,9 @@ namespace rttb
 			this->init();
 		}
 
-		DVH::DVH(const DVH& copy) : _structureID(copy._structureID), _doseID(copy._doseID),
-			_voxelizationID(copy._voxelizationID), _label(copy._label)
+		DVH::DVH(const DVH& copy) : DVH(copy._dataDifferential, copy._deltaD, copy._deltaV, copy._structureID, copy._doseID, copy._voxelizationID)
 		{
-			_deltaD = copy._deltaD;
-			_deltaV = copy._deltaV;
-
-			_dataDifferential.clear();
-			_dataDifferential = copy._dataDifferential;
-			this->init();
+      _label = copy._label;
 		}
 
 		DVH& DVH::operator=(const DVH& copy)
@@ -137,6 +125,18 @@ namespace rttb
 				return _dataDifferentialRelative;
 			}
 		}
+
+    std::deque<DoseCalcType> DVH::getDataCumulative(bool relativeVolume) const
+    {
+      if (!relativeVolume)
+      {
+        return _dataCumulative;
+      }
+      else
+      {
+        return _dataCumulativeRelative;
+      }
+    }
 
 		DoseVoxelVolumeType DVH::getDeltaV() const
 		{
@@ -221,8 +221,8 @@ namespace rttb
 			_maximum = 0;
 			_minimum = 0;
 			_dataCumulative.clear();
-			this->_dataCumulativeRelative.clear();
-			this->_dataDifferentialRelative.clear();
+			_dataCumulativeRelative.clear();
+			_dataDifferentialRelative.clear();
 
 			DataDifferentialType::iterator it;
 
@@ -260,10 +260,10 @@ namespace rttb
 			_variance = (squareSum / _numberOfVoxels - _mean * _mean);
 			_stdDeviation = pow(_variance, 0.5);
 
-			_dataCumulative = this->calcCumulativeDVH();
+			this->calcCumulativeDVH();
 		}
 
-		std::deque<DoseCalcType> DVH::calcCumulativeDVH(bool relativeVolume)
+		void DVH::calcCumulativeDVH()
 		{
 
 			_dataCumulative.clear();
@@ -276,24 +276,8 @@ namespace rttb
 			for (size_t i = 0; i < size; i++)
 			{
 				cumulativeDVHi += _dataDifferential.at(size - i - 1);
-
-				if (!relativeVolume)
-				{
-					_dataCumulative.push_front(cumulativeDVHi);
-				}
-				else
-				{
-					_dataCumulativeRelative.push_front(cumulativeDVHi / this->getNumberOfVoxels());
-				}
-			}
-
-			if (!relativeVolume)
-			{
-				return _dataCumulative;
-			}
-			else
-			{
-				return _dataCumulativeRelative;
+				_dataCumulative.push_front(cumulativeDVHi);
+				_dataCumulativeRelative.push_front(cumulativeDVHi / this->getNumberOfVoxels());
 			}
 		}
 
@@ -335,7 +319,7 @@ namespace rttb
 			return modal;
 		}
 
-		VolumeType DVH::getVx(DoseTypeGy xDoseAbsolute)
+		VolumeType DVH::getVx(DoseTypeGy xDoseAbsolute) const
 		{
 
 			GridIndexType i = static_cast<GridIndexType>(xDoseAbsolute / _deltaD);
@@ -358,7 +342,7 @@ namespace rttb
 			}
 		}
 
-		DoseTypeGy DVH::getDx(VolumeType xVolumeAbsolute)
+		DoseTypeGy DVH::getDx(VolumeType xVolumeAbsolute) const
 		{
 
 			GridIndexType i = 0;
@@ -404,7 +388,7 @@ namespace rttb
 			}
 		}
 
-		VolumeType DVH::getAbsoluteVolume(int relativePercent)
+		VolumeType DVH::getAbsoluteVolume(int relativePercent) const
 		{
 			return (relativePercent * getNumberOfVoxels() * getDeltaV() / 100.0);
 		}
@@ -419,15 +403,22 @@ namespace rttb
 			return _label;
 		}
 
-		std::map <DoseTypeGy, PercentType> DVH::getNormalizedDVH(DVHType dvhType) {
+		std::map <DoseTypeGy, PercentType> DVH::getNormalizedDVH(DVHType dvhType) const {
 			std::map <DoseTypeGy, PercentType> normalizedDVH;
-			DataDifferentialType data = getDataDifferential();
-			size_t numberOfVolumes = data.size();
+			DataDifferentialType data;
 			
 			if (dvhType.Type == DVHType::Cumulative) {
-				data = calcCumulativeDVH();
+				data = getDataCumulative();
 			}
-			for (size_t i = 0; i < numberOfVolumes; i++)
+      else {
+        data = getDataDifferential();
+      }
+
+      if (data.empty()) {
+        throw InvalidParameterException("DVH data is empty. Can't retrieve normalized DVH");
+      }
+
+			for (size_t i = 0; i < data.size(); i++)
 			{
 				normalizedDVH.insert(std::pair<DoseTypeGy, PercentType>(i * getDeltaD(), data[i] * getDeltaV()));
 			}
