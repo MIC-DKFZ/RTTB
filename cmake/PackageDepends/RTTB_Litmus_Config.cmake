@@ -6,7 +6,7 @@ set(Litmus_INCLUDE_DIRS "${LITMUS_SOURCE_DIR}/code/common;${LITMUS_SOURCE_DIR}/c
 set(Litmus_LIBRARY_DIRS "${LITMUS_BUILD_DIR}/bin")
 
 #these test modules need LitmusITK. ITK is available as it is needed by all submodules
-IF ((BUILD_RTToolbox_io_Tester AND BUILD_IO_ITK) OR (BUILD_RTToolbox_interpolation_Tester AND BUILD_InterpolationMatchPointTransformation) OR (BUILD_RTToolbox_apps_Tester AND (BUILD_App_DoseAcc OR BUILD_App_BioModelCalc)))
+IF (BUILD_Tester_All OR (BUILD_Tester_IO AND BUILD_IO_ITK) OR (BUILD_Tester_Interpolation AND BUILD_InterpolationMatchPointTransformation))
 	SET(Litmus_ITK "LitmusITK")
 ENDIF()
 
