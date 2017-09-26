@@ -26,10 +26,8 @@
 #include <iostream>
 #include <sstream>
 
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/vector.hpp>
-
 #include "rttbBaseType.h"
+#include <boost/numeric/ublas/vector.hpp>
 
 #include "RTTBCoreExports.h"
 
