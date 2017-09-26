@@ -23,11 +23,12 @@
 
 #include <vector>
 
-#include "osconfig.h"    /* make sure OS specific configuration is included first */
+#include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */
 #include "drtdose.h"
 
-#include "rttbAccessorWithGeoInfoBase.h"
 #include "rttbBaseType.h"
+#include "rttbAccessorWithGeoInfoBase.h"
+
 
 
 namespace rttb
