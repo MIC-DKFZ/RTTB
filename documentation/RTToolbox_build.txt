@@ -8,7 +8,7 @@
 RTToolbox is currently tested with the following compilers (only x64):
 - Visual Studio 2013
 - Visual Studio 2015
-- GCC 4.9
+- GCC 5.4
 
 Other compiler versions or other compilers may or may not work. 
 \note The apps can't be compiled with Visual Studio 2010.
@@ -50,7 +50,9 @@ The following components are needed:
 - \c filesystem, 
 - \c system, 
 - \c thread and 
-- \c program_options.
+- \c program_options if you plan to build the apps.
+
+\note eventually, it might be needed to add the CMake variable BOOST_LIBRARY dir and set it to the respective library.
 
 \subsubsection DCMTK DCMTK
 
@@ -125,17 +127,15 @@ Then build DCMTK. \c BUILD_APPS can be switched off.
 
 \subsubsection ITK ITK
 
-Ensure that CMAKE_CXX_STANDARD=11.
 Build ITK.
 \warning Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
-\warning ensure that compiler enables C++11 features
+\warning ensure that compiler enables C++11 features by setting CMAKE_CXX_STANDARD=11 (default for supported compilers)
 
 \subsubsection MatchPoint MatchPoint
 
-Ensure that CMAKE_CXX_STANDARD=11.
 Build MatchPoint.
 \warning Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
-\warning ensure that compiler enables C++11 features
+\warning ensure that compiler enables C++11 features by setting CMAKE_CXX_STANDARD=11 (default for supported compilers)
 
 \section installation RT-Toolbox installation Instruction
 
@@ -144,7 +144,7 @@ Build MatchPoint.
 \subsubsection Modules Modules
 
 - Configure with CMake
-- Set \c BOOST_INCLUDE_DIR and \c BOOST_DIR to the main boost directory (where "boost_build.jam" is located)
+- Set \c BOOST_INCLUDE_DIR and \c BOOST_DIR to the main boost directory (where "boost_build.jam" is located). Eventually, you have to set BOOST_LIBRARYDIR
 - Select all packages you like to build (Parameters \c "BUILD_*" ; e.g. \c BUILD_IO_Dicom). 
 	- \c BUILD_IO_Dicom: Reading and writing of DICOM-RT files
 	- \c BUILD_IO_HELAX: Reading of Helax DICOM files
@@ -158,9 +158,11 @@ Build MatchPoint.
 Some modules of RT-Toolbox are mandatory (e.g. \c RTTBCore) and build automatically.
 	
 \warning The \c BUILD_Masks_Legacy module is not supported anymore and may yield to wrong results.	
-\note \c BUILD_All_Modules builds all modules (except Apps, Testing modules and Masks_Legacy).
+\note enabling \c BUILD_All_Modules builds all modules (except Apps, Testing modules and Masks_Legacy).
 
 \subsubsection Apps Apps
+
+\note The used library ArgumentParsingLib for parsing command line arguments is built automatically.
 	
 If you want to use the RTTB command line apps, select \c BUILD_Apps. You can select out of five apps:
 	- \c BioModelCalc: calculate the radiobiological effect based on dose
@@ -168,8 +170,6 @@ If you want to use the RTTB command line apps, select \c BUILD_Apps. You can sel
 	- \c DoseMap: Do dose mapping
 	- \c DoseTool: Compute Dose statistics and DVH
 	- \c VoxelizerTool: Voxelize an RTSTRUCT file
-	
-\note The apps can't be compiled with Visual Studio 2010.
 
 - Generate CMake configuration
 - Build RTToolbox and have fun!
@@ -186,13 +186,16 @@ If you want to use the RTTB command line apps, select \c BUILD_Apps. You can sel
 
 <a href="https://cmake.org/Wiki/CMake/Testing_With_CTest">CTest</a> is used as testing framework. See their documentation for general testing questions.
 
+\note The used testing library Litmus is build automatically. 
+\warning currently, you have access to testing data only with ssh. That means that a phabricator account and access to RTTB-data repository is mandatory.
+
 - Enable \c BUILD_TESTING
 - Configure with CMake
 - Enable tests of interest
 - Generate CMake configuration
 - Run tests (build \c RUN_TESTS project or call \c ctest in commandline) to ensure that everything is correct.
 
-\note \c BUILD_Tester_All builds all test modules.
+\note enabling \c BUILD_Tester_All builds all test modules.
 
 \subsection documentation Documentation
 
