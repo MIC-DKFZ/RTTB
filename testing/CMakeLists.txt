@@ -13,15 +13,19 @@ set(LITMUS_SOURCE_DIR "${CMAKE_BINARY_DIR}/external/Litmus-src")
 set(LITMUS_BUILD_DIR "${CMAKE_BINARY_DIR}/external/Litmus-build")
 set(LITMUS_CMAKE_DIR "${CMAKE_BINARY_DIR}/external/Litmus-cmake")
 
-IF ((BUILD_Tester_Interpolation AND BUILD_InterpolationMatchPointTransformation) OR (BUILD_Tester_IO AND BUILD_IO_ITK) OR (BUILD_Tester_Apps AND BUILD_App_DoseTool))
+IF (BUILD_Tester_All OR (BUILD_Tester_Interpolation AND BUILD_InterpolationMatchPointTransformation) OR (BUILD_Tester_IO AND BUILD_IO_ITK) OR (BUILD_Tester_Apps))
 	set(ENABLE_ITK "-DLIT_ENABLE_ITK_SUPPORT:BOOL=ON")
-	set(ITK_DIRECTORY "-DITK_DIR:STRING=${ITK_DIR}")
+	set(ITK_DIRECTORY "-DITK_DIR:PATH=${ITK_DIR}")
+	IF (RTTB_USE_SYSTEM_HDF5)
+		set(SYSTEM_HDF5 "-DLIT_USE_SYSTEM_HDF5:BOOL=ON")
+		set(LITMUS_HDF5_DIR "-DHDF5_DIR:PATH=${HDF5_DIR}")
+	ENDIF()
 ENDIF()
 #extract and build Litmus
 ExternalProject_Add(
 	Litmus
 	URL ${RTToolbox_SOURCE_DIR}/utilities/Litmus/Litmus.tar.gz
-	URL_HASH SHA1=ca064c95e44b84542966523b4a3814554af30b49
+	URL_HASH SHA1=7ae626ec8fb2a6990ace12a58cf307dc48b65fac
 	SOURCE_DIR ${LITMUS_SOURCE_DIR}
 	BINARY_DIR ${LITMUS_BUILD_DIR}
 	PREFIX ${LITMUS_CMAKE_DIR}
@@ -32,6 +36,8 @@ ExternalProject_Add(
 		-DCMAKE_CXX_STANDARD=11
 		${ENABLE_ITK}
 		${ITK_DIRECTORY}
+		${SYSTEM_HDF5}
+		${LITMUS_HDF5_DIR}
 )
 
 set(RTTBDATA_DIR "${CMAKE_BINARY_DIR}/external/RTTBData")

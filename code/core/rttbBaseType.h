@@ -27,6 +27,7 @@
 #include <list>
 #include <ostream>
 
+#include <boost/serialization/array_wrapper.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 

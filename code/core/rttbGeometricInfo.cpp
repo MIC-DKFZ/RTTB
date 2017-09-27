@@ -19,11 +19,11 @@
 // @author  $Author$ (last changed by)
 */
 
+#include "rttbGeometricInfo.h"
+
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 #include <boost/numeric/ublas/io.hpp>
-
-#include "rttbGeometricInfo.h"
 
 namespace rttb
 {

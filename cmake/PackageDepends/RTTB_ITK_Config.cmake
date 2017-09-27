@@ -25,5 +25,14 @@ IF (RTTB_USE_SYSTEM_GDCM)
   LIST(APPEND ALL_LIBRARIES ${GDCM_LIBRARIES})	    
 ENDIF (RTTB_USE_SYSTEM_GDCM)
 
+OPTION(RTTB_USE_SYSTEM_HDF5 "Activate checker to choose a HDF5 installation that should be linked with ITK. (This is needed e.g. when building against an ITK that is distributed with MITK. MITK uses its own HDF5 and not the one distributed with ITK.)" OFF)     
+
+IF (RTTB_USE_SYSTEM_HDF5)
+  MESSAGE (STATUS "RTTB uses system HDF5 instead of ITK distribution.")
+  FIND_PACKAGE(HDF5 PATHS ${HDF5_DIR} REQUIRED)
+  LIST(APPEND ALL_INCLUDE_DIRECTORIES ${HDF5_INCLUDE_DIRS})
+  LIST(APPEND ALL_LIBRARIES ${HDF5_LIBRARIES})	    
+ENDIF (RTTB_USE_SYSTEM_HDF5)
+
 
 CONFIGURE_FILE(${RTToolbox_SOURCE_DIR}/cmake/ITKConfig.cmake.in ${RTTB_MODULES_CONF_DIR}/ITKConfig.cmake @ONLY)

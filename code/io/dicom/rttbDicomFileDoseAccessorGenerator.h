@@ -21,7 +21,7 @@
 #ifndef __DICOM_FILE_DOSE_ACCESSOR_GENERATOR_H
 #define __DICOM_FILE_DOSE_ACCESSOR_GENERATOR_H
 
-#include "osconfig.h"    /* make sure OS specific configuration is included first */
+#include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */
 #include "drtdose.h"
 
 #include "rttbDoseAccessorGeneratorBase.h"
