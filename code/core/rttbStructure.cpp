@@ -70,7 +70,7 @@ namespace rttb
 
 		}
 
-		Structure::Structure() : _structureVector(0), _label("None")
+		Structure::Structure() : _structureVector(0), _label("")
 		{
 			if (_strUID.empty())
 			{

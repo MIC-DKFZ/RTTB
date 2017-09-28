@@ -51,7 +51,7 @@ namespace rttb
 			CHECK_NO_THROW(core::Structure());
 
 			core::Structure emptyTestStruct;
-			CHECK_EQUAL("None", emptyTestStruct.getLabel());
+			CHECK_EQUAL("", emptyTestStruct.getLabel());
 			CHECK_NO_THROW(emptyTestStruct.getUID());
 
 			GridIndexType zPlane = 4;
@@ -111,7 +111,7 @@ namespace rttb
 			}
 
 			//2) get/setXX
-			CHECK_EQUAL("None", emptyTestStruct.getLabel());
+			CHECK_EQUAL("", emptyTestStruct.getLabel());
 			CHECK_NO_THROW(emptyTestStruct.setLabel("NEW Label"));
 			CHECK_EQUAL("NEW Label", emptyTestStruct.getLabel());
 			CHECK_NO_THROW(emptyTestStruct.getUID());
