@@ -36,7 +36,7 @@ namespace rttb
 
 		DVH::DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD,
 		         const DoseVoxelVolumeType& aDeltaV,
-		         const IDType& aStructureID, const IDType& aDoseID): DVH(aDataDifferential, aDeltaD, aDeltaV, aStructureID, aDoseID, "NONE")
+		         const IDType& aStructureID, const IDType& aDoseID): DVH(aDataDifferential, aDeltaD, aDeltaV, aStructureID, aDoseID, "")
 		{
 		}
 

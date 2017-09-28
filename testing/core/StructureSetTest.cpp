@@ -53,7 +53,7 @@ namespace rttb
 			StructTypePointer rectStrPtr = boost::make_shared<core::Structure>(rect);
       rectStrPtr->setLabel("test");
       StructTypePointer rectStrPtr2 = boost::make_shared<core::Structure>(rect);
-      rectStrPtr2->setLabel("none");
+      rectStrPtr2->setLabel("test2");
       const IDType patientUID("patientUID");
       const IDType UID("UID");
 
@@ -67,7 +67,7 @@ namespace rttb
       CHECK_EQUAL(structureSetDefault.getNumberOfStructures(), 0);
       CHECK_EQUAL(structureSet.getNumberOfStructures(), 2);
       CHECK_EQUAL(structureSet.getStructure(0)->getLabel(), "test");
-      CHECK_EQUAL(structureSet.getStructure(1)->getLabel(), "none");
+      CHECK_EQUAL(structureSet.getStructure(1)->getLabel(), "test2");
       CHECK_THROW_EXPLICIT(structureSet.getStructure(2), core::InvalidParameterException);
 
       CHECK_EQUAL(structureSet.getUID(), UID);

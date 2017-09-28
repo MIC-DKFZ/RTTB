@@ -70,7 +70,7 @@ namespace rttb
 
 		}
 
-		Structure::Structure() : _structureVector(0), _label("None")
+		Structure::Structure() : _structureVector(0), _label("")
 		{
 			if (_strUID.empty())
 			{
@@ -85,22 +85,9 @@ namespace rttb
 			}
 		}
 
-		Structure::Structure(PolygonSequenceType strVector) : _structureVector(0), _label("None")
+		Structure::Structure(PolygonSequenceType strVector) : Structure()
 		{
-			if (_strUID.empty())
-			{
-				boost::uuids::uuid id;
-				boost::uuids::random_generator generator;
-				id = generator();
-
-				std::stringstream ss;
-				ss << id;
-
-				_strUID = ss.str();
-			}
-
 			_structureVector = strVector;
-
 			sort(_structureVector.begin(), _structureVector.end(), comparePolygon);
 		}
 
