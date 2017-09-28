@@ -271,11 +271,8 @@ namespace rttb
 
 			DoseCalcType cumulativeDVHi = 0;
 
-			size_t size = _dataDifferential.size();
-
-			for (size_t i = 0; i < size; i++)
-			{
-				cumulativeDVHi += _dataDifferential.at(size - i - 1);
+      for (auto valueItr = _dataDifferential.rbegin(); valueItr != _dataDifferential.rend(); ++valueItr) {
+        cumulativeDVHi += *valueItr;
 				_dataCumulative.push_front(cumulativeDVHi);
 				_dataCumulativeRelative.push_front(cumulativeDVHi / this->getNumberOfVoxels());
 			}
