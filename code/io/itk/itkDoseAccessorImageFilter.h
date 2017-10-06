@@ -91,7 +91,7 @@ namespace itk
 
 	protected:
 		DoseAccessorImageFilter();
-		virtual ~DoseAccessorImageFilter() {}
+		~DoseAccessorImageFilter() override {}
 
 		/** DoseAccessorImageFilter can be implemented as a multi threaded filter.
 		 * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -104,7 +104,7 @@ namespace itk
 		 * \sa ImageToImageFilter::ThreadedGenerateData(),
 		 *     ImageToImageFilter::GenerateData()  */
 		void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-		                          ThreadIdType threadId);
+		                          ThreadIdType threadId) override;
 
 	private:
 		DoseAccessorImageFilter(const Self&);  //purposely not implemented

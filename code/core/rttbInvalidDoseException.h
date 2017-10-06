@@ -42,11 +42,11 @@ namespace rttb
 		public:
 			InvalidDoseException(const std::string& aWhat): Exception(aWhat) {}
 
-			virtual ~InvalidDoseException() throw() {}
+			~InvalidDoseException() throw() override {}
 
 			/*! @brief Get the exception description
 			*/
-			virtual const char* what() const throw();
+			const char* what() const throw() override;
 
 			/*! @brief Get the name of the exception class
 			*/

@@ -42,11 +42,11 @@ namespace rttb
 		public:
 			IndexOutOfBoundsException(const std::string& aWhat): Exception(aWhat) {}
 
-			virtual ~IndexOutOfBoundsException() throw() {}
+			~IndexOutOfBoundsException() throw() override {}
 
 			/*! @brief Get the exception description
 			*/
-			virtual const char* what() const throw();
+			const char* what() const throw() override;
 
 			/*! @brief Get the name of the exception class
 			*/

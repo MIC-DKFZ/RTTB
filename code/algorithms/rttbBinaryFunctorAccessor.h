@@ -56,18 +56,18 @@ namespace rttb
 
 			/*! @brief Virtual destructor
 			*/
-			virtual ~BinaryFunctorAccessor() {};
+			~BinaryFunctorAccessor() override {};
 
 			/*! @pre: the geometricInfo of both doseAccessors are equal
 			*/
-			inline const core::GeometricInfo& getGeometricInfo() const
+			inline const core::GeometricInfo& getGeometricInfo() const override
 			{
 				return _spData1->getGeometricInfo();
 			};
 
 			/*! @pre: the geometricInfo of both doseAccessors are equal
 			*/
-			inline GridSizeType getGridSize() const
+			inline GridSizeType getGridSize() const override
 			{
 				return _spData1->getGeometricInfo().getNumberOfVoxels();
 			};
@@ -77,16 +77,16 @@ namespace rttb
 				@return the dose value if inside, -1 else
 				@pre <TDoseOperation>.calc(dose1,dose2) has to be implemented
 			*/
-			GenericValueType getValueAt(const VoxelGridID aID) const;
+			GenericValueType getValueAt(const VoxelGridID aID) const override;
 
 			/*! @brief Returns the result dose computed by the functor.
 			    It uses the dose values of both operand doses specified via the passed index.
 				@return the dose value if inside, -1 else
 				@pre <TDoseOperation>.calc(dose1,dose2) has to be implemented
 			*/
-			GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const;
+			GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const override;
 
-			const IDType getUID() const
+			const IDType getUID() const override
 			{
 				return IDType();
 			}

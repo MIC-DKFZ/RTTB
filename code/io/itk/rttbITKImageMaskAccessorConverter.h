@@ -45,7 +45,7 @@ namespace rttb
 			public:
 				typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
 
-				bool process();
+				bool process() override;
 
 				const ITKImageMaskAccessor::ITKMaskImageType::Pointer getITKImage()
 				{
@@ -53,7 +53,7 @@ namespace rttb
 				}
 
 				ITKImageMaskAccessorConverter(MaskAccessorPointer accessor);
-				virtual ~ITKImageMaskAccessorConverter() {};
+				~ITKImageMaskAccessorConverter() override {};
 
 			private:
 				ITKImageMaskAccessorConverter(const

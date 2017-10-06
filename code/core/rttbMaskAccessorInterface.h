@@ -49,7 +49,7 @@ namespace rttb
 
 		public:
 			MaskAccessorInterface() {};
-			virtual ~MaskAccessorInterface() {};
+			~MaskAccessorInterface() override {};
 
 			/*! @brief Start generation of mask
 			@post mask is valid and acessible

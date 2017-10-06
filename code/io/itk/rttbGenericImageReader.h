@@ -152,7 +152,7 @@ namespace rttb
 			protected:
 				GenericImageReader();
 
-				virtual ~GenericImageReader();
+				~GenericImageReader() override;
 			};
 
 

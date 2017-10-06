@@ -53,7 +53,7 @@ namespace rttb
 
 
 			public:
-				~DicomFileDoseAccessorGenerator();
+				~DicomFileDoseAccessorGenerator() override;
 
 				/*! @brief Constructor. Initialization with a DICOM-RT dose file or a directory name
 				@param aDICOMRTDoseFileName a DICOM-RT dose file name or a directory name
@@ -67,7 +67,7 @@ namespace rttb
 				@exception InvalidDoseException Thrown if the loaded dose is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
 				@exception DcmrtException Throw if dcmrt error
 				*/
-				DoseAccessorPointer generateDoseAccessor() ;
+				DoseAccessorPointer generateDoseAccessor() override ;
 
 			};
 		}

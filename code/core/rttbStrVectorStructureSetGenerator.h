@@ -66,7 +66,7 @@ namespace rttb
 			/*! @brief Generate StructureSet
 			@return Return shared pointer of StructureSet.
 			*/
-			StructureSetPointer generateStructureSet();
+			StructureSetPointer generateStructureSet() override;
 		};
 	}
 }

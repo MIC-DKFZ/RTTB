@@ -65,32 +65,32 @@ namespace rttb
 				@exception InvalidParameterException if a inhomogeneous grid is defined in the dose accessors, because
 				these grids are currently not supported.
 			*/
-			bool reset();
+			bool reset() override;
 
 			/*! @brief Test if next voxel position is still on the data grid, if so move to next position.
 			*/
-			void next();
+			void next() override;
 
 			/*! @brief Determine if the current voxel position is valid.
 			*/
-			bool isPositionValid() const;
+			bool isPositionValid() const override;
 
 			/*! @brief Return volume of one voxel (in cm3)
 			@exception InvalidParameterException if a inhomogeneous grid is defined in the dose accessors, because
 			these grids are currently not supported.
 			*/
-			DoseVoxelVolumeType getCurrentVoxelVolume() const;
+			DoseVoxelVolumeType getCurrentVoxelVolume() const override;
 
-			DoseTypeGy getCurrentDoseValue() const;
+			DoseTypeGy getCurrentDoseValue() const override;
 
 			/*! @brief For DoseIterators this function returns 1, always, because no mask is applied.
 			*/
-			inline FractionType getCurrentRelevantVolumeFraction() const
+			inline FractionType getCurrentRelevantVolumeFraction() const override
 			{
 				return 1;
 			};
 
-			inline VoxelGridID getCurrentVoxelGridID() const
+			inline VoxelGridID getCurrentVoxelGridID() const override
 			{
 				return _currentDoseVoxelGridID;
 			};

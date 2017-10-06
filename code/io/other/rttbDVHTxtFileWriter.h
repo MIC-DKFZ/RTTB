@@ -67,7 +67,7 @@ namespace rttb
 				@exception InvalidParameterException Thrown if normalized is true. 
 				This feature is not implemented because this Writer is deprecated.
 				*/
-				void writeDVH(DVHPointer aDvh, bool normalized = false);
+				void writeDVH(DVHPointer aDvh, bool normalized = false) override;
 			};
 		}
 	}

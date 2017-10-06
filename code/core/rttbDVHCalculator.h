@@ -64,7 +64,7 @@ namespace rttb
 				@exception InvalidParameterException throw if _numberOfBins invalid:
 				_numberOfBins must be > max(aDoseIterator)/aDeltaD!
 			*/
-			DVHPointer generateDVH();
+			DVHPointer generateDVH() override;
 
 		};
 	}
