@@ -86,12 +86,12 @@ namespace itk
 
 	protected:
 		MaskAccessorImageSource();
-		virtual ~MaskAccessorImageSource() {}
+		~MaskAccessorImageSource() override {}
 
 		void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-		                          ThreadIdType threadId);
+		                          ThreadIdType threadId) override;
 
-    virtual void BeforeThreadedGenerateData();
+    void BeforeThreadedGenerateData() override;
 
 	private:
 		MaskAccessorImageSource(const Self&);  //purposely not implemented

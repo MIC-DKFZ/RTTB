@@ -46,7 +46,7 @@ namespace rttb
 			/*! @brief Calculate conformal index
 			  @exception InvalidParameterException Thrown if dvhSet or aDoseReference invalid
 			*/
-			bool calcIndex();
+			bool calcIndex() override;
 
 
 		public:
@@ -59,7 +59,7 @@ namespace rttb
 			    @return Return index value
 			    @exception InvalidParameterException Thrown if tvIndex or aDoseReference invalid
 			*/
-			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex);
+			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex) override;
 
 
 		};

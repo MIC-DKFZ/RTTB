@@ -50,7 +50,7 @@ namespace rttb
 				ITKImageAccessorGenerator();
 
 			public:
-				virtual ~ITKImageAccessorGenerator() {};
+				~ITKImageAccessorGenerator() override {};
 
 				/*!
 				@pre aDoseImage must point to a valid instance.
@@ -61,7 +61,7 @@ namespace rttb
 				/*! @brief Generate DoseAccessor
 				@return Return shared pointer of DoseAccessor.
 				*/
-				DoseAccessorPointer generateDoseAccessor() ;
+				DoseAccessorPointer generateDoseAccessor() override ;
 
 			};
 		}

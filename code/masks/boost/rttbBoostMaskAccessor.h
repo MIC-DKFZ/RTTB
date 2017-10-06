@@ -73,16 +73,16 @@ namespace rttb
 				                  bool strict = true);
 
 				/*! @brief destructor*/
-				~BoostMaskAccessor();
+				~BoostMaskAccessor() override;
 
 				/*! @brief voxelization of the given structures using boost algorithms*/
-				void updateMask();
+				void updateMask() override;
 
 				/*! @brief get vector containing all relevant voxels that are inside the given structure*/
-				MaskVoxelListPointer getRelevantVoxelVector();
+				MaskVoxelListPointer getRelevantVoxelVector() override;
 
 				/*! @brief get vector containing all relevant voxels that have a relevant volume above the given threshold and are inside the given structure*/
-				MaskVoxelListPointer getRelevantVoxelVector(float lowerThreshold);
+				MaskVoxelListPointer getRelevantVoxelVector(float lowerThreshold) override;
 
 				/*!@brief determine how a given voxel on the dose grid is masked
 				* @param aID ID of the voxel in grid.
@@ -90,25 +90,25 @@ namespace rttb
 				* @post after a valid call voxel containes the information of the specified grid voxel. If aID is not valid, voxel values are undefined.
 				* The relevant volume fraction will be set to zero.
 				* @return Indicates of the voxel exists and therefore if parameter voxel containes valid values.*/
-				bool getMaskAt(const VoxelGridID aID, core::MaskVoxel& voxel) const;
+				bool getMaskAt(const VoxelGridID aID, core::MaskVoxel& voxel) const override;
 
 				/*!@brief determine how a given voxel on the dose grid is masked
 				* @param aIndex 3d index of the voxel in grid.
 				* @param voxel Reference to the voxel.
 				* @return Indicates of the voxel exists and therefore if parameter voxel containes valid values.*/
-				bool getMaskAt(const VoxelGridIndex3D& aIndex, core::MaskVoxel& voxel) const;
+				bool getMaskAt(const VoxelGridIndex3D& aIndex, core::MaskVoxel& voxel) const override;
 
 				/*! @brief give access to GeometricInfo*/
-				const core::GeometricInfo& getGeometricInfo() const;
+				const core::GeometricInfo& getGeometricInfo() const override;
 
 				/* @ brief is true if dose is on a homogeneous grid
 				* @remark Inhomogeneous grids are not supported at the moment, but if they will be supported in the future the interface does not need to change.*/
-				bool isGridHomogeneous() const
+				bool isGridHomogeneous() const override
 				{
 					return true;
 				};
 
-				IDType getMaskUID() const
+				IDType getMaskUID() const override
 				{
 					return _maskUID;
 				};

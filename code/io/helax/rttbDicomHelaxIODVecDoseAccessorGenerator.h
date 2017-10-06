@@ -52,7 +52,7 @@ namespace rttb
 				DicomHelaxIODVecDoseAccessorGenerator();
 
 			public:
-				~DicomHelaxIODVecDoseAccessorGenerator();
+				~DicomHelaxIODVecDoseAccessorGenerator() override;
 
 				/*! @brief Constructor. Initialisation with a vector of DRTDoseIOD pointers
 
@@ -63,7 +63,7 @@ namespace rttb
 				@exception InvalidDoseException Thrown if any DRTDoseIOD pointer of _doseVector is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
 				@exception DcmrtException Throw if dcmrt error
 				*/
-				DoseAccessorPointer generateDoseAccessor() ;
+				DoseAccessorPointer generateDoseAccessor() override ;
 
 
 			};

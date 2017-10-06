@@ -44,7 +44,7 @@ namespace rttb
 				typedef ::itk::Image<GenericValueType, 3> ITKImageType;
 				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
 
-				bool process();
+				bool process() override;
 
 				ITKImageType::Pointer getITKImage()
 				{
@@ -52,7 +52,7 @@ namespace rttb
 				}
 
 				ITKImageAccessorConverter(DoseAccessorPointer accessor);
-				virtual ~ITKImageAccessorConverter() {};
+				~ITKImageAccessorConverter() override {};
 
 			private:
 				ITKImageAccessorConverter(const

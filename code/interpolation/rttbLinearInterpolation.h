@@ -46,7 +46,7 @@ namespace rttb
 			LinearInterpolation() {};
 			/*! @brief Returns the interpolated value
 			*/
-			DoseTypeGy getValue(const WorldCoordinate3D& aWorldCoordinate) const;
+			DoseTypeGy getValue(const WorldCoordinate3D& aWorldCoordinate) const override;
 
 		private:
 			/*! @brief Trilinar interpolation

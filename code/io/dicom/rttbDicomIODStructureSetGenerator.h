@@ -73,13 +73,13 @@ namespace rttb
 
 				/*! @brief Destructor
 				*/
-				~DicomIODStructureSetGenerator();
+				~DicomIODStructureSetGenerator() override;
 
 				/*! @brief generate structure set
 				@return return shared pointer of StructureSet
 				@exception InvalidParameterException throw if the imported header tags are not numerical.
 				*/
-				StructureSetPointer generateStructureSet();
+				StructureSetPointer generateStructureSet() override;
 
 			};
 		}

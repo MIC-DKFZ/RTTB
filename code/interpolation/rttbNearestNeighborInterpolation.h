@@ -44,7 +44,7 @@ namespace rttb
 
 			/*! @brief Returns the interpolated value (the nearest voxel value given by _spOriginalData->getGeometricInfo().worldCoordinateToIndex())
 			*/
-			DoseTypeGy getValue(const WorldCoordinate3D& aWorldCoordinate) const;
+			DoseTypeGy getValue(const WorldCoordinate3D& aWorldCoordinate) const override;
 		};
 
 	}

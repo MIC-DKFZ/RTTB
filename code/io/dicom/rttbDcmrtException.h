@@ -42,11 +42,11 @@ namespace rttb
 			public:
 				DcmrtException(const std::string& aWhat): Exception(aWhat) {}
 
-				virtual ~DcmrtException() throw() {}
+				~DcmrtException() throw() override {}
 
 				/*! @brief Get the exception description
 				*/
-				const char* what() const throw();
+				const char* what() const throw() override;
 
 				/*! @brief Get the name of the class that was thrown
 				*/

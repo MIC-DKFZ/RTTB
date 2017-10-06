@@ -50,7 +50,7 @@ namespace rttb
 				*/
 				DicomFileDoseAccessorWriter();
 
-				virtual ~DicomFileDoseAccessorWriter() {};
+				~DicomFileDoseAccessorWriter() override {};
 
 				/*! Set a file name to write the dose
 				@param aFileName a file name to write the dose
@@ -60,7 +60,7 @@ namespace rttb
 				/*! @brief Convert the accessor into dicom dataset and write dicom dataset to a file
 				@exception InvalidDoseException thrown if put and insert pixel data into dicom dataset failed
 				*/
-				bool process();
+				bool process() override;
 
 
 

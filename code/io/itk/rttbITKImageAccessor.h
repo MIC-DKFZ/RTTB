@@ -60,7 +60,7 @@ namespace rttb
 
 
 			public:
-				~ITKImageAccessor();
+				~ITKImageAccessor() override;
 
 				/*! @brief Constructor. Initialization with a itk image
 				@pre image must be a valid instance (and not null)
@@ -70,13 +70,13 @@ namespace rttb
 
 				/*! @brief returns the dose for an id
 				*/
-				GenericValueType getValueAt(const VoxelGridID aID) const;
+				GenericValueType getValueAt(const VoxelGridID aID) const override;
 
 				/*! @brief returns the dose for an index
 				*/
-				GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const;
+				GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const override;
 
-				const IDType getUID() const
+				const IDType getUID() const override
 				{
 					return _UID;
 				};

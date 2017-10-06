@@ -46,11 +46,11 @@ namespace rttb
 			explicit Exception(const std::string& aWhat)
 				: rttb_what(aWhat)
 			{}
-			virtual ~Exception() throw() {}
+			~Exception() throw() override {}
 
 			/*! @brief Get the exception description
 			*/
-			const char* what() const throw();
+			const char* what() const throw() override;
 
 			/*! @brief Get the name of the exception class that was thrown
 			*/
