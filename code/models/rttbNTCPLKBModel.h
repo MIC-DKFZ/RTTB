@@ -50,7 +50,7 @@ namespace rttb
 			*/
 			BioModelParamType _m;
 
-			/*! Tumor or normal tissue-specific parameter that describes the dose–volume effect,
+			/*! Tumor or normal tissue-specific parameter that describes the dose-volume effect,
 			e.g. -10 for prostate (Wu 2002). Must not be zero on model evaluation, because EUD calculation will fail.
 			*/
 			BioModelParamType _a;

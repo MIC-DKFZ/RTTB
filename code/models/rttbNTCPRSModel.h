@@ -35,7 +35,7 @@ namespace rttb
 	{
 
 		/*! @class NTCPRSModel
-			@brief This class represents a NTCP(Normal Tissue Complication Probability) relative seriality model (Källman 1992)
+			@brief This class represents a NTCP(Normal Tissue Complication Probability) relative seriality model (Kaellman 1992)
 			@see NTCPModel
 		*/
 		class NTCPRSModel: public NTCPModel
@@ -46,7 +46,7 @@ namespace rttb
 
 		private:
 			/*! _gamma The normalised dose-response gradient, values between 1.7 and 2.0 are typical for human tumours.
-			(Källman 1992)
+			(Kaellman 1992)
 			*/
 			BioModelParamType _gamma;
 
