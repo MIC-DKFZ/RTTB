@@ -23,8 +23,6 @@ MARK_AS_ADVANCED(BUILD_SHARED_LIBS)
 IF (WIN32)
 	IF (MSVC_VERSION LESS 1800)
 		MESSAGE(FATAL_ERROR "RTToolbox requires at least Visual Studio 2013.")
-	ELSE()
-		MESSAGE(AUTHOR_WARNING "RTToolbox was only tested with Visual Studio. This compiler might not work.")
 	ENDIF()
 
 	add_definitions(-D_SCL_SECURE_NO_WARNINGS)
