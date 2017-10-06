@@ -47,7 +47,7 @@ namespace rttb
 				ITKImageMaskAccessorGenerator();
 
 			public:
-				virtual ~ITKImageMaskAccessorGenerator() {};
+				~ITKImageMaskAccessorGenerator() override {};
 
 				/*!
 				@pre aMaskImage must point to a valid instance.
@@ -58,7 +58,7 @@ namespace rttb
 				/*! @brief Generate MaskAccessor
 				@return Return shared pointer of MaskAccessor.
 				*/
-				MaskAccessorPointer generateMaskAccessor() ;
+				MaskAccessorPointer generateMaskAccessor() override ;
 
 			};
 		}

@@ -56,7 +56,7 @@ namespace rttb
 				DicomHelaxFileDoseAccessorGenerator();
 
 			public:
-				~DicomHelaxFileDoseAccessorGenerator();
+				~DicomHelaxFileDoseAccessorGenerator() override;
 				/*! @brief Constructor. Initialisation with a directory name
 
 				*/
@@ -68,7 +68,7 @@ namespace rttb
 				@exception InvalidDoseException Thrown if any loaded dose is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
 				@exception DcmrtException Throw if dcmrt error
 				*/
-				DoseAccessorPointer generateDoseAccessor() ;
+				DoseAccessorPointer generateDoseAccessor() override ;
 
 
 			};

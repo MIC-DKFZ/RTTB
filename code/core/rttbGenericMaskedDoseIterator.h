@@ -67,19 +67,19 @@ namespace rttb
 
 			/*! @brief Set the position on the first index. Use also as initialization.
 			*/
-			bool reset();
+			bool reset() override;
 
 			/*! move to next mask position. The validity of the position is not checked here.
 			*/
-			void next();
+			void next() override;
 
 			/*! @brief Volume of one voxel (in cm3)
 				@exception InvalidParameterException  if a inhomogeneous grid is defined in the dose accessors, because
 				these grids are currently not supported.
 			*/
-			DoseVoxelVolumeType getCurrentVoxelVolume() const;
+			DoseVoxelVolumeType getCurrentVoxelVolume() const override;
 
-			FractionType getCurrentRelevantVolumeFraction() const;
+			FractionType getCurrentRelevantVolumeFraction() const override;
 
 			inline MaskVoxelListPointer getMaskVoxelVec() const
 			{
@@ -89,16 +89,16 @@ namespace rttb
 			/*! Check first if the position inside the maskedVoxelVector is valid. If so, check if the gridID at the
 				current position in the MaskedVoxelVector is valid in the dose and mask grid.
 			*/
-			bool isPositionValid() const;
+			bool isPositionValid() const override;
 
 			/*! @brief get current VoxelGridID (on dose voxel grid)*/
-			VoxelGridID getCurrentVoxelGridID() const;
+			VoxelGridID getCurrentVoxelGridID() const override;
 
 			/*! @return current dose value multiplied by current volume fraction*/
-			DoseTypeGy getCurrentMaskedDoseValue() const;
+			DoseTypeGy getCurrentMaskedDoseValue() const override;
 
 			/*! @return current dose value without masking*/
-			DoseTypeGy getCurrentDoseValue() const;
+			DoseTypeGy getCurrentDoseValue() const override;
 		};
 	}
 }

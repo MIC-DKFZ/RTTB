@@ -45,7 +45,7 @@ namespace rttb
 			/*! @brief Calculate conformation number
 			    @exception InvalidParameterException Thrown if dvhSet invalid
 			*/
-			bool calcIndex();
+			bool calcIndex() override;
 
 
 		public:
@@ -58,7 +58,7 @@ namespace rttb
 			 *  @return Return index value
 			    @exception InvalidParameterException Thrown if tvIndex invalid
 			*/
-			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex);
+			IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex) override;
 		};
 
 	}

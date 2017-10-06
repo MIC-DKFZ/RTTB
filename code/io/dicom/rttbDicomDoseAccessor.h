@@ -76,18 +76,18 @@ namespace rttb
 
 
 			public:
-				~DicomDoseAccessor();
+				~DicomDoseAccessor() override;
 
 				/*! @brief Constructor. Initialisation with a boost::shared_ptr of DRTDoseIOD and of DcmItem to get the pixel data
 				@exception DcmrtException Throw if dcmrt error
 				*/
 				DicomDoseAccessor(DRTDoseIODPtr aDRTDoseIODP, DcmItemPtr aDcmDataset);
 
-				GenericValueType getValueAt(const VoxelGridID aID) const;
+				GenericValueType getValueAt(const VoxelGridID aID) const override;
 
-				GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const;
+				GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const override;
 
-				const IDType getUID() const
+				const IDType getUID() const override
 				{
 					return _doseUID;
 				};

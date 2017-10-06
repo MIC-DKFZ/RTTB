@@ -37,7 +37,7 @@ namespace rttb
 		public:
 			typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
 
-			virtual void setDoseAccessor(DoseAccessorPointer accessor)
+			void setDoseAccessor(DoseAccessorPointer accessor) override
 			{
 				_doseAccessor = accessor;
 			};
@@ -50,7 +50,7 @@ namespace rttb
 
 		protected:
 			DoseAccessorProcessorBase() {};
-			virtual ~DoseAccessorProcessorBase() {};
+			~DoseAccessorProcessorBase() override {};
 
 			/*! @brief Dose accessor which should be generated */
 			DoseAccessorPointer _doseAccessor;

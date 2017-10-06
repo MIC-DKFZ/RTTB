@@ -53,7 +53,7 @@ namespace rttb
 
 
 			public:
-				~DicomIODDoseAccessorGenerator();
+				~DicomIODDoseAccessorGenerator() override;
 
 				/*! @brief Constructor. Initialization with a boost shared pointer of DRTDoseIOD
 
@@ -65,7 +65,7 @@ namespace rttb
 				@exception InvalidDoseException Thrown if aDRTDoseIODP is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0
 				@exception DcmrtException Throw if dcmrt error
 				*/
-				DoseAccessorPointer generateDoseAccessor() ;
+				DoseAccessorPointer generateDoseAccessor() override ;
 
 			};
 		}

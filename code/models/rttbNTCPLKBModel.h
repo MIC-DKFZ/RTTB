@@ -50,7 +50,7 @@ namespace rttb
 			*/
 			BioModelParamType _m;
 
-			/*! Tumor or normal tissue-specific parameter that describes the dose–volume effect,
+			/*! Tumor or normal tissue-specific parameter that describes the dose-volume effect,
 			e.g. -10 for prostate (Wu 2002). Must not be zero on model evaluation, because EUD calculation will fail.
 			*/
 			BioModelParamType _a;
@@ -78,24 +78,24 @@ namespace rttb
 			/*! @brief Set parameter with ID. "d50":0,"m":1,"a":2
 			@exception InvalidParameterException Thrown if aParamId is not 0 or 1 or 2.
 			*/
-			virtual void setParameterByID(const int aParamId, const BioModelParamType aValue) override;
+			void setParameterByID(const int aParamId, const BioModelParamType aValue) override;
 
 			/*! @brief Set parameter vector, where index of vector is the parameter ID. "d50":0,"m":1,"a":2
 			@exception InvalidParameterException Thrown if aParamterVector.size()!=3.
 			*/
-			virtual void setParameterVector(const ParamVectorType& aParameterVector) override;
+			void setParameterVector(const ParamVectorType& aParameterVector) override;
 
 			/*! @brief Get parameter ID. "d50":0,"m":1,"a":2
 				@return 0 for "d50", 1 for "m", 2 for "a"
 			@exception InvalidParameterException Thrown if aParamName is not d50 or m or a.
 			*/
-			virtual const int getParameterID(const std::string& aParamName) const override;
+			const int getParameterID(const std::string& aParamName) const override;
 
-			virtual std::map<std::string, double> getParameterMap() const override;
+			std::map<std::string, double> getParameterMap() const override;
 
 			void fillParameterMap() override;
 
-			virtual std::string getModelType() const override;
+			std::string getModelType() const override;
 		};
 
 	}
