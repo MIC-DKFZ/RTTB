@@ -30,7 +30,7 @@ namespace rttb
 		DummyDVHGenerator::DummyDVHGenerator(): _binSize(DoseTypeGy(0.1)), _voxelVolume(8), _value(0)
 		{
 			/* initialize random seed: */
-			srand(static_cast<unsigned int>(time(NULL)));
+			srand(static_cast<unsigned int>(time(nullptr)));
 		};
 
 		core::DVH DummyDVHGenerator::generateDVH(IDType structureID, IDType doseID)

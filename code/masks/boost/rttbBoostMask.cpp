@@ -52,11 +52,11 @@ namespace rttb
 
 				if (!_geometricInfo)
 				{
-					throw rttb::core::NullPointerException("Error: Geometric info is NULL!");
+					throw rttb::core::NullPointerException("Error: Geometric info is nullptr!");
 				}
 				else if (!_structure)
 				{
-					throw rttb::core::NullPointerException("Error: Structure is NULL!");
+					throw rttb::core::NullPointerException("Error: Structure is nullptr!");
 				}
 
 				if (_numberOfThreads == 0)

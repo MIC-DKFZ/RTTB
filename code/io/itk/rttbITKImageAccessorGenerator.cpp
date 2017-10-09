@@ -41,7 +41,7 @@ namespace rttb
 			{
 				if (aDoseImage == nullptr)
 				{
-					throw core::InvalidDoseException("doseImage is NULL");
+					throw core::InvalidDoseException("doseImage is nullptr");
 				}
 
 				_dosePtr = aDoseImage;

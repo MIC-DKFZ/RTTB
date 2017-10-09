@@ -39,7 +39,7 @@ namespace rttb
 		{
 			if (!spStructSet)
 			{
-				rttbDefaultExceptionStaticMacro("spStructSet is NULL");
+				rttbDefaultExceptionStaticMacro("spStructSet is nullptr");
 			}
 
 			std::vector<size_t> resultVOiIndices;
@@ -64,7 +64,7 @@ namespace rttb
 		{
 			if (!spStructSet)
 			{
-				rttbDefaultExceptionStaticMacro("spStructSet is NULL");
+				rttbDefaultExceptionStaticMacro("spStructSet is nullptr");
 			}
 
 			for (unsigned int i = 0; i < spStructSet->getNumberOfStructures(); i++)
@@ -85,7 +85,7 @@ namespace rttb
 		{
 			if (!spStructSet)
 			{
-				rttbDefaultExceptionStaticMacro("spStructSet is NULL!");
+				rttbDefaultExceptionStaticMacro("spStructSet is nullptr!");
 			}
 
 			if (index >= spStructSet->getNumberOfStructures())

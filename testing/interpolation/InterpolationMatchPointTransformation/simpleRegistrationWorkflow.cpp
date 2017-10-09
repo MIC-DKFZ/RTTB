@@ -30,7 +30,7 @@ simpleRegistrationWorkflow::simpleRegistrationWorkflow(std::string targetFilenam
 {
 	setImageFileNames(_targetFilename, _movingFilename, isDirectory, globals);
 	loadData(globals);
-	_spAlgorithmEuler = NULL;
+	_spAlgorithmEuler = nullptr;
 }
 
 vnl_vector<double> simpleRegistrationWorkflow::getRegistrationParameters(

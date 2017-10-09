@@ -39,7 +39,7 @@ namespace rttb
 			}
 			else
 			{
-				throw core::NullPointerException("originalDose is NULL!");
+				throw core::NullPointerException("originalDose is nullptr!");
 			}
 		};
 
@@ -50,7 +50,7 @@ namespace rttb
 		{
 			if (_spOriginalData == nullptr)
 			{
-				throw core::NullPointerException("originalDose is NULL!");
+				throw core::NullPointerException("originalDose is nullptr!");
 			}
 
 			//Determine target (abs(desired worldCoordinate- corner pixel world coordinate/pixel spacing) and values of corner pixels (from originalDose)

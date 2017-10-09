@@ -54,7 +54,7 @@ namespace rttb
 
 			/*! @brief Sets the AccessorPointer
 				@pre originalData initialized
-				@exception core::NullPointerException if originalData==NULL
+				@exception core::NullPointerException if originalData==nullptr
 			*/
 			void setAccessorPointer(const AccessorPointer originalData);
 
@@ -72,7 +72,7 @@ namespace rttb
 				@pre target and values have to be correctly initialized (e.g. std::array<double, 3> target = {0.0, 0.0, 0.0}; boost::shared_ptr<DoseTypeGy> values(new DoseTypeGy[8]()); where 8 is neighborhood)
 				@exception core::InvalidParameterException if neighborhood =! 0 && !=8
 				@exception core::MappingOutsideOfImageException if initial mapping of aWorldCoordinate is outside image
-				@exception core::NullPointerException if dose is NULL
+				@exception core::NullPointerException if dose is nullptr
 			*/
 			void getNeighborhoodVoxelValues(const WorldCoordinate3D& aWorldCoordinate,
 			                                unsigned int neighborhood, std::array<double, 3>& target,

@@ -59,15 +59,15 @@ namespace rttb
 			~LQModelAccessor();
 
 			/*! @brief Constructor.
-			@pre dose must be a valid instance (and not null)
-			@exception InvalidDoseException if _dose is NULL
+			@pre dose must be a valid instance (and != nullptr)
+			@exception InvalidDoseException if _dose is nullptr
 			*/
 			LQModelAccessor(DoseAccessorPointer dose, BioModelParamType alpha, BioModelParamType beta, unsigned int nFractions=1,
 			                double doseScaling = 1.0);
 
             /*! @brief Constructor.
-            @pre dose must be a valid instance (and not null)
-            @exception InvalidDoseException if dose is NULL, if alphaMap is NULL or if betaMap is NULL
+            @pre dose must be a valid instance (and != nullptr)
+            @exception InvalidDoseException if dose is nullptr, if alphaMap is nullptr or if betaMap is nullptr
             */
             LQModelAccessor(DoseAccessorPointer dose, DoseAccessorPointer alphaMap, DoseAccessorPointer betaMap, unsigned int nFractions = 1,
                 double doseScaling = 1.0);

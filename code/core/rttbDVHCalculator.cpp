@@ -37,7 +37,7 @@ namespace rttb
 		{
 			if (!aDoseIterator)
 			{
-				throw NullPointerException("aDoseIterator must not be NULL! ");
+				throw NullPointerException("aDoseIterator must not be nullptr! ");
 			}
 
 			_doseIteratorPtr = aDoseIterator;

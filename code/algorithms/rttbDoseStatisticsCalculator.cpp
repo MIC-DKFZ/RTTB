@@ -42,7 +42,7 @@ namespace rttb
 		{
 			if (aDoseIterator == nullptr)
 			{
-				throw core::NullPointerException("DoseIterator must not be NULL");
+				throw core::NullPointerException("DoseIterator must not be nullptr");
 			}
 			else
 			{
@@ -74,7 +74,7 @@ namespace rttb
 		{
 			if (!_doseIterator)
 			{
-				throw core::NullPointerException("_doseIterator must not be NULL!");
+				throw core::NullPointerException("_doseIterator must not be nullptr!");
 			}
 
 			//"simple" dose statistics are mandatory
@@ -96,7 +96,7 @@ namespace rttb
 		{
 			if (!_doseIterator)
 			{
-				throw core::NullPointerException("_doseIterator must not be NULL!");
+				throw core::NullPointerException("_doseIterator must not be nullptr!");
 			}
 
 			if (referenceDose <= 0)
@@ -123,7 +123,7 @@ namespace rttb
 
 			if (!_doseIterator)
 			{
-				throw core::NullPointerException("_doseIterator must not be NULL!");
+				throw core::NullPointerException("_doseIterator must not be nullptr!");
 			}
 
 			//"simple" dose statistics

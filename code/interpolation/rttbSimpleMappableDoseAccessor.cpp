@@ -38,7 +38,7 @@ namespace rttb
 			//handle null pointers
 			if (aInterpolation == nullptr)
 			{
-				throw core::NullPointerException("Pointer to interpolation cannot be NULL.");
+				throw core::NullPointerException("Pointer to interpolation cannot be nullptr.");
 			}
 			else
 			{

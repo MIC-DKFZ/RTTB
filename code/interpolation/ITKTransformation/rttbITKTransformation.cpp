@@ -32,7 +32,7 @@ namespace rttb
 			//handle null pointer
 			if (aTransformation == nullptr)
 			{
-				throw core::NullPointerException("Pointer to registration is NULL.");
+				throw core::NullPointerException("Pointer to registration is nullptr.");
 			}
 
 		}

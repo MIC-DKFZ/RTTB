@@ -39,7 +39,7 @@ namespace rttb
 			{
 				if (aMaskImage == nullptr)
 				{
-					throw core::InvalidDoseException("MaskImage is NULL");
+					throw core::InvalidDoseException("MaskImage is nullptr");
 				}
 
 				_maskPtr = aMaskImage;

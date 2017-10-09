@@ -49,7 +49,7 @@ namespace rttb
 				@param data2 pointer to the 2nd data operand
 				@param functor Instance of the operation that should be used
 				@pre all input parameters have to be valid
-				@exception core::NullPointerException if one input parameter is NULL or if geometricInfos don't match
+				@exception core::NullPointerException if one input parameter is nullptr or if geometricInfos don't match
 			*/
 			BinaryFunctorAccessor(const AccessorPointer data1, const DoseAccessorPointer data2,
 			                      const TDoseOperation& functor);

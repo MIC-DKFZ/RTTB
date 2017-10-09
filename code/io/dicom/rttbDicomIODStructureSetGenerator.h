@@ -67,7 +67,7 @@ namespace rttb
 
 				/*! @brief Structure Constructor
 				Get the vector of structures from DRTStructureSetIOD object
-				@exception NullPointerException Thrown if structureSet is NULL
+				@exception NullPointerException Thrown if structureSet is nullptr
 				*/
 				DicomIODStructureSetGenerator(DRTStrSetIODPtr aDRTStructureSetIOD);
 

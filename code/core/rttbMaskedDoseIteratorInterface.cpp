@@ -33,7 +33,7 @@ namespace rttb
 		{
 			if (! aMaskAccessor)
 			{
-				throw NullPointerException(" mask pointer must not be NULL!");
+				throw NullPointerException(" mask pointer must not be nullptr!");
 			}
 			else
 			{

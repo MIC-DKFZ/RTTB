@@ -49,7 +49,7 @@ namespace rttb
 				IDType _UID;
 
 				/*! @brief constructor
-					@exception InvalidDoseException if _dose is NULL
+					@exception InvalidDoseException if _dose is nullptr
 				*/
 				ITKImageAccessor();
 
@@ -63,7 +63,7 @@ namespace rttb
 				~ITKImageAccessor();
 
 				/*! @brief Constructor. Initialization with a itk image
-				@pre image must be a valid instance (and not null)
+				@pre image must be a valid instance (and !nullptr)
 				@note the doseImage pixels are assumed absolute
 				*/
 				ITKImageAccessor(ITKImageType::ConstPointer image);

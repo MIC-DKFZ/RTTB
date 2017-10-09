@@ -61,7 +61,7 @@ namespace rttb
 			MaskAccessorPointer spMaskAccessor(spTestMaskAccessor);
 
 			//1) test constructor (values as expected?)
-			//not NULL pointer
+			//not nullptr
 			MaskAccessorPointer spNullMaskAccessor;
 			DoseAccessorPointer spNullDoseAccessor;
 			CHECK_THROW_EXPLICIT(core::GenericMaskedDoseIterator genMaskedDoseIterator(spNullMaskAccessor,

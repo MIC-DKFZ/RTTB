@@ -60,7 +60,7 @@ namespace rttb
 				@param aTransformation transformation in ITK format.
 				@sa MappableDoseAccessorBase
 				@pre all input parameters have to be valid
-				@exception core::NullPointerException if one input parameter is NULL
+				@exception core::NullPointerException if one input parameter is nullptr
 				@exception core::PaddingException if the transformation is undefined and if _acceptPadding==false
 			*/
 			ITKTransformation(const Transform3D3DType* aTransformation);

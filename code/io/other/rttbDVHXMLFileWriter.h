@@ -62,7 +62,7 @@ namespace rttb
 				DVHType getDVHType() const;
 
 				/*! @brief Write aDvh to xml file with the name: _fileName
-				@exception NullPointerException Thrown if _aDvh is NULL
+				@exception NullPointerException Thrown if _aDvh is nullptr
 				@exception InvalidParameterException Thrown if _fileName invalid: could not open;
 				or if _dvhType invalid: only DIFFERENTIAL or CUMULATIVE is accepted!
 				@exception Exception thrown if dvh init error

@@ -64,7 +64,7 @@ namespace rttb
 			{
 				if (!aDvh)
 				{
-					throw core::NullPointerException("aDvh must not be NULL! ");
+					throw core::NullPointerException("aDvh must not be nullptr! ");
 				}
 				
 				if (normalized) {

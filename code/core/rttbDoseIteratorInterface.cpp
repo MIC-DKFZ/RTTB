@@ -31,7 +31,7 @@ namespace rttb
 		{
 			if (! aDoseAccessor)
 			{
-				throw NullPointerException(" dose accessor pointer must not be NULL!");
+				throw NullPointerException(" dose accessor pointer must not be nullptr!");
 			}
 
 			_spDoseAccessor = aDoseAccessor;
