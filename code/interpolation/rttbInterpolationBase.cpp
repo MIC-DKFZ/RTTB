@@ -33,7 +33,7 @@ namespace rttb
 	{
 		void InterpolationBase::setAccessorPointer(const AccessorPointer originalData)
 		{
-			if (originalData != NULL)
+			if (originalData != nullptr)
 			{
 				_spOriginalData = originalData;
 			}
@@ -48,7 +48,7 @@ namespace rttb
 		    unsigned int neighborhood, std::array<double, 3>& target,
 		    boost::shared_ptr<DoseTypeGy[]> values) const
 		{
-			if (_spOriginalData == NULL)
+			if (_spOriginalData == nullptr)
 			{
 				throw core::NullPointerException("originalDose is NULL!");
 			}

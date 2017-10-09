@@ -69,7 +69,7 @@ namespace rttb
 				_acceptPadding(acceptPadding), _defaultOutsideValue(defaultOutsideValue)
 			{
 				//handle null pointers
-				if (doseMovingImage == NULL || aTransformation == NULL)
+				if (doseMovingImage == nullptr || aTransformation == nullptr)
 				{
 					throw core::NullPointerException("Pointers to input accessors/transformation cannot be NULL.");
 				}

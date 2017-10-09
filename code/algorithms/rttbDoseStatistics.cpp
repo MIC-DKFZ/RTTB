@@ -51,7 +51,7 @@ namespace rttb
 			_MaxOHx(::boost::make_shared<VolumeToDoseMeasureCollection>(MaxOHx)), 
 			_MinOCx(::boost::make_shared<VolumeToDoseMeasureCollection>(MinOCx))
 		{
-			if (maximumVoxelPositions == NULL)
+			if (maximumVoxelPositions == nullptr)
 			{
 				_maximumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
 				                         (std::vector<std::pair<DoseTypeGy, VoxelGridID> >());
@@ -61,7 +61,7 @@ namespace rttb
 				_maximumVoxelPositions = maximumVoxelPositions;
 			}
 
-			if (minimumVoxelPositions == NULL)
+			if (minimumVoxelPositions == nullptr)
 			{
 				_minimumVoxelPositions = boost::make_shared<std::vector<std::pair<DoseTypeGy, VoxelGridID> > >
 				                         (std::vector<std::pair<DoseTypeGy, VoxelGridID> >());

@@ -40,7 +40,7 @@ namespace rttb
 
 		DoseStatisticsCalculator::DoseStatisticsCalculator(DoseIteratorPointer aDoseIterator)
 		{
-			if (aDoseIterator == NULL)
+			if (aDoseIterator == nullptr)
 			{
 				throw core::NullPointerException("DoseIterator must not be NULL");
 			}

@@ -37,7 +37,7 @@ namespace rttb
 			                MutableDoseAccessorPointer result, TDoseOperation op)
 			{
 				//handle null pointers
-				if (dose1 == NULL || dose2 == NULL || result == NULL)
+				if (dose1 == nullptr || dose2 == nullptr || result == nullptr)
 				{
 					throw core::NullPointerException("Pointers to input accessors cannot be NULL.");
 				}
@@ -64,7 +64,7 @@ namespace rttb
 			                MutableDoseAccessorPointer result, TDoseMaskOperation op)
 			{
 				//handle null pointers
-				if (dose == NULL || mask == NULL || result == NULL)
+				if (dose == nullptr || mask == nullptr || result == nullptr)
 				{
 					throw core::NullPointerException("Pointers to input accessors cannot be NULL.");
 				}
@@ -93,7 +93,7 @@ namespace rttb
 			                MutableMaskAccessorPointer result, TMaskOperation op)
 			{
 				//handle null pointers
-				if (mask1 == NULL || mask2 == NULL || result == NULL)
+				if (mask1 == nullptr || mask2 == nullptr || result == nullptr)
 				{
 					throw core::NullPointerException("Pointers to input accessors cannot be NULL.");
 				}

@@ -39,7 +39,7 @@ namespace rttb
 
 			ITKImageAccessorGenerator::ITKImageAccessorGenerator(const ITKImageType* aDoseImage)
 			{
-				if (aDoseImage == NULL)
+				if (aDoseImage == nullptr)
 				{
 					throw core::InvalidDoseException("doseImage is NULL");
 				}

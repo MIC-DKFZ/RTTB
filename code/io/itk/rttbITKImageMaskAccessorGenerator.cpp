@@ -37,7 +37,7 @@ namespace rttb
 			ITKImageMaskAccessorGenerator::ITKImageMaskAccessorGenerator(const
 			        ITKImageMaskAccessor::ITKMaskImageType* aMaskImage)
 			{
-				if (aMaskImage == NULL)
+				if (aMaskImage == nullptr)
 				{
 					throw core::InvalidDoseException("MaskImage is NULL");
 				}

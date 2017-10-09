@@ -32,7 +32,7 @@ namespace rttb
 
 			void GenericImageReader::load()
 			{
-				_spImage = NULL;
+				_spImage = nullptr;
 
 				FileNameString probeFileName = this->_fileName;
 
