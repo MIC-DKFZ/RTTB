@@ -70,7 +70,7 @@ namespace rttb
 					@return Return new shared pointer of DVH.
 					@exception InvalidParameterException Thrown if _fileName invalid
 				*/
-				DVHPointer generateDVH();
+				DVHPointer generateDVH() override;
 			};
 		}
 	}

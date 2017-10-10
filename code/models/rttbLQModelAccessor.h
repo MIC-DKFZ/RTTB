@@ -56,7 +56,7 @@ namespace rttb
 
 
 		public:
-			~LQModelAccessor();
+			~LQModelAccessor() override;
 
 			/*! @brief Constructor.
 			@pre dose must be a valid instance (and != nullptr)
@@ -74,13 +74,13 @@ namespace rttb
 
 			/*! @brief returns the LQ Model value for an id
 			*/
-			GenericValueType getValueAt(const VoxelGridID aID) const;
+			GenericValueType getValueAt(const VoxelGridID aID) const override;
 
 			/*! @brief returns the LQ Model value for an index
 			*/
-			GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const;
+			GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const override;
 
-			const IDType getUID() const
+			const IDType getUID() const override
 			{
 				return _bioModelUID;
 			};

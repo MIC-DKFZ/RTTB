@@ -60,17 +60,17 @@ namespace rttb
 
 			/*! @brief Virtual destructor of class
 			*/
-			virtual ~SimpleMappableDoseAccessor() {};
+			~SimpleMappableDoseAccessor() override {};
 			/*! @brief Returns the dose for a given voxel grid id. Plain trilinear interpolation is performed.
 				@sa getDoseAt(const VoxelGridIndex3D& aIndex)
 			*/
-			GenericValueType getValueAt(const VoxelGridID aID) const;
+			GenericValueType getValueAt(const VoxelGridID aID) const override;
 
 			/*! @brief Returns the dose for a given voxel grid index. Plain trilinear interpolation is performed.
 				@return the dose or if (isOutside==true && _acceptPadding==true) then _defaultValue
 				@exception core::MappingOutsideOfImageException if the point is mapped outside and if _acceptPadding==false, possibly returning _defaultValue)
 			*/
-			GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const;
+			GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const override;
 		};
 	}
 }

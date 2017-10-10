@@ -49,7 +49,7 @@ namespace rttb
 
 		public:
 			AccessorInterface() {};
-			virtual ~AccessorInterface() {};
+			~AccessorInterface() override {};
 
 			/*! @brief test if given ID is inside current dose grid
 			*/

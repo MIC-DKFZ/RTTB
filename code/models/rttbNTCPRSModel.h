@@ -35,7 +35,7 @@ namespace rttb
 	{
 
 		/*! @class NTCPRSModel
-			@brief This class represents a NTCP(Normal Tissue Complication Probability) relative seriality model (Källman 1992)
+			@brief This class represents a NTCP(Normal Tissue Complication Probability) relative seriality model (Kaellman 1992)
 			@see NTCPModel
 		*/
 		class NTCPRSModel: public NTCPModel
@@ -46,7 +46,7 @@ namespace rttb
 
 		private:
 			/*! _gamma The normalised dose-response gradient, values between 1.7 and 2.0 are typical for human tumours.
-			(Källman 1992)
+			(Kaellman 1992)
 			*/
 			BioModelParamType _gamma;
 
@@ -83,25 +83,25 @@ namespace rttb
 			/*! @brief Set parameter with ID. "d50":0,"gamma":1,"s":2
 			@exception InvalidParameterException Thrown if aParamId is not 0 or 1 or 2.
 			*/
-			virtual void setParameterByID(const int aParamId, const BioModelParamType aValue) override;
+			void setParameterByID(const int aParamId, const BioModelParamType aValue) override;
 
 			/*! @brief Set parameter vector, where index of vector is the parameter Id.
 				"d50":0,"gamma":1,"s":2
 			@exception InvalidParameterException Thrown if aParamterVector.size()!=3.
 			*/
-			virtual void setParameterVector(const ParamVectorType& aParameterVector) override;
+			void setParameterVector(const ParamVectorType& aParameterVector) override;
 
 			/*! @brief Get parameter ID. "d50":0,"gamma":1,"s":2
 				@return 0 for "d50", 1 for "gamma", 2 for "s"
 			@exception InvalidParameterException Thrown if aParamName is not d50 or gamma or s.
 			*/
-			virtual const int getParameterID(const std::string& aParamName) const override;
+			const int getParameterID(const std::string& aParamName) const override;
 
-			virtual std::map<std::string, double> getParameterMap() const override;
+			std::map<std::string, double> getParameterMap() const override;
 
 			void fillParameterMap() override;
 
-			virtual std::string getModelType() const override;
+			std::string getModelType() const override;
 		};
 
 	}

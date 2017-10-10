@@ -77,28 +77,19 @@ namespace rttb
 
 			/*! @brief Virtual destructor of base class
 			*/
-			virtual ~MappableDoseAccessorInterface() {};
+			~MappableDoseAccessorInterface() override {};
 
-			inline const core::GeometricInfo& getGeometricInfo() const
+			inline const core::GeometricInfo& getGeometricInfo() const override
 			{
 				return _geoInfoTargetImage;
 			};
 
-			inline GridSizeType getGridSize() const
+			inline GridSizeType getGridSize() const override
 			{
 				return _geoInfoTargetImage.getNumberOfVoxels();
 			};
 
-			/*! @brief Returns the dose for a given VoxelGridID (convenience function that handles conversion VoxelGridID->VoxelGridIndex3D)
-				@sa getDoseAt(const VoxelGridIndex3D& aIndex)
-			*/
-			virtual GenericValueType getValueAt(const VoxelGridID aID) const = 0;
-
-			/*! @brief Returns the dose for a given VoxelGridIndex3D
-			*/
-			virtual GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const = 0 ;
-
-			const IDType getUID() const
+			const IDType getUID() const override
 			{
 				return _spOriginalDoseDataMovingImage->getUID();
 			};

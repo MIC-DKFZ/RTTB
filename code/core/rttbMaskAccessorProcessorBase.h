@@ -35,7 +35,7 @@ namespace rttb
 		public:
 			typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
 
-			virtual void setMaskAccessor(MaskAccessorPointer accessor)
+			void setMaskAccessor(MaskAccessorPointer accessor) override
 			{
 				_maskAccessor = accessor;
 			};
@@ -48,7 +48,7 @@ namespace rttb
 
 		protected:
 			MaskAccessorProcessorBase() {};
-			virtual ~MaskAccessorProcessorBase() {};
+			~MaskAccessorProcessorBase() override {};
 
 			/*! @brief Mask accessor which should be generated */
 			MaskAccessorPointer _maskAccessor;

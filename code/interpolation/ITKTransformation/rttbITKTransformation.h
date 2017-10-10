@@ -65,16 +65,16 @@ namespace rttb
 			*/
 			ITKTransformation(const Transform3D3DType* aTransformation);
 
-			~ITKTransformation() {};
+			~ITKTransformation() override {};
 
 			/*! @brief performs a transformation targetImage --> movingImage
 			*/
 			bool transformInverse(const WorldCoordinate3D& worldCoordinateTarget,
-			                      WorldCoordinate3D& worldCoordinateMoving) const;
+			                      WorldCoordinate3D& worldCoordinateMoving) const override;
 			/*! @brief performs a transformation movingImage --> targetImage
 			*/
 			bool transform(const WorldCoordinate3D& worldCoordinateMoving,
-			               WorldCoordinate3D& worldCoordinateTarget) const;
+			               WorldCoordinate3D& worldCoordinateTarget) const override;
 		};
 	}
 }

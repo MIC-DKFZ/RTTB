@@ -54,7 +54,7 @@ namespace rttb
 
 
 			public:
-				~ITKImageFileAccessorGenerator();
+				~ITKImageFileAccessorGenerator() override;
 
 				ITKImageFileAccessorGenerator(const FileNameType& fileName);
 
@@ -65,7 +65,7 @@ namespace rttb
 				@details is always converted into a itkImage<DoseTypeGy,3> by using a CastImageFilter
 				@sa doCasting, handleGenericImage
 				*/
-				DoseAccessorPointer generateDoseAccessor();
+				DoseAccessorPointer generateDoseAccessor() override;
 
 
 			};

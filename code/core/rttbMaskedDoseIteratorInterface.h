@@ -60,7 +60,7 @@ namespace rttb
 			*/
 			MaskedDoseIteratorInterface(MaskAccessorPointer aMaskAccessor, DoseAccessorPointer aDoseAccessor);
 
-			virtual ~MaskedDoseIteratorInterface() {};
+			~MaskedDoseIteratorInterface() override {};
 
 			inline MaskAccessorPointer getMaskAccessor() const
 			{

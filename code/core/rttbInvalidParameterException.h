@@ -42,11 +42,11 @@ namespace rttb
 		public:
 			InvalidParameterException(const std::string& aWhat): Exception(aWhat) {}
 
-			virtual ~InvalidParameterException() throw() {}
+			~InvalidParameterException() throw() override {}
 
 			/*! @brief Get the exception description
 			*/
-			virtual const char* what() const throw();
+			const char* what() const throw() override;
 
 			/*! @brief Get the name of the exception class
 			*/

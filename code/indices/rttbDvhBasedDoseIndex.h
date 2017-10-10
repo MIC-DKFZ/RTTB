@@ -44,21 +44,12 @@ namespace rttb
 
 			DVHSetPtr _dvhSet;
 
-			/*! @brief Dose index calculation */
-			virtual bool calcIndex() = 0;
-
 			/*! @brief Check inputs*/
-			bool checkInputs();
+			bool checkInputs() override;
 
 		public:
 			/*! @brief Constructor*/
 			DvhBasedDoseIndex(DVHSetPtr aDVHSet, DoseTypeGy aDoseReference);
-
-			/*! @brief Dose/plan comparison index calculation for tvIndex-th treated volume
-			(tv = target volume; th = healthy tissue)
-			@param tvIndex index in the DVH in the current set of tv-DVHs
-			*/
-			virtual IndexValueType getValueAt(const core::DVHSet::IndexType tvIndex) = 0;
 		};
 	}
 }

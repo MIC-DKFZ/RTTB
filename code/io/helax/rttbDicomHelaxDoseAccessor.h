@@ -75,7 +75,7 @@ namespace rttb
 
 			public:
 
-				~DicomHelaxDoseAccessor();
+				~DicomHelaxDoseAccessor() override;
 
 
 				/*! @brief Constructor. Initialisation with a vector of DRTDoseIOD pointers
@@ -85,11 +85,11 @@ namespace rttb
 				DicomHelaxDoseAccessor(std::vector<DRTDoseIODPtr> aDICOMRTDoseVector);
 
 
-				GenericValueType getValueAt(const VoxelGridID aID) const;
+				GenericValueType getValueAt(const VoxelGridID aID) const override;
 
-				GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const;
+				GenericValueType getValueAt(const VoxelGridIndex3D& aIndex) const override;
 
-				const IDType getUID() const
+				const IDType getUID() const override
 				{
 					return _doseUID;
 				};

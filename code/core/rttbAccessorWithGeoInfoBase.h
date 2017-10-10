@@ -39,11 +39,11 @@ namespace rttb
 			core::GeometricInfo _geoInfo;
 
 		public:
-			~AccessorWithGeoInfoBase();
+			~AccessorWithGeoInfoBase() override;
 
 			AccessorWithGeoInfoBase();
 
-			virtual const core::GeometricInfo& getGeometricInfo() const;
+			const core::GeometricInfo& getGeometricInfo() const override;
 
 		};
 	}
