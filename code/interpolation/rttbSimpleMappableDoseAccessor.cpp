@@ -36,9 +36,9 @@ namespace rttb
 			_spInterpolation(aInterpolation)
 		{
 			//handle null pointers
-			if (aInterpolation == NULL)
+			if (aInterpolation == nullptr)
 			{
-				throw core::NullPointerException("Pointer to interpolation cannot be NULL.");
+				throw core::NullPointerException("Pointer to interpolation cannot be nullptr.");
 			}
 			else
 			{

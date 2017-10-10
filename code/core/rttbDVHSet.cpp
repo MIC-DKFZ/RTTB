@@ -104,7 +104,7 @@ namespace rttb
 			}
 
 			std::cout << "No DVH with the structure id: " << structureID << " was found!" << std::endl;
-			return NULL;
+			return nullptr;
 		}
 
 		void DVHSet::insert(DVH& aDvh, DVHRole aDVHRole)

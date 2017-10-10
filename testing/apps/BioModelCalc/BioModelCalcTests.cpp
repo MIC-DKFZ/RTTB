@@ -34,7 +34,7 @@ namespace rttb
 	namespace testing
 	{
 
-		const char* _callingAppPath = NULL;
+		const char* _callingAppPath = nullptr;
 
 		void registerTests()
 		{

@@ -49,7 +49,7 @@ namespace rttb
 			/*! @brief Constructor.
 				@param aRegistration registration given in MatchPoint format (note the use of pointer since itkSmartPointer does not support inheritance)
 				@pre all input parameters have to be valid
-				@exception core::NullPointerException if one input parameter is NULL
+				@exception core::NullPointerException if one input parameter is nullptr
 				@exception core::PaddingException if the transformation is undefined and if _acceptPadding==false
 			*/
 			MatchPointTransformation(const Registration3D3DType* aRegistration);

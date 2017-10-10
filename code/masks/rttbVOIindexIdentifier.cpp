@@ -37,9 +37,9 @@ namespace rttb
 		    StructSetTypePointer spStructSet,
 		    const std::string& nameAsRegEx)
 		{
-			if (!spStructSet)
+			if (spStructSet == nullptr)
 			{
-				rttbDefaultExceptionStaticMacro("spStructSet is NULL");
+				rttbDefaultExceptionStaticMacro("spStructSet is nullptr");
 			}
 
 			std::vector<size_t> resultVOiIndices;
@@ -62,9 +62,9 @@ namespace rttb
 		const unsigned int VOIindexIdentifier::getIndexByVoiName(StructSetTypePointer spStructSet,
 		        const std::string& name)
 		{
-			if (!spStructSet)
+			if (spStructSet == nullptr)
 			{
-				rttbDefaultExceptionStaticMacro("spStructSet is NULL");
+				rttbDefaultExceptionStaticMacro("spStructSet is nullptr");
 			}
 
 			for (unsigned int i = 0; i < spStructSet->getNumberOfStructures(); i++)
@@ -83,9 +83,9 @@ namespace rttb
 		const std::string VOIindexIdentifier::getVoiNameByIndex(StructSetTypePointer spStructSet,
 		        unsigned int index)
 		{
-			if (!spStructSet)
+			if (spStructSet == nullptr)
 			{
-				rttbDefaultExceptionStaticMacro("spStructSet is NULL!");
+				rttbDefaultExceptionStaticMacro("spStructSet is nullptr!");
 			}
 
 			if (index >= spStructSet->getNumberOfStructures())

@@ -54,7 +54,7 @@ namespace rttb
 				OFCondition status;
 
 				/* Prepare dcmtk */
-				DcmItem* dcm_item = 0;
+				DcmItem* dcm_item = nullptr;
 
 				//get geometric info
 				rttb::core::GeometricInfo geometricInfo = _doseAccessor->getGeometricInfo();
@@ -89,7 +89,7 @@ namespace rttb
 
 
 				/* (0008,1140) DCM_ReferencedImageSequence -- MIM likes this */
-				dcm_item = 0;
+				dcm_item = nullptr;
 				_dataset->findOrCreateSequenceItem(
 				    DCM_ReferencedImageSequence, dcm_item, -2);
 				dcm_item->putAndInsertString(DCM_ReferencedSOPClassUID,
@@ -195,7 +195,7 @@ namespace rttb
 				_dataset->putAndInsertString(DCM_DoseGridScaling, sstr.str().c_str());
 
 				/* (300c,0002) ReferencedRTPlanSequence -- for future expansion */
-				dcm_item = 0;
+				dcm_item = nullptr;
 				_dataset->findOrCreateSequenceItem(
 				    DCM_ReferencedRTPlanSequence, dcm_item, -2);
 				dcm_item->putAndInsertString(DCM_ReferencedSOPClassUID,
@@ -204,7 +204,7 @@ namespace rttb
 				                             "");
 
 				/* (300c,0060) DCM_ReferencedStructureSetSequence -- MIM likes this */
-				dcm_item = 0;
+				dcm_item = nullptr;
 				_dataset->findOrCreateSequenceItem(
 				    DCM_ReferencedStructureSetSequence, dcm_item, -2);
 				dcm_item->putAndInsertString(DCM_ReferencedSOPClassUID,

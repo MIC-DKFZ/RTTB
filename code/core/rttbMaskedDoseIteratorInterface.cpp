@@ -31,9 +31,9 @@ namespace rttb
 		MaskedDoseIteratorInterface::MaskedDoseIteratorInterface(MaskAccessorPointer aMaskAccessor,
 		        DoseAccessorPointer aDoseAccessor): DoseIteratorInterface(aDoseAccessor)
 		{
-			if (! aMaskAccessor)
+			if (aMaskAccessor == nullptr)
 			{
-				throw NullPointerException(" mask pointer must not be NULL!");
+				throw NullPointerException(" mask pointer must not be nullptr!");
 			}
 			else
 			{

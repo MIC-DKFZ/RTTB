@@ -59,7 +59,7 @@ namespace rttb
 				@param acceptPadding is mapping outside the image allowed
 				@param defaultOutsideValue the default outside voxel value if accepptPadding=true
 				@pre all input parameters have to be valid
-				@exception core::NullPointerException if one input parameter is NULL
+				@exception core::NullPointerException if one input parameter is nullptr
 			*/
 			MappableDoseAccessorInterface(const core::GeometricInfo& geoInfoTargetImage,
 			                              const DoseAccessorPointer doseMovingImage, const TransformationInterface::Pointer aTransformation,
@@ -69,9 +69,9 @@ namespace rttb
 				_acceptPadding(acceptPadding), _defaultOutsideValue(defaultOutsideValue)
 			{
 				//handle null pointers
-				if (doseMovingImage == NULL || aTransformation == NULL)
+				if (doseMovingImage == nullptr || aTransformation == nullptr)
 				{
-					throw core::NullPointerException("Pointers to input accessors/transformation cannot be NULL.");
+					throw core::NullPointerException("Pointers to input accessors/transformation cannot be nullptr.");
 				}
 			}
 

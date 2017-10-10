@@ -33,13 +33,13 @@ namespace rttb
 	{
 		void InterpolationBase::setAccessorPointer(const AccessorPointer originalData)
 		{
-			if (originalData != NULL)
+			if (originalData != nullptr)
 			{
 				_spOriginalData = originalData;
 			}
 			else
 			{
-				throw core::NullPointerException("originalDose is NULL!");
+				throw core::NullPointerException("originalDose is nullptr!");
 			}
 		};
 
@@ -48,9 +48,9 @@ namespace rttb
 		    unsigned int neighborhood, std::array<double, 3>& target,
 		    boost::shared_ptr<DoseTypeGy[]> values) const
 		{
-			if (_spOriginalData == NULL)
+			if (_spOriginalData == nullptr)
 			{
-				throw core::NullPointerException("originalDose is NULL!");
+				throw core::NullPointerException("originalDose is nullptr!");
 			}
 
 			//Determine target (abs(desired worldCoordinate- corner pixel world coordinate/pixel spacing) and values of corner pixels (from originalDose)

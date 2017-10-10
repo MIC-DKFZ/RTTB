@@ -73,7 +73,7 @@ namespace rttb
 			IDType getDoseID() const;
 
 			/*! @brief Get the DVH according to the structure ID
-				@return Return NULL if not found
+				@return Return nullptr if not found
 			*/
 			DVH* getDVH(IDType aStructureID);
 

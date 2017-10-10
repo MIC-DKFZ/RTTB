@@ -43,8 +43,8 @@ namespace rttb
 
 
 			/*! Applies the given dose operation to the given doses and stores the result in <i>result</i>
-			  @pre pointers to accessors are not NULL. The geometric Info of the individual accessors must be equal.
-				@exception NullPointerException thrown if one of the input accessors is NULL.
+			  @pre pointers to accessors are !nullptr. The geometric Info of the individual accessors must be equal.
+				@exception NullPointerException thrown if one of the input accessors is nullptr.
 			  @exception InvalidParameterException thrown if the geometricInfo of the given accessors does not match.
 			*/
 			template <class TDoseOperation>
@@ -52,8 +52,8 @@ namespace rttb
 			                MutableDoseAccessorPointer result, TDoseOperation op);
 
 			///*! Applies the given dose operation to the mapped given doses (transformation given by MatchPoint) and stores the result in <i>result</i>
-			//     @pre pointers to accessors are not NULL.
-			//   	@exception NullPointerException thrown if one of the input accessors is NULL.
+			//     @pre pointers to accessors are ! nullptr.
+			//   	@exception NullPointerException thrown if one of the input accessors is nullptr.
 			//     @exception TransformationOutsideImageException thrown if the transformation maps to a position outside the original image.
 			//   */
 			//   template <class TDoseOperation>
@@ -61,8 +61,8 @@ namespace rttb
 			//     MutableDoseAccessorPointer result, TDoseOperation op);
 
 			/*! Applies the given dose-mask operation to the given dose and mask and stores the result in <i>result</i>
-			  @pre pointers to accessors are not NULL. The geometric Info of the individual accessors must be equal.
-				@exception NullPointerException thrown if one of the input accessors is NULL.
+			  @pre pointers to accessors are ! nullptr. The geometric Info of the individual accessors must be equal.
+				@exception NullPointerException thrown if one of the input accessors is nullptr.
 			  @exception InvalidParameterException thrown if the geometricInfo of the given accessors does not match.
 			*/
 			template <class TDoseMaskOperation>
@@ -70,8 +70,8 @@ namespace rttb
 			                MutableDoseAccessorPointer result, TDoseMaskOperation op);
 
 			/*! Applies the given mask operation to the given masks and stores the result in <i>result</i>
-			  @pre pointers to accessors are not NULL. The geometric Info of the individual accessors must be equal.
-				@exception NullPointerException thrown if one of the input accessors is NULL.
+			  @pre pointers to accessors are !nullptr. The geometric Info of the individual accessors must be equal.
+				@exception NullPointerException thrown if one of the input accessors is nullptr.
 			  @exception InvalidParameterException thrown if the geometricInfo of the given accessors does not match.
 			*/
 			template <class TMaskOperation>

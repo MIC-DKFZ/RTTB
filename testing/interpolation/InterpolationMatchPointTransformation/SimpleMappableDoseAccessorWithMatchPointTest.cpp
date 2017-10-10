@@ -122,7 +122,7 @@ namespace rttb
 			CHECK_NO_THROW(SimpleMappableDoseAccessor(
 			                   doseAccessor1GeometricInfo, doseAccessor2, transformMP, interpolationNN));
 			CHECK_NO_THROW(MatchPointTransformation(registration.GetPointer()));
-			CHECK_THROW_EXPLICIT(MatchPointTransformation(NULL), core::NullPointerException);
+			CHECK_THROW_EXPLICIT(MatchPointTransformation(nullptr), core::NullPointerException);
 
 			//2) test getDoseAt()
 			//	a) with Identity transform

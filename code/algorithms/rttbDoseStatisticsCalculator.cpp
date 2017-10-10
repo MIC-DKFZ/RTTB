@@ -40,9 +40,9 @@ namespace rttb
 
 		DoseStatisticsCalculator::DoseStatisticsCalculator(DoseIteratorPointer aDoseIterator)
 		{
-			if (aDoseIterator == NULL)
+			if (aDoseIterator == nullptr)
 			{
-				throw core::NullPointerException("DoseIterator must not be NULL");
+				throw core::NullPointerException("DoseIterator must not be nullptr");
 			}
 			else
 			{
@@ -72,9 +72,9 @@ namespace rttb
 			bool computeComplexMeasures, unsigned int maxNumberMinimaPositions,
 			unsigned int maxNumberMaximaPositions)
 		{
-			if (!_doseIterator)
+			if (_doseIterator == nullptr)
 			{
-				throw core::NullPointerException("_doseIterator must not be NULL!");
+				throw core::NullPointerException("_doseIterator must not be nullptr!");
 			}
 
 			//"simple" dose statistics are mandatory
@@ -94,9 +94,9 @@ namespace rttb
 			DoseTypeGy referenceDose, unsigned int maxNumberMinimaPositions,
 			unsigned int maxNumberMaximaPositions)
 		{
-			if (!_doseIterator)
+			if (_doseIterator == nullptr)
 			{
-				throw core::NullPointerException("_doseIterator must not be NULL!");
+				throw core::NullPointerException("_doseIterator must not be nullptr!");
 			}
 
 			if (referenceDose <= 0)
@@ -121,9 +121,9 @@ namespace rttb
 			unsigned int maxNumberMaximaPositions)
 		{
 
-			if (!_doseIterator)
+			if (_doseIterator == nullptr)
 			{
-				throw core::NullPointerException("_doseIterator must not be NULL!");
+				throw core::NullPointerException("_doseIterator must not be nullptr!");
 			}
 
 			//"simple" dose statistics

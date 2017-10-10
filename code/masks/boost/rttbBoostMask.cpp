@@ -50,13 +50,13 @@ namespace rttb
 
 				_isUpToDate = false;
 
-				if (!_geometricInfo)
+				if (_geometricInfo == nullptr)
 				{
-					throw rttb::core::NullPointerException("Error: Geometric info is NULL!");
+					throw rttb::core::NullPointerException("Error: Geometric info is nullptr!");
 				}
-				else if (!_structure)
+				else if (_structure == nullptr)
 				{
-					throw rttb::core::NullPointerException("Error: Structure is NULL!");
+					throw rttb::core::NullPointerException("Error: Structure is nullptr!");
 				}
 
 				if (_numberOfThreads == 0)

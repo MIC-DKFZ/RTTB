@@ -35,9 +35,9 @@ namespace rttb
 		                             const IDType& aDoseID,
 		                             DoseTypeGy aDeltaD, const int aNumberOfBins)
 		{
-			if (!aDoseIterator)
+			if (aDoseIterator == nullptr)
 			{
-				throw NullPointerException("aDoseIterator must not be NULL! ");
+				throw NullPointerException("aDoseIterator must not be nullptr! ");
 			}
 
 			_doseIteratorPtr = aDoseIterator;

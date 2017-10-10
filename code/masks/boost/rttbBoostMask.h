@@ -57,7 +57,7 @@ namespace rttb
 				typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
 
 				/*! @brief Constructor
-				* @exception rttb::core::NullPointerException thrown if aDoseGeoInfo or aStructure is NULL
+				* @exception rttb::core::NullPointerException thrown if aDoseGeoInfo or aStructure is nullptr
                 * @param aDoseGeoInfo the GeometricInfo
                 * @param aStructure the structure set
 				* @param strict indicates whether to allow self intersection in the structure. If it is set to true, an exception will be thrown when the given structure has self intersection.

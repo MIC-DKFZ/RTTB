@@ -63,9 +63,9 @@ namespace rttb
 
 			void DVHXMLFileWriter::writeDVH(DVHPointer aDvh, bool normalized)
 			{
-				if (!aDvh)
+				if (aDvh == nullptr)
 				{
-					throw core::NullPointerException("aDvh must not be NULL! ");
+					throw core::NullPointerException("aDvh must not be nullptr! ");
 				}
 
 				using boost::property_tree::ptree;

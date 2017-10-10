@@ -34,7 +34,7 @@ namespace rttb
 	{
 
 		/* Initiate Random Number generator with current time */
-		boost::random::mt19937 rng(static_cast<unsigned>(time(0)));
+		boost::random::mt19937 rng(static_cast<unsigned>(time(nullptr)));
 		/* Generate random number between 0 and 1 */
 		boost::random::uniform_01<boost::mt19937> uniDist(rng);
 

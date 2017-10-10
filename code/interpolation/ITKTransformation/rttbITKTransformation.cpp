@@ -30,9 +30,9 @@ namespace rttb
 			_pTransformation(aTransformation)
 		{
 			//handle null pointer
-			if (aTransformation == NULL)
+			if (aTransformation == nullptr)
 			{
-				throw core::NullPointerException("Pointer to registration is NULL.");
+				throw core::NullPointerException("Pointer to registration is nullptr.");
 			}
 
 		}

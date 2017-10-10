@@ -57,7 +57,7 @@ namespace rttb
         {
             if (_dose == nullptr || _alphaMap == nullptr || _betaMap == nullptr)
             {
-                throw core::InvalidDoseException("Dose or alphaMap or betaMap is NULL");
+                throw core::InvalidDoseException("Dose or alphaMap or betaMap is nullptr");
             }
 
             if (_doseScaling < 0)

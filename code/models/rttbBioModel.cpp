@@ -33,7 +33,7 @@ namespace rttb
 	{
 		bool BioModel::init(const double doseFactor)
 		{
-			if (_dvh != NULL)
+			if (_dvh != nullptr)
 			{
 				_value = this->calcModel(doseFactor);
 				return true;

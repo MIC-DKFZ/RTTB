@@ -29,9 +29,9 @@ namespace rttb
 
 		DoseIteratorInterface::DoseIteratorInterface(DoseAccessorPointer aDoseAccessor)
 		{
-			if (! aDoseAccessor)
+			if (aDoseAccessor == nullptr)
 			{
-				throw NullPointerException(" dose accessor pointer must not be NULL!");
+				throw NullPointerException(" dose accessor pointer must not be nullptr!");
 			}
 
 			_spDoseAccessor = aDoseAccessor;

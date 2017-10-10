@@ -117,7 +117,7 @@ namespace rttb
 			CHECK_NO_THROW(SimpleMappableDoseAccessor(
 			                   doseAccessor1GeometricInfo, doseAccessor2, transformITKTranslation, interpolationLinear));
 			CHECK_NO_THROW(ITKTransformation(transformITKTranslationTemporary.GetPointer()));
-			CHECK_THROW_EXPLICIT(ITKTransformation(NULL), core::NullPointerException);
+			CHECK_THROW_EXPLICIT(ITKTransformation(nullptr), core::NullPointerException);
 
 			//2) test getDoseAt()
 			//	a) with Identity transform

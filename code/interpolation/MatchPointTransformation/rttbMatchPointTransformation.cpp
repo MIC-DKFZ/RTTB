@@ -30,9 +30,9 @@ namespace rttb
 		    const Registration3D3DType* aRegistration): _pRegistration(aRegistration)
 		{
 			//handle null pointers
-			if (aRegistration == NULL)
+			if (aRegistration == nullptr)
 			{
-				throw core::NullPointerException("Pointer to registration is NULL.");
+				throw core::NullPointerException("Pointer to registration is nullptr.");
 			}
 		}
 

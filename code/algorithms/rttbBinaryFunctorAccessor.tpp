@@ -33,9 +33,9 @@ namespace rttb
 		        data1, const AccessorPointer data2,
 		        const TDoseOperation& functor)
 		{
-			if (data1 == NULL || data2 == NULL)
+			if (data1 == nullptr || data2 == nullptr)
 			{
-				throw core::NullPointerException("Pointers to input accessors cannot be NULL.");
+				throw core::NullPointerException("Pointers to input accessors cannot be nullptr.");
 			}
 
 			if (!(data1->getGeometricInfo() == data2->getGeometricInfo()))
