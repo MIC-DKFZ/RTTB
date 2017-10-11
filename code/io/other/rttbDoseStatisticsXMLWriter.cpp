@@ -68,7 +68,7 @@ namespace rttb
 				                    "minimum");
 
 				auto minimumPositions = aDoseStatistics->getMinimumVoxelPositions();
-				std::vector<std::pair<DoseTypeGy, VoxelGridID> >::iterator pairItMin = minimumPositions->begin();
+				auto pairItMin = minimumPositions->begin();
 				int count = 0;
 
 				for (; pairItMin != minimumPositions->end() && count < 100; ++pairItMin) //output max. 100 minimum
@@ -86,7 +86,7 @@ namespace rttb
 				                    "maximum");
 
 				auto maximumPositions = aDoseStatistics->getMaximumVoxelPositions();
-				std::vector<std::pair<DoseTypeGy, VoxelGridID> >::iterator pairItMax = maximumPositions->begin();
+				auto pairItMax = maximumPositions->begin();
 				count = 0;
 
 				for (; pairItMax != maximumPositions->end() && count < 100; ++pairItMax) //output max. 100 maximum

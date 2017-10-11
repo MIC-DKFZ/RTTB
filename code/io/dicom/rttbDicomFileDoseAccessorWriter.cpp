@@ -214,7 +214,7 @@ namespace rttb
 
 				/* Convert image bytes to integer, then add to _dataset */
 				Uint16* pixelData;
-				unsigned int pixelCount = static_cast<unsigned int>(geometricInfo.getNumRows() * geometricInfo.getNumColumns() *
+				auto pixelCount = static_cast<unsigned int>(geometricInfo.getNumRows() * geometricInfo.getNumColumns() *
 				                          geometricInfo.getNumSlices());
 				pixelData = new Uint16[pixelCount];
 

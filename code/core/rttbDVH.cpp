@@ -319,7 +319,7 @@ namespace rttb
 		VolumeType DVH::getVx(DoseTypeGy xDoseAbsolute) const
 		{
 
-			GridIndexType i = static_cast<GridIndexType>(xDoseAbsolute / _deltaD);
+			auto i = static_cast<GridIndexType>(xDoseAbsolute / _deltaD);
 
 			if (i < _dataCumulative.size())
 			{

@@ -48,7 +48,7 @@ namespace rttb
 
                 std::map<double, ::boost::shared_ptr<BoostArray2D> > voxelizationMapInThread;
 
-                 for (BoostPolygonMap::iterator it = _geometryCoordinateBoostPolygonMap.begin();
+                 for (auto it = _geometryCoordinateBoostPolygonMap.begin();
 				     it != _geometryCoordinateBoostPolygonMap.end(); ++it)
 				{
                     BoostArray2D maskArray(::boost::extents[globalBoundingBoxSize0][globalBoundingBoxSize1]);

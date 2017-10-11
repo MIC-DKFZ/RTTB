@@ -109,8 +109,8 @@ namespace rttb
 			{
 				toArray.clear();
 
-				ITKMetaDataDictionaryArray::const_iterator itr = fromArray->begin();
-				ITKMetaDataDictionaryArray::const_iterator end = fromArray->end();
+				auto itr = fromArray->begin();
+				auto end = fromArray->end();
 
 				while (itr != end)
 				{
@@ -310,8 +310,8 @@ namespace rttb
 
 				typedef ::itk::ImageFileReader< InputImageType  > ImageReaderType;
 				typedef ::itk::ImageSeriesReader< InputImageType  > ImageSeriesReaderType;
-				ImageReaderType* pFileReader = dynamic_cast<ImageReaderType*>(spReader.GetPointer());
-				ImageSeriesReaderType* pSeriesReader = dynamic_cast<ImageSeriesReaderType*>(spReader.GetPointer());
+				auto* pFileReader = dynamic_cast<ImageReaderType*>(spReader.GetPointer());
+				auto* pSeriesReader = dynamic_cast<ImageSeriesReaderType*>(spReader.GetPointer());
 
 				if (pFileReader)
 				{

@@ -73,7 +73,7 @@ namespace rttb
 
 		DVH* DVHSet::getDVH(IDType structureID)
 		{
-			DVHSetType::iterator itTV = _dvhTVSet.begin();
+			auto itTV = _dvhTVSet.begin();
 
 			for (; itTV != _dvhTVSet.end(); ++itTV)
 			{
@@ -83,7 +83,7 @@ namespace rttb
 				}
 			}
 
-			DVHSetType::iterator itHT = _dvhHTSet.begin();
+			auto itHT = _dvhHTSet.begin();
 
 			for (; itHT != _dvhHTSet.end(); ++itHT)
 			{
@@ -93,7 +93,7 @@ namespace rttb
 				}
 			}
 
-			DVHSetType::iterator itWV = _dvhWVSet.begin();
+			auto itWV = _dvhWVSet.begin();
 
 			for (; itWV != _dvhWVSet.end(); ++itWV)
 			{
@@ -136,7 +136,7 @@ namespace rttb
 
 		VolumeType DVHSet::getHealthyTissueVolume(DoseTypeGy aDoseAbsolute) const
 		{
-			DVHSetType::const_iterator itHT = _dvhHTSet.begin();
+			auto itHT = _dvhHTSet.begin();
 			VolumeType volume = 0;
 
 			while (itHT != _dvhHTSet.end())
@@ -159,7 +159,7 @@ namespace rttb
 
 		VolumeType DVHSet::getTargetVolume(DoseTypeGy aDoseAbsolute) const
 		{
-			DVHSetType::const_iterator itTV = _dvhTVSet.begin();
+			auto itTV = _dvhTVSet.begin();
 			VolumeType volume = 0;
 
 			while (itTV != _dvhTVSet.end())

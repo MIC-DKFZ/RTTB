@@ -338,7 +338,7 @@ namespace rttb
 
 					if (!aRingMap.empty())
 					{
-						BoostMask::BoostRingMap::iterator findIt = findNearestKey(aRingMap, zIndex, errorConstant);
+						auto findIt = findNearestKey(aRingMap, zIndex, errorConstant);
 
 						//if the z index is found (same slice), add the polygon to vector
 						if (findIt != aRingMap.end())
@@ -366,7 +366,7 @@ namespace rttb
 			BoostMask::BoostRingMap::iterator BoostMask::findNearestKey(BoostMask::BoostRingMap&
 			        aBoostRingMap, double aIndex, double aErrorConstant) const
 			{
-				BoostMask::BoostRingMap::iterator find = aBoostRingMap.find(aIndex);
+				auto find = aBoostRingMap.find(aIndex);
 
 				//if find a key equivalent to aIndex, found
 				if (find != aBoostRingMap.end())
@@ -375,7 +375,7 @@ namespace rttb
 				}
 				else
 				{
-					BoostMask::BoostRingMap::iterator lowerBound = aBoostRingMap.lower_bound(aIndex);
+					auto lowerBound = aBoostRingMap.lower_bound(aIndex);
 
 					//if all keys go before aIndex, check the last key
 					if (lowerBound == aBoostRingMap.end())
@@ -397,7 +397,7 @@ namespace rttb
 						}
 						else
 						{
-							BoostMask::BoostRingMap::iterator lowerBound1 = --lowerBound;//the key before the lower bound
+							auto lowerBound1 = --lowerBound;//the key before the lower bound
 
 							//if the key before the lower bound very close to a Index, found
 							if (std::abs((*lowerBound1).first - aIndex) <= aErrorConstant)
