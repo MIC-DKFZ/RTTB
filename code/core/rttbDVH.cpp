@@ -20,7 +20,7 @@
 */
 
 #include <iterator>
-#include <math.h>
+#include <cmath>
 
 #include "rttbDVH.h"
 #include "rttbException.h"

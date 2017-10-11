@@ -19,9 +19,9 @@
 // @author  $Author$ (last changed by)
 */
 
-#include <stdio.h>
+#include <cstdio>
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 #include <utility>
 
 #include "rttbBioModel.h"

@@ -19,7 +19,7 @@
 // @author  $Author$ (last changed by)
 */
 
-#include <assert.h>
+#include <cassert>
 
 #include "rttbITKImageAccessor.h"
 #include "rttbException.h"

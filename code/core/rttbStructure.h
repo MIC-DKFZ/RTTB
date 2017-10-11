@@ -27,7 +27,7 @@ This class should be universally used independent of the origin of the Structure
 
 
 #include <vector>
-#include <math.h>
+#include <cmath>
 
 #include <boost/shared_ptr.hpp>
 
