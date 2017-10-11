@@ -44,9 +44,9 @@ namespace rttb
 		{
 			std::vector<boost::thread> threads;
 
-			for (size_t i = 0; i < _precomputeVolumeValues.size(); ++i)
+			for (double _precomputeVolumeValue : _precomputeVolumeValues)
 			{
-				double xAbsolute = _precomputeVolumeValues.at(i) * _volume;
+				double xAbsolute = _precomputeVolumeValue * _volume;
 				if (!rttb::core::isKey(_measureCollection->getAllValues(), xAbsolute)) {
 					if (_multiThreading)
 					{
@@ -60,19 +60,19 @@ namespace rttb
 				}				
 			}
 
-			for (unsigned int i = 0; i<threads.size(); i++)
+			for (auto & thread : threads)
 			{
-				threads.at(i).join();
+				thread.join();
 			}
 		}
 		void VolumeToDoseMeasureCollectionCalculator::addPrecomputeVolumeValues(const std::vector<double>& values)
 		{
-			for (size_t i = 0; i < values.size(); ++i) {
-				if (values.at(i) > 1 || values.at(i) < 0) {
+			for (double value : values) {
+				if (value > 1 || value < 0) {
 					throw rttb::core::InvalidParameterException("Values must be between 1 and 0!");
 				}
-				if (!rttb::core::isKey(_precomputeVolumeValues, values.at(i))) {
-					_precomputeVolumeValues.push_back(values.at(i));
+				if (!rttb::core::isKey(_precomputeVolumeValues, value)) {
+					_precomputeVolumeValues.push_back(value);
 				}				
 			}
 		}

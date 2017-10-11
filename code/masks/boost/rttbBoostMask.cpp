@@ -174,9 +174,9 @@ namespace rttb
 				::boost::thread_group threads;
                 auto aMutex = ::boost::make_shared<::boost::shared_mutex>();
 
-				for (unsigned int i = 0; i < polygonMapVector.size(); ++i)
+				for (const auto & i : polygonMapVector)
 				{
-					BoostMaskVoxelizationThread t(polygonMapVector.at(i), _globalBoundingBox,
+					BoostMaskVoxelizationThread t(i, _globalBoundingBox,
                         _voxelizationMap, aMutex, _strict);
 					threads.create_thread(t);
 				}
@@ -240,11 +240,9 @@ namespace rttb
 				double minZ = _geometricInfo->getNumSlices();
 				double maxZ =  0.0;
 
-				for (unsigned int i = 0; i < aRTTBPolygon.size(); i++)
+				for (auto worldCoordinatePoint : aRTTBPolygon)
 				{
-					rttb::WorldCoordinate3D worldCoordinatePoint = aRTTBPolygon.at(i);
-
-					//convert to geometry coordinate polygon
+						//convert to geometry coordinate polygon
 					rttb::DoubleVoxelGridIndex3D geometryCoordinatePoint;
 					_geometricInfo->worldCoordinateToGeometryCoordinate(worldCoordinatePoint, geometryCoordinatePoint);
 
@@ -433,9 +431,9 @@ namespace rttb
 					bool it1IsDonut = false;
 
 					//check if the ring is already determined as a donut
-					for (unsigned int i = 0; i < donutIndexVector.size(); i++)
+					for (unsigned int i : donutIndexVector)
 					{
-						if (donutIndexVector.at(i) == index1)
+						if (i == index1)
 						{
 							it1IsDonut = true;
 							break;
@@ -490,9 +488,9 @@ namespace rttb
 					bool it1IsDonut = false;
 
 					//check if the ring is the outer or inner of a donut
-					for (unsigned int i = 0; i < donutIndexVector.size(); i++)
+					for (unsigned int i : donutIndexVector)
 					{
-						if (donutIndexVector.at(i) == index1)
+						if (i == index1)
 						{
 							it1IsDonut = true;
 							break;

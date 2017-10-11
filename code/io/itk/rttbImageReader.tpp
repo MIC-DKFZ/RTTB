@@ -249,9 +249,9 @@ namespace rttb
 				FileNameString	sTemp = dispatch.getExtension();
 
 				//Convert to lowercase
-				for (FileNameString::iterator spos = sTemp.begin(); spos != sTemp.end(); ++spos)
+				for (char & spos : sTemp)
 				{
-					(*spos) = std::tolower((*spos), std::locale(""));
+					spos = std::tolower(spos, std::locale(""));
 				}
 
 				typedef ::itk::RescaleIntensityImageFilter< InputImageType, InputImageType > RescaleFilterType;
