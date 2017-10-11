@@ -453,7 +453,7 @@ namespace rttb
 			template <typename TInputPixel, typename TOutputPixel, unsigned int iDimension>
 			typename ImageReader<TInputPixel, TOutputPixel, iDimension>::OutputImageType*
 			ImageReader<TInputPixel, TOutputPixel, iDimension>::
-			GetOutput(void)
+			GetOutput()
 			{
 				if (!_upToDate)
 				{

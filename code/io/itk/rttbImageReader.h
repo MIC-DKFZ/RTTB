@@ -183,7 +183,7 @@ namespace rttb
 
 				/** Function loads the image if needed and returns the data.
 				* @return Pointer to loaded image.*/
-				OutputImageType*  GetOutput(void);
+				OutputImageType*  GetOutput();
 
 				/** Function returns the reference to the meta data dictionary(ies) of the latest file(s) loaded by this class.
 				 * Array may be empty if no MetaDictionary exists.*/
