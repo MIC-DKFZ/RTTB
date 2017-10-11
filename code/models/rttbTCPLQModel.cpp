@@ -21,7 +21,7 @@
 
 #include <exception>
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 #include <map>
 
 #include <boost/make_shared.hpp>

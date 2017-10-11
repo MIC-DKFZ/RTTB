@@ -23,7 +23,7 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "rttbDicomDoseAccessor.h"
 #include "rttbNullPointerException.h"

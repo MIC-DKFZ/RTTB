@@ -19,10 +19,10 @@
 // @author  $Author$ (last changed by)
 */
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <sstream>
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "rttbInvalidParameterException.h"
 #include "rttbStructure.h"

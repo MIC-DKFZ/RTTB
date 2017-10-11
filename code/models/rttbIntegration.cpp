@@ -18,7 +18,7 @@
 // @date $Date $ (last change date)
 // @author $Author $ (last changed by)
 */
-#include <math.h>
+#include <cmath>
 #include <vector>
 
 #include "rttbIntegration.h"

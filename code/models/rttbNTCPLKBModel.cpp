@@ -27,7 +27,7 @@
 #include <boost/shared_ptr.hpp>
 
 #define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 
 #include "rttbIntegration.h"
 #include "rttbNTCPLKBModel.h"

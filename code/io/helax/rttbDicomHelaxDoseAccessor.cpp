@@ -26,7 +26,7 @@
 #include "boost/filesystem/path.hpp"
 #include "boost/numeric/ublas/matrix.hpp"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 
 #include "rttbInvalidDoseException.h"
