@@ -83,7 +83,7 @@ namespace rttb
         auto filteredVoxelVectorPointer = ::boost::make_shared<MaskVoxelList>();
 				updateMask();
 				// filter relevant voxels
-				BoostMaskAccessor::MaskVoxelList::iterator it = _spRelevantVoxelVector->begin();
+				auto it = _spRelevantVoxelVector->begin();
 
 				while (it != _spRelevantVoxelVector->end())
 				{
@@ -113,7 +113,7 @@ namespace rttb
 				//determine how a given voxel on the dose grid is masked
 				if (_spRelevantVoxelVector)
 				{
-					BoostMaskAccessor::MaskVoxelList::iterator it = _spRelevantVoxelVector->begin();
+					auto it = _spRelevantVoxelVector->begin();
 
 					while (it != _spRelevantVoxelVector->end())
 					{

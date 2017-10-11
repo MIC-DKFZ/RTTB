@@ -246,7 +246,7 @@ namespace rttb
 
 				boost::trim(dataBuffer.at(1));
 
-				DoseCalcType dvh_i = boost::lexical_cast<DoseCalcType>(dataBuffer.at(1));
+				auto dvh_i = boost::lexical_cast<DoseCalcType>(dataBuffer.at(1));
 
 				data.push_back(dvh_i);
 			}

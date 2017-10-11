@@ -39,8 +39,8 @@ namespace rttb
 			DoseTypeGy resultDose = 0;
 
 			double countVoxels = 0;
-			std::vector<DoseTypeGy>::const_iterator it = _doseVector.begin();
-			std::vector<double>::const_iterator itD = _voxelProportionVector.begin();
+			auto it = _doseVector.begin();
+			auto itD = _voxelProportionVector.begin();
 
 			for (; itD != _voxelProportionVector.end(); ++itD, ++it)
 			{

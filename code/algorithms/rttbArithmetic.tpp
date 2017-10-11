@@ -111,7 +111,7 @@ namespace rttb
 				result->setRelevantVoxelVector(mask1->getRelevantVoxelVector());
 
 				MaskVoxelListPointer voxelListMask2 = mask2->getRelevantVoxelVector();
-				MaskVoxelList::iterator it = voxelListMask2->begin();
+				auto it = voxelListMask2->begin();
 
 				while (it != voxelListMask2->end())
 				{
