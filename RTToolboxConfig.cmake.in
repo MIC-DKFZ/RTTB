@@ -27,3 +27,9 @@ SET(RTToolbox_VERSION_PATCH "@RTToolbox_VERSION_PATCH@")
 
 # The location of the RTToolboxTargets.cmake file.
 SET(RTToolbox_TARGETS_FILE "@RTToolbox_TARGETS_FILE@")
+
+#import targets to find the RTTB libraries as external library
+IF(NOT RTToolbox_TARGETS_IMPORTED)
+  SET(RTToolbox_TARGETS_IMPORTED 1)
+  INCLUDE(${RTToolbox_TARGETS_FILE})
+ENDIF(NOT RTToolbox_TARGETS_IMPORTED)
