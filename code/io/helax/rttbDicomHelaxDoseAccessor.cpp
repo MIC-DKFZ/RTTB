@@ -47,9 +47,9 @@ namespace rttb
 
 			DicomHelaxDoseAccessor::DicomHelaxDoseAccessor(std::vector<DRTDoseIODPtr> aDICOMRTDoseVector)
 			{
-				for (size_t i = 0; i < aDICOMRTDoseVector.size(); i++)
+				for (const auto & i : aDICOMRTDoseVector)
 				{
-					_doseVector.push_back(aDICOMRTDoseVector.at(i));
+					_doseVector.push_back(i);
 				}
 
 				this->begin();
@@ -80,11 +80,9 @@ namespace rttb
 					throw core::InvalidDoseException("Dose grid scaling not readable or = 0!") ;
 				}
 
-				for (size_t i = 0; i < _doseVector.size(); i++)
+				for (auto dose : _doseVector)
 				{
-					DRTDoseIODPtr dose = _doseVector.at(i);
-
-					OFString currentDoseGridScalingStr;
+						OFString currentDoseGridScalingStr;
 					dose->getDoseGridScaling(currentDoseGridScalingStr);
 					double currentDoseGridScaling;
 

@@ -119,10 +119,10 @@ namespace rttb
 				double indexZMin = aIndexZ - 0.5;
 				double indexZMax = aIndexZ + 0.5;
 
-                for (auto it = _voxelizationMap->begin(); it != _voxelizationMap->end(); ++it)
+                for (auto & it : *_voxelizationMap)
 				{
-					double voxelizationPlaneIndexMin = (*it).first - 0.5 * _voxelizationThickness;
-					double voxelizationPlaneIndexMax = (*it).first + 0.5 * _voxelizationThickness;
+					double voxelizationPlaneIndexMin = it.first - 0.5 * _voxelizationThickness;
+					double voxelizationPlaneIndexMax = it.first + 0.5 * _voxelizationThickness;
 					double weight = 0;
 					
 					if ((voxelizationPlaneIndexMin < indexZMin) && (voxelizationPlaneIndexMax > indexZMin))
@@ -148,7 +148,7 @@ namespace rttb
 						}
 					}
 
-					weightVector.insert(std::pair<double, double>(it->first, weight));
+					weightVector.insert(std::pair<double, double>(it.first, weight));
 				}
 			}
 		}

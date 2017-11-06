@@ -45,9 +45,9 @@ namespace rttb
 		{
 			std::vector<boost::thread> threads;
 
-			for (size_t i = 0; i < _precomputeDoseValues.size(); ++i)
+			for (double _precomputeDoseValue : _precomputeDoseValues)
 			{
-				double xAbsolute = _precomputeDoseValues.at(i) * _referenceDose;
+				double xAbsolute = _precomputeDoseValue * _referenceDose;
 				if (!rttb::core::isKey(_measureCollection->getAllValues(), xAbsolute)) {
 					if (_multiThreading)
 					{
@@ -61,20 +61,20 @@ namespace rttb
 				}
 			}
 
-			for (unsigned int i = 0; i<threads.size(); i++)
+			for (auto & thread : threads)
 			{
-				threads.at(i).join();
+				thread.join();
 			}
 		}
 		
 		void DoseToVolumeMeasureCollectionCalculator::addPrecomputeDoseValues(const std::vector<double>& values)
 		{
-			for (size_t i = 0; i < values.size(); ++i) {
-				if (values.at(i) > 1 || values.at(i) < 0) {
+			for (double value : values) {
+				if (value > 1 || value < 0) {
 					throw rttb::core::InvalidParameterException("Values must be between 1 and 0!");
 				}
-				if (!rttb::core::isKey(_precomputeDoseValues, values.at(i))) {
-					_precomputeDoseValues.push_back(values.at(i));
+				if (!rttb::core::isKey(_precomputeDoseValues, value)) {
+					_precomputeDoseValues.push_back(value);
 				}
 			}
 		}

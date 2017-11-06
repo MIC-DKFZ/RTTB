@@ -120,9 +120,9 @@ rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::
 {
     std::vector<io::itk::ITKImageMaskAccessor::ITKMaskImageType::Pointer> listOfITKImages;
 
-    for (int i = 0; i < maskVector.size(); i++)
+    for (const auto & i : maskVector)
     {
-        io::itk::ITKImageMaskAccessorConverter maskAccessorConverter(maskVector.at(i));
+        io::itk::ITKImageMaskAccessorConverter maskAccessorConverter(i);
         maskAccessorConverter.process();
         listOfITKImages.push_back(maskAccessorConverter.getITKImage());
     }
@@ -202,10 +202,10 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
 
         if (appData._addStructures)
         {
-            for (unsigned int i = 0; i < listOfCorrectElements.size(); i++)
+            for (unsigned long listOfCorrectElement : listOfCorrectElements)
             {
                 maskVector.push_back(createMask(appData._dose, appData._struct,
-                    !appData._noStrictVoxelization, listOfCorrectElements.at(i)));
+                    !appData._noStrictVoxelization, listOfCorrectElement));
             }
 
             writeMaskToFile(maskVector, appData._outputFilename, appData._binaryVoxelization);

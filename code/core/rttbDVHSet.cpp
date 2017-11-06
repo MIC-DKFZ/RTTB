@@ -209,9 +209,9 @@ namespace rttb
 		{
 			s << "[ ";
 
-			for (size_t i = 0; i < aDVHSet.size(); i++)
+			for (const auto & i : aDVHSet)
 			{
-				s << aDVHSet.at(i);
+				s << i;
 			}
 
 			s << " ]";
