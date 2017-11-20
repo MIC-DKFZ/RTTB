@@ -18,7 +18,7 @@
 // @date    $Date$ (last change date)
 // @author  $Author$ (last changed by)
 */
-
+#define _USE_MATH_DEFINES
 #include <string>
 #include <vector>
 #include <exception>
@@ -26,7 +26,6 @@
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
-#define _USE_MATH_DEFINES
 #include <cmath>
 
 #include "rttbIntegration.h"
