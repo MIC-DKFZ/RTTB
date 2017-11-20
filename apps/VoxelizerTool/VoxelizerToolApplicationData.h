@@ -56,6 +56,7 @@ namespace rttb
 				bool _binaryVoxelization;
 				bool _addStructures;
 				bool _noStrictVoxelization;
+        LoadingStyleArgType _structFileLoadStyle;
 
 				/*! @brief Resets the variables.
 				*/
