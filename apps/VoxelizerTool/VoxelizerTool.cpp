@@ -96,7 +96,7 @@ int main(int argc, const char** argv)
 
     try
     {
-        appData._struct = rttb::io::utils::loadStruct(appData._structFile, appData._referenceFileLoadStyle, appData._regEx);       
+        appData._struct = rttb::io::utils::loadStruct(appData._structFile, appData._structFileLoadStyle, appData._regEx);
     }
     catch (rttb::core::Exception& e)
     {

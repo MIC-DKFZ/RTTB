@@ -167,8 +167,8 @@ namespace rttb
 					boost::shared_ptr<core::Structure> spStruct = boost::make_shared<core::Structure>(structureVector);
 					StructTypePointer str(spStruct);
 
-            str->setLabel(filteredROIs[refROINumber]);
-            std::cout << filteredROIs[refROINumber].c_str() << std::endl;	
+          str->setLabel(filteredROIs[refROINumber]);
+          std::cout << filteredROIs[refROINumber].c_str() << " read" << std::endl;
 
 					std::stringstream sstr;
 					sstr << structureNo;
