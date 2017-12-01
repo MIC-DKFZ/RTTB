@@ -41,11 +41,11 @@ namespace rttb
 			typedef BioModel::DVHPointer DVHPointer;
 
 		protected:
-			int _numberOfFractions;
+			int _numberOfFractions{0};
 
 		public:
 
-			TCPModel(): BioModel(), _numberOfFractions(0) {};
+			TCPModel(): BioModel() {};
 
 			TCPModel(int aNum): BioModel(), _numberOfFractions(aNum) {};
 

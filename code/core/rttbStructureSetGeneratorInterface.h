@@ -46,11 +46,11 @@ namespace rttb
 
 
 		protected:
-			StructureSetGeneratorInterface(): _activeFilter(false) { };
+			StructureSetGeneratorInterface() { };
 			virtual ~StructureSetGeneratorInterface() {};
 
     private:
-      bool _activeFilter;
+      bool _activeFilter{false};
       std::string _filterRegEx;
 
 		public:

@@ -48,7 +48,7 @@ namespace rttb
 		DoseTypeGy LinearInterpolation::getValue(const WorldCoordinate3D& aWorldCoordinate) const
 		{
 			//proper initialization of target and values
-			std::array<double, 3> target = {0.0, 0.0, 0.0};
+			std::array<double, 3> target = {{0.0, 0.0, 0.0}};
       auto values = boost::make_shared<DoseTypeGy[]>(8);
 			getNeighborhoodVoxelValues(aWorldCoordinate, 8, target, values);
 

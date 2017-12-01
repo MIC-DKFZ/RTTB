@@ -48,12 +48,12 @@ namespace rttb
 		private:
 			/*! The steepness of the dose-response curve. Must not be zero on model evaluation.
 			*/
-			BioModelParamType _m;
+			BioModelParamType _m{0};
 
 			/*! Tumor or normal tissue-specific parameter that describes the dose-volume effect,
 			e.g. -10 for prostate (Wu 2002). Must not be zero on model evaluation, because EUD calculation will fail.
 			*/
-			BioModelParamType _a;
+			BioModelParamType _a{0};
 
 		protected:
 			/*! @brief Calculate the model value
