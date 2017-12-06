@@ -40,7 +40,7 @@ namespace rttb
 	namespace models
 	{
 
-		TCPLQModel::TCPLQModel(): TCPModel(), _alphaMean(0), _alphaVariance(0), _alpha_beta(0), _rho(0) {
+		TCPLQModel::TCPLQModel(): TCPModel() {
 			_name = "TCPLQModel";
 			fillParameterMap();
 		}

@@ -57,7 +57,7 @@ namespace rttb
 				return _invalidDoseValue;
 			}
 
-			DoseAccessorConversionSettingInterface(): _failedOnInvalidID(false), _invalidDoseValue(-1.0) {};
+			DoseAccessorConversionSettingInterface() {};
 			virtual ~DoseAccessorConversionSettingInterface() {};
 
 		private:
@@ -68,8 +68,8 @@ namespace rttb
 
 		protected:
 
-			bool _failedOnInvalidID;
-			DoseTypeGy _invalidDoseValue;
+			bool _failedOnInvalidID{false};
+			DoseTypeGy _invalidDoseValue{-1.0};
 		};
 	}
 }

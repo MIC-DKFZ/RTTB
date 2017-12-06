@@ -74,12 +74,12 @@ namespace rttb
 				/** The file name of the image. */
 				FileNameString  _fileName;
 				/** The upper limit for the searching of series files in the path.*/
-				unsigned int _upperSeriesLimit;
+				unsigned int _upperSeriesLimit{255};
 				/** Indicates if the image data is up to date or should be read again.*/
-				bool _upToDate;
+				bool _upToDate{false};
 				/** Defines if the specified image file is part of a series and the
 				* whole series should be read into one image. Only relevant for 3D images.*/
-				ImageSeriesReadStyle::Type _seriesReadStyle;
+				ImageSeriesReadStyle::Type _seriesReadStyle{ImageSeriesReadStyle::Default};
 
 				unsigned int _loadedDimensions;
 				LoadedPixelType _loadedPixelType;

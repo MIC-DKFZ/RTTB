@@ -102,8 +102,8 @@ namespace itk
     rttb::core::MaskAccessorInterface::MaskVoxelListPointer m_MaskedVoxels;
 
     AccessorPointer m_Accessor;
-    bool m_FailsOnInvalidIDs;
-    OutputImageType::ValueType m_InvalidMaskValue;
+    bool m_FailsOnInvalidIDs{true};
+    OutputImageType::ValueType m_InvalidMaskValue{0};
 	};
 } // end namespace itk
 

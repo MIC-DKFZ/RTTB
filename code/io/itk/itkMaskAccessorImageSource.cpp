@@ -34,7 +34,7 @@ namespace itk
 	* Constructor
 	*/
 	MaskAccessorImageSource
-    ::MaskAccessorImageSource() : m_FailsOnInvalidIDs(true), m_InvalidMaskValue(0)
+    ::MaskAccessorImageSource() 
 	{
 	}
 

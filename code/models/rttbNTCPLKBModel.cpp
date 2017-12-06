@@ -40,7 +40,7 @@ namespace rttb
 
 	namespace models
 	{
-		NTCPLKBModel::NTCPLKBModel() : NTCPModel(), _m(0), _a(0){
+		NTCPLKBModel::NTCPLKBModel() : NTCPModel(){
 			_name = "NTCPLKBModel";
 			fillParameterMap();
 		}

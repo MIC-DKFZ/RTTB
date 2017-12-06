@@ -33,7 +33,7 @@ namespace rttb
 
 	namespace models
 	{
-		NTCPRSModel::NTCPRSModel() : NTCPModel(), _gamma(0), _s(0){
+		NTCPRSModel::NTCPRSModel() : NTCPModel() {
 			_name = "NTCPRSModel";
 			fillParameterMap();
 		}

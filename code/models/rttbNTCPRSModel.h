@@ -48,12 +48,12 @@ namespace rttb
 			/*! _gamma The normalised dose-response gradient, values between 1.7 and 2.0 are typical for human tumours.
 			(Kaellman 1992)
 			*/
-			BioModelParamType _gamma;
+			BioModelParamType _gamma{0};
 
 			/*! _s The relative seriality factor, e.g. s=3.4 for the esophagus (highly serial structure) and s=0.0061
 			for the lung(highly parallel structure). Must not be zero on model evaluation.
 			*/
-			BioModelParamType _s;
+			BioModelParamType _s{0};
 
 			const double poissonModel(const double dose);
 

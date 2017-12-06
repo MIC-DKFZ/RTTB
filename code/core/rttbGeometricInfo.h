@@ -45,16 +45,16 @@ namespace rttb
 		{
 
 		private:
-			WorldCoordinate3D _imagePositionPatient;
+      WorldCoordinate3D _imagePositionPatient{ 0 };
 
-			OrientationMatrix _orientationMatrix;
-			OrientationMatrix _invertedOrientationMatrix;
+      OrientationMatrix _orientationMatrix{ 0 };
+      OrientationMatrix _invertedOrientationMatrix{ 0 };
 
-			SpacingVectorType3D _spacing;
+      SpacingVectorType3D _spacing{ 0 };
 
-			VoxelGridDimensionType _numberOfColumns;
-			VoxelGridDimensionType _numberOfRows;
-			VoxelGridDimensionType _numberOfFrames;
+			VoxelGridDimensionType _numberOfColumns{0};
+			VoxelGridDimensionType _numberOfRows{0};
+			VoxelGridDimensionType _numberOfFrames{0};
 
 			/* @brief Matrix inversion routine.
 			   Uses lu_factorize and lu_substitute in uBLAS to invert a matrix
@@ -66,8 +66,7 @@ namespace rttb
 			/*! @brief Constructor, initializes orientation matrix, spacing vector and patient
 				position with zeros.
 			*/
-			GeometricInfo() : _imagePositionPatient(0), _orientationMatrix(0), _spacing(0), _numberOfColumns(0),
-				_numberOfRows(0), _numberOfFrames(0)
+      GeometricInfo()
 			{}
 
 			void setSpacing(const SpacingVectorType3D& aSpacingVector);

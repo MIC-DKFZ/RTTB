@@ -47,7 +47,7 @@ namespace rttb
 		protected:
 			DVHPointer _dvh;
 
-			BioModelValueType _value;
+			BioModelValueType _value{0};
 
 			/*! @brief Calculate the model value
 				@param doseFactor scaling factor for the dose. The model calculation will use the dvh with each di=old
@@ -63,7 +63,7 @@ namespace rttb
 
 
 		public:
-			BioModel(): _value(0) {};
+			BioModel() {};
 			BioModel(DVHPointer aDvh): _dvh(aDvh), _value(0) {};
             virtual ~BioModel(){};
 
