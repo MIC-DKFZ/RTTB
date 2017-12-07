@@ -223,8 +223,8 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
             for (unsigned int i = 0; i < maxIterationCount; i++)
             {
                 std::cout << "creating mask...";
-                maskVector.push_back(createMask(appData._dose, appData._struct,
-                    !appData._noStrictVoxelization, listOfCorrectElements.at(i)));
+                auto currentMask = createMask(appData._dose, appData._struct,
+                    !appData._noStrictVoxelization, listOfCorrectElements.at(i));
                 std::cout << "done" << std::endl;
                 std::string labelOfInterest = rttb::masks::VOIindexIdentifier::getVoiNameByIndex(appData._struct, i);
                 removeSpecialCharacters(labelOfInterest);
@@ -238,7 +238,8 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
                     std::string fileEnding = getFileEnding(appData._outputFilename);
                     outputName = fileName + "_" + labelOfInterest + fileEnding;
                 }
-                writeMaskToFile(maskVector, outputName, appData._binaryVoxelization);
+                std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer> currenMaskVector{ currentMask };
+                writeMaskToFile(currenMaskVector, outputName, appData._binaryVoxelization);
             }
         }
     }
