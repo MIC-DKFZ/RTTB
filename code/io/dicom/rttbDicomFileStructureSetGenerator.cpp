@@ -50,9 +50,7 @@ namespace rttb
 
 
 			DicomFileStructureSetGenerator::~DicomFileStructureSetGenerator()
-			{
-
-			}
+			= default;
 
 			DicomFileStructureSetGenerator::StructureSetPointer
 			DicomFileStructureSetGenerator::generateStructureSet()

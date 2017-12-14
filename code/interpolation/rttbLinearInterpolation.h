@@ -43,7 +43,7 @@ namespace rttb
 		public:
 			/*! @brief Constructor
 			*/
-			LinearInterpolation() {};
+			LinearInterpolation() = default;;
 			/*! @brief Returns the interpolated value
 			*/
 			DoseTypeGy getValue(const WorldCoordinate3D& aWorldCoordinate) const override;

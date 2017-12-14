@@ -52,8 +52,7 @@ namespace rttb
 
 
 			BoostMaskAccessor::~BoostMaskAccessor()
-			{
-			};
+			= default;;
 
 			void BoostMaskAccessor::updateMask()
 			{

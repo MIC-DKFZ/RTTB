@@ -77,7 +77,7 @@ namespace rttb
 
 			/*! @brief Virtual destructor of base class
 			*/
-			~MappableDoseAccessorInterface() override {};
+			~MappableDoseAccessorInterface() override = default;;
 
 			inline const core::GeometricInfo& getGeometricInfo() const override
 			{

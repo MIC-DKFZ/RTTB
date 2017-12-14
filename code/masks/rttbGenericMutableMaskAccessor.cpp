@@ -48,7 +48,7 @@ namespace rttb
 			_maskUID = "GenericMutableMask_" + ss.str();
 		}
 
-		GenericMutableMaskAccessor::~GenericMutableMaskAccessor() {}
+		GenericMutableMaskAccessor::~GenericMutableMaskAccessor() = default;
 
 		void GenericMutableMaskAccessor::updateMask() {}
 

@@ -35,8 +35,7 @@ namespace itk
 	*/
 	MaskAccessorImageSource
     ::MaskAccessorImageSource() 
-	{
-	}
+	= default;
 
 	void
 	MaskAccessorImageSource

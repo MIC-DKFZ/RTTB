@@ -42,7 +42,7 @@ namespace rttb
 		public:
 			IndexOutOfBoundsException(const std::string& aWhat): Exception(aWhat) {}
 
-			~IndexOutOfBoundsException() throw() override {}
+			~IndexOutOfBoundsException() throw() override = default;
 
 			/*! @brief Get the exception description
 			*/

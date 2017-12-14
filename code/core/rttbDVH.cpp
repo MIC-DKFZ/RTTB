@@ -32,7 +32,7 @@ namespace rttb
 	namespace core
 	{
 
-		DVH::~DVH() {}
+		DVH::~DVH() = default;
 
 		DVH::DVH(const DataDifferentialType& aDataDifferential, const DoseTypeGy& aDeltaD,
 		         const DoseVoxelVolumeType& aDeltaV,

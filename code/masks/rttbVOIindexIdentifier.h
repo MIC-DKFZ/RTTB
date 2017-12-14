@@ -45,8 +45,8 @@ namespace rttb
 
 		public:
 
-			VOIindexIdentifier() {}
-			virtual ~VOIindexIdentifier() {}
+			VOIindexIdentifier() = default;
+			virtual ~VOIindexIdentifier() = default;
 
 
 			/*!@brief get indices of all VOI that agree with the regex

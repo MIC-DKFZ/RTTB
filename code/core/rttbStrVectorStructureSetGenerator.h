@@ -51,7 +51,7 @@ namespace rttb
 			IDType _patientUID;
 			std::vector<StructTypePointer> _strVector;
 
-			StrVectorStructureSetGenerator() {};
+			StrVectorStructureSetGenerator() = default;;
 
 
 		public:

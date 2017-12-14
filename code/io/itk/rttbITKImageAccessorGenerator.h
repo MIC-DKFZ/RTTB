@@ -50,7 +50,7 @@ namespace rttb
 				ITKImageAccessorGenerator();
 
 			public:
-				~ITKImageAccessorGenerator() override {};
+				~ITKImageAccessorGenerator() override = default;;
 
 				/*!
 				@pre aDoseImage must point to a valid instance.

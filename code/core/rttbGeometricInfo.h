@@ -67,7 +67,7 @@ namespace rttb
 				position with zeros.
 			*/
       GeometricInfo()
-			{}
+			= default;
 
 			void setSpacing(const SpacingVectorType3D& aSpacingVector);
 

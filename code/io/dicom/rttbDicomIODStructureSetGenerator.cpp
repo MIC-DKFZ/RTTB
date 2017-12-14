@@ -182,8 +182,7 @@ namespace rttb
       }
 
 			DicomIODStructureSetGenerator::~DicomIODStructureSetGenerator()
-			{
-			}
+			= default;
 
 			DicomIODStructureSetGenerator::StructureSetPointer
 			DicomIODStructureSetGenerator::generateStructureSet()

@@ -40,7 +40,7 @@ namespace rttb
 		public:
 			/*! @brief Constructor
 			*/
-			NearestNeighborInterpolation() {};
+			NearestNeighborInterpolation() = default;;
 
 			/*! @brief Returns the interpolated value (the nearest voxel value given by _spOriginalData->getGeometricInfo().worldCoordinateToIndex())
 			*/

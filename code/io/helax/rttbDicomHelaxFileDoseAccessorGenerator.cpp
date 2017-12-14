@@ -40,7 +40,7 @@ namespace rttb
 	{
 		namespace helax
 		{
-			DicomHelaxFileDoseAccessorGenerator::~DicomHelaxFileDoseAccessorGenerator() {}
+			DicomHelaxFileDoseAccessorGenerator::~DicomHelaxFileDoseAccessorGenerator() = default;
 
 			DicomHelaxFileDoseAccessorGenerator::DicomHelaxFileDoseAccessorGenerator(
 			    FileNameType aDICOMRTDoseDirName)

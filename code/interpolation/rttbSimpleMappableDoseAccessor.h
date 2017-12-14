@@ -60,7 +60,7 @@ namespace rttb
 
 			/*! @brief Virtual destructor of class
 			*/
-			~SimpleMappableDoseAccessor() override {};
+			~SimpleMappableDoseAccessor() override = default;;
 			/*! @brief Returns the dose for a given voxel grid id. Plain trilinear interpolation is performed.
 				@sa getDoseAt(const VoxelGridIndex3D& aIndex)
 			*/

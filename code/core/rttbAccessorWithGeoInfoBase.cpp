@@ -35,12 +35,10 @@ namespace rttb
 		}
 
 		AccessorWithGeoInfoBase::~AccessorWithGeoInfoBase()
-		{
-		}
+		= default;
 
 		AccessorWithGeoInfoBase::AccessorWithGeoInfoBase()
-		{
-		}
+		= default;
 
 	}
 }

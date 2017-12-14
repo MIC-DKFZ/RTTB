@@ -42,7 +42,7 @@ namespace rttb
 			public:
 				ITKException(const std::string& aWhat): Exception(aWhat) {}
 
-				~ITKException() throw() override {}
+				~ITKException() throw() override = default;
 
 				/*! @brief Get the exception description
 				*/
