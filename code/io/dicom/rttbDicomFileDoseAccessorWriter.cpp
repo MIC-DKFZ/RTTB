@@ -65,7 +65,7 @@ namespace rttb
 				/* ----------------------------------------------------------------- */
 				OFString CreationUID(_doseAccessor->getUID().c_str());
 				_dataset->putAndInsertString(DCM_ImageType,
-				                             "DERIVED\\SECONDARY\\REFORMATTED");
+				                             R"(DERIVED\SECONDARY\REFORMATTED)");
 				_dataset->putAndInsertOFStringArray(DCM_InstanceCreationDate,
 				                                    "");//Creation Date
 				_dataset->putAndInsertOFStringArray(DCM_InstanceCreationTime,
@@ -116,20 +116,20 @@ namespace rttb
 
 				/* GCS FIX: PatientOrientation */
 				std::ostringstream sstr;
-				sstr << geometricInfo.getImagePositionPatient().x() << "\\" <<
+				sstr << geometricInfo.getImagePositionPatient().x() << R"(\)" <<
 				     geometricInfo.getImagePositionPatient().y()
-				     << "\\" << geometricInfo.getImagePositionPatient().z();
+				     << R"(\)" << geometricInfo.getImagePositionPatient().z();
 				_dataset->putAndInsertString(DCM_PatientOrientation, "L/P");
 				_dataset->putAndInsertString(DCM_ImagePositionPatient, sstr.str().c_str());
 
         auto orientationMatrix = geometricInfo.getOrientationMatrix();
 
 				sstr.str("");
-				sstr << orientationMatrix(0,0) << "\\"
-				     << orientationMatrix(1,0) << "\\"
-				     << orientationMatrix(2,0) << "\\"
-				     << orientationMatrix(0,1) << "\\"
-				     << orientationMatrix(1,1) << "\\"
+				sstr << orientationMatrix(0,0) << R"(\)"
+				     << orientationMatrix(1,0) << R"(\)"
+				     << orientationMatrix(2,0) << R"(\)"
+				     << orientationMatrix(0,1) << R"(\)"
+				     << orientationMatrix(1,1) << R"(\)"
 				     << orientationMatrix(2,1);
 
 				_dataset->putAndInsertString(DCM_ImageOrientationPatient, sstr.str().c_str());
@@ -149,7 +149,7 @@ namespace rttb
 				_dataset->putAndInsertUint16(DCM_Rows, static_cast<Uint16>(geometricInfo.getNumRows()));
 				_dataset->putAndInsertUint16(DCM_Columns, static_cast<Uint16>(geometricInfo.getNumColumns()));
 				sstr.str("");
-				sstr << geometricInfo.getSpacing()(1) << "\\" << geometricInfo.getSpacing()(0);
+				sstr << geometricInfo.getSpacing()(1) << R"(\)" << geometricInfo.getSpacing()(0);
 				_dataset->putAndInsertString(DCM_PixelSpacing, sstr.str().c_str());
 
 				_dataset->putAndInsertString(DCM_BitsAllocated, "32");
@@ -164,7 +164,7 @@ namespace rttb
 
 				for (unsigned int i = 1; i < geometricInfo.getNumSlices(); i++)
 				{
-					sstr << "\\" <<  i* geometricInfo.getSpacing()(2);
+					sstr << R"(\)" <<  i* geometricInfo.getSpacing()(2);
 				}
 
 				_dataset->putAndInsertString(DCM_GridFrameOffsetVector, sstr.str().c_str());
