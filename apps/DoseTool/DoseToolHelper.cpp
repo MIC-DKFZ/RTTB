@@ -79,8 +79,7 @@ rttb::apps::doseTool::generateMasks(
 
 		for (size_t i = 0; i < appData._structIndices.size(); i++)
 		{
-			maskAccessorPtrVector.push_back(
-			    boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+			maskAccessorPtrVector.emplace_back(boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
 			    (appData._struct->getStructure(appData._structIndices.at(i)), appData._dose->getGeometricInfo(),
 			     strict));
 			maskAccessorPtrVector.at(i)->updateMask();
