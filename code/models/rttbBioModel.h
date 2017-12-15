@@ -63,9 +63,9 @@ namespace rttb
 
 
 		public:
-			BioModel() {};
+			BioModel() = default;
 			BioModel(DVHPointer aDvh): _dvh(aDvh), _value(0) {};
-            virtual ~BioModel(){};
+            virtual ~BioModel()= default;
 
 			/*! @brief Start the calculation. If any parameter changed, init() should be called again and return =true
 				before getValue() is called!

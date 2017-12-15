@@ -37,7 +37,7 @@ namespace rttb
 		{
 
 
-			DicomIODDoseAccessorGenerator::~DicomIODDoseAccessorGenerator() {}
+			DicomIODDoseAccessorGenerator::~DicomIODDoseAccessorGenerator() = default;
 
 			DicomIODDoseAccessorGenerator::DicomIODDoseAccessorGenerator(DRTDoseIODPtr aDRTDoseIODP)
 			{

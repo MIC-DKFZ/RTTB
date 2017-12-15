@@ -41,8 +41,7 @@ namespace rttb
 		{
 
 			DicomHelaxDoseAccessor::~DicomHelaxDoseAccessor()
-			{
-			}
+			= default;
 
 
 			DicomHelaxDoseAccessor::DicomHelaxDoseAccessor(std::vector<DRTDoseIODPtr> aDICOMRTDoseVector)

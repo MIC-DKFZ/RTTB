@@ -80,7 +80,7 @@ namespace rttb
 
 		}
 
-		DVHCalculator::~DVHCalculator() {}
+		DVHCalculator::~DVHCalculator() = default;
 
 		DVHCalculator::DVHPointer DVHCalculator::generateDVH()
 		{

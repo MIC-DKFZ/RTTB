@@ -38,7 +38,7 @@ namespace rttb
 		namespace dicom
 		{
 
-			DicomFileDoseAccessorGenerator::~DicomFileDoseAccessorGenerator() {}
+			DicomFileDoseAccessorGenerator::~DicomFileDoseAccessorGenerator() = default;
 
 
 			DicomFileDoseAccessorGenerator::DicomFileDoseAccessorGenerator(FileNameType aDICOMRTDoseFileName)

@@ -47,8 +47,7 @@ namespace rttb
             }
 
             DoseStatisticsXMLReader::~DoseStatisticsXMLReader()
-            {
-            }
+            = default;
 
 
             void DoseStatisticsXMLReader::setFilename(const std::string& filename)

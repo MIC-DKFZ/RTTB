@@ -44,8 +44,8 @@ namespace rttb
 
 
 		protected:
-			MaskAccessorProcessorInterface() {};
-			virtual ~MaskAccessorProcessorInterface() {};
+			MaskAccessorProcessorInterface() = default;
+			virtual ~MaskAccessorProcessorInterface() = default;
 
 		public:
 

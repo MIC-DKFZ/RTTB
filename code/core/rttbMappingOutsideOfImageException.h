@@ -43,7 +43,7 @@ namespace rttb
 		public:
 			MappingOutsideOfImageException(const std::string& aWhat): Exception(aWhat) {}
 
-			~MappingOutsideOfImageException() throw() override {}
+			~MappingOutsideOfImageException() throw() override = default;
 
 			/*! @brief Get the exception description
 			*/

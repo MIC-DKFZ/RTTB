@@ -48,8 +48,8 @@ namespace rttb
 			                                 MaskAccessorInterface&);//not implemented on purpose -> non-copyable
 
 		public:
-			MaskAccessorInterface() {};
-			~MaskAccessorInterface() override {};
+			MaskAccessorInterface() = default;
+			~MaskAccessorInterface() override = default;
 
 			/*! @brief Start generation of mask
 			@post mask is valid and acessible

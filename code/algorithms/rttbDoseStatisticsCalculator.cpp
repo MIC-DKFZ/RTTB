@@ -58,9 +58,7 @@ namespace rttb
 
 
 		DoseStatisticsCalculator::~DoseStatisticsCalculator()
-		{
-
-		}
+		= default;
 
 		DoseStatisticsCalculator::DoseIteratorPointer DoseStatisticsCalculator::getDoseIterator() const
 		{

@@ -42,7 +42,7 @@ namespace rttb
 		public:
 			InvalidDoseException(const std::string& aWhat): Exception(aWhat) {}
 
-			~InvalidDoseException() throw() override {}
+			~InvalidDoseException() throw() override = default;
 
 			/*! @brief Get the exception description
 			*/

@@ -45,7 +45,7 @@ namespace rttb
 				_resetFile = true;
 			}
 
-			DVHTxtFileReader::~DVHTxtFileReader() {}
+			DVHTxtFileReader::~DVHTxtFileReader() = default;
 
 			void DVHTxtFileReader::resetFileName(FileNameString aFileName)
 			{

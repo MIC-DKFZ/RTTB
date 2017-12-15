@@ -44,8 +44,8 @@ namespace rttb
 
 
 		protected:
-			DoseAccessorProcessorInterface() {};
-			virtual ~DoseAccessorProcessorInterface() {};
+			DoseAccessorProcessorInterface() = default;
+			virtual ~DoseAccessorProcessorInterface() = default;
 
 		public:
 

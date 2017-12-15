@@ -42,7 +42,7 @@ namespace rttb
 				_resetFile = true;
 			}
 
-			DVHXMLFileReader::~DVHXMLFileReader() {}
+			DVHXMLFileReader::~DVHXMLFileReader() = default;
 
 			void DVHXMLFileReader::resetFileName(FileNameString aFileName)
 			{

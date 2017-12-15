@@ -41,9 +41,7 @@ namespace rttb
 		{
 
 			DicomDoseAccessor::~DicomDoseAccessor()
-			{
-
-			}
+			= default;
 
 			DicomDoseAccessor::DicomDoseAccessor(DRTDoseIODPtr aDRTDoseIODP, DcmItemPtr aDcmDataset)
 			{

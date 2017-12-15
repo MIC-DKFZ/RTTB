@@ -58,7 +58,7 @@ namespace rttb
 
 			/*! @brief Virtual destructor.
 			*/
-			~RosuMappableDoseAccessor() override {};
+			~RosuMappableDoseAccessor() override = default;
 
 			GenericValueType getValueAt(const VoxelGridID aID) const override;
 

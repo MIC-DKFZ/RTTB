@@ -42,7 +42,7 @@ namespace rttb
 			public:
 				DcmrtException(const std::string& aWhat): Exception(aWhat) {}
 
-				~DcmrtException() throw() override {}
+				~DcmrtException() throw() override = default;
 
 				/*! @brief Get the exception description
 				*/

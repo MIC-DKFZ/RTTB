@@ -31,7 +31,7 @@ namespace rttb
 		namespace helax
 		{
 
-			DicomHelaxIODVecDoseAccessorGenerator::~DicomHelaxIODVecDoseAccessorGenerator() {}
+			DicomHelaxIODVecDoseAccessorGenerator::~DicomHelaxIODVecDoseAccessorGenerator() = default;
 
 			DicomHelaxIODVecDoseAccessorGenerator::DicomHelaxIODVecDoseAccessorGenerator(
 			    std::vector<DRTDoseIODPtr>&

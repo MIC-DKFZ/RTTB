@@ -57,8 +57,8 @@ namespace rttb
 				return _invalidDoseValue;
 			}
 
-			DoseAccessorConversionSettingInterface() {};
-			virtual ~DoseAccessorConversionSettingInterface() {};
+			DoseAccessorConversionSettingInterface() = default;
+			virtual ~DoseAccessorConversionSettingInterface() = default;
 
 		private:
 			DoseAccessorConversionSettingInterface(const

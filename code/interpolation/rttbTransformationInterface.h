@@ -43,11 +43,11 @@ namespace rttb
 		protected:
 			/*! @brief Constructor
 			*/
-			TransformationInterface() {};
+			TransformationInterface() = default;
 
 			/*! @brief Virtual destructor of interface class
 			*/
-			virtual ~TransformationInterface() {};
+			virtual ~TransformationInterface() = default;
 		public:
 			/*! @brief performs a transformation targetImage --> movingImage
 			*/

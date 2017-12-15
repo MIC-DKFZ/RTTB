@@ -32,9 +32,7 @@ namespace rttb
 		namespace itk
 		{
 			ITKImageAccessor::~ITKImageAccessor()
-			{
-
-			}
+			= default;
 
 			ITKImageAccessor::ITKImageAccessor(ITKImageType::ConstPointer image)
 			{

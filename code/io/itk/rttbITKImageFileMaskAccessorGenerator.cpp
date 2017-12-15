@@ -35,9 +35,7 @@ namespace rttb
 		namespace itk
 		{
 			ITKImageFileMaskAccessorGenerator::~ITKImageFileMaskAccessorGenerator()
-			{
-
-			}
+			= default;
 
 			ITKImageFileMaskAccessorGenerator::ITKImageFileMaskAccessorGenerator(const FileNameType& fileName)
 			{

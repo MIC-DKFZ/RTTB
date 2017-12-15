@@ -43,7 +43,7 @@ namespace rttb
 		public:
 			DataNotAvailableException(const std::string& aWhat) : Exception(aWhat) {}
 
-			~DataNotAvailableException() throw() override {}
+			~DataNotAvailableException() throw() override = default;
 
 			/*! @brief Get the exception description
 			*/
