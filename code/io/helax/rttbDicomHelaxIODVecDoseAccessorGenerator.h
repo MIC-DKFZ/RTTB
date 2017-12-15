@@ -49,7 +49,7 @@ namespace rttb
 			private:
 				std::vector<DRTDoseIODPtr> _dosePtrVector;
 
-				DicomHelaxIODVecDoseAccessorGenerator();
+				DicomHelaxIODVecDoseAccessorGenerator() = delete;
 
 			public:
 				~DicomHelaxIODVecDoseAccessorGenerator() override;

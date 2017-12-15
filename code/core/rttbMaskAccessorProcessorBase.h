@@ -42,9 +42,9 @@ namespace rttb
 
 		private:
 			MaskAccessorProcessorBase(const
-			                          MaskAccessorProcessorBase&); //not implemented on purpose -> non-copyable
+			                          MaskAccessorProcessorBase&) = delete; //not implemented on purpose -> non-copyable
 			MaskAccessorProcessorBase& operator=(const
-			                                     MaskAccessorProcessorBase&);//not implemented on purpose -> non-copyable
+			                                     MaskAccessorProcessorBase&) = delete;//not implemented on purpose -> non-copyable
 
 		protected:
 			MaskAccessorProcessorBase() = default;

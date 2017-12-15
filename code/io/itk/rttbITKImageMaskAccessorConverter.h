@@ -57,9 +57,9 @@ namespace rttb
 
 			private:
 				ITKImageMaskAccessorConverter(const
-				                              ITKImageMaskAccessorConverter&); //not implemented on purpose -> non-copyable
+				                              ITKImageMaskAccessorConverter&) = delete; //not implemented on purpose -> non-copyable
 				ITKImageMaskAccessorConverter& operator=(const
-				        ITKImageMaskAccessorConverter&);//not implemented on purpose -> non-copyable
+				        ITKImageMaskAccessorConverter&) = delete;//not implemented on purpose -> non-copyable
 
 				ITKImageMaskAccessor::ITKMaskImageType::Pointer _itkImage;
 

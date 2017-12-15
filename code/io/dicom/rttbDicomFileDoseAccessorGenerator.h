@@ -46,7 +46,7 @@ namespace rttb
 			private:
 				FileNameType _dicomDoseFileName;
 
-				DicomFileDoseAccessorGenerator();
+				DicomFileDoseAccessorGenerator() = delete;
 
 
 			protected:

@@ -50,9 +50,9 @@ namespace rttb
 			VoxelGridID _currentDoseVoxelGridID;
 			DoseVoxelVolumeType _currentVoxelVolume;
 
-			GenericDoseIterator(const GenericDoseIterator&); //not implemented on purpose -> non-copyable
+			GenericDoseIterator(const GenericDoseIterator&) = delete; //not implemented on purpose -> non-copyable
 			GenericDoseIterator& operator=(const
-			                               GenericDoseIterator&);//not implemented on purpose -> non-copyable
+			                               GenericDoseIterator&) = delete;//not implemented on purpose -> non-copyable
 
 		public:
 

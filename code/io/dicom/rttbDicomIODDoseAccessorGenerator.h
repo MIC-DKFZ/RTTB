@@ -49,7 +49,7 @@ namespace rttb
 			private:
 				DRTDoseIODPtr _doseIODPtr;
 
-				DicomIODDoseAccessorGenerator();
+				DicomIODDoseAccessorGenerator() = delete;
 
 
 			public:
