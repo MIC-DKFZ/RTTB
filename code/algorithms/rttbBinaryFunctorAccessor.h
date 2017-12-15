@@ -56,7 +56,7 @@ namespace rttb
 
 			/*! @brief Virtual destructor
 			*/
-			~BinaryFunctorAccessor() override = default;;
+			~BinaryFunctorAccessor() override = default;
 
 			/*! @pre: the geometricInfo of both doseAccessors are equal
 			*/

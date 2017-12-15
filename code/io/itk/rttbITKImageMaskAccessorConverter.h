@@ -53,7 +53,7 @@ namespace rttb
 				}
 
 				ITKImageMaskAccessorConverter(MaskAccessorPointer accessor);
-				~ITKImageMaskAccessorConverter() override = default;;
+				~ITKImageMaskAccessorConverter() override = default;
 
 			private:
 				ITKImageMaskAccessorConverter(const

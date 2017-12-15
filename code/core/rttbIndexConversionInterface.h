@@ -39,8 +39,8 @@ namespace rttb
 			                                    IndexConversionInterface&);//not implemented on purpose -> non-copyable
 
 		public:
-			IndexConversionInterface() = default;;
-			virtual ~IndexConversionInterface() = default;;
+			IndexConversionInterface() = default;
+			virtual ~IndexConversionInterface() = default;
 
 		};
 	}

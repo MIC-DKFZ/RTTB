@@ -49,8 +49,8 @@ namespace rttb
 			                                     DoseAccessorProcessorBase&);//not implemented on purpose -> non-copyable
 
 		protected:
-			DoseAccessorProcessorBase() = default;;
-			~DoseAccessorProcessorBase() override = default;;
+			DoseAccessorProcessorBase() = default;
+			~DoseAccessorProcessorBase() override = default;
 
 			/*! @brief Dose accessor which should be generated */
 			DoseAccessorPointer _doseAccessor;

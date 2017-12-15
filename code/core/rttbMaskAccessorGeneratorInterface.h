@@ -45,8 +45,8 @@ namespace rttb
 
 
 		protected:
-			MaskAccessorGeneratorInterface() = default;;
-			virtual ~MaskAccessorGeneratorInterface() = default;;
+			MaskAccessorGeneratorInterface() = default;
+			virtual ~MaskAccessorGeneratorInterface() = default;
 
 		public:
 

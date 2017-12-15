@@ -46,11 +46,11 @@ namespace rttb
 
 			/*! @brief Constructor
 			*/
-			InterpolationBase() = default;;
+			InterpolationBase() = default;
 
 			/*! @brief Virtual destructor of base class
 			*/
-			virtual ~InterpolationBase() = default;;
+			virtual ~InterpolationBase() = default;
 
 			/*! @brief Sets the AccessorPointer
 				@pre originalData initialized

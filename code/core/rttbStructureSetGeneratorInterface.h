@@ -46,8 +46,8 @@ namespace rttb
 
 
 		protected:
-			StructureSetGeneratorInterface() = default;;
-			virtual ~StructureSetGeneratorInterface() = default;;
+			StructureSetGeneratorInterface() = default;
+			virtual ~StructureSetGeneratorInterface() = default;
 
     private:
       bool _activeFilter{false};

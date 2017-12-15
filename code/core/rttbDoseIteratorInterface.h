@@ -45,7 +45,7 @@ namespace rttb
 			DoseIteratorInterface(const DoseIteratorInterface&); //not implemented on purpose -> non-copyable
 			DoseIteratorInterface& operator=(const
 			                                 DoseIteratorInterface&);//not implemented on purpose -> non-copyable
-			DoseIteratorInterface() = default;;
+			DoseIteratorInterface() = default;
 
 		protected:
 			/*! @brief DoseAccessor to get access to actual dose data */
@@ -56,7 +56,7 @@ namespace rttb
 			*/
 			DoseIteratorInterface(DoseAccessorPointer aDoseAccessor);
 
-			virtual ~DoseIteratorInterface() = default;;
+			virtual ~DoseIteratorInterface() = default;
 
 			/*! @brief Set the iterator to the start of the dose.
 			*/

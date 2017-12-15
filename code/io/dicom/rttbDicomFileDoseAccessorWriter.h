@@ -50,7 +50,7 @@ namespace rttb
 				*/
 				DicomFileDoseAccessorWriter();
 
-				~DicomFileDoseAccessorWriter() override = default;;
+				~DicomFileDoseAccessorWriter() override = default;
 
 				/*! Set a file name to write the dose
 				@param aFileName a file name to write the dose

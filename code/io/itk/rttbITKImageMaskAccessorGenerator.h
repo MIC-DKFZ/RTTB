@@ -47,7 +47,7 @@ namespace rttb
 				ITKImageMaskAccessorGenerator();
 
 			public:
-				~ITKImageMaskAccessorGenerator() override = default;;
+				~ITKImageMaskAccessorGenerator() override = default;
 
 				/*!
 				@pre aMaskImage must point to a valid instance.

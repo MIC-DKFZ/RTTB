@@ -48,8 +48,8 @@ namespace rttb
 			                             AccessorInterface&);//not implemented on purpose -> non-copyable
 
 		public:
-			AccessorInterface() = default;;
-			~AccessorInterface() override = default;;
+			AccessorInterface() = default;
+			~AccessorInterface() override = default;
 
 			/*! @brief test if given ID is inside current dose grid
 			*/

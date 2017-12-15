@@ -492,7 +492,7 @@ namespace rttb
 			template <typename TInputPixel, typename TOutputPixel, unsigned int iDimension>
 			ImageReader<TInputPixel, TOutputPixel, iDimension>::
 			~ImageReader()
-			= default;;
+			= default;
 
 
 			template <typename TInputPixel, typename TOutputPixel, unsigned int iDimension>

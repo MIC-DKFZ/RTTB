@@ -57,7 +57,7 @@ namespace rttb
 				IDType _UID;
 				DICOMRTFileNameString _fileName;
 
-				DicomFileStructureSetGenerator() = default;;
+				DicomFileStructureSetGenerator() = default;
 
 			public:
 

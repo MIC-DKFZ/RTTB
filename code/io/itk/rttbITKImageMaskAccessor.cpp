@@ -45,7 +45,7 @@ namespace rttb
 
 
 			ITKImageMaskAccessor::~ITKImageMaskAccessor()
-			= default;;
+			= default;
 
 			bool ITKImageMaskAccessor::assembleGeometricInfo()
 			{

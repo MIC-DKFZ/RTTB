@@ -53,7 +53,7 @@ namespace rttb
 
 
 		public:
-			virtual ~StructureSet() = default;;
+			virtual ~StructureSet() = default;
 
 			/*! @brief Constructor
 				@param aPatientUID the patient UID.

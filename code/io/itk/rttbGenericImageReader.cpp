@@ -287,7 +287,7 @@ namespace rttb
 
 			GenericImageReader::
 			~GenericImageReader()
-			= default;;
+			= default;
 
 			const GenericImageReader::MetaDataDictionaryArrayType&
 			GenericImageReader::

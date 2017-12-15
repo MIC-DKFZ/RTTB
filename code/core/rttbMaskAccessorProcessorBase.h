@@ -47,8 +47,8 @@ namespace rttb
 			                                     MaskAccessorProcessorBase&);//not implemented on purpose -> non-copyable
 
 		protected:
-			MaskAccessorProcessorBase() = default;;
-			~MaskAccessorProcessorBase() override = default;;
+			MaskAccessorProcessorBase() = default;
+			~MaskAccessorProcessorBase() override = default;
 
 			/*! @brief Mask accessor which should be generated */
 			MaskAccessorPointer _maskAccessor;

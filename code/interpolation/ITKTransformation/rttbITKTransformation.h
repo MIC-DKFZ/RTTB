@@ -65,7 +65,7 @@ namespace rttb
 			*/
 			ITKTransformation(const Transform3D3DType* aTransformation);
 
-			~ITKTransformation() override = default;;
+			~ITKTransformation() override = default;
 
 			/*! @brief performs a transformation targetImage --> movingImage
 			*/

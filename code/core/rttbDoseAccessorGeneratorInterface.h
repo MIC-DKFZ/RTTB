@@ -44,8 +44,8 @@ namespace rttb
 
 
 		protected:
-			DoseAccessorGeneratorInterface() = default;;
-			virtual ~DoseAccessorGeneratorInterface() = default;;
+			DoseAccessorGeneratorInterface() = default;
+			virtual ~DoseAccessorGeneratorInterface() = default;
 
 		public:
 
