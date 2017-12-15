@@ -57,7 +57,7 @@ namespace rttb
 
 				IDType _doseUID;
 
-				DicomHelaxDoseAccessor();
+				DicomHelaxDoseAccessor() = delete;
 
 			protected:
 				/*! @brief Initialize dose data

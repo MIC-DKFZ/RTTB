@@ -62,9 +62,9 @@ namespace rttb
 
 		private:
 			DoseAccessorConversionSettingInterface(const
-			                                       DoseAccessorConversionSettingInterface&); //not implemented on purpose -> non-copyable
+			                                       DoseAccessorConversionSettingInterface&) = delete; //not implemented on purpose -> non-copyable
 			DoseAccessorConversionSettingInterface& operator=(const
-			        DoseAccessorConversionSettingInterface&);//not implemented on purpose -> non-copyable
+			        DoseAccessorConversionSettingInterface&) = delete;//not implemented on purpose -> non-copyable
 
 		protected:
 

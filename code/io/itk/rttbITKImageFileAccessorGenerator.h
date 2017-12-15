@@ -50,7 +50,7 @@ namespace rttb
 				/** @brief The dose as itkImage */
 				ITKImageType::Pointer _itkDoubleImage;
 
-				ITKImageFileAccessorGenerator();
+				ITKImageFileAccessorGenerator() = delete;
 
 
 			public:

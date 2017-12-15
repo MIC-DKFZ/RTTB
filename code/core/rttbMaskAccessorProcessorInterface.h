@@ -38,9 +38,9 @@ namespace rttb
 
 		private:
 			MaskAccessorProcessorInterface(const
-			                               MaskAccessorProcessorInterface&); //not implemented on purpose -> non-copyable
+			                               MaskAccessorProcessorInterface&) = delete; //not implemented on purpose -> non-copyable
 			MaskAccessorProcessorInterface& operator=(const
-			        MaskAccessorProcessorInterface&);//not implemented on purpose -> non-copyable
+			        MaskAccessorProcessorInterface&) = delete;//not implemented on purpose -> non-copyable
 
 
 		protected:

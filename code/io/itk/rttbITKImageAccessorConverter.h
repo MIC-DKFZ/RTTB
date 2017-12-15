@@ -56,9 +56,9 @@ namespace rttb
 
 			private:
 				ITKImageAccessorConverter(const
-				                          ITKImageAccessorConverter&); //not implemented on purpose -> non-copyable
+				                          ITKImageAccessorConverter&) = delete; //not implemented on purpose -> non-copyable
 				ITKImageAccessorConverter& operator=(const
-				                                     ITKImageAccessorConverter&);//not implemented on purpose -> non-copyable
+				                                     ITKImageAccessorConverter&) = delete;//not implemented on purpose -> non-copyable
 
 				ITKImageType::Pointer _itkImage;
 

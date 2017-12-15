@@ -51,7 +51,7 @@ namespace rttb
 				/*! @brief constructor
 					@exception InvalidDoseException if _dose is nullptr
 				*/
-				ITKImageAccessor();
+				ITKImageAccessor() = delete;
 
 				/*! @brief get all required data from the itk image contained in _dose
 					@exception InvalidDoseException if PixelSpacing is 0 or size in any dimension is 0.

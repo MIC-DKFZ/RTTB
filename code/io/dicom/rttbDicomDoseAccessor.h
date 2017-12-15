@@ -59,7 +59,7 @@ namespace rttb
 
 				IDType _doseUID;
 
-				DicomDoseAccessor();
+				DicomDoseAccessor() = delete;
 
 			protected:
 				/*! @brief Initialize dose data

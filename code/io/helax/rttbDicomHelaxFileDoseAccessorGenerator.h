@@ -53,7 +53,7 @@ namespace rttb
 			private:
 				FileNameType _doseDirName;
 
-				DicomHelaxFileDoseAccessorGenerator();
+				DicomHelaxFileDoseAccessorGenerator() = delete;
 
 			public:
 				~DicomHelaxFileDoseAccessorGenerator() override;

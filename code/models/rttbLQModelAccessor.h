@@ -48,7 +48,7 @@ namespace rttb
 
 			IDType _bioModelUID;
 
-			LQModelAccessor();
+			LQModelAccessor() = delete;
 
 			/*! @brief get all required data from the dose geometric info
 			*/

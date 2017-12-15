@@ -43,9 +43,9 @@ namespace rttb
 			typedef boost::shared_ptr<AccessorInterface> AccessorPointer;
 			typedef boost::shared_ptr<AccessorInterface> DoseAccessorPointer;
 		private:
-			AccessorInterface(const AccessorInterface&); //not implemented on purpose -> non-copyable
+			AccessorInterface(const AccessorInterface&) = delete; //not implemented on purpose -> non-copyable
 			AccessorInterface& operator=(const
-			                             AccessorInterface&);//not implemented on purpose -> non-copyable
+			                             AccessorInterface&) = delete;//not implemented on purpose -> non-copyable
 
 		public:
 			AccessorInterface() = default;

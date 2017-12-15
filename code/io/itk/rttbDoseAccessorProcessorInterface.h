@@ -38,9 +38,9 @@ namespace rttb
 
 		private:
 			DoseAccessorProcessorInterface(const
-			                               DoseAccessorProcessorInterface&); //not implemented on purpose -> non-copyable
+			                               DoseAccessorProcessorInterface&) = delete; //not implemented on purpose -> non-copyable
 			DoseAccessorProcessorInterface& operator=(const
-			        DoseAccessorProcessorInterface&);//not implemented on purpose -> non-copyable
+			        DoseAccessorProcessorInterface&) = delete;//not implemented on purpose -> non-copyable
 
 
 		protected:

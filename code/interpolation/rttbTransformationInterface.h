@@ -60,9 +60,9 @@ namespace rttb
 			                       WorldCoordinate3D& worldCoordinateTarget) const = 0;
 
 		private:
-			TransformationInterface(const TransformationInterface&);//not implemented on purpose -> non-copyable
+			TransformationInterface(const TransformationInterface&) = delete;//not implemented on purpose -> non-copyable
 			TransformationInterface& operator=(const
-			                                   TransformationInterface&);//not implemented on purpose -> non-copyable
+			                                   TransformationInterface&) = delete;//not implemented on purpose -> non-copyable
 		};
 
 	}

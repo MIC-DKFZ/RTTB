@@ -44,9 +44,9 @@ namespace rttb
 
 		private:
 			DoseAccessorProcessorBase(const
-			                          DoseAccessorProcessorBase&); //not implemented on purpose -> non-copyable
+			                          DoseAccessorProcessorBase&) = delete; //not implemented on purpose -> non-copyable
 			DoseAccessorProcessorBase& operator=(const
-			                                     DoseAccessorProcessorBase&);//not implemented on purpose -> non-copyable
+			                                     DoseAccessorProcessorBase&) = delete;//not implemented on purpose -> non-copyable
 
 		protected:
 			DoseAccessorProcessorBase() = default;
