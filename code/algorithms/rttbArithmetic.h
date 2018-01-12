@@ -34,12 +34,12 @@ namespace rttb
 
 		namespace arithmetic
 		{
-			typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
-			typedef core::MutableDoseAccessorInterface::MutableDoseAccessorPointer MutableDoseAccessorPointer;
-			typedef core::MutableMaskAccessorInterface::MutableMaskAccessorPointer MutableMaskAccessorPointer;
-			typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
-			typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
-			typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
+			using DoseAccessorPointer = core::DoseAccessorInterface::DoseAccessorPointer;
+			using MutableDoseAccessorPointer = core::MutableDoseAccessorInterface::MutableDoseAccessorPointer;
+			using MutableMaskAccessorPointer = core::MutableMaskAccessorInterface::MutableMaskAccessorPointer;
+			using MaskAccessorPointer = core::MaskAccessorInterface::MaskAccessorPointer;
+			using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
+			using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 
 
 			/*! Applies the given dose operation to the given doses and stores the result in <i>result</i>

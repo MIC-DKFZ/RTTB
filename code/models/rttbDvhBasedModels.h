@@ -7,8 +7,8 @@ namespace rttb
 {
 	namespace models
 	{
-		typedef core::DVH::DataDifferentialType DataDifferentialType;
-		typedef core::DVH::DVHPointer DVHPointer;
+		using DataDifferentialType = core::DVH::DataDifferentialType;
+		using DVHPointer = core::DVH::DVHPointer;
 		typedef std::map<BEDType, VoxelNumberType> BEDDVHType;
 		typedef std::map<LQEDType, VoxelNumberType> LQEDDVHType;
 

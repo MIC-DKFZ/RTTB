@@ -38,9 +38,9 @@ namespace rttb
 		class MaskAccessorInterface: public IndexConversionInterface
 		{
 		public:
-			typedef std::vector<core::MaskVoxel> MaskVoxelList;
-			typedef boost::shared_ptr<MaskVoxelList> MaskVoxelListPointer;
-			typedef boost::shared_ptr<MaskAccessorInterface> MaskAccessorPointer;
+			using MaskVoxelList = std::vector<core::MaskVoxel>;
+			using MaskVoxelListPointer = boost::shared_ptr<MaskVoxelList>;
+			using MaskAccessorPointer = boost::shared_ptr<MaskAccessorInterface>;
 
 		private:
 			MaskAccessorInterface(const MaskAccessorInterface&); //not implemented on purpose -> non-copyable

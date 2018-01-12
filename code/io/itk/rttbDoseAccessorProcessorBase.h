@@ -35,7 +35,7 @@ namespace rttb
 		class DoseAccessorProcessorBase: public DoseAccessorProcessorInterface
 		{
 		public:
-			typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+			using DoseAccessorPointer = core::DoseAccessorInterface::DoseAccessorPointer;
 
 			void setDoseAccessor(DoseAccessorPointer accessor) override
 			{

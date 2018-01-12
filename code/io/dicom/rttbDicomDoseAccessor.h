@@ -45,8 +45,8 @@ namespace rttb
 			class DicomDoseAccessor: public core::AccessorWithGeoInfoBase
 			{
 			public:
-				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
-				typedef boost::shared_ptr<DcmItem> DcmItemPtr;
+				using DRTDoseIODPtr = boost::shared_ptr<DRTDoseIOD>;
+				using DcmItemPtr = boost::shared_ptr<DcmItem>;
 
 			private:
 				DRTDoseIODPtr _dose;

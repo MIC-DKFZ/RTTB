@@ -43,8 +43,8 @@ namespace rttb
 		class TCPLQModel: public TCPModel
 		{
 		public:
-			typedef TCPModel::ParamVectorType ParamVectorType;
-			typedef TCPModel::DVHPointer DVHPointer;
+			using ParamVectorType = TCPModel::ParamVectorType;
+			using DVHPointer = TCPModel::DVHPointer;
 
 		private:
 			/*! @brief Calculate intermediate tcp using alpha constant. This is a helper function for calcTCP()

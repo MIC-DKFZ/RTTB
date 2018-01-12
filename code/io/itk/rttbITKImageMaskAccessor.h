@@ -39,11 +39,11 @@ namespace rttb
 			{
 			public:
 				typedef ::itk::Image<DoseTypeGy, 3> ITKMaskImageType;
-				typedef ::itk::ImageBase<3> ITKImageBaseType;
-				typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
-				typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
+				using ITKImageBaseType = ::itk::ImageBase<3>;
+				using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
+				using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 
-				typedef boost::shared_ptr<core::GeometricInfo> GeometricInfoPointer;
+				using GeometricInfoPointer = boost::shared_ptr<core::GeometricInfo>;
 
 			private:
 

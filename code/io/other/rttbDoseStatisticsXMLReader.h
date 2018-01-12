@@ -38,7 +38,7 @@ namespace rttb
             */
 			class DoseStatisticsXMLReader{
 			public:
-				typedef boost::shared_ptr<rttb::algorithms::DoseStatistics> DoseStatisticsPtr;
+				using DoseStatisticsPtr = boost::shared_ptr<rttb::algorithms::DoseStatistics>;
 
 				DoseStatisticsXMLReader(const std::string& filename);
 				~DoseStatisticsXMLReader();

@@ -75,13 +75,13 @@ namespace rttb
 			public:
 				typedef ::itk::Image<TInputPixel, iDimension>  InputImageType;
 				typedef ::itk::Image<TOutputPixel, iDimension> OutputImageType;
-				typedef TInputPixel RescaleValueType;
-				typedef std::vector< ::itk::MetaDataDictionary> MetaDataDictionaryArrayType;
+				using RescaleValueType = TInputPixel;
+				using MetaDataDictionaryArrayType = std::vector< ::itk::MetaDataDictionary>;
 
-				typedef std::string String;
+				using String = std::string;
 
-				typedef std::ostringstream OStringStream;
-				typedef std::istringstream IStringStream;
+				using OStringStream = std::ostringstream;
+				using IStringStream = std::istringstream;
 
 				virtual const char* GetNameOfClass() const
 				{
@@ -118,7 +118,7 @@ namespace rttb
 
 				void load3D();
 
-				typedef std::vector< ::itk::MetaDataDictionary*> ITKMetaDataDictionaryArray;
+				using ITKMetaDataDictionaryArray = std::vector< ::itk::MetaDataDictionary *>;
 				void copyMetaDictionaryArray(const ITKMetaDataDictionaryArray* fromArray,
 				                             MetaDataDictionaryArrayType& toArray);
 

@@ -46,14 +46,13 @@ namespace rttb
 			{
 
 			public:
-				typedef ::boost::geometry::model::polygon< ::boost::geometry::model::d2::point_xy<double> >
-				BoostPolygon2D;
-				typedef std::vector<BoostPolygon2D> BoostPolygonVector;//polygon with or without holes
+				using BoostPolygon2D = ::boost::geometry::model::polygon< ::boost::geometry::model::d2::point_xy<double> >;
+				using BoostPolygonVector = std::vector<BoostPolygon2D>;//polygon with or without holes
 				typedef std::map<double, BoostPolygonVector>
 				BoostPolygonMap;//map of the z index with the vector of boost 2d polygon
-				typedef std::vector<rttb::VoxelGridIndex3D> VoxelIndexVector;
+				using VoxelIndexVector = std::vector<rttb::VoxelGridIndex3D>;
 				typedef ::boost::multi_array<double, 2> BoostArray2D;
-                typedef ::boost::shared_ptr<BoostArray2D> BoostArray2DPointer;
+                using BoostArray2DPointer = ::boost::shared_ptr<BoostArray2D>;
                 typedef ::boost::shared_ptr<std::map<double, BoostArray2DPointer > > BoostArrayMapPointer;
 
                 /*! @brief Constructor
@@ -67,10 +66,9 @@ namespace rttb
 
 
 			private:
-				typedef std::deque<BoostPolygon2D> BoostPolygonDeque;
-				typedef ::boost::geometry::model::ring< ::boost::geometry::model::d2::point_xy<double> >
-				BoostRing2D;
-				typedef ::boost::geometry::model::d2::point_xy<double> BoostPoint2D;
+				using BoostPolygonDeque = std::deque<BoostPolygon2D>;
+				using BoostRing2D = ::boost::geometry::model::ring< ::boost::geometry::model::d2::point_xy<double> >;
+				using BoostPoint2D = ::boost::geometry::model::d2::point_xy<double>;
 
 
 				BoostPolygonMap _geometryCoordinateBoostPolygonMap;

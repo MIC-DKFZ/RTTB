@@ -41,8 +41,8 @@ namespace rttb
 		class RTTBModels_EXPORT BioModel
 		{
 		public:
-			typedef std::vector<BioModelParamType> ParamVectorType;
-			typedef core::DVH::DVHPointer DVHPointer;
+			using ParamVectorType = std::vector<BioModelParamType>;
+			using DVHPointer = core::DVH::DVHPointer;
 
 		protected:
 			DVHPointer _dvh;

@@ -44,12 +44,12 @@ namespace rttb
 			{
 
 			public:
-				typedef ::boost::shared_ptr<rttb::core::GeometricInfo> GeometricInfoPointer;
+				using GeometricInfoPointer = ::boost::shared_ptr<rttb::core::GeometricInfo>;
 				typedef ::boost::multi_array<double, 2> BoostArray2D;
-                typedef ::boost::shared_ptr<BoostArray2D> BoostArray2DPointer;
+                using BoostArray2DPointer = ::boost::shared_ptr<BoostArray2D>;
                 typedef ::boost::shared_ptr<std::map<double, BoostArray2DPointer> > BoostArrayMapPointer;
-				typedef std::vector<rttb::VoxelGridIndex3D> VoxelIndexVector;
-                typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
+				using VoxelIndexVector = std::vector<rttb::VoxelGridIndex3D>;
+                using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 
 				BoostMaskGenerateMaskVoxelListThread(const VoxelIndexVector& aGlobalBoundingBox,
 				                                     GeometricInfoPointer aGeometricInfo,

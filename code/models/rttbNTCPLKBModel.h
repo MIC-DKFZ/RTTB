@@ -42,8 +42,8 @@ namespace rttb
 		class NTCPLKBModel: public NTCPModel
 		{
 		public:
-			typedef NTCPModel::ParamVectorType ParamVectorType;
-			typedef NTCPModel::DVHPointer DVHPointer;
+			using ParamVectorType = NTCPModel::ParamVectorType;
+			using DVHPointer = NTCPModel::DVHPointer;
 
 		private:
 			/*! The steepness of the dose-response curve. Must not be zero on model evaluation.

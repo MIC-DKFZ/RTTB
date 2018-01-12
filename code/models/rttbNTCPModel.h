@@ -39,8 +39,8 @@ namespace rttb
 		class NTCPModel: public BioModel
 		{
 		public:
-			typedef BioModel::ParamVectorType ParamVectorType;
-			typedef BioModel::DVHPointer DVHPointer;
+			using ParamVectorType = BioModel::ParamVectorType;
+			using DVHPointer = BioModel::DVHPointer;
 
 		protected:
 			BioModelParamType _d50{0};

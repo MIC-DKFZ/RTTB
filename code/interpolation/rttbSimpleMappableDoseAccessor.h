@@ -45,7 +45,7 @@ namespace rttb
 		private:
 			InterpolationBase::Pointer _spInterpolation;
 		public:
-			typedef boost::shared_ptr<SimpleMappableDoseAccessor> Pointer;
+			using Pointer = boost::shared_ptr<SimpleMappableDoseAccessor>;
 
 			/*! @brief Constructor. Just hands values over to base class constructor.
 				@param aInterpolation the used interpolation.

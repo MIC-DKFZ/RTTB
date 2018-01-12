@@ -34,7 +34,7 @@ namespace rttb
 		class StructureSetGeneratorInterface
 		{
 		public:
-			typedef boost::shared_ptr<StructureSet> StructureSetPointer;
+			using StructureSetPointer = boost::shared_ptr<StructureSet>;
 
 
 

@@ -45,10 +45,10 @@ namespace rttb
             class RTTBBoostMask_EXPORT BoostMaskAccessor : public core::MaskAccessorInterface
 			{
 			public:
-				typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
-				typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
+				using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
+				using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 
-				typedef core::Structure::StructTypePointer StructTypePointer;
+				using StructTypePointer = core::Structure::StructTypePointer;
 
 			private:
         StructTypePointer _spStructure;

@@ -58,7 +58,7 @@ namespace rttb
 
 		bool GeometricInfo::computeInvertOrientation()
 		{
-			typedef boost::numeric::ublas::permutation_matrix<std::size_t> pmatrix;
+			using pmatrix = boost::numeric::ublas::permutation_matrix<std::size_t>;
 
 			boost::numeric::ublas::matrix<WorldCoordinate> A(_orientationMatrix);
 

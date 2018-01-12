@@ -39,7 +39,7 @@ namespace rttb
         class RTTBInterpolation_EXPORT TransformationInterface
 		{
 		public:
-			typedef boost::shared_ptr<TransformationInterface> Pointer;
+			using Pointer = boost::shared_ptr<TransformationInterface>;
 		protected:
 			/*! @brief Constructor
 			*/

@@ -41,8 +41,8 @@ namespace rttb
             class RTTBOtherIO_EXPORT DVHXMLFileWriter : public DVHWriterInterface
 			{
 			public:
-				typedef core::DVH::DataDifferentialType DataDifferentialType;
-				typedef core::DVH::DVHPointer DVHPointer;
+				using DataDifferentialType = core::DVH::DataDifferentialType;
+				using DVHPointer = core::DVH::DVHPointer;
 
 			private:
 				FileNameString _fileName;

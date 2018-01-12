@@ -43,8 +43,8 @@ namespace rttb
 				public core::DoseAccessorConversionSettingInterface
 			{
 			public:
-				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
-				typedef DicomDoseAccessor::DRTDoseIODPtr DRTDoseIODPointer;
+				using DoseAccessorPointer = core::DoseAccessorInterface::DoseAccessorPointer;
+				using DRTDoseIODPointer = DicomDoseAccessor::DRTDoseIODPtr;
 
 				/*! @brief Standard Constructor.
 				*/

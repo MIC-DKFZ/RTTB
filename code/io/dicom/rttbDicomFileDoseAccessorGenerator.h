@@ -40,8 +40,8 @@ namespace rttb
 			class DicomFileDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
 			public:
-				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
-				typedef boost::shared_ptr<DcmItem> DcmItemPtr;
+				using DRTDoseIODPtr = boost::shared_ptr<DRTDoseIOD>;
+				using DcmItemPtr = boost::shared_ptr<DcmItem>;
 
 			private:
 				FileNameType _dicomDoseFileName;

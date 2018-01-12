@@ -41,14 +41,14 @@ namespace rttb
         class RTTBCore_EXPORT GenericMaskedDoseIterator : public MaskedDoseIteratorInterface
 		{
 		public:
-			typedef MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
-			typedef MaskAccessorInterface::MaskVoxelList MaskVoxelList;
-			typedef MaskedDoseIteratorInterface::MaskAccessorPointer MaskAccessorPointer;
-			typedef MaskedDoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
+			using MaskVoxelListPointer = MaskAccessorInterface::MaskVoxelListPointer;
+			using MaskVoxelList = MaskAccessorInterface::MaskVoxelList;
+			using MaskAccessorPointer = MaskedDoseIteratorInterface::MaskAccessorPointer;
+			using DoseAccessorPointer = MaskedDoseIteratorInterface::DoseAccessorPointer;
 
 		private:
 
-			typedef MaskVoxelList::const_iterator MaskVoxelListIterator;
+			using MaskVoxelListIterator = MaskVoxelList::const_iterator;
 
 			/*! The current index position of the vector _maskVoxelVec*/
 			MaskVoxelListIterator _currentMaskPos;

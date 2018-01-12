@@ -36,7 +36,7 @@ namespace rttb
 		{
 
 		public:
-			typedef boost::shared_ptr<MutableDoseAccessorInterface> MutableDoseAccessorPointer;
+			using MutableDoseAccessorPointer = boost::shared_ptr<MutableDoseAccessorInterface>;
 
 			virtual void setDoseAt(const VoxelGridID aID, DoseTypeGy value) = 0;
 

@@ -42,7 +42,7 @@ namespace rttb
 		class MappableDoseAccessorInterface: public core::DoseAccessorInterface
 		{
 		public:
-			typedef boost::shared_ptr<MappableDoseAccessorInterface> Pointer;
+			using Pointer = boost::shared_ptr<MappableDoseAccessorInterface>;
 		protected:
 			DoseAccessorPointer _spOriginalDoseDataMovingImage;
 			TransformationInterface::Pointer _spTransformation;
