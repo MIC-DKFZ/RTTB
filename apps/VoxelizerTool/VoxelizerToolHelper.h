@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 
-#include "rttbStructureSetGeneratorInterface.h"
+#include "rttbStructure.h"
 #include "rttbMaskAccessorInterface.h"
 #include "rttbITKImageMaskAccessor.h"
 #include "rttbDoseAccessorInterface.h"
@@ -47,9 +47,9 @@ namespace rttb
             @return a mask object
             */
             core::MaskAccessorInterface::MaskAccessorPointer createMask(
-                core::DoseAccessorInterface::DoseAccessorPointer& doseAccessorPtr,
-                core::StructureSetGeneratorInterface::StructureSetPointer& structureSetPtr,
-                bool strict, unsigned int indexOfStructure);
+                core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPtr,
+              rttb::core::Structure::StructTypePointer structurePtr,
+                bool strict);
 
             /**@brief write the mask into the outputfile
             @param Outputfilename
