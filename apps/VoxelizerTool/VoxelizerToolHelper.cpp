@@ -32,8 +32,6 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkAddImageFilter.h"
 
-#include "rttbVOIindexIdentifier.h"
-
 #include <regex>
 
 #include <boost/algorithm/string/case_conv.hpp>
@@ -69,16 +67,16 @@ std::string rttb::apps::voxelizerTool::getFileEnding(const std::string& outfilen
 }
 
 rttb::core::MaskAccessorInterface::MaskAccessorPointer rttb::apps::voxelizerTool::createMask(
-    rttb::core::DoseAccessorInterface::DoseAccessorPointer& doseAccessorPtr,
-    rttb::core::StructureSetGeneratorInterface::StructureSetPointer& structureSetPtr,
-    bool strict, unsigned int indexOfStructure)
+    rttb::core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPtr,
+    rttb::core::Structure::StructTypePointer structurePtr,
+    bool strict)
 {
     rttb::core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPtr;
 
-    if (doseAccessorPtr != nullptr && structureSetPtr != nullptr)
+    if (doseAccessorPtr != nullptr && structurePtr != nullptr)
     {
         maskAccessorPtr = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-            (structureSetPtr->getStructure(indexOfStructure), doseAccessorPtr->getGeometricInfo(),
+            (structurePtr, doseAccessorPtr->getGeometricInfo(),
                 strict);
 
         maskAccessorPtr->updateMask();
@@ -87,7 +85,7 @@ rttb::core::MaskAccessorInterface::MaskAccessorPointer rttb::apps::voxelizerTool
     return maskAccessorPtr;
 }
 
-void rttb::apps::voxelizerTool::writeMaskToFile(std::vector<core::MaskAccessorInterface::MaskAccessorPointer>& maskVector,
+void rttb::apps::voxelizerTool::writeMaskToFile(std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector,
     const std::string& outputFileName, bool voxelization)
 {
     if (!maskVector.empty())
@@ -116,7 +114,7 @@ void rttb::apps::voxelizerTool::writeMaskToFile(std::vector<core::MaskAccessorIn
 }
 
 rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::voxelizerTool::addMultipleStructsToImage(
-    std::vector<core::MaskAccessorInterface::MaskAccessorPointer>& maskVector)
+    std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector)
 {
     std::vector<io::itk::ITKImageMaskAccessor::ITKMaskImageType::Pointer> listOfITKImages;
 
@@ -149,12 +147,11 @@ rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::
         filterResult = addFilter->GetOutput();
     }
 
-    io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer filterResultConst(filterResult);
-    return filterResultConst;
+    return filterResult.GetPointer();
 }
 
 rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::voxelizerTool::applyThresholdFilter(
-    io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer& itkImage)
+    io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer itkImage)
 {
     itk::BinaryThresholdImageFilter< itk::Image<rttb::DoseTypeGy, 3>, itk::Image<rttb::DoseTypeGy, 3> >::Pointer filter = 
         itk::BinaryThresholdImageFilter< itk::Image<rttb::DoseTypeGy, 3>, itk::Image<rttb::DoseTypeGy, 3> >::New();
@@ -169,64 +166,42 @@ rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::
     return filter->GetOutput();
 }
 
-void rttb::apps::voxelizerTool::writeITKImageToFile(io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer& itkImage,
-    const std::string& outputfilename, bool useCompression)
-{
-    itk::ImageFileWriter< itk::Image<rttb::DoseTypeGy, 3> >::Pointer writer = 
-        itk::ImageFileWriter< itk::Image<rttb::DoseTypeGy, 3> >::New();
-    writer->SetFileName(outputfilename);
-    writer->SetUseCompression(useCompression);
-    writer->SetInput(itkImage);
-
-    writer->Update();
-}
-
 void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::ApplicationData& appData) {
-
-    std::cout << "done." << std::endl;
-
-    std::cout << "searching for structs...";
-
-    std::vector<size_t> listOfCorrectElements, indexOfCorrectElements;
-
-    indexOfCorrectElements = rttb::masks::VOIindexIdentifier::getIndicesByVoiRegex(appData._struct, appData._regEx);
-
-    std::copy(indexOfCorrectElements.begin(), indexOfCorrectElements.end(),
-        std::back_inserter(listOfCorrectElements));
-
-    std::cout << "done." << std::endl;
-    
-    if (!listOfCorrectElements.empty())
+    if (appData._struct->getNumberOfStructures()>0)
     {
         std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector;            
 
         if (appData._addStructures)
         {
-            for (unsigned long listOfCorrectElement : listOfCorrectElements)
+            for (size_t i=0; i<appData._struct->getNumberOfStructures(); i++ )
             {
-                maskVector.push_back(createMask(appData._dose, appData._struct,
-                    !appData._noStrictVoxelization, listOfCorrectElement));
+              std::cout << "creating mask #" << i << "...";
+                maskVector.push_back(createMask(appData._dose, appData._struct->getStructure(i),
+                    !appData._noStrictVoxelization));
+                std::cout << "done" << std::endl;
             }
-
+            std::cout << "writing mask to file...";
             writeMaskToFile(maskVector, appData._outputFilename, appData._binaryVoxelization);
-
+            std::cout << "done" << std::endl;
         }
         else
         {
+          //default behavior: read only first struct that matches the regex
             unsigned int maxIterationCount = 1;
 
+            //only if specified: read all structs that matches the regex
             if (appData._multipleStructs)
             {
-                maxIterationCount = listOfCorrectElements.size();
+                maxIterationCount = appData._struct->getNumberOfStructures();
             }
 
-            for (unsigned int i = 0; i < maxIterationCount; i++)
+            for (size_t i = 0; i<maxIterationCount; i++)
             {
-                std::cout << "creating mask...";
-                auto currentMask = createMask(appData._dose, appData._struct,
-                    !appData._noStrictVoxelization, listOfCorrectElements.at(i));
+                std::cout << "creating mask #" << i << "...";
+                auto currentMask = createMask(appData._dose, appData._struct->getStructure(i),
+                    !appData._noStrictVoxelization);
                 std::cout << "done" << std::endl;
-                std::string labelOfInterest = rttb::masks::VOIindexIdentifier::getVoiNameByIndex(appData._struct, i);
+                std::string labelOfInterest = appData._struct->getStructure(i)->getLabel();
                 removeSpecialCharacters(labelOfInterest);
 
                 std::string outputName = appData._outputFilename;
@@ -239,7 +214,9 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
                     outputName = fileName + "_" + labelOfInterest + fileEnding;
                 }
                 std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer> currenMaskVector{ currentMask };
+                std::cout << "writing mask #" << i << " to file...";
                 writeMaskToFile(currenMaskVector, outputName, appData._binaryVoxelization);
+                std::cout << "done" << std::endl;
             }
         }
     }
