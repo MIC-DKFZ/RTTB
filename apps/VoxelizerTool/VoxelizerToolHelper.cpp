@@ -147,8 +147,7 @@ rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::
         filterResult = addFilter->GetOutput();
     }
 
-    io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer filterResultConst(filterResult);
-    return filterResultConst;
+    return filterResult.GetPointer();
 }
 
 rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::voxelizerTool::applyThresholdFilter(
