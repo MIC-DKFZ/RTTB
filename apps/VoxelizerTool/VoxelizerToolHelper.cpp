@@ -85,7 +85,7 @@ rttb::core::MaskAccessorInterface::MaskAccessorPointer rttb::apps::voxelizerTool
     return maskAccessorPtr;
 }
 
-void rttb::apps::voxelizerTool::writeMaskToFile(std::vector<core::MaskAccessorInterface::MaskAccessorPointer>& maskVector,
+void rttb::apps::voxelizerTool::writeMaskToFile(std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector,
     const std::string& outputFileName, bool voxelization)
 {
     if (!maskVector.empty())
@@ -114,7 +114,7 @@ void rttb::apps::voxelizerTool::writeMaskToFile(std::vector<core::MaskAccessorIn
 }
 
 rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::voxelizerTool::addMultipleStructsToImage(
-    std::vector<core::MaskAccessorInterface::MaskAccessorPointer>& maskVector)
+    std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector)
 {
     std::vector<io::itk::ITKImageMaskAccessor::ITKMaskImageType::Pointer> listOfITKImages;
 
@@ -152,7 +152,7 @@ rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::
 }
 
 rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::voxelizerTool::applyThresholdFilter(
-    io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer& itkImage)
+    io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer itkImage)
 {
     itk::BinaryThresholdImageFilter< itk::Image<rttb::DoseTypeGy, 3>, itk::Image<rttb::DoseTypeGy, 3> >::Pointer filter = 
         itk::BinaryThresholdImageFilter< itk::Image<rttb::DoseTypeGy, 3>, itk::Image<rttb::DoseTypeGy, 3> >::New();

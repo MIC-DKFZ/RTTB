@@ -54,13 +54,13 @@ namespace rttb
             /**@brief write the mask into the outputfile
             @param Outputfilename
             */
-            void writeMaskToFile(std::vector<core::MaskAccessorInterface::MaskAccessorPointer>& maskVector,
+            void writeMaskToFile(std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector,
                 const std::string& outputFileName, bool voxelization);
 
             io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer addMultipleStructsToImage(
-                std::vector<core::MaskAccessorInterface::MaskAccessorPointer>& maskVector);
+                std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector);
             io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer applyThresholdFilter(
-                io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer& itkImage);
+                io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer itkImage);
             void writeITKImageToFile(io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer& itkImage,
                 const std::string& outputfilename, bool useCompression);
 
