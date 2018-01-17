@@ -35,7 +35,6 @@
 
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomFileStructureSetGenerator.h"
-#include "rttbVOIindexIdentifier.h"
 #include "rttbBoostMaskAccessor.h"
 #include "rttbGenericMaskedDoseIterator.h"
 #include "../io/other/CompareDoseStatistic.h"
@@ -361,15 +360,14 @@ namespace rttb
 			core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPointer(doseAccessorGenerator.generateDoseAccessor());
 
 			rttb::io::dicom::DicomFileStructureSetGenerator structAccessorGenerator(structFilename.c_str());
-			core::StructureSetGeneratorInterface::StructureSetPointer structerSetGeneratorPointer = structAccessorGenerator.generateStructureSet();
-			
-			std::vector<size_t> foundIndices = rttb::masks::VOIindexIdentifier::getIndicesByVoiRegex(
-				structerSetGeneratorPointer, "Heart");
+      structAccessorGenerator.setStructureLabelFilterActive(true);
+      structAccessorGenerator.setFilterRegEx("Heart");
+			core::StructureSetGeneratorInterface::StructureSetPointer structureSetGeneratorPointer = structAccessorGenerator.generateStructureSet();
 
-			CHECK_EQUAL(foundIndices.size(), 1);
+			CHECK_EQUAL(structureSetGeneratorPointer->getNumberOfStructures(), 1);
 
 			core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPointer = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-				(structerSetGeneratorPointer->getStructure(foundIndices.at(0)), doseAccessorPointer->getGeometricInfo(), true);
+				(structureSetGeneratorPointer->getStructure(0), doseAccessorPointer->getGeometricInfo(), true);
 			maskAccessorPointer->updateMask();
 
 			boost::shared_ptr<core::GenericMaskedDoseIterator> maskedDoseIterator =
