@@ -41,8 +41,8 @@ namespace rttb
 		class NTCPRSModel: public NTCPModel
 		{
 		public:
-			typedef NTCPModel::ParamVectorType ParamVectorType;
-			typedef NTCPModel::DVHPointer DVHPointer;
+			using ParamVectorType = NTCPModel::ParamVectorType;
+			using DVHPointer = NTCPModel::DVHPointer;
 
 		private:
 			/*! _gamma The normalised dose-response gradient, values between 1.7 and 2.0 are typical for human tumours.

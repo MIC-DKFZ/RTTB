@@ -51,10 +51,10 @@ namespace rttb
 			{
 
 			public:
-				typedef ::boost::shared_ptr<rttb::core::GeometricInfo> GeometricInfoPointer;
-				typedef core::Structure::StructTypePointer StructPointer;
-				typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
-				typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
+				using GeometricInfoPointer = ::boost::shared_ptr<rttb::core::GeometricInfo>;
+				using StructPointer = core::Structure::StructTypePointer;
+				using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
+				using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 
 				/*! @brief Constructor
 				* @exception rttb::core::NullPointerException thrown if aDoseGeoInfo or aStructure is nullptr
@@ -73,20 +73,18 @@ namespace rttb
 				MaskVoxelListPointer getRelevantVoxelVector();
 
 			private:
-				typedef ::boost::geometry::model::d2::point_xy<double> BoostPoint2D;
-				typedef ::boost::geometry::model::polygon< ::boost::geometry::model::d2::point_xy<double> >
-				BoostPolygon2D;
-				typedef ::boost::geometry::model::ring< ::boost::geometry::model::d2::point_xy<double> >
-				BoostRing2D;
-				typedef std::vector<BoostRing2D> BoostRingVector;//polygon without holes
-				typedef std::vector<BoostPolygon2D> BoostPolygonVector;//polygon with or without holes
-				typedef std::vector<rttb::VoxelGridIndex3D> VoxelIndexVector;
+				using BoostPoint2D = ::boost::geometry::model::d2::point_xy<double>;
+				using BoostPolygon2D = ::boost::geometry::model::polygon< ::boost::geometry::model::d2::point_xy<double> >;
+				using BoostRing2D = ::boost::geometry::model::ring< ::boost::geometry::model::d2::point_xy<double> >;
+				using BoostRingVector = std::vector<BoostRing2D>;//polygon without holes
+				using BoostPolygonVector = std::vector<BoostPolygon2D>;//polygon with or without holes
+				using VoxelIndexVector = std::vector<rttb::VoxelGridIndex3D>;
 				typedef std::map<double, BoostPolygonVector>
 				BoostPolygonMap;//map of the z index with the vector of boost 2d polygon
 				typedef std::map<double, BoostRingVector>
 				BoostRingMap;//map of the z index with the vector of boost 2d ring
 				typedef ::boost::multi_array<double, 2> BoostArray2D;
-                typedef ::boost::shared_ptr<BoostArray2D> BoostArray2DPointer;
+                using BoostArray2DPointer = ::boost::shared_ptr<BoostArray2D>;
                 typedef ::boost::shared_ptr<std::map<double, BoostArray2DPointer> > BoostArrayMapPointer;
 
 				GeometricInfoPointer _geometricInfo;

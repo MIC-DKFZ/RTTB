@@ -40,8 +40,8 @@ namespace rttb
         class RTTBCore_EXPORT DVHCalculator : public DVHGeneratorInterface
 		{
 		public:
-			typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
-			typedef core::MaskedDoseIteratorInterface::MaskedDoseIteratorPointer MaskedDoseIteratorPointer;
+			using DoseIteratorPointer = core::DoseIteratorInterface::DoseIteratorPointer;
+			using MaskedDoseIteratorPointer = core::MaskedDoseIteratorInterface::MaskedDoseIteratorPointer;
 
 			DoseIteratorPointer _doseIteratorPtr;
 			IDType _structureID;

@@ -44,7 +44,7 @@ namespace rttb
 			class DicomHelaxDoseAccessor: public core::AccessorWithGeoInfoBase
 			{
 			public:
-				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
+				using DRTDoseIODPtr = boost::shared_ptr<DRTDoseIOD>;
 
 			private:
 				/*! vector of DRTDoseIOD shared pointers, each DRTDoseIOD pointer presents the dose in one slice*/

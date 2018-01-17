@@ -33,7 +33,7 @@ namespace rttb
 				CmdLineParserBase(name, version, description, contributor, category)
 			{
 				//REQUIRED
-				typedef double DoseTypeGy;
+				using DoseTypeGy = double;
 				addOption<std::string>(OPTION_DOSE_FILE, OPTION_GROUP_REQUIRED,
 					"The name of the dose file. Can be omitted if used as "
 					"positional argument (see above).", 'd', true);

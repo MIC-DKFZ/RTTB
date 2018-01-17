@@ -39,9 +39,9 @@ namespace rttb
 		class MutableMaskAccessorInterface: public MaskAccessorInterface
 		{
 		public:
-			typedef boost::shared_ptr<MutableMaskAccessorInterface> MutableMaskAccessorPointer;
-			typedef core::MaskAccessorInterface::MaskVoxelList MaskVoxelList;
-			typedef core::MaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
+			using MutableMaskAccessorPointer = boost::shared_ptr<MutableMaskAccessorInterface>;
+			using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
+			using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 
 			virtual void setRelevantVoxelVector(MaskVoxelListPointer aVoxelListPointer) = 0;
 

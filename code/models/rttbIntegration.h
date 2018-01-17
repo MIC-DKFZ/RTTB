@@ -28,7 +28,7 @@ namespace rttb
 	namespace models
 	{
 
-		typedef double integrationType;
+		using integrationType = double;
 		/*! @class LkbModelFunctor
 			@brief A FunctorType: calculate the transformed LKB-Model
             @details LBK Model is calculated using the transformation \f$x = b - \frac{1-t}{t}\f$. 

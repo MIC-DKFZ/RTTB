@@ -38,10 +38,10 @@ namespace rttb
 		{
 
 		public:
-			typedef ::boost::shared_ptr<VOIindexIdentifier>                            Pointer;
-			typedef ::rttb::core::StructureSet                                         StructSetType;
-			typedef ::boost::shared_ptr<StructSetType>                                 StructSetTypePointer;
-			typedef ::rttb::core::Structure                                            StructType;
+			using Pointer = ::boost::shared_ptr<VOIindexIdentifier>;
+			using StructSetType = ::rttb::core::StructureSet;
+			using StructSetTypePointer = ::boost::shared_ptr<StructSetType>;
+			using StructType = ::rttb::core::Structure;
 
 		public:
 

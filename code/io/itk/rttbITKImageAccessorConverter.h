@@ -42,7 +42,7 @@ namespace rttb
 			{
 			public:
 				typedef ::itk::Image<GenericValueType, 3> ITKImageType;
-				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+				using DoseAccessorPointer = core::DoseAccessorInterface::DoseAccessorPointer;
 
 				bool process() override;
 

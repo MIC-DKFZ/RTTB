@@ -48,7 +48,7 @@ namespace rttb
 		class RTTBCore_EXPORT Structure
 		{
 		public:
-			typedef boost::shared_ptr<Structure> StructTypePointer;
+			using StructTypePointer = boost::shared_ptr<Structure>;
 		private:
 			/*! @brief WorldCoordinate3D in mm
 			*/

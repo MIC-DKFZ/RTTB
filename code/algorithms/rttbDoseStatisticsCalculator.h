@@ -55,9 +55,9 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT DoseStatisticsCalculator
 		{
 		public:
-			typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
-			typedef DoseStatistics::ResultListPointer ResultListPointer;
-			typedef DoseStatistics::DoseStatisticsPointer DoseStatisticsPointer;
+			using DoseIteratorPointer = core::DoseIteratorInterface::DoseIteratorPointer;
+			using ResultListPointer = DoseStatistics::ResultListPointer;
+			using DoseStatisticsPointer = DoseStatistics::DoseStatisticsPointer;
 
 		private:
 			DoseIteratorPointer _doseIterator;

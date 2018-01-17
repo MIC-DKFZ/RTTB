@@ -43,8 +43,8 @@ namespace rttb
 			InterpolationBase::Pointer _spInterpolation;
 
 		public:
-			typedef boost::shared_ptr<RosuMappableDoseAccessor> Pointer;
-            typedef boost::shared_ptr<TransformationInterface> TransformationPointer;
+			using Pointer = boost::shared_ptr<RosuMappableDoseAccessor>;
+            using TransformationPointer = boost::shared_ptr<TransformationInterface>;
 
 			/*! @brief Constructor. Just hands values over to base class constructor.
 				@note no interpolation as parameter since linear interpolation is fixed.

@@ -38,8 +38,8 @@ namespace rttb
 		class DoseIteratorInterface
 		{
 		public:
-			typedef boost::shared_ptr<DoseAccessorInterface> DoseAccessorPointer;
-			typedef boost::shared_ptr<DoseIteratorInterface> DoseIteratorPointer;
+			using DoseAccessorPointer = boost::shared_ptr<DoseAccessorInterface>;
+			using DoseIteratorPointer = boost::shared_ptr<DoseIteratorInterface>;
 
 		private:
 			DoseIteratorInterface(const DoseIteratorInterface&); //not implemented on purpose -> non-copyable

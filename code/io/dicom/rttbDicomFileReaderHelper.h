@@ -47,8 +47,8 @@ namespace rttb
 				} Type;
 			};
 
-			typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
-			typedef boost::shared_ptr<DcmItem> DcmDataSetPtr;
+			using DRTDoseIODPtr = boost::shared_ptr<DRTDoseIOD>;
+			using DcmDataSetPtr = boost::shared_ptr<DcmItem>;
 
 
 			/*! Return the vector of all files with the same UID in the given directory, the UID is defined by the first file with the modality.

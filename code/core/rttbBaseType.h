@@ -39,7 +39,7 @@ namespace rttb
 	const double errorConstant = 1e-5;
 	const double reducedErrorConstant = 0.0001;
 
-	typedef unsigned short UnsignedIndex1D;
+	using UnsignedIndex1D = unsigned short;
 
 	/*! @class UnsignedIndex3D
 		@brief 3D index.
@@ -95,13 +95,13 @@ namespace rttb
 		}
 	};
 
-	typedef std::list<UnsignedIndex3D> UnsignedIndexList;
+	using UnsignedIndexList = std::list<UnsignedIndex3D>;
 
-	typedef std::string FileNameString;
+	using FileNameString = std::string;
 
-	typedef std::string ContourGeometricTypeString;
+	using ContourGeometricTypeString = std::string;
 
-	typedef double WorldCoordinate;
+	using WorldCoordinate = double;
 
 	/*! @class WorldCoordinate3D
 		@brief 3D coordinate in real world coordinates like in DICOM to define ImagePositionPatient.
@@ -224,11 +224,11 @@ namespace rttb
 	};
 
     /* ! @brief continuous index */
-	typedef WorldCoordinate3D DoubleVoxelGridIndex3D;
+	using DoubleVoxelGridIndex3D = rttb::WorldCoordinate3D;
 
-	typedef UnsignedIndex3D ImageSize;
+	using ImageSize = rttb::UnsignedIndex3D;
 
-	typedef double GridVolumeType;
+	using GridVolumeType = double;
 
 	/*! @class SpacingVectorType3D
 		@brief 3D spacing vector.
@@ -419,7 +419,7 @@ namespace rttb
 
 	/*! base for 2D and 3D VoxelIndex; Therefore required beside VoxelGridID
 	*/
-	typedef unsigned int GridIndexType;
+	using GridIndexType = unsigned int;
 
 	/*! @class VoxelGridIndex3D
 		@brief 3D voxel grid index in a discret geometry (matrix/image).
@@ -546,10 +546,10 @@ namespace rttb
 		}
 	};
 
-	typedef long GridSizeType;
+	using GridSizeType = long;
 
-	typedef int VoxelGridID; //starts from 0 and is continuously counting all positions on the grid
-	typedef unsigned int VoxelGridDimensionType;
+	using VoxelGridID = int; //starts from 0 and is continuously counting all positions on the grid
+	using VoxelGridDimensionType = unsigned int;
 
 	typedef double FractionType, DVHVoxelNumber;
 
@@ -558,9 +558,9 @@ namespace rttb
 	        VoxelNumberType, BEDType,
 	        LQEDType;
 
-	typedef std::string IDType;
+	using IDType = std::string;
 
-	typedef std::string StructureLabel;
+	using StructureLabel = std::string;
 
 	struct DVHRole
 	{
@@ -582,19 +582,19 @@ namespace rttb
 		} Type;
 	};
 
-  typedef std::string FileNameType;
+  using FileNameType = std::string;
 
-	typedef std::vector<WorldCoordinate3D> PolygonType;
+	using PolygonType = std::vector<WorldCoordinate3D>;
 
-	typedef std::vector<PolygonType> PolygonSequenceType;
+	using PolygonSequenceType = std::vector<PolygonType>;
 
-	typedef double IndexValueType;
+	using IndexValueType = double;
 
-	typedef double DoseStatisticType;
+	using DoseStatisticType = double;
 
-	typedef std::string DICOMRTFileNameString;
+	using DICOMRTFileNameString = std::string;
 
-	typedef unsigned short Uint16;
+	using Uint16 = unsigned short;
 
 	typedef std::string XMLString, StatisticsString;
 

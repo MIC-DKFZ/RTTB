@@ -38,7 +38,7 @@ namespace rttb
 
 				if (this->_seriesReadStyle == ImageSeriesReadStyle::Numeric)
 				{
-					typedef ::itk::NumericSeriesFileNames NamesType;
+					using NamesType = ::itk::NumericSeriesFileNames;
 
 					NamesType::Pointer names = NamesType::New();
 

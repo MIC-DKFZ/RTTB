@@ -31,8 +31,8 @@ namespace rttb
 	namespace models
 	{
 
-		typedef double BioModelParamType;
-		typedef double BioModelValueType;
+		using BioModelParamType = double;
+		using BioModelValueType = double;
 
 		const double infinity = 1e30;
 

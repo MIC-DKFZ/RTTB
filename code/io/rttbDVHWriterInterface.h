@@ -35,7 +35,7 @@ namespace rttb
 		*/
     class RTTBOtherIO_EXPORT DVHWriterInterface
 		{
-			typedef core::DVH::DVHPointer DVHPointer;
+			using DVHPointer = core::DVH::DVHPointer;
 			/*! @brief Write aDvh
 			*/
 		public:

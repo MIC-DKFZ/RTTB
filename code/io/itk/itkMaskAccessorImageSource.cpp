@@ -45,7 +45,7 @@ namespace itk
 		ProgressReporter progress(this, threadId,
 		                          outputRegionForThread.GetNumberOfPixels());
 
-		typedef ImageRegionIterator< OutputImageType > OutputImageRegionIteratorType;
+		using OutputImageRegionIteratorType = ImageRegionIterator<OutputImageType>;
 
 		OutputImagePointer outputPtr = dynamic_cast< OutputImageType* >(ProcessObject::GetOutput(0));
 		OutputImageRegionIteratorType outputItr;

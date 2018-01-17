@@ -32,7 +32,7 @@ namespace rttb
         class BioModel;
 		// maps dose to a pair of model value and probability
 		typedef std::multimap<double , std::pair<double, double> > ScatterPlotType;
-        typedef std::vector<BioModelParamType> ParamVectorType;
+        using ParamVectorType = std::vector<BioModelParamType>;
 
 		/*! @brief Get the points (TCP/NTCP Value, probability of the value) if 1 parameter vary from a normal-
 		distribution with mean=aMean, variance=aVariance.

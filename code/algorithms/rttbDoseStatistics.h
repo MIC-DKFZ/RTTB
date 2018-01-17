@@ -49,9 +49,9 @@ namespace rttb
 		{
 		public:
 			typedef boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultListPointer;
-			typedef boost::shared_ptr<VolumeToDoseMeasureCollection> VolumeToDoseMeasureCollectionPointer;
-			typedef boost::shared_ptr<DoseToVolumeMeasureCollection> DoseToVolumeMeasureCollectionPointer;
-			typedef boost::shared_ptr<DoseStatistics> DoseStatisticsPointer;
+			using VolumeToDoseMeasureCollectionPointer = boost::shared_ptr<VolumeToDoseMeasureCollection>;
+			using DoseToVolumeMeasureCollectionPointer = boost::shared_ptr<DoseToVolumeMeasureCollection>;
+			using DoseStatisticsPointer = boost::shared_ptr<DoseStatistics>;
 
 		private:
 			double getValue(const std::map<double, double>& aMap, double key, bool findNearestValueInstead,

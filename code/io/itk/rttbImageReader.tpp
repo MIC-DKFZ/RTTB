@@ -60,7 +60,7 @@ namespace rttb
 			ImageReader<TInputPixel, TOutputPixel, iDimension>::
 			load2D()
 			{
-				typedef ::itk::ImageFileReader< InputImageType  > ImageReaderType;
+				using ImageReaderType = ::itk::ImageFileReader< InputImageType  >;
 				typedef ::itk::RescaleIntensityImageFilter< InputImageType, InputImageType > RescaleFilterType;
 				typedef ::itk::CastImageFilter< InputImageType, OutputImageType > CastFilterType;
 
@@ -125,8 +125,8 @@ namespace rttb
 			prepareNumericSource() const
 			{
 				//mumeric series image reader
-				typedef ::itk::ImageSeriesReader< InputImageType  > SeriesReaderType;
-				typedef ::itk::NumericSeriesFileNames NamesType;
+				using SeriesReaderType = ::itk::ImageSeriesReader<InputImageType>;
+				using NamesType = ::itk::NumericSeriesFileNames;
 
 				typename SeriesReaderType::Pointer  seriesReader  = SeriesReaderType::New();
 				NamesType::Pointer names = NamesType::New();
@@ -166,7 +166,7 @@ namespace rttb
 				FileNameString  dir = dispatch.getPath();
 				FileNameString  strippedFileName = dispatch.getFullName();
 
-				typedef ::itk::GDCMSeriesFileNames NamesGeneratorType;
+				using NamesGeneratorType = ::itk::GDCMSeriesFileNames;
 				NamesGeneratorType::Pointer nameGenerator = NamesGeneratorType::New();
 				nameGenerator->SetInputDirectory(dir);
 				nameGenerator->SetUseSeriesDetails(true);
@@ -207,7 +207,7 @@ namespace rttb
 					}
 				}
 
-				typedef ::itk::ImageSeriesReader< InputImageType  > SeriesReaderType;
+				using SeriesReaderType = ::itk::ImageSeriesReader<InputImageType>;
 				typename SeriesReaderType::Pointer  seriesReader  = SeriesReaderType::New();
 
 				seriesReader->SetFileNames(fileNames);
@@ -229,7 +229,7 @@ namespace rttb
 			prepareNormalSource() const
 			{
 				//Normal image reader (no series read style)
-				typedef ::itk::ImageFileReader< InputImageType  > ImageReaderType;
+				using ImageReaderType = ::itk::ImageFileReader< InputImageType  >;
 				typename ImageReaderType::Pointer  imageReader  = ImageReaderType::New();
 				imageReader->SetFileName(_fileName.c_str());
 
@@ -308,8 +308,8 @@ namespace rttb
 
 				_spImage = imageCaster->GetOutput();
 
-				typedef ::itk::ImageFileReader< InputImageType  > ImageReaderType;
-				typedef ::itk::ImageSeriesReader< InputImageType  > ImageSeriesReaderType;
+				using ImageReaderType = ::itk::ImageFileReader< InputImageType  >;
+				using ImageSeriesReaderType = ::itk::ImageSeriesReader<InputImageType>;
 				auto* pFileReader = dynamic_cast<ImageReaderType*>(spReader.GetPointer());
 				auto* pSeriesReader = dynamic_cast<ImageSeriesReaderType*>(spReader.GetPointer());
 

@@ -36,8 +36,8 @@ namespace rttb
 		class GenericMutableMaskAccessor: public core::MutableMaskAccessorInterface
 		{
 		public:
-			typedef core::MutableMaskAccessorInterface::MaskVoxelList MaskVoxelList;
-			typedef core::MutableMaskAccessorInterface::MaskVoxelListPointer MaskVoxelListPointer;
+			using MaskVoxelList = core::MutableMaskAccessorInterface::MaskVoxelList;
+			using MaskVoxelListPointer = core::MutableMaskAccessorInterface::MaskVoxelListPointer;
 
 		private:
 			core::GeometricInfo _geoInfo;

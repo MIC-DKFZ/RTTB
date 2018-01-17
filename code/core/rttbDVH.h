@@ -42,8 +42,8 @@ namespace rttb
 		class RTTBCore_EXPORT DVH
 		{
 		public:
-			typedef std::deque<DoseCalcType> DataDifferentialType;
-			typedef boost::shared_ptr<DVH> DVHPointer;
+			using DataDifferentialType = std::deque<DoseCalcType>;
+			using DVHPointer = boost::shared_ptr<DVH>;
 		private:
 			/*! @brief Differential dvh data index is the dose bin, value is the voxel number (sub voxel accuracy)
 				of the dose bin

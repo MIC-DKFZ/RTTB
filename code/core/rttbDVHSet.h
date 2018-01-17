@@ -44,8 +44,8 @@ namespace rttb
 		class RTTBCore_EXPORT DVHSet
 		{
 		public:
-			typedef std::vector<DVH> DVHSetType;
-			typedef DVHSetType::size_type IndexType;
+			using DVHSetType = std::vector<DVH>;
+			using IndexType = DVHSetType::size_type;
 
 		private:
 			IDType _structureSetID;

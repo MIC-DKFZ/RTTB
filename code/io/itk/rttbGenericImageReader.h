@@ -52,21 +52,21 @@ namespace rttb
 			class GenericImageReader : public ::itk::Object
 			{
 			public:
-				typedef GenericImageReader Self;
-				typedef ::itk::Object Superclass;
-				typedef ::itk::SmartPointer<Self>        Pointer;
-				typedef ::itk::SmartPointer<const Self>  ConstPointer;
+				using Self = rttb::io::itk::GenericImageReader;
+				using Superclass = ::itk::Object;
+				using Pointer = ::itk::SmartPointer<Self>;
+				using ConstPointer = ::itk::SmartPointer<const Self>;
 
 				itkTypeMacro(GenericImageReader, ::itk::Object);
 				itkNewMacro(Self);
 
-				typedef ::itk::DataObject GenericOutputImageType;
+				using GenericOutputImageType = ::itk::DataObject;
 
-				typedef ::itk::ImageIOBase::IOPixelType LoadedPixelType;
+				using LoadedPixelType = ::itk::ImageIOBase::IOPixelType;
 
-				typedef ::itk::ImageIOBase::IOComponentType LoadedComponentType;
+				using LoadedComponentType = ::itk::ImageIOBase::IOComponentType;
 
-				typedef std::vector< ::itk::MetaDataDictionary> MetaDataDictionaryArrayType;
+				using MetaDataDictionaryArrayType = std::vector< ::itk::MetaDataDictionary>;
 
 			private:
 				/** Loaded Image.*/

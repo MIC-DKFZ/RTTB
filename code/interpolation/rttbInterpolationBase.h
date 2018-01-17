@@ -41,8 +41,8 @@ namespace rttb
 		class RTTBInterpolation_EXPORT InterpolationBase
 		{
 		public:
-			typedef boost::shared_ptr<InterpolationBase> Pointer;
-			typedef rttb::core::AccessorInterface::AccessorPointer AccessorPointer;
+			using Pointer = boost::shared_ptr<InterpolationBase>;
+			using AccessorPointer = rttb::core::AccessorInterface::AccessorPointer;
 
 			/*! @brief Constructor
 			*/

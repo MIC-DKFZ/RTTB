@@ -37,8 +37,8 @@ namespace rttb
 		class TCPModel: public BioModel
 		{
 		public:
-			typedef BioModel::ParamVectorType ParamVectorType;
-			typedef BioModel::DVHPointer DVHPointer;
+			using ParamVectorType = BioModel::ParamVectorType;
+			using DVHPointer = BioModel::DVHPointer;
 
 		protected:
 			int _numberOfFractions{0};
