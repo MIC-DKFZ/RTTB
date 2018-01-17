@@ -39,7 +39,6 @@
 #include "rttbBoostMaskAccessor.h"
 #include "rttbGenericMaskedDoseIterator.h"
 #include "rttbDoseStatisticsXMLWriter.h"
-#include "rttbVOIindexIdentifier.h"
 
 
 std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer>
@@ -56,36 +55,29 @@ rttb::apps::doseTool::generateMasks(
 	}
 	else
 	{
-		auto foundIndices = rttb::masks::VOIindexIdentifier::getIndicesByVoiRegex(
-		            appData._struct,
-		            appData._structNameRegex);
-		std::vector<size_t> relevantIndices;
+    if (appData._struct->getNumberOfStructures() > 0) {
+      //default behavior: read only first struct that matches the regex
+      unsigned int maxIterationCount = 1;
 
-		if (appData._multipleStructsMode)
-		{
-			relevantIndices = foundIndices;
-		}
-		else
-		{
-			if (!foundIndices.empty())
-			{
-				relevantIndices.push_back(foundIndices.front());
-			}
-		}
+      //only if specified: read all structs that matches the regex
+      if (appData._multipleStructsMode)
+      {
+        maxIterationCount = appData._struct->getNumberOfStructures();
+      }
 
-		appData._structIndices = relevantIndices;
+      bool strict = !appData._allowSelfIntersection;
 
-		bool strict = !appData._allowSelfIntersection;
-
-		for (size_t i = 0; i < appData._structIndices.size(); i++)
-		{
-			maskAccessorPtrVector.emplace_back(boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
-			    (appData._struct->getStructure(appData._structIndices.at(i)), appData._dose->getGeometricInfo(),
-			     strict));
-			maskAccessorPtrVector.at(i)->updateMask();
-			appData._structNames.push_back(appData._struct->getStructure(appData._structIndices.at(
-			                                   i))->getLabel());
-		}
+      for (size_t i = 0; i < maxIterationCount; i++)
+      {
+        maskAccessorPtrVector.emplace_back(boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+          (appData._struct->getStructure(i), appData._dose->getGeometricInfo(), strict));
+        maskAccessorPtrVector.at(i)->updateMask();
+        appData._structNames.push_back(appData._struct->getStructure(i)->getLabel());
+      }
+    }
+    else {
+      std::cout << "no structures in structure set!" << std::endl;
+    }
 	}
 
 	return maskAccessorPtrVector;
