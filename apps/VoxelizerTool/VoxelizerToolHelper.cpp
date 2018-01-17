@@ -227,7 +227,9 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
                     outputName = fileName + "_" + labelOfInterest + fileEnding;
                 }
                 std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer> currenMaskVector{ currentMask };
+                std::cout << "writing mask #" << i << " to file...";
                 writeMaskToFile(currenMaskVector, outputName, appData._binaryVoxelization);
+                std::cout << "done" << std::endl;
             }
         }
     }
