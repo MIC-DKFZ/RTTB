@@ -166,18 +166,6 @@ rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::
     return filter->GetOutput();
 }
 
-void rttb::apps::voxelizerTool::writeITKImageToFile(io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer& itkImage,
-    const std::string& outputfilename, bool useCompression)
-{
-    itk::ImageFileWriter< itk::Image<rttb::DoseTypeGy, 3> >::Pointer writer = 
-        itk::ImageFileWriter< itk::Image<rttb::DoseTypeGy, 3> >::New();
-    writer->SetFileName(outputfilename);
-    writer->SetUseCompression(useCompression);
-    writer->SetInput(itkImage);
-
-    writer->Update();
-}
-
 void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::ApplicationData& appData) {
     if (appData._struct->getNumberOfStructures()>0)
     {

@@ -61,8 +61,6 @@ namespace rttb
                 std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector);
             io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer applyThresholdFilter(
                 io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer itkImage);
-            void writeITKImageToFile(io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer& itkImage,
-                const std::string& outputfilename, bool useCompression);
 
 			std::string getFilenameWithoutEnding(const std::string& outfilename);
 			std::string getFileEnding(const std::string& outfilename);
