@@ -47,7 +47,7 @@ namespace rttb
 				/** @brief The mask as itkImage */
 				ITKImageMaskAccessor::ITKMaskImageType::Pointer _itkDoubleImage;
 
-				ITKImageFileMaskAccessorGenerator();
+				ITKImageFileMaskAccessorGenerator() = delete;
 
 			public:
 				~ITKImageFileMaskAccessorGenerator() override;

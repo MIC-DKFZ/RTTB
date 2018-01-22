@@ -42,9 +42,9 @@ namespace rttb
 			using DoseIteratorPointer = boost::shared_ptr<DoseIteratorInterface>;
 
 		private:
-			DoseIteratorInterface(const DoseIteratorInterface&); //not implemented on purpose -> non-copyable
+			DoseIteratorInterface(const DoseIteratorInterface&) = delete; //not implemented on purpose -> non-copyable
 			DoseIteratorInterface& operator=(const
-			                                 DoseIteratorInterface&);//not implemented on purpose -> non-copyable
+			                                 DoseIteratorInterface&) = delete;//not implemented on purpose -> non-copyable
 			DoseIteratorInterface() = default;
 
 		protected:

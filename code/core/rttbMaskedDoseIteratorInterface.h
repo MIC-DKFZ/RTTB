@@ -46,8 +46,8 @@ namespace rttb
 			using MaskedDoseIteratorPointer = boost::shared_ptr<MaskedDoseIteratorInterface>;
 
 		private:
-			MaskedDoseIteratorInterface(const MaskedDoseIteratorInterface&);
-			MaskedDoseIteratorInterface& operator=(const MaskedDoseIteratorInterface&);
+			MaskedDoseIteratorInterface(const MaskedDoseIteratorInterface&) = delete;
+			MaskedDoseIteratorInterface& operator=(const MaskedDoseIteratorInterface&) = delete;
 
 		protected:
 			/*! @brief Mask that is to be applied to currently loaded dose*/

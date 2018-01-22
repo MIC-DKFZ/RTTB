@@ -47,7 +47,7 @@ namespace rttb
 				/** @brief The dose as itkImage */
 				ITKImageType::ConstPointer _dosePtr;
 
-				ITKImageAccessorGenerator();
+				ITKImageAccessorGenerator() = delete;
 
 			public:
 				~ITKImageAccessorGenerator() override = default;

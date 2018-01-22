@@ -66,9 +66,9 @@ namespace rttb
 
 			private:
 				DicomFileDoseAccessorWriter(const
-				                            DicomFileDoseAccessorWriter&); //not implemented on purpose -> non-copyable
+				                            DicomFileDoseAccessorWriter&) = delete; //not implemented on purpose -> non-copyable
 				DicomFileDoseAccessorWriter& operator=(const
-				                                       DicomFileDoseAccessorWriter&);//not implemented on purpose -> non-copyable
+				                                       DicomFileDoseAccessorWriter&) = delete;//not implemented on purpose -> non-copyable
 
 				DRTDoseIODPointer _doseIOD;
 				DICOMRTFileNameString _fileName;

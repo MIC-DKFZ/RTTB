@@ -40,9 +40,9 @@ namespace rttb
 
 		private:
 			StructureSetGeneratorInterface(const
-			                               StructureSetGeneratorInterface&); //not implemented on purpose -> non-copyable
+			                               StructureSetGeneratorInterface&) = delete; //not implemented on purpose -> non-copyable
 			StructureSetGeneratorInterface& operator=(const
-			        StructureSetGeneratorInterface&);//not implemented on purpose -> non-copyable
+			        StructureSetGeneratorInterface&) = delete;//not implemented on purpose -> non-copyable
 
 
 		protected:

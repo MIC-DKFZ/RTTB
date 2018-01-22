@@ -43,9 +43,9 @@ namespace rttb
 			using MaskAccessorPointer = boost::shared_ptr<MaskAccessorInterface>;
 
 		private:
-			MaskAccessorInterface(const MaskAccessorInterface&); //not implemented on purpose -> non-copyable
+			MaskAccessorInterface(const MaskAccessorInterface&) = delete; //not implemented on purpose -> non-copyable
 			MaskAccessorInterface& operator=(const
-			                                 MaskAccessorInterface&);//not implemented on purpose -> non-copyable
+			                                 MaskAccessorInterface&) = delete;//not implemented on purpose -> non-copyable
 
 		public:
 			MaskAccessorInterface() = default;

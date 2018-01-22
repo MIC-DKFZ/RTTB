@@ -44,7 +44,7 @@ namespace rttb
 				/** @brief The Mask as itkImage */
 				ITKImageMaskAccessor::ITKMaskImageType::ConstPointer _maskPtr;
 
-				ITKImageMaskAccessorGenerator();
+				ITKImageMaskAccessorGenerator() = delete;
 
 			public:
 				~ITKImageMaskAccessorGenerator() override = default;

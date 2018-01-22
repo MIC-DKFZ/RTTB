@@ -48,9 +48,9 @@ namespace rttb
 			IDType _maskUID;
 
 			GenericMutableMaskAccessor(const
-			                           GenericMutableMaskAccessor&); //not implemented on purpose -> non-copyable
+			                           GenericMutableMaskAccessor&) = delete; //not implemented on purpose -> non-copyable
 			GenericMutableMaskAccessor& operator=(const
-			                                      GenericMutableMaskAccessor&);//not implemented on purpose -> non-copyable
+			                                      GenericMutableMaskAccessor&) = delete;//not implemented on purpose -> non-copyable
 
 		public:
 			~GenericMutableMaskAccessor() override;
