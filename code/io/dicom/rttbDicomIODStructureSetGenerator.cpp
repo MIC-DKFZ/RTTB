@@ -72,9 +72,12 @@ namespace rttb
           roisItem->getROIName(ofRoiName);
           std::string roiName(ofRoiName.c_str());
 
+          //replace wrongly 'á' character by ' ' in ROI name
+          correctSpacesInROIName(roiName);
+
           if (!this->getStructureLabelFilterActive() || std::regex_match(roiName, e))
           {
-            filteredROIs.insert(std::make_pair(roiNumber, roiName));
+            filteredROIs.emplace(roiNumber, roiName);
           }
         }
 
@@ -190,6 +193,16 @@ namespace rttb
 				this->readStrSet();
 				return boost::make_shared<core::StructureSet>(_strVector, _patientUID, _UID);
 			}
-		}//end namespace dicom
+
+      void DicomIODStructureSetGenerator::correctSpacesInROIName(std::string& roiName)
+      {
+        for (auto& character : roiName) {
+          if (character == -96) {
+            character = ' ';
+          }
+        }
+      }
+
+    }//end namespace dicom
 	}//end namespace io
 }//end namespace rttb
