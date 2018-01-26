@@ -19,9 +19,10 @@
 // @author  $Author$ (last changed by)
 */
 
-#include <exception>
 #define _USE_MATH_DEFINES
 #include <cmath>
+
+#include <exception>
 #include <map>
 
 #include <boost/make_shared.hpp>
