@@ -58,6 +58,7 @@ if(NOT DCMTK_FOUND)
     ${DCMTK_DIR}/${lib}/Debug
     ${DCMTK_DIR}/lib/Debug
     ${DCMTK_DIR}/Debug
+    ${DCMTK_DIR}	
 	)
   
   set(DCMTK_LIB_SEARCH_PATH 

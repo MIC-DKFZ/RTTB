@@ -21,7 +21,7 @@
 #ifndef __DICOM_DOSE_ACCESSOR_H
 #define __DICOM_DOSE_ACCESSOR_H
 
-#include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */
+#include "osconfig.h"    /* make sure OS specific configuration is included first */
 #include "drtdose.h"
 
 #include <vector>
