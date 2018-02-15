@@ -9,7 +9,7 @@ SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
 
 #-----------------------------------------------------------------------------
-ADD_TEST(ITKDoseAccessorGeneratorTest ${ITKIO_TEST} ITKDoseAccessorGeneratorTest "${TEST_DATA_ROOT}/Images/ITK/MatchPointLogoSmall.nrrd")
+ADD_TEST(ITKDoseAccessorGeneratorTest ${ITKIO_TEST} ITKDoseAccessorGeneratorTest "${TEST_DATA_ROOT}/Images/ITK/MatchPointLogoSmall.nrrd" "${TEST_DATA_ROOT}/Images/ITK/doseAccReference.nrrd" "${TEST_DATA_ROOT}/Images/ITK/emptyImageVector.png" "${TEST_DATA_ROOT}/Images/ITK/Png2D-bw.png")
 
 ADD_TEST(ITKIOTest ${ITKIO_TEST} ITKIOTest "${TEST_DATA_ROOT}/Images/ITK/MatchPointLogoSmall.nrrd")
 
