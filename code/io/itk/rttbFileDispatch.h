@@ -39,7 +39,6 @@ namespace rttb
 		class FileDispatch
 		{
 		public:
-
 			/** Returns the name of the file (without extension).*/
 			static FileNameString getName(const FileNameString& sFilePath);
 			/** Returns the extansion of the file (dot included).*/
@@ -50,11 +49,6 @@ namespace rttb
 			* @remark this function always removes the last element of the path. Thus
 			* if you pass a path without a file, it will return the parent directory.*/
 			static FileNameString getPath(const FileNameString& sFilePath);
-
-			/** Helper function to concat path and file into
-			* a full path */
-			static FileNameString createFullPath(const char* path, const char* file);
-			static FileNameString createFullPath(const FileNameString& path, const FileNameString& file);
 
 			/** Convertes all path seperators in the seperators used in the current OS.*/
 			static FileNameString ensureCorrectOSPathSeparator(const FileNameString& path);

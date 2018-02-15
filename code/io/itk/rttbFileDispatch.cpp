@@ -95,47 +95,6 @@ namespace rttb
 			_fileName = filePath;
 		};
 
-		/**
-		 * A file scope helper function to concat path and file into
-		 * a full path
-		 */
-		FileNameString
-		FileDispatch::
-		createFullPath(const char* path, const char* file)
-		{
-			FileNameString ret;
-
-			#ifdef _WIN32
-			const char sep = '\\';
-			#else
-			const char sep = '/';
-			#endif
-			/**
-			 * make sure the end of path is a separator
-			 */
-			ret = path;
-			ret = ensureCorrectOSPathSeparator(ret);
-
-			if (ret.size())
-			{
-				if (ret[ret.size() - 1] != sep)
-				{
-					ret.append(1, sep);
-				}
-			}
-
-			ret.append(file);
-			return ret;
-		}
-
-		FileNameString
-		FileDispatch::
-		createFullPath(const FileNameString& path, const FileNameString& file)
-		{
-			FileNameString ret = createFullPath(path.c_str(), file.c_str());
-			return ret;
-		}
-
 		/** Convertes all path seperators in the seperators used in the current OS.*/
 		FileNameString
 		FileDispatch::
