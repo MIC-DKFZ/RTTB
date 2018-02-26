@@ -90,6 +90,9 @@ namespace rttb
 
 			CHECK_NO_THROW(maskAcc->getRelevantVoxelVector());
 
+      CHECK_EQUAL(maskAcc->isGridHomogeneous(), true);
+      CHECK_NO_THROW(maskAcc->getMaskUID());
+
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
 
