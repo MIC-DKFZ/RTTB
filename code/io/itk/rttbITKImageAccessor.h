@@ -56,7 +56,7 @@ namespace rttb
 				/*! @brief get all required data from the itk image contained in _dose
 					@exception InvalidDoseException if PixelSpacing is 0 or size in any dimension is 0.
 				*/
-				bool assembleGeometricInfo();
+				bool assembleGeometricInfo() override;
 
 
 			public:

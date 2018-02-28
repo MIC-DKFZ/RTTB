@@ -52,7 +52,7 @@ namespace rttb
 
 			/*! @brief get all required data from the dose geometric info
 			*/
-			bool assembleGeometricInfo();
+			bool assembleGeometricInfo() override;
 
 
 		public:

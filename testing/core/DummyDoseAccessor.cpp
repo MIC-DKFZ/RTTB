@@ -44,16 +44,7 @@ namespace rttb
 			ss << id;
 			_doseUID = "DummyDoseAccessor_" + ss.str();
 
-			SpacingVectorType3D aVector(2.5);
-			_geoInfo.setSpacing(aVector);
-			WorldCoordinate3D anOtherVector(-25, -2, 35);
-			_geoInfo.setImagePositionPatient(anOtherVector);
-			_geoInfo.setNumRows(11);
-			_geoInfo.setNumColumns(10);
-			_geoInfo.setNumSlices(10);
-
-			OrientationMatrix unit = OrientationMatrix();
-			_geoInfo.setOrientationMatrix(unit);
+      assembleGeometricInfo();
 
 			for (int i = 0; i < _geoInfo.getNumberOfVoxels(); i++)
 			{
@@ -74,6 +65,20 @@ namespace rttb
 			doseData = aDoseVector;
 			_geoInfo = geoInfo;
 		}
+
+    bool DummyDoseAccessor::assembleGeometricInfo() {
+      SpacingVectorType3D aVector(2.5);
+      _geoInfo.setSpacing(aVector);
+      WorldCoordinate3D anOtherVector(-25, -2, 35);
+      _geoInfo.setImagePositionPatient(anOtherVector);
+      _geoInfo.setNumRows(11);
+      _geoInfo.setNumColumns(10);
+      _geoInfo.setNumSlices(10);
+
+      OrientationMatrix unit = OrientationMatrix();
+      _geoInfo.setOrientationMatrix(unit);
+      return true;
+    }
 
 		GenericValueType DummyDoseAccessor::getValueAt(const VoxelGridID aID) const
 		{
