@@ -74,7 +74,7 @@ namespace rttb
 
 			}
 
-			bool ITKImageAccessor::assembleGeometricInfo()
+			void ITKImageAccessor::assembleGeometricInfo()
 			{
 				_geoInfo.setSpacing(SpacingVectorType3D(_data->GetSpacing()[0], _data->GetSpacing()[1],
 				                                        _data->GetSpacing()[2]));
@@ -105,8 +105,6 @@ namespace rttb
 				{
 					throw core::InvalidDoseException("Empty dicom dose!") ;
 				}
-
-				return true;
 
 			}
 

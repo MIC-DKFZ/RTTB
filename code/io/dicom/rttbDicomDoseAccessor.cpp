@@ -99,7 +99,7 @@ namespace rttb
 
 			}
 
-			bool DicomDoseAccessor::assembleGeometricInfo()
+      void DicomDoseAccessor::assembleGeometricInfo()
 			{
 
 				Uint16 temp = 0;
@@ -267,7 +267,6 @@ namespace rttb
 				}
 
 				_geoInfo.setSpacing(spacingVector);
-				return true;
 			}
 
 			GenericValueType DicomDoseAccessor::getValueAt(const VoxelGridID aID) const

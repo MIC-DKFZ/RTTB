@@ -70,7 +70,7 @@ namespace rttb
 				/*! @brief get all required data from dicom information contained in _dose
 				@exception boost/bad_lexical_cast Thrown if the imported header tags are not numerical.
 				*/
-				bool assembleGeometricInfo() override;
+				void assembleGeometricInfo() override;
 
 
 			public:

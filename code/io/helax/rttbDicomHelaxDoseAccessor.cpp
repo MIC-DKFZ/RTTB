@@ -134,7 +134,7 @@ namespace rttb
 
 			}
 
-			bool DicomHelaxDoseAccessor::assembleGeometricInfo()
+			void DicomHelaxDoseAccessor::assembleGeometricInfo()
 			{
 				DRTDoseIODPtr dose = _doseVector.at(0);
 
@@ -299,7 +299,6 @@ namespace rttb
 				}
 
 				_geoInfo.setSpacing(spacingVector);
-				return true;
 			}
 
 			GenericValueType DicomHelaxDoseAccessor::getValueAt(const VoxelGridID aID) const

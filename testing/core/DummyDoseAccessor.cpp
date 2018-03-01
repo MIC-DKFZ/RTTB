@@ -66,7 +66,7 @@ namespace rttb
 			_geoInfo = geoInfo;
 		}
 
-    bool DummyDoseAccessor::assembleGeometricInfo() {
+    void DummyDoseAccessor::assembleGeometricInfo() {
       SpacingVectorType3D aVector(2.5);
       _geoInfo.setSpacing(aVector);
       WorldCoordinate3D anOtherVector(-25, -2, 35);
@@ -77,7 +77,6 @@ namespace rttb
 
       OrientationMatrix unit = OrientationMatrix();
       _geoInfo.setOrientationMatrix(unit);
-      return true;
     }
 
 		GenericValueType DummyDoseAccessor::getValueAt(const VoxelGridID aID) const
