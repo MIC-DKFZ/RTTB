@@ -91,12 +91,9 @@ namespace rttb
 			
 		}
 
-		bool LQModelAccessor::assembleGeometricInfo()
+		void LQModelAccessor::assembleGeometricInfo()
 		{
 			_geoInfo = _dose->getGeometricInfo();
-
-			return true;
-
 		}
 	}
 }

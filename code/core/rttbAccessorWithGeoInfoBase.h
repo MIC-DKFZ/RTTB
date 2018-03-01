@@ -36,6 +36,7 @@ namespace rttb
 		class RTTBCore_EXPORT AccessorWithGeoInfoBase : public core::AccessorInterface
 		{
 		protected:
+      virtual void assembleGeometricInfo()=0;
 			core::GeometricInfo _geoInfo;
 
 		public:
