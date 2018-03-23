@@ -5,7 +5,6 @@ SET(CPP_FILES
 	CompareDoseStatistic.cpp
 	DoseStatisticsIOTest.cpp
 	DVHXMLIOTest.cpp
-	DVHTXTIOTest.cpp
 	rttbIOTests.cpp
   )
 

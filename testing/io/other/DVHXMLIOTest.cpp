@@ -31,8 +31,6 @@
 #include "rttbBaseType.h"
 #include "rttbDVH.h"
 #include "rttbDVHSet.h"
-#include "rttbDVHTxtFileReader.h"
-#include "rttbDVHTxtFileWriter.h"
 #include "rttbDVHXMLFileReader.h"
 #include "rttbDVHXMLFileWriter.h"
 #include "rttbInvalidParameterException.h"
@@ -51,7 +49,6 @@ namespace rttb
 		/*! @brief DVHXMLIOTest - test the IO for DVH xml data
 		1) test writing dvh to xml file
 		2) test reading DVH from xml file
-		3) test reading dvh from txt file and writing to xml, check equal
 		*/
 
 		int DVHXMLIOTest(int argc, char* argv[])
@@ -59,13 +56,6 @@ namespace rttb
 			typedef core::DVH::DVHPointer DVHPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
-
-			std::string DVHTXT_FILENAME;
-
-			if (argc > 1)
-			{
-				DVHTXT_FILENAME = argv[1];
-			}
 
 			/* generate dummy DVH */
 			const IDType structureIDPrefix = "myStructure";
@@ -107,56 +97,6 @@ namespace rttb
 			DVHPointer importedDVH = dvhReader.generateDVH();
 
 			CHECK_EQUAL(*importedDVH, *spMyDVH);
-
-			//3) test reading dvh from txt file and writing to xml
-			io::other::DVHTxtFileReader dvhReader2(DVHTXT_FILENAME);
-			DVHPointer importedDVH2 = dvhReader2.generateDVH();
-
-			//write dvh to a xml file as differential
-			FileNameString toWrite_diff = "test_diff.xml";
-			io::other::DVHXMLFileWriter xmlWriter(toWrite_diff, typeDiff);
-			xmlWriter.writeDVH(importedDVH2);
-
-			io::other::DVHXMLFileReader xmlReader(toWrite_diff);
-			DVHPointer readDVH = xmlReader.generateDVH();
-
-			CHECK(checkEqualDVH(importedDVH2, readDVH));
-
-			//write dvh to a xml file as cummulative
-			FileNameString toWrite_cum = "test_cum.xml";
-			io::other::DVHXMLFileWriter xmlWriter_cum(toWrite_cum, typeCum);
-			xmlWriter_cum.writeDVH(importedDVH2);
-
-			io::other::DVHXMLFileReader xmlReader_cum(toWrite_cum);
-			DVHPointer readDVH_cum = xmlReader_cum.generateDVH();
-
-			CHECK(checkEqualDVH(importedDVH2, readDVH_cum));
-
-			//write dvh to a normalized xml file as differential
-			FileNameString toWrite_normalized_diff = "test_normalized_diff.xml";
-			io::other::DVHXMLFileWriter xmlWriter_normalized_dif(toWrite_normalized_diff, typeDiff);
-			xmlWriter_normalized_dif.writeDVH(importedDVH2, true);
-
-			io::other::DVHXMLFileReader xmlReader_normalized_diff(toWrite_normalized_diff);
-			DVHPointer readDVH_normalized_diff = xmlReader.generateDVH();
-
-			CHECK(checkEqualDVH(importedDVH2, readDVH_normalized_diff));
-
-			//write dvh to a normalized xml file as cummulative
-			FileNameString toWrite_normalized_cum = "test_normalized_cum.xml";
-			io::other::DVHXMLFileWriter xmlWriter_normalized_cum(toWrite_normalized_cum, typeCum);
-			xmlWriter_normalized_cum.writeDVH(importedDVH2, true);
-
-			io::other::DVHXMLFileReader xmlReader_normalized_cum(toWrite_normalized_cum);
-			DVHPointer readDVH_normalized_cum = xmlReader_normalized_cum.generateDVH();
-
-			CHECK(checkEqualDVH(importedDVH2, readDVH_normalized_cum));
-
-			//delete files again
-			CHECK_EQUAL(std::remove(toWrite_diff.c_str()), 0);
-			CHECK_EQUAL(std::remove(toWrite_cum.c_str()), 0);
-			CHECK_EQUAL(std::remove(toWrite_normalized_diff.c_str()), 0);
-			CHECK_EQUAL(std::remove(toWrite_normalized_cum.c_str()), 0);
 
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

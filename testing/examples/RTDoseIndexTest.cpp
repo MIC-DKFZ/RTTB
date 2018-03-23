@@ -25,7 +25,6 @@
 #include "litCheckMacros.h"
 #include "rttbDoseIndex.h"
 #include "rttbDVHSet.h"
-#include "rttbDVHTxtFileReader.h"
 #include "rttbBaseType.h"
 #include "rttbNullPointerException.h"
 #include "rttbConformalIndex.h"
@@ -35,6 +34,7 @@
 #include "rttbHomogeneityIndex.h"
 #include "rttbException.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbDVHXMLFileReader.h"
 
 #include <math.h>
 
@@ -96,16 +96,16 @@ namespace rttb
 
 			/*test dvh: deltaV 0.125, deltaD 0.5*/
 			/*dvh TV: number of voxels 2900,  maximum dose bin 133, dose bin 127~133*/
-			rttb::io::other::DVHTxtFileReader dvhReader = rttb::io::other::DVHTxtFileReader(DVH_FILENAME_PTV);
+			rttb::io::other::DVHXMLFileReader dvhReader = rttb::io::other::DVHXMLFileReader(DVH_FILENAME_PTV);
 			rttb::core::DVH dvhPTV = *(dvhReader.generateDVH());
 			/*dvh HT1: number of voxels 5410, maximum dose bin 40, dose bin 0~2,40*/
-			rttb::io::other::DVHTxtFileReader dvhReader1 = rttb::io::other::DVHTxtFileReader(DVH_FILENAME_NT1);
+			rttb::io::other::DVHXMLFileReader dvhReader1 = rttb::io::other::DVHXMLFileReader(DVH_FILENAME_NT1);
 			core::DVH dvhNT1 = *(dvhReader1.generateDVH());
 			/*dvh HT2: number of voxels 10210, maximum dose bin 50, dose bin 0~2,50*/
-			rttb::io::other::DVHTxtFileReader dvhReader2 = rttb::io::other::DVHTxtFileReader(DVH_FILENAME_NT2);
+			rttb::io::other::DVHXMLFileReader dvhReader2 = rttb::io::other::DVHXMLFileReader(DVH_FILENAME_NT2);
 			core::DVH dvhNT2 = *(dvhReader2.generateDVH());
 			/*dvh HT3: number of voxels 1210, maximum dose bin 70, dose bin 0~2,70*/
-			rttb::io::other::DVHTxtFileReader dvhReader3 = rttb::io::other::DVHTxtFileReader(DVH_FILENAME_NT3);
+			rttb::io::other::DVHXMLFileReader dvhReader3 = rttb::io::other::DVHXMLFileReader(DVH_FILENAME_NT3);
 			core::DVH dvhNT3 = *(dvhReader3.generateDVH());
 
 			std::vector<core::DVH> dvhTVSet;
