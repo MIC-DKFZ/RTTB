@@ -239,20 +239,26 @@ namespace rttb
 	public:
 		SpacingVectorType3D() : boost::numeric::ublas::vector<GridVolumeType>(3,0) {}
 		SpacingVectorType3D(const GridVolumeType value) : boost::numeric::ublas::vector<GridVolumeType>(3,
-			        value) {}
+			        value) 
+		{
+			if (value < 0) {
+				throw std::invalid_argument("received negative value");
+			}
+		}
+
 		SpacingVectorType3D(const GridVolumeType xValue, const GridVolumeType yValue,
 		                    const GridVolumeType zValue)
-			: boost::numeric::ublas::vector<GridVolumeType>(3, xValue)
+			: boost::numeric::ublas::vector<GridVolumeType>(3)
 		{
+			if (xValue < 0 || yValue < 0 || zValue < 0) {
+				throw std::invalid_argument("received negative value");
+			}
+			(*this)(0) = xValue;
 			(*this)(1) = yValue;
 			(*this)(2) = zValue;
 		}
-		SpacingVectorType3D(const SpacingVectorType3D& w): boost::numeric::ublas::vector<GridVolumeType>(3)
-		{
-			(*this)(0) = w.x();
-			(*this)(1) = w.y();
-			(*this)(2) = w.z();
-		}
+
+		SpacingVectorType3D(const SpacingVectorType3D& w) : SpacingVectorType3D(w.x(), w.y(), w.z()) { }
 
 		const GridVolumeType x() const
 		{

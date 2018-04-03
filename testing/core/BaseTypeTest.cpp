@@ -140,12 +140,15 @@ namespace rttb
       CHECK_EQUAL(emptySvt.z(), 0);
 
       CHECK_NO_THROW(SpacingVectorType3D svt(1.5));
+	  CHECK_THROW(SpacingVectorType3D svt(-1.5));
       SpacingVectorType3D sameValueSvt(1.5);
       CHECK_EQUAL(sameValueSvt.x(), 1.5);
       CHECK_EQUAL(sameValueSvt.y(), 1.5);
       CHECK_EQUAL(sameValueSvt.z(), 1.5);
 
       CHECK_NO_THROW(SpacingVectorType3D svt(1.5, 1.5, 0.5));
+      CHECK_THROW(SpacingVectorType3D svt(1.5, -1.5, 0.5));
+      CHECK_THROW(SpacingVectorType3D svt(-1.5, -1.5, -0.5));
       SpacingVectorType3D differentValuesSvt(1.5, 1.5, 0.5);
       CHECK_EQUAL(differentValuesSvt.x(), 1.5);
       CHECK_EQUAL(differentValuesSvt.y(), 1.5);
