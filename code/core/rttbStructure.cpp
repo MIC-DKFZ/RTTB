@@ -98,7 +98,7 @@ namespace rttb
 		{
 		}
 
-		Structure::~Structure() {}
+		Structure::~Structure() = default;
 
 		const PolygonSequenceType& Structure::getStructureVector() const
 		{

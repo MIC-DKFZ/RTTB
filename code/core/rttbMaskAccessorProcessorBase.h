@@ -33,7 +33,7 @@ namespace rttb
 		class MaskAccessorProcessorBase: public MaskAccessorProcessorInterface
 		{
 		public:
-			typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
+			using MaskAccessorPointer = core::MaskAccessorInterface::MaskAccessorPointer;
 
 			void setMaskAccessor(MaskAccessorPointer accessor) override
 			{
@@ -42,13 +42,13 @@ namespace rttb
 
 		private:
 			MaskAccessorProcessorBase(const
-			                          MaskAccessorProcessorBase&); //not implemented on purpose -> non-copyable
+			                          MaskAccessorProcessorBase&) = delete; //not implemented on purpose -> non-copyable
 			MaskAccessorProcessorBase& operator=(const
-			                                     MaskAccessorProcessorBase&);//not implemented on purpose -> non-copyable
+			                                     MaskAccessorProcessorBase&) = delete;//not implemented on purpose -> non-copyable
 
 		protected:
-			MaskAccessorProcessorBase() {};
-			~MaskAccessorProcessorBase() override {};
+			MaskAccessorProcessorBase() = default;
+			~MaskAccessorProcessorBase() override = default;
 
 			/*! @brief Mask accessor which should be generated */
 			MaskAccessorPointer _maskAccessor;

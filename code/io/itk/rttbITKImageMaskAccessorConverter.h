@@ -43,7 +43,7 @@ namespace rttb
 
 			{
 			public:
-				typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
+				using MaskAccessorPointer = core::MaskAccessorInterface::MaskAccessorPointer;
 
 				bool process() override;
 
@@ -53,13 +53,13 @@ namespace rttb
 				}
 
 				ITKImageMaskAccessorConverter(MaskAccessorPointer accessor);
-				~ITKImageMaskAccessorConverter() override {};
+				~ITKImageMaskAccessorConverter() override = default;
 
 			private:
 				ITKImageMaskAccessorConverter(const
-				                              ITKImageMaskAccessorConverter&); //not implemented on purpose -> non-copyable
+				                              ITKImageMaskAccessorConverter&) = delete; //not implemented on purpose -> non-copyable
 				ITKImageMaskAccessorConverter& operator=(const
-				        ITKImageMaskAccessorConverter&);//not implemented on purpose -> non-copyable
+				        ITKImageMaskAccessorConverter&) = delete;//not implemented on purpose -> non-copyable
 
 				ITKImageMaskAccessor::ITKMaskImageType::Pointer _itkImage;
 

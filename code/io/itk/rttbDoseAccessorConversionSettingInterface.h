@@ -57,19 +57,19 @@ namespace rttb
 				return _invalidDoseValue;
 			}
 
-			DoseAccessorConversionSettingInterface(): _failedOnInvalidID(false), _invalidDoseValue(-1.0) {};
-			virtual ~DoseAccessorConversionSettingInterface() {};
+			DoseAccessorConversionSettingInterface() = default;
+			virtual ~DoseAccessorConversionSettingInterface() = default;
 
 		private:
 			DoseAccessorConversionSettingInterface(const
-			                                       DoseAccessorConversionSettingInterface&); //not implemented on purpose -> non-copyable
+			                                       DoseAccessorConversionSettingInterface&) = delete; //not implemented on purpose -> non-copyable
 			DoseAccessorConversionSettingInterface& operator=(const
-			        DoseAccessorConversionSettingInterface&);//not implemented on purpose -> non-copyable
+			        DoseAccessorConversionSettingInterface&) = delete;//not implemented on purpose -> non-copyable
 
 		protected:
 
-			bool _failedOnInvalidID;
-			DoseTypeGy _invalidDoseValue;
+			bool _failedOnInvalidID{false};
+			DoseTypeGy _invalidDoseValue{-1.0};
 		};
 	}
 }

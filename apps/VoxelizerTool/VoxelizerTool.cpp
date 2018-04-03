@@ -68,7 +68,7 @@ int main(int argc, const char** argv)
 	std::cout << "Struct regex: " << appData._regEx << std::endl;
 	std::cout << "Add structures: " << appData._addStructures << std::endl;
     std::cout << "Multiple Struct: " << appData._multipleStructs << std::endl;
-	std::cout << "No Strict voxelization: " << appData._noStrictVoxelization << std::endl << std::endl;
+	std::cout << "Strict voxelization: " << !appData._noStrictVoxelization << std::endl << std::endl;
 
 	std::cout << "reading reference and structure file..." << std::endl;
 
@@ -96,7 +96,7 @@ int main(int argc, const char** argv)
 
     try
     {
-        appData._struct = rttb::io::utils::loadStruct(appData._structFile, appData._referenceFileLoadStyle, appData._regEx);       
+        appData._struct = rttb::io::utils::loadStruct(appData._structFile, appData._structFileLoadStyle, appData._regEx);
     }
     catch (rttb::core::Exception& e)
     {
@@ -115,6 +115,8 @@ int main(int argc, const char** argv)
         std::cerr << "Error!!! unknown error while reading input struct image." << std::endl;
         return 2;
     }
+
+    std::cout << "done." << std::endl;
 
     try
     {

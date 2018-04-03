@@ -42,17 +42,17 @@ namespace rttb
 		class RTTBCore_EXPORT GenericDoseIterator : public DoseIteratorInterface
 		{
 		public:
-			typedef DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
-			typedef DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
+			using DoseAccessorPointer = DoseIteratorInterface::DoseAccessorPointer;
+			using DoseIteratorPointer = DoseIteratorInterface::DoseIteratorPointer;
 
 		private:
 
 			VoxelGridID _currentDoseVoxelGridID;
 			DoseVoxelVolumeType _currentVoxelVolume;
 
-			GenericDoseIterator(const GenericDoseIterator&); //not implemented on purpose -> non-copyable
+			GenericDoseIterator(const GenericDoseIterator&) = delete; //not implemented on purpose -> non-copyable
 			GenericDoseIterator& operator=(const
-			                               GenericDoseIterator&);//not implemented on purpose -> non-copyable
+			                               GenericDoseIterator&) = delete;//not implemented on purpose -> non-copyable
 
 		public:
 

@@ -52,21 +52,21 @@ namespace rttb
 			class GenericImageReader : public ::itk::Object
 			{
 			public:
-				typedef GenericImageReader Self;
-				typedef ::itk::Object Superclass;
-				typedef ::itk::SmartPointer<Self>        Pointer;
-				typedef ::itk::SmartPointer<const Self>  ConstPointer;
+				using Self = rttb::io::itk::GenericImageReader;
+				using Superclass = ::itk::Object;
+				using Pointer = ::itk::SmartPointer<Self>;
+				using ConstPointer = ::itk::SmartPointer<const Self>;
 
 				itkTypeMacro(GenericImageReader, ::itk::Object);
 				itkNewMacro(Self);
 
-				typedef ::itk::DataObject GenericOutputImageType;
+				using GenericOutputImageType = ::itk::DataObject;
 
-				typedef ::itk::ImageIOBase::IOPixelType LoadedPixelType;
+				using LoadedPixelType = ::itk::ImageIOBase::IOPixelType;
 
-				typedef ::itk::ImageIOBase::IOComponentType LoadedComponentType;
+				using LoadedComponentType = ::itk::ImageIOBase::IOComponentType;
 
-				typedef std::vector< ::itk::MetaDataDictionary> MetaDataDictionaryArrayType;
+				using MetaDataDictionaryArrayType = std::vector< ::itk::MetaDataDictionary>;
 
 			private:
 				/** Loaded Image.*/
@@ -74,12 +74,12 @@ namespace rttb
 				/** The file name of the image. */
 				FileNameString  _fileName;
 				/** The upper limit for the searching of series files in the path.*/
-				unsigned int _upperSeriesLimit;
+				unsigned int _upperSeriesLimit{255};
 				/** Indicates if the image data is up to date or should be read again.*/
-				bool _upToDate;
+				bool _upToDate{false};
 				/** Defines if the specified image file is part of a series and the
 				* whole series should be read into one image. Only relevant for 3D images.*/
-				ImageSeriesReadStyle::Type _seriesReadStyle;
+				ImageSeriesReadStyle::Type _seriesReadStyle{ImageSeriesReadStyle::Default};
 
 				unsigned int _loadedDimensions;
 				LoadedPixelType _loadedPixelType;

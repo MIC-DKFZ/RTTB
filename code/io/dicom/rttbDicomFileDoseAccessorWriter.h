@@ -43,14 +43,14 @@ namespace rttb
 				public core::DoseAccessorConversionSettingInterface
 			{
 			public:
-				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
-				typedef DicomDoseAccessor::DRTDoseIODPtr DRTDoseIODPointer;
+				using DoseAccessorPointer = core::DoseAccessorInterface::DoseAccessorPointer;
+				using DRTDoseIODPointer = DicomDoseAccessor::DRTDoseIODPtr;
 
 				/*! @brief Standard Constructor.
 				*/
 				DicomFileDoseAccessorWriter();
 
-				~DicomFileDoseAccessorWriter() override {};
+				~DicomFileDoseAccessorWriter() override = default;
 
 				/*! Set a file name to write the dose
 				@param aFileName a file name to write the dose
@@ -66,9 +66,9 @@ namespace rttb
 
 			private:
 				DicomFileDoseAccessorWriter(const
-				                            DicomFileDoseAccessorWriter&); //not implemented on purpose -> non-copyable
+				                            DicomFileDoseAccessorWriter&) = delete; //not implemented on purpose -> non-copyable
 				DicomFileDoseAccessorWriter& operator=(const
-				                                       DicomFileDoseAccessorWriter&);//not implemented on purpose -> non-copyable
+				                                       DicomFileDoseAccessorWriter&) = delete;//not implemented on purpose -> non-copyable
 
 				DRTDoseIODPointer _doseIOD;
 				DICOMRTFileNameString _fileName;

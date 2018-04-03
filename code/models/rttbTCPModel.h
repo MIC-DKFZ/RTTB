@@ -37,15 +37,15 @@ namespace rttb
 		class TCPModel: public BioModel
 		{
 		public:
-			typedef BioModel::ParamVectorType ParamVectorType;
-			typedef BioModel::DVHPointer DVHPointer;
+			using ParamVectorType = BioModel::ParamVectorType;
+			using DVHPointer = BioModel::DVHPointer;
 
 		protected:
-			int _numberOfFractions;
+			int _numberOfFractions{0};
 
 		public:
 
-			TCPModel(): BioModel(), _numberOfFractions(0) {};
+			TCPModel(): BioModel() {};
 
 			TCPModel(int aNum): BioModel(), _numberOfFractions(aNum) {};
 

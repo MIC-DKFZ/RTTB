@@ -41,13 +41,13 @@ namespace rttb
 		class RTTBModels_EXPORT BioModel
 		{
 		public:
-			typedef std::vector<BioModelParamType> ParamVectorType;
-			typedef core::DVH::DVHPointer DVHPointer;
+			using ParamVectorType = std::vector<BioModelParamType>;
+			using DVHPointer = core::DVH::DVHPointer;
 
 		protected:
 			DVHPointer _dvh;
 
-			BioModelValueType _value;
+			BioModelValueType _value{0};
 
 			/*! @brief Calculate the model value
 				@param doseFactor scaling factor for the dose. The model calculation will use the dvh with each di=old
@@ -63,9 +63,9 @@ namespace rttb
 
 
 		public:
-			BioModel(): _value(0) {};
+			BioModel() = default;
 			BioModel(DVHPointer aDvh): _dvh(aDvh), _value(0) {};
-            virtual ~BioModel(){};
+            virtual ~BioModel()= default;
 
 			/*! @brief Start the calculation. If any parameter changed, init() should be called again and return =true
 				before getValue() is called!

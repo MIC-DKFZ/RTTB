@@ -46,7 +46,7 @@ namespace rttb
 				_multipleStructs = false;
 				_binaryVoxelization = false;
 				_addStructures = false;
-                _noStrictVoxelization = false;
+        _noStrictVoxelization = false;
 			}
 
 			void populateAppData(boost::shared_ptr<VoxelizerCmdLineParser> argParser, ApplicationData& appData)
@@ -55,6 +55,8 @@ namespace rttb
 				appData._referenceFile = argParser->get<std::string>(argParser->OPTION_REFERENCE_FILE);
 				appData._outputFilename = argParser->get<std::string>(argParser->OPTION_OUTPUT_FILE_NAME);
 				appData._referenceFileLoadStyle = argParser->get<std::vector<std::string>>(argParser->OPTION_REFERENCE_FILE_LOAD_STYLE);
+        //only valid option for reading structs is dicom until now.
+        appData._structFileLoadStyle.emplace_back("dicom");
 				appData._regEx = argParser->get<std::string>(argParser->OPTION_REGEX);
 				
 				if (argParser->isSet(argParser->OPTION_MULTIPLE_STRUCTS))

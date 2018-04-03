@@ -44,7 +44,7 @@ namespace rttb
 			class DicomHelaxDoseAccessor: public core::AccessorWithGeoInfoBase
 			{
 			public:
-				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
+				using DRTDoseIODPtr = boost::shared_ptr<DRTDoseIOD>;
 
 			private:
 				/*! vector of DRTDoseIOD shared pointers, each DRTDoseIOD pointer presents the dose in one slice*/
@@ -57,7 +57,7 @@ namespace rttb
 
 				IDType _doseUID;
 
-				DicomHelaxDoseAccessor();
+				DicomHelaxDoseAccessor() = delete;
 
 			protected:
 				/*! @brief Initialize dose data
@@ -70,7 +70,7 @@ namespace rttb
 				/*! @brief get all required data from dicom information contained in _dose
 				@exception boost/bad_lexical_cast Thrown if the imported header tags are not numerical.
 				*/
-				bool assembleGeometricInfo();
+				void assembleGeometricInfo() override;
 
 
 			public:

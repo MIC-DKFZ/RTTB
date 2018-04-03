@@ -43,15 +43,15 @@ namespace rttb
 		class RTTBCore_EXPORT StrVectorStructureSetGenerator : public core::StructureSetGeneratorInterface
 		{
 		public:
-			typedef core::StructureSet::StructTypePointer StructTypePointer;
+			using StructTypePointer = core::StructureSet::StructTypePointer;
 
-			typedef StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+			using StructureSetPointer = StructureSetGeneratorInterface::StructureSetPointer;
 
 		protected:
 			IDType _patientUID;
 			std::vector<StructTypePointer> _strVector;
 
-			StrVectorStructureSetGenerator() {};
+			StrVectorStructureSetGenerator() = default;
 
 
 		public:

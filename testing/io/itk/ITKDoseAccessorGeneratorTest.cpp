@@ -29,13 +29,14 @@
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"
+#include "itkExceptionObject.h"
 
 #include "rttbBaseType.h"
 #include "rttbITKImageAccessorConverter.h"
 #include "rttbITKImageAccessorGenerator.h"
 #include "rttbITKImageFileAccessorGenerator.h"
 #include "rttbInvalidDoseException.h"
-
+#include "rttbInvalidParameterException.h"
 
 namespace rttb
 {
@@ -53,13 +54,17 @@ namespace rttb
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//ARGUMENTS:
-			//           1: mhd/raw file name
+			// 1: mhd/raw file name with short image type
+      // 2: mhd/raw file name with double image type
 
-			std::string RTDOSE_FILENAME;
+			std::string ITKSHORTFILE_FILENAME, ITKDOUBLEFILE_FILENAME, ITK2DVECTORFILE_FILENAME, ITK2DFILE_FILENAME;
 
-			if (argc > 1)
+			if (argc > 4)
 			{
-				RTDOSE_FILENAME = argv[1];
+        ITKSHORTFILE_FILENAME = argv[1];
+        ITKDOUBLEFILE_FILENAME = argv[2];
+        ITK2DVECTORFILE_FILENAME = argv[3];
+        ITK2DFILE_FILENAME = argv[4];
 			}
 
 
@@ -67,7 +72,13 @@ namespace rttb
 			CHECK_THROW_EXPLICIT(io::itk::ITKImageFileAccessorGenerator("test.test").generateDoseAccessor(),
 			                     core::InvalidDoseException);
 			CHECK_NO_THROW(io::itk::ITKImageFileAccessorGenerator(
-			                   RTDOSE_FILENAME.c_str()).generateDoseAccessor());
+        ITKSHORTFILE_FILENAME.c_str()).generateDoseAccessor());
+      CHECK_NO_THROW(io::itk::ITKImageFileAccessorGenerator(
+        ITKDOUBLEFILE_FILENAME.c_str()).generateDoseAccessor());
+      CHECK_THROW_EXPLICIT(io::itk::ITKImageFileAccessorGenerator(
+        ITK2DFILE_FILENAME.c_str()).generateDoseAccessor(), core::InvalidParameterException);
+      CHECK_THROW(io::itk::ITKImageFileAccessorGenerator(
+        ITK2DVECTORFILE_FILENAME.c_str()).generateDoseAccessor());
 
 			/* test ITKDoseAccessorGenerator generateDoseAccessor()*/
 			typedef itk::Image< DoseTypeGy, 3 >         DoseImageType;
@@ -80,7 +91,7 @@ namespace rttb
 			CHECK_THROW_EXPLICIT(io::itk::ITKImageAccessorGenerator(
 			                         invalidDose.GetPointer()).generateDoseAccessor(), core::InvalidDoseException);
 
-			reader->SetFileName(RTDOSE_FILENAME);
+			reader->SetFileName(ITKSHORTFILE_FILENAME);
 			//important to update the reader (won't work without)
 			reader->Update();
 

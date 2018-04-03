@@ -39,15 +39,15 @@ namespace rttb
         class RTTBInterpolation_EXPORT TransformationInterface
 		{
 		public:
-			typedef boost::shared_ptr<TransformationInterface> Pointer;
+			using Pointer = boost::shared_ptr<TransformationInterface>;
 		protected:
 			/*! @brief Constructor
 			*/
-			TransformationInterface() {};
+			TransformationInterface() = default;
 
 			/*! @brief Virtual destructor of interface class
 			*/
-			virtual ~TransformationInterface() {};
+			virtual ~TransformationInterface() = default;
 		public:
 			/*! @brief performs a transformation targetImage --> movingImage
 			*/
@@ -60,9 +60,9 @@ namespace rttb
 			                       WorldCoordinate3D& worldCoordinateTarget) const = 0;
 
 		private:
-			TransformationInterface(const TransformationInterface&);//not implemented on purpose -> non-copyable
+			TransformationInterface(const TransformationInterface&) = delete;//not implemented on purpose -> non-copyable
 			TransformationInterface& operator=(const
-			                                   TransformationInterface&);//not implemented on purpose -> non-copyable
+			                                   TransformationInterface&) = delete;//not implemented on purpose -> non-copyable
 		};
 
 	}

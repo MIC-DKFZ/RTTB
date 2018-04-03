@@ -34,23 +34,23 @@ namespace rttb
 		class StructureSetGeneratorInterface
 		{
 		public:
-			typedef boost::shared_ptr<StructureSet> StructureSetPointer;
+			using StructureSetPointer = boost::shared_ptr<StructureSet>;
 
 
 
 		private:
 			StructureSetGeneratorInterface(const
-			                               StructureSetGeneratorInterface&); //not implemented on purpose -> non-copyable
+			                               StructureSetGeneratorInterface&) = delete; //not implemented on purpose -> non-copyable
 			StructureSetGeneratorInterface& operator=(const
-			        StructureSetGeneratorInterface&);//not implemented on purpose -> non-copyable
+			        StructureSetGeneratorInterface&) = delete;//not implemented on purpose -> non-copyable
 
 
 		protected:
-			StructureSetGeneratorInterface(): _activeFilter(false) { };
-			virtual ~StructureSetGeneratorInterface() {};
+			StructureSetGeneratorInterface() = default;
+			virtual ~StructureSetGeneratorInterface() = default;
 
     private:
-      bool _activeFilter;
+      bool _activeFilter{false};
       std::string _filterRegEx;
 
 		public:

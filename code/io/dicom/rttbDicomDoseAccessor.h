@@ -45,8 +45,8 @@ namespace rttb
 			class DicomDoseAccessor: public core::AccessorWithGeoInfoBase
 			{
 			public:
-				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
-				typedef boost::shared_ptr<DcmItem> DcmItemPtr;
+				using DRTDoseIODPtr = boost::shared_ptr<DRTDoseIOD>;
+				using DcmItemPtr = boost::shared_ptr<DcmItem>;
 
 			private:
 				DRTDoseIODPtr _dose;
@@ -59,7 +59,7 @@ namespace rttb
 
 				IDType _doseUID;
 
-				DicomDoseAccessor();
+				DicomDoseAccessor() = delete;
 
 			protected:
 				/*! @brief Initialize dose data
@@ -72,7 +72,7 @@ namespace rttb
 				/*! @brief get all required data from dicom information contained in _dose
 				@exception boost/bad_lexical_cast Thrown if the imported header tags are not numerical.
 				*/
-				bool assembleGeometricInfo();
+				void assembleGeometricInfo() override;
 
 
 			public:

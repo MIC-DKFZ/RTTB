@@ -48,12 +48,11 @@ namespace rttb
 
                 std::map<double, ::boost::shared_ptr<BoostArray2D> > voxelizationMapInThread;
 
-                 for (BoostPolygonMap::iterator it = _geometryCoordinateBoostPolygonMap.begin();
-				     it != _geometryCoordinateBoostPolygonMap.end(); ++it)
+                 for (auto & it : _geometryCoordinateBoostPolygonMap)
 				{
                     BoostArray2D maskArray(::boost::extents[globalBoundingBoxSize0][globalBoundingBoxSize1]);
 
-					BoostPolygonVector boostPolygonVec = it->second;
+					BoostPolygonVector boostPolygonVec = it.second;
 
 					for (unsigned int x = 0; x < globalBoundingBoxSize0; ++x)
 					{
@@ -79,7 +78,7 @@ namespace rttb
 						}
 					}
 
-                    voxelizationMapInThread.insert(std::pair<double, BoostArray2DPointer>(it->first, ::boost::make_shared<BoostArray2D>(maskArray)));
+                    voxelizationMapInThread.insert(std::pair<double, BoostArray2DPointer>(it.first, ::boost::make_shared<BoostArray2D>(maskArray)));
 				}
                 //insert gathered values into voxelization map
                 ::boost::unique_lock<::boost::shared_mutex> lock(*_mutex);

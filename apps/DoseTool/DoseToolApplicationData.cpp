@@ -44,7 +44,6 @@ namespace rttb
 				_doseStatisticOutputFileName = "";
 				_computeComplexDoseStatistics = false;
 				_allowSelfIntersection = false;
-				_structIndices.clear();
 				_structNames.clear();
 				_prescribedDose = 1.0;
 				_multipleStructsMode = false;

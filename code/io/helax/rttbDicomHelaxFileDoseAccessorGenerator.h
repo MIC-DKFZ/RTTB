@@ -45,7 +45,7 @@ namespace rttb
 			class DicomHelaxFileDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
 			public:
-				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
+				using DRTDoseIODPtr = boost::shared_ptr<DRTDoseIOD>;
 
 
 			protected:
@@ -53,7 +53,7 @@ namespace rttb
 			private:
 				FileNameType _doseDirName;
 
-				DicomHelaxFileDoseAccessorGenerator();
+				DicomHelaxFileDoseAccessorGenerator() = delete;
 
 			public:
 				~DicomHelaxFileDoseAccessorGenerator() override;

@@ -42,14 +42,14 @@ namespace rttb
 			class DicomHelaxIODVecDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
 			public:
-				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
+				using DRTDoseIODPtr = boost::shared_ptr<DRTDoseIOD>;
 
 
 			protected:
 			private:
 				std::vector<DRTDoseIODPtr> _dosePtrVector;
 
-				DicomHelaxIODVecDoseAccessorGenerator();
+				DicomHelaxIODVecDoseAccessorGenerator() = delete;
 
 			public:
 				~DicomHelaxIODVecDoseAccessorGenerator() override;

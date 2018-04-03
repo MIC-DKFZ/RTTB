@@ -23,6 +23,10 @@ MARK_AS_ADVANCED(BUILD_SHARED_LIBS)
 IF (WIN32)
 	IF (MSVC_VERSION LESS 1800)
 		MESSAGE(FATAL_ERROR "RTToolbox requires at least Visual Studio 2013.")
+	ELSEIF (MSVC_VERSION GREATER_EQUAL 1910)
+		IF (${CMAKE_VERSION} VERSION_LESS "3.10.3")
+			MESSAGE(AUTHOR_WARNING "Please use CMake version 3.10.3 or newer for Visual Studio 2017 as new boost versions are not recognized using old CMake versions.")
+		ENDIF()
 	ENDIF()
 	add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 ELSE (WIN32)
@@ -246,7 +250,7 @@ CONFIGURE_FILE(${RTToolbox_SOURCE_DIR}/RTToolboxConfigure.h.in
   ${RTToolbox_BINARY_DIR}/RTToolboxConfigure.h)
   
 IF(NOT RTTOOLBOX_INSTALL_NO_DEVELOPMENT)
-  INSTALL(FILES RTToolboxConfigure.h
+  INSTALL(FILES ${RTToolbox_BINARY_DIR}/RTToolboxConfigure.h
     DESTINATION ${RTTOOLBOX_INSTALL_INCLUDE_DIR}
     COMPONENT Development)
 ENDIF(NOT RTTOOLBOX_INSTALL_NO_DEVELOPMENT)
@@ -294,8 +298,8 @@ INCLUDE (${RTToolbox_SOURCE_DIR}/rttbGenerateRTToolboxConfig.cmake)
 
 IF(NOT RTToolbox_INSTALL_NO_DEVELOPMENT)
 	INSTALL(FILES
-    RTToolboxConfig.cmake
-    RTToolboxTargets.cmake
+    ${RTToolbox_BINARY_DIR}/RTToolboxConfig.cmake
+    ${RTToolbox_BINARY_DIR}/RTToolboxTargets.cmake
     DESTINATION ${RTTOOLBOX_INSTALL_PACKAGE_DIR}
     COMPONENT Development
     )

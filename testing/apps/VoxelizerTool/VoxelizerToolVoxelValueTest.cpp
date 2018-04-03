@@ -119,10 +119,7 @@ namespace rttb
 					}
 				}
                 
-				if (boost::filesystem::exists(filenameHDRWithVoxelization))
-				{
-					boost::filesystem::remove(filenameHDRWithVoxelization);
-				}
+				boost::filesystem::remove(filenameHDRWithVoxelization);
 
 				if (boost::filesystem::exists(filenameIMGWithVoxelization))
 				{

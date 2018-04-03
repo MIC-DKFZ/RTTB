@@ -40,14 +40,14 @@ namespace rttb
 			class ITKImageFileMaskAccessorGenerator: public core::MaskAccessorGeneratorBase
 			{
 			public:
-				typedef MaskAccessorGeneratorBase::MaskAccessorPointer MaskAccessorPointer;
+				using MaskAccessorPointer = MaskAccessorGeneratorBase::MaskAccessorPointer;
 
 			private:
 				FileNameType _itkMaskFileName;
 				/** @brief The mask as itkImage */
 				ITKImageMaskAccessor::ITKMaskImageType::Pointer _itkDoubleImage;
 
-				ITKImageFileMaskAccessorGenerator();
+				ITKImageFileMaskAccessorGenerator() = delete;
 
 			public:
 				~ITKImageFileMaskAccessorGenerator() override;

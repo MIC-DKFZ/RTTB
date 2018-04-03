@@ -38,7 +38,7 @@ namespace rttb
 
 				if (this->_seriesReadStyle == ImageSeriesReadStyle::Numeric)
 				{
-					typedef ::itk::NumericSeriesFileNames NamesType;
+					using NamesType = ::itk::NumericSeriesFileNames;
 
 					NamesType::Pointer names = NamesType::New();
 
@@ -279,16 +279,15 @@ namespace rttb
 
 
 			GenericImageReader::
-			GenericImageReader() : _fileName(), _upperSeriesLimit(255), _upToDate(false),
-				_seriesReadStyle(ImageSeriesReadStyle::Default)
+			GenericImageReader() : _fileName()
+				
 			{
 			};
 
 
 			GenericImageReader::
 			~GenericImageReader()
-			{
-			};
+			= default;
 
 			const GenericImageReader::MetaDataDictionaryArrayType&
 			GenericImageReader::

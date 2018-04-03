@@ -150,7 +150,7 @@ namespace rttb
 
 									if (uid == currentUID.c_str())
 									{
-										fileNameVector.push_back(filePath.string().c_str());
+										fileNameVector.emplace_back(filePath.string().c_str());
 									}
 
 									break;
@@ -234,7 +234,7 @@ namespace rttb
 							//if the same modality
 							if (modality == currentModality && uid == currentUID)
 							{
-								fileNameVector.push_back(currentFilePath.string().c_str());
+								fileNameVector.emplace_back(currentFilePath.string().c_str());
 							}
 
 						}

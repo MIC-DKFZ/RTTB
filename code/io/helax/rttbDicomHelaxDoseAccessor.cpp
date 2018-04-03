@@ -26,7 +26,7 @@
 #include "boost/filesystem/path.hpp"
 #include "boost/numeric/ublas/matrix.hpp"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 
 #include "rttbInvalidDoseException.h"
@@ -41,15 +41,14 @@ namespace rttb
 		{
 
 			DicomHelaxDoseAccessor::~DicomHelaxDoseAccessor()
-			{
-			}
+			= default;
 
 
 			DicomHelaxDoseAccessor::DicomHelaxDoseAccessor(std::vector<DRTDoseIODPtr> aDICOMRTDoseVector)
 			{
-				for (size_t i = 0; i < aDICOMRTDoseVector.size(); i++)
+				for (const auto & i : aDICOMRTDoseVector)
 				{
-					_doseVector.push_back(aDICOMRTDoseVector.at(i));
+					_doseVector.push_back(i);
 				}
 
 				this->begin();
@@ -80,11 +79,9 @@ namespace rttb
 					throw core::InvalidDoseException("Dose grid scaling not readable or = 0!") ;
 				}
 
-				for (size_t i = 0; i < _doseVector.size(); i++)
+				for (auto dose : _doseVector)
 				{
-					DRTDoseIODPtr dose = _doseVector.at(i);
-
-					OFString currentDoseGridScalingStr;
+						OFString currentDoseGridScalingStr;
 					dose->getDoseGridScaling(currentDoseGridScalingStr);
 					double currentDoseGridScaling;
 
@@ -114,7 +111,7 @@ namespace rttb
 							for (unsigned int j = 0;
 							     j < static_cast<unsigned int>(_geoInfo.getNumColumns()*_geoInfo.getNumRows()); j++)
 							{
-								Uint16 data = static_cast<Uint16>(pixelData[j] * currentDoseGridScaling /
+								auto data = static_cast<Uint16>(pixelData[j] * currentDoseGridScaling /
 								                                  _doseGridScaling);
 								this->_doseData.push_back(data); //recalculate dose data
 							}
@@ -137,7 +134,7 @@ namespace rttb
 
 			}
 
-			bool DicomHelaxDoseAccessor::assembleGeometricInfo()
+			void DicomHelaxDoseAccessor::assembleGeometricInfo()
 			{
 				DRTDoseIODPtr dose = _doseVector.at(0);
 
@@ -302,7 +299,6 @@ namespace rttb
 				}
 
 				_geoInfo.setSpacing(spacingVector);
-				return true;
 			}
 
 			GenericValueType DicomHelaxDoseAccessor::getValueAt(const VoxelGridID aID) const

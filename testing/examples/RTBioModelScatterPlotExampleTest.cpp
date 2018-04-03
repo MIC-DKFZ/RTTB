@@ -26,7 +26,6 @@
 
 #include "litCheckMacros.h"
 #include "rttbBioModel.h"
-#include "rttbDVHTxtFileReader.h"
 #include "rttbDVH.h"
 #include "rttbTCPLQModel.h"
 #include "rttbNTCPLKBModel.h"
@@ -36,6 +35,7 @@
 #include "rttbDvhBasedModels.h"
 #include "../models/rttbScatterTester.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbDVHXmlFileReader.h"
 
 namespace rttb
 {
@@ -85,10 +85,10 @@ namespace rttb
 			}
 
 			//DVH PTV
-			rttb::io::other::DVHTxtFileReader dvhReader = rttb::io::other::DVHTxtFileReader(DVH_FILENAME_PTV);
+			rttb::io::other::DVHXMLFileReader dvhReader = rttb::io::other::DVHXMLFileReader(DVH_FILENAME_PTV);
 			DVHPointer dvhPtr = dvhReader.generateDVH();
 
-			rttb::io::other::DVHTxtFileReader dvhReader_test_tv = rttb::io::other::DVHTxtFileReader(
+			rttb::io::other::DVHXMLFileReader dvhReader_test_tv = rttb::io::other::DVHXMLFileReader(
 			            DVH_FILENAME_TV_TEST);
 			DVHPointer dvh_test_tv = dvhReader_test_tv.generateDVH();
 
@@ -306,7 +306,7 @@ namespace rttb
 			CHECK_TESTER(scatterCompare);
 
 			//DVH HT 1
-			rttb::io::other::DVHTxtFileReader dvhReader2 = rttb::io::other::DVHTxtFileReader(DVH_FILENAME_NT1);
+			rttb::io::other::DVHXMLFileReader dvhReader2 = rttb::io::other::DVHXMLFileReader(DVH_FILENAME_NT1);
 			DVHPointer dvhPtr2 = dvhReader2.generateDVH();
 
 			CHECK_CLOSE(1.07920836034015810000e+001, models::getEUD(dvhPtr2, 10), toleranceEUD);

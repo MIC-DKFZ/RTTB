@@ -60,7 +60,7 @@ namespace rttb
 			ImageReader<TInputPixel, TOutputPixel, iDimension>::
 			load2D()
 			{
-				typedef ::itk::ImageFileReader< InputImageType  > ImageReaderType;
+				using ImageReaderType = ::itk::ImageFileReader< InputImageType  >;
 				typedef ::itk::RescaleIntensityImageFilter< InputImageType, InputImageType > RescaleFilterType;
 				typedef ::itk::CastImageFilter< InputImageType, OutputImageType > CastFilterType;
 
@@ -109,8 +109,8 @@ namespace rttb
 			{
 				toArray.clear();
 
-				ITKMetaDataDictionaryArray::const_iterator itr = fromArray->begin();
-				ITKMetaDataDictionaryArray::const_iterator end = fromArray->end();
+				auto itr = fromArray->begin();
+				auto end = fromArray->end();
 
 				while (itr != end)
 				{
@@ -125,8 +125,8 @@ namespace rttb
 			prepareNumericSource() const
 			{
 				//mumeric series image reader
-				typedef ::itk::ImageSeriesReader< InputImageType  > SeriesReaderType;
-				typedef ::itk::NumericSeriesFileNames NamesType;
+				using SeriesReaderType = ::itk::ImageSeriesReader<InputImageType>;
+				using NamesType = ::itk::NumericSeriesFileNames;
 
 				typename SeriesReaderType::Pointer  seriesReader  = SeriesReaderType::New();
 				NamesType::Pointer names = NamesType::New();
@@ -166,7 +166,7 @@ namespace rttb
 				FileNameString  dir = dispatch.getPath();
 				FileNameString  strippedFileName = dispatch.getFullName();
 
-				typedef ::itk::GDCMSeriesFileNames NamesGeneratorType;
+				using NamesGeneratorType = ::itk::GDCMSeriesFileNames;
 				NamesGeneratorType::Pointer nameGenerator = NamesGeneratorType::New();
 				nameGenerator->SetInputDirectory(dir);
 				nameGenerator->SetUseSeriesDetails(true);
@@ -207,7 +207,7 @@ namespace rttb
 					}
 				}
 
-				typedef ::itk::ImageSeriesReader< InputImageType  > SeriesReaderType;
+				using SeriesReaderType = ::itk::ImageSeriesReader<InputImageType>;
 				typename SeriesReaderType::Pointer  seriesReader  = SeriesReaderType::New();
 
 				seriesReader->SetFileNames(fileNames);
@@ -229,7 +229,7 @@ namespace rttb
 			prepareNormalSource() const
 			{
 				//Normal image reader (no series read style)
-				typedef ::itk::ImageFileReader< InputImageType  > ImageReaderType;
+				using ImageReaderType = ::itk::ImageFileReader< InputImageType  >;
 				typename ImageReaderType::Pointer  imageReader  = ImageReaderType::New();
 				imageReader->SetFileName(_fileName.c_str());
 
@@ -249,9 +249,9 @@ namespace rttb
 				FileNameString	sTemp = dispatch.getExtension();
 
 				//Convert to lowercase
-				for (FileNameString::iterator spos = sTemp.begin(); spos != sTemp.end(); ++spos)
+				for (char & spos : sTemp)
 				{
-					(*spos) = std::tolower((*spos), std::locale(""));
+					spos = std::tolower(spos, std::locale(""));
 				}
 
 				typedef ::itk::RescaleIntensityImageFilter< InputImageType, InputImageType > RescaleFilterType;
@@ -308,10 +308,10 @@ namespace rttb
 
 				_spImage = imageCaster->GetOutput();
 
-				typedef ::itk::ImageFileReader< InputImageType  > ImageReaderType;
-				typedef ::itk::ImageSeriesReader< InputImageType  > ImageSeriesReaderType;
-				ImageReaderType* pFileReader = dynamic_cast<ImageReaderType*>(spReader.GetPointer());
-				ImageSeriesReaderType* pSeriesReader = dynamic_cast<ImageSeriesReaderType*>(spReader.GetPointer());
+				using ImageReaderType = ::itk::ImageFileReader< InputImageType  >;
+				using ImageSeriesReaderType = ::itk::ImageSeriesReader<InputImageType>;
+				auto* pFileReader = dynamic_cast<ImageReaderType*>(spReader.GetPointer());
+				auto* pSeriesReader = dynamic_cast<ImageSeriesReaderType*>(spReader.GetPointer());
 
 				if (pFileReader)
 				{
@@ -492,8 +492,7 @@ namespace rttb
 			template <typename TInputPixel, typename TOutputPixel, unsigned int iDimension>
 			ImageReader<TInputPixel, TOutputPixel, iDimension>::
 			~ImageReader()
-			{
-			};
+			= default;
 
 
 			template <typename TInputPixel, typename TOutputPixel, unsigned int iDimension>

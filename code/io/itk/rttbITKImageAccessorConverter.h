@@ -42,7 +42,7 @@ namespace rttb
 			{
 			public:
 				typedef ::itk::Image<GenericValueType, 3> ITKImageType;
-				typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+				using DoseAccessorPointer = core::DoseAccessorInterface::DoseAccessorPointer;
 
 				bool process() override;
 
@@ -52,13 +52,13 @@ namespace rttb
 				}
 
 				ITKImageAccessorConverter(DoseAccessorPointer accessor);
-				~ITKImageAccessorConverter() override {};
+				~ITKImageAccessorConverter() override = default;
 
 			private:
 				ITKImageAccessorConverter(const
-				                          ITKImageAccessorConverter&); //not implemented on purpose -> non-copyable
+				                          ITKImageAccessorConverter&) = delete; //not implemented on purpose -> non-copyable
 				ITKImageAccessorConverter& operator=(const
-				                                     ITKImageAccessorConverter&);//not implemented on purpose -> non-copyable
+				                                     ITKImageAccessorConverter&) = delete;//not implemented on purpose -> non-copyable
 
 				ITKImageType::Pointer _itkImage;
 

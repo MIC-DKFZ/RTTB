@@ -40,16 +40,16 @@ namespace rttb
 		class RTTBCore_EXPORT AccessorInterface : public IndexConversionInterface
 		{
 		public:
-			typedef boost::shared_ptr<AccessorInterface> AccessorPointer;
-			typedef boost::shared_ptr<AccessorInterface> DoseAccessorPointer;
+			using AccessorPointer = boost::shared_ptr<AccessorInterface>;
+			using DoseAccessorPointer = boost::shared_ptr<AccessorInterface>;
 		private:
-			AccessorInterface(const AccessorInterface&); //not implemented on purpose -> non-copyable
+			AccessorInterface(const AccessorInterface&) = delete; //not implemented on purpose -> non-copyable
 			AccessorInterface& operator=(const
-			                             AccessorInterface&);//not implemented on purpose -> non-copyable
+			                             AccessorInterface&) = delete;//not implemented on purpose -> non-copyable
 
 		public:
-			AccessorInterface() {};
-			~AccessorInterface() override {};
+			AccessorInterface() = default;
+			~AccessorInterface() override = default;
 
 			/*! @brief test if given ID is inside current dose grid
 			*/

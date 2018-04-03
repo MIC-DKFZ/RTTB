@@ -42,8 +42,8 @@ namespace rttb
 		class RTTBCore_EXPORT StructureSet
 		{
 		public:
-			typedef Structure::StructTypePointer StructTypePointer;
-			typedef size_t NumberOfStructuresType;
+			using StructTypePointer = Structure::StructTypePointer;
+			using NumberOfStructuresType = size_t;
 
 		protected:
 			std::vector<StructTypePointer> _structureSetVector;
@@ -53,7 +53,7 @@ namespace rttb
 
 
 		public:
-			virtual ~StructureSet() {};
+			virtual ~StructureSet() = default;
 
 			/*! @brief Constructor
 				@param aPatientUID the patient UID.

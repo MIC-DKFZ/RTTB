@@ -26,7 +26,6 @@
 
 #include "litCheckMacros.h"
 #include "rttbBioModel.h"
-#include "rttbDVHTxtFileReader.h"
 #include "rttbDVH.h"
 #include "rttbTCPLQModel.h"
 #include "rttbNTCPLKBModel.h"
@@ -35,6 +34,7 @@
 #include "rttbBioModelCurve.h"
 #include "rttbDvhBasedModels.h"
 #include "rttbDoseIteratorInterface.h"
+#include "rttbDVHXMLFileReader.h"
 
 namespace rttb
 {
@@ -115,12 +115,12 @@ namespace rttb
 
 
 			//DVH PTV
-			rttb::io::other::DVHTxtFileReader dvhReader = rttb::io::other::DVHTxtFileReader(DVH_FILENAME_PTV);
+			rttb::io::other::DVHXMLFileReader dvhReader = rttb::io::other::DVHXMLFileReader(DVH_FILENAME_PTV);
 			DVHPointer dvhPtr = dvhReader.generateDVH();
 
 			CHECK_CLOSE(6.04759613161786830000e+001, models::getEUD(dvhPtr, 10), toleranceEUD);
 
-			rttb::io::other::DVHTxtFileReader dvhReader_test_tv = rttb::io::other::DVHTxtFileReader(
+			rttb::io::other::DVHXMLFileReader dvhReader_test_tv = rttb::io::other::DVHXMLFileReader(
 			            DVH_FILENAME_TV_TEST);
 			DVHPointer dvh_test_tv = dvhReader_test_tv.generateDVH();
 
@@ -224,7 +224,7 @@ namespace rttb
 			curve = models::getCurveDoseVSBioModel(tcplq_test, normalizationDose);
 
 			//DVH HT 1
-			rttb::io::other::DVHTxtFileReader dvhReader2 = rttb::io::other::DVHTxtFileReader(DVH_FILENAME_NT1);
+			rttb::io::other::DVHXMLFileReader dvhReader2 = rttb::io::other::DVHXMLFileReader(DVH_FILENAME_NT1);
 			DVHPointer dvhPtr2 = dvhReader2.generateDVH();
 
 			CHECK_CLOSE(1.07920836034015810000e+001, models::getEUD(dvhPtr2, 10), toleranceEUD);
@@ -275,7 +275,7 @@ namespace rttb
 			}
 
 			//DVH HT 2
-			rttb::io::other::DVHTxtFileReader dvhReader3 = rttb::io::other::DVHTxtFileReader(DVH_FILENAME_NT2);
+			rttb::io::other::DVHXMLFileReader dvhReader3 = rttb::io::other::DVHXMLFileReader(DVH_FILENAME_NT2);
 			DVHPointer dvhPtr3 = dvhReader3.generateDVH();
 			CHECK_CLOSE(1.26287047025885110000e+001, models::getEUD(dvhPtr3, 10), toleranceEUD);
 
@@ -321,7 +321,7 @@ namespace rttb
 
 
 			//DVH HT 3
-			rttb::io::other::DVHTxtFileReader dvhReader4 = rttb::io::other::DVHTxtFileReader(DVH_FILENAME_NT3);
+			rttb::io::other::DVHXMLFileReader dvhReader4 = rttb::io::other::DVHXMLFileReader(DVH_FILENAME_NT3);
 			DVHPointer dvhPtr4 = dvhReader4.generateDVH();
 			CHECK_CLOSE(2.18212982041056310000e+001, models::getEUD(dvhPtr4, 10), toleranceEUD);
 
@@ -369,10 +369,10 @@ namespace rttb
 			//DVH PTV
 
 
-			rttb::io::other::DVHTxtFileReader dR_Target = rttb::io::other::DVHTxtFileReader(DVH_Virtuos_Target);
+			rttb::io::other::DVHXMLFileReader dR_Target = rttb::io::other::DVHXMLFileReader(DVH_Virtuos_Target);
 			DVHPointer dvhPtrTarget = dR_Target.generateDVH();
 
-			rttb::io::other::DVHTxtFileReader dR_Lung = rttb::io::other::DVHTxtFileReader(DVH_Virtuos_Lung);
+			rttb::io::other::DVHXMLFileReader dR_Lung = rttb::io::other::DVHXMLFileReader(DVH_Virtuos_Lung);
 			DVHPointer dvhPtrLung = dR_Lung.generateDVH();
 
 

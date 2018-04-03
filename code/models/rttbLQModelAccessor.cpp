@@ -30,9 +30,7 @@ namespace rttb
 	namespace models
 	{
 		LQModelAccessor::~LQModelAccessor()
-		{
-
-		}
+		= default;
 
 		LQModelAccessor::LQModelAccessor(DoseAccessorPointer dose, BioModelParamType alpha,
             BioModelParamType beta, unsigned int nFractions,
@@ -93,12 +91,9 @@ namespace rttb
 			
 		}
 
-		bool LQModelAccessor::assembleGeometricInfo()
+		void LQModelAccessor::assembleGeometricInfo()
 		{
 			_geoInfo = _dose->getGeometricInfo();
-
-			return true;
-
 		}
 	}
 }

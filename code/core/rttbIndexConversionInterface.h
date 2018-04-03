@@ -34,13 +34,13 @@ namespace rttb
 		{
 		private:
 			IndexConversionInterface(const
-			                         IndexConversionInterface&); //not implemented on purpose -> non-copyable
+			                         IndexConversionInterface&) = delete; //not implemented on purpose -> non-copyable
 			IndexConversionInterface& operator=(const
-			                                    IndexConversionInterface&);//not implemented on purpose -> non-copyable
+			                                    IndexConversionInterface&) = delete;//not implemented on purpose -> non-copyable
 
 		public:
-			IndexConversionInterface() {};
-			virtual ~IndexConversionInterface() {};
+			IndexConversionInterface() = default;
+			virtual ~IndexConversionInterface() = default;
 
 		};
 	}

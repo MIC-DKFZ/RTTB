@@ -142,12 +142,12 @@ namespace rttb
 				throw core::InvalidParameterException("Parameter vectors have different sizes!");
 			}
 
-			for (GridIndexType v = 0; v < aVarianceVec.size(); v++)
+			for (double & v : aVarianceVec)
 			{
 				//set to small positive value to avoid negative infinity!
-				if (aVarianceVec.at(v) == 0)
+				if (v == 0)
 				{
-					aVarianceVec.at(v) = 1e-30;
+					v = 1e-30;
 				}
 			}
 

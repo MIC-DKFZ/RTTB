@@ -18,7 +18,7 @@
 // @date    $Date$ (last change date)
 // @author  $Author$ (last changed by)
 */
-
+#define _USE_MATH_DEFINES
 #include <string>
 #include <vector>
 #include <exception>
@@ -26,8 +26,7 @@
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 
 #include "rttbIntegration.h"
 #include "rttbNTCPLKBModel.h"
@@ -41,7 +40,7 @@ namespace rttb
 
 	namespace models
 	{
-		NTCPLKBModel::NTCPLKBModel() : NTCPModel(), _m(0), _a(0){
+		NTCPLKBModel::NTCPLKBModel() : NTCPModel(){
 			_name = "NTCPLKBModel";
 			fillParameterMap();
 		}

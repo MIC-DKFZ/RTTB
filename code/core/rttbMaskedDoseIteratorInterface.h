@@ -40,14 +40,14 @@ namespace rttb
         class RTTBCore_EXPORT MaskedDoseIteratorInterface : public DoseIteratorInterface
 		{
 		public:
-			typedef boost::shared_ptr<MaskAccessorInterface> MaskAccessorPointer;
-			typedef DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
-			typedef DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
-			typedef boost::shared_ptr<MaskedDoseIteratorInterface> MaskedDoseIteratorPointer;
+			using MaskAccessorPointer = boost::shared_ptr<MaskAccessorInterface>;
+			using DoseAccessorPointer = DoseIteratorInterface::DoseAccessorPointer;
+			using DoseIteratorPointer = DoseIteratorInterface::DoseIteratorPointer;
+			using MaskedDoseIteratorPointer = boost::shared_ptr<MaskedDoseIteratorInterface>;
 
 		private:
-			MaskedDoseIteratorInterface(const MaskedDoseIteratorInterface&);
-			MaskedDoseIteratorInterface& operator=(const MaskedDoseIteratorInterface&);
+			MaskedDoseIteratorInterface(const MaskedDoseIteratorInterface&) = delete;
+			MaskedDoseIteratorInterface& operator=(const MaskedDoseIteratorInterface&) = delete;
 
 		protected:
 			/*! @brief Mask that is to be applied to currently loaded dose*/
@@ -60,7 +60,7 @@ namespace rttb
 			*/
 			MaskedDoseIteratorInterface(MaskAccessorPointer aMaskAccessor, DoseAccessorPointer aDoseAccessor);
 
-			~MaskedDoseIteratorInterface() override {};
+			~MaskedDoseIteratorInterface() override = default;
 
 			inline MaskAccessorPointer getMaskAccessor() const
 			{

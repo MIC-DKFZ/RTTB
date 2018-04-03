@@ -35,7 +35,7 @@ namespace rttb
 		class DVHGeneratorInterface
 		{
 		public:
-			typedef core::DVH::DVHPointer DVHPointer;
+			using DVHPointer = core::DVH::DVHPointer;
 		protected:
 			DVHPointer _dvh;
 		public:

@@ -18,11 +18,10 @@
 // @date    $Date$ (last change date)
 // @author  $Author$ (last changed by)
 */
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 #include <exception>
-
-#define _USE_MATH_DEFINES
-#include <math.h>
 
 #include "rttbNTCPRSModel.h"
 #include "rttbInvalidParameterException.h"
@@ -33,7 +32,7 @@ namespace rttb
 
 	namespace models
 	{
-		NTCPRSModel::NTCPRSModel() : NTCPModel(), _gamma(0), _s(0){
+		NTCPRSModel::NTCPRSModel() : NTCPModel() {
 			_name = "NTCPRSModel";
 			fillParameterMap();
 		}

@@ -38,7 +38,7 @@ namespace rttb
 			{
 				ITKImageType::Pointer itkDoubleImage;
 				typedef ::itk::Image<TPixelType, 3> InputImageType;
-				typedef ITKImageType OutputImageType;
+				using OutputImageType = ITKImageType;
 				typename InputImageType::Pointer pCastedInput = dynamic_cast<InputImageType*>(genericImage);
 				typedef ::itk::CastImageFilter<InputImageType, OutputImageType> CastFilterType;
 				typename CastFilterType::Pointer castFilter = CastFilterType::New();

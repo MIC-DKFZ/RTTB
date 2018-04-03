@@ -38,16 +38,16 @@ namespace rttb
             class RTTBITKIO_EXPORT ITKImageMaskAccessorGenerator : public core::MaskAccessorGeneratorBase
 			{
 			public:
-				typedef MaskAccessorGeneratorBase::MaskAccessorPointer MaskAccessorPointer;
+				using MaskAccessorPointer = MaskAccessorGeneratorBase::MaskAccessorPointer;
 
 			private:
 				/** @brief The Mask as itkImage */
 				ITKImageMaskAccessor::ITKMaskImageType::ConstPointer _maskPtr;
 
-				ITKImageMaskAccessorGenerator();
+				ITKImageMaskAccessorGenerator() = delete;
 
 			public:
-				~ITKImageMaskAccessorGenerator() override {};
+				~ITKImageMaskAccessorGenerator() override = default;
 
 				/*!
 				@pre aMaskImage must point to a valid instance.

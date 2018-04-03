@@ -41,7 +41,7 @@ namespace rttb
 		public:
 			PaddingException(const std::string& aWhat): Exception(aWhat) {}
 
-			~PaddingException() throw() override {}
+			~PaddingException() throw() override = default;
 
 			/*! @brief Get the exception description
 			*/

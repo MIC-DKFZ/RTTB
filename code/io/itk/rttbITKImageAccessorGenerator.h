@@ -41,16 +41,16 @@ namespace rttb
 			{
 			public:
 				typedef ::itk::Image<GenericValueType, 3> ITKImageType;
-				typedef DoseAccessorGeneratorBase::DoseAccessorPointer DoseAccessorPointer;
+				using DoseAccessorPointer = DoseAccessorGeneratorBase::DoseAccessorPointer;
 
 			private:
 				/** @brief The dose as itkImage */
 				ITKImageType::ConstPointer _dosePtr;
 
-				ITKImageAccessorGenerator();
+				ITKImageAccessorGenerator() = delete;
 
 			public:
-				~ITKImageAccessorGenerator() override {};
+				~ITKImageAccessorGenerator() override = default;
 
 				/*!
 				@pre aDoseImage must point to a valid instance.

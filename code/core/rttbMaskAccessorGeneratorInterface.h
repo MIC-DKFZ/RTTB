@@ -34,19 +34,19 @@ namespace rttb
 		class MaskAccessorGeneratorInterface
 		{
 		public:
-			typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
+			using MaskAccessorPointer = core::MaskAccessorInterface::MaskAccessorPointer;
 
 
 		private:
 			MaskAccessorGeneratorInterface(const
-			                               MaskAccessorGeneratorInterface&); //not implemented on purpose -> non-copyable
+			                               MaskAccessorGeneratorInterface&) = delete; //not implemented on purpose -> non-copyable
 			MaskAccessorGeneratorInterface& operator=(const
-			        MaskAccessorGeneratorInterface&);//not implemented on purpose -> non-copyable
+			        MaskAccessorGeneratorInterface&) = delete;//not implemented on purpose -> non-copyable
 
 
 		protected:
-			MaskAccessorGeneratorInterface() {};
-			virtual ~MaskAccessorGeneratorInterface() {};
+			MaskAccessorGeneratorInterface() = default;
+			virtual ~MaskAccessorGeneratorInterface() = default;
 
 		public:
 

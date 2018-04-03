@@ -43,8 +43,8 @@ namespace rttb
 		class TCPLQModel: public TCPModel
 		{
 		public:
-			typedef TCPModel::ParamVectorType ParamVectorType;
-			typedef TCPModel::DVHPointer DVHPointer;
+			using ParamVectorType = TCPModel::ParamVectorType;
+			using DVHPointer = TCPModel::DVHPointer;
 
 		private:
 			/*! @brief Calculate intermediate tcp using alpha constant. This is a helper function for calcTCP()
@@ -64,15 +64,15 @@ namespace rttb
 			        BioModelParamType aAlphaVariance, double aDeltaV);
 
 		protected:
-			BioModelParamType _alphaMean;
+			BioModelParamType _alphaMean{0};
 
-			BioModelParamType _alphaVariance;
+			BioModelParamType _alphaVariance{0};
 
-			BioModelParamType _alpha_beta;
+			BioModelParamType _alpha_beta{0};
 
 			/*! Roh is the initial clonogenic cell density
 			*/
-			BioModelParamType _rho;
+			BioModelParamType _rho{0};
 
 
 			/*! @brief Calculate the model value

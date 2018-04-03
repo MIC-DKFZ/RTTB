@@ -38,7 +38,7 @@ namespace rttb
         class RTTBIndices_EXPORT DvhBasedDoseIndex : public DoseIndex
 		{
 		public:
-			typedef boost::shared_ptr<core::DVHSet> DVHSetPtr;
+			using DVHSetPtr = boost::shared_ptr<core::DVHSet>;
 
 		protected:
 

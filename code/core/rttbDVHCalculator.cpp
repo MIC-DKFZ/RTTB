@@ -80,7 +80,7 @@ namespace rttb
 
 		}
 
-		DVHCalculator::~DVHCalculator() {}
+		DVHCalculator::~DVHCalculator() = default;
 
 		DVHCalculator::DVHPointer DVHCalculator::generateDVH()
 		{
@@ -96,7 +96,7 @@ namespace rttb
 				FractionType voxelProportion = _doseIteratorPtr->getCurrentRelevantVolumeFraction();
 				currentVal = _doseIteratorPtr->getCurrentDoseValue();
 
-				int dose_bin = static_cast<int>(currentVal / _deltaD);
+				auto dose_bin = static_cast<int>(currentVal / _deltaD);
 
 				if (dose_bin < _numberOfBins)
 				{

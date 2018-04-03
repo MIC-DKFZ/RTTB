@@ -42,7 +42,7 @@ namespace rttb
 		public:
 			InvalidParameterException(const std::string& aWhat): Exception(aWhat) {}
 
-			~InvalidParameterException() throw() override {}
+			~InvalidParameterException() throw() override = default;
 
 			/*! @brief Get the exception description
 			*/

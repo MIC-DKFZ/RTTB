@@ -46,7 +46,7 @@ namespace rttb
 			explicit Exception(const std::string& aWhat)
 				: rttb_what(aWhat)
 			{}
-			~Exception() throw() override {}
+			~Exception() throw() override = default;
 
 			/*! @brief Get the exception description
 			*/

@@ -40,8 +40,8 @@ namespace rttb
 			class DicomIODDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
 			public:
-				typedef boost::shared_ptr<DRTDoseIOD> DRTDoseIODPtr;
-				typedef boost::shared_ptr<DcmItem> DcmItemPtr;
+				using DRTDoseIODPtr = boost::shared_ptr<DRTDoseIOD>;
+				using DcmItemPtr = boost::shared_ptr<DcmItem>;
 
 
 			protected:
@@ -49,7 +49,7 @@ namespace rttb
 			private:
 				DRTDoseIODPtr _doseIODPtr;
 
-				DicomIODDoseAccessorGenerator();
+				DicomIODDoseAccessorGenerator() = delete;
 
 
 			public:

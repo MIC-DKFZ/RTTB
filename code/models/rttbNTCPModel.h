@@ -39,14 +39,14 @@ namespace rttb
 		class NTCPModel: public BioModel
 		{
 		public:
-			typedef BioModel::ParamVectorType ParamVectorType;
-			typedef BioModel::DVHPointer DVHPointer;
+			using ParamVectorType = BioModel::ParamVectorType;
+			using DVHPointer = BioModel::DVHPointer;
 
 		protected:
-			BioModelParamType _d50;
+			BioModelParamType _d50{0};
 
 		public:
-			NTCPModel(): BioModel(), _d50(0) {}
+			NTCPModel(): BioModel() {}
 			NTCPModel(const BioModelParamType aD50): BioModel(), _d50(aD50) {}
 			NTCPModel(DVHPointer aDvh, const BioModelParamType aD50): BioModel(aDvh), _d50(aD50) {}
 

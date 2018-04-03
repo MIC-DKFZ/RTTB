@@ -38,14 +38,14 @@ namespace rttb
 		class DoseIteratorInterface
 		{
 		public:
-			typedef boost::shared_ptr<DoseAccessorInterface> DoseAccessorPointer;
-			typedef boost::shared_ptr<DoseIteratorInterface> DoseIteratorPointer;
+			using DoseAccessorPointer = boost::shared_ptr<DoseAccessorInterface>;
+			using DoseIteratorPointer = boost::shared_ptr<DoseIteratorInterface>;
 
 		private:
-			DoseIteratorInterface(const DoseIteratorInterface&); //not implemented on purpose -> non-copyable
+			DoseIteratorInterface(const DoseIteratorInterface&) = delete; //not implemented on purpose -> non-copyable
 			DoseIteratorInterface& operator=(const
-			                                 DoseIteratorInterface&);//not implemented on purpose -> non-copyable
-			DoseIteratorInterface() {};
+			                                 DoseIteratorInterface&) = delete;//not implemented on purpose -> non-copyable
+			DoseIteratorInterface() = default;
 
 		protected:
 			/*! @brief DoseAccessor to get access to actual dose data */
@@ -56,7 +56,7 @@ namespace rttb
 			*/
 			DoseIteratorInterface(DoseAccessorPointer aDoseAccessor);
 
-			virtual ~DoseIteratorInterface() {};
+			virtual ~DoseIteratorInterface() = default;
 
 			/*! @brief Set the iterator to the start of the dose.
 			*/

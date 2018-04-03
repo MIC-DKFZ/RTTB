@@ -23,7 +23,7 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "rttbDicomDoseAccessor.h"
 #include "rttbNullPointerException.h"
@@ -41,9 +41,7 @@ namespace rttb
 		{
 
 			DicomDoseAccessor::~DicomDoseAccessor()
-			{
-
-			}
+			= default;
 
 			DicomDoseAccessor::DicomDoseAccessor(DRTDoseIODPtr aDRTDoseIODP, DcmItemPtr aDcmDataset)
 			{
@@ -101,7 +99,7 @@ namespace rttb
 
 			}
 
-			bool DicomDoseAccessor::assembleGeometricInfo()
+      void DicomDoseAccessor::assembleGeometricInfo()
 			{
 
 				Uint16 temp = 0;
@@ -269,7 +267,6 @@ namespace rttb
 				}
 
 				_geoInfo.setSpacing(spacingVector);
-				return true;
 			}
 
 			GenericValueType DicomDoseAccessor::getValueAt(const VoxelGridID aID) const

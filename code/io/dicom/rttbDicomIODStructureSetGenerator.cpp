@@ -19,10 +19,10 @@
 // @author  $Author$ (last changed by)
 */
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <sstream>
-#include <stdlib.h>
+#include <cstdlib>
 #include <map>
 #include <regex>
 
@@ -72,9 +72,12 @@ namespace rttb
           roisItem->getROIName(ofRoiName);
           std::string roiName(ofRoiName.c_str());
 
+          //replace wrongly 'á' character by ' ' in ROI name
+          correctSpacesInROIName(roiName);
+
           if (!this->getStructureLabelFilterActive() || std::regex_match(roiName, e))
           {
-            filteredROIs.insert(std::make_pair(roiNumber, roiName));
+            filteredROIs.emplace(roiNumber, roiName);
           }
         }
 
@@ -167,8 +170,8 @@ namespace rttb
 					boost::shared_ptr<core::Structure> spStruct = boost::make_shared<core::Structure>(structureVector);
 					StructTypePointer str(spStruct);
 
-            str->setLabel(filteredROIs[refROINumber]);
-            std::cout << filteredROIs[refROINumber].c_str() << std::endl;	
+          str->setLabel(filteredROIs[refROINumber]);
+          std::cout << filteredROIs[refROINumber].c_str() << " read" << std::endl;
 
 					std::stringstream sstr;
 					sstr << structureNo;
@@ -182,8 +185,7 @@ namespace rttb
       }
 
 			DicomIODStructureSetGenerator::~DicomIODStructureSetGenerator()
-			{
-			}
+			= default;
 
 			DicomIODStructureSetGenerator::StructureSetPointer
 			DicomIODStructureSetGenerator::generateStructureSet()
@@ -191,6 +193,16 @@ namespace rttb
 				this->readStrSet();
 				return boost::make_shared<core::StructureSet>(_strVector, _patientUID, _UID);
 			}
-		}//end namespace dicom
+
+      void DicomIODStructureSetGenerator::correctSpacesInROIName(std::string& roiName)
+      {
+        for (auto& character : roiName) {
+          if (character == -96) {
+            character = ' ';
+          }
+        }
+      }
+
+    }//end namespace dicom
 	}//end namespace io
 }//end namespace rttb

@@ -43,7 +43,7 @@ namespace rttb
 		public:
 			NullPointerException(const std::string& aWhat): Exception(aWhat) {}
 
-			~NullPointerException() throw() override {}
+			~NullPointerException() throw() override = default;
 
 			/*! @brief Get the exception description
 			*/

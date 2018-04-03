@@ -26,9 +26,9 @@
 #include "litCheckMacros.h"
 
 #include "rttbDVH.h"
-#include "rttbDVHTxtFileReader.h"
 #include "rttbBaseType.h"
 #include "rttbDvhBasedModels.h"
+#include "rttbDVHXMLFileReader.h"
 
 namespace rttb
 {
@@ -61,7 +61,7 @@ namespace rttb
 			typedef core::DVH::DVHPointer DVHPointer;
 
 			/*test RT dvh*/
-			rttb::io::other::DVHTxtFileReader dvhReader = rttb::io::other::DVHTxtFileReader(RTDVH_FILENAME_PTV);
+			rttb::io::other::DVHXMLFileReader dvhReader = rttb::io::other::DVHXMLFileReader(RTDVH_FILENAME_PTV);
 
 			const DoseCalcType expectedValue = 0.01305;
 

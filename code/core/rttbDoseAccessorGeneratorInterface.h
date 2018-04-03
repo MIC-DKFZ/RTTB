@@ -33,19 +33,19 @@ namespace rttb
 		class DoseAccessorGeneratorInterface
 		{
 		public:
-			typedef core::AccessorInterface::AccessorPointer DoseAccessorPointer;
+			using DoseAccessorPointer = core::AccessorInterface::AccessorPointer;
 
 
 		private:
 			DoseAccessorGeneratorInterface(const
-			                               DoseAccessorGeneratorInterface&); //not implemented on purpose -> non-copyable
+			                               DoseAccessorGeneratorInterface&) = delete; //not implemented on purpose -> non-copyable
 			DoseAccessorGeneratorInterface& operator=(const
-			        DoseAccessorGeneratorInterface&);//not implemented on purpose -> non-copyable
+			        DoseAccessorGeneratorInterface&) = delete;//not implemented on purpose -> non-copyable
 
 
 		protected:
-			DoseAccessorGeneratorInterface() {};
-			virtual ~DoseAccessorGeneratorInterface() {};
+			DoseAccessorGeneratorInterface() = default;
+			virtual ~DoseAccessorGeneratorInterface() = default;
 
 		public:
 

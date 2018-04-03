@@ -38,7 +38,7 @@ namespace rttb
     {
         namespace other
         {
-            typedef boost::shared_ptr<rttb::algorithms::DoseStatistics> DoseStatisticsPtr;
+            using DoseStatisticsPtr = boost::shared_ptr<rttb::algorithms::DoseStatistics>;
 
 
             DoseStatisticsXMLReader::DoseStatisticsXMLReader(const std::string& filename) : _filename(filename),
@@ -47,8 +47,7 @@ namespace rttb
             }
 
             DoseStatisticsXMLReader::~DoseStatisticsXMLReader()
-            {
-            }
+            = default;
 
 
             void DoseStatisticsXMLReader::setFilename(const std::string& filename)

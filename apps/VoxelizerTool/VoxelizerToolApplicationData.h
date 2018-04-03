@@ -33,40 +33,41 @@
 
 namespace rttb
 {
-	namespace apps
-	{
-		namespace voxelizerTool
-		{
-            class VoxelizerCmdLineParser;
-			/*! @class ApplicationData
-			@brief Class for storing all relevant variables needed in VoxelizerTool
-			*/
-			class ApplicationData
-			{
-			public:
-                typedef std::vector<std::string> LoadingStyleArgType;
-                core::DoseAccessorInterface::DoseAccessorPointer _dose;
-                core::StructureSetGeneratorInterface::StructureSetPointer _struct;
-				std::string _structFile;
-				std::string _referenceFile;
-				std::string _outputFilename;
-                std::string _regEx;
-                LoadingStyleArgType _referenceFileLoadStyle;
-				bool _multipleStructs;
-				bool _binaryVoxelization;
-				bool _addStructures;
-				bool _noStrictVoxelization;
+  namespace apps
+  {
+    namespace voxelizerTool
+    {
+      class VoxelizerCmdLineParser;
+      /*! @class ApplicationData
+      @brief Class for storing all relevant variables needed in VoxelizerTool
+      */
+      class ApplicationData
+      {
+      public:
+        typedef std::vector<std::string> LoadingStyleArgType;
+        core::DoseAccessorInterface::DoseAccessorPointer _dose;
+        core::StructureSetGeneratorInterface::StructureSetPointer _struct;
+        std::string _structFile;
+        std::string _referenceFile;
+        std::string _outputFilename;
+        std::string _regEx;
+        LoadingStyleArgType _referenceFileLoadStyle;
+        LoadingStyleArgType _structFileLoadStyle;
+        bool _multipleStructs;
+        bool _binaryVoxelization;
+        bool _addStructures;
+        bool _noStrictVoxelization;
 
-				/*! @brief Resets the variables.
-				*/
-				void reset();
+        /*! @brief Resets the variables.
+        */
+        void reset();
 
-				ApplicationData();
-			};
-			/*! @brief Reads the necessary arguments from the VoxelizerCmdLineParser and writes them in the respective variables of ApplicationData.
-			*/
-			void populateAppData(boost::shared_ptr<VoxelizerCmdLineParser> argParser, ApplicationData& appData);
-		}
-	}
+        ApplicationData();
+      };
+      /*! @brief Reads the necessary arguments from the VoxelizerCmdLineParser and writes them in the respective variables of ApplicationData.
+      */
+      void populateAppData(boost::shared_ptr<VoxelizerCmdLineParser> argParser, ApplicationData& appData);
+    }
+  }
 }
 #endif

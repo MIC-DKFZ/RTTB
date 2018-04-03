@@ -33,6 +33,10 @@
 #include "rttbITKImageAccessorConverter.h"
 #include "rttbITKImageAccessorGenerator.h"
 #include "rttbITKImageFileAccessorGenerator.h"
+#include "rttbITKImageFileMaskAccessorGenerator.h"
+#include "rttbITKImageAccessor.h"
+#include "rttbITKImageMaskAccessor.h"
+#include "rttbInvalidDoseException.h"
 
 #include "itkImageFileReader.h"
 
@@ -54,16 +58,19 @@ namespace rttb
 		int ITKIOTest(int argc, char* argv[])
 		{
 			typedef core::DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
+      typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//ARGUMENTS:
 			// 1: mhd file name
+      // 2: mask file name
 
-			std::string RTDOSE_FILENAME;
+			std::string RTDOSE_FILENAME, VOXELIZEDMASK_FILENAME;
 
-			if (argc > 1)
+			if (argc > 2)
 			{
 				RTDOSE_FILENAME = argv[1];
+        VOXELIZEDMASK_FILENAME = argv[2];
 			}
 
 			/* read dose in *.mhd file */
@@ -81,8 +88,8 @@ namespace rttb
 			const VoxelGridID start = 0;
 			const VoxelGridIndex3D start3D(0);
 
-			VoxelGridID end, inbetween, inbetween2;
-			VoxelGridIndex3D end3D, inbetween3D, inbetween23D;
+			VoxelGridID end, inbetween, inbetween2, outside;
+			VoxelGridIndex3D end3D, inbetween3D, inbetween23D, outside3D;
 
 			//2) test ITK dose import accessing dose data and converting (*.mhd file)
 			CHECK(doseAccessor1->getGeometricInfo().validID(start));
@@ -94,6 +101,7 @@ namespace rttb
 
 			CHECK_EQUAL(0, doseAccessor1->getValueAt(start));
 			CHECK_EQUAL(doseAccessor1->getValueAt(start), doseAccessor1-> getValueAt(start3D));
+      CHECK_NO_THROW(doseAccessor1->getUID());
 
 			inbetween = 4039;
 			doseAccessor1->getGeometricInfo().convert(inbetween, inbetween3D);
@@ -111,12 +119,17 @@ namespace rttb
 			CHECK_EQUAL(doseAccessor1->getValueAt(inbetween2), doseAccessor1-> getValueAt(inbetween23D));
 
 			end = doseAccessor1->getGridSize() - 1;
+      outside = end + 1;
 			doseAccessor1->getGeometricInfo().convert(end, end3D);
+      outside3D = VoxelGridIndex3D(end3D.x() + 2, end3D.y(), end3D.z());
 			CHECK(doseAccessor1->getGeometricInfo().validID(end));
 			CHECK(doseAccessor1->getGeometricInfo().validIndex(end3D));
 
 			CHECK_EQUAL(0, doseAccessor1->getValueAt(end));
 			CHECK_EQUAL(doseAccessor1->getValueAt(end), doseAccessor1-> getValueAt(end3D));
+
+      CHECK_EQUAL(-1, doseAccessor1->getValueAt(outside));
+      CHECK_EQUAL(-1, doseAccessor1->getValueAt(outside3D));
 
 			typedef itk::Image< DoseTypeGy, 3 >         DoseImageType;
 			typedef itk::ImageFileReader<DoseImageType> ReaderType;
@@ -160,6 +173,41 @@ namespace rttb
 			CHECK_EQUAL(0, doseAccessor2->getValueAt(end));
 			CHECK_EQUAL(doseAccessor2->getValueAt(end), doseAccessor2-> getValueAt(end3D));
 
+      /* test ITKImageAccessor*/
+      typedef itk::Image< DoseTypeGy, 3 >         DoseImageType;
+
+      DoseImageType::Pointer invalidDose = DoseImageType::New();
+      CHECK_THROW_EXPLICIT(io::itk::ITKImageAccessor(invalidDose.GetPointer()), core::InvalidDoseException);
+
+      /* test ITKImageMaskAccessor*/
+      CHECK_THROW_EXPLICIT(io::itk::ITKImageMaskAccessor(invalidDose.GetPointer()), core::InvalidDoseException);
+
+      io::itk::ITKImageFileMaskAccessorGenerator maskAccessorGenerator(VOXELIZEDMASK_FILENAME.c_str());
+      MaskAccessorPointer maskAccessor(maskAccessorGenerator.generateMaskAccessor());
+
+      auto imageSize = maskAccessor->getGeometricInfo().getImageSize();
+      end = imageSize.x()*imageSize.y()*imageSize.z() - 1;
+      outside = end + 1;
+
+      maskAccessor->getGeometricInfo().convert(end, end3D);
+      outside3D = VoxelGridIndex3D(end3D.x() + 2, end3D.y(), end3D.z());
+
+      inbetween3D = VoxelGridIndex3D(139, 61, 57);
+      maskAccessor->getGeometricInfo().convert(inbetween3D, inbetween);
+
+      core::MaskVoxel aVoxel(0);
+      CHECK_EQUAL(maskAccessor->getMaskAt(start, aVoxel), true);
+      CHECK_EQUAL(aVoxel.getRelevantVolumeFraction(), 0.0);
+      CHECK_EQUAL(maskAccessor->getMaskAt(end, aVoxel), true);
+      CHECK_EQUAL(aVoxel.getRelevantVolumeFraction(), 0.0);
+      CHECK_EQUAL(maskAccessor->getMaskAt(end3D, aVoxel), true);
+      CHECK_EQUAL(aVoxel.getRelevantVolumeFraction(), 0.0);
+      CHECK_EQUAL(maskAccessor->getMaskAt(outside, aVoxel), false);
+      CHECK_EQUAL(maskAccessor->getMaskAt(outside3D, aVoxel), false);
+      CHECK_EQUAL(maskAccessor->getMaskAt(inbetween, aVoxel), true);
+      CHECK_EQUAL(aVoxel.getRelevantVolumeFraction(), 1.0);
+      CHECK_EQUAL(maskAccessor->getMaskAt(inbetween3D, aVoxel), true);
+      CHECK_EQUAL(aVoxel.getRelevantVolumeFraction(), 1.0);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

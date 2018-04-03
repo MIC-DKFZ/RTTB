@@ -27,7 +27,7 @@ namespace rttb
 {
 	namespace core
 	{
-		typedef AccessorInterface DoseAccessorInterface;
+		using DoseAccessorInterface = rttb::core::AccessorInterface;
 	}
 }
 

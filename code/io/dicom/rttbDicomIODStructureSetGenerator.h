@@ -48,9 +48,9 @@ namespace rttb
 			class DicomIODStructureSetGenerator: public core::StrVectorStructureSetGenerator
 			{
 			public:
-				typedef core::StructureSet::StructTypePointer StructTypePointer;
-				typedef StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
-				typedef boost::shared_ptr<DRTStructureSetIOD> DRTStrSetIODPtr;
+				using StructTypePointer = core::StructureSet::StructTypePointer;
+				using StructureSetPointer = StructureSetGeneratorInterface::StructureSetPointer;
+				using DRTStrSetIODPtr = boost::shared_ptr<DRTStructureSetIOD>;
 
 			private:
 				DRTStrSetIODPtr _drtStrSetIOD;
@@ -62,8 +62,10 @@ namespace rttb
 				@exception InvalidParameterException Thrown if the imported header tags are not numerical.
 				*/
 				void readStrSet();
-
-			public:
+        /*!	Replaces the character 'á' ((int)-96) to ' ' ((int)32) in a string.
+        */
+        void correctSpacesInROIName(std::string& roiName);
+      public:
 
 				/*! @brief Structure Constructor
 				Get the vector of structures from DRTStructureSetIOD object

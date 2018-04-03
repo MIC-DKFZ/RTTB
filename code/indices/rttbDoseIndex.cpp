@@ -31,7 +31,7 @@ namespace rttb
 		DoseIndex::DoseIndex(DoseTypeGy aDoseReference)
 			: _doseReference(aDoseReference), _initSuccess(false) {}
 
-        DoseIndex::~DoseIndex(){}
+        DoseIndex::~DoseIndex()= default;
 
 		bool DoseIndex::init()
 		{

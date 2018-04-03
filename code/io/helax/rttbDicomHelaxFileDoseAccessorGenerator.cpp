@@ -40,7 +40,7 @@ namespace rttb
 	{
 		namespace helax
 		{
-			DicomHelaxFileDoseAccessorGenerator::~DicomHelaxFileDoseAccessorGenerator() {}
+			DicomHelaxFileDoseAccessorGenerator::~DicomHelaxFileDoseAccessorGenerator() = default;
 
 			DicomHelaxFileDoseAccessorGenerator::DicomHelaxFileDoseAccessorGenerator(
 			    FileNameType aDICOMRTDoseDirName)
@@ -60,11 +60,11 @@ namespace rttb
 				DcmFileFormat fileformat;
 				std::vector<DRTDoseIODPtr> doseVector;
 
-				for (size_t i = 0; i < fileVector.size(); i++)
+				for (auto & i : fileVector)
 				{
 					DRTDoseIODPtr dose = boost::make_shared<DRTDoseIOD>();
 
-					status = fileformat.loadFile(fileVector.at(i).c_str());
+					status = fileformat.loadFile(i.c_str());
 
 					if (!status.good())
 					{

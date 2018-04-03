@@ -19,7 +19,7 @@
 // @author  $Author$ (last changed by)
 */
 
-#include <assert.h>
+#include <cassert>
 
 #include "rttbITKImageAccessor.h"
 #include "rttbException.h"
@@ -32,9 +32,7 @@ namespace rttb
 		namespace itk
 		{
 			ITKImageAccessor::~ITKImageAccessor()
-			{
-
-			}
+			= default;
 
 			ITKImageAccessor::ITKImageAccessor(ITKImageType::ConstPointer image)
 			{
@@ -76,7 +74,7 @@ namespace rttb
 
 			}
 
-			bool ITKImageAccessor::assembleGeometricInfo()
+			void ITKImageAccessor::assembleGeometricInfo()
 			{
 				_geoInfo.setSpacing(SpacingVectorType3D(_data->GetSpacing()[0], _data->GetSpacing()[1],
 				                                        _data->GetSpacing()[2]));
@@ -107,8 +105,6 @@ namespace rttb
 				{
 					throw core::InvalidDoseException("Empty dicom dose!") ;
 				}
-
-				return true;
 
 			}
 

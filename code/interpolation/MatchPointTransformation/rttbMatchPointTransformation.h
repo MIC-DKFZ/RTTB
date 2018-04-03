@@ -54,7 +54,7 @@ namespace rttb
 			*/
 			MatchPointTransformation(const Registration3D3DType* aRegistration);
 
-			~MatchPointTransformation() override {};
+			~MatchPointTransformation() override = default;
 
 			/*! @brief performs a transformation targetImage --> movingImage
 			*/

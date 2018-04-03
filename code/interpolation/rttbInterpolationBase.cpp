@@ -20,7 +20,7 @@
 */
 
 #include <list>
-#include <assert.h>
+#include <cassert>
 
 #include "rttbInterpolationBase.h"
 #include "rttbInvalidParameterException.h"
@@ -104,9 +104,9 @@ namespace rttb
 						{
 							for (unsigned int xIncr = 0; xIncr < 2; xIncr++)
 							{
-								cornerPoints.push_back(VoxelGridIndex3D(leftTopFrontCoordinate[0] + xIncr,
+								cornerPoints.emplace_back(leftTopFrontCoordinate[0] + xIncr,
 								                                        leftTopFrontCoordinate[1] + yIncr,
-								                                        leftTopFrontCoordinate[2] + zIncr));
+								                                        leftTopFrontCoordinate[2] + zIncr);
 							}
 						}
 					}

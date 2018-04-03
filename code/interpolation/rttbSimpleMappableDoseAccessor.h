@@ -45,7 +45,7 @@ namespace rttb
 		private:
 			InterpolationBase::Pointer _spInterpolation;
 		public:
-			typedef boost::shared_ptr<SimpleMappableDoseAccessor> Pointer;
+			using Pointer = boost::shared_ptr<SimpleMappableDoseAccessor>;
 
 			/*! @brief Constructor. Just hands values over to base class constructor.
 				@param aInterpolation the used interpolation.
@@ -60,7 +60,7 @@ namespace rttb
 
 			/*! @brief Virtual destructor of class
 			*/
-			~SimpleMappableDoseAccessor() override {};
+			~SimpleMappableDoseAccessor() override = default;
 			/*! @brief Returns the dose for a given voxel grid id. Plain trilinear interpolation is performed.
 				@sa getDoseAt(const VoxelGridIndex3D& aIndex)
 			*/

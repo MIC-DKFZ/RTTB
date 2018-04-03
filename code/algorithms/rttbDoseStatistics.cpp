@@ -83,9 +83,7 @@ namespace rttb
 
 
 		DoseStatistics::~DoseStatistics()
-		{
-
-		}
+		= default;
 
 
 		void DoseStatistics::setMinimumVoxelPositions(ResultListPointer minimumVoxelPositions)

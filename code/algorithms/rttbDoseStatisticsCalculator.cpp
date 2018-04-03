@@ -58,9 +58,7 @@ namespace rttb
 
 
 		DoseStatisticsCalculator::~DoseStatisticsCalculator()
-		{
-
-		}
+		= default;
 
 		DoseStatisticsCalculator::DoseIteratorPointer DoseStatisticsCalculator::getDoseIterator() const
 		{
@@ -228,10 +226,10 @@ namespace rttb
 			}
 
 			//sort dose values and corresponding volume fractions in member variables
-			for (auto it = doseValueVSIndexMap.begin(); it != doseValueVSIndexMap.end(); ++it)
+			for (auto & it : doseValueVSIndexMap)
 			{
-				_doseVector.push_back((float)(*it).first);
-				_voxelProportionVector.push_back(voxelProportionVectorTemp.at((*it).second));
+				_doseVector.push_back((float)it.first);
+				_voxelProportionVector.push_back(voxelProportionVectorTemp.at(it.second));
 			}
 
 			volume *= numVoxels;

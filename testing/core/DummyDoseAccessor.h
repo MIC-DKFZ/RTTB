@@ -62,6 +62,8 @@ namespace rttb
 			*/
 			DummyDoseAccessor(const std::vector<DoseTypeGy>& aDoseVector, const core::GeometricInfo& geoInfo);
 
+      void assembleGeometricInfo() override;
+
 			const std::vector<DoseTypeGy>* getDoseVector() const
 			{
 				return &doseData;

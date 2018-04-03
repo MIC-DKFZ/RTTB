@@ -41,11 +41,11 @@ namespace rttb
 		public:
 			static const unsigned int InputDimension3D = 3;
 			static const unsigned int OutputDimension3D = 3;
-			typedef double TransformScalarType;
+			using TransformScalarType = double;
 			typedef itk::Transform<TransformScalarType, InputDimension3D, OutputDimension3D> Transform3D3DType;
-			typedef Transform3D3DType::InputPointType InputPointType;
-			typedef Transform3D3DType::OutputPointType OutputPointType;
-			typedef boost::shared_ptr<ITKTransformation> Pointer;
+			using InputPointType = Transform3D3DType::InputPointType;
+			using OutputPointType = Transform3D3DType::OutputPointType;
+			using Pointer = boost::shared_ptr<ITKTransformation>;
 
 		private:
 			//! Has to be a Pointer type because of inheritance issues with itkSmartPointer (that doesn't recognize the inheritance)
@@ -65,7 +65,7 @@ namespace rttb
 			*/
 			ITKTransformation(const Transform3D3DType* aTransformation);
 
-			~ITKTransformation() override {};
+			~ITKTransformation() override = default;
 
 			/*! @brief performs a transformation targetImage --> movingImage
 			*/

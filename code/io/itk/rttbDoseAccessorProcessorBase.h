@@ -35,7 +35,7 @@ namespace rttb
 		class DoseAccessorProcessorBase: public DoseAccessorProcessorInterface
 		{
 		public:
-			typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+			using DoseAccessorPointer = core::DoseAccessorInterface::DoseAccessorPointer;
 
 			void setDoseAccessor(DoseAccessorPointer accessor) override
 			{
@@ -44,13 +44,13 @@ namespace rttb
 
 		private:
 			DoseAccessorProcessorBase(const
-			                          DoseAccessorProcessorBase&); //not implemented on purpose -> non-copyable
+			                          DoseAccessorProcessorBase&) = delete; //not implemented on purpose -> non-copyable
 			DoseAccessorProcessorBase& operator=(const
-			                                     DoseAccessorProcessorBase&);//not implemented on purpose -> non-copyable
+			                                     DoseAccessorProcessorBase&) = delete;//not implemented on purpose -> non-copyable
 
 		protected:
-			DoseAccessorProcessorBase() {};
-			~DoseAccessorProcessorBase() override {};
+			DoseAccessorProcessorBase() = default;
+			~DoseAccessorProcessorBase() override = default;
 
 			/*! @brief Dose accessor which should be generated */
 			DoseAccessorPointer _doseAccessor;

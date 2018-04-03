@@ -32,7 +32,7 @@ namespace rttb
     {
         namespace utils 
         {
-            typedef std::vector<std::string> LoadingStyleArgType;
+            using LoadingStyleArgType = std::vector<std::string>;
 
             /*! @brief loads a dicom struct from a file.
             You may pass a structure name regex. If is not empty, it will be used to filter structure in the

@@ -180,7 +180,7 @@ int main(int argc,  const char** argv)
 	else
 	{
 		//generate dummy identity registration
-		typedef map::algorithm::DummyRegistrationAlgorithm<3>	DummyRegType;
+		using DummyRegType = map::algorithm::DummyRegistrationAlgorithm<3>;
 		DummyRegType::Pointer regAlg = DummyRegType::New();
 
 		appData._spReg = regAlg->getRegistration();
