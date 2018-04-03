@@ -250,7 +250,7 @@ CONFIGURE_FILE(${RTToolbox_SOURCE_DIR}/RTToolboxConfigure.h.in
   ${RTToolbox_BINARY_DIR}/RTToolboxConfigure.h)
   
 IF(NOT RTTOOLBOX_INSTALL_NO_DEVELOPMENT)
-  INSTALL(FILES RTToolboxConfigure.h
+  INSTALL(FILES ${RTToolbox_BINARY_DIR}/RTToolboxConfigure.h
     DESTINATION ${RTTOOLBOX_INSTALL_INCLUDE_DIR}
     COMPONENT Development)
 ENDIF(NOT RTTOOLBOX_INSTALL_NO_DEVELOPMENT)
@@ -298,8 +298,8 @@ INCLUDE (${RTToolbox_SOURCE_DIR}/rttbGenerateRTToolboxConfig.cmake)
 
 IF(NOT RTToolbox_INSTALL_NO_DEVELOPMENT)
 	INSTALL(FILES
-    RTToolboxConfig.cmake
-    RTToolboxTargets.cmake
+    ${RTToolbox_BINARY_DIR}/RTToolboxConfig.cmake
+    ${RTToolbox_BINARY_DIR}/RTToolboxTargets.cmake
     DESTINATION ${RTTOOLBOX_INSTALL_PACKAGE_DIR}
     COMPONENT Development
     )
