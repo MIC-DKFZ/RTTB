@@ -20,10 +20,11 @@
 */
 
 #include <rttbUtils.h>
+#include <boost/filesystem.hpp>
 
 namespace rttb {
   namespace core {
-    bool isKey(const std::map<double, double>& values, const double value) {
+	  bool isKey(const std::map<double, double>& values, const double value) {
 			for (auto const& collectionElements : values) {
 				if (std::abs(collectionElements.first - value) <= errorConstant)
 				{
@@ -47,5 +48,19 @@ namespace rttb {
     bool valueIsClose(double value1, double value2, double specificErrorConstant) {
       return std::abs(value1 - value2) < specificErrorConstant;
     }
+
+
+	std::string getFilenameWithoutEnding(const std::string& outfilename)
+	{
+		boost::filesystem::path p(outfilename);
+		return p.replace_extension("").string();
+	}
+
+	std::string getFileEnding(const std::string& outfilename)
+	{
+		boost::filesystem::path p(outfilename);
+		return p.extension().string();
+	}
+
   }
 }

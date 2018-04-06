@@ -35,9 +35,14 @@ namespace rttb
 
     bool RTTBCore_EXPORT isKey(const std::map<double, double>& values, double value);
 
-    bool RTTBCore_EXPORT isKey(const std::vector<double>& values, double value);
+		bool RTTBCore_EXPORT isKey(const std::vector<double>& values, double value);
 
-    bool RTTBCore_EXPORT valueIsClose(double value1, double value2, double specificErrorConstant = 1e-5);
+		bool RTTBCore_EXPORT valueIsClose(double value1, double value2, double specificErrorConstant = 1e-5);
+
+		std::string RTTBCore_EXPORT getFilenameWithoutEnding(const std::string& outfilename);
+	
+		std::string RTTBCore_EXPORT getFileEnding(const std::string& outfilename);
+	
 	}
 }
 
