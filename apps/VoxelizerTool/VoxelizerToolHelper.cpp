@@ -35,7 +35,8 @@
 #include <regex>
 
 #include <boost/algorithm/string/case_conv.hpp>
-#include <boost/filesystem.hpp>
+
+#include "rttbUtils.h"
 
 #include "rttbDicomFileStructureSetGenerator.h"
 
@@ -52,18 +53,6 @@ void rttb::apps::voxelizerTool::removeSpecialCharacters(std::string& label)
 	{
 		label.replace(label.size() - 1, 1, "");
 	}
-}
-
-std::string rttb::apps::voxelizerTool::getFilenameWithoutEnding(const std::string& outfilename)
-{
-	boost::filesystem::path p(outfilename);
-	return p.replace_extension("").string();
-}
-
-std::string rttb::apps::voxelizerTool::getFileEnding(const std::string& outfilename)
-{
-	boost::filesystem::path p(outfilename);
-	return p.extension().string();
 }
 
 rttb::core::MaskAccessorInterface::MaskAccessorPointer rttb::apps::voxelizerTool::createMask(
@@ -208,9 +197,9 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
 
                 if (appData._multipleStructs)
                 {
-                    std::string fileName = getFilenameWithoutEnding(
+                    std::string fileName = rttb::core::getFilenameWithoutEnding(
                         appData._outputFilename);
-                    std::string fileEnding = getFileEnding(appData._outputFilename);
+                    std::string fileEnding = rttb::core::getFileEnding(appData._outputFilename);
                     outputName = fileName + "_" + labelOfInterest + fileEnding;
                 }
                 std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer> currenMaskVector{ currentMask };

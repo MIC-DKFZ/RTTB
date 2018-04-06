@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #include <cmath>
 #include <algorithm>
@@ -31,6 +25,7 @@
 #include "rttbDicomIODStructureSetGenerator.h"
 #include "rttbDcmrtException.h"
 #include "rttbDicomFileReaderHelper.h"
+#include "rttbUtils.h"
 
 namespace rttb
 {
@@ -49,8 +44,7 @@ namespace rttb
 			}
 
 
-			DicomFileStructureSetGenerator::~DicomFileStructureSetGenerator()
-			= default;
+			DicomFileStructureSetGenerator::~DicomFileStructureSetGenerator() = default;
 
 			DicomFileStructureSetGenerator::StructureSetPointer
 			DicomFileStructureSetGenerator::generateStructureSet()
@@ -58,12 +52,12 @@ namespace rttb
 				std::vector<FileNameString> fileVector;
 
 				//if a file
-				if (isFile(_fileName))
+				if (core::isFile(_fileName))
 				{
 					fileVector.push_back(_fileName);
 				}
 				//if a directory
-				else if (isDirectory(_fileName))
+				else if (core::isDirectory(_fileName))
 				{
 					rttb::io::dicom::Modality strModality = {rttb::io::dicom::Modality::RTSTRUCT};
 					fileVector = getFileNamesWithSameUID(_fileName, strModality);
@@ -99,9 +93,9 @@ namespace rttb
 					throw DcmrtException("Read DRTStructureSetIOD DRTStructureSetIOD.read() failed!");
 				}
 
-        io::dicom::DicomIODStructureSetGenerator iodGenerator(drtStrSetIODPtr);
-        iodGenerator.setStructureLabelFilterActive(this->getStructureLabelFilterActive());
-        iodGenerator.setFilterRegEx(this->getFilterRegEx());
+				io::dicom::DicomIODStructureSetGenerator iodGenerator(drtStrSetIODPtr);
+				iodGenerator.setStructureLabelFilterActive(this->getStructureLabelFilterActive());
+				iodGenerator.setFilterRegEx(this->getFilterRegEx());
 				return iodGenerator.generateStructureSet();
 			}
 

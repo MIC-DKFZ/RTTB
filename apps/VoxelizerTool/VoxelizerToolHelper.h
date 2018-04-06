@@ -62,8 +62,6 @@ namespace rttb
             io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer applyThresholdFilter(
                 io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer itkImage);
 
-			std::string getFilenameWithoutEnding(const std::string& outfilename);
-			std::string getFileEnding(const std::string& outfilename);
 		}
 	}
 }

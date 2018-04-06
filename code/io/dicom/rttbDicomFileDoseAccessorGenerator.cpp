@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
@@ -30,6 +24,7 @@
 #include "rttbIndexOutOfBoundsException.h"
 #include "rttbDicomFileReaderHelper.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbUtils.h"
 
 namespace rttb
 {
@@ -53,12 +48,12 @@ namespace rttb
 				std::vector<FileNameString> fileVector;
 
 				//if a file
-				if (isFile(_dicomDoseFileName))
+				if (core::isFile(_dicomDoseFileName))
 				{
 					fileVector.push_back(_dicomDoseFileName);
 				}
 				//if a directory
-				else if (isDirectory(_dicomDoseFileName))
+				else if (core::isDirectory(_dicomDoseFileName))
 				{
 					rttb::io::dicom::Modality doseModality = {rttb::io::dicom::Modality::RTDOSE};
 					fileVector = getFileNamesWithSameUID(_dicomDoseFileName, doseModality);

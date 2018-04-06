@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #include "rttbDicomFileReaderHelper.h"
 
@@ -29,6 +23,7 @@
 
 #include "rttbDcmrtException.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbUtils.h"
 
 namespace rttb
 {
@@ -36,33 +31,6 @@ namespace rttb
 	{
 		namespace dicom
 		{
-			bool isFile(FileNameType aName)
-			{
-				boost::filesystem::path path = boost::filesystem::path(aName);
-
-				if (boost::filesystem::exists(path) && boost::filesystem::is_regular_file(path))
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
-
-			bool isDirectory(FileNameType aName)
-			{
-				boost::filesystem::path path = boost::filesystem::path(aName);
-
-				if (boost::filesystem::exists(path) && boost::filesystem::is_directory(path))
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-			}
 
 			OFString getModality(DcmDataSetPtr aDcmDataSet)
 			{
@@ -112,7 +80,7 @@ namespace rttb
 				}
 
 				//if a directory
-				if (isDirectory(aDirName))
+				if (core::isDirectory(aDirName))
 				{
 
 					boost::filesystem::directory_iterator end_iter;
@@ -160,7 +128,7 @@ namespace rttb
 					}
 
 				}
-				else if (isFile(aDirName))
+				else if (core::isFile(aDirName))
 				{
 					std::cout << "Important: the given name " + aDirName +
 					          " is a file name, not a directory name. Given modality will be ignored, use the modality of the file."
@@ -179,7 +147,7 @@ namespace rttb
 			std::vector<FileNameType> getFileNames(FileNameType aFileName)
 			{
 
-				if (!isFile(aFileName))
+				if (!core::isFile(aFileName))
 				{
 					throw core::InvalidParameterException("Error: file does not exist!");
 				}

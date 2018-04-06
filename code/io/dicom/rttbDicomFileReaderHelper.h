@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __DICOM_FILE_READER_HELPER_H
 #define __DICOM_FILE_READER_HELPER_H
 
@@ -62,14 +57,6 @@ namespace rttb
 			@exception DcmrtException thrown if load/read file failed
 			*/
 			std::vector<FileNameType> getFileNames(FileNameType aFileName);
-
-			/*! Return if the given name is a file
-			*/
-			bool isFile(FileNameType aName);
-
-			/*! Return if the given name is a directory
-			*/
-			bool isDirectory(FileNameType aName);
 
 			/*! Return modality DcmTagKey(0x0008, 0x0060)
 			@exception DcmrtException thrown if reading modality failed*/
