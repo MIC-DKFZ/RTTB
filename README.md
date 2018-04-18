@@ -136,14 +136,14 @@ ENDIF(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS AND NOT BUILD_SHARED_LIBS)
 
 Then build DCMTK. `BUILD_APPS` can be switched off.
 
-#####ITK
+##### ITK
 
 Build ITK with default options.
 :warning: ensure that compiler enables C++11 features by setting `CMAKE_CXX_STANDARD=11` (default for supported compilers)
 
 :warning: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
 
-#####MatchPoint
+##### MatchPoint
 
 Build MatchPoint with default options.
 :warning: ensure that compiler enables C++11 features by setting `CMAKE_CXX_STANDARD=11` (default for supported compilers)
@@ -151,7 +151,7 @@ Build MatchPoint with default options.
 :warning: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
 
 
-###Building RT-Toolbox
+### Building RT-Toolbox
 
 * Configure with CMake
 * Set `BOOST_INCLUDE_DIR` and `BOOST_DIR` to the main boost directory (where `boost_build.jam` is located). Eventually, you have to set `BOOST_LIBRARYDIR`
@@ -230,7 +230,11 @@ This project is licensed under the BSD License - see the [LICENSE.txt](LICENSE.t
 
 ## Contact
 
-Please contact rttb(at)dkfz.de
+Software Development for Integrated Diagnostics and Therapy (SIDT),
+German Cancer Research Center (DKFZ), Heidelberg, Germany.
+
+Web:    https://www.dkfz-heidelberg.de/en/mic/research/SIDT/sidt_projects.html
+E-mail: rttb(at)dkfz.de
 
 ## Acknowledgments
 
