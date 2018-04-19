@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 
 #include "rttbITKIOHelper.h"
@@ -33,12 +27,19 @@ namespace rttb
 		namespace itk
 		{
 
-			ITKImageType::Pointer readITKDoubleImage(FileNameType aITKImageFile)
+			ITKImageType::Pointer readITKDoubleImage(FileNameType aITKImageFile) {
+				return readITKDoubleImage(aITKImageFile, false);
+			}
+
+			ITKImageType::Pointer readITKDoubleImage(FileNameType aITKImageFile, bool isDicom)
 			{
 				ITKImageType::Pointer itkDoubleImage;
 
 				GenericImageReader::Pointer spReader = GenericImageReader::New();
 
+				if (isDicom) {
+					spReader->setSeriesReadStyle(ImageSeriesReadStyle::Type::Dicom);
+				}
 				spReader->setFileName(aITKImageFile);
 
 				GenericImageReader::GenericOutputImageType::Pointer itkGenericImage;

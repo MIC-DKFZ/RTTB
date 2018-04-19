@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1221 $ (last changed revision)
-// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
-// @author  $Author: strubel $ (last changed by)
-*/
 
 #include "VoxelizerToolCmdLineParser.h"
 
@@ -48,20 +42,18 @@ namespace rttb
 				addPositionalOption(OPTION_STRUCT_FILE,1);
 				addPositionalOption(OPTION_REFERENCE_FILE, 1);
 				addPositionalOption(OPTION_OUTPUT_FILE_NAME, 1);
-
-				std::vector<std::string> defaultLoadingStyle;
-				defaultLoadingStyle.push_back("dicom");
 				
-				addOptionWithDefaultValue<std::string>(OPTION_REGEX, OPTION_GROUP_REQUIRED,
-					"set a regular expression describing the structs of interest", "", "",'e', true);
+				addOption<std::string>(OPTION_REGEX, OPTION_GROUP_REQUIRED,
+					"set a regular expression describing the structs of interest",'e', true);
                 addInformationForXML(OPTION_REGEX, cmdlineparsing::XMLGenerator::paramType::STRING);
 
 				
-				addOptionWithDefaultValue<std::vector<std::string>>(OPTION_REFERENCE_FILE_LOAD_STYLE, OPTION_GROUP_REQUIRED,
-					"set the load style for the reference file. Available styles are: "
-					"dicom: normal dicom dose"
-					"itk: use itk image loading.", defaultLoadingStyle, defaultLoadingStyle.at(0), 'y', true);
-                addInformationForXML(OPTION_REFERENCE_FILE_LOAD_STYLE, cmdlineparsing::XMLGenerator::paramType::STRINGENUMERATION, { "dicom", "itk" });
+				addOptionWithDefaultValue<std::string>(OPTION_REFERENCE_FILE_LOAD_STYLE, OPTION_GROUP_REQUIRED,
+					"set the load style for the reference file. Available styles are:"
+					"\ndicom: normal dicom dose"
+					"\nitk: use itk image loading"
+					"\nitkDicom: use itk dicom image loading", "dicom", "dicom", 'y', true);
+                addInformationForXML(OPTION_REFERENCE_FILE_LOAD_STYLE, cmdlineparsing::XMLGenerator::paramType::STRING);
 				
 				//OPTIONAL
 				addOption(OPTION_MULTIPLE_STRUCTS, OPTION_GROUP_OPTIONAL,
@@ -85,13 +77,12 @@ namespace rttb
 			void VoxelizerCmdLineParser::validateInput() const
 			{
 				
-				std::vector<std::string> referenceLoadStyle = get<std::vector<std::string> >(OPTION_REFERENCE_FILE_LOAD_STYLE);
-				std::string referenceLoadStyleString = referenceLoadStyle.at(0);
+				std::string referenceLoadStyle = get<std::string>(OPTION_REFERENCE_FILE_LOAD_STYLE);
 
-				if (referenceLoadStyleString != "dicom" && referenceLoadStyleString != "itk")
+				if (referenceLoadStyle != "dicom" && referenceLoadStyle != "itk" && referenceLoadStyle != "itkDicom")
 				{
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style for reference file:" +
-						referenceLoadStyleString+
+						referenceLoadStyle +
 						".\nPlease refer to the help for valid loading style settings.");
 				}
 

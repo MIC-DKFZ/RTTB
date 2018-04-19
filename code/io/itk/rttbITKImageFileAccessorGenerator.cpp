@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
@@ -41,10 +35,12 @@ namespace rttb
 				_fileName = fileName;
 			}
 
-			rttb::core::DoseAccessorGeneratorBase::DoseAccessorPointer
-			ITKImageFileAccessorGenerator::generateDoseAccessor()
-			{
-				_itkDoubleImage = readITKDoubleImage(_fileName);
+			rttb::core::DoseAccessorGeneratorBase::DoseAccessorPointer ITKImageFileAccessorGenerator::generateDoseAccessor() {
+				return ITKImageFileAccessorGenerator::generateDoseAccessor(false);
+			}
+
+			rttb::core::DoseAccessorGeneratorBase::DoseAccessorPointer ITKImageFileAccessorGenerator::generateDoseAccessor(bool isDicom) {
+				_itkDoubleImage = readITKDoubleImage(_fileName, isDicom);
 
 				_doseAccessor = boost::make_shared<ITKImageAccessor>(_itkDoubleImage.GetPointer());
 				return _doseAccessor;

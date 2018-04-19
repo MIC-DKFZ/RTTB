@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1674 $ (last changed revision)
-// @date    $Date: 2017-01-27 10:34:46 +0100 (Fr, 27 Jan 2017) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #ifndef __RTTB_DOSE_LOADER_H
 #define __RTTB_DOSE_LOADER_H
@@ -69,6 +63,11 @@ namespace rttb
                 return generator.generateDoseAccessor();
             }
 
+			rttb::core::DoseAccessorInterface::DoseAccessorPointer loadITKDicomDose(const std::string& fileName) {
+				rttb::io::itk::ITKImageFileAccessorGenerator generator(fileName);
+				return generator.generateDoseAccessor(true);
+			}
+
             /*! @brief loads a dose from a file based on the loadingStyle.
                 @params args[0]: determines the loadingStyle
                 @exception Throws an rttb::Exception if loading fails
@@ -91,6 +90,10 @@ namespace rttb
                 {
                     result = loadITKDose(fileName);
                 }
+				else if (args[0] == "itkDicom")
+				{
+					result = loadITKDicomDose(fileName);
+				}
                 else
                 {
                     rttbDefaultExceptionStaticMacro(<< "Unknown io style selected. Cannot load data. Selected style: "

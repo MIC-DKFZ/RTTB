@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __ITK_IMAGE_FILE_ACCESSOR_GENERATOR_H
 #define __ITK_IMAGE_FILE_ACCESSOR_GENERATOR_H
 
@@ -67,6 +62,7 @@ namespace rttb
 				*/
 				DoseAccessorPointer generateDoseAccessor() override;
 
+				DoseAccessorPointer generateDoseAccessor(bool isDicom);
 
 			};
 		}//end namespace itk
