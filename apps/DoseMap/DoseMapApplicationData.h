@@ -12,13 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1221 $ (last changed revision)
-// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
-
 
 #ifndef __DOSEMAP_APPLICATION_DATA_H
 #define __DOSEMAP_APPLICATION_DATA_H
@@ -43,17 +36,13 @@ namespace rttb
 			public:
 				typedef map::core::Registration<3, 3> RegistrationType;
 
-				/**Vector of arguments used to specify the loading style (always the first argument)
-				* and, if needed, additional arguments for the specified loading style.
-				*/
-				typedef std::vector<std::string> LoadingStyleArgType;
 				/** Loaded Dose.*/
 				core::DoseAccessorInterface::DoseAccessorPointer _inputDose;
 				std::string  _inputDoseFileName;
-				LoadingStyleArgType  _inputDoseLoadStyle;
+				std::string  _inputDoseLoadStyle;
 				core::DoseAccessorInterface::DoseAccessorPointer _refDose;
 				std::string  _refDoseFileName;
-				LoadingStyleArgType  _refDoseLoadStyle;
+				std::string  _refDoseLoadStyle;
 				RegistrationType::Pointer _spReg;
 				std::string  _regFileName;
 

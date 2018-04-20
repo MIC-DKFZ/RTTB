@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1374 $ (last changed revision)
-// @date    $Date: 2016-05-30 14:15:42 +0200 (Mo, 30 Mai 2016) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "DoseToolCmdLineParser.h"
 
@@ -54,25 +48,27 @@ namespace rttb
 				addPositionalOption(OPTION_STRUCT_NAME, 1);
 				addPositionalOption(OPTION_DOSE_STATISTICS, 1);
 
-				std::vector<std::string> defaultLoadingStyle;
-				defaultLoadingStyle.push_back("dicom");
-				std::string doseLoadStyleDescription = "\"dicom\": normal dicom dose\n"
-					"\"itk\": use itk image loading\n\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).";
+				std::string defaultLoadingStyle = "dicom";
+				std::string doseLoadStyleDescription = "Available styles:"
+					"\ndicom: normal dicom dose (default)"
+					"\nitk: use itk image loading"
+					"\nitkDicom: use itk dicom image loading"
+					"\nhelax: load a helax dose (choosing this style, the dose path should only be a directory).";
 
-				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_DOSE_LOAD_STYLE, OPTION_GROUP_REQUIRED,
+				addOptionWithDefaultValue<std::string>(OPTION_DOSE_LOAD_STYLE, OPTION_GROUP_REQUIRED,
 					doseLoadStyleDescription,
-					defaultLoadingStyle, defaultLoadingStyle.at(0),
+					defaultLoadingStyle, defaultLoadingStyle,
 					't', true, true);
-				addInformationForXML(OPTION_DOSE_LOAD_STYLE, cmdlineparsing::XMLGenerator::paramType::STRINGENUMERATION, { "dicom", "itk", "helax" });
+				addInformationForXML(OPTION_DOSE_LOAD_STYLE, cmdlineparsing::XMLGenerator::paramType::STRING);
 
 				std::string structLoadStyleDescription = "\"dicom\": normal dicom dose\n"
 					"\"itk\": use itk image loading\"";
 
-				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_STRUCT_LOAD_STYLE,
+				addOptionWithDefaultValue<std::string>(OPTION_STRUCT_LOAD_STYLE,
 					OPTION_GROUP_REQUIRED, structLoadStyleDescription,
-					defaultLoadingStyle, defaultLoadingStyle.at(0),
+					defaultLoadingStyle, defaultLoadingStyle,
 					'u', true, true);
-				addInformationForXML(OPTION_STRUCT_LOAD_STYLE, cmdlineparsing::XMLGenerator::paramType::STRINGENUMERATION, { "dicom", "itk"});
+				addInformationForXML(OPTION_STRUCT_LOAD_STYLE, cmdlineparsing::XMLGenerator::paramType::STRING);
 
 				//OPTIONAL
 				addOption<std::string>(OPTION_DOSE_STATISTICS, OPTION_GROUP_OPTIONAL,
@@ -107,31 +103,30 @@ namespace rttb
 
 			void DoseToolCmdLineParser::validateInput() const
 			{
-				std::vector<std::string> doseLoadStyle = get<std::vector<std::string> >(OPTION_DOSE_LOAD_STYLE);
-				std::string doseLoadStyleAbbreviation = doseLoadStyle.at(0);
+				std::string doseLoadStyle = get<std::string>(OPTION_DOSE_LOAD_STYLE);
 
-				if (doseLoadStyleAbbreviation != "dicom"
-				    && doseLoadStyleAbbreviation != "itk"
-				    && doseLoadStyleAbbreviation != "helax")
+				if (doseLoadStyle != "dicom"
+				    && doseLoadStyle != "itk"
+				    && doseLoadStyle != "itkDicom"
+				    && doseLoadStyle != "helax")
 				{
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style for dose file:" +
-					        doseLoadStyleAbbreviation +
+						doseLoadStyle +
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 
-				std::vector<std::string> structLoadStyle = get<std::vector<std::string> >(OPTION_STRUCT_LOAD_STYLE);
-				std::string structLoadStyleAbbreviation = structLoadStyle.at(0);
+				std::string structLoadStyle = get<std::string>(OPTION_STRUCT_LOAD_STYLE);
 
-				if (structLoadStyleAbbreviation != "dicom"
-				    && structLoadStyleAbbreviation != "itk")
+				if (structLoadStyle != "dicom"
+				    && structLoadStyle != "itk"
+				    && structLoadStyle != "itkDicom")
 				{
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style for struct file:" +
-					        structLoadStyleAbbreviation +
+						structLoadStyle +
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 
-				if (structLoadStyleAbbreviation == "dicom"
-				    || structLoadStyleAbbreviation == "helax")
+				if (structLoadStyle == "dicom" || structLoadStyle == "helax")
 				{
 					if (get<std::string>(OPTION_STRUCT_NAME) == "")
 					{

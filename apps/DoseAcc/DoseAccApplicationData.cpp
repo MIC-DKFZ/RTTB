@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1145 $ (last changed revision)
-// @date    $Date: 2015-10-12 17:06:10 +0200 (Mo, 12 Okt 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "DoseAccApplicationData.h"
 
@@ -56,11 +50,11 @@ namespace rttb
             void populateAppData(boost::shared_ptr<DoseAccCmdLineParser> argParser, ApplicationData& appData)
             {
                 appData._dose1FileName = argParser->get<std::string>(argParser->OPTION_DOSE1_FILENAME);
-                appData._dose1LoadStyle = argParser->get<std::vector<std::string> >
+                appData._dose1LoadStyle = argParser->get<std::string>
                     (argParser->OPTION_LOAD_STYLE_DOSE1);
 
                 appData._dose2FileName = argParser->get<std::string>(argParser->OPTION_DOSE2_FILENAME);
-                appData._dose2LoadStyle = argParser->get<std::vector<std::string> >
+                appData._dose2LoadStyle = argParser->get<std::string>
                     (argParser->OPTION_LOAD_STYLE_DOSE2);
 
                 appData._outputFileName = argParser->get<std::string>(argParser->OPTION_OUTPUT_FILENAME);

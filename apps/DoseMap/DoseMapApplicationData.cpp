@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1145 $ (last changed revision)
-// @date    $Date: 2015-10-12 17:06:10 +0200 (Mo, 12 Okt 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "DoseMapApplicationData.h"
 
@@ -55,16 +49,15 @@ namespace rttb
 				appData._outputFileName = argParser->get<std::string>(argParser->OPTION_OUTPUT_FILE_NAME);
 				appData._interpolatorName = argParser->get<std::string>(argParser->OPTION_INTERPOLATOR);
 				appData._regFileName = argParser->get<std::string>(argParser->OPTION_REG_FILE_NAME);
-				appData._inputDoseLoadStyle = argParser->get<std::vector<std::string> > (argParser->OPTION_INPUT_DOSE_LOAD_STYLE);
+				appData._inputDoseLoadStyle = argParser->get<std::string>(argParser->OPTION_INPUT_DOSE_LOAD_STYLE);
 				
 
 				if (!argParser->isSet(argParser->OPTION_REF_DOSE_FILE)){
 					appData._refDoseFileName = argParser->get<std::string>(argParser->OPTION_INPUT_DOSE_FILE_NAME);
-					appData._refDoseLoadStyle = argParser->get<std::vector<std::string> >(argParser->OPTION_INPUT_DOSE_LOAD_STYLE);
-				}
-				else{
+					appData._refDoseLoadStyle = argParser->get<std::string>(argParser->OPTION_INPUT_DOSE_LOAD_STYLE);
+				} else {
 					appData._refDoseFileName = argParser->get<std::string>(argParser->OPTION_REF_DOSE_FILE);
-					appData._refDoseLoadStyle = argParser->get<std::vector<std::string> >(argParser->OPTION_REF_DOSE_LOAD_STYLE);
+					appData._refDoseLoadStyle = argParser->get<std::string>(argParser->OPTION_REF_DOSE_LOAD_STYLE);
 				}
 			
 			}
