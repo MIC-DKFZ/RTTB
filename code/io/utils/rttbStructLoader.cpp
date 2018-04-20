@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1674 $ (last changed revision)
-// @date    $Date: 2017-01-27 10:34:46 +0100 (Fr, 27 Jan 2017) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #ifndef __RTTB_STRUCT_LOADER_H
 #define __RTTB_STRUCT_LOADER_H
@@ -32,8 +26,6 @@ namespace rttb
     {
         namespace utils 
         {
-            using LoadingStyleArgType = std::vector<std::string>;
-
             /*! @brief loads a dicom struct from a file.
             You may pass a structure name regex. If is not empty, it will be used to filter structure in the
             loading process. Only structures with a name matching the reg ex will be loaded. This speeds up the
@@ -64,18 +56,17 @@ namespace rttb
             @details voxelized itk images are read in generateMask() directly
             */
             rttb::core::StructureSetGeneratorInterface::StructureSetPointer loadStruct(
-                const std::string& fileName, const LoadingStyleArgType& args, const std::string& structNameRegex = "")
+                const std::string& fileName, const std::string& loadStyle, const std::string& structNameRegex = "")
             {
                 rttb::core::StructureSetGeneratorInterface::StructureSetPointer result;
                 
-                if (args.empty() || args[0] == "dicom")
+                if (loadStyle == "" || loadStyle == "dicom")
                 {
                     result = rttb::io::utils::loadDicomStruct(fileName, structNameRegex);
                 }
                 else
                 {
-                    rttbDefaultExceptionStaticMacro(<< "Unknown io style selected. Cannot load data. Selected style: "
-                        << args[0]);
+                    rttbDefaultExceptionStaticMacro(<< "Unknown io style selected. Cannot load data. Selected style: " << loadStyle);
                 }
 
                 return result;

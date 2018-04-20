@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1221 $ (last changed revision)
-// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 
 #ifndef __VoxelizerApplicationData_h
@@ -44,15 +38,14 @@ namespace rttb
       class ApplicationData
       {
       public:
-        typedef std::vector<std::string> LoadingStyleArgType;
         core::DoseAccessorInterface::DoseAccessorPointer _dose;
         core::StructureSetGeneratorInterface::StructureSetPointer _struct;
         std::string _structFile;
         std::string _referenceFile;
         std::string _outputFilename;
         std::string _regEx;
-        LoadingStyleArgType _referenceFileLoadStyle;
-        LoadingStyleArgType _structFileLoadStyle;
+		std::string _referenceFileLoadStyle;
+		std::string _structFileLoadStyle;
         bool _multipleStructs;
         bool _binaryVoxelization;
         bool _addStructures;

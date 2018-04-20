@@ -74,30 +74,29 @@ namespace rttb
             */
             rttb::core::DoseAccessorInterface::DoseAccessorPointer
                 loadDose(const std::string& fileName,
-                    const std::vector<std::string>& args)
+                    const std::string& loadStyle)
             {
                 rttb::core::DoseAccessorInterface::DoseAccessorPointer result;
 
-                if (args.empty() || args[0] == "dicom")
+                if (loadStyle == "" || loadStyle == "dicom")
                 {
                     result = loadDicomDose(fileName);
                 }
-                else if (args[0] == "helax")
+                else if (loadStyle == "helax")
                 {
                     result = loadHelaxDose(fileName);
                 }
-                else if (args[0] == "itk")
+                else if (loadStyle == "itk")
                 {
                     result = loadITKDose(fileName);
                 }
-				else if (args[0] == "itkDicom")
+				else if (loadStyle == "itkDicom")
 				{
 					result = loadITKDicomDose(fileName);
 				}
                 else
                 {
-                    rttbDefaultExceptionStaticMacro(<< "Unknown io style selected. Cannot load data. Selected style: "
-                        << args[0]);
+                    rttbDefaultExceptionStaticMacro(<< "Unknown io style selected. Cannot load data. Selected style: " << loadStyle);
                 }
 
                 return result;
