@@ -12,13 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1210 $ (last changed revision)
-// @date    $Date: 2015-11-24 15:52:45 +0100 (Di, 24 Nov 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
-
 
 #ifndef __BIO_MODEL_CALC_APPLICATION_DATA_H
 #define __BIO_MODEL_CALC_APPLICATION_DATA_H
@@ -42,16 +35,11 @@ namespace rttb
 			class ApplicationData
 			{
 			public:
-				/**Vector of arguments used to specify the loading style (always the first argument)
-				 * and, if needed, additional arguments for the specified loading style.
-				 */
-				typedef std::vector<std::string> LoadingStyleArgType;
-
 				core::DoseAccessorInterface::DoseAccessorPointer _dose;
                 std::deque<core::AccessorInterface::AccessorPointer> _modelParameterMaps;
 				std::string  _doseFileName;
-				LoadingStyleArgType _doseLoadStyle;
-                LoadingStyleArgType _parameterMapsLoadStyle;
+				std::string _doseLoadStyle;
+				std::string _parameterMapsLoadStyle;
 				double _doseScaling;
                 unsigned int _nFractions;
 

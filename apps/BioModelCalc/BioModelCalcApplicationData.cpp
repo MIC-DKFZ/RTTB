@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1233 $ (last changed revision)
-// @date    $Date: 2016-01-20 15:47:47 +0100 (Mi, 20 Jan 2016) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "BioModelCalcApplicationData.h"
 
@@ -51,7 +45,7 @@ namespace rttb
 			void populateAppData(boost::shared_ptr<BioModelCmdLineParser> argParser, ApplicationData& appData)
 			{
 				appData._doseFileName = argParser->get<std::string>(argParser->OPTION_DOSE_FILE);
-				appData._doseLoadStyle = argParser->get<std::vector<std::string> >(argParser->OPTION_LOAD_STYLE);
+				appData._doseLoadStyle = argParser->get<std::string>(argParser->OPTION_LOAD_STYLE);
 				appData._doseScaling = argParser->get<double>(argParser->OPTION_DOSE_SCALING);
 				appData._outputFileName = argParser->get<std::string>(argParser->OPTION_OUTPUT_FILE);
 				appData._model = argParser->get<std::string>(argParser->OPTION_MODEL);
@@ -60,7 +54,7 @@ namespace rttb
                 }
                 else {
                     appData._modelParameterMapsFilename = argParser->get<std::vector<std::string> >(argParser->OPTION_MODEL_PARAMETER_MAPS);
-                    appData._parameterMapsLoadStyle = argParser->get<std::vector<std::string> >(argParser->OPTION_LOAD_STYLE_PARAMETER_MAPS);
+                    appData._parameterMapsLoadStyle = argParser->get<std::string>(argParser->OPTION_LOAD_STYLE_PARAMETER_MAPS);
                 }
                 if (argParser->isSet(argParser->OPTION_N_FRACTIONS)){
                     appData._nFractions = argParser->get<unsigned int>(argParser->OPTION_N_FRACTIONS);
