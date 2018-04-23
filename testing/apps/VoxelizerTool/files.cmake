@@ -3,5 +3,6 @@ SET(CPP_FILES
 	VoxelizerToolDifferentCommandsTest.cpp
 	VoxelizerToolIncorrectCommandsTest.cpp
 	VoxelizerToolVoxelizerAllStructsTest.cpp
+	VoxelizerToolVoxelizerStructTest.cpp
 	VoxelizerToolVoxelValueTest.cpp
   )
