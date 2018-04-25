@@ -30,17 +30,14 @@ namespace rttb
 			ITKImageFileAccessorGenerator::~ITKImageFileAccessorGenerator()
 			= default;
 
-			ITKImageFileAccessorGenerator::ITKImageFileAccessorGenerator(const FileNameType& fileName)
+			ITKImageFileAccessorGenerator::ITKImageFileAccessorGenerator(const FileNameType& fileName, const bool& useDicom)
 			{
 				_fileName = fileName;
+				_useDicom = useDicom;
 			}
 
 			rttb::core::DoseAccessorGeneratorBase::DoseAccessorPointer ITKImageFileAccessorGenerator::generateDoseAccessor() {
-				return ITKImageFileAccessorGenerator::generateDoseAccessor(false);
-			}
-
-			rttb::core::DoseAccessorGeneratorBase::DoseAccessorPointer ITKImageFileAccessorGenerator::generateDoseAccessor(bool isDicom) {
-				_itkDoubleImage = readITKDoubleImage(_fileName, isDicom);
+				_itkDoubleImage = readITKDoubleImage(_fileName, _useDicom);
 
 				_doseAccessor = boost::make_shared<ITKImageAccessor>(_itkDoubleImage.GetPointer());
 				return _doseAccessor;

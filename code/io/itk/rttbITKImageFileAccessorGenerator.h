@@ -44,6 +44,8 @@ namespace rttb
 				FileNameType _fileName;
 				/** @brief The dose as itkImage */
 				ITKImageType::Pointer _itkDoubleImage;
+				
+				bool _useDicom;
 
 				ITKImageFileAccessorGenerator() = delete;
 
@@ -51,7 +53,7 @@ namespace rttb
 			public:
 				~ITKImageFileAccessorGenerator() override;
 
-				ITKImageFileAccessorGenerator(const FileNameType& fileName);
+				ITKImageFileAccessorGenerator(const FileNameType& fileName, const bool& useDicom = false);
 
 				/*! @brief Generate DoseAccessor
 				@return Return shared pointer of DoseAccessor.
@@ -61,8 +63,6 @@ namespace rttb
 				@sa doCasting, handleGenericImage
 				*/
 				DoseAccessorPointer generateDoseAccessor() override;
-
-				DoseAccessorPointer generateDoseAccessor(bool isDicom);
 
 			};
 		}//end namespace itk

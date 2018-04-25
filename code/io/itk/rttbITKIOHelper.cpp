@@ -27,10 +27,6 @@ namespace rttb
 		namespace itk
 		{
 
-			ITKImageType::Pointer readITKDoubleImage(FileNameType aITKImageFile) {
-				return readITKDoubleImage(aITKImageFile, false);
-			}
-
 			ITKImageType::Pointer readITKDoubleImage(FileNameType aITKImageFile, bool isDicom)
 			{
 				ITKImageType::Pointer itkDoubleImage;
