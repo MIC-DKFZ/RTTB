@@ -12,13 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1221 $ (last changed revision)
-// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
-
 
 #ifndef __DOSETOOL_APPLICATION_DATA_H
 #define __DOSETOOL_APPLICATION_DATA_H
@@ -41,21 +34,17 @@ namespace rttb
 			class ApplicationData
 			{
 			public:
-				/**Vector of arguments used to specify the loading style (always the first argument)
-				 * and, if needed, additional arguments for the specified loading style.
-				 */
-				typedef std::vector<std::string> LoadingStyleArgType;
 				core::DoseAccessorInterface::DoseAccessorPointer _dose;
 				core::StructureSetGeneratorInterface::StructureSetPointer _struct;
 				std::string _structNameRegex;
 				std::vector<std::string> _structNames;
-				std::string  _doseFileName;
-				std::string  _structFileName;
-				LoadingStyleArgType _doseLoadStyle;
-				LoadingStyleArgType _structLoadStyle;
+				std::string _doseFileName;
+				std::string _structFileName;
+				std::string _doseLoadStyle;
+				std::string _structLoadStyle;
 				bool _computeComplexDoseStatistics;
 				DoseTypeGy _prescribedDose;
-				std::string  _doseStatisticOutputFileName;
+				std::string _doseStatisticOutputFileName;
 				bool _allowSelfIntersection;
 				bool _multipleStructsMode;
 				bool _computeDVH;

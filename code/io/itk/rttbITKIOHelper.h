@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __ITK_IO_HELPER_H
 #define __ITK_IO_HELPER_H
 
@@ -37,7 +32,7 @@ namespace rttb
 			typedef ::itk::Image<GenericValueType, 3> ITKImageType;
 			/*! @brief Read a itk image file into itkImage<DoseTypeGy,3>
 			*/
-			ITKImageType::Pointer readITKDoubleImage(FileNameType aITKImageFile);
+			ITKImageType::Pointer readITKDoubleImage(FileNameType aITKImageFile, bool isDicom = false);
 
 			/*! @brief Converts a generic image to itkImage<DoseTypeGy,3>
 			@param itkGenericImage the image read by GenericImageReader

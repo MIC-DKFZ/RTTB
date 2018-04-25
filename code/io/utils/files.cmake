@@ -4,4 +4,6 @@ SET(CPP_FILES
 )
 
 SET(H_FILES 
+  rttbDoseLoader.h
+  rttbStructLoader.h
 )

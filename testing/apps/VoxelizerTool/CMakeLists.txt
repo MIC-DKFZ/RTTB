@@ -21,6 +21,8 @@ ADD_TEST(VoxelizerToolIncorrectCommandsTest ${VoxelizerTool_TESTS} VoxelizerTool
 ${REFERENCE_FILE} "${TEST_DATA_ROOT}/Dose/DICOM/Wrong_Reference_file.dicom" "Rueckenmark" "blabla")
 ADD_TEST(VoxelizerToolVoxelizerAllStructsTest ${VoxelizerTool_TESTS} VoxelizerToolVoxelizerAllStructsTest 
 "${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE} )
+ADD_TEST(VoxelizerToolVoxelizerStructTest ${VoxelizerTool_TESTS} VoxelizerToolVoxelizerStructTest 
+"${VOXELIZERTOOL_EXE}" ${TEST_DATA} "${TEST_DATA_ROOT}/StructureSet/ITK/singleFiles/rtss.dcm" "${TEST_DATA_ROOT}/StructureSet/ITK/singleFiles/ct.0" )
 ADD_TEST(VoxelizerToolDifferentCommandsTest ${VoxelizerTool_TESTS} VoxelizerToolDifferentCommandsTest 
 "${VOXELIZERTOOL_EXE}" ${TEST_DATA} ${STRUCT_FILE} ${REFERENCE_FILE})
 ADD_TEST(VoxelizerToolVoxelValueTest  ${VoxelizerTool_TESTS} VoxelizerToolVoxelValue 

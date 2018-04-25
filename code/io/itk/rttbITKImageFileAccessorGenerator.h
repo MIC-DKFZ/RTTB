@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __ITK_IMAGE_FILE_ACCESSOR_GENERATOR_H
 #define __ITK_IMAGE_FILE_ACCESSOR_GENERATOR_H
 
@@ -49,6 +44,8 @@ namespace rttb
 				FileNameType _fileName;
 				/** @brief The dose as itkImage */
 				ITKImageType::Pointer _itkDoubleImage;
+				
+				bool _useDicom;
 
 				ITKImageFileAccessorGenerator() = delete;
 
@@ -56,7 +53,7 @@ namespace rttb
 			public:
 				~ITKImageFileAccessorGenerator() override;
 
-				ITKImageFileAccessorGenerator(const FileNameType& fileName);
+				ITKImageFileAccessorGenerator(const FileNameType& fileName, const bool& useDicom = false);
 
 				/*! @brief Generate DoseAccessor
 				@return Return shared pointer of DoseAccessor.
@@ -66,7 +63,6 @@ namespace rttb
 				@sa doCasting, handleGenericImage
 				*/
 				DoseAccessorPointer generateDoseAccessor() override;
-
 
 			};
 		}//end namespace itk

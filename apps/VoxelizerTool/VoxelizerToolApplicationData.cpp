@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1221 $ (last changed revision)
-// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "VoxelizerToolApplicationData.h"
 
@@ -46,7 +40,7 @@ namespace rttb
 				_multipleStructs = false;
 				_binaryVoxelization = false;
 				_addStructures = false;
-        _noStrictVoxelization = false;
+				_noStrictVoxelization = false;
 			}
 
 			void populateAppData(boost::shared_ptr<VoxelizerCmdLineParser> argParser, ApplicationData& appData)
@@ -54,9 +48,9 @@ namespace rttb
 				appData._structFile = argParser->get<std::string>(argParser->OPTION_STRUCT_FILE);
 				appData._referenceFile = argParser->get<std::string>(argParser->OPTION_REFERENCE_FILE);
 				appData._outputFilename = argParser->get<std::string>(argParser->OPTION_OUTPUT_FILE_NAME);
-				appData._referenceFileLoadStyle = argParser->get<std::vector<std::string>>(argParser->OPTION_REFERENCE_FILE_LOAD_STYLE);
-        //only valid option for reading structs is dicom until now.
-        appData._structFileLoadStyle.emplace_back("dicom");
+				appData._referenceFileLoadStyle = argParser->get<std::string>(argParser->OPTION_REFERENCE_FILE_LOAD_STYLE);
+				//only valid option for reading structs is dicom until now.
+				appData._structFileLoadStyle = "dicom";
 				appData._regEx = argParser->get<std::string>(argParser->OPTION_REGEX);
 				
 				if (argParser->isSet(argParser->OPTION_MULTIPLE_STRUCTS))

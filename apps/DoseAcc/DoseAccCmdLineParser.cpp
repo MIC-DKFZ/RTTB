@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1374 $ (last changed revision)
-// @date    $Date: 2016-05-30 14:15:42 +0200 (Mo, 30 Mai 2016) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "DoseAccCmdLineParser.h"
 
@@ -66,22 +60,25 @@ namespace rttb
 					"", "no mapping", 'r', true);
 				addInformationForXML(OPTION_REGISTRATION_FILENAME, cmdlineparsing::XMLGenerator::paramType::INPUT, { "mapr" });
 
-				std::vector<std::string> defaultLoadingStyle;
-				defaultLoadingStyle.push_back("dicom");
-				std::string doseLoadStyleDescription = "Options are:\n \"dicom\": normal dicom dose\n"
-					"\"itk\": use itk image loading\n\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).";
+				std::string defaultLoadingStyle;
+				defaultLoadingStyle = "dicom";
+				std::string doseLoadStyleDescription = "Options are:"
+					"\ndicom: normal dicom dose"
+					"\nitk: use itk image loading"
+					"\nitkDicom: use itk dicom image loading"
+					"\nhelax: load a helax dose (choosing this style, the dose path should only be a directory).";
 
-				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_LOAD_STYLE_DOSE1, OPTION_GROUP_REQUIRED,
+				addOptionWithDefaultValue<std::string>(OPTION_LOAD_STYLE_DOSE1, OPTION_GROUP_REQUIRED,
 					"Load style for dose 1. " + doseLoadStyleDescription,
-					defaultLoadingStyle, defaultLoadingStyle.at(0),
+					defaultLoadingStyle, defaultLoadingStyle,
 					't', true, true);
-				addInformationForXML(OPTION_LOAD_STYLE_DOSE1, cmdlineparsing::XMLGenerator::paramType::STRINGENUMERATION, { "dicom","itk","helax" });
+				addInformationForXML(OPTION_LOAD_STYLE_DOSE1, cmdlineparsing::XMLGenerator::paramType::STRING);
 
-				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_LOAD_STYLE_DOSE2, OPTION_GROUP_REQUIRED,
+				addOptionWithDefaultValue<std::string>(OPTION_LOAD_STYLE_DOSE2, OPTION_GROUP_REQUIRED,
 					"Load style for dose 2. See " + OPTION_LOAD_STYLE_DOSE1,
-					defaultLoadingStyle, defaultLoadingStyle.at(0),
+					defaultLoadingStyle, defaultLoadingStyle,
 					'u', true, true);
-				addInformationForXML(OPTION_LOAD_STYLE_DOSE2, cmdlineparsing::XMLGenerator::paramType::STRINGENUMERATION, { "dicom","itk","helax" });
+				addInformationForXML(OPTION_LOAD_STYLE_DOSE2, cmdlineparsing::XMLGenerator::paramType::STRING);
 
 				addOptionWithDefaultValue<std::string>(OPTION_OPERATOR, OPTION_GROUP_REQUIRED,
 					"Specifies the operator used. Available operators are '+' and '*'. Operator '*' has implemented no weight option.",
@@ -97,27 +94,27 @@ namespace rttb
 
             void DoseAccCmdLineParser::validateInput() const
 			{
-                std::vector<std::string> doseLoadStyle1 = get<std::vector<std::string> >(OPTION_LOAD_STYLE_DOSE1);
-				std::string doseLoadStyleAbbreviation1 = doseLoadStyle1.at(0);
+                std::string doseLoadStyle1 = get<std::string>(OPTION_LOAD_STYLE_DOSE1);
 
-				if (doseLoadStyleAbbreviation1 != "dicom" 
-				    && doseLoadStyleAbbreviation1 != "itk"
-				    && doseLoadStyleAbbreviation1 != "helax")
+				if (doseLoadStyle1 != "dicom"
+				    && doseLoadStyle1 != "itk"
+				    && doseLoadStyle1 != "itkDicom"
+				    && doseLoadStyle1 != "helax")
 				{
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style for dose1 file: " +
-					        doseLoadStyleAbbreviation1 +
+						doseLoadStyle1 +
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 
-                std::vector<std::string> doseLoadStyle2 = get<std::vector<std::string> >(OPTION_LOAD_STYLE_DOSE2);
-                std::string doseLoadStyleAbbreviation2 = doseLoadStyle2.at(0);
+                std::string doseLoadStyle2 = get<std::string>(OPTION_LOAD_STYLE_DOSE2);
 
-                if (doseLoadStyleAbbreviation2 != "dicom" 
-                    && doseLoadStyleAbbreviation2 != "itk"
-                    && doseLoadStyleAbbreviation2 != "helax")
+                if (doseLoadStyle2 != "dicom"
+                    && doseLoadStyle2 != "itk"
+                    && doseLoadStyle2 != "itkDicom"
+                    && doseLoadStyle2 != "helax")
                 {
                     throw cmdlineparsing::InvalidConstraintException("Unknown load style for dose2 file: " +
-                        doseLoadStyleAbbreviation2 +
+						doseLoadStyle2 +
                         ".\nPlease refer to the help for valid loading style settings.");
                 }
 

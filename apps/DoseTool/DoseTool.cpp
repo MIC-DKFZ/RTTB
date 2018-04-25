@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1315 $ (last changed revision)
-// @date    $Date: 2016-04-12 14:18:24 +0200 (Di, 12 Apr 2016) $ (last change date)
-// @author  $Author: floca $ (last changed by)
-*/
 
 #include "DoseToolApplicationData.h"
 #include "DoseToolHelper.h"
@@ -118,7 +112,7 @@ int main(int argc, const char** argv)
 	}
 
 	//loading of structure file not necessary in ITK case as it can be used directly as mask input.
-	if (appData._structLoadStyle.front() != "itk")
+	if (appData._structLoadStyle != "itk" && appData._structLoadStyle != "itkDicom")
 	{
 		try
 		{

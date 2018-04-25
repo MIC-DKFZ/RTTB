@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1221 $ (last changed revision)
-// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "DoseToolApplicationData.h"
 #include "DoseToolCmdLineParser.h"
@@ -28,16 +22,11 @@ namespace rttb
 	{
 		namespace doseTool
 		{
-			ApplicationData::
-			ApplicationData()
-			{
+			ApplicationData::ApplicationData() {
 				this->reset();
 			}
 
-			void
-			ApplicationData::
-			reset()
-			{
+			void ApplicationData::reset() {
 				_doseFileName = "";
 				_structFileName = "";
 				_structNameRegex = "";
@@ -51,19 +40,17 @@ namespace rttb
 				_computeDoseStatistics = false;
 			}
 
-			void populateAppData(boost::shared_ptr<DoseToolCmdLineParser> argParser, ApplicationData& appData)
-			{
+			void populateAppData(boost::shared_ptr<DoseToolCmdLineParser> argParser, ApplicationData& appData) {
 				appData._doseFileName = argParser->get<std::string>(argParser->OPTION_DOSE_FILE);
-				appData._doseLoadStyle = argParser->get<std::vector<std::string> >
+				appData._doseLoadStyle = argParser->get<std::string>
 				                         (argParser->OPTION_DOSE_LOAD_STYLE);
 				appData._structFileName = argParser->get<std::string>(argParser->OPTION_STRUCT_FILE);
-				appData._structLoadStyle = argParser->get<std::vector<std::string> >
+				appData._structLoadStyle = argParser->get<std::string>
 				                           (argParser->OPTION_STRUCT_LOAD_STYLE);
 				appData._structNameRegex = argParser->get<std::string >(argParser->OPTION_STRUCT_NAME);
 				appData._multipleStructsMode = argParser->isSet(argParser->OPTION_MULTIPLE_STRUCTS_MODE);
 
-				if (argParser->isSet(argParser->OPTION_DOSE_STATISTICS))
-				{
+				if (argParser->isSet(argParser->OPTION_DOSE_STATISTICS)) {
 					appData._computeDoseStatistics = true;
 					appData._doseStatisticOutputFileName = argParser->get<std::string >
 					                                       (argParser->OPTION_DOSE_STATISTICS);
@@ -72,16 +59,13 @@ namespace rttb
 
 				}
 
-				if (argParser->isSet(argParser->OPTION_DVH))
-				{
+				if (argParser->isSet(argParser->OPTION_DVH)) {
 					appData._computeDVH = true;
 					appData._dvhOutputFilename = argParser->get<std::string >(argParser->OPTION_DVH);
 				}
 
 
-				if (argParser->isSet(argParser->OPTION_DOSE_STATISTICS)
-				    && argParser->isSet(argParser->OPTION_PRESCRIBED_DOSE))
-				{
+				if (argParser->isSet(argParser->OPTION_DOSE_STATISTICS) && argParser->isSet(argParser->OPTION_PRESCRIBED_DOSE)) {
 					appData._prescribedDose = argParser->get<DoseTypeGy>(argParser->OPTION_PRESCRIBED_DOSE);
 				}
 			}

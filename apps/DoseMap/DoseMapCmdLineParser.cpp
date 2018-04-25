@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1145 $ (last changed revision)
-// @date    $Date: 2015-10-12 17:06:10 +0200 (Mo, 12 Okt 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "DoseMapCmdLineParser.h"
 
@@ -32,10 +26,13 @@ namespace rttb
 				const std::string& version) :
 				CmdLineParserBase(name, version)
 			{
-				std::vector<std::string> defaultLoadingStyle;
-				defaultLoadingStyle.push_back("dicom");
-				std::string doseLoadStyleDescription = "Indicates the load style that should be used for the input dose. Available styles: \"dicom\": normal dicom dose (default);"
-					"\"itk\": use itk image loading; \"helax\": load a helax dose (choosing this style, the dose path should only be a directory).";
+				std::string defaultLoadingStyle;
+				defaultLoadingStyle = "dicom";
+				std::string doseLoadStyleDescription = "Indicates the load style that should be used for the input dose. Available styles:"
+					"\ndicom: normal dicom dose (default)"
+					"\nitk: use itk image loading"
+					"\nitkDicom: use itk dicom image loading"
+					"\nhelax: load a helax dose (choosing this style, the dose path should only be a directory).";
 
 				addOption<std::string>(OPTION_INPUT_DOSE_FILE_NAME, OPTION_GROUP_REQUIRED,
 					"The name of the input dose file. Can be omitted if used as positional argument (see above).", 'd', true);
@@ -53,11 +50,11 @@ namespace rttb
 				addOption<std::string>(OPTION_REF_DOSE_FILE, OPTION_GROUP_OPTIONAL, "Specifies name and location of the dose file that should be the reference/template for the grid to map into. "
 					"If flag is not specified, the input dose is the reference.", 't');
 
-				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_INPUT_DOSE_LOAD_STYLE, OPTION_GROUP_REQUIRED, doseLoadStyleDescription,
-					defaultLoadingStyle, defaultLoadingStyle.at(0),'l',true);
+				addOptionWithDefaultValue<std::string>(OPTION_INPUT_DOSE_LOAD_STYLE, OPTION_GROUP_REQUIRED, doseLoadStyleDescription,
+					defaultLoadingStyle, defaultLoadingStyle, 'l', true);
 
-				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_REF_DOSE_LOAD_STYLE, OPTION_GROUP_OPTIONAL, doseLoadStyleDescription,
-					defaultLoadingStyle, defaultLoadingStyle.at(0), 's', true);
+				addOptionWithDefaultValue<std::string>(OPTION_REF_DOSE_LOAD_STYLE, OPTION_GROUP_OPTIONAL, doseLoadStyleDescription,
+					defaultLoadingStyle, defaultLoadingStyle, 's', true);
 
 				addPositionalOption(OPTION_INPUT_DOSE_FILE_NAME, 1);
 				addPositionalOption(OPTION_OUTPUT_FILE_NAME, 1);
@@ -77,22 +74,22 @@ namespace rttb
 				}
 
 
-				std::vector<std::string> inputDoseLoadStyle = get<std::vector<std::string> >(OPTION_INPUT_DOSE_LOAD_STYLE);
-				std::string indoseLoadStyleAbbreviation = inputDoseLoadStyle.at(0);
-				if (indoseLoadStyleAbbreviation != "dicom" && indoseLoadStyleAbbreviation != "itk"  && indoseLoadStyleAbbreviation != "helax")
+				std::string inputDoseLoadStyle = get<std::string>(OPTION_INPUT_DOSE_LOAD_STYLE);
+
+				if (inputDoseLoadStyle != "dicom" && inputDoseLoadStyle != "itk" && inputDoseLoadStyle != "itkDicom"  && inputDoseLoadStyle != "helax")
 				{
 					throw cmdlineparsing::InvalidConstraintException("Unknown load style for input dose file: " +
-						indoseLoadStyleAbbreviation +
+						inputDoseLoadStyle +
 						".\nPlease refer to the help for valid loading style settings.");
 				}
 
 				if (isSet(OPTION_REF_DOSE_FILE)){
-					std::vector<std::string> refDoseLoadStyle = get<std::vector<std::string> >(OPTION_REF_DOSE_LOAD_STYLE);
-					std::string refDoseLoadStyleAbbreviation = refDoseLoadStyle.at(0);
-					if (refDoseLoadStyleAbbreviation != "dicom"	&& refDoseLoadStyleAbbreviation != "itk"  && refDoseLoadStyleAbbreviation != "helax")
+					std::string refDoseLoadStyle = get<std::string>(OPTION_REF_DOSE_LOAD_STYLE);
+
+					if (refDoseLoadStyle != "dicom"	&& refDoseLoadStyle != "itk" && refDoseLoadStyle != "itkDicom" && refDoseLoadStyle != "helax")
 					{
 						throw cmdlineparsing::InvalidConstraintException("Unknown load style for reference dose file: " +
-							refDoseLoadStyleAbbreviation +
+							refDoseLoadStyle +
 							".\nPlease refer to the help for valid loading style settings.");
 					}
 				}

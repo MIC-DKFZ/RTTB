@@ -1,3 +1,18 @@
+// -----------------------------------------------------------------------
+// RTToolbox - DKFZ radiotherapy quantitative evaluation library
+//
+// Copyright (c) German Cancer Research Center (DKFZ),
+// Software development for Integrated Diagnostics and Therapy (SIDT).
+// ALL RIGHTS RESERVED.
+// See rttbCopyright.txt or
+// http://www.dkfz.de/en/sidt/projects/rttb/copyright.html
+//
+// This software is distributed WITHOUT ANY WARRANTY; without even
+// the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE.  See the above copyright notices for more information.
+//
+//------------------------------------------------------------------------
+
 #include "BioModelCmdLineParser.h"
 
 namespace rttb
@@ -33,18 +48,19 @@ namespace rttb
 					"Dose scaling that should be applied.", 1.0, "1.0", 'e');
 				addInformationForXML(OPTION_DOSE_SCALING, cmdlineparsing::XMLGenerator::paramType::DOUBLE);
 
-				std::vector<std::string> defaultLoadingStyle;
-				defaultLoadingStyle.push_back("itk");
+				std::string defaultLoadingStyle;
+				defaultLoadingStyle = "itk";
 
-				std::string doseLoadStyleDescription = "The loading style for the dose. Available styles are:\n"
-					"\"dicom\": normal dicom dose\n"
-					"\"itk\": use itk image loading\n"
-					"\"helax\": load a helax dose (choosing this style, the dose path should only be a directory).";
+				std::string doseLoadStyleDescription = "The loading style for the dose. Available styles are:"
+					"\ndicom: normal dicom dose"
+					"\nitk: use itk image loading"
+					"\nitkDicom: use itk dicom image loading"
+					"\nhelax: load a helax dose (choosing this style, the dose path should only be a directory).";
 
-				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_LOAD_STYLE, OPTION_GROUP_REQUIRED, doseLoadStyleDescription,
-					defaultLoadingStyle, defaultLoadingStyle.at(0),
+				addOptionWithDefaultValue<std::string>(OPTION_LOAD_STYLE, OPTION_GROUP_REQUIRED, doseLoadStyleDescription,
+					defaultLoadingStyle, defaultLoadingStyle,
 					't', true, true);
-				addInformationForXML(OPTION_LOAD_STYLE, cmdlineparsing::XMLGenerator::paramType::STRINGENUMERATION, { "itk", "dicom", "helax" });
+				addInformationForXML(OPTION_LOAD_STYLE, cmdlineparsing::XMLGenerator::paramType::STRING);
 
 				//OPTIONAL
 				addOption<std::vector<double> >(OPTION_MODEL_PARAMETERS, OPTION_GROUP_OPTIONAL,
@@ -59,10 +75,10 @@ namespace rttb
 					"The number of fractions (n in the formula).", 'f');
 				addInformationForXML(OPTION_N_FRACTIONS, cmdlineparsing::XMLGenerator::paramType::INTEGER);
 
-				addOptionWithDefaultValue<std::vector<std::string> >(OPTION_LOAD_STYLE_PARAMETER_MAPS, OPTION_GROUP_OPTIONAL, doseLoadStyleDescription,
-					defaultLoadingStyle, defaultLoadingStyle.at(0),
+				addOptionWithDefaultValue<std::string>(OPTION_LOAD_STYLE_PARAMETER_MAPS, OPTION_GROUP_OPTIONAL, doseLoadStyleDescription,
+					defaultLoadingStyle, defaultLoadingStyle,
 					'u', true, true);
-				addInformationForXML(OPTION_LOAD_STYLE_PARAMETER_MAPS, cmdlineparsing::XMLGenerator::paramType::STRINGENUMERATION, { "itk", "dicom", "helax" });
+				addInformationForXML(OPTION_LOAD_STYLE_PARAMETER_MAPS, cmdlineparsing::XMLGenerator::paramType::STRING);
 
 				parse(argc, argv);
 			}
@@ -88,14 +104,14 @@ namespace rttb
 					}
 				}
 
-				std::vector<std::string> loadStyle = get<std::vector<std::string> >(OPTION_LOAD_STYLE);
-				std::string loadStyleAbbreviation = loadStyle.at(0);
+				std::string loadStyle = get<std::string>(OPTION_LOAD_STYLE);
 
-				if (loadStyleAbbreviation != "dicom"
-				    && loadStyleAbbreviation != "itk"
-				    && loadStyleAbbreviation != "helax")
+				if (loadStyle != "dicom"
+				    && loadStyle != "itk"
+				    && loadStyle != "itkDicom"
+				    && loadStyle != "helax")
 				{
-					throw cmdlineparsing::InvalidConstraintException("Unknown load style: " + loadStyleAbbreviation +
+					throw cmdlineparsing::InvalidConstraintException("Unknown load style: " + loadStyle +
 					        ".\nPlease refer to the help for valid loading style settings.");
 				}
 
