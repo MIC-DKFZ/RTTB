@@ -35,11 +35,10 @@ namespace rttb
 		*/
     class RTTBOtherIO_EXPORT DVHWriterInterface
 		{
-			using DVHPointer = core::DVH::DVHPointer;
 			/*! @brief Write aDvh
 			*/
 		public:
-			virtual void writeDVH(DVHPointer aDvh, bool normalized = false) = 0;
+			virtual void writeDVH(core::DVH::Pointer aDvh, bool normalized = false) = 0;
 		};
 	}
 

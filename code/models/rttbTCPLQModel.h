@@ -44,7 +44,7 @@ namespace rttb
 		{
 		public:
 			using ParamVectorType = TCPModel::ParamVectorType;
-			using DVHPointer = TCPModel::DVHPointer;
+			using DVHPointer = core::DVH::Pointer;
 
 		private:
 			/*! @brief Calculate intermediate tcp using alpha constant. This is a helper function for calcTCP()

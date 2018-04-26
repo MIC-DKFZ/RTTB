@@ -112,12 +112,12 @@ calculateDoseStatistics(
 }
 
 
-rttb::core::DVH::DVHPointer calculateDVH(
+rttb::core::DVH::Pointer calculateDVH(
     rttb::core::DoseIteratorInterface::DoseIteratorPointer
     doseIterator, rttb::IDType structUID, rttb::IDType doseUID)
 {
 	rttb::core::DVHCalculator calc(doseIterator, structUID, doseUID);
-	rttb::core::DVH::DVHPointer dvh = calc.generateDVH();
+	rttb::core::DVH::Pointer dvh = calc.generateDVH();
 	return dvh;
 }
 
@@ -159,7 +159,7 @@ void writeDoseStatisticsFile(
 
 }
 
-void writeDVHFile(rttb::core::DVH::DVHPointer dvh, const std::string& filename)
+void writeDVHFile(rttb::core::DVH::Pointer dvh, const std::string& filename)
 {
 	rttb::DVHType typeCum = { rttb::DVHType::Cumulative };
 	rttb::io::other::DVHXMLFileWriter dvhWriter(filename, typeCum);
@@ -220,7 +220,7 @@ rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData
                 doseUID = appData._dose->getUID();
             }
 
-            core::DVH::DVHPointer dvh = calculateDVH(spDoseIterator, structUID,
+            core::DVH::Pointer dvh = calculateDVH(spDoseIterator, structUID,
                 doseUID);
             std::cout << "done." << std::endl;
 

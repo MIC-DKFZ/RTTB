@@ -82,7 +82,7 @@ namespace rttb
 			const IDType doseID = "myDose";
 			const IDType voxelizationID = "myVoxelization";
 
-			core::DVH::DVHPointer dvhPtr = boost::make_shared<core::DVH>(aDataDifferential, binSize,
+			core::DVH::Pointer dvhPtr = boost::make_shared<core::DVH>(aDataDifferential, binSize,
 			                               voxelVolume, structureID,
 			                               doseID, voxelizationID);
 

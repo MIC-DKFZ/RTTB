@@ -43,7 +43,6 @@ namespace rttb
 		{
 		public:
 			using ParamVectorType = NTCPModel::ParamVectorType;
-			using DVHPointer = NTCPModel::DVHPointer;
 
 		private:
 			/*! The steepness of the dose-response curve. Must not be zero on model evaluation.
@@ -65,7 +64,7 @@ namespace rttb
 		public:
 			NTCPLKBModel();
 
-			NTCPLKBModel(DVHPointer aDvh, BioModelParamType aD50, BioModelParamType aM, BioModelParamType aA);
+			NTCPLKBModel(core::DVH::Pointer aDvh, BioModelParamType aD50, BioModelParamType aM, BioModelParamType aA);
 
 			void setM(const BioModelParamType aM);
 

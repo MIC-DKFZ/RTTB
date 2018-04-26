@@ -57,7 +57,7 @@ namespace rttb
 			const IDType structureID = "myStructure";
 			const IDType doseID = "myDose";
 
-			core::DVH::DVHPointer dvhPtr = boost::make_shared<core::DVH>(dummyDVH.generateDVH(structureID,
+			core::DVH::Pointer dvhPtr = boost::make_shared<core::DVH>(dummyDVH.generateDVH(structureID,
 			                               doseID, 0, 2000));
 
 			//test Dummy Model

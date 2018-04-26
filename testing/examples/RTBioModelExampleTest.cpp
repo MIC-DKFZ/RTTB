@@ -57,7 +57,7 @@ namespace rttb
 
 			typedef rttb::models::CurveDataType CurveDataType;
 			typedef std::multimap<double , std::pair<double, double> > ScatterPlotType;
-			typedef core::DVH::DVHPointer DVHPointer;
+			typedef core::DVH::Pointer DVHPointer;
 
 			//increased accuracy requires double values in the calculation (rttbBaseType.h)
 			double toleranceEUD = 1e-5;

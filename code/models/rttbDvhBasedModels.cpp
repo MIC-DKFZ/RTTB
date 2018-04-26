@@ -25,7 +25,7 @@ namespace rttb
 {
 	namespace models
 	{
-		DoseStatisticType getEUD(const DVHPointer dvh, const DoseCalcType aA)
+		DoseStatisticType getEUD(core::DVH::ConstPointer dvh, const DoseCalcType aA)
 		{
 			if (aA == 0)
 			{
@@ -56,7 +56,7 @@ namespace rttb
 
 		}
 
-		BEDDVHType calcBEDDVH(const DVHPointer dvh, const int numberOfFractions,
+		BEDDVHType calcBEDDVH(core::DVH::ConstPointer dvh, const int numberOfFractions,
 		                      const DoseCalcType alpha_beta,
 		                      const bool relativeVolume)
 		{
@@ -115,7 +115,7 @@ namespace rttb
 			}
 		}
 
-		LQEDDVHType calcLQED2DVH(const DVHPointer dvh, const int numberOfFractions,
+		LQEDDVHType calcLQED2DVH(core::DVH::ConstPointer dvh, const int numberOfFractions,
 		                         const DoseCalcType alpha_beta,
 		                         const bool relativeVolume)
 		{

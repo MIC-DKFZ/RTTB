@@ -42,7 +42,7 @@ namespace rttb
 		{
 		public:
 			using ParamVectorType = std::vector<BioModelParamType>;
-			using DVHPointer = core::DVH::DVHPointer;
+			using DVHPointer = core::DVH::Pointer;
 
 		protected:
 			DVHPointer _dvh;

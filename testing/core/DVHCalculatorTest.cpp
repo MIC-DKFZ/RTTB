@@ -127,7 +127,7 @@ namespace rttb
         numBins));
       core::DVHCalculator myDVHCalc2(spDoseIteratorZeros, structureID, doseID, 0,
         numBins);
-      core::DVHCalculator::DVHPointer dvh;
+      core::DVH::Pointer dvh;
       CHECK_NO_THROW(dvh = myDVHCalc2.generateDVH());
       CHECK(dvh);
       CHECK_CLOSE(dvh->getDeltaD(), 0.1, errorConstant);

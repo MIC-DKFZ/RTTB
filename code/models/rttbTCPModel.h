@@ -38,7 +38,6 @@ namespace rttb
 		{
 		public:
 			using ParamVectorType = BioModel::ParamVectorType;
-			using DVHPointer = BioModel::DVHPointer;
 
 		protected:
 			int _numberOfFractions{0};
@@ -49,7 +48,7 @@ namespace rttb
 
 			TCPModel(int aNum): BioModel(), _numberOfFractions(aNum) {};
 
-			TCPModel(DVHPointer aDvh, int aNum): BioModel(aDvh), _numberOfFractions(aNum) {};
+			TCPModel(core::DVH::Pointer aDvh, int aNum): BioModel(aDvh), _numberOfFractions(aNum) {};
 
 			void setNumberOfFractions(const int aNumberOfFractions);
 
