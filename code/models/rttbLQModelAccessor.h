@@ -35,7 +35,7 @@ namespace rttb
 		class LQModelAccessor: public core::AccessorWithGeoInfoBase
 		{
 		public:
-			using DoseAccessorPointer = core::DoseAccessorInterface::DoseAccessorPointer;
+			using DoseAccessorPointer = core::DoseAccessorInterface::Pointer;
 		private:
 			DoseAccessorPointer _dose;
 			BioModelParamType _alpha;

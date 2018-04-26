@@ -46,10 +46,10 @@ namespace rttb
 				 */
 				typedef std::vector<std::string> LoadingStyleArgType;
 				/** Loaded Dose.*/
-				core::DoseAccessorInterface::DoseAccessorPointer _dose1;
+				core::DoseAccessorInterface::Pointer _dose1;
 				std::string  _dose1FileName;
 				LoadingStyleArgType _dose1LoadStyle;
-				core::DoseAccessorInterface::DoseAccessorPointer _dose2;
+				core::DoseAccessorInterface::Pointer _dose2;
 				std::string  _dose2FileName;
 				LoadingStyleArgType _dose2LoadStyle;
 				RegistrationType::Pointer _spReg;

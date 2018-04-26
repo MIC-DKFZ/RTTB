@@ -357,7 +357,7 @@ namespace rttb
 
 			// compare with actual XML
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator(doseFilename.c_str());
-			core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPointer(doseAccessorGenerator.generateDoseAccessor());
+			core::DoseAccessorInterface::Pointer doseAccessorPointer(doseAccessorGenerator.generateDoseAccessor());
 
 			rttb::io::dicom::DicomFileStructureSetGenerator structAccessorGenerator(structFilename.c_str());
       structAccessorGenerator.setStructureLabelFilterActive(true);

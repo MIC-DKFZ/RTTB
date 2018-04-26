@@ -31,7 +31,7 @@ namespace rttb
 {
 	namespace interpolation
 	{
-		void InterpolationBase::setAccessorPointer(const AccessorPointer originalData)
+		void InterpolationBase::setAccessorPointer(core::AccessorInterface::ConstPointer originalData)
 		{
 			if (originalData != nullptr)
 			{

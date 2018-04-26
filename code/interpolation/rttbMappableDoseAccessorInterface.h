@@ -44,7 +44,7 @@ namespace rttb
 		public:
 			using Pointer = boost::shared_ptr<MappableDoseAccessorInterface>;
 		protected:
-			DoseAccessorPointer _spOriginalDoseDataMovingImage;
+			core::DoseAccessorInterface::ConstPointer _spOriginalDoseDataMovingImage;
 			TransformationInterface::Pointer _spTransformation;
 
 			core::GeometricInfo _geoInfoTargetImage;
@@ -62,7 +62,7 @@ namespace rttb
 				@exception core::NullPointerException if one input parameter is nullptr
 			*/
 			MappableDoseAccessorInterface(const core::GeometricInfo& geoInfoTargetImage,
-			                              const DoseAccessorPointer doseMovingImage, const TransformationInterface::Pointer aTransformation,
+                                    core::DoseAccessorInterface::ConstPointer doseMovingImage, const TransformationInterface::Pointer aTransformation,
 			                              bool acceptPadding = true,
 			                              DoseTypeGy defaultOutsideValue = 0.0): _spOriginalDoseDataMovingImage(doseMovingImage),
 				_spTransformation(aTransformation), _geoInfoTargetImage(geoInfoTargetImage),

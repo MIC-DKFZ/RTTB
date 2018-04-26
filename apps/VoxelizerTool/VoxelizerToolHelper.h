@@ -47,7 +47,7 @@ namespace rttb
             @return a mask object
             */
             core::MaskAccessorInterface::MaskAccessorPointer createMask(
-                core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPtr,
+                core::DoseAccessorInterface::Pointer doseAccessorPtr,
               rttb::core::Structure::StructTypePointer structurePtr,
                 bool strict);
 

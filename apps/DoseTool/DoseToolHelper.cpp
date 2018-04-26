@@ -86,7 +86,7 @@ rttb::apps::doseTool::generateMasks(
 rttb::core::DoseIteratorInterface::DoseIteratorPointer
 rttb::apps::doseTool::generateMaskedDoseIterator(
     rttb::core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPtr,
-    rttb::core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPtr)
+    rttb::core::DoseAccessorInterface::Pointer doseAccessorPtr)
 {
 	boost::shared_ptr<core::GenericMaskedDoseIterator> maskedDoseIterator =
 	    boost::make_shared<core::GenericMaskedDoseIterator>(maskAccessorPtr, doseAccessorPtr);

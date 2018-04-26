@@ -37,7 +37,7 @@ namespace rttb
 {
 	namespace testing
 	{
-		typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+		typedef core::DoseAccessorInterface::Pointer DoseAccessorPointer;
 		typedef  algorithms::BinaryFunctorAccessor<algorithms::arithmetic::doseOp::Add>
 		BinaryFunctorAccessorAddType;
 		typedef  algorithms::BinaryFunctorAccessor<algorithms::arithmetic::doseOp::AddWeighted>

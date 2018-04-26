@@ -64,11 +64,11 @@ rttb::apps::doseMap::loadRegistration(const std::string& fileName)
 /**Private helper function for processData(). Generates a suitable output accessor
  * (depending on the configuration in appData a suitable accessor pipeline is established)
  * which performs the accumulation of the doses and returns the output.to */
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
+rttb::core::DoseAccessorInterface::Pointer
 assembleOutputAccessor(rttb::apps::doseMap::ApplicationData& appData)
 {
 
-	rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor = appData._inputDose;
+	rttb::core::DoseAccessorInterface::Pointer outputAccessor = appData._inputDose;
 
   auto transform = boost::make_shared<rttb::interpolation::MatchPointTransformation>(appData._spReg);
 
@@ -102,7 +102,7 @@ assembleOutputAccessor(rttb::apps::doseMap::ApplicationData& appData)
 void
 rttb::apps::doseMap::processData(rttb::apps::doseMap::ApplicationData& appData)
 {
-	rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor = assembleOutputAccessor(
+	rttb::core::DoseAccessorInterface::Pointer outputAccessor = assembleOutputAccessor(
 	            appData);
 
 	std::cout << std::endl << "generate output image... ";

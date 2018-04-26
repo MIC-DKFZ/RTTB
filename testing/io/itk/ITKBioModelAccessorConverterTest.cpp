@@ -57,8 +57,8 @@ namespace rttb
 
 		int ITKBioModelAccessorConverterTest(int argc, char* argv[])
 		{
-			typedef core::AccessorInterface::AccessorPointer AccessorPointer;
-			typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+			typedef core::AccessorInterface::Pointer AccessorPointer;
+			typedef core::DoseAccessorInterface::Pointer DoseAccessorPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 

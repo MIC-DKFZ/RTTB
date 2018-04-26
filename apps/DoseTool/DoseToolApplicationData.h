@@ -45,7 +45,7 @@ namespace rttb
 				 * and, if needed, additional arguments for the specified loading style.
 				 */
 				typedef std::vector<std::string> LoadingStyleArgType;
-				core::DoseAccessorInterface::DoseAccessorPointer _dose;
+				core::DoseAccessorInterface::Pointer _dose;
 				core::StructureSetGeneratorInterface::StructureSetPointer _struct;
 				std::string _structNameRegex;
 				std::vector<std::string> _structNames;

@@ -42,7 +42,6 @@ namespace rttb
 		{
 		public:
 			using Pointer = boost::shared_ptr<InterpolationBase>;
-			using AccessorPointer = rttb::core::AccessorInterface::AccessorPointer;
 
 			/*! @brief Constructor
 			*/
@@ -56,14 +55,14 @@ namespace rttb
 				@pre originalData initialized
 				@exception core::NullPointerException if originalData==nullptr
 			*/
-			void setAccessorPointer(const AccessorPointer originalData);
+			void setAccessorPointer(core::AccessorInterface::ConstPointer originalData);
 
 			/*! @brief Returns the interpolated value for the given world coordinate
 			*/
 			virtual DoseTypeGy getValue(const WorldCoordinate3D& aWorldCoordinate) const = 0;
 
 		protected:
-			AccessorPointer _spOriginalData;
+      rttb::core::AccessorInterface::ConstPointer _spOriginalData;
 			/*! @brief determines voxels in a certain neighborhood of a physical based coordinate and converts in a standard cube with corner points [0 0 0], [1 0 0], [0 1 0], [1 1 0], [0 0 1], [1 0 1], [0 1 1], [1 1 1].
 				@param aWorldCoordinate the coordinate where to start
 				@param neighborhood voxel around coordinate (currently only 0 and 8 implemented)

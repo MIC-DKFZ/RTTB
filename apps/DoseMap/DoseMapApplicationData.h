@@ -48,10 +48,10 @@ namespace rttb
 				*/
 				typedef std::vector<std::string> LoadingStyleArgType;
 				/** Loaded Dose.*/
-				core::DoseAccessorInterface::DoseAccessorPointer _inputDose;
+				core::DoseAccessorInterface::Pointer _inputDose;
 				std::string  _inputDoseFileName;
 				LoadingStyleArgType  _inputDoseLoadStyle;
-				core::DoseAccessorInterface::DoseAccessorPointer _refDose;
+				core::DoseAccessorInterface::Pointer _refDose;
 				std::string  _refDoseFileName;
 				LoadingStyleArgType  _refDoseLoadStyle;
 				RegistrationType::Pointer _spReg;

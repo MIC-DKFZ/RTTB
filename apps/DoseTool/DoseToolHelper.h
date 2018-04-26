@@ -56,7 +56,7 @@ namespace rttb
 
 			core::DoseIteratorInterface::DoseIteratorPointer generateMaskedDoseIterator(
 			    core::MaskAccessorInterface::MaskAccessorPointer
-			    maskAccessorPtr, core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPtr);
+			    maskAccessorPtr, core::DoseAccessorInterface::Pointer doseAccessorPtr);
 
 			std::string assembleFilenameWithStruct(const std::string& originalFilename,
 			                                       const std::string& structName);

@@ -39,7 +39,7 @@ namespace rttb
                 @exception Throws an rttb::Exception if loading fails
                 @sa DicomFileDoseAccessorGenerator
             */
-            rttb::core::DoseAccessorInterface::DoseAccessorPointer
+            rttb::core::DoseAccessorInterface::Pointer
                 loadDicomDose(const std::string& fileName)
             {
                 rttb::io::dicom::DicomFileDoseAccessorGenerator generator(fileName);
@@ -50,7 +50,7 @@ namespace rttb
                 @exception Throws an rttb::Exception if loading fails
                 @sa DicomHelaxFileDoseAccessorGenerator
             */
-            rttb::core::DoseAccessorInterface::DoseAccessorPointer
+            rttb::core::DoseAccessorInterface::Pointer
                 loadHelaxDose(const std::string& path)
             {
                 rttb::io::helax::DicomHelaxFileDoseAccessorGenerator generator(path);
@@ -62,7 +62,7 @@ namespace rttb
                 @details Might be of all formats that ITK know (*.mhd, *.nrrd, ...). The absolute image values are taken as dose.
                 @sa ITKImageFileAccessorGenerator
             */
-            rttb::core::DoseAccessorInterface::DoseAccessorPointer
+            rttb::core::DoseAccessorInterface::Pointer
                 loadITKDose(const std::string& fileName)
             {
                 rttb::io::itk::ITKImageFileAccessorGenerator generator(fileName);
@@ -73,11 +73,11 @@ namespace rttb
                 @params args[0]: determines the loadingStyle
                 @exception Throws an rttb::Exception if loading fails
             */
-            rttb::core::DoseAccessorInterface::DoseAccessorPointer
+            rttb::core::DoseAccessorInterface::Pointer
                 loadDose(const std::string& fileName,
                     const std::vector<std::string>& args)
             {
-                rttb::core::DoseAccessorInterface::DoseAccessorPointer result;
+                rttb::core::DoseAccessorInterface::Pointer result;
 
                 if (args.empty() || args[0] == "dicom")
                 {
