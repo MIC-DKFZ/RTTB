@@ -226,7 +226,7 @@ See the list of [contributors](https://github.com/MIC-DKFZ/RTTB/contributors) wh
 
 ## License
 
-This project is licensed under the BSD License - see the [LICENSE.txt](LICENSE.txt) file for details
+This project is licensed under the BSD License - see the [LICENSE](LICENSE) file for details
 
 ## Contact
 
