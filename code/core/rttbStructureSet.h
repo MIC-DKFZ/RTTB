@@ -41,6 +41,7 @@ namespace rttb
 		class RTTBCore_EXPORT StructureSet
 		{
 		public:
+      rttbClassMacroNoParent(StructureSet);
 			using NumberOfStructuresType = size_t;
 
 		protected:
