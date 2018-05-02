@@ -19,9 +19,7 @@
 // @author  $Author$ (last changed by)
 */
 
-/* Changes in Architecture:
-This class should be universally used independent of the origin of the Structures. All UID references are omitted.
-*/
+
 #ifndef __STRUCTURE_H
 #define __STRUCTURE_H
 
