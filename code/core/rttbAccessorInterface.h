@@ -42,8 +42,7 @@ namespace rttb
 		{
 		public:
       rttbClassMacro(AccessorInterface, IndexConversionInterface);
-			//using AccessorPointer = boost::shared_ptr<AccessorInterface>;
-			//using DoseAccessorPointer = boost::shared_ptr<AccessorInterface>;
+
 		private:
 			AccessorInterface(const AccessorInterface&) = delete; //not implemented on purpose -> non-copyable
 			AccessorInterface& operator=(const
