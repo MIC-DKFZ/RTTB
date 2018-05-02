@@ -27,9 +27,8 @@
 #include <vector>
 #include <cmath>
 
-#include <boost/shared_ptr.hpp>
-
 #include "rttbBaseType.h"
+#include "rttbCommon.h"
 
 #include "RTTBCoreExports.h"
 
@@ -46,7 +45,7 @@ namespace rttb
 		class RTTBCore_EXPORT Structure
 		{
 		public:
-			using StructTypePointer = boost::shared_ptr<Structure>;
+      rttbClassMacroNoParent(Structure);
 		private:
 			/*! @brief WorldCoordinate3D in mm
 			*/

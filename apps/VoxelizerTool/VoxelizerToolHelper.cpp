@@ -57,7 +57,7 @@ void rttb::apps::voxelizerTool::removeSpecialCharacters(std::string& label)
 
 rttb::core::MaskAccessorInterface::MaskAccessorPointer rttb::apps::voxelizerTool::createMask(
     rttb::core::DoseAccessorInterface::Pointer doseAccessorPtr,
-    rttb::core::Structure::StructTypePointer structurePtr,
+    rttb::core::Structure::Pointer structurePtr,
     bool strict)
 {
     rttb::core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPtr;

@@ -52,7 +52,7 @@ namespace rttb
 
 			public:
 				using GeometricInfoPointer = ::boost::shared_ptr<rttb::core::GeometricInfo>;
-				using StructPointer = core::Structure::StructTypePointer;
+				using StructPointer = core::Structure::Pointer;
 				using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
 				using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 

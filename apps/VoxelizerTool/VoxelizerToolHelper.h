@@ -48,7 +48,7 @@ namespace rttb
             */
             core::MaskAccessorInterface::MaskAccessorPointer createMask(
                 core::DoseAccessorInterface::Pointer doseAccessorPtr,
-              rttb::core::Structure::StructTypePointer structurePtr,
+              rttb::core::Structure::Pointer structurePtr,
                 bool strict);
 
             /**@brief write the mask into the outputfile
