@@ -46,7 +46,7 @@ namespace rttb
             /**@brief create a mask with _rtStructureSet and _doseAccessor object.
             @return a mask object
             */
-            core::MaskAccessorInterface::MaskAccessorPointer createMask(
+            core::MaskAccessorInterface::Pointer createMask(
                 core::DoseAccessorInterface::Pointer doseAccessorPtr,
               rttb::core::Structure::Pointer structurePtr,
                 bool strict);
@@ -54,11 +54,11 @@ namespace rttb
             /**@brief write the mask into the outputfile
             @param Outputfilename
             */
-            void writeMaskToFile(std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector,
+            void writeMaskToFile(std::vector<core::MaskAccessorInterface::Pointer> maskVector,
                 const std::string& outputFileName, bool voxelization);
 
             io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer addMultipleStructsToImage(
-                std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector);
+                std::vector<core::MaskAccessorInterface::Pointer> maskVector);
             io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer applyThresholdFilter(
                 io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer itkImage);
 

@@ -366,7 +366,7 @@ namespace rttb
 
 			CHECK_EQUAL(structureSetGeneratorPointer->getNumberOfStructures(), 1);
 
-			core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPointer = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+			core::MaskAccessorInterface::Pointer maskAccessorPointer = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
 				(structureSetGeneratorPointer->getStructure(0), doseAccessorPointer->getGeometricInfo(), true);
 			maskAccessorPointer->updateMask();
 

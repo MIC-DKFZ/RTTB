@@ -41,11 +41,11 @@
 #include "rttbDoseStatisticsXMLWriter.h"
 
 
-std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer>
+std::vector<rttb::core::MaskAccessorInterface::Pointer>
 rttb::apps::doseTool::generateMasks(
     rttb::apps::doseTool::ApplicationData& appData)
 {
-	std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskAccessorPtrVector;
+	std::vector<core::MaskAccessorInterface::Pointer> maskAccessorPtrVector;
 
 	if (appData._structLoadStyle.front() == "itk")
 	{
@@ -85,7 +85,7 @@ rttb::apps::doseTool::generateMasks(
 
 rttb::core::DoseIteratorInterface::Pointer
 rttb::apps::doseTool::generateMaskedDoseIterator(
-    rttb::core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPtr,
+    rttb::core::MaskAccessorInterface::Pointer maskAccessorPtr,
     rttb::core::DoseAccessorInterface::Pointer doseAccessorPtr)
 {
 	boost::shared_ptr<core::GenericMaskedDoseIterator> maskedDoseIterator =
@@ -170,7 +170,7 @@ void
 rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData)
 {
     std::cout << std::endl << "generating masks... ";
-    std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskAccessorPtrVector = generateMasks(
+    std::vector<core::MaskAccessorInterface::Pointer> maskAccessorPtrVector = generateMasks(
         appData);
     std::cout << "done." << std::endl;
 

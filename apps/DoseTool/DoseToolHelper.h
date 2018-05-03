@@ -43,7 +43,7 @@ namespace rttb
 
 			/*! @brief Generates a mask from the struct file by using the boostAccessor. In case of itk image, it directly loads the voxelized image.
 			*/
-			std::vector<core::MaskAccessorInterface::MaskAccessorPointer> generateMasks(
+			std::vector<core::MaskAccessorInterface::Pointer> generateMasks(
 			    ApplicationData& appData);
 
 			/*algorithms::DoseStatistics::DoseStatisticsPointer calculateDoseStatistics(
@@ -55,7 +55,7 @@ namespace rttb
 			                                   IDType doseUID);*/
 
 			core::DoseIteratorInterface::Pointer generateMaskedDoseIterator(
-			    core::MaskAccessorInterface::MaskAccessorPointer
+			    core::MaskAccessorInterface::Pointer
 			    maskAccessorPtr, core::DoseAccessorInterface::Pointer doseAccessorPtr);
 
 			std::string assembleFilenameWithStruct(const std::string& originalFilename,

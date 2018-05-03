@@ -55,12 +55,12 @@ void rttb::apps::voxelizerTool::removeSpecialCharacters(std::string& label)
 	}
 }
 
-rttb::core::MaskAccessorInterface::MaskAccessorPointer rttb::apps::voxelizerTool::createMask(
+rttb::core::MaskAccessorInterface::Pointer rttb::apps::voxelizerTool::createMask(
     rttb::core::DoseAccessorInterface::Pointer doseAccessorPtr,
     rttb::core::Structure::Pointer structurePtr,
     bool strict)
 {
-    rttb::core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPtr;
+    rttb::core::MaskAccessorInterface::Pointer maskAccessorPtr;
 
     if (doseAccessorPtr != nullptr && structurePtr != nullptr)
     {
@@ -74,7 +74,7 @@ rttb::core::MaskAccessorInterface::MaskAccessorPointer rttb::apps::voxelizerTool
     return maskAccessorPtr;
 }
 
-void rttb::apps::voxelizerTool::writeMaskToFile(std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector,
+void rttb::apps::voxelizerTool::writeMaskToFile(std::vector<core::MaskAccessorInterface::Pointer> maskVector,
     const std::string& outputFileName, bool voxelization)
 {
     if (!maskVector.empty())
@@ -103,7 +103,7 @@ void rttb::apps::voxelizerTool::writeMaskToFile(std::vector<core::MaskAccessorIn
 }
 
 rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::voxelizerTool::addMultipleStructsToImage(
-    std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector)
+    std::vector<core::MaskAccessorInterface::Pointer> maskVector)
 {
     std::vector<io::itk::ITKImageMaskAccessor::ITKMaskImageType::Pointer> listOfITKImages;
 
@@ -158,7 +158,7 @@ rttb::io::itk::ITKImageMaskAccessor::ITKMaskImageType::ConstPointer rttb::apps::
 void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::ApplicationData& appData) {
     if (appData._struct->getNumberOfStructures()>0)
     {
-        std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskVector;            
+        std::vector<core::MaskAccessorInterface::Pointer> maskVector;            
 
         if (appData._addStructures)
         {
@@ -202,7 +202,7 @@ void rttb::apps::voxelizerTool::processData(rttb::apps::voxelizerTool::Applicati
                     std::string fileEnding = rttb::core::getFileEnding(appData._outputFilename);
                     outputName = fileName + "_" + labelOfInterest + fileEnding;
                 }
-                std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer> currenMaskVector{ currentMask };
+                std::vector<rttb::core::MaskAccessorInterface::Pointer> currenMaskVector{ currentMask };
                 std::cout << "writing mask #" << i << " to file...";
                 writeMaskToFile(currenMaskVector, outputName, appData._binaryVoxelization);
                 std::cout << "done" << std::endl;
