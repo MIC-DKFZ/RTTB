@@ -38,7 +38,7 @@ namespace rttb
 		{
 		public:
       rttbClassMacroNoParent(DoseIteratorInterface);
-			using DoseAccessorPointer = boost::shared_ptr<DoseAccessorInterface>;
+			using DoseAccessorPointer = DoseAccessorInterface::Pointer;
 
 		private:
 			DoseIteratorInterface(const DoseIteratorInterface&) = delete; //not implemented on purpose -> non-copyable
