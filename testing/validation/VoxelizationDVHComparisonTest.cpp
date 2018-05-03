@@ -87,7 +87,7 @@ namespace rttb
 		int VoxelizationDVHComparisonTest(int argc, char* argv[])
 		{
 			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
-			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+			typedef core::StructureSet::Pointer StructureSetPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 

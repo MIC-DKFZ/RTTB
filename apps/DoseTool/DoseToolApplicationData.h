@@ -46,7 +46,7 @@ namespace rttb
 				 */
 				typedef std::vector<std::string> LoadingStyleArgType;
 				core::DoseAccessorInterface::Pointer _dose;
-				core::StructureSetGeneratorInterface::StructureSetPointer _struct;
+				core::StructureSet::Pointer _struct;
 				std::string _structNameRegex;
 				std::vector<std::string> _structNames;
 				std::string  _doseFileName;

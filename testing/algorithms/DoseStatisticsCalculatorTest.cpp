@@ -362,7 +362,7 @@ namespace rttb
 			rttb::io::dicom::DicomFileStructureSetGenerator structAccessorGenerator(structFilename.c_str());
       structAccessorGenerator.setStructureLabelFilterActive(true);
       structAccessorGenerator.setFilterRegEx("Heart");
-			core::StructureSetGeneratorInterface::StructureSetPointer structureSetGeneratorPointer = structAccessorGenerator.generateStructureSet();
+			core::StructureSet::Pointer structureSetGeneratorPointer = structAccessorGenerator.generateStructureSet();
 
 			CHECK_EQUAL(structureSetGeneratorPointer->getNumberOfStructures(), 1);
 

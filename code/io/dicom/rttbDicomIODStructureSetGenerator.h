@@ -49,7 +49,7 @@ namespace rttb
 			{
 			public:
 				using StructTypePointer = core::Structure::Pointer;
-				using StructureSetPointer = StructureSetGeneratorInterface::StructureSetPointer;
+				using StructureSetPointer = core::StructureSet::Pointer;
 				using DRTStrSetIODPtr = boost::shared_ptr<DRTStructureSetIOD>;
 
 			private:

@@ -41,7 +41,7 @@ namespace rttb
             @exception Throws an rttb::Exception if loading fails
             @sa DicomFileStructureSetGenerator
             */
-            rttb::core::StructureSetGeneratorInterface::StructureSetPointer
+            rttb::core::StructureSet::Pointer
                 loadDicomStruct(
                     const std::string& fileName, const std::string& structNameRegex = "")
             {
@@ -63,10 +63,10 @@ namespace rttb
             @exception Throws an rttb::Exception if loading fails
             @details voxelized itk images are read in generateMask() directly
             */
-            rttb::core::StructureSetGeneratorInterface::StructureSetPointer loadStruct(
+            rttb::core::StructureSet::Pointer loadStruct(
                 const std::string& fileName, const LoadingStyleArgType& args, const std::string& structNameRegex = "")
             {
-                rttb::core::StructureSetGeneratorInterface::StructureSetPointer result;
+                rttb::core::StructureSet::Pointer result;
                 
                 if (args.empty() || args[0] == "dicom")
                 {

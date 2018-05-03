@@ -56,7 +56,7 @@ namespace rttb
 		int DicomIOTest(int argc, char* argv[])
 		{
 			typedef core::DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
-			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+			typedef core::StructureSet::Pointer StructureSetPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//ARGUMENTS: 1: structure file name

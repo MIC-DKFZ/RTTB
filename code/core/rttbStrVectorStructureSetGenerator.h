@@ -45,7 +45,7 @@ namespace rttb
 		public:
 			using StructTypePointer = core::Structure::Pointer;
 
-			using StructureSetPointer = StructureSetGeneratorInterface::StructureSetPointer;
+			using StructureSetPointer = StructureSet::Pointer;
 
 		protected:
 			IDType _patientUID;
