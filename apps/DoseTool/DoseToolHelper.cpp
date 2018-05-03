@@ -83,20 +83,20 @@ rttb::apps::doseTool::generateMasks(
 	return maskAccessorPtrVector;
 }
 
-rttb::core::DoseIteratorInterface::DoseIteratorPointer
+rttb::core::DoseIteratorInterface::Pointer
 rttb::apps::doseTool::generateMaskedDoseIterator(
     rttb::core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPtr,
     rttb::core::DoseAccessorInterface::Pointer doseAccessorPtr)
 {
 	boost::shared_ptr<core::GenericMaskedDoseIterator> maskedDoseIterator =
 	    boost::make_shared<core::GenericMaskedDoseIterator>(maskAccessorPtr, doseAccessorPtr);
-	rttb::core::DoseIteratorInterface::DoseIteratorPointer doseIterator(maskedDoseIterator);
+	rttb::core::DoseIteratorInterface::Pointer doseIterator(maskedDoseIterator);
 	return doseIterator;
 }
 
 rttb::algorithms::DoseStatistics::DoseStatisticsPointer
 calculateDoseStatistics(
-    rttb::core::DoseIteratorInterface::DoseIteratorPointer doseIterator, bool calculateComplexDoseStatistics,
+    rttb::core::DoseIteratorInterface::Pointer doseIterator, bool calculateComplexDoseStatistics,
     rttb::DoseTypeGy prescribedDose)
 {
 	rttb::algorithms::DoseStatisticsCalculator doseStatsCalculator(doseIterator);
@@ -113,7 +113,7 @@ calculateDoseStatistics(
 
 
 rttb::core::DVH::Pointer calculateDVH(
-    rttb::core::DoseIteratorInterface::DoseIteratorPointer
+    rttb::core::DoseIteratorInterface::Pointer
     doseIterator, rttb::IDType structUID, rttb::IDType doseUID)
 {
 	rttb::core::DVHCalculator calc(doseIterator, structUID, doseUID);
@@ -176,7 +176,7 @@ rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData
 
     for (size_t i = 0; i < maskAccessorPtrVector.size(); i++)
     {
-        core::DoseIteratorInterface::DoseIteratorPointer spDoseIterator(generateMaskedDoseIterator(
+        core::DoseIteratorInterface::Pointer spDoseIterator(generateMaskedDoseIterator(
             maskAccessorPtrVector.at(i),
             appData._dose));
 

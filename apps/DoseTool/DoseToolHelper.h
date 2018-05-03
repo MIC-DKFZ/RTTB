@@ -47,14 +47,14 @@ namespace rttb
 			    ApplicationData& appData);
 
 			/*algorithms::DoseStatistics::DoseStatisticsPointer calculateDoseStatistics(
-			    core::DoseIteratorInterface::DoseIteratorPointer
+			    core::DoseIteratorInterface::Pointer
 			    doseIterator, bool calculateComplexDoseStatistics, DoseTypeGy prescribedDose);
 
-			core::DVH::DVHPointer calculateDVH(core::DoseIteratorInterface::DoseIteratorPointer doseIterator,
+			core::DVH::DVHPointer calculateDVH(core::DoseIteratorInterface::Pointer doseIterator,
 			                                   IDType structUID,
 			                                   IDType doseUID);*/
 
-			core::DoseIteratorInterface::DoseIteratorPointer generateMaskedDoseIterator(
+			core::DoseIteratorInterface::Pointer generateMaskedDoseIterator(
 			    core::MaskAccessorInterface::MaskAccessorPointer
 			    maskAccessorPtr, core::DoseAccessorInterface::Pointer doseAccessorPtr);
 

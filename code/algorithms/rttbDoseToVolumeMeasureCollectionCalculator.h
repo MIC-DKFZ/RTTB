@@ -52,7 +52,7 @@ namespace rttb
 			typedef std::map<DoseTypeGy, VolumeType> VolumeToDoseFunctionType;
 
 		protected:
-			core::DoseIteratorInterface::DoseIteratorPointer _doseIterator;
+			core::DoseIteratorInterface::Pointer _doseIterator;
 
 		private:
       std::vector<double> _precomputeDoseValues;
@@ -72,7 +72,7 @@ namespace rttb
 
 		protected:
 			DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
-				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, 
+				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::Pointer doseIterator, 
 				DoseToVolumeMeasureCollection::complexStatistics name, bool multiThreading);
 
 			void insertIntoMeasureCollection(DoseTypeGy xAbsolute, VolumeType resultVolume);

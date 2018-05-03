@@ -42,7 +42,7 @@ namespace rttb
 		public:
 			using MaskAccessorPointer = boost::shared_ptr<MaskAccessorInterface>;
 			using DoseAccessorPointer = DoseIteratorInterface::DoseAccessorPointer;
-			using DoseIteratorPointer = DoseIteratorInterface::DoseIteratorPointer;
+			using DoseIteratorPointer = DoseIteratorInterface::Pointer;
 			using MaskedDoseIteratorPointer = boost::shared_ptr<MaskedDoseIteratorInterface>;
 
 		private:

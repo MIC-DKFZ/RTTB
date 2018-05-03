@@ -59,7 +59,7 @@ namespace rttb
 		int DoseStatisticsIOTest(int argc, char* argv[])
 		{
 			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
-			typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
+			typedef core::DoseIteratorInterface::Pointer DoseIteratorPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 

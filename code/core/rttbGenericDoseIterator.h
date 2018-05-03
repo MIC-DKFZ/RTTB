@@ -43,7 +43,7 @@ namespace rttb
 		{
 		public:
 			using DoseAccessorPointer = DoseIteratorInterface::DoseAccessorPointer;
-			using DoseIteratorPointer = DoseIteratorInterface::DoseIteratorPointer;
+			using DoseIteratorPointer = DoseIteratorInterface::Pointer;
 
 		private:
 

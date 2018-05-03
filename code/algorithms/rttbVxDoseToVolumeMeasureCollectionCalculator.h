@@ -36,7 +36,7 @@ namespace rttb
 
 		public:			
 			VxDoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
-				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator,
+				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::Pointer doseIterator,
 				bool multiThreading = false);
 
 		protected:

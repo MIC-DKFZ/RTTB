@@ -48,7 +48,7 @@ namespace rttb
 	{
 
 		typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
-		typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
+		typedef core::DoseIteratorInterface::Pointer DoseIteratorPointer;
 		typedef rttb::algorithms::DoseStatistics::ResultListPointer ResultListPointer;
 		typedef rttb::algorithms::DoseStatistics::DoseStatisticsPointer DoseStatisticsPointer;
 
@@ -372,7 +372,7 @@ namespace rttb
 
 			boost::shared_ptr<core::GenericMaskedDoseIterator> maskedDoseIterator =
 				boost::make_shared<core::GenericMaskedDoseIterator>(maskAccessorPointer, doseAccessorPointer);
-			rttb::core::DoseIteratorInterface::DoseIteratorPointer doseIteratorPointer(maskedDoseIterator);
+			rttb::core::DoseIteratorInterface::Pointer doseIteratorPointer(maskedDoseIterator);
 			
 			rttb::algorithms::DoseStatisticsCalculator doseStatisticsCalculator(doseIteratorPointer);
 			
