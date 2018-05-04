@@ -22,8 +22,7 @@
 #ifndef __MASKED_DOSE_ITERATOR_INTERFACE_NEW_H
 #define __MASKED_DOSE_ITERATOR_INTERFACE_NEW_H
 
-
-#include <boost/shared_ptr.hpp>
+#include <rttbCommon.h>
 
 #include "rttbDoseIteratorInterface.h"
 #include "rttbMaskAccessorInterface.h"
@@ -41,10 +40,10 @@ namespace rttb
         class RTTBCore_EXPORT MaskedDoseIteratorInterface : public DoseIteratorInterface
 		{
 		public:
+      rttbClassMacro(MaskedDoseIteratorInterface, DoseIteratorInterface);
 			using MaskAccessorPointer = MaskAccessorInterface::Pointer;
 			using DoseAccessorPointer = DoseAccessorInterface::Pointer;
 			using DoseIteratorPointer = DoseIteratorInterface::Pointer;
-			using MaskedDoseIteratorPointer = boost::shared_ptr<MaskedDoseIteratorInterface>;
 
 		private:
 			MaskedDoseIteratorInterface(const MaskedDoseIteratorInterface&) = delete;

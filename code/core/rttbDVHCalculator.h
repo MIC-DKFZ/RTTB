@@ -41,7 +41,7 @@ namespace rttb
 		{
 		public:
 			using DoseIteratorPointer = core::DoseIteratorInterface::Pointer;
-			using MaskedDoseIteratorPointer = core::MaskedDoseIteratorInterface::MaskedDoseIteratorPointer;
+			using MaskedDoseIteratorPointer = core::MaskedDoseIteratorInterface::Pointer;
 
 			DoseIteratorPointer _doseIteratorPtr;
 			IDType _structureID;
