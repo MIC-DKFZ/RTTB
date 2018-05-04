@@ -43,7 +43,7 @@ namespace rttb
 	{
 
 		typedef core::DoseAccessorInterface::Pointer DoseAccessorPointer;
-		typedef core::MutableDoseAccessorInterface::MutableDoseAccessorPointer MutableDoseAccessorPointer;
+		typedef core::MutableDoseAccessorInterface::Pointer MutableDoseAccessorPointer;
 		typedef DummyMaskAccessor::MaskVoxelListPointer MaskVoxelListPointer;
 		typedef DummyMaskAccessor::MaskVoxelList MaskVoxelList;
 		typedef core::MaskAccessorInterface::Pointer MaskAccessorPointer;
