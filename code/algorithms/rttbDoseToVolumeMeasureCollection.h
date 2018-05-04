@@ -23,6 +23,7 @@
 #define __DOSE_TO_VOLUME_MEASURE_COLLECTION_H
 
 #include "rttbMeasureCollection.h"
+#include <rttbCommon.h>
 
 namespace rttb
 {
@@ -36,6 +37,7 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT DoseToVolumeMeasureCollection : public MeasureCollection {
 
 		public:
+      rttbClassMacro(DoseToVolumeMeasureCollection, MeasureCollection)
 			typedef std::map<DoseTypeGy, VolumeType> DoseToVolumeFunctionType;
 
 		private:

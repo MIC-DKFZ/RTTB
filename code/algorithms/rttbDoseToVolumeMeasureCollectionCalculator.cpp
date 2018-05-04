@@ -79,7 +79,7 @@ namespace rttb
 			}
 		}
 
-		DoseStatistics::DoseToVolumeMeasureCollectionPointer DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
+		DoseToVolumeMeasureCollection::Pointer DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
 		{
 			return _measureCollection;
 		}

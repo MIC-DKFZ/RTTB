@@ -96,32 +96,32 @@ namespace rttb
 			_maximumVoxelPositions = maximumVoxelPositions;
 		}
 
-		void DoseStatistics::setDx(VolumeToDoseMeasureCollectionPointer DxValues)
+		void DoseStatistics::setDx(VolumeToDoseMeasureCollection::Pointer DxValues)
 		{
 			_Dx = DxValues;
 		}
 
-		void DoseStatistics::setVx(DoseToVolumeMeasureCollectionPointer VxValues)
+		void DoseStatistics::setVx(DoseToVolumeMeasureCollection::Pointer VxValues)
 		{
 			_Vx = VxValues;
 		}
 
-		void DoseStatistics::setMOHx(VolumeToDoseMeasureCollectionPointer MOHxValues)
+		void DoseStatistics::setMOHx(VolumeToDoseMeasureCollection::Pointer MOHxValues)
 		{
 			_MOHx = MOHxValues;
 		}
 
-		void DoseStatistics::setMOCx(VolumeToDoseMeasureCollectionPointer MOCxValues)
+		void DoseStatistics::setMOCx(VolumeToDoseMeasureCollection::Pointer MOCxValues)
 		{
 			_MOCx = MOCxValues;
 		}
 
-		void DoseStatistics::setMaxOHx(VolumeToDoseMeasureCollectionPointer MaxOHValues)
+		void DoseStatistics::setMaxOHx(VolumeToDoseMeasureCollection::Pointer MaxOHValues)
 		{
 			_MaxOHx = MaxOHValues;
 		}
 
-		void DoseStatistics::setMinOCx(VolumeToDoseMeasureCollectionPointer MinOCValues)
+		void DoseStatistics::setMinOCx(VolumeToDoseMeasureCollection::Pointer MinOCValues)
 		{
 			_MinOCx = MinOCValues;
 		}

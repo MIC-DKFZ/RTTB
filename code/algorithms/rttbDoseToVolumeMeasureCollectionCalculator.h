@@ -57,7 +57,7 @@ namespace rttb
 		private:
       std::vector<double> _precomputeDoseValues;
 			DoseTypeGy _referenceDose;
-			DoseStatistics::DoseToVolumeMeasureCollectionPointer _measureCollection;
+			DoseToVolumeMeasureCollection::Pointer _measureCollection;
 			bool _multiThreading;
 
 		public:
@@ -68,7 +68,7 @@ namespace rttb
 				@exception InvalidParameterException If values vector contains values that are not between 0 and 1
 			*/
 			void addPrecomputeDoseValues(const std::vector<double>& values);
-			DoseStatistics::DoseToVolumeMeasureCollectionPointer getMeasureCollection();
+			DoseToVolumeMeasureCollection::Pointer getMeasureCollection();
 
 		protected:
 			DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
