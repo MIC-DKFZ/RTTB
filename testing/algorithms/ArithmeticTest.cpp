@@ -47,7 +47,7 @@ namespace rttb
 		typedef DummyMaskAccessor::MaskVoxelListPointer MaskVoxelListPointer;
 		typedef DummyMaskAccessor::MaskVoxelList MaskVoxelList;
 		typedef core::MaskAccessorInterface::Pointer MaskAccessorPointer;
-		typedef core::MutableMaskAccessorInterface::MutableMaskAccessorPointer MutableMaskAccessorPointer;
+		typedef core::MutableMaskAccessorInterface::Pointer MutableMaskAccessorPointer;
 
 		/*! @brief ArithmeticTest - tests arithmetic combinations of accessors
 				1) test dose-dose operations

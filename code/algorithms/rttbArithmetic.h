@@ -36,7 +36,7 @@ namespace rttb
 		{
 			using DoseAccessorPointer = core::DoseAccessorInterface::Pointer;
 			using MutableDoseAccessorPointer = core::MutableDoseAccessorInterface::Pointer;
-			using MutableMaskAccessorPointer = core::MutableMaskAccessorInterface::MutableMaskAccessorPointer;
+			using MutableMaskAccessorPointer = core::MutableMaskAccessorInterface::Pointer;
 			using MaskAccessorPointer = core::MaskAccessorInterface::Pointer;
 			using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
 			using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
