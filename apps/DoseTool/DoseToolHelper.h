@@ -46,14 +46,6 @@ namespace rttb
 			std::vector<core::MaskAccessorInterface::Pointer> generateMasks(
 			    ApplicationData& appData);
 
-			/*algorithms::DoseStatistics::DoseStatisticsPointer calculateDoseStatistics(
-			    core::DoseIteratorInterface::Pointer
-			    doseIterator, bool calculateComplexDoseStatistics, DoseTypeGy prescribedDose);
-
-			core::DVH::DVHPointer calculateDVH(core::DoseIteratorInterface::Pointer doseIterator,
-			                                   IDType structUID,
-			                                   IDType doseUID);*/
-
 			core::DoseIteratorInterface::Pointer generateMaskedDoseIterator(
 			    core::MaskAccessorInterface::Pointer
 			    maskAccessorPtr, core::DoseAccessorInterface::Pointer doseAccessorPtr);
