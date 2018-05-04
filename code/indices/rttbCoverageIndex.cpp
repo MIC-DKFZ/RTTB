@@ -30,7 +30,7 @@ namespace rttb
 	namespace indices
 	{
 
-		CoverageIndex::CoverageIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference)
+		CoverageIndex::CoverageIndex(core::DVHSet::Pointer dvhSet, DoseTypeGy aDoseReference)
 			: DvhBasedDoseIndex(dvhSet, aDoseReference)
 		{
 			init();

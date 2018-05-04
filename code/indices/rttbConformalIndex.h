@@ -52,7 +52,7 @@ namespace rttb
 		public:
 			/*! @brief Constructor
 			*/
-			ConformalIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference);
+			ConformalIndex(core::DVHSet::Pointer dvhSet, DoseTypeGy aDoseReference);
 
 			/*! @brief Dose index calculation for tvIndex-th treated volume
 			    @param tvIndex index in the DVH in the current set of tv-DVHs

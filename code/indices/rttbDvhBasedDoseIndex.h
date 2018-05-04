@@ -37,19 +37,16 @@ namespace rttb
 		*/
         class RTTBIndices_EXPORT DvhBasedDoseIndex : public DoseIndex
 		{
-		public:
-			using DVHSetPtr = boost::shared_ptr<core::DVHSet>;
-
 		protected:
 
-			DVHSetPtr _dvhSet;
+			core::DVHSet::Pointer _dvhSet;
 
 			/*! @brief Check inputs*/
 			bool checkInputs() override;
 
 		public:
 			/*! @brief Constructor*/
-			DvhBasedDoseIndex(DVHSetPtr aDVHSet, DoseTypeGy aDoseReference);
+			DvhBasedDoseIndex(core::DVHSet::Pointer aDVHSet, DoseTypeGy aDoseReference);
 		};
 	}
 }
