@@ -94,7 +94,7 @@ rttb::apps::doseTool::generateMaskedDoseIterator(
 	return doseIterator;
 }
 
-rttb::algorithms::DoseStatistics::DoseStatisticsPointer
+rttb::algorithms::DoseStatistics::Pointer
 calculateDoseStatistics(
     rttb::core::DoseIteratorInterface::Pointer doseIterator, bool calculateComplexDoseStatistics,
     rttb::DoseTypeGy prescribedDose)
@@ -135,7 +135,7 @@ std::string rttb::apps::doseTool::assembleFilenameWithStruct(const std::string& 
 @details adds a <config>....</config> part to the RTTB generated xml where the used files and struct names are stored.
 */
 void writeDoseStatisticsFile(
-    rttb::algorithms::DoseStatistics::DoseStatisticsPointer statistics,
+    rttb::algorithms::DoseStatistics::Pointer statistics,
     const std::string& filename, const std::string& structName,
     rttb::apps::doseTool::ApplicationData& appData)
 {
@@ -183,7 +183,7 @@ rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData
         if (appData._computeDoseStatistics)
         {
             std::cout << std::endl << "computing dose statistics... ";
-            algorithms::DoseStatistics::DoseStatisticsPointer statistics = calculateDoseStatistics(
+            auto statistics = calculateDoseStatistics(
                 spDoseIterator,
                 appData._computeComplexDoseStatistics, appData._prescribedDose);
             std::cout << "done." << std::endl;

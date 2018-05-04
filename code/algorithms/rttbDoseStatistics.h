@@ -25,7 +25,8 @@
 #include <vector>
 #include <map>
 
-#include "boost/shared_ptr.hpp"
+#include <rttbCommon.h>
+
 #include <boost/make_shared.hpp>
 
 #include "rttbBaseType.h"
@@ -48,10 +49,10 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT DoseStatistics
 		{
 		public:
+      rttbClassMacroNoParent(DoseStatistics);
 			typedef boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultListPointer;
 			using VolumeToDoseMeasureCollectionPointer = boost::shared_ptr<VolumeToDoseMeasureCollection>;
 			using DoseToVolumeMeasureCollectionPointer = boost::shared_ptr<DoseToVolumeMeasureCollection>;
-			using DoseStatisticsPointer = boost::shared_ptr<DoseStatistics>;
 
 		private:
 			double getValue(const std::map<double, double>& aMap, double key, bool findNearestValueInstead,

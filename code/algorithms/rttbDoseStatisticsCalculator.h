@@ -57,7 +57,7 @@ namespace rttb
 		public:
 			using DoseIteratorPointer = core::DoseIteratorInterface::Pointer;
 			using ResultListPointer = DoseStatistics::ResultListPointer;
-			using DoseStatisticsPointer = DoseStatistics::DoseStatisticsPointer;
+			using DoseStatisticsPointer = DoseStatistics::Pointer;
 
 		private:
 			DoseIteratorPointer _doseIterator;

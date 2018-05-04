@@ -50,7 +50,7 @@ namespace rttb
 		typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
 		typedef core::DoseIteratorInterface::Pointer DoseIteratorPointer;
 		typedef rttb::algorithms::DoseStatistics::ResultListPointer ResultListPointer;
-		typedef rttb::algorithms::DoseStatistics::DoseStatisticsPointer DoseStatisticsPointer;
+		typedef rttb::algorithms::DoseStatistics::Pointer DoseStatisticsPointer;
 
 		/*! @brief DoseStatisticsCalculatorTest - test the API of DoseStatisticsCalculator
 			1) test constructors
