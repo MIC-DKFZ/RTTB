@@ -23,7 +23,7 @@
 #define __VOLUME_TO_DOSE_MEASURE_COLLECTION_CALCULATOR_H
 
 #include "rttbVolumeToDoseMeasureCollection.h"
-#include <boost/shared_ptr.hpp>
+#include <rttbCommon.h>
 #include "rttbDoseStatistics.h"
 
 namespace rttb
@@ -40,6 +40,7 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT VolumeToDoseMeasureCollectionCalculator {
 
 		public:
+      rttbClassMacroNoParent(VolumeToDoseMeasureCollectionCalculator)
 			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
 
 		protected:

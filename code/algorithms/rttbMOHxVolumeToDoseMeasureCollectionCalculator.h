@@ -24,6 +24,8 @@
 
 #include "rttbVolumeToDoseMeasureCollectionCalculator.h"
 
+#include <rttbCommon.h>
+
 namespace rttb
 {
 
@@ -33,7 +35,8 @@ namespace rttb
 		@brief Class for calculating MOHx VolumeToDose measures
 		*/
 		class RTTBAlgorithms_EXPORT MOHxVolumeToDoseMeasureCollectionCalculator : public VolumeToDoseMeasureCollectionCalculator {
-
+    public:
+      rttbClassMacro(MOHxVolumeToDoseMeasureCollectionCalculator, VolumeToDoseMeasureCollectionCalculator)
 		private:
 			DoseStatisticType _minimum;
 

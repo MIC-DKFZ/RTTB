@@ -35,6 +35,7 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT MaxOHxVolumeToDoseMeasureCollectionCalculator : public VolumeToDoseMeasureCollectionCalculator {
 
 		public:
+      rttbClassMacro(MaxOHxVolumeToDoseMeasureCollectionCalculator, VolumeToDoseMeasureCollectionCalculator)
 			MaxOHxVolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
 				const DoseVoxelVolumeType currentVoxelVolume, bool multiThreading = false);
