@@ -33,7 +33,7 @@ namespace rttb
 	{
 		RosuMappableDoseAccessor::RosuMappableDoseAccessor(const core::GeometricInfo& geoInfoTargetImage,
             core::DoseAccessorInterface::ConstPointer doseMovingImage,
-		        const TransformationPointer aTransformation,
+		        const TransformationInterface::Pointer aTransformation,
 		        bool acceptPadding,
 		        DoseTypeGy defaultOutsideValue): MappableDoseAccessorInterface(geoInfoTargetImage, doseMovingImage,
 			                aTransformation, acceptPadding, defaultOutsideValue)

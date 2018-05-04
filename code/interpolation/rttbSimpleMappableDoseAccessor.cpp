@@ -29,7 +29,7 @@ namespace rttb
 	{
 		SimpleMappableDoseAccessor::SimpleMappableDoseAccessor(const core::GeometricInfo&
 		        geoInfoTargetImage,
-            core::DoseAccessorInterface::ConstPointer doseMovingImage, TransformationInterface::Pointer aTransformation,
+            core::DoseAccessorInterface::ConstPointer doseMovingImage, const TransformationInterface::Pointer aTransformation,
 		        const InterpolationBase::Pointer aInterpolation, bool acceptPadding,
 		        double defaultOutsideValue): MappableDoseAccessorInterface(geoInfoTargetImage, doseMovingImage,
 			                aTransformation, acceptPadding, defaultOutsideValue),

@@ -21,7 +21,7 @@
 #ifndef __MAPPABLE_DOSE_ACCESSOR_BASE_H
 #define __MAPPABLE_DOSE_ACCESSOR_BASE_H
 
-#include <boost/shared_ptr.hpp>
+#include <rttbCommon.h>
 
 #include "rttbDoseAccessorInterface.h"
 #include "rttbGeometricInfo.h"
@@ -42,7 +42,7 @@ namespace rttb
 		class MappableDoseAccessorInterface: public core::DoseAccessorInterface
 		{
 		public:
-			using Pointer = boost::shared_ptr<MappableDoseAccessorInterface>;
+      rttbClassMacro(MappableDoseAccessorInterface,core::DoseAccessorInterface)
 		protected:
 			core::DoseAccessorInterface::ConstPointer _spOriginalDoseDataMovingImage;
 			TransformationInterface::Pointer _spTransformation;
