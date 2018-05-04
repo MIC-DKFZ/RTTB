@@ -24,6 +24,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <array>
+#include <rttbCommon.h>
 
 #include "rttbAccessorInterface.h"
 
@@ -41,7 +42,7 @@ namespace rttb
 		class RTTBInterpolation_EXPORT InterpolationBase
 		{
 		public:
-			using Pointer = boost::shared_ptr<InterpolationBase>;
+      rttbClassMacroNoParent(InterpolationBase)
 
 			/*! @brief Constructor
 			*/
