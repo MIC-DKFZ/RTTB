@@ -177,7 +177,7 @@ namespace rttb
 			core::DVH variantDVH = core::DVH(_dvh->getDataDifferential(),
 			                                 (DoseTypeGy)(_dvh->getDeltaD() * doseFactor),
 			                                 _dvh->getDeltaV(), "temporary", "temporary");
-			boost::shared_ptr<core::DVH> spDVH = boost::make_shared<core::DVH>(variantDVH);
+			auto spDVH = boost::make_shared<core::DVH>(variantDVH);
 
 			BioModelValueType value = 0;
 
