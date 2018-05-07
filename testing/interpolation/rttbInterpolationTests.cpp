@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 // this file defines the rttbAlgorithmsTests for the test driver
 // and all it expects is that you have a function called RegisterTests
@@ -51,10 +45,6 @@ int main(int argc, char* argv[])
 	try
 	{
 		result = lit::multiTestsMain(argc, argv);
-	}
-	catch (const std::exception& /*e*/)
-	{
-		result = -1;
 	}
 	catch (...)
 	{

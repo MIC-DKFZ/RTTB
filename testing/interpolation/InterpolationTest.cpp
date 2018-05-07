@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #include <vector>
 
@@ -47,7 +41,8 @@ namespace rttb
 		/*! @brief InterpolationTest - tests only interpolation
 				1) test both interpolation types with simple image (Dose = 2)
 				2) test both interpolation types with increasing x image values image (Dose = y value)
-				3) test exception handling
+				3) test right corner interpolation
+				4) test exception handling
 			*/
 
 		int InterpolationTest(int argc, char* argv[])
@@ -79,7 +74,7 @@ namespace rttb
 			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
 
 			//doseAccessor1 is used as dose image
-      auto interpolationNN = boost::make_shared<rttb::interpolation::NearestNeighborInterpolation>();
+			auto interpolationNN = boost::make_shared<rttb::interpolation::NearestNeighborInterpolation>();
 			interpolationNN->setAccessorPointer(doseAccessor1);
 			auto interpolationLinear = boost::make_shared<rttb::interpolation::LinearInterpolation>();
 			interpolationLinear->setAccessorPointer(doseAccessor1);
@@ -136,6 +131,13 @@ namespace rttb
                 rttb::WorldCoordinate3D(size[0] * pixelSpacing.x(), size[1] * pixelSpacing.y(),
                 size[2] * pixelSpacing.z());
 
+			rttb::WorldCoordinate3D positionLastInsightImageRight = rttb::WorldCoordinate3D(
+				positionOutsideOfImageRight.x() - 0.5 * pixelSpacing.x() - 0.000001,
+				positionOutsideOfImageRight.y() - 0.5 * pixelSpacing.y() - 0.000001,
+				positionOutsideOfImageRight.z() - 0.5 * pixelSpacing.z() - 0.000001
+			);
+
+
 			//precomputed values for Nearest neighbor + Linear interpolator
 			double expectedDoseIncreaseXNearest[27];
 			double expectedDoseIncreaseXLinear[27];
@@ -183,7 +185,12 @@ namespace rttb
 				++index;
 			}
 
-			//TEST 3) Exception handling
+			//TEST 3) Right corner interpolation
+			//Checks if the interpolation works at the corner without an error
+			CHECK_NO_THROW(interpolationLinear->getValue(positionLastInsightImageRight));
+
+
+			//TEST 4) Exception handling
 			//Check that core::MappingOutOfImageException is thrown if requested position is outside image
 			CHECK_THROW_EXPLICIT(interpolationNN->getValue(positionOutsideOfImageLeft),
 			                     core::MappingOutsideOfImageException);
