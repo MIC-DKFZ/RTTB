@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #include "rttbRosuMappableDoseAccessor.h"
 
@@ -61,7 +55,6 @@ namespace rttb
 				else
 				{
 					throw core::MappingOutsideOfImageException("Error in conversion from index to world coordinates");
-					return -1;
 				}
 			}
 		}
@@ -123,7 +116,6 @@ namespace rttb
 					else
 					{
 						throw core::MappingOutsideOfImageException("Too many samples are mapped outside the image!");
-						return -1;
 					}
 				}
 			}
@@ -136,7 +128,6 @@ namespace rttb
 				else
 				{
 					throw core::MappingOutsideOfImageException("Error in conversion from index to world coordinates");
-					return -1;
 				}
 			}
 		}
