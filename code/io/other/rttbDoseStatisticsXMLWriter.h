@@ -24,7 +24,6 @@
 #include "rttbDoseStatistics.h"
 
 #include <boost/property_tree/ptree.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "RTTBOtherIOExports.h"
 
@@ -42,7 +41,7 @@ namespace rttb
 			@exception rttb::core::InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			@note The precision is float
 			*/
-            boost::property_tree::ptree RTTBOtherIO_EXPORT writeDoseStatistics(DoseStatisticsPtr aDoseStatistics);
+            boost::property_tree::ptree RTTBOtherIO_EXPORT writeDoseStatistics(algorithms::DoseStatistics::Pointer aDoseStatistics);
 
 			/*! @brief Write statistics to String.
 			@param aDoseStatistics DoseStatistics to write
@@ -50,7 +49,7 @@ namespace rttb
 			@exception rttb::core::InvalidParameterException Thrown if aReferenceDose<=0 or xml_parse_error
 			@note The precision is float
 			*/
-            XMLString RTTBOtherIO_EXPORT writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics);
+            XMLString RTTBOtherIO_EXPORT writerDoseStatisticsToString(algorithms::DoseStatistics::Pointer aDoseStatistics);
 
 			/*! @brief Write statistics to xml file.
 			@details includes the following statistics: 
@@ -89,7 +88,7 @@ namespace rttb
 			@note is used for the Mevislab-Linking of RTTB
 			@note The precision is float
 			*/
-            StatisticsString RTTBOtherIO_EXPORT writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics);
+            StatisticsString RTTBOtherIO_EXPORT writerDoseStatisticsToTableString(algorithms::DoseStatistics::Pointer aDoseStatistics);
 
             double RTTBOtherIO_EXPORT convertToPercent(double value, double maximum);
 		}

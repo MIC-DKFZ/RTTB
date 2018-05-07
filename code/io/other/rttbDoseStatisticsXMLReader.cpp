@@ -38,8 +38,6 @@ namespace rttb
     {
         namespace other
         {
-            using DoseStatisticsPtr = boost::shared_ptr<rttb::algorithms::DoseStatistics>;
-
 
             DoseStatisticsXMLReader::DoseStatisticsXMLReader(const std::string& filename) : _filename(filename),
                 _newFile(true)
@@ -56,7 +54,7 @@ namespace rttb
                 _newFile = true;
             }
 
-            DoseStatisticsPtr DoseStatisticsXMLReader::generateDoseStatistic()
+            algorithms::DoseStatistics::Pointer DoseStatisticsXMLReader::generateDoseStatistic()
             {
                 if (_newFile)
                 {
