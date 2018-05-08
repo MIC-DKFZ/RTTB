@@ -37,13 +37,13 @@ namespace rttb
             
 			void processData(ApplicationData& appData);
 
-			core::AccessorInterface::AccessorPointer generateBioModel(
-			    core::DoseAccessorInterface::DoseAccessorPointer dose, const std::string& model,
+			core::AccessorInterface::Pointer generateBioModel(
+			    core::DoseAccessorInterface::Pointer dose, const std::string& model,
                 const std::vector<double>& modelParameters, unsigned int nFractions=1, double doseScaling = 1.0);
 
-            rttb::core::AccessorInterface::AccessorPointer generateBioModelWithMaps(
-                rttb::core::DoseAccessorInterface::DoseAccessorPointer dose, const std::string& model,
-                const std::deque<rttb::core::AccessorInterface::AccessorPointer>& modelParameterMaps, unsigned int nFractions = 1, double doseScaling = 1.0);
+            rttb::core::AccessorInterface::Pointer generateBioModelWithMaps(
+                rttb::core::DoseAccessorInterface::Pointer dose, const std::string& model,
+                const std::deque<rttb::core::AccessorInterface::Pointer>& modelParameterMaps, unsigned int nFractions = 1, double doseScaling = 1.0);
 
 		}
 	}

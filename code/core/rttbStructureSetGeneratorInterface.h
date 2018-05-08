@@ -21,22 +21,21 @@
 #ifndef __STRUCTURE_SET_GENERATOR_INTERFACE_H
 #define __STRUCTURE_SET_GENERATOR_INTERFACE_H
 
-#include <boost/shared_ptr.hpp>
+#include <rttbCommon.h>
+
+#include "rttbStructureSet.h"
 
 namespace rttb
 {
 	namespace core
 	{
-        class StructureSet;
 		/*! @class StructureSetGeneratorInterface
 			@brief Interface for all structure set generating classes
 		*/
 		class StructureSetGeneratorInterface
 		{
 		public:
-			using StructureSetPointer = boost::shared_ptr<StructureSet>;
-
-
+      rttbClassMacroNoParent(StructureSetGeneratorInterface);
 
 		private:
 			StructureSetGeneratorInterface(const
@@ -78,7 +77,7 @@ namespace rttb
 			/*! @brief Generate StructureSet
 				@return Return shared pointer of StructureSet.
 			*/
-			virtual StructureSetPointer generateStructureSet() = 0;
+			virtual StructureSet::Pointer generateStructureSet() = 0;
 		};
 	}
 }

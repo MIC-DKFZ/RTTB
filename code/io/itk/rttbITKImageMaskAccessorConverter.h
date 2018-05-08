@@ -43,7 +43,7 @@ namespace rttb
 
 			{
 			public:
-				using MaskAccessorPointer = core::MaskAccessorInterface::MaskAccessorPointer;
+				using MaskAccessorPointer = core::MaskAccessorInterface::Pointer;
 
 				bool process() override;
 

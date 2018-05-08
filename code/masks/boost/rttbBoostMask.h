@@ -51,8 +51,6 @@ namespace rttb
 			{
 
 			public:
-				using GeometricInfoPointer = ::boost::shared_ptr<rttb::core::GeometricInfo>;
-				using StructPointer = core::Structure::StructTypePointer;
 				using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
 				using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 
@@ -64,7 +62,7 @@ namespace rttb
 				* @param numberOfThreads number of threads used for voxelization. default value 0 means automatic detection, using the number of Hardware thread/cores
 				* @exception InvalidParameterException thrown if strict is true and the structure has self intersections
 				*/
-				BoostMask(GeometricInfoPointer aDoseGeoInfo, StructPointer aStructure,
+				BoostMask(core::GeometricInfo::Pointer aDoseGeoInfo, core::Structure::Pointer aStructure,
 				          bool strict = true, unsigned int numberOfThreads = 0);
 
 				/*! @brief Generate mask and return the voxels in the mask
@@ -87,9 +85,9 @@ namespace rttb
                 using BoostArray2DPointer = ::boost::shared_ptr<BoostArray2D>;
                 typedef ::boost::shared_ptr<std::map<double, BoostArray2DPointer> > BoostArrayMapPointer;
 
-				GeometricInfoPointer _geometricInfo;
+        core::GeometricInfo::Pointer _geometricInfo;
 
-				StructPointer _structure;
+        core::Structure::Pointer _structure;
 
         bool _strict;
 

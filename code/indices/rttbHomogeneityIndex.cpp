@@ -29,7 +29,7 @@ namespace rttb
 	namespace indices
 	{
 
-		HomogeneityIndex::HomogeneityIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference)
+		HomogeneityIndex::HomogeneityIndex(core::DVHSet::Pointer dvhSet, DoseTypeGy aDoseReference)
 			: DvhBasedDoseIndex(dvhSet, aDoseReference)
 		{
 			init();

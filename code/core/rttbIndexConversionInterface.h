@@ -21,6 +21,7 @@
 #ifndef __INDEX_CONVERSION_INTERFACE_NEW_H
 #define __INDEX_CONVERSION_INTERFACE_NEW_H
 
+#include <rttbCommon.h>
 
 namespace rttb
 {
@@ -32,6 +33,8 @@ namespace rttb
 		*/
 		class IndexConversionInterface
 		{
+    public:
+      rttbClassMacroNoParent(IndexConversionInterface);
 		private:
 			IndexConversionInterface(const
 			                         IndexConversionInterface&) = delete; //not implemented on purpose -> non-copyable

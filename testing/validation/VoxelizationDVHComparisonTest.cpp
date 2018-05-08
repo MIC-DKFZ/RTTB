@@ -52,7 +52,7 @@ namespace rttb
 		*/
 
 
-        core::DoseIteratorInterface::DoseIteratorPointer createMaskDoseIterator(masks::boost::BoostMaskAccessor::StructTypePointer rtstruct, 
+        core::DoseIteratorInterface::Pointer createMaskDoseIterator(masks::boost::BoostMaskAccessor::StructTypePointer rtstruct, 
             core::GenericDoseIterator::DoseAccessorPointer doseAccessor, const std::string& voxelizationType)
         {
             core::GenericMaskedDoseIterator::MaskAccessorPointer spMaskAccessor;
@@ -65,7 +65,7 @@ namespace rttb
 
             auto spMaskedDoseIteratorTmp =
                 ::boost::make_shared<core::GenericMaskedDoseIterator>(spMaskAccessor, doseAccessor);
-            core::DoseIteratorInterface::DoseIteratorPointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
+            core::DoseIteratorInterface::Pointer spMaskedDoseIterator(spMaskedDoseIteratorTmp);
             return spMaskedDoseIterator;
         }
 
@@ -87,7 +87,7 @@ namespace rttb
 		int VoxelizationDVHComparisonTest(int argc, char* argv[])
 		{
 			typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
-			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+			typedef core::StructureSet::Pointer StructureSetPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 

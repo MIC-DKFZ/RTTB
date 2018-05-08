@@ -25,7 +25,8 @@
 #include <vector>
 #include <map>
 
-#include "boost/shared_ptr.hpp"
+#include <rttbCommon.h>
+
 #include <boost/make_shared.hpp>
 
 #include "rttbBaseType.h"
@@ -48,10 +49,8 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT DoseStatistics
 		{
 		public:
+      rttbClassMacroNoParent(DoseStatistics);
 			typedef boost::shared_ptr<std::vector<std::pair<DoseTypeGy, VoxelGridID> > > ResultListPointer;
-			using VolumeToDoseMeasureCollectionPointer = boost::shared_ptr<VolumeToDoseMeasureCollection>;
-			using DoseToVolumeMeasureCollectionPointer = boost::shared_ptr<DoseToVolumeMeasureCollection>;
-			using DoseStatisticsPointer = boost::shared_ptr<DoseStatistics>;
 
 		private:
 			double getValue(const std::map<double, double>& aMap, double key, bool findNearestValueInstead,
@@ -68,12 +67,12 @@ namespace rttb
       VolumeType _volume;
       ResultListPointer _minimumVoxelPositions;
 			ResultListPointer _maximumVoxelPositions;
-			VolumeToDoseMeasureCollectionPointer _Dx;
-			DoseToVolumeMeasureCollectionPointer _Vx;
-			VolumeToDoseMeasureCollectionPointer _MOHx;
-			VolumeToDoseMeasureCollectionPointer _MOCx;
-			VolumeToDoseMeasureCollectionPointer _MaxOHx;
-			VolumeToDoseMeasureCollectionPointer _MinOCx;
+			VolumeToDoseMeasureCollection::Pointer _Dx;
+			DoseToVolumeMeasureCollection::Pointer _Vx;
+			VolumeToDoseMeasureCollection::Pointer _MOHx;
+			VolumeToDoseMeasureCollection::Pointer _MOCx;
+			VolumeToDoseMeasureCollection::Pointer _MaxOHx;
+			VolumeToDoseMeasureCollection::Pointer _MinOCx;
       DoseTypeGy _referenceDose; //for Vx computation
 
 		public:
@@ -101,12 +100,12 @@ namespace rttb
 
 			void setMinimumVoxelPositions(ResultListPointer minimumVoxelPositions);
 			void setMaximumVoxelPositions(ResultListPointer maximumVoxelPositions);
-			void setDx(VolumeToDoseMeasureCollectionPointer DxValues);
-			void setVx(DoseToVolumeMeasureCollectionPointer VxValues);
-			void setMOHx(VolumeToDoseMeasureCollectionPointer MOHxValues);
-			void setMOCx(VolumeToDoseMeasureCollectionPointer MOCxValues);
-			void setMaxOHx(VolumeToDoseMeasureCollectionPointer MaxOHxValues);
-			void setMinOCx(VolumeToDoseMeasureCollectionPointer MinOCxValues);
+			void setDx(VolumeToDoseMeasureCollection::Pointer DxValues);
+			void setVx(DoseToVolumeMeasureCollection::Pointer VxValues);
+			void setMOHx(VolumeToDoseMeasureCollection::Pointer MOHxValues);
+			void setMOCx(VolumeToDoseMeasureCollection::Pointer MOCxValues);
+			void setMaxOHx(VolumeToDoseMeasureCollection::Pointer MaxOHxValues);
+			void setMinOCx(VolumeToDoseMeasureCollection::Pointer MinOCxValues);
 			void setReferenceDose(DoseTypeGy referenceDose);
 
 			/*! @brief Get number of voxels in doseIterator, with sub-voxel accuracy.

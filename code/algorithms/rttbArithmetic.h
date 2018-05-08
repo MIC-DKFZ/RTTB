@@ -34,10 +34,10 @@ namespace rttb
 
 		namespace arithmetic
 		{
-			using DoseAccessorPointer = core::DoseAccessorInterface::DoseAccessorPointer;
-			using MutableDoseAccessorPointer = core::MutableDoseAccessorInterface::MutableDoseAccessorPointer;
-			using MutableMaskAccessorPointer = core::MutableMaskAccessorInterface::MutableMaskAccessorPointer;
-			using MaskAccessorPointer = core::MaskAccessorInterface::MaskAccessorPointer;
+			using DoseAccessorPointer = core::DoseAccessorInterface::Pointer;
+			using MutableDoseAccessorPointer = core::MutableDoseAccessorInterface::Pointer;
+			using MutableMaskAccessorPointer = core::MutableMaskAccessorInterface::Pointer;
+			using MaskAccessorPointer = core::MaskAccessorInterface::Pointer;
 			using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
 			using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 

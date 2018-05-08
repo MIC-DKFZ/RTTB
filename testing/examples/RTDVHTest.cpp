@@ -58,15 +58,13 @@ namespace rttb
 				RTDVH_FILENAME_PTV = argv[1];
 			}
 
-			typedef core::DVH::DVHPointer DVHPointer;
-
 			/*test RT dvh*/
 			rttb::io::other::DVHXMLFileReader dvhReader = rttb::io::other::DVHXMLFileReader(RTDVH_FILENAME_PTV);
 
 			const DoseCalcType expectedValue = 0.01305;
 
 			//dvhReader
-			DVHPointer dvh = dvhReader.generateDVH();
+			core::DVH::Pointer dvh = dvhReader.generateDVH();
 
 			CHECK_CLOSE(expectedValue, models::getEUD(dvh, 10), errorConstant);
 			std::cout << models::getEUD(dvh, 10) << std::endl;

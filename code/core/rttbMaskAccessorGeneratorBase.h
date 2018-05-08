@@ -34,7 +34,7 @@ namespace rttb
 		class MaskAccessorGeneratorBase: public MaskAccessorGeneratorInterface
 		{
 		public:
-			using MaskAccessorPointer = core::MaskAccessorInterface::MaskAccessorPointer;
+			using MaskAccessorPointer = core::MaskAccessorInterface::Pointer;
 
 
 		private:

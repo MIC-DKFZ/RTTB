@@ -33,7 +33,7 @@ namespace rttb
 		class DoseAccessorGeneratorInterface
 		{
 		public:
-			using DoseAccessorPointer = core::AccessorInterface::AccessorPointer;
+			using DoseAccessorPointer = core::AccessorInterface::Pointer;
 
 
 		private:

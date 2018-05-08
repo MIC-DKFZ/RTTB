@@ -139,7 +139,7 @@ namespace rttb
 				_resetFile = false;
 			}
 
-			DVHXMLFileReader::DVHPointer DVHXMLFileReader::generateDVH()
+			core::DVH::Pointer DVHXMLFileReader::generateDVH()
 			{
 				if (_resetFile)
 				{

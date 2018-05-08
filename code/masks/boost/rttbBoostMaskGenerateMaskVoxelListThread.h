@@ -44,7 +44,6 @@ namespace rttb
 			{
 
 			public:
-				using GeometricInfoPointer = ::boost::shared_ptr<rttb::core::GeometricInfo>;
 				typedef ::boost::multi_array<double, 2> BoostArray2D;
                 using BoostArray2DPointer = ::boost::shared_ptr<BoostArray2D>;
                 typedef ::boost::shared_ptr<std::map<double, BoostArray2DPointer> > BoostArrayMapPointer;
@@ -52,7 +51,7 @@ namespace rttb
                 using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 
 				BoostMaskGenerateMaskVoxelListThread(const VoxelIndexVector& aGlobalBoundingBox,
-				                                     GeometricInfoPointer aGeometricInfo,
+          core::GeometricInfo::Pointer aGeometricInfo,
                                                      BoostArrayMapPointer aVoxelizationMap,
 				                                     double aVoxelizationThickness,
 				                                     unsigned int aBeginSlice,
@@ -62,7 +61,7 @@ namespace rttb
 
 			private:
 				VoxelIndexVector _globalBoundingBox;
-				GeometricInfoPointer _geometricInfo;
+				core::GeometricInfo::Pointer _geometricInfo;
                 BoostArrayMapPointer _voxelizationMap;
 				//(for example, the first contour has the double grid index 0.1, the second 0.3, the third 0.5, then the thickness is 0.2)
 				double _voxelizationThickness;

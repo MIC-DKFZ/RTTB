@@ -49,8 +49,8 @@ namespace rttb
 			class DicomFileStructureSetGenerator: public core::StrVectorStructureSetGenerator
 			{
 			public:
-				using StructTypePointer = core::StructureSet::StructTypePointer;
-				using StructureSetPointer = StructureSetGeneratorInterface::StructureSetPointer;
+				using StructTypePointer = core::Structure::Pointer;
+				using StructureSetPointer = core::StructureSet::Pointer;
 				using DRTStrSetIODPtr = boost::shared_ptr<DRTStructureSetIOD>;
 
 			private:

@@ -34,15 +34,13 @@ namespace rttb
 		*/
 		class DVHGeneratorInterface
 		{
-		public:
-			using DVHPointer = core::DVH::DVHPointer;
 		protected:
-			DVHPointer _dvh;
+      core::DVH::Pointer _dvh;
 		public:
 			/*! @brief Generate DVH
 				@return Return new shared pointer of DVH.
 			*/
-			virtual DVHPointer generateDVH() = 0;
+			virtual core::DVH::Pointer generateDVH() = 0;
 		};
 	}
 }

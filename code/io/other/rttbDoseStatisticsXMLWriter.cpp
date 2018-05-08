@@ -43,7 +43,7 @@ namespace rttb
 			static const std::string propertyTag = "property";
 			static const std::string columnSeparator = "@";
 
-			boost::property_tree::ptree writeDoseStatistics(DoseStatisticsPtr aDoseStatistics)
+			boost::property_tree::ptree writeDoseStatistics(algorithms::DoseStatistics::Pointer aDoseStatistics)
 			{
 				using boost::property_tree::ptree;
 				ptree pt;
@@ -174,7 +174,7 @@ namespace rttb
 
 			}
 
-			void writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName)
+			void writeDoseStatistics(algorithms::DoseStatistics::Pointer aDoseStatistics, FileNameString aFileName)
 			{
 				boost::property_tree::ptree pt = writeDoseStatistics(aDoseStatistics);
 
@@ -189,7 +189,7 @@ namespace rttb
 				}
 			}
 
-			XMLString writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics)
+			XMLString writerDoseStatisticsToString(algorithms::DoseStatistics::Pointer aDoseStatistics)
 			{
 				boost::property_tree::ptree pt = writeDoseStatistics(aDoseStatistics);
 				std::stringstream sstr;
@@ -209,7 +209,7 @@ namespace rttb
 			}
 
 
-			StatisticsString writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics)
+			StatisticsString writerDoseStatisticsToTableString(algorithms::DoseStatistics::Pointer aDoseStatistics)
 			{
                 if (aDoseStatistics == nullptr){
                     throw core::NullPointerException("dose statistics is nullptr!");

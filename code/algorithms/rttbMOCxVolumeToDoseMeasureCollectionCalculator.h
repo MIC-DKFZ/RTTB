@@ -24,6 +24,8 @@
 
 #include "rttbVolumeToDoseMeasureCollectionCalculator.h"
 
+#include <rttbCommon.h>
+
 namespace rttb
 {
 
@@ -35,6 +37,7 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT MOCxVolumeToDoseMeasureCollectionCalculator : public VolumeToDoseMeasureCollectionCalculator {
 
 		public:
+      rttbClassMacro(MOCxVolumeToDoseMeasureCollectionCalculator, VolumeToDoseMeasureCollectionCalculator)
 			MOCxVolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,
 				const std::vector<DoseTypeGy>& doseVector, const std::vector<double>& voxelProportionVector,
 				const DoseVoxelVolumeType currentVoxelVolume, bool multiThreading = false);

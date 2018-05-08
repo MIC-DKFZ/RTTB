@@ -58,7 +58,7 @@ namespace rttb
 		int ITKIOTest(int argc, char* argv[])
 		{
 			typedef core::DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
-      typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
+      typedef core::MaskAccessorInterface::Pointer MaskAccessorPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//ARGUMENTS:

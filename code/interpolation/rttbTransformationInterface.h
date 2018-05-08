@@ -22,7 +22,7 @@
 #ifndef __TRANSFORMATION_INTERFACE_H
 #define __TRANSFORMATION_INTERFACE_H
 
-#include <boost/shared_ptr.hpp>
+#include <rttbCommon.h>
 
 #include "rttbBaseType.h"
 
@@ -39,7 +39,7 @@ namespace rttb
         class RTTBInterpolation_EXPORT TransformationInterface
 		{
 		public:
-			using Pointer = boost::shared_ptr<TransformationInterface>;
+			rttbClassMacroNoParent(TransformationInterface)
 		protected:
 			/*! @brief Constructor
 			*/

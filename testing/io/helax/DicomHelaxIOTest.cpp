@@ -55,7 +55,7 @@ namespace rttb
 		int DicomHelaxIOTest(int argc, char* argv[])
 		{
 			typedef core::DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
-			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+			typedef core::StructureSet::Pointer StructureSetPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//ARGUMENTS: 1: directory name

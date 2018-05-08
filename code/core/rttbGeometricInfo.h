@@ -29,6 +29,8 @@
 #include "rttbBaseType.h"
 #include <boost/numeric/ublas/vector.hpp>
 
+#include "rttbCommon.h"
+
 #include "RTTBCoreExports.h"
 
 namespace rttb
@@ -43,7 +45,8 @@ namespace rttb
 		*/
 		class RTTBCore_EXPORT GeometricInfo
 		{
-
+    public:
+      rttbClassMacroNoParent(GeometricInfo)
 		private:
       WorldCoordinate3D _imagePositionPatient{ 0 };
 

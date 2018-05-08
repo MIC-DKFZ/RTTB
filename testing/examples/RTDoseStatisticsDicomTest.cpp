@@ -86,7 +86,7 @@ namespace rttb
 			precomputedVolumeValues.push_back(20000 / volume);
 			precomputedVolumeValues.push_back(1);
 
-			rttb::algorithms::DoseStatistics::DoseStatisticsPointer doseStatistics =
+			auto doseStatistics =
 			    doseStatisticsCalculator.calculateDoseStatistics(precomputedDoseValues, precomputedVolumeValues);
 
 			CHECK_CLOSE(doseStatistics->getMean(), expectedVal, errorConstant);

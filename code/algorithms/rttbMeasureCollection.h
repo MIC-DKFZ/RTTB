@@ -23,6 +23,7 @@
 #define __MEASURE_COLLECTION_H
 
 #include <map>
+#include <rttbCommon.h>
 
 #include "rttbBaseType.h"
 
@@ -39,6 +40,7 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT MeasureCollection {
 
 		public:
+      rttbClassMacroNoParent(MeasureCollection)
 			enum complexStatistics { Dx, Vx, MOHx, MOCx, MaxOHx, MinOCx };
 
 		protected:

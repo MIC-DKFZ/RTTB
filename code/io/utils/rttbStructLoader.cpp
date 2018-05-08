@@ -23,7 +23,7 @@ namespace rttb
     {
         namespace utils 
         {
-            rttb::core::StructureSetGeneratorInterface::StructureSetPointer
+            rttb::core::StructureSet::Pointer
                 loadDicomStruct(
                     const std::string& fileName, const std::string& structNameRegex)
             {
@@ -38,10 +38,10 @@ namespace rttb
                 return generator.generateStructureSet();
             }
 
-            rttb::core::StructureSetGeneratorInterface::StructureSetPointer loadStruct(
+            rttb::core::StructureSet::Pointer loadStruct(
                 const std::string& fileName, const std::string& loadStyle, const std::string& structNameRegex)
             {
-                rttb::core::StructureSetGeneratorInterface::StructureSetPointer result;
+                rttb::core::StructureSet::Pointer result;
                 
                 if (loadStyle == "" || loadStyle == "dicom")
                 {

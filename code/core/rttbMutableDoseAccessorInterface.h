@@ -23,6 +23,7 @@
 
 #include "rttbDoseAccessorInterface.h"
 #include "rttbBaseType.h"
+#include "rttbCommon.h"
 
 namespace rttb
 {
@@ -36,7 +37,7 @@ namespace rttb
 		{
 
 		public:
-			using MutableDoseAccessorPointer = boost::shared_ptr<MutableDoseAccessorInterface>;
+      rttbClassMacro(MutableDoseAccessorInterface, DoseAccessorInterface)
 
 			virtual void setDoseAt(const VoxelGridID aID, DoseTypeGy value) = 0;
 

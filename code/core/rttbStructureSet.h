@@ -24,9 +24,8 @@
 
 #include <vector>
 
-#include <boost/shared_ptr.hpp>
-
 #include "rttbBaseType.h"
+#include "rttbCommon.h"
 #include "rttbStructure.h"
 
 #include "RTTBCoreExports.h"
@@ -42,11 +41,11 @@ namespace rttb
 		class RTTBCore_EXPORT StructureSet
 		{
 		public:
-			using StructTypePointer = Structure::StructTypePointer;
+      rttbClassMacroNoParent(StructureSet);
 			using NumberOfStructuresType = size_t;
 
 		protected:
-			std::vector<StructTypePointer> _structureSetVector;
+			std::vector<Structure::Pointer> _structureSetVector;
 
 			IDType _UID;
 			IDType _patientUID;
@@ -59,7 +58,7 @@ namespace rttb
 				@param aPatientUID the patient UID.
 				@param aUID the structure set UID. If it is empty, it will be calculated in the constructor
 			*/
-			StructureSet(const std::vector<StructTypePointer>& aStructureVector, IDType aPatientUID = "",
+			StructureSet(const std::vector<Structure::Pointer>& aStructureVector, IDType aPatientUID = "",
 			             IDType aUID = "");
 
 			/*! @brief Get the Structure with the index aStructureNo
@@ -67,7 +66,7 @@ namespace rttb
 				@exception InvalidParameterException Thrown if structureNo not between 0 and number of structures
 				of structureSet.
 			*/
-			StructTypePointer getStructure(size_t aStructureNo) const;
+      Structure::Pointer getStructure(size_t aStructureNo) const;
 
 			/*! @brief Get the number of structures
 				@return Return the number of structures.

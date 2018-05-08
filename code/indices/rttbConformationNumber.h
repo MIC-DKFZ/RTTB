@@ -51,7 +51,7 @@ namespace rttb
 
 			/*! @brief Constructor
 			*/
-			ConformationNumber(DVHSetPtr dvhSet, DoseTypeGy aDoseReference);
+			ConformationNumber(core::DVHSet::Pointer dvhSet, DoseTypeGy aDoseReference);
 
 
 			/*! @brief Dose index calculation for tvIndex-th treated volume

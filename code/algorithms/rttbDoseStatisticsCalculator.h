@@ -55,9 +55,9 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT DoseStatisticsCalculator
 		{
 		public:
-			using DoseIteratorPointer = core::DoseIteratorInterface::DoseIteratorPointer;
+			using DoseIteratorPointer = core::DoseIteratorInterface::Pointer;
 			using ResultListPointer = DoseStatistics::ResultListPointer;
-			using DoseStatisticsPointer = DoseStatistics::DoseStatisticsPointer;
+			using DoseStatisticsPointer = DoseStatistics::Pointer;
 
 		private:
 			DoseIteratorPointer _doseIterator;
@@ -80,12 +80,12 @@ namespace rttb
 
 			::boost::shared_ptr<boost::shared_mutex> _mutex;
 
-			::boost::shared_ptr<VxDoseToVolumeMeasureCollectionCalculator> _Vx;
-			::boost::shared_ptr<DxVolumeToDoseMeasureCollectionCalculator> _Dx;
-			::boost::shared_ptr<MOHxVolumeToDoseMeasureCollectionCalculator> _MOHx;
-			::boost::shared_ptr<MOCxVolumeToDoseMeasureCollectionCalculator> _MOCx;
-			::boost::shared_ptr<MaxOHxVolumeToDoseMeasureCollectionCalculator> _MaxOHx;
-			::boost::shared_ptr<MinOCxVolumeToDoseMeasureCollectionCalculator> _MinOCx;
+			VxDoseToVolumeMeasureCollectionCalculator::Pointer _Vx;
+			DxVolumeToDoseMeasureCollectionCalculator::Pointer _Dx;
+			MOHxVolumeToDoseMeasureCollectionCalculator::Pointer _MOHx;
+			MOCxVolumeToDoseMeasureCollectionCalculator::Pointer _MOCx;
+			MaxOHxVolumeToDoseMeasureCollectionCalculator::Pointer _MaxOHx;
+			MinOCxVolumeToDoseMeasureCollectionCalculator::Pointer _MinOCx;
 
 			/*! @brief Calculates the positions where the dose has its maximum
 				@param maxNumberMaximaPositions the maximal amount of computed positions

@@ -28,28 +28,28 @@ namespace rttb
                 @exception Throws an rttb::Exception if loading fails
                 @sa DicomFileDoseAccessorGenerator
             */
-			rttb::core::DoseAccessorInterface::DoseAccessorPointer loadDicomDose(const std::string& fileName);
+			rttb::core::DoseAccessorInterface::Pointer loadDicomDose(const std::string& fileName);
 
             /*! @brief loads a helax dose from a file.
                 @exception Throws an rttb::Exception if loading fails
                 @sa DicomHelaxFileDoseAccessorGenerator
             */
-			rttb::core::DoseAccessorInterface::DoseAccessorPointer loadHelaxDose(const std::string& path);     
+			rttb::core::DoseAccessorInterface::Pointer loadHelaxDose(const std::string& path);     
 
             /*! @brief loads an itk dose from a file.
                 @exception Throws an rttb::Exception if loading fails.
                 @details Might be of all formats that ITK know (*.mhd, *.nrrd, ...). The absolute image values are taken as dose.
                 @sa ITKImageFileAccessorGenerator
             */
-			rttb::core::DoseAccessorInterface::DoseAccessorPointer loadITKDose(const std::string& fileName);
+			rttb::core::DoseAccessorInterface::Pointer loadITKDose(const std::string& fileName);
             
-			rttb::core::DoseAccessorInterface::DoseAccessorPointer loadITKDicomDose(const std::string& fileName);
+			rttb::core::DoseAccessorInterface::Pointer loadITKDicomDose(const std::string& fileName);
 
             /*! @brief loads a dose from a file based on the loadingStyle.
                 @params args[0]: determines the loadingStyle
                 @exception Throws an rttb::Exception if loading fails
             */
-			rttb::core::DoseAccessorInterface::DoseAccessorPointer loadDose(const std::string& fileName, const std::string& loadStyle = "dicom");
+			rttb::core::DoseAccessorInterface::Pointer loadDose(const std::string& fileName, const std::string& loadStyle = "dicom");
         }
     }
 }

@@ -47,7 +47,7 @@ namespace rttb
 		public:
 			/*! @brief Constructor
 			*/
-			HomogeneityIndex(DVHSetPtr dvhSet, DoseTypeGy aDoseReference);
+			HomogeneityIndex(core::DVHSet::Pointer dvhSet, DoseTypeGy aDoseReference);
 
 			/*! @brief Dose index calculation for tvIndex-th treated volume
 			    @param tvIndex index in the DVH in the current set of tv-DVHs

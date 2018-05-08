@@ -54,7 +54,7 @@ namespace rttb
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
-      typedef core::Structure::StructTypePointer StructTypePointer;
+      typedef core::Structure::Pointer StructTypePointer;
 
 			// generate test dose. geometric info: patient position (-25, -2, 35), center of the 1st.voxel 
 			boost::shared_ptr<DummyDoseAccessor> spTestDoseAccessor =

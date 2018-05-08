@@ -35,8 +35,8 @@ namespace rttb
 			class ApplicationData
 			{
 			public:
-				core::DoseAccessorInterface::DoseAccessorPointer _dose;
-                std::deque<core::AccessorInterface::AccessorPointer> _modelParameterMaps;
+				core::DoseAccessorInterface::Pointer _dose;
+                std::deque<core::AccessorInterface::Pointer> _modelParameterMaps;
 				std::string  _doseFileName;
 				std::string _doseLoadStyle;
 				std::string _parameterMapsLoadStyle;

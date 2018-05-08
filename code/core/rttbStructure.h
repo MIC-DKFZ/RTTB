@@ -19,9 +19,7 @@
 // @author  $Author$ (last changed by)
 */
 
-/* Changes in Architecture:
-This class should be universally used independent of the origin of the Structures. All UID references are omitted.
-*/
+
 #ifndef __STRUCTURE_H
 #define __STRUCTURE_H
 
@@ -29,9 +27,8 @@ This class should be universally used independent of the origin of the Structure
 #include <vector>
 #include <cmath>
 
-#include <boost/shared_ptr.hpp>
-
 #include "rttbBaseType.h"
+#include "rttbCommon.h"
 
 #include "RTTBCoreExports.h"
 
@@ -48,7 +45,7 @@ namespace rttb
 		class RTTBCore_EXPORT Structure
 		{
 		public:
-			using StructTypePointer = boost::shared_ptr<Structure>;
+      rttbClassMacroNoParent(Structure);
 		private:
 			/*! @brief WorldCoordinate3D in mm
 			*/

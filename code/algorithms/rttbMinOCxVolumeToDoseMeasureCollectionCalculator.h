@@ -33,6 +33,8 @@ namespace rttb
 		@brief Class for calculating MinOC VolumeToDose measures
 		*/
 		class RTTBAlgorithms_EXPORT MinOCxVolumeToDoseMeasureCollectionCalculator : public VolumeToDoseMeasureCollectionCalculator {
+    public:
+      rttbClassMacro(MinOCxVolumeToDoseMeasureCollectionCalculator, VolumeToDoseMeasureCollectionCalculator)
 
 		private:
 			DoseStatisticType _minimum;

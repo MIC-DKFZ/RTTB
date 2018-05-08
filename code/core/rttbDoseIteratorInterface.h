@@ -22,9 +22,8 @@
 #define __DOSE_ITERATOR_INTERFACE_NEW_H
 
 
-#include <boost/shared_ptr.hpp>
-
 #include "rttbBaseType.h"
+#include "rttbCommon.h"
 #include "rttbDoseAccessorInterface.h"
 
 namespace rttb
@@ -38,8 +37,8 @@ namespace rttb
 		class DoseIteratorInterface
 		{
 		public:
-			using DoseAccessorPointer = boost::shared_ptr<DoseAccessorInterface>;
-			using DoseIteratorPointer = boost::shared_ptr<DoseIteratorInterface>;
+      rttbClassMacroNoParent(DoseIteratorInterface);
+			using DoseAccessorPointer = DoseAccessorInterface::Pointer;
 
 		private:
 			DoseIteratorInterface(const DoseIteratorInterface&) = delete; //not implemented on purpose -> non-copyable

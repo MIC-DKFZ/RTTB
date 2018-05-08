@@ -180,7 +180,7 @@ namespace rttb
 				    boost::make_shared<rttb::core::GenericDoseIterator>(_doseAccessor);
 				rttb::core::GenericDoseIterator::DoseIteratorPointer spDoseIterator(spTestDoseIterator);
 				rttb::algorithms::DoseStatisticsCalculator myDoseStatsCalculator(spDoseIterator);
-				rttb::algorithms::DoseStatistics::DoseStatisticsPointer doseStatistics =
+				auto doseStatistics =
 				    myDoseStatsCalculator.calculateDoseStatistics();
 
 				double maxDose = doseStatistics->getMaximum();

@@ -39,8 +39,8 @@ namespace rttb
 		class BinaryFunctorAccessor: public core::AccessorInterface
 		{
 		protected:
-			AccessorPointer _spData1;
-			AccessorPointer _spData2;
+			core::AccessorInterface::ConstPointer _spData1;
+      core::AccessorInterface::ConstPointer _spData2;
 			TDoseOperation _functor;
 
 		public:
@@ -51,7 +51,7 @@ namespace rttb
 				@pre all input parameters have to be valid
 				@exception core::NullPointerException if one input parameter is nullptr or if geometricInfos don't match
 			*/
-			BinaryFunctorAccessor(const AccessorPointer data1, const DoseAccessorPointer data2,
+			BinaryFunctorAccessor(core::AccessorInterface::ConstPointer data1, core::AccessorInterface::ConstPointer data2,
 			                      const TDoseOperation& functor);
 
 			/*! @brief Virtual destructor

@@ -120,10 +120,10 @@ namespace rttb
 
 			//check DVH files
 			io::other::DVHXMLFileReader xmlDVHDefaultReaderActual(defaultDVHOutputFilename);
-			DVHPointer defaultDVHActual = xmlDVHDefaultReaderActual.generateDVH();
+			core::DVH::Pointer defaultDVHActual = xmlDVHDefaultReaderActual.generateDVH();
 
 			io::other::DVHXMLFileReader xmlDVHDefaultReaderExpected(referenceDVHXMLFilename);
-			DVHPointer defaultDVHExpected = xmlDVHDefaultReaderExpected.generateDVH();
+			core::DVH::Pointer defaultDVHExpected = xmlDVHDefaultReaderExpected.generateDVH();
 			CHECK(checkEqualDVH(defaultDVHActual, defaultDVHExpected));
 
 			//delete file again

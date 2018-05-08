@@ -77,7 +77,7 @@ namespace rttb
 
             typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
             typedef core::GenericMaskedDoseIterator::MaskAccessorPointer MaskAccessorPointer;
-            typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
+            typedef core::StructureSet::Pointer StructureSetPointer;
 
             std::string RTSTRUCT_FILENAME;
             std::string RTDOSE_FILENAME;

@@ -40,8 +40,8 @@ namespace rttb
         class RTTBCore_EXPORT DVHCalculator : public DVHGeneratorInterface
 		{
 		public:
-			using DoseIteratorPointer = core::DoseIteratorInterface::DoseIteratorPointer;
-			using MaskedDoseIteratorPointer = core::MaskedDoseIteratorInterface::MaskedDoseIteratorPointer;
+			using DoseIteratorPointer = core::DoseIteratorInterface::Pointer;
+			using MaskedDoseIteratorPointer = core::MaskedDoseIteratorInterface::Pointer;
 
 			DoseIteratorPointer _doseIteratorPtr;
 			IDType _structureID;
@@ -64,7 +64,7 @@ namespace rttb
 				@exception InvalidParameterException throw if _numberOfBins invalid:
 				_numberOfBins must be > max(aDoseIterator)/aDeltaD!
 			*/
-			DVHPointer generateDVH() override;
+			DVH::Pointer generateDVH() override;
 
 		};
 	}

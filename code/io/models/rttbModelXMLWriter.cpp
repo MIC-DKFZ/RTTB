@@ -27,7 +27,6 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "rttbInvalidParameterException.h"
 #include "rttbDVHXMLFileWriter.h"
@@ -40,7 +39,7 @@ namespace rttb
 		namespace models
 		{
 			ModelXMLWriter::ModelXMLWriter(const std::string&  filename,
-			                               boost::shared_ptr<rttb::models::BioModel> model, bool printDVH) : _filename(filename),
+        rttb::models::BioModel::Pointer model, bool printDVH) : _filename(filename),
 				_model(model), _printDVH(printDVH)
 			{
 			}
@@ -55,12 +54,12 @@ namespace rttb
 				return _filename;
 			}
 
-			void ModelXMLWriter::setModel(boost::shared_ptr<rttb::models::BioModel> model)
+			void ModelXMLWriter::setModel(rttb::models::BioModel::Pointer model)
 			{
 				_model = model;
 			}
 
-			boost::shared_ptr<rttb::models::BioModel>  ModelXMLWriter::getModel() const
+      rttb::models::BioModel::Pointer  ModelXMLWriter::getModel() const
 			{
 				return _model;
 			}

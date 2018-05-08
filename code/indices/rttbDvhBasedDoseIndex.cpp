@@ -27,7 +27,7 @@ namespace rttb
 	namespace indices
 	{
 
-		DvhBasedDoseIndex::DvhBasedDoseIndex(DvhBasedDoseIndex::DVHSetPtr aDVHSet,
+		DvhBasedDoseIndex::DvhBasedDoseIndex(core::DVHSet::Pointer aDVHSet,
 		                                     DoseTypeGy aDoseReference)
 			: DoseIndex(aDoseReference), _dvhSet(aDVHSet)
 		{

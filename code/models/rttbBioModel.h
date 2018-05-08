@@ -24,6 +24,7 @@
 
 #include "rttbDVH.h"
 #include "rttbBaseTypeModels.h"
+#include <rttbCommon.h>
 
 #include "RTTBModelsExports.h"
 
@@ -41,8 +42,9 @@ namespace rttb
 		class RTTBModels_EXPORT BioModel
 		{
 		public:
+      rttbClassMacroNoParent(BioModel)
 			using ParamVectorType = std::vector<BioModelParamType>;
-			using DVHPointer = core::DVH::DVHPointer;
+			using DVHPointer = core::DVH::Pointer;
 
 		protected:
 			DVHPointer _dvh;

@@ -42,8 +42,8 @@ namespace rttb
 		class RTTBCore_EXPORT GenericDoseIterator : public DoseIteratorInterface
 		{
 		public:
-			using DoseAccessorPointer = DoseIteratorInterface::DoseAccessorPointer;
-			using DoseIteratorPointer = DoseIteratorInterface::DoseIteratorPointer;
+			using DoseAccessorPointer = DoseAccessorInterface::Pointer;
+			using DoseIteratorPointer = DoseIteratorInterface::Pointer;
 
 		private:
 

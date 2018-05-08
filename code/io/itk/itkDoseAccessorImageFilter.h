@@ -65,7 +65,7 @@ namespace itk
 		typedef OutputImageType::PixelType  OutputImagePixelType;
 
 		typedef rttb::core::DoseAccessorInterface DoseAccessorType;
-		typedef rttb::core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
+		typedef rttb::core::DoseAccessorInterface::Pointer DoseAccessorPointer;
 
 		/** Get the accessor pointer. */
 		DoseAccessorPointer GetAccessor()

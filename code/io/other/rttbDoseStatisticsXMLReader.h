@@ -23,10 +23,6 @@
 
 #include "rttbDoseStatistics.h"
 
-/*boost includes*/
-
-#include <boost/shared_ptr.hpp>
-
 namespace rttb
 {
 	namespace io
@@ -38,8 +34,6 @@ namespace rttb
             */
 			class DoseStatisticsXMLReader{
 			public:
-				using DoseStatisticsPtr = boost::shared_ptr<rttb::algorithms::DoseStatistics>;
-
 				DoseStatisticsXMLReader(const std::string& filename);
 				~DoseStatisticsXMLReader();
 
@@ -50,13 +44,13 @@ namespace rttb
 				@return Return new shared pointer of a Model.
 				@exception InvalidParameterException Thrown if _filename invalid
 				*/
-				DoseStatisticsPtr generateDoseStatistic();
+        algorithms::DoseStatistics::Pointer generateDoseStatistic();
 			private:
 				std::string _filename;
 
 				bool _newFile;
 
-				DoseStatisticsPtr _doseStatistic;
+        algorithms::DoseStatistics::Pointer _doseStatistic;
 
 				/*! @brief Create new Model object using the info from model xml file
 				@exception InvalidParameterException Thrown if _filename invalid
