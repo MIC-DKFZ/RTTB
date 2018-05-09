@@ -6,7 +6,3 @@ MESSAGE (STATUS "Process All Mask Tests...")
 #-----------------------------------------------------------------------------
 
 ADD_SUBDIRECTORY(boost)
-   
-IF(BUILD_Masks_Legacy)
-	ADD_SUBDIRECTORY(legacy)
-ENDIF()

@@ -162,7 +162,6 @@ Build MatchPoint with default options.
   * `BUILD_Interpolation`: Dose Interpolation
   * `BUILD_InterpolationMatchPointTransformation`: Dose Interpolation with Match Point registration support.
   * `BUILD_Masks`: Voxelization support
-  * `BUILD_Masks_Legacy`: Legacy voxelization support. 
   * `BUILD_Models`: Calculation of dosimetrical models like TCP, NTCP etc.
   * `BUILD_Apps`: To build the RTTB command line apps (five available)
     * `BioModelCalc`: calculate the radiobiological effect based on dose
@@ -173,7 +172,7 @@ Build MatchPoint with default options.
 	
 Some modules of RT-Toolbox are mandatory (e.g. `RTTBCore`) and build automatically.
 		
-:information_source: enabling `BUILD_All_Modules` builds all modules (except Apps, Testing modules and Masks_Legacy).
+:information_source: enabling `BUILD_All_Modules` builds all modules (except Apps and Testing modules).
 
 Set the third party library paths.
 
