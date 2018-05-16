@@ -22,12 +22,16 @@
 #ifndef __MASKED_DOSE_ITERATOR_INTERFACE_NEW_H
 #define __MASKED_DOSE_ITERATOR_INTERFACE_NEW_H
 
-
 #include <boost/shared_ptr.hpp>
 
 #include "rttbDoseIteratorInterface.h"
 
 #include "RTTBCoreExports.h"
+
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
 
 namespace rttb
 {

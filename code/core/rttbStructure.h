@@ -35,6 +35,10 @@ This class should be universally used independent of the origin of the Structure
 
 #include "RTTBCoreExports.h"
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
 
 namespace rttb
 {
