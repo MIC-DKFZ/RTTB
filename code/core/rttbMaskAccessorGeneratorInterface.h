@@ -21,8 +21,12 @@
 #ifndef __MASK_ACCESSOR_GENERATOR_INTERFACE_H
 #define __MASK_ACCESSOR_GENERATOR_INTERFACE_H
 
-
 #include "rttbMaskAccessorInterface.h"
+
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
 
 namespace rttb
 {
