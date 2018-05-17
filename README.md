@@ -174,6 +174,8 @@ Some modules of RT-Toolbox are mandatory (e.g. `RTTBCore`) and build automatical
 		
 :information_source: enabling `BUILD_All_Modules` builds all modules (except Apps and Testing modules).
 
+:information_source: if you build RTTB with VS dynamic, you must ensure that code that uses RTTB DLLs uses the same stl
+
 Set the third party library paths.
 
 Finally, Generate the compilation files for your environment and built it.
