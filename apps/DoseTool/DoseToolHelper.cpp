@@ -111,7 +111,9 @@ void writeDoseStatisticsFile(rttb::algorithms::DoseStatistics::DoseStatisticsPoi
 	const std::string& structName,
     rttb::apps::doseTool::ApplicationData& appData) {
 
-	boost::property_tree::ptree originalTree = rttb::io::other::writeDoseStatistics(statistics);
+	auto doseStatisticsXMLWriter = rttb::io::other::DoseStatisticsXMLWriter();
+
+	boost::property_tree::ptree originalTree = doseStatisticsXMLWriter.writeDoseStatistics(statistics);
 
 	//add config part to xml
 	originalTree.add("statistics.config.requestedStructRegex", appData._structNameRegex);
