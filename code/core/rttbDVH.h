@@ -54,9 +54,7 @@ namespace rttb
 				of the dose bin
 			*/
 			DataDifferentialType _dataDifferential;
-			/*! @brief Differential dvh data relative to the total number of voxels
-			*/
-			DataDifferentialType _dataDifferentialRelative;
+			
 			/*! @brief Absolute dose value of a dose-bin in Gy
 			*/
 			DoseTypeGy _deltaD;
@@ -81,7 +79,6 @@ namespace rttb
 			DoseStatisticType _stdDeviation;
 			DoseStatisticType _variance;
 			DataDifferentialType _dataCumulative;
-			DataDifferentialType _dataCumulativeRelative;
 
 			/*! @brief DVH initialization
 				The DVH is initialized and all statistical values are calculated.
@@ -142,14 +139,14 @@ namespace rttb
 				@return Return differential data of the dvh (relative or absolute depending on the
 				input parameter).
 			*/
-			DataDifferentialType getDataDifferential(bool relativeVolume = false) const;
+			DataDifferentialType getDataDifferential() const;
 
       /*! @param relativeVolume default false-> Value is the voxel number of the dose bin;
       if true-> value is the relative volume % between 0 and 1,
       (the voxel number of this dose bin)/(number of voxels)
       @return Return cumulative data of the dvh
       */
-      DataDifferentialType getDataCumulative(bool relativeVolume = false) const;
+      DataDifferentialType getDataCumulative() const;
 
 			DoseVoxelVolumeType getDeltaV() const;
 			DoseTypeGy getDeltaD() const;
@@ -199,6 +196,10 @@ namespace rttb
 				@param relativePercent 0~100, the percent of the whole volume
 			*/
 			VolumeType getAbsoluteVolume(int relativePercent) const;
+
+			/*! @brief Convert absolute values relative to the total number of voxels
+			*/
+			DataDifferentialType getRelativeFromAbsolut(DataDifferentialType absoluteData) const;
 
 			/*	@brief Multiplies each values with its Delta value. Values depend on DVHType.
 				@param The DVHType that is being used DVHType::Cumulative or DVHType::Differential
