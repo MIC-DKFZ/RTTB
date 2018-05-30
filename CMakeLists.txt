@@ -298,9 +298,14 @@ INCLUDE (${RTToolbox_SOURCE_DIR}/rttbGenerateRTToolboxConfig.cmake)
 
 IF(NOT RTToolbox_INSTALL_NO_DEVELOPMENT)
 	INSTALL(FILES
-    ${RTToolbox_BINARY_DIR}/RTToolboxConfig.cmake
-    ${RTToolbox_BINARY_DIR}/RTToolboxTargets.cmake
-    DESTINATION ${RTTOOLBOX_INSTALL_PACKAGE_DIR}
-    COMPONENT Development
+		${RTToolbox_BINARY_DIR}/RTToolboxConfig.cmake
+		DESTINATION ${RTTOOLBOX_INSTALL_PACKAGE_DIR}
+		COMPONENT Development
+    )
+	INSTALL(EXPORT RTToolboxTargets 
+		FILE RTToolboxTargets.cmake
+		DESTINATION ${RTTOOLBOX_INSTALL_PACKAGE_DIR}
+		COMPONENT Development
+
     )
 ENDIF(NOT RTToolbox_INSTALL_NO_DEVELOPMENT)
