@@ -23,7 +23,6 @@
 #define __INVALID_PARAMETER_EXCEPTION_H
 
 #include <string>
-#include <exception>
 
 #include "rttbException.h"
 
@@ -41,16 +40,6 @@ namespace rttb
 		{
 		public:
 			InvalidParameterException(const std::string& aWhat): Exception(aWhat) {}
-
-			~InvalidParameterException() throw() override = default;
-
-			/*! @brief Get the exception description
-			*/
-			const char* what() const throw() override;
-
-			/*! @brief Get the name of the exception class
-			*/
-			virtual const char* GetNameOfClass() const;
 		};
 
 	}
