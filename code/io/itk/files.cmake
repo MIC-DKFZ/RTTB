@@ -2,7 +2,6 @@ SET(CPP_FILES
 	rttbFileDispatch.cpp
 	rttbGenericImageReader.cpp
 	rttbImageWriter.cpp
-	rttbITKException.cpp
 	rttbITKImageAccessor.cpp
 	rttbITKImageAccessorConverter.cpp
 	rttbITKImageAccessorGenerator.cpp

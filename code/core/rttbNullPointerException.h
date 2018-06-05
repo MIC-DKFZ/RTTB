@@ -23,8 +23,6 @@
 #define __NULL_POINTER_EXCEPTION_H
 
 #include <string>
-#include <exception>
-
 #include "rttbException.h"
 
 #include "RTTBCoreExports.h"
@@ -38,20 +36,9 @@ namespace rttb
 		/*! @class NullPointerException
 			@brief This exception will be thrown if any pointer is nullptr.
 		*/
-		class RTTBCore_EXPORT NullPointerException : public Exception
-		{
+		class RTTBCore_EXPORT NullPointerException : public Exception {
 		public:
 			NullPointerException(const std::string& aWhat): Exception(aWhat) {}
-
-			~NullPointerException() throw() override = default;
-
-			/*! @brief Get the exception description
-			*/
-			const char* what() const throw() override;
-
-			/*! @brief Get the name of the exception class
-			*/
-			virtual const char* GetNameOfClass() const;
 		};
 
 	}
