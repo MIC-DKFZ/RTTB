@@ -56,8 +56,6 @@ namespace rttb
 
 		int ITKDoseAccessorConverterTest(int argc, char* argv[])
 		{
-			typedef core::DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
-
 			PREPARE_DEFAULT_TEST_REPORTING;
 			//ARGUMENTS:
 			//           1: dose1 file name
@@ -79,7 +77,7 @@ namespace rttb
 			//1) Read dicomFile and test getITKImage()
 
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator(RTDOSE_FILENAME.c_str());
-			DoseAccessorPointer doseAccessor(doseAccessorGenerator.generateDoseAccessor());
+      core::DoseAccessorInterface::Pointer doseAccessor(doseAccessorGenerator.generateDoseAccessor());
 
 			io::itk::ITKImageAccessorConverter itkConverter(doseAccessor);
 
@@ -108,7 +106,7 @@ namespace rttb
 			//2) Read mhdFile and test getITKImage() with Litmus TestImageIO
 
 			io::itk::ITKImageFileAccessorGenerator doseAccessorGenerator2(RTDOSE2_FILENAME.c_str());
-			DoseAccessorPointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
+      core::DoseAccessorInterface::Pointer doseAccessor2(doseAccessorGenerator2.generateDoseAccessor());
 
 			io::itk::ITKImageAccessorConverter itkConverter2(doseAccessor2);
 
