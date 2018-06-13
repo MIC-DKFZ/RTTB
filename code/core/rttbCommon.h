@@ -19,10 +19,10 @@
 #include <boost/shared_ptr.hpp>
 
 #define rttbClassMacro(className, superClassName)                                                          \
-  typedef className Self;                                                                                  \
-  typedef superClassName Superclass;                                                                       \
-  typedef boost::shared_ptr<Self> Pointer;                                                                 \
-  typedef boost::shared_ptr<const Self> ConstPointer;                                                      \
+  using Self = className;                                                                                  \
+  using Superclass = superClassName;                                                                       \
+  using Pointer = boost::shared_ptr<Self>;                                                                 \
+  using ConstPointer = boost::shared_ptr<const Self>;                                                      \
   static const char *getStaticNameOfClass() { return #className; }                                         \
   virtual const char *getNameOfClass() const override                                                      \
   {                                                                                                        \
@@ -30,9 +30,9 @@
   }
 
 #define rttbClassMacroNoParent(className)                                                                  \
-  typedef className Self;                                                                                  \
-  typedef boost::shared_ptr<Self> Pointer;                                                                 \
-  typedef boost::shared_ptr<const Self> ConstPointer;                                                      \
+  using Self = className;                                                                                  \
+  using Pointer = boost::shared_ptr<Self>;                                                                 \
+  using ConstPointer = boost::shared_ptr<const Self>;                                                      \
   static const char *getStaticNameOfClass() { return #className; }                                         \
   virtual const char *getNameOfClass() const                                                               \
   {                                                                                                        \
