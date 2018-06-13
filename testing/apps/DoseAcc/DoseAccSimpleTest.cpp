@@ -72,7 +72,7 @@ namespace rttb
             CHECK_EQUAL(boost::filesystem::exists(defaultOutputFilename), true);
 
             // Check result against reference
-            typedef ::itk::Image<double, 3> TestImageType;
+            using TestImageType = ::itk::Image<double, 3>;
 
             TestImageType::Pointer referenceImage = io::itk::readITKDoubleImage(referenceFilename);
             TestImageType::Pointer outputImage = io::itk::readITKDoubleImage(defaultOutputFilename);
