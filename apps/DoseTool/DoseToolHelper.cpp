@@ -113,12 +113,14 @@ std::string rttb::apps::doseTool::assembleFilenameWithStruct(const std::string& 
 /*! @brief Writes the dose statistics as XML to a file
 @details adds a <config>....</config> part to the RTTB generated xml where the used files and struct names are stored.
 */
-void writeDoseStatisticsFile(
-    rttb::algorithms::DoseStatistics::Pointer statistics,
-    const std::string& filename, const std::string& structName,
-    rttb::apps::doseTool::ApplicationData& appData)
-{
-	boost::property_tree::ptree originalTree = rttb::io::other::writeDoseStatistics(statistics);
+void writeDoseStatisticsFile(rttb::algorithms::DoseStatistics::DoseStatisticsPointer statistics, 
+	const std::string& filename, 
+	const std::string& structName,
+    rttb::apps::doseTool::ApplicationData& appData) {
+
+	auto doseStatisticsXMLWriter = rttb::io::other::DoseStatisticsXMLWriter();
+
+	boost::property_tree::ptree originalTree = doseStatisticsXMLWriter.writeDoseStatistics(statistics);
 
 	//add config part to xml
 	originalTree.add("statistics.config.requestedStructRegex", appData._structNameRegex);
@@ -182,8 +184,8 @@ void rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& ap
 
             //Generate random UID
             if (appData._structLoadStyle == "itk") {
-                structUID = "struct42";
-                doseUID = "dose42";
+                structUID = "struct.fromVoxelizedITK";
+                doseUID = "dose.fromVoxelizedITK";
             } else {
                 structUID = appData._struct->getUID();
                 doseUID = appData._dose->getUID();

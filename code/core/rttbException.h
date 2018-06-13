@@ -19,12 +19,11 @@
 // @author  $Author$ (last changed by)
 */
 
-#ifndef __EXCEPTION_H
-#define __EXCEPTION_H
+#ifndef __RTTBEXCEPTION_H
+#define __RTTBEXCEPTION_H
 
 #include <string>
-#include <exception>
-#include <iostream>
+#include <stdexcept>
 
 #include "RTTBCoreExports.h"
 
@@ -37,24 +36,12 @@ namespace rttb
 			@brief Exception interface used by all RTToolbox exceptions.
 		*/
 
-		class RTTBCore_EXPORT Exception : public std::exception
+		class RTTBCore_EXPORT Exception : public std::runtime_error
 		{
-		protected:
-			std::string rttb_what;
-
 		public:
-			explicit Exception(const std::string& aWhat)
-				: rttb_what(aWhat)
-			{}
-			~Exception() throw() override = default;
-
-			/*! @brief Get the exception description
-			*/
-			const char* what() const throw() override;
-
-			/*! @brief Get the name of the exception class that was thrown
-			*/
-			const char* GetNameOfClass() const;
+			Exception(const std::string& aWhat)
+				: runtime_error(aWhat)
+			{};
 		};
 
 	}

@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #include "rttbDoseStatisticsXMLWriter.h"
 
@@ -43,7 +37,7 @@ namespace rttb
 			static const std::string propertyTag = "property";
 			static const std::string columnSeparator = "@";
 
-			boost::property_tree::ptree writeDoseStatistics(algorithms::DoseStatistics::Pointer aDoseStatistics)
+			boost::property_tree::ptree DoseStatisticsXMLWriter::writeDoseStatistics(DoseStatisticsPtr aDoseStatistics)
 			{
 				using boost::property_tree::ptree;
 				ptree pt;
@@ -174,7 +168,7 @@ namespace rttb
 
 			}
 
-			void writeDoseStatistics(algorithms::DoseStatistics::Pointer aDoseStatistics, FileNameString aFileName)
+			void DoseStatisticsXMLWriter::writeDoseStatistics(DoseStatisticsPtr aDoseStatistics, FileNameString aFileName)
 			{
 				boost::property_tree::ptree pt = writeDoseStatistics(aDoseStatistics);
 
@@ -189,7 +183,7 @@ namespace rttb
 				}
 			}
 
-			XMLString writerDoseStatisticsToString(algorithms::DoseStatistics::Pointer aDoseStatistics)
+			XMLString DoseStatisticsXMLWriter::writerDoseStatisticsToString(DoseStatisticsPtr aDoseStatistics)
 			{
 				boost::property_tree::ptree pt = writeDoseStatistics(aDoseStatistics);
 				std::stringstream sstr;
@@ -209,7 +203,7 @@ namespace rttb
 			}
 
 
-			StatisticsString writerDoseStatisticsToTableString(algorithms::DoseStatistics::Pointer aDoseStatistics)
+			StatisticsString DoseStatisticsXMLWriter::writerDoseStatisticsToTableString(DoseStatisticsPtr aDoseStatistics)
 			{
                 if (aDoseStatistics == nullptr){
                     throw core::NullPointerException("dose statistics is nullptr!");
@@ -271,7 +265,7 @@ namespace rttb
 
 			}
 
-			boost::property_tree::ptree createNodeWithNameAttribute(DoseTypeGy doseValue,
+			boost::property_tree::ptree DoseStatisticsXMLWriter::createNodeWithNameAttribute(DoseTypeGy doseValue,
 			        const std::string& attributeName)
 			{
 				boost::property_tree::ptree node;
@@ -280,7 +274,7 @@ namespace rttb
 				return node;
 			}
 
-			boost::property_tree::ptree createNodeWithNameAndXAttribute(DoseTypeGy doseValue,
+			boost::property_tree::ptree DoseStatisticsXMLWriter::createNodeWithNameAndXAttribute(DoseTypeGy doseValue,
 			        const std::string& attributeName,
 			        int xValue)
 			{
@@ -292,7 +286,7 @@ namespace rttb
 			}
 
 
-            double convertToPercent(double value, double maximum)
+            double DoseStatisticsXMLWriter::convertToPercent(double value, double maximum)
             {
                 return (value / maximum) * 100;
             }

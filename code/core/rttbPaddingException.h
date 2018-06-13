@@ -23,7 +23,6 @@
 #define __PADDING_EXCEPTION_H
 
 #include <string>
-#include <exception>
 
 #include "rttbException.h"
 
@@ -40,16 +39,6 @@ namespace rttb
 		{
 		public:
 			PaddingException(const std::string& aWhat): Exception(aWhat) {}
-
-			~PaddingException() throw() override = default;
-
-			/*! @brief Get the exception description
-			*/
-			const char* what() const throw() override;
-
-			/*! @brief Get the name of the exception class
-			*/
-			virtual const char* GetNameOfClass() const;
 		};
 
 	}

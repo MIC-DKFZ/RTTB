@@ -1,5 +1,4 @@
 SET(CPP_FILES 
-  rttbDcmrtException.cpp
   rttbDicomDoseAccessor.cpp
   rttbDicomFileDoseAccessorGenerator.cpp
   rttbDicomFileDoseAccessorWriter.cpp

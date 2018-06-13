@@ -23,7 +23,6 @@
 #define __INDEX_OUT_OF_BOUNDS_EXCEPTION_H
 
 #include <string>
-#include <exception>
 
 #include "rttbException.h"
 #include "RTTBCoreExports.h"
@@ -41,16 +40,6 @@ namespace rttb
 		{
 		public:
 			IndexOutOfBoundsException(const std::string& aWhat): Exception(aWhat) {}
-
-			~IndexOutOfBoundsException() throw() override = default;
-
-			/*! @brief Get the exception description
-			*/
-			const char* what() const throw() override;
-
-			/*! @brief Get the name of the exception class
-			*/
-			virtual const char* GetNameOfClass() const;
 		};
 
 	}

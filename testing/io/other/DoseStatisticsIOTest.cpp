@@ -75,15 +75,17 @@ namespace rttb
 			auto myDoseStatsSimple = myDoseStatsCalculator.calculateDoseStatistics();
 			auto myDoseStatsComplex = myDoseStatsCalculator.calculateDoseStatistics(true);
 
+			auto doseStatisticsXMLWriter = io::other::DoseStatisticsXMLWriter();
+
             //1) test writing statistics to xml file
-            CHECK_THROW_EXPLICIT(io::other::writeDoseStatistics(nullptr, "aFilename.txt"), core::NullPointerException);
+            CHECK_THROW_EXPLICIT(doseStatisticsXMLWriter.writeDoseStatistics(nullptr, "aFilename.txt"), core::NullPointerException);
 
 			FileNameString filenameSimple = "testStatisticsSimple.xml";
-			CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsSimple, filenameSimple));
+			CHECK_NO_THROW(doseStatisticsXMLWriter.writeDoseStatistics(myDoseStatsSimple, filenameSimple));
             CHECK(boost::filesystem::exists(filenameSimple));
 
             FileNameString filenameComplex = "testStatisticsComplex.xml";
-            CHECK_NO_THROW(io::other::writeDoseStatistics(myDoseStatsComplex, filenameComplex));
+            CHECK_NO_THROW(doseStatisticsXMLWriter.writeDoseStatistics(myDoseStatsComplex, filenameComplex));
             CHECK(boost::filesystem::exists(filenameComplex));
 
             //2) test reading statistics from XML file and compare DoseStatistics
@@ -106,13 +108,13 @@ namespace rttb
             CHECK_EQUAL(std::remove(filenameComplex.c_str()),0);
 
             //3) test writing statistics to string
-			boost::property_tree::ptree ptSimple = io::other::writeDoseStatistics(myDoseStatsSimple);
-			XMLString strSimple = io::other::writerDoseStatisticsToString(myDoseStatsSimple);
+			boost::property_tree::ptree ptSimple = doseStatisticsXMLWriter.writeDoseStatistics(myDoseStatsSimple);
+			XMLString strSimple = doseStatisticsXMLWriter.writerDoseStatisticsToString(myDoseStatsSimple);
 
-            CHECK_THROW_EXPLICIT(io::other::writerDoseStatisticsToString(nullptr), core::NullPointerException);
+            CHECK_THROW_EXPLICIT(doseStatisticsXMLWriter.writerDoseStatisticsToString(nullptr), core::NullPointerException);
 
-			boost::property_tree::ptree ptComplex = io::other::writeDoseStatistics(myDoseStatsComplex);
-			XMLString strComplex = io::other::writerDoseStatisticsToString(myDoseStatsComplex);
+			boost::property_tree::ptree ptComplex = doseStatisticsXMLWriter.writeDoseStatistics(myDoseStatsComplex);
+			XMLString strComplex = doseStatisticsXMLWriter.writerDoseStatisticsToString(myDoseStatsComplex);
 
 			std::stringstream sstrSimple;
 			boost::property_tree::xml_parser::write_xml(sstrSimple, ptSimple,

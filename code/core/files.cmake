@@ -4,19 +4,11 @@ SET(CPP_FILES
   rttbDVH.cpp
   rttbDVHCalculator.cpp
   rttbDVHSet.cpp
-  rttbDataNotAvailableException.cpp
-  rttbException.cpp		
   rttbGenericDoseIterator.cpp
   rttbGenericMaskedDoseIterator.cpp
   rttbGeometricInfo.cpp
-  rttbIndexOutOfBoundsException.cpp
-  rttbInvalidDoseException.cpp
-  rttbInvalidParameterException.cpp
-  rttbMappingOutsideOfImageException.cpp
   rttbMaskedDoseIteratorInterface.cpp
   rttbMaskVoxel.cpp
-  rttbNullPointerException.cpp
-  rttbPaddingException.cpp
   rttbStructure.cpp
   rttbStructureSet.cpp
   rttbStrVectorStructureSetGenerator.cpp
