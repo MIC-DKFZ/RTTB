@@ -175,8 +175,8 @@ void rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& ap
 
             //Generate random UID
             if (appData._structLoadStyle == "itk") {
-                structUID = "struct42";
-                doseUID = "dose42";
+                structUID = "struct.fromVoxelizedITK";
+                doseUID = "dose.fromVoxelizedITK";
             } else {
                 structUID = appData._struct->getUID();
                 doseUID = appData._dose->getUID();
