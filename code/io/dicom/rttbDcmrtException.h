@@ -23,7 +23,6 @@
 #define __DCMRT_EXCEPTION_H
 
 #include <string>
-#include <exception>
 
 #include "rttbException.h"
 
@@ -41,16 +40,6 @@ namespace rttb
 			{
 			public:
 				DcmrtException(const std::string& aWhat): Exception(aWhat) {}
-
-				~DcmrtException() throw() override = default;
-
-				/*! @brief Get the exception description
-				*/
-				const char* what() const throw() override;
-
-				/*! @brief Get the name of the class that was thrown
-				*/
-				const char* GetNameOfClass() const;
 			};
 		}
 	}

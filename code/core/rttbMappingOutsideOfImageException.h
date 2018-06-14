@@ -23,7 +23,6 @@
 #define __MAPPING_OUTSIDE_OF_IMAGE_EXCEPTION_H
 
 #include <string>
-#include <exception>
 
 #include "rttbException.h"
 
@@ -42,16 +41,6 @@ namespace rttb
 		{
 		public:
 			MappingOutsideOfImageException(const std::string& aWhat): Exception(aWhat) {}
-
-			~MappingOutsideOfImageException() throw() override = default;
-
-			/*! @brief Get the exception description
-			*/
-			const char* what() const throw() override;
-
-			/*! @brief Get the name of the exception class
-			*/
-			virtual const char* GetNameOfClass() const;
 		};
 
 	}
