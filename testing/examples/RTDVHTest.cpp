@@ -75,7 +75,7 @@ namespace rttb
 			CHECK_NO_THROW(models::calcLQED2DVH(dvh, 15, 10));
 
 			CHECK_NO_THROW(dvh->getDataDifferential());
-			CHECK_EQUAL(1, dvh->getRelativeFromAbsolut(dvh->getDataCumulative()).at(0));
+			CHECK_EQUAL(1, dvh->convertAbsoluteToRelative().at(0));
 			CHECK_NO_THROW(models::calcBEDDVH(dvh, 15, 15, true));
 			CHECK_NO_THROW(models::calcLQED2DVH(dvh, 15, 10, true));
 

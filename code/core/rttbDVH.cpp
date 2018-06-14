@@ -339,10 +339,17 @@ namespace rttb
 			return (relativePercent * getNumberOfVoxels() * getDeltaV() / 100.0);
 		}
 
-		std::deque<DoseCalcType> DVH::getRelativeFromAbsolut(DataDifferentialType absoluteData) const
+		std::deque<DoseCalcType> DVH::convertAbsoluteToRelative(bool isCumulative) const
 		{
 
-			DataDifferentialType relativeData;
+			DataDifferentialType relativeData, absoluteData;
+			if (isCumulative) {
+				absoluteData = getDataCumulative();
+			}
+			else {
+				absoluteData = getDataDifferential();
+			}
+
 			for (std::deque<DoseCalcType>::iterator it = absoluteData.begin(); it != absoluteData.end(); ++it)
 			{
 				relativeData.push_back((*it) / getNumberOfVoxels());

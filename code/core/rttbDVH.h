@@ -199,7 +199,7 @@ namespace rttb
 
 			/*! @brief Convert absolute values relative to the total number of voxels
 			*/
-			DataDifferentialType getRelativeFromAbsolut(DataDifferentialType absoluteData) const;
+			DataDifferentialType convertAbsoluteToRelative(bool isCumulative = true) const;
 
 			/*	@brief Multiplies each values with its Delta value. Values depend on DVHType.
 				@param The DVHType that is being used DVHType::Cumulative or DVHType::Differential

@@ -179,7 +179,7 @@ namespace rttb
 			//dataDifferential
 			CHECK(myDVH.getDataDifferential() == aDataDifferential);
 			CHECK(myDVH.getDataDifferential() == aDataDifferential);
-			CHECK(myDVH.getRelativeFromAbsolut(myDVH.getDataDifferential()) == aDataDifferentialRelative);
+			CHECK(myDVH.convertAbsoluteToRelative(false) == aDataDifferentialRelative);
 
 			CHECK_EQUAL(myDVH.getNumberOfVoxels(), numberOfVoxels);
 			CHECK_EQUAL(myDVH.getDeltaV(), voxelVolume);
