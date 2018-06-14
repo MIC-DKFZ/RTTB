@@ -45,7 +45,6 @@ namespace rttb
 			typedef itk::Transform<TransformScalarType, InputDimension3D, OutputDimension3D> Transform3D3DType;
 			using InputPointType = Transform3D3DType::InputPointType;
 			using OutputPointType = Transform3D3DType::OutputPointType;
-			using Pointer = boost::shared_ptr<ITKTransformation>;
 
 		private:
 			//! Has to be a Pointer type because of inheritance issues with itkSmartPointer (that doesn't recognize the inheritance)

@@ -48,9 +48,9 @@ namespace rttb
 	{
 
 		typedef core::GenericDoseIterator::DoseAccessorPointer DoseAccessorPointer;
-		typedef core::DoseIteratorInterface::DoseIteratorPointer DoseIteratorPointer;
+		typedef core::DoseIteratorInterface::Pointer DoseIteratorPointer;
 		typedef rttb::algorithms::DoseStatistics::ResultListPointer ResultListPointer;
-		typedef rttb::algorithms::DoseStatistics::DoseStatisticsPointer DoseStatisticsPointer;
+		typedef rttb::algorithms::DoseStatistics::Pointer DoseStatisticsPointer;
 
 		/*! @brief DoseStatisticsCalculatorTest - test the API of DoseStatisticsCalculator
 			1) test constructors
@@ -357,22 +357,22 @@ namespace rttb
 
 			// compare with actual XML
 			io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator(doseFilename.c_str());
-			core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPointer(doseAccessorGenerator.generateDoseAccessor());
+			core::DoseAccessorInterface::Pointer doseAccessorPointer(doseAccessorGenerator.generateDoseAccessor());
 
 			rttb::io::dicom::DicomFileStructureSetGenerator structAccessorGenerator(structFilename.c_str());
       structAccessorGenerator.setStructureLabelFilterActive(true);
       structAccessorGenerator.setFilterRegEx("Heart");
-			core::StructureSetGeneratorInterface::StructureSetPointer structureSetGeneratorPointer = structAccessorGenerator.generateStructureSet();
+			core::StructureSet::Pointer structureSetGeneratorPointer = structAccessorGenerator.generateStructureSet();
 
 			CHECK_EQUAL(structureSetGeneratorPointer->getNumberOfStructures(), 1);
 
-			core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPointer = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
+			core::MaskAccessorInterface::Pointer maskAccessorPointer = boost::make_shared<rttb::masks::boost::BoostMaskAccessor>
 				(structureSetGeneratorPointer->getStructure(0), doseAccessorPointer->getGeometricInfo(), true);
 			maskAccessorPointer->updateMask();
 
 			boost::shared_ptr<core::GenericMaskedDoseIterator> maskedDoseIterator =
 				boost::make_shared<core::GenericMaskedDoseIterator>(maskAccessorPointer, doseAccessorPointer);
-			rttb::core::DoseIteratorInterface::DoseIteratorPointer doseIteratorPointer(maskedDoseIterator);
+			rttb::core::DoseIteratorInterface::Pointer doseIteratorPointer(maskedDoseIterator);
 			
 			rttb::algorithms::DoseStatisticsCalculator doseStatisticsCalculator(doseIteratorPointer);
 			

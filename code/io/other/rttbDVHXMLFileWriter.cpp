@@ -61,7 +61,7 @@ namespace rttb
 				return _dvhType;
 			}
 
-			void DVHXMLFileWriter::writeDVH(DVHPointer aDvh, bool normalized)
+			void DVHXMLFileWriter::writeDVH(core::DVH::Pointer aDvh, bool normalized)
 			{
 				if (aDvh == nullptr)
 				{

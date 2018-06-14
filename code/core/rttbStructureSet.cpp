@@ -33,7 +33,7 @@ namespace rttb
 {
 	namespace core
 	{
-		StructureSet::StructureSet(const std::vector<StructTypePointer>& aStructureVector,
+		StructureSet::StructureSet(const std::vector<Structure::Pointer>& aStructureVector,
 		                           IDType aPatientUID, IDType aUID)
 		{
 			_structureSetVector = aStructureVector;
@@ -52,7 +52,7 @@ namespace rttb
 
 		}
 
-		StructureSet::StructTypePointer StructureSet::getStructure(size_t aStructureNo) const
+		Structure::Pointer StructureSet::getStructure(size_t aStructureNo) const
 		{
 			auto size = this->getNumberOfStructures();
 			if (aStructureNo >= size)

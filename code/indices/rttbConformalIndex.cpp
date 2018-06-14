@@ -30,7 +30,7 @@ namespace rttb
 	namespace indices
 	{
 
-		ConformalIndex::ConformalIndex(ConformalIndex::DVHSetPtr dvhSet, DoseTypeGy aDoseReference)
+		ConformalIndex::ConformalIndex(core::DVHSet::Pointer dvhSet, DoseTypeGy aDoseReference)
 			: DvhBasedDoseIndex(dvhSet, aDoseReference)
 		{
 			init();

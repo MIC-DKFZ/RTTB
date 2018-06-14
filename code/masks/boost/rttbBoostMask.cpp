@@ -41,8 +41,8 @@ namespace rttb
 		{
 
 
-			BoostMask::BoostMask(BoostMask::GeometricInfoPointer aDoseGeoInfo,
-			                     BoostMask::StructPointer aStructure, bool strict, unsigned int numberOfThreads)
+			BoostMask::BoostMask(core::GeometricInfo::Pointer aDoseGeoInfo,
+        core::Structure::Pointer aStructure, bool strict, unsigned int numberOfThreads)
 				: _geometricInfo(aDoseGeoInfo), _structure(aStructure),
                 _strict(strict), _numberOfThreads(numberOfThreads), _voxelizationThickness(0.0),
 				  _voxelInStructure(::boost::make_shared<MaskVoxelList>())

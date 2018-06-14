@@ -61,9 +61,9 @@ rttb::apps::doseAcc::loadRegistration(const std::string& fileName)
 	return resultPtr;
 };
 
-rttb::core::DoseAccessorInterface::DoseAccessorPointer generateNNMappableAccessor(
+rttb::core::DoseAccessorInterface::Pointer generateNNMappableAccessor(
     const rttb::core::GeometricInfo& geoInfoTargetImage,
-    const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
+    const rttb::core::DoseAccessorInterface::Pointer doseMovingImage,
     const rttb::interpolation::TransformationInterface::Pointer aTransformation)
 {
   auto interpolate = boost::make_shared<rttb::interpolation::NearestNeighborInterpolation>();
@@ -72,9 +72,9 @@ rttb::core::DoseAccessorInterface::DoseAccessorPointer generateNNMappableAccesso
     aTransformation, interpolate);
 }
 
-rttb::core::DoseAccessorInterface::DoseAccessorPointer generateLinearMappableAccessor(
+rttb::core::DoseAccessorInterface::Pointer generateLinearMappableAccessor(
     const rttb::core::GeometricInfo& geoInfoTargetImage,
-    const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
+    const rttb::core::DoseAccessorInterface::Pointer doseMovingImage,
     const rttb::interpolation::TransformationInterface::Pointer aTransformation)
 {
   auto interpolate = boost::make_shared<rttb::interpolation::LinearInterpolation>();
@@ -83,9 +83,9 @@ rttb::core::DoseAccessorInterface::DoseAccessorPointer generateLinearMappableAcc
     aTransformation, interpolate);
 }
 
-rttb::core::DoseAccessorInterface::DoseAccessorPointer generateRosuMappableAccessor(
+rttb::core::DoseAccessorInterface::Pointer generateRosuMappableAccessor(
     const rttb::core::GeometricInfo& geoInfoTargetImage,
-    const rttb::core::DoseAccessorInterface::DoseAccessorPointer doseMovingImage,
+    const rttb::core::DoseAccessorInterface::Pointer doseMovingImage,
     const rttb::interpolation::TransformationInterface::Pointer aTransformation)
 {
   return boost::make_shared<rttb::interpolation::RosuMappableDoseAccessor>(geoInfoTargetImage, doseMovingImage,
@@ -95,11 +95,11 @@ rttb::core::DoseAccessorInterface::DoseAccessorPointer generateRosuMappableAcces
 /**Private helper function for processData(). Generates a suitable output accessor
  * (depending on the configuration in appData a suitable accessor pipeline is established)
  * which performs the accumulation of the doses and returns the output.to */
-rttb::core::DoseAccessorInterface::DoseAccessorPointer
+rttb::core::DoseAccessorInterface::Pointer
 assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 {
 
-	rttb::core::DoseAccessorInterface::DoseAccessorPointer dose2Accessor = appData._dose2;
+	rttb::core::DoseAccessorInterface::Pointer dose2Accessor = appData._dose2;
 
 	if (appData._spReg.IsNotNull())
 	{
@@ -128,7 +128,7 @@ assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 		}
 	}
 
-	rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor;
+	rttb::core::DoseAccessorInterface::Pointer outputAccessor;
 
 	if (appData._operator == "+")
 	{
@@ -154,7 +154,7 @@ assembleOutputAccessor(rttb::apps::doseAcc::ApplicationData& appData)
 void
 rttb::apps::doseAcc::processData(rttb::apps::doseAcc::ApplicationData& appData)
 {
-	rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor = assembleOutputAccessor(
+	rttb::core::DoseAccessorInterface::Pointer outputAccessor = assembleOutputAccessor(
 	            appData);
 
 	std::cout << std::endl << "generate output image... ";

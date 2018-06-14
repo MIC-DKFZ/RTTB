@@ -42,7 +42,6 @@ namespace rttb
 			{
 			public:
 				using DataDifferentialType = core::DVH::DataDifferentialType;
-				using DVHPointer = core::DVH::DVHPointer;
 
 			private:
 				FileNameString _fileName;
@@ -67,7 +66,7 @@ namespace rttb
 				or if _dvhType invalid: only DIFFERENTIAL or CUMULATIVE is accepted!
 				@exception Exception thrown if dvh init error
 				*/
-				void writeDVH(DVHPointer aDvh, bool normalized = false) override;
+				void writeDVH(core::DVH::Pointer aDvh, bool normalized = false) override;
 			};
 		}
 	}

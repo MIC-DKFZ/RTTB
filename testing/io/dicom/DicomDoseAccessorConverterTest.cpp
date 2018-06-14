@@ -51,7 +51,7 @@ namespace rttb
 
 		int DicomDoseAccessorConverterTest(int argc, char* argv[])
 		{
-			typedef rttb::io::dicom::DicomDoseAccessor::DoseAccessorPointer DoseAccessorPointer;
+			typedef rttb::core::DoseAccessorInterface::Pointer DoseAccessorPointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 

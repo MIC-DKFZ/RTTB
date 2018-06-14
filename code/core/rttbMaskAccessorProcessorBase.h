@@ -38,7 +38,7 @@ namespace rttb
 		class MaskAccessorProcessorBase: public MaskAccessorProcessorInterface
 		{
 		public:
-			using MaskAccessorPointer = core::MaskAccessorInterface::MaskAccessorPointer;
+			using MaskAccessorPointer = core::MaskAccessorInterface::Pointer;
 
 			void setMaskAccessor(MaskAccessorPointer accessor) override
 			{

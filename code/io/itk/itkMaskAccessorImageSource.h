@@ -59,7 +59,7 @@ namespace itk
 		typedef OutputImageType::PixelType  OutputImagePixelType;
 
 		typedef rttb::core::MaskAccessorInterface AccessorType;
-    typedef rttb::core::MaskAccessorInterface::MaskAccessorPointer AccessorPointer;
+    typedef rttb::core::MaskAccessorInterface::Pointer AccessorPointer;
 
 		/** Get the accessor pointer. */
     itkGetConstMacro(Accessor, AccessorPointer);

@@ -25,6 +25,7 @@
 #pragma warning(push)
 #pragma warning(disable: 4251)
 #endif
+#include <rttbCommon.h>
 
 namespace rttb
 {
@@ -36,6 +37,8 @@ namespace rttb
 		*/
 		class IndexConversionInterface
 		{
+    public:
+      rttbClassMacroNoParent(IndexConversionInterface);
 		private:
 			IndexConversionInterface(const
 			                         IndexConversionInterface&) = delete; //not implemented on purpose -> non-copyable

@@ -33,7 +33,7 @@ namespace rttb
 	namespace testing
 	{
 
-		typedef core::DVH::DVHPointer DVHPointer;
+		typedef core::DVH::Pointer DVHPointer;
 
 		/*! Compare 2 DVHs and return the results.
 			@result Indicates if the test was successful (true) or if it failed (false)

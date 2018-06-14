@@ -21,11 +21,12 @@
 #ifndef __ACCESSOR_INTERFACE_H
 #define __ACCESSOR_INTERFACE_H
 
-#include <boost/smart_ptr/shared_ptr.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
 #include "rttbIndexConversionInterface.h"
+#include "rttbCommon.h"
 
 #include <RTTBCoreExports.h>
 
@@ -45,8 +46,8 @@ namespace rttb
 		class RTTBCore_EXPORT AccessorInterface : public IndexConversionInterface
 		{
 		public:
-			using AccessorPointer = boost::shared_ptr<AccessorInterface>;
-			using DoseAccessorPointer = boost::shared_ptr<AccessorInterface>;
+      rttbClassMacro(AccessorInterface, IndexConversionInterface);
+
 		private:
 			AccessorInterface(const AccessorInterface&) = delete; //not implemented on purpose -> non-copyable
 			AccessorInterface& operator=(const

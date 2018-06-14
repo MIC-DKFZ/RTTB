@@ -26,8 +26,8 @@ namespace rttb
 	namespace interpolation
 	{
 		RosuMappableDoseAccessor::RosuMappableDoseAccessor(const core::GeometricInfo& geoInfoTargetImage,
-		        const DoseAccessorPointer doseMovingImage,
-		        const TransformationPointer aTransformation,
+            core::DoseAccessorInterface::ConstPointer doseMovingImage,
+		        const TransformationInterface::Pointer aTransformation,
 		        bool acceptPadding,
 		        DoseTypeGy defaultOutsideValue): MappableDoseAccessorInterface(geoInfoTargetImage, doseMovingImage,
 			                aTransformation, acceptPadding, defaultOutsideValue)

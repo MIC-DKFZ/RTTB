@@ -34,8 +34,8 @@ namespace rttb
 			class ApplicationData
 			{
 			public:
-				core::DoseAccessorInterface::DoseAccessorPointer _dose;
-				core::StructureSetGeneratorInterface::StructureSetPointer _struct;
+				core::DoseAccessorInterface::Pointer _dose;
+				core::StructureSet::Pointer _struct;
 				std::string _structNameRegex;
 				std::vector<std::string> _structNames;
 				std::string _doseFileName;

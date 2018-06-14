@@ -8,7 +8,6 @@ namespace rttb
 	namespace models
 	{
 		using DataDifferentialType = core::DVH::DataDifferentialType;
-		using DVHPointer = core::DVH::DVHPointer;
 		typedef std::map<BEDType, VoxelNumberType> BEDDVHType;
 		typedef std::map<LQEDType, VoxelNumberType> LQEDDVHType;
 
@@ -18,7 +17,7 @@ namespace rttb
 		@return Return calculated EUD value,
 		@exception InvalidParameterException Thrown if parameters were not set correctly.
 		*/
-		DoseStatisticType getEUD(const DVHPointer dvh, const DoseCalcType aA);
+		DoseStatisticType getEUD(core::DVH::ConstPointer dvh, const DoseCalcType aA);
 
 		/*! @brief Calculate Biological Effective/Equivalent Dose (BED) of dvh
 		@param relativeVolume default false-> the corresponding volume value is the voxel number of the dose bin;
@@ -31,7 +30,7 @@ namespace rttb
 		@return Return map<double, double>: keys are BEDi in Gy, values are the volume of the dose bin
 		@exception InvalidParameterException Thrown if parameters were not set correctly.
 		*/
-		BEDDVHType calcBEDDVH(const DVHPointer dvh, const int numberOfFractions,
+		BEDDVHType calcBEDDVH(core::DVH::ConstPointer dvh, const int numberOfFractions,
 		                      const DoseCalcType alpha_beta, const bool relativeVolume = false);
 
 		/*! @brief Calculate Linear-quadratic equivalent dose for 2-Gy (LQED2) of dvh
@@ -45,7 +44,7 @@ namespace rttb
 		@return Return map<double, double>: keys are LQED2 in Gy, values are the volume of the dose bin; return empty map if not initialized
 		@exception InvalidParameterException Thrown if parameters were not set correctly.
 		*/
-		LQEDDVHType calcLQED2DVH(const DVHPointer dvh, const int numberOfFractions,
+		LQEDDVHType calcLQED2DVH(core::DVH::ConstPointer dvh, const int numberOfFractions,
 		                         const DoseCalcType alpha_beta, const bool relativeVolume = false);
 	}
 }

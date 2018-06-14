@@ -74,7 +74,7 @@ namespace rttb
 
 			DoseAccessorPointer doseAccessorNull;
 
-            core::AccessorInterface::AccessorPointer LQWithConstantDose, LQWithConstantDoseDoseScalingTwo, LQWithConstantNFractionsTwo, LQWithIncreaseXDose, LQWithConstantDoseAndMap;
+            core::AccessorInterface::Pointer LQWithConstantDose, LQWithConstantDoseDoseScalingTwo, LQWithConstantNFractionsTwo, LQWithIncreaseXDose, LQWithConstantDoseAndMap;
 
 			//1) test constructor
 			CHECK_THROW_EXPLICIT(models::LQModelAccessor(doseAccessorNull, 0, 0), core::InvalidDoseException);

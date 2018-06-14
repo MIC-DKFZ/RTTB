@@ -21,7 +21,7 @@
 #ifndef __MUTABLE_MASK_ACCESSOR_INTERFACE_H
 #define __MUTABLE_MASK_ACCESSOR_INTERFACE_H
 
-#include <boost/shared_ptr.hpp>
+#include "rttbCommon.h"
 
 #include "rttbMaskAccessorInterface.h"
 #include "rttbBaseType.h"
@@ -44,7 +44,7 @@ namespace rttb
 		class MutableMaskAccessorInterface: public MaskAccessorInterface
 		{
 		public:
-			using MutableMaskAccessorPointer = boost::shared_ptr<MutableMaskAccessorInterface>;
+      rttbClassMacro(MutableMaskAccessorInterface, MaskAccessorInterface)
 			using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
 			using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 

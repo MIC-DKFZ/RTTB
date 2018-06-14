@@ -64,7 +64,7 @@ namespace rttb
 			}
 
 			core::DVH myDVH(aDataDifferential, binSize, voxelVolume, structureID, doseID, voxelizationID);
-			core::DVH::DVHPointer dvhPtr = boost::make_shared<core::DVH>(myDVH);
+			core::DVH::Pointer dvhPtr = boost::make_shared<core::DVH>(myDVH);
 
 			CHECK_THROW_EXPLICIT(rttb::models::calcBEDDVH(dvhPtr, 0, 10), core::InvalidParameterException);
 			CHECK_THROW_EXPLICIT(rttb::models::calcBEDDVH(dvhPtr, 10, -1), core::InvalidParameterException);

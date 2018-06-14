@@ -48,7 +48,7 @@ namespace rttb
 				using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
 				using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 
-				using StructTypePointer = core::Structure::StructTypePointer;
+				using StructTypePointer = core::Structure::Pointer;
 
 			private:
         StructTypePointer _spStructure;

@@ -33,7 +33,7 @@ namespace rttb
 		{
 			BoostMaskGenerateMaskVoxelListThread::BoostMaskGenerateMaskVoxelListThread(
 			    const VoxelIndexVector& aGlobalBoundingBox,
-			    GeometricInfoPointer aGeometricInfo,
+        core::GeometricInfo::Pointer aGeometricInfo,
                 BoostArrayMapPointer aVoxelizationMap,
 			    double aVoxelizationThickness,
 			    unsigned int aBeginSlice,

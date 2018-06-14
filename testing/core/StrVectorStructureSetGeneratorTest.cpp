@@ -42,7 +42,7 @@ namespace rttb
 		*/
 		int StrVectorStructureSetGeneratorTest(int argc, char* argv[])
 		{
-			typedef core::StructureSet::StructTypePointer StructTypePointer;
+			typedef core::Structure::Pointer StructTypePointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;
 

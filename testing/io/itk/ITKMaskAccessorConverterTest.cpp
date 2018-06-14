@@ -58,8 +58,8 @@ namespace rttb
 		int ITKMaskAccessorConverterTest(int argc, char* argv[])
 		{
 			typedef core::DoseIteratorInterface::DoseAccessorPointer DoseAccessorPointer;
-			typedef core::StructureSetGeneratorInterface::StructureSetPointer StructureSetPointer;
-			typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
+			typedef core::StructureSet::Pointer StructureSetPointer;
+			typedef core::MaskAccessorInterface::Pointer MaskAccessorPointer;
 			typedef io::itk::ITKImageMaskAccessor::ITKMaskImageType::Pointer ITKImageTypePointer;
 
 			PREPARE_DEFAULT_TEST_REPORTING;

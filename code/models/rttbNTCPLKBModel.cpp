@@ -24,7 +24,6 @@
 #include <exception>
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include <cmath>
 
@@ -158,7 +157,7 @@ namespace rttb
 			                                 (DoseTypeGy)(_dvh->getDeltaD() * doseFactor),
 			                                 _dvh->getDeltaV(), "temporary", "temporary");
 
-			boost::shared_ptr<core::DVH> spDVH = boost::make_shared<core::DVH>(variantDVH);
+			auto spDVH = boost::make_shared<core::DVH>(variantDVH);
 			double eud = getEUD(spDVH, this->_a);
 			//_m must not be zero
 			double t = (eud - this->_d50) / (this->_m * this->_d50);

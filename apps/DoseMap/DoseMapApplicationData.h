@@ -37,10 +37,10 @@ namespace rttb
 				typedef map::core::Registration<3, 3> RegistrationType;
 
 				/** Loaded Dose.*/
-				core::DoseAccessorInterface::DoseAccessorPointer _inputDose;
+				core::DoseAccessorInterface::Pointer _inputDose;
 				std::string  _inputDoseFileName;
 				std::string  _inputDoseLoadStyle;
-				core::DoseAccessorInterface::DoseAccessorPointer _refDose;
+				core::DoseAccessorInterface::Pointer _refDose;
 				std::string  _refDoseFileName;
 				std::string  _refDoseLoadStyle;
 				RegistrationType::Pointer _spReg;

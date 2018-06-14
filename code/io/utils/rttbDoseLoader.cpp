@@ -27,37 +27,37 @@ namespace rttb
     {
         namespace utils 
         {
-            rttb::core::DoseAccessorInterface::DoseAccessorPointer
+            rttb::core::DoseAccessorInterface::Pointer
                 loadDicomDose(const std::string& fileName)
             {
                 rttb::io::dicom::DicomFileDoseAccessorGenerator generator(fileName);
                 return generator.generateDoseAccessor();
             }
 
-            rttb::core::DoseAccessorInterface::DoseAccessorPointer
+            rttb::core::DoseAccessorInterface::Pointer
                 loadHelaxDose(const std::string& path)
             {
                 rttb::io::helax::DicomHelaxFileDoseAccessorGenerator generator(path);
                 return generator.generateDoseAccessor();
             }
 
-            rttb::core::DoseAccessorInterface::DoseAccessorPointer
+            rttb::core::DoseAccessorInterface::Pointer
                 loadITKDose(const std::string& fileName)
             {
                 rttb::io::itk::ITKImageFileAccessorGenerator generator(fileName);
                 return generator.generateDoseAccessor();
             }
 
-			rttb::core::DoseAccessorInterface::DoseAccessorPointer loadITKDicomDose(const std::string& fileName) {
+			rttb::core::DoseAccessorInterface::Pointer loadITKDicomDose(const std::string& fileName) {
 				rttb::io::itk::ITKImageFileAccessorGenerator generator(fileName, true);
 				return generator.generateDoseAccessor();
 			}
 
-            rttb::core::DoseAccessorInterface::DoseAccessorPointer
+            rttb::core::DoseAccessorInterface::Pointer
                 loadDose(const std::string& fileName,
                     const std::string& loadStyle)
             {
-                rttb::core::DoseAccessorInterface::DoseAccessorPointer result;
+                rttb::core::DoseAccessorInterface::Pointer result;
 
                 if (loadStyle == "" || loadStyle == "dicom")
                 {

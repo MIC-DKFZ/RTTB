@@ -35,10 +35,10 @@
 void
 rttb::apps::bioModelCalc::processData(rttb::apps::bioModelCalc::ApplicationData& appData)
 {
-	rttb::core::DoseAccessorInterface::DoseAccessorPointer outputAccessor;
+	rttb::core::DoseAccessorInterface::Pointer outputAccessor;
 
 	std::cout << std::endl << "generate biomodel... ";
-    rttb::core::AccessorInterface::AccessorPointer bioModelAccessor;
+    rttb::core::AccessorInterface::Pointer bioModelAccessor;
     if (!appData._modelParameters.empty()){
         bioModelAccessor = generateBioModel(appData._dose, appData._model, appData._modelParameters, appData._nFractions,
             appData._doseScaling);
@@ -61,8 +61,8 @@ rttb::apps::bioModelCalc::processData(rttb::apps::bioModelCalc::ApplicationData&
 }
 
 
-rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generateBioModel(
-    rttb::core::DoseAccessorInterface::DoseAccessorPointer dose, const std::string& model,
+rttb::core::AccessorInterface::Pointer rttb::apps::bioModelCalc::generateBioModel(
+    rttb::core::DoseAccessorInterface::Pointer dose, const std::string& model,
     const std::vector<double>& modelParameters, unsigned int nFractions, double doseScaling)
 {
 	if (model == "LQ")
@@ -78,9 +78,9 @@ rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generat
 	}
 }
 
-rttb::core::AccessorInterface::AccessorPointer rttb::apps::bioModelCalc::generateBioModelWithMaps(
-    rttb::core::DoseAccessorInterface::DoseAccessorPointer dose, const std::string& model,
-    const std::deque<rttb::core::AccessorInterface::AccessorPointer>& modelParameterMaps, unsigned int nFractions, double doseScaling)
+rttb::core::AccessorInterface::Pointer rttb::apps::bioModelCalc::generateBioModelWithMaps(
+    rttb::core::DoseAccessorInterface::Pointer dose, const std::string& model,
+    const std::deque<rttb::core::AccessorInterface::Pointer>& modelParameterMaps, unsigned int nFractions, double doseScaling)
 {
     if (model == "LQ")
     {

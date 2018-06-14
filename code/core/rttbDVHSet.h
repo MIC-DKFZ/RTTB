@@ -26,6 +26,7 @@
 #include <vector>
 #include <ostream>
 
+#include "rttbCommon.h"
 #include "rttbBaseType.h"
 #include "rttbDVH.h"
 
@@ -49,6 +50,7 @@ namespace rttb
 		class RTTBCore_EXPORT DVHSet
 		{
 		public:
+      rttbClassMacroNoParent(DVHSet)
 			using DVHSetType = std::vector<DVH>;
 			using IndexType = DVHSetType::size_type;
 

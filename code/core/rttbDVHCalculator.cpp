@@ -82,7 +82,7 @@ namespace rttb
 
 		DVHCalculator::~DVHCalculator() = default;
 
-		DVHCalculator::DVHPointer DVHCalculator::generateDVH()
+		DVH::Pointer DVHCalculator::generateDVH()
 		{
 
 			std::deque<DoseCalcType> dataDifferential(_numberOfBins, 0);

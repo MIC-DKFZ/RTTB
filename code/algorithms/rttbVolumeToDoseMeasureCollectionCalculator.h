@@ -23,7 +23,7 @@
 #define __VOLUME_TO_DOSE_MEASURE_COLLECTION_CALCULATOR_H
 
 #include "rttbVolumeToDoseMeasureCollection.h"
-#include <boost/shared_ptr.hpp>
+#include <rttbCommon.h>
 #include "rttbDoseStatistics.h"
 
 namespace rttb
@@ -40,6 +40,7 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT VolumeToDoseMeasureCollectionCalculator {
 
 		public:
+      rttbClassMacroNoParent(VolumeToDoseMeasureCollectionCalculator)
 			typedef std::map<VolumeType, DoseTypeGy> VolumeToDoseFunctionType;
 
 		protected:
@@ -50,7 +51,7 @@ namespace rttb
 		private:
       std::vector<double> _precomputeVolumeValues;
 			VolumeType _volume;
-			DoseStatistics::VolumeToDoseMeasureCollectionPointer _measureCollection;
+			VolumeToDoseMeasureCollection::Pointer _measureCollection;
 			bool _multiThreading;
 
 		public:
@@ -61,7 +62,7 @@ namespace rttb
 			@exception InvalidParameterException If values vector contains values that are not between 0 and 1
 			*/
 			void addPrecomputeVolumeValues(const std::vector<double>& values);
-			DoseStatistics::VolumeToDoseMeasureCollectionPointer getMeasureCollection();
+			VolumeToDoseMeasureCollection::Pointer getMeasureCollection();
 
 		protected:
 			VolumeToDoseMeasureCollectionCalculator(const std::vector<double>& precomputeVolumeValues, const VolumeType volume,

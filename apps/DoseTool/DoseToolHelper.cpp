@@ -34,9 +34,11 @@
 #include "rttbDoseStatisticsXMLWriter.h"
 
 
-std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer> rttb::apps::doseTool::generateMasks(rttb::apps::doseTool::ApplicationData& appData) {
-	
-	std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskAccessorPtrVector;
+std::vector<rttb::core::MaskAccessorInterface::Pointer>
+rttb::apps::doseTool::generateMasks(
+    rttb::apps::doseTool::ApplicationData& appData)
+{
+	std::vector<core::MaskAccessorInterface::Pointer> maskAccessorPtrVector;
 
 	if (appData._structLoadStyle == "itk" || appData._structLoadStyle == "itkDicom") {
 		maskAccessorPtrVector.push_back(rttb::io::itk::ITKImageFileMaskAccessorGenerator(appData._structFileName).generateMaskAccessor());
@@ -66,20 +68,22 @@ std::vector<rttb::core::MaskAccessorInterface::MaskAccessorPointer> rttb::apps::
 	return maskAccessorPtrVector;
 }
 
-rttb::core::DoseIteratorInterface::DoseIteratorPointer rttb::apps::doseTool::generateMaskedDoseIterator(
-	rttb::core::MaskAccessorInterface::MaskAccessorPointer maskAccessorPtr,
-    rttb::core::DoseAccessorInterface::DoseAccessorPointer doseAccessorPtr) {
-
-	boost::shared_ptr<core::GenericMaskedDoseIterator> maskedDoseIterator = boost::make_shared<core::GenericMaskedDoseIterator>(maskAccessorPtr, doseAccessorPtr);
-	rttb::core::DoseIteratorInterface::DoseIteratorPointer doseIterator(maskedDoseIterator);
+rttb::core::DoseIteratorInterface::Pointer
+rttb::apps::doseTool::generateMaskedDoseIterator(
+    rttb::core::MaskAccessorInterface::Pointer maskAccessorPtr,
+    rttb::core::DoseAccessorInterface::Pointer doseAccessorPtr)
+{
+	boost::shared_ptr<core::GenericMaskedDoseIterator> maskedDoseIterator =
+	    boost::make_shared<core::GenericMaskedDoseIterator>(maskAccessorPtr, doseAccessorPtr);
+	rttb::core::DoseIteratorInterface::Pointer doseIterator(maskedDoseIterator);
 	return doseIterator;
 }
 
-rttb::algorithms::DoseStatistics::DoseStatisticsPointer calculateDoseStatistics(
-    rttb::core::DoseIteratorInterface::DoseIteratorPointer doseIterator, 
-	bool calculateComplexDoseStatistics,
-    rttb::DoseTypeGy prescribedDose) {
-
+rttb::algorithms::DoseStatistics::Pointer
+calculateDoseStatistics(
+    rttb::core::DoseIteratorInterface::Pointer doseIterator, bool calculateComplexDoseStatistics,
+    rttb::DoseTypeGy prescribedDose)
+{
 	rttb::algorithms::DoseStatisticsCalculator doseStatsCalculator(doseIterator);
 
 	if (calculateComplexDoseStatistics) {
@@ -90,9 +94,12 @@ rttb::algorithms::DoseStatistics::DoseStatisticsPointer calculateDoseStatistics(
 }
 
 
-rttb::core::DVH::DVHPointer calculateDVH(rttb::core::DoseIteratorInterface::DoseIteratorPointer doseIterator, rttb::IDType structUID, rttb::IDType doseUID) {
+rttb::core::DVH::Pointer calculateDVH(
+    rttb::core::DoseIteratorInterface::Pointer
+    doseIterator, rttb::IDType structUID, rttb::IDType doseUID)
+{
 	rttb::core::DVHCalculator calc(doseIterator, structUID, doseUID);
-	rttb::core::DVH::DVHPointer dvh = calc.generateDVH();
+	rttb::core::DVH::Pointer dvh = calc.generateDVH();
 	return dvh;
 }
 
@@ -106,10 +113,11 @@ std::string rttb::apps::doseTool::assembleFilenameWithStruct(const std::string& 
 /*! @brief Writes the dose statistics as XML to a file
 @details adds a <config>....</config> part to the RTTB generated xml where the used files and struct names are stored.
 */
-void writeDoseStatisticsFile(rttb::algorithms::DoseStatistics::DoseStatisticsPointer statistics, 
-	const std::string& filename, 
-	const std::string& structName,
-    rttb::apps::doseTool::ApplicationData& appData) {
+void writeDoseStatisticsFile(
+    rttb::algorithms::DoseStatistics::Pointer statistics,
+    const std::string& filename, const std::string& structName,
+    rttb::apps::doseTool::ApplicationData& appData)
+{
 
 	auto doseStatisticsXMLWriter = rttb::io::other::DoseStatisticsXMLWriter();
 
@@ -131,7 +139,7 @@ void writeDoseStatisticsFile(rttb::algorithms::DoseStatistics::DoseStatisticsPoi
 	boost::property_tree::write_xml(filename, reorderedTree, std::locale(),  boost::property_tree::xml_writer_make_settings<std::string>('\t', 1));
 }
 
-void writeDVHFile(rttb::core::DVH::DVHPointer dvh, const std::string& filename) {
+void writeDVHFile(rttb::core::DVH::Pointer dvh, const std::string& filename) {
 	rttb::DVHType typeCum = { rttb::DVHType::Cumulative };
 	rttb::io::other::DVHXMLFileWriter dvhWriter(filename, typeCum);
 	dvhWriter.writeDVH(dvh);
@@ -139,17 +147,18 @@ void writeDVHFile(rttb::core::DVH::DVHPointer dvh, const std::string& filename) 
 
 void rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& appData) {
     std::cout << std::endl << "generating masks... ";
-    std::vector<core::MaskAccessorInterface::MaskAccessorPointer> maskAccessorPtrVector = generateMasks(appData);
+    std::vector<core::MaskAccessorInterface::Pointer> maskAccessorPtrVector = generateMasks(
+        appData);
     std::cout << "done." << std::endl;
 
     for (size_t i = 0; i < maskAccessorPtrVector.size(); i++) {
-        core::DoseIteratorInterface::DoseIteratorPointer spDoseIterator(generateMaskedDoseIterator(
+        core::DoseIteratorInterface::Pointer spDoseIterator(generateMaskedDoseIterator(
             maskAccessorPtrVector.at(i),
             appData._dose));
 
         if (appData._computeDoseStatistics) {
             std::cout << std::endl << "computing dose statistics... ";
-            algorithms::DoseStatistics::DoseStatisticsPointer statistics = calculateDoseStatistics(
+            auto statistics = calculateDoseStatistics(
                 spDoseIterator,
                 appData._computeComplexDoseStatistics, appData._prescribedDose);
             std::cout << "done." << std::endl;
@@ -182,7 +191,8 @@ void rttb::apps::doseTool::processData(rttb::apps::doseTool::ApplicationData& ap
                 doseUID = appData._dose->getUID();
             }
 
-            core::DVH::DVHPointer dvh = calculateDVH(spDoseIterator, structUID, doseUID);
+            core::DVH::Pointer dvh = calculateDVH(spDoseIterator, structUID,
+                doseUID);
             std::cout << "done." << std::endl;
 
             std::cout << std::endl << "writing DVH to file... ";

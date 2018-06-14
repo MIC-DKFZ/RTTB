@@ -43,16 +43,14 @@ namespace rttb
 			InterpolationBase::Pointer _spInterpolation;
 
 		public:
-			using Pointer = boost::shared_ptr<RosuMappableDoseAccessor>;
-            using TransformationPointer = boost::shared_ptr<TransformationInterface>;
 
 			/*! @brief Constructor. Just hands values over to base class constructor.
 				@note no interpolation as parameter since linear interpolation is fixed.
 				@sa MappableDoseAccessorBase
 			*/
 			RosuMappableDoseAccessor(const core::GeometricInfo& geoInfoTargetImage,
-			                         const DoseAccessorPointer doseMovingImage,
-                                     const TransformationPointer aTransformation,
+                                core::DoseAccessorInterface::ConstPointer doseMovingImage,
+                                     const TransformationInterface::Pointer aTransformation,
 			                         bool acceptPadding = true,
 			                         DoseTypeGy defaultOutsideValue = 0.0);
 

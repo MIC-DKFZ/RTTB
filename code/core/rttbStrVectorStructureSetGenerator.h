@@ -48,9 +48,9 @@ namespace rttb
 		class RTTBCore_EXPORT StrVectorStructureSetGenerator : public core::StructureSetGeneratorInterface
 		{
 		public:
-			using StructTypePointer = core::StructureSet::StructTypePointer;
+			using StructTypePointer = core::Structure::Pointer;
 
-			using StructureSetPointer = StructureSetGeneratorInterface::StructureSetPointer;
+			using StructureSetPointer = StructureSet::Pointer;
 
 		protected:
 			IDType _patientUID;

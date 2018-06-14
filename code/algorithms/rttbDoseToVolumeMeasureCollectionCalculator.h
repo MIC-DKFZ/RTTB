@@ -32,7 +32,7 @@
 
 #include "rttbDoseIteratorInterface.h"
 
-#include <boost/shared_ptr.hpp>
+#include <rttbCommon.h>
 #include "rttbDoseStatistics.h"
 
 namespace rttb
@@ -49,15 +49,16 @@ namespace rttb
 		class RTTBAlgorithms_EXPORT DoseToVolumeMeasureCollectionCalculator {
 
 		public:
+      rttbClassMacroNoParent(DoseToVolumeMeasureCollectionCalculator)
 			typedef std::map<DoseTypeGy, VolumeType> VolumeToDoseFunctionType;
 
 		protected:
-			core::DoseIteratorInterface::DoseIteratorPointer _doseIterator;
+			core::DoseIteratorInterface::Pointer _doseIterator;
 
 		private:
       std::vector<double> _precomputeDoseValues;
 			DoseTypeGy _referenceDose;
-			DoseStatistics::DoseToVolumeMeasureCollectionPointer _measureCollection;
+			DoseToVolumeMeasureCollection::Pointer _measureCollection;
 			bool _multiThreading;
 
 		public:
@@ -68,11 +69,11 @@ namespace rttb
 				@exception InvalidParameterException If values vector contains values that are not between 0 and 1
 			*/
 			void addPrecomputeDoseValues(const std::vector<double>& values);
-			DoseStatistics::DoseToVolumeMeasureCollectionPointer getMeasureCollection();
+			DoseToVolumeMeasureCollection::Pointer getMeasureCollection();
 
 		protected:
 			DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
-				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator, 
+				const DoseTypeGy referenceDose, const core::DoseIteratorInterface::Pointer doseIterator, 
 				DoseToVolumeMeasureCollection::complexStatistics name, bool multiThreading);
 
 			void insertIntoMeasureCollection(DoseTypeGy xAbsolute, VolumeType resultVolume);

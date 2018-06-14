@@ -29,8 +29,8 @@ namespace rttb
 	namespace algorithms
 	{
 		template <class TDoseOperation>
-		BinaryFunctorAccessor<TDoseOperation>::BinaryFunctorAccessor(const AccessorPointer
-		        data1, const AccessorPointer data2,
+		BinaryFunctorAccessor<TDoseOperation>::BinaryFunctorAccessor(core::AccessorInterface::ConstPointer
+		        data1, core::AccessorInterface::ConstPointer data2,
 		        const TDoseOperation& functor)
 		{
 			if (data1 == nullptr || data2 == nullptr)

@@ -34,7 +34,7 @@ namespace rttb
 	namespace algorithms
 	{
 		DoseToVolumeMeasureCollectionCalculator::DoseToVolumeMeasureCollectionCalculator(const std::vector<double>& precomputeDoseValues,
-			const DoseTypeGy referenceDose, const core::DoseIteratorInterface::DoseIteratorPointer doseIterator,
+			const DoseTypeGy referenceDose, const core::DoseIteratorInterface::Pointer doseIterator,
 			DoseToVolumeMeasureCollection::complexStatistics name, bool multiThreading) : _doseIterator(doseIterator), _referenceDose(referenceDose), _measureCollection(::boost::make_shared<DoseToVolumeMeasureCollection>(name)),
 			  _multiThreading(multiThreading)
         {
@@ -79,7 +79,7 @@ namespace rttb
 			}
 		}
 
-		DoseStatistics::DoseToVolumeMeasureCollectionPointer DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
+		DoseToVolumeMeasureCollection::Pointer DoseToVolumeMeasureCollectionCalculator::getMeasureCollection()
 		{
 			return _measureCollection;
 		}

@@ -42,12 +42,12 @@ namespace rttb
 	namespace testing
 	{
 
-		typedef core::DoseAccessorInterface::DoseAccessorPointer DoseAccessorPointer;
-		typedef core::MutableDoseAccessorInterface::MutableDoseAccessorPointer MutableDoseAccessorPointer;
+		typedef core::DoseAccessorInterface::Pointer DoseAccessorPointer;
+		typedef core::MutableDoseAccessorInterface::Pointer MutableDoseAccessorPointer;
 		typedef DummyMaskAccessor::MaskVoxelListPointer MaskVoxelListPointer;
 		typedef DummyMaskAccessor::MaskVoxelList MaskVoxelList;
-		typedef core::MaskAccessorInterface::MaskAccessorPointer MaskAccessorPointer;
-		typedef core::MutableMaskAccessorInterface::MutableMaskAccessorPointer MutableMaskAccessorPointer;
+		typedef core::MaskAccessorInterface::Pointer MaskAccessorPointer;
+		typedef core::MutableMaskAccessorInterface::Pointer MutableMaskAccessorPointer;
 
 		/*! @brief ArithmeticTest - tests arithmetic combinations of accessors
 				1) test dose-dose operations

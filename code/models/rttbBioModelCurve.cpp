@@ -22,7 +22,6 @@
 #include <map>
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "rttbBioModel.h"
 #include "rttbNTCPLKBModel.h"
@@ -80,7 +79,7 @@ namespace rttb
 				                                 _dvh->getDeltaV(),
 				                                 "temporary", "temporary");
 
-				boost::shared_ptr<core::DVH> spDVH = boost::make_shared<core::DVH>(variantDVH);
+				auto spDVH = boost::make_shared<core::DVH>(variantDVH);
 				double eud = getEUD(spDVH, aModel.getA());
 
 				aModel.init(factor);

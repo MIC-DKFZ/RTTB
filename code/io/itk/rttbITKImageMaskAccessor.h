@@ -23,6 +23,7 @@
 
 #include "rttbMaskAccessorInterface.h"
 #include "rttbBaseType.h"
+#include "rttbGeometricInfo.h"
 
 #include "itkImage.h"
 
@@ -43,8 +44,6 @@ namespace rttb
 				using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
 				using MaskVoxelListPointer = core::MaskAccessorInterface::MaskVoxelListPointer;
 
-				using GeometricInfoPointer = boost::shared_ptr<core::GeometricInfo>;
-
 			private:
 
 				/** @brief The mask as itkImage */
@@ -52,7 +51,7 @@ namespace rttb
 
 				IDType _maskUID;
 
-				GeometricInfoPointer _geoInfo;
+        core::GeometricInfo::Pointer _geoInfo;
 
 				/*! vector containing list of mask voxels*/
 				MaskVoxelListPointer _relevantVoxelVector;
