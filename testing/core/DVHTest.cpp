@@ -178,8 +178,8 @@ namespace rttb
 
 			//dataDifferential
 			CHECK(myDVH.getDataDifferential() == aDataDifferential);
-			CHECK(myDVH.getDataDifferential(false) == aDataDifferential);
-			CHECK(myDVH.getDataDifferential(true) == aDataDifferentialRelative);
+			CHECK(myDVH.getDataDifferential() == aDataDifferential);
+			CHECK(myDVH.convertAbsoluteToRelative(false) == aDataDifferentialRelative);
 
 			CHECK_EQUAL(myDVH.getNumberOfVoxels(), numberOfVoxels);
 			CHECK_EQUAL(myDVH.getDeltaV(), voxelVolume);
@@ -233,7 +233,7 @@ namespace rttb
 				CHECK_EQUAL(myDVH.getDataCumulative().at(std::round(elem.first / binSize)), (elem.second / voxelVolume));
 			}
 
-      CHECK_NO_THROW(myDVH.getDataCumulative(true));
+      CHECK_NO_THROW(myDVH.getDataCumulative());
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}
