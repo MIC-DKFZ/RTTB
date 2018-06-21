@@ -35,7 +35,7 @@
 #include "rttbDvhBasedModels.h"
 #include "../models/rttbScatterTester.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbDVHXmlFileReader.h"
+#include "rttbDVHXMLFileReader.h"
 
 namespace rttb
 {
