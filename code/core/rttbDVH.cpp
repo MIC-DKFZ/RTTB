@@ -114,29 +114,15 @@ namespace rttb
 		}
 
 
-		std::deque<DoseCalcType> DVH::getDataDifferential(bool relativeVolume) const
+		std::deque<DoseCalcType> DVH::getDataDifferential() const
 		{
-			if (!relativeVolume)
-			{
-				return _dataDifferential;
-			}
-			else
-			{
-				return _dataDifferentialRelative;
-			}
+			return _dataDifferential;
 		}
 
-    std::deque<DoseCalcType> DVH::getDataCumulative(bool relativeVolume) const
-    {
-      if (!relativeVolume)
-      {
-        return _dataCumulative;
-      }
-      else
-      {
-        return _dataCumulativeRelative;
-      }
-    }
+		std::deque<DoseCalcType> DVH::getDataCumulative() const
+		{
+			return _dataCumulative;
+		}
 
 		DoseVoxelVolumeType DVH::getDeltaV() const
 		{
@@ -221,8 +207,6 @@ namespace rttb
 			_maximum = 0;
 			_minimum = 0;
 			_dataCumulative.clear();
-			_dataCumulativeRelative.clear();
-			_dataDifferentialRelative.clear();
 
 			DataDifferentialType::iterator it;
 
@@ -251,12 +235,6 @@ namespace rttb
 
 			_mean = sum / _numberOfVoxels;
 
-			for (it = _dataDifferential.begin(); it != _dataDifferential.end(); ++it)
-			{
-				DoseCalcType datai = ((*it) * 1.0 / _numberOfVoxels);
-				_dataDifferentialRelative.push_back(datai);
-			}
-
 			_variance = (squareSum / _numberOfVoxels - _mean * _mean);
 			_stdDeviation = pow(_variance, 0.5);
 
@@ -267,14 +245,12 @@ namespace rttb
 		{
 
 			_dataCumulative.clear();
-			_dataCumulativeRelative.clear();
 
 			DoseCalcType cumulativeDVHi = 0;
 
-      for (auto valueItr = _dataDifferential.rbegin(); valueItr != _dataDifferential.rend(); ++valueItr) {
-        cumulativeDVHi += *valueItr;
+			for (auto valueItr = _dataDifferential.rbegin(); valueItr != _dataDifferential.rend(); ++valueItr) {
+				cumulativeDVHi += *valueItr;
 				_dataCumulative.push_front(cumulativeDVHi);
-				_dataCumulativeRelative.push_front(cumulativeDVHi / this->getNumberOfVoxels());
 			}
 		}
 
@@ -327,12 +303,6 @@ namespace rttb
 				vx = (vx * this->_deltaV);
 				return vx;
 			}
-			else if (i < _dataCumulativeRelative.size())
-			{
-				VolumeType vx = (_dataCumulativeRelative.at(i));
-				vx = (vx * this->_deltaV);
-				return vx;
-			}
 			else
 			{
 				return 0;
@@ -341,40 +311,19 @@ namespace rttb
 
 		DoseTypeGy DVH::getDx(VolumeType xVolumeAbsolute) const
 		{
-
 			GridIndexType i = 0;
 
-			if (!_dataCumulative.empty())
+			for (; i < _dataCumulative.size(); i++)
 			{
-				for (; i < _dataCumulative.size(); i++)
-				{
-					double volumeAbsoluteI = _dataCumulative[i] * this->_deltaV;
+				double volumeAbsoluteI = _dataCumulative[i] * this->_deltaV;
 
-					if (xVolumeAbsolute > volumeAbsoluteI)
-					{
-						break;
-					}
-				}
-			}
-			else
-			{
-				for (; i < _dataCumulativeRelative.size(); i++)
+				if (xVolumeAbsolute > volumeAbsoluteI)
 				{
-					double volumeAbsoluteI = _dataCumulativeRelative[i] * this->_deltaV;
-
-					if (xVolumeAbsolute / this->getNumberOfVoxels() > volumeAbsoluteI)
-					{
-						break;
-					}
+					break;
 				}
 			}
 
 			if (i <= _dataCumulative.size() && i > 0)
-			{
-				DoseTypeGy dx = (i - 1) * this->_deltaD;
-				return dx;
-			}
-			else if (i < _dataCumulativeRelative.size() && i > 0)
 			{
 				DoseTypeGy dx = (i - 1) * this->_deltaD;
 				return dx;
@@ -388,6 +337,25 @@ namespace rttb
 		VolumeType DVH::getAbsoluteVolume(int relativePercent) const
 		{
 			return (relativePercent * getNumberOfVoxels() * getDeltaV() / 100.0);
+		}
+
+		std::deque<DoseCalcType> DVH::convertAbsoluteToRelative(bool isCumulative) const
+		{
+
+			DataDifferentialType relativeData, absoluteData;
+			if (isCumulative) {
+				absoluteData = getDataCumulative();
+			}
+			else {
+				absoluteData = getDataDifferential();
+			}
+
+			for (std::deque<DoseCalcType>::iterator it = absoluteData.begin(); it != absoluteData.end(); ++it)
+			{
+				relativeData.push_back((*it) / getNumberOfVoxels());
+			}
+
+			return relativeData;
 		}
 
 		void DVH::setLabel(StructureLabel aLabel)
@@ -407,13 +375,13 @@ namespace rttb
 			if (dvhType.Type == DVHType::Cumulative) {
 				data = getDataCumulative();
 			}
-      else {
-        data = getDataDifferential();
-      }
+			else {
+				data = getDataDifferential();
+			}
 
-      if (data.empty()) {
-        throw InvalidParameterException("DVH data is empty. Can't retrieve normalized DVH");
-      }
+			if (data.empty()) {
+				throw InvalidParameterException("DVH data is empty. Can't retrieve normalized DVH");
+			}
 
 			for (size_t i = 0; i < data.size(); i++)
 			{
