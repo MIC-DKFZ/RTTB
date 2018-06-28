@@ -222,7 +222,7 @@ namespace rttb
 
 					BoostMaskGenerateMaskVoxelListThread t(_globalBoundingBox, _geometricInfo, _voxelizationMap,
 					                                       _voxelizationThickness, beginSlice, endSlice,
-					                                       _voxelInStructure, aMutex);
+					                                       _voxelInStructure, _strict, aMutex);
 
 					threads.create_thread(t);
 
