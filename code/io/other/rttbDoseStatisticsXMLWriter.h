@@ -22,6 +22,11 @@
 
 #include "RTTBOtherIOExports.h"
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
+
 namespace rttb
 {
 	namespace io
@@ -91,4 +96,9 @@ namespace rttb
 		}
 	}
 }
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
 #endif
