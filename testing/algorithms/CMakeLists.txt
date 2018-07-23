@@ -16,5 +16,5 @@ ADD_TEST(ArithmeticTest ${ALGORITHMS_TESTS} ArithmeticTest)
 ADD_TEST(DoseStatisticsCalculatorTest ${ALGORITHMS_TESTS} DoseStatisticsCalculatorTest "${TEST_DATA_ROOT}/DoseStatistics/XML/dicom_heartComplex.xml" "${TEST_DATA_ROOT}/Dose/DICOM/dicompylerTestDose.dcm" "${TEST_DATA_ROOT}/StructureSet/DICOM/rtss.dcm")
 ADD_TEST(BinaryFunctorAccessorTest ${ALGORITHMS_TESTS} BinaryFunctorAccessorTest "${TEST_DATA_ROOT}/Dose/DICOM/ConstantTwo.dcm" "${TEST_DATA_ROOT}/Dose/DICOM/dicompylerTestDose.dcm")
 
-RTTB_CREATE_TEST_MODULE(rttbAlgorithms DEPENDS RTTBAlgorithms RTTBBoostMask RTTBDicomIO PACKAGE_DEPENDS Boost Litmus RTTBData DCMTK)
+RTTB_CREATE_TEST_MODULE(Algorithms DEPENDS RTTBAlgorithms RTTBBoostMask RTTBDicomIO PACKAGE_DEPENDS Boost Litmus RTTBData DCMTK)
 

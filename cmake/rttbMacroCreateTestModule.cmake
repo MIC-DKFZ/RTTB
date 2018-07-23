@@ -26,7 +26,7 @@ MACRO(RTTB_CREATE_TEST_MODULE MODULE_NAME_IN)
                         "HEADER_TESTS"
                         ${ARGN})
 
-	SET(MODULE_NAME "${MODULE_NAME_IN}Tests")
+	SET(MODULE_NAME "RTTB${MODULE_NAME_IN}Tests")
 	SET(WAIT_FOR_DEPENDENCY_LIBS "Litmus") #each test depends on Litmus
 
 	# assume worst case
