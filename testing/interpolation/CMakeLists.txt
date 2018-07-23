@@ -21,4 +21,4 @@ IF(BUILD_InterpolationMatchPointTransformation)
 	ADD_SUBDIRECTORY(InterpolationMatchPointTransformation)
 ENDIF(BUILD_InterpolationMatchPointTransformation)
 
-RTTB_CREATE_TEST_MODULE(rttbInterpolation DEPENDS RTTBInterpolation RTTBDicomIO PACKAGE_DEPENDS Litmus RTTBData)
+RTTB_CREATE_TEST_MODULE(Interpolation DEPENDS RTTBInterpolation RTTBDicomIO PACKAGE_DEPENDS Litmus RTTBData)

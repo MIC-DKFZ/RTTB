@@ -15,5 +15,5 @@ ADD_TEST(BioModelScatterPlotTest ${MODELS_TESTS} BioModelScatterPlotTest)
 ADD_TEST(DvhBasedModelsTest ${MODELS_TESTS} DvhBasedModelsTest)
 ADD_TEST(LQModelAccessorTest ${MODELS_TESTS} LQModelAccessorTest "${TEST_DATA_ROOT}/Dose/DICOM/ConstantTwo.dcm" "${TEST_DATA_ROOT}/Dose/DICOM/LinearIncreaseX.dcm")
 
-RTTB_CREATE_TEST_MODULE(rttbModel DEPENDS RTTBModels RTTBDicomIO PACKAGE_DEPENDS Boost Litmus DCMTK RTTBData)
+RTTB_CREATE_TEST_MODULE(Model DEPENDS RTTBModels RTTBDicomIO PACKAGE_DEPENDS Boost Litmus DCMTK RTTBData)
 

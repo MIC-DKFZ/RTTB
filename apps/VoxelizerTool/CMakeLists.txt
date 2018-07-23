@@ -1,4 +1,4 @@
 MESSAGE (STATUS "generating app: VoxelizerTool - voxelize DICOM RTSTRUCT files")
 SET(RTTB_Boost_ADDITIONAL_COMPONENT program_options)
-RTTB_CREATE_APPLICATION(VoxelizerTool DEPENDS RTTBBoostMask RTTBCore RTTBUtilsIO PACKAGE_DEPENDS ArgumentParsingLib ITK BoostBinaries)
-
+RTTB_CREATE_APPLICATION(RTTBVoxelizerTool DEPENDS RTTBBoostMask RTTBCore RTTBUtilsIO PACKAGE_DEPENDS ArgumentParsingLib ITK BoostBinaries)
+SET_TARGET_PROPERTIES(RTTBVoxelizerTool PROPERTIES OUTPUT_NAME "VoxelizerTool")

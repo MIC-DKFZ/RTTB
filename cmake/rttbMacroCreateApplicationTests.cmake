@@ -23,7 +23,7 @@ MACRO(RTTB_CREATE_APPLICATION_TESTS APP_NAME_IN)
                         "HEADER_TESTS"
                         ${ARGN})
 
-  SET(APP_NAME "rttb${APP_NAME_IN}Tests")
+  SET(APP_NAME "RTTB${APP_NAME_IN}Tests")
   SET(WAIT_FOR_DEPENDENCY_LIBS "Litmus") #each test depends on Litmus
 
   IF(BUILD_TESTING)

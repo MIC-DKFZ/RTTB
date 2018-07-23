@@ -23,7 +23,7 @@ ADD_TEST(StrVectorStructureSetGeneratorTest ${CORE_TESTS} StrVectorStructureSetG
 ADD_TEST(StructureSetTest ${CORE_TESTS} StructureSetTest)
 ADD_TEST(BaseTypeTest ${CORE_TESTS} BaseTypeTest)
 
-RTTB_CREATE_TEST_MODULE(rttbCore DEPENDS RTTBCore PACKAGE_DEPENDS Boost Litmus)
+RTTB_CREATE_TEST_MODULE(Core DEPENDS RTTBCore PACKAGE_DEPENDS Boost Litmus)
 
 
 
