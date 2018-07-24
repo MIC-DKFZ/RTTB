@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1674 $ (last changed revision)
-// @date    $Date: 2017-01-27 10:34:46 +0100 (Fr, 27 Jan 2017) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "rttbMeasureCollection.h"
 #include "rttbDataNotAvailableException.h"
