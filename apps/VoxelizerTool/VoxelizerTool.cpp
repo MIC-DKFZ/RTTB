@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1390 $ (last changed revision)
-// @date    $Date: 2016-07-13 09:57:44 +0200 (Mi, 13 Jul 2016) $ (last change date)
-// @author  $Author: strubel $ (last changed by)
-*/
+
 #include <iostream>
 
 #include "VoxelizerToolHelper.h"

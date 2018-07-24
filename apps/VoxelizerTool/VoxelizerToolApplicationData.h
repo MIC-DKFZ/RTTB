@@ -13,7 +13,6 @@
 //
 //------------------------------------------------------------------------
 
-
 #ifndef __VoxelizerApplicationData_h
 #define __VoxelizerApplicationData_h
 
