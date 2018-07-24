@@ -20,7 +20,6 @@
 
 #include "rttbDoseAccessorInterface.h"
 
-
 namespace rttb
 {
 	namespace apps
