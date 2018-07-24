@@ -12,16 +12,11 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #include <time.h>
 
 #include "DummyDVHGenerator.h"
+
 namespace rttb
 {
 	namespace testing

@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __DVH_GENERATOR_INTERFACE_H
 #define __DVH_GENERATOR_INTERFACE_H
 

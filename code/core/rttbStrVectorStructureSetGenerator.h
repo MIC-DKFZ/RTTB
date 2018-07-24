@@ -12,13 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
-
 
 #ifndef __STR_VECTOR_STRUCTURE_SET_GENERATOR_H
 #define __STR_VECTOR_STRUCTURE_SET_GENERATOR_H

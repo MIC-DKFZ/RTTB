@@ -22,7 +22,6 @@
 #include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
 
-
 namespace rttb
 {
 	namespace testing
