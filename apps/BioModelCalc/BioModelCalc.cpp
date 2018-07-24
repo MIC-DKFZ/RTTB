@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1334 $ (last changed revision)
-// @date    $Date: 2016-04-22 11:13:22 +0200 (Fr, 22 Apr 2016) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "BioModelCalcApplicationData.h"
 #include "BioModelCalcHelper.h"
