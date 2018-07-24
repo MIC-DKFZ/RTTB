@@ -12,19 +12,12 @@
 // PURPOSE. See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1388 $ (last changed revision)
-// @date $Date: 2016-07-04 14:03:35 +0200 (Mo, 04 Jul 2016) $ (last change date)
-// @author $Author: hentsch $ (last changed by)
-*/
 
 // this file defines the rttbCoreTests for the test driver
 // and all it expects is that you have a function called RegisterTests
 #if defined(_MSC_VER)
 #pragma warning ( disable : 4786 )
 #endif
-
 
 #include "litMultiTestsMain.h"
 
