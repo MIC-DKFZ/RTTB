@@ -12,12 +12,6 @@
 // PURPOSE. See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1328 $ (last changed revision)
-// @date $Date: 2016-04-22 09:50:01 +0200 (Fr, 22 Apr 2016) $ (last change date)
-// @author $Author: hentsch $ (last changed by)
-*/
 
 // this file defines the rttbCoreTests for the test driver
 // and all it expects is that you have a function called RegisterTests
