@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __DICOM_FILE_DOSE_ACCESSOR_GENERATOR_H
 #define __DICOM_FILE_DOSE_ACCESSOR_GENERATOR_H
 
@@ -26,7 +21,6 @@
 
 #include "rttbDoseAccessorGeneratorBase.h"
 #include "rttbBaseType.h"
-
 
 namespace rttb
 {

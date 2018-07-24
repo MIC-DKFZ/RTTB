@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 /* Changes in Architecture:
 The DICOM specific classes will be removed and transfered to the corresponding IO classes.
@@ -33,7 +27,6 @@ This class should only provide general structure functionality.
 
 #include "rttbBaseType.h"
 #include "rttbStrVectorStructureSetGenerator.h"
-
 
 namespace rttb
 {
