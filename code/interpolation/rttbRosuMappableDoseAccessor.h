@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __ROSU_MAPPABLE_DOSE_ACCESSOR_H
 #define __ROSU_MAPPABLE_DOSE_ACCESSOR_H
 
