@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #ifndef __NTCP_RS_MODEL_H
 #define __NTCP_RS_MODEL_H
@@ -26,7 +20,6 @@
 
 #include "rttbNTCPModel.h"
 #include "rttbBaseTypeModels.h"
-
 
 namespace rttb
 {
