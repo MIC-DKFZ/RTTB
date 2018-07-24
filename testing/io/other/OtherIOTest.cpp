@@ -10,16 +10,6 @@
 // WITHOUT THE PRIOR EXPRESS WRITTEN PERMISSION OF DKFZ.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date $Date$ (last change date)
-// @author zhangl (last changed by)
-// @author *none* (Reviewer)
-// @author zhangl (Programmer)
-//
-// Subversion HeadURL: $HeadURL: http://sidt-hpc1/dkfz_repository/NotMeVisLab/SIDT/RTToolbox/trunk/testing/core/DVHCalculatorTest.cpp $
-*/
 
 // this file defines the rttbCoreTests for the test driver
 // and all it expects is that you have a function called RegisterTests
@@ -39,7 +29,6 @@
 #include "rttbNullPointerException.h"
 
 #include "../../core/DummyDVHGenerator.h"
-
 
 namespace rttb
 {

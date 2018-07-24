@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1221 $ (last changed revision)
-// @date    $Date: 2015-12-01 13:43:31 +0100 (Di, 01 Dez 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include <iostream>
 
@@ -28,7 +22,6 @@
 #include "boost/filesystem.hpp"
 
 #include "rttbITKImageAccessorConverter.h"
-
 
 namespace rttb
 {
