@@ -21,7 +21,6 @@
 
 #include "itkImage.h"
 
-
 namespace rttb
 {
 	namespace io

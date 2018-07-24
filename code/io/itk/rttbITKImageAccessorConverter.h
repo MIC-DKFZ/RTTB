@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __ITK_IMAGE_ACCESSOR_CONVERTER_H
 #define __ITK_IMAGE_ACCESSOR_CONVERTER_H
 
@@ -27,6 +22,7 @@
 #include "itkImage.h"
 
 #include "RTTBITKIOExports.h"
+
 namespace rttb
 {
 	namespace io

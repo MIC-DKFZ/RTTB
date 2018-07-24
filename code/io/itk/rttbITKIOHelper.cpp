@@ -13,12 +13,10 @@
 //
 //------------------------------------------------------------------------
 
-
 #include "rttbITKIOHelper.h"
 #include "rttbException.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
-
 
 namespace rttb
 {

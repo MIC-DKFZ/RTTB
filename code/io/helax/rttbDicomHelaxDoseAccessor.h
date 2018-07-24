@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __DICOM_HELAX_DOSE_ACCESSOR_H
 #define __DICOM_HELAX_DOSE_ACCESSOR_H
 
@@ -28,8 +23,6 @@
 
 #include "rttbBaseType.h"
 #include "rttbAccessorWithGeoInfoBase.h"
-
-
 
 namespace rttb
 {

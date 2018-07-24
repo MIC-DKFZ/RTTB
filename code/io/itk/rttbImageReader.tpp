@@ -12,13 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-// Subversion HeadURL: $HeadURL: https://svn/sbr/Sources/SBR-Projects/MatchPoint/trunk/Code/IO/include/mapImageReader.tpp $
-*/
 
 #ifndef __RTTB_IMAGE_READER_TPP
 #define __RTTB_IMAGE_READER_TPP
@@ -46,7 +39,6 @@
 
 #include <iostream>
 #include <locale>
-
 
 namespace rttb
 {

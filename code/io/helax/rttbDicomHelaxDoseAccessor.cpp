@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #include "rttbDicomHelaxDoseAccessor.h"
 
@@ -27,7 +21,6 @@
 #include "boost/numeric/ublas/matrix.hpp"
 
 #include <cstdlib>
-
 
 #include "rttbInvalidDoseException.h"
 #include "rttbDcmrtException.h"

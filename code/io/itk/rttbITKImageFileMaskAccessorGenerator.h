@@ -12,19 +12,13 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __ITK_IMAGE_MASK_FILE_ACCESSOR_GENERATOR_H
 #define __ITK_IMAGE_MASK_FILE_ACCESSOR_GENERATOR_H
 
 #include "rttbMaskAccessorGeneratorBase.h"
 #include "rttbBaseType.h"
 #include "rttbITKImageMaskAccessor.h"
-
 
 namespace rttb
 {
