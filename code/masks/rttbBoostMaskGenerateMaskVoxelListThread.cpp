@@ -39,11 +39,12 @@ namespace rttb
 			    unsigned int aBeginSlice,
 			    unsigned int aEndSlice,
                 MaskVoxelListPointer aMaskVoxelList,
+        bool strictVoxelization,
                 ::boost::shared_ptr<::boost::shared_mutex> aMutex) :
 				_globalBoundingBox(aGlobalBoundingBox), _geometricInfo(aGeometricInfo),
 				_voxelizationMap(aVoxelizationMap), _voxelizationThickness(aVoxelizationThickness),
 				_beginSlice(aBeginSlice), _endSlice(aEndSlice),
-                _resultMaskVoxelList(aMaskVoxelList), _mutex(aMutex)
+                _resultMaskVoxelList(aMaskVoxelList), _strictVoxelization(strictVoxelization), _mutex(aMutex)
 			{}
 
 			void BoostMaskGenerateMaskVoxelListThread::operator()()
@@ -89,7 +90,7 @@ namespace rttb
                                 }
 							}
 
-							if (volumeFraction > 1 && (volumeFraction - 1) <= errorConstant)
+							if (volumeFraction > 1 && ((volumeFraction - 1) <= errorConstant || !_strictVoxelization))
 							{
 								volumeFraction = 1;
 							}

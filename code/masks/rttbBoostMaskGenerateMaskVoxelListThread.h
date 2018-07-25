@@ -56,13 +56,14 @@ namespace rttb
 				                                     double aVoxelizationThickness,
 				                                     unsigned int aBeginSlice,
 				                                     unsigned int aEndSlice,
-                                                     MaskVoxelListPointer aMaskVoxelList, ::boost::shared_ptr<::boost::shared_mutex> aMutex);
+                                                     MaskVoxelListPointer aMaskVoxelList, bool strictVoxelization, ::boost::shared_ptr<::boost::shared_mutex> aMutex);
 				void operator()();
 
 			private:
 				VoxelIndexVector _globalBoundingBox;
 				core::GeometricInfo::Pointer _geometricInfo;
-                BoostArrayMapPointer _voxelizationMap;
+        BoostArrayMapPointer _voxelizationMap;
+        bool _strictVoxelization=true;
 				//(for example, the first contour has the double grid index 0.1, the second 0.3, the third 0.5, then the thickness is 0.2)
 				double _voxelizationThickness;
 
@@ -78,7 +79,8 @@ namespace rttb
 				*/
 				void calcWeightVector(const rttb::VoxelGridID& aIndexZ,
 				                      std::map<double, double>& weightVector) const;
-			};
+
+      };
 
 		}
 
