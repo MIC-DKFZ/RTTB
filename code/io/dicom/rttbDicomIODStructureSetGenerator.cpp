@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #include <cmath>
 #include <algorithm>
@@ -32,7 +26,6 @@
 #include "rttbDicomIODStructureSetGenerator.h"
 #include "rttbDcmrtException.h"
 #include "rttbInvalidParameterException.h"
-
 
 namespace rttb
 {
@@ -72,7 +65,7 @@ namespace rttb
           roisItem->getROIName(ofRoiName);
           std::string roiName(ofRoiName.c_str());
 
-          //replace wrongly 'แ' character by ' ' in ROI name
+          //replace wrongly 'รก' character by ' ' in ROI name
           correctSpacesInROIName(roiName);
 
           if (!this->getStructureLabelFilterActive() || std::regex_match(roiName, e))

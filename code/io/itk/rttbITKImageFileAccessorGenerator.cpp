@@ -20,7 +20,6 @@
 #include "rttbITKImageAccessorConverter.h"
 #include "rttbITKIOHelper.h"
 
-
 namespace rttb
 {
 	namespace io

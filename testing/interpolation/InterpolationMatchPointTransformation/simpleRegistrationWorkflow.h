@@ -12,12 +12,7 @@
 // PURPOSE. See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __SIMPLE_REGISTRATION_WORKFLOW_H
 #define __SIMPLE_REGISTRATION_WORKFLOW_H
 

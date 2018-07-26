@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1210 $ (last changed revision)
-// @date    $Date: 2015-11-24 15:52:45 +0100 (Di, 24 Nov 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #ifndef __BIO_MODEL_CALC_HELPER_H
 #define __BIO_MODEL_CALC_HELPER_H

@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __DUMMY_MUTABLE_DOSE_ACCESSOR_H
 #define __DUMMY_MUTABLE_DOSE_ACCESSOR_H
 
@@ -26,7 +21,6 @@
 #include "rttbMutableDoseAccessorInterface.h"
 #include "rttbGeometricInfo.h"
 #include "rttbBaseType.h"
-
 
 namespace rttb
 {

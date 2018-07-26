@@ -19,7 +19,6 @@
 #pragma warning ( disable : 4786 )
 #endif
 
-
 #include "litMultiTestsMain.h"
 
 namespace rttb

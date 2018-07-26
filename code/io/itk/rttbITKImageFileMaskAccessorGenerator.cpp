@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
@@ -26,7 +20,6 @@
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
 #include "../itk/rttbITKIOHelper.h"
-
 
 namespace rttb
 {

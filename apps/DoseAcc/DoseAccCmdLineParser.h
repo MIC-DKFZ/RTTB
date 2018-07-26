@@ -12,17 +12,12 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1374 $ (last changed revision)
-// @date    $Date: 2016-05-30 14:15:42 +0200 (Mo, 30 Mai 2016) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #ifndef __DOSEACC_CMD_LINE_PARSER
 #define __DOSEACC_CMD_LINE_PARSER
 
 #include "CmdLineParserBase.h"
+
 namespace rttb
 {
 	namespace apps

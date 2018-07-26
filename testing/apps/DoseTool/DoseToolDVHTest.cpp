@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1233 $ (last changed revision)
-// @date    $Date: 2016-01-20 15:47:47 +0100 (Mi, 20 Jan 2016) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "litCheckMacros.h"
 

@@ -12,12 +12,6 @@
 // PURPOSE. See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1495 $ (last changed revision)
-// @date $Date: 2016-09-29 16:17:47 +0200 (Do, 29 Sep 2016) $ (last change date)
-// @author $Author: hentsch $ (last changed by)
-*/
 
 // this file defines the rttbCoreTests for the test driver
 // and all it expects is that you have a function called RegisterTests
@@ -105,7 +99,7 @@ namespace rttb
 
             if (rtStructureSet->getNumberOfStructures() > 0)
             {
-                //do not compute structure "Aussenkontur" since it is very large (15000 cm³)
+                //do not compute structure "Aussenkontur" since it is very large (15000 cmÂ³)
                 for (size_t j = 1; j < rtStructureSet->getNumberOfStructures(); j++)
                 {
                     std::cout << j << ": " << rtStructureSet->getStructure(j)->getLabel() << std::endl;

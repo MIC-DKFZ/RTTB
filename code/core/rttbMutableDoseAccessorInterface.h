@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
+
 #ifndef __MUTABLE_DOSE_ACCESSOR_INTERFACE_NEW_H
 #define __MUTABLE_DOSE_ACCESSOR_INTERFACE_NEW_H
 

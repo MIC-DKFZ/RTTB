@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1127 $ (last changed revision)
-// @date    $Date: 2015-10-01 13:33:33 +0200 (Do, 01 Okt 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include <string>
 #include <vector>

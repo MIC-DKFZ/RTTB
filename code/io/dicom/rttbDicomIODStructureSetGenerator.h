@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 /* Changes in Architecture:
 The DICOM specific classes will be removed and transfered to the corresponding IO classes.
@@ -33,7 +27,6 @@ This class should only provide general structure functionality.
 
 #include "rttbBaseType.h"
 #include "rttbStrVectorStructureSetGenerator.h"
-
 
 namespace rttb
 {
@@ -62,7 +55,7 @@ namespace rttb
 				@exception InvalidParameterException Thrown if the imported header tags are not numerical.
 				*/
 				void readStrSet();
-        /*!	Replaces the character 'แ' ((int)-96) to ' ' ((int)32) in a string.
+        /*!	Replaces the character 'รก' ((int)-96) to ' ' ((int)32) in a string.
         */
         void correctSpacesInROIName(std::string& roiName);
       public:

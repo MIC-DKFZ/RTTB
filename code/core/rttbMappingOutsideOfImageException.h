@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-*/
 
 #ifndef __MAPPING_OUTSIDE_OF_IMAGE_EXCEPTION_H
 #define __MAPPING_OUTSIDE_OF_IMAGE_EXCEPTION_H
@@ -27,7 +21,6 @@
 #include "rttbException.h"
 
 #include "RTTBCoreExports.h"
-
 
 namespace rttb
 {

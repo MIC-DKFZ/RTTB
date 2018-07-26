@@ -12,14 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision$ (last changed revision)
-// @date    $Date$ (last change date)
-// @author  $Author$ (last changed by)
-//
-// Subversion HeadURL: $HeadURL: http://sidt-hpc1/dkfz_repository/NotMeVisLab/SIDT/RTToolbox/branch/restructure/RTToolboxConfigure.h.in $
-*/
 
 //----------------------------------------------------------
 // !!!EXPERIMENTAL CODE!!!
@@ -29,7 +21,7 @@
 // to ensure this policy.
 //----------------------------------------------------------
 #ifdef SIDT_ENFORCE_MATURE_CODE
-	#error “This code is marked as experimental code. It must not be used because this build enforces mature code.”
+	#error "This code is marked as experimental code. It must not be used because this build enforces mature code."
 #endif
 #ifndef SIDT_CONTAINS_EXPERIMENTAL_CODE
   #define SIDT_CONTAINS_EXPERIMENTAL_CODE 1

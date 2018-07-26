@@ -12,12 +12,6 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1107 $ (last changed revision)
-// @date    $Date: 2015-09-17 12:47:41 +0200 (Do, 17 Sep 2015) $ (last change date)
-// @author  $Author: hentsch $ (last changed by)
-*/
 
 #include "DoseAccApplicationData.h"
 #include "DoseAccHelper.h"

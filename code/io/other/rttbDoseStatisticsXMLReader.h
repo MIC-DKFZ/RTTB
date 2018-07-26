@@ -12,12 +12,7 @@
 // PURPOSE.  See the above copyright notices for more information.
 //
 //------------------------------------------------------------------------
-/*!
-// @file
-// @version $Revision: 1250 $ (last changed revision)
-// @date    $Date: 2016-02-18 15:25:55 +0100 (Do, 18 Feb 2016) $ (last change date)
-// @author  $Author: zhangl $ (last changed by)
-*/
+
 #ifndef __DOSE_STATISTICS_XML_READER_H
 #define __DOSE_STATISTICS_XML_READER_H
 
