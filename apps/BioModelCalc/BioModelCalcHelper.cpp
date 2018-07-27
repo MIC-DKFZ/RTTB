@@ -14,15 +14,12 @@
 //------------------------------------------------------------------------
 
 #include "BioModelCalcHelper.h"
-
+#include "BioModelCalcApplicationData.h"
 #include "boost/make_shared.hpp"
-#include "boost/shared_ptr.hpp"
 
 #include "rttbExceptionMacros.h"
-
-#include "BioModelCalcApplicationData.h"
-#include "rttbITKImageAccessorConverter.h"
 #include "rttbImageWriter.h"
+#include "rttbITKImageAccessorConverter.h"
 #include "rttbLQModelAccessor.h"
 
 void

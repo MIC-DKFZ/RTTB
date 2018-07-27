@@ -16,13 +16,7 @@
 #include "BioModelCalcApplicationData.h"
 #include "BioModelCalcHelper.h"
 #include "BioModelCmdLineParser.h"
-
-#include "boost/shared_ptr.hpp"
 #include "boost/make_shared.hpp"
-
-#include "RTToolboxConfigure.h"
-
-#include "rttbException.h"
 
 #include "rttbDoseLoader.cpp"
 

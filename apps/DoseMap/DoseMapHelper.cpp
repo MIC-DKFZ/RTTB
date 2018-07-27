@@ -14,20 +14,13 @@
 //------------------------------------------------------------------------
 
 #include "DoseMapHelper.h"
-
-#include <boost/make_shared.hpp>
-
 #include "mapRegistrationFileReader.h"
 
 #include "rttbITKImageAccessorConverter.h"
 #include "rttbSimpleMappableDoseAccessor.h"
 #include "rttbMatchPointTransformation.h"
-#include "rttbLinearInterpolation.h"
 #include "rttbNearestNeighborInterpolation.h"
 #include "rttbRosuMappableDoseAccessor.h"
-#include "rttbArithmetic.h"
-#include "rttbBinaryFunctorAccessor.h"
-#include "rttbExceptionMacros.h"
 #include "rttbImageWriter.h"
 
 rttb::apps::doseMap::ApplicationData::RegistrationType::Pointer

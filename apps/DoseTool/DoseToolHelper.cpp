@@ -15,17 +15,11 @@
 
 #include "DoseToolHelper.h"
 
-#include "boost/make_shared.hpp"
-#include "boost/shared_ptr.hpp"
-#include "boost/property_tree/ptree.hpp"
 #include "boost/property_tree/xml_parser.hpp"
 #include "boost/filesystem.hpp"
 
 #include "DoseToolApplicationData.h"
-#include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbITKImageFileMaskAccessorGenerator.h"
-#include "rttbDoseStatistics.h"
-#include "rttbDVH.h"
 #include "rttbDVHCalculator.h"
 #include "rttbDVHXMLFileWriter.h"
 #include "rttbDoseStatisticsCalculator.h"

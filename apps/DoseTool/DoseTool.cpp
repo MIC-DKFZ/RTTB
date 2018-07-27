@@ -17,13 +17,6 @@
 #include "DoseToolHelper.h"
 #include "DoseToolCmdLineParser.h"
 
-#include "boost/shared_ptr.hpp"
-#include "boost/make_shared.hpp"
-
-#include "RTToolboxConfigure.h"
-
-#include "rttbException.h"
-
 #include "rttbDoseLoader.cpp"
 #include "rttbStructLoader.cpp"
 

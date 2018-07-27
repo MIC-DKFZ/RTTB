@@ -13,19 +13,10 @@
 //
 //------------------------------------------------------------------------
 
-#include "DoseMapApplicationData.h"
-#include "DoseMapHelper.h"
-#include "DoseMapCmdLineParser.h"
-
-#include "boost/shared_ptr.hpp"
 #include "boost/make_shared.hpp"
-
-#include "RTToolboxConfigure.h"
-
-#include "rttbException.h"
-
+#include "DoseMapCmdLineParser.h"
+#include "DoseMapHelper.h"
 #include "mapDummyRegistrationAlgorithm.h"
-
 #include "rttbDoseLoader.cpp"
 
 /**

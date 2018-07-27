@@ -20,20 +20,18 @@
 #include "itkMacro.h"
 
 #include "VoxelizerToolHelper.h"
-#include "VoxelizerToolApplicationData.h"
-
-#include "rttbITKImageMaskAccessorConverter.h"
-#include "rttbImageWriter.h"
-#include "itkBinaryThresholdImageFilter.h"
 #include "itkAddImageFilter.h"
+#include "itkBinaryThresholdImageFilter.h"
 
-#include <regex>
-
-#include <boost/algorithm/string/case_conv.hpp>
-
+#include "rttbBoostMaskAccessor.h"
+#include "rttbDicomFileStructureSetGenerator.h"
+#include "rttbImageWriter.h"
+#include "rttbITKImageMaskAccessorConverter.h"
 #include "rttbUtils.h"
 
-#include "rttbDicomFileStructureSetGenerator.h"
+#include "VoxelizerToolApplicationData.h"
+
+#include <iostream>
 
 void rttb::apps::voxelizerTool::removeSpecialCharacters(std::string& label)
 {

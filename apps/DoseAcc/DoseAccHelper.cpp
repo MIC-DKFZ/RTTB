@@ -14,22 +14,17 @@
 //------------------------------------------------------------------------
 
 #include "DoseAccHelper.h"
-
-#include "boost/make_shared.hpp"
-
 #include "mapRegistrationFileReader.h"
 
-#include "rttbExceptionMacros.h"
-
-#include "rttbITKImageAccessorConverter.h"
-#include "rttbSimpleMappableDoseAccessor.h"
-#include "rttbMatchPointTransformation.h"
-#include "rttbLinearInterpolation.h"
-#include "rttbNearestNeighborInterpolation.h"
-#include "rttbRosuMappableDoseAccessor.h"
 #include "rttbArithmetic.h"
 #include "rttbBinaryFunctorAccessor.h"
+#include "rttbExceptionMacros.h"
 #include "rttbImageWriter.h"
+#include "rttbITKImageAccessorConverter.h"
+#include "rttbMatchPointTransformation.h"
+#include "rttbNearestNeighborInterpolation.h"
+#include "rttbRosuMappableDoseAccessor.h"
+#include "rttbSimpleMappableDoseAccessor.h"
 
 rttb::apps::doseAcc::ApplicationData::RegistrationType::Pointer
 rttb::apps::doseAcc::loadRegistration(const std::string& fileName)
