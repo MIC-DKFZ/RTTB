@@ -13,18 +13,13 @@
 //
 //------------------------------------------------------------------------
 
-#include <boost/foreach.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <boost/make_shared.hpp>
-
 #include "rttbDoseStatisticsXMLReader.h"
-
 #include "rttbInvalidParameterException.h"
 
-#include "rttbVolumeToDoseMeasureCollection.h"
+#include <boost/algorithm/string.hpp>
+#include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 namespace rttb
 {

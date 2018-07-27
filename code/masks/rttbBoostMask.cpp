@@ -15,8 +15,6 @@
 
 #include <limits>
 
-#include <boost/geometry/geometries/register/point.hpp>
-#include <boost/geometry/geometries/register/ring.hpp>
 #include <boost/make_shared.hpp>
 #include <boost/thread/thread.hpp>
 

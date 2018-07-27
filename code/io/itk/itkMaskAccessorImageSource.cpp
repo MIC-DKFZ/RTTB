@@ -15,11 +15,8 @@
 
 #include "itkMaskAccessorImageSource.h"
 #include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkProgressReporter.h"
-#include "itkExceptionObject.h"
 
-#include "rttbGeometricInfo.h"
 
 namespace itk
 {

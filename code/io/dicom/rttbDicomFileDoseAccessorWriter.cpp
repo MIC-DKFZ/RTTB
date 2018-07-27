@@ -14,13 +14,10 @@
 //------------------------------------------------------------------------
 
 #include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/numeric/conversion/cast.hpp>
 
 #include "rttbDicomFileDoseAccessorWriter.h"
 #include "rttbInvalidDoseException.h"
-#include "rttbGeometricInfo.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbDoseStatisticsCalculator.h"
 

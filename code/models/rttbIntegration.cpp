@@ -14,7 +14,6 @@
 //------------------------------------------------------------------------
 
 #include <cmath>
-#include <vector>
 
 #include "rttbIntegration.h"
 #include "rttbInvalidParameterException.h"

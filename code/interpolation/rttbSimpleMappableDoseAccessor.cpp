@@ -14,7 +14,6 @@
 //------------------------------------------------------------------------
 
 #include "rttbSimpleMappableDoseAccessor.h"
-#include "rttbNullPointerException.h"
 #include "rttbMappingOutsideOfImageException.h"
 
 namespace rttb

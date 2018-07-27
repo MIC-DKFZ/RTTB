@@ -14,9 +14,7 @@
 //------------------------------------------------------------------------
 
 #include "rttbDoseLoader.h"
-
 #include "rttbExceptionMacros.h"
-
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomHelaxFileDoseAccessorGenerator.h"
 #include "rttbITKImageFileAccessorGenerator.h"

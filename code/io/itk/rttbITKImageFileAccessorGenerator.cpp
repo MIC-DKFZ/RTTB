@@ -14,10 +14,8 @@
 //------------------------------------------------------------------------
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "rttbITKImageFileAccessorGenerator.h"
-#include "rttbITKImageAccessorConverter.h"
 #include "rttbITKIOHelper.h"
 
 namespace rttb

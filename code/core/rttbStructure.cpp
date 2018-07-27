@@ -14,16 +14,11 @@
 //------------------------------------------------------------------------
 
 #include <iostream>
-#include <sstream>
-#include <stdexcept>
 
-#include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 
 #include "rttbStructure.h"
-#include "rttbNullPointerException.h"
-#include "rttbInvalidParameterException.h"
 
 namespace rttb
 {

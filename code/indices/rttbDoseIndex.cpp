@@ -14,7 +14,6 @@
 //------------------------------------------------------------------------
 
 #include "rttbDoseIndex.h"
-#include "rttbException.h"
 #include "rttbInvalidParameterException.h"
 
 namespace rttb

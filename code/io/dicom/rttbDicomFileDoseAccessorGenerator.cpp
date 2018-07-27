@@ -14,14 +14,10 @@
 //------------------------------------------------------------------------
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomDoseAccessor.h"
-#include "rttbNullPointerException.h"
 #include "rttbInvalidDoseException.h"
-#include "rttbDcmrtException.h"
-#include "rttbIndexOutOfBoundsException.h"
 #include "rttbDicomFileReaderHelper.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbUtils.h"

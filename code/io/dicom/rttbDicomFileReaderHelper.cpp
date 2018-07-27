@@ -16,10 +16,7 @@
 #include "rttbDicomFileReaderHelper.h"
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
 #include "boost/filesystem/operations.hpp"
-#include "boost/filesystem/path.hpp"
 
 #include "rttbDcmrtException.h"
 #include "rttbInvalidParameterException.h"

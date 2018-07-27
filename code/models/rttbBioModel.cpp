@@ -13,10 +13,9 @@
 //
 //------------------------------------------------------------------------
 
-#include <cstdio>
 #define _USE_MATH_DEFINES
-#include <cmath>
-#include <utility>
+
+#include <cstdio>
 
 #include "rttbBioModel.h"
 

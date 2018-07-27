@@ -13,11 +13,9 @@
 //
 //------------------------------------------------------------------------
 
-#include "rttbRosuMappableDoseAccessor.h"
-
 #include <boost/make_shared.hpp>
 
-#include "rttbNullPointerException.h"
+#include "rttbRosuMappableDoseAccessor.h"
 #include "rttbMappingOutsideOfImageException.h"
 #include "rttbLinearInterpolation.h"
 

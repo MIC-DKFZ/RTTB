@@ -14,10 +14,8 @@
 //------------------------------------------------------------------------
 
 #include <iterator>
-#include <cmath>
 
 #include "rttbDVH.h"
-#include "rttbException.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbUtils.h"
 

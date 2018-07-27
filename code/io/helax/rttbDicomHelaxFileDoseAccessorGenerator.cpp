@@ -14,18 +14,10 @@
 //------------------------------------------------------------------------
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
-#include "boost/filesystem/operations.hpp"
-#include "boost/filesystem/path.hpp"
-#include "boost/progress.hpp"
 
 #include "rttbDicomHelaxFileDoseAccessorGenerator.h"
 #include "rttbDicomHelaxDoseAccessor.h"
 #include "rttbInvalidDoseException.h"
-#include "rttbDcmrtException.h"
-#include "rttbIndexOutOfBoundsException.h"
-#include "rttbInvalidParameterException.h"
 #include "rttbDicomFileReaderHelper.h"
 
 namespace rttb

@@ -14,7 +14,6 @@
 //------------------------------------------------------------------------
 
 #include <list>
-#include <cassert>
 
 #include "rttbInterpolationBase.h"
 #include "rttbInvalidParameterException.h"

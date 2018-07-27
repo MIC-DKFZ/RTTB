@@ -16,7 +16,6 @@
 #include <cassert>
 
 #include "rttbITKImageAccessor.h"
-#include "rttbException.h"
 #include "rttbInvalidDoseException.h"
 
 namespace rttb

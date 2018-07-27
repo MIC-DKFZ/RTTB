@@ -16,8 +16,6 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#include <exception>
-
 #include "rttbNTCPRSModel.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbExceptionMacros.h"

@@ -14,16 +14,10 @@
 //------------------------------------------------------------------------
 
 #include "rttbDoseStatisticsXMLWriter.h"
-
-#include <cmath>
-#include <ostream>
-
-#include <boost/property_tree/xml_parser.hpp>
-
 #include "rttbInvalidParameterException.h"
 #include "rttbNullPointerException.h"
-#include "rttbVolumeToDoseMeasureCollection.h"
-#include "rttbDoseToVolumeMeasureCollection.h"
+
+#include <boost/property_tree/xml_parser.hpp>
 
 namespace rttb
 {

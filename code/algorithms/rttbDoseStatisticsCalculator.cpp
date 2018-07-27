@@ -14,17 +14,11 @@
 //------------------------------------------------------------------------
 
 #include "rttbDoseStatisticsCalculator.h"
-
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
-#include <boost/assign/list_of.hpp>
-#include <boost/thread/locks.hpp> 
-
-#include "rttbNullPointerException.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
+#include "rttbNullPointerException.h"
 
-#include <boost/thread/thread.hpp>
+#include <boost/assign/list_of.hpp>
 
 namespace rttb
 {

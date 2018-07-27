@@ -14,9 +14,7 @@
 //------------------------------------------------------------------------
 
 #include "rttbMaskedDoseIteratorInterface.h"
-#include "rttbMaskAccessorInterface.h"
 #include "rttbNullPointerException.h"
-#include "rttbException.h"
 
 namespace rttb
 {

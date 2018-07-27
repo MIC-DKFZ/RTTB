@@ -15,12 +15,7 @@
 
 #include <cassert>
 
-#include <boost/shared_ptr.hpp>
-
 #include "rttbITKImageAccessorConverter.h"
-#include "rttbException.h"
-#include "rttbInvalidDoseException.h"
-#include "rttbGeometricInfo.h"
 #include "itkDoseAccessorImageFilter.h"
 
 namespace rttb

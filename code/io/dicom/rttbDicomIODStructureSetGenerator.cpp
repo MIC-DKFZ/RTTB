@@ -14,17 +14,11 @@
 //------------------------------------------------------------------------
 
 #include <cmath>
-#include <algorithm>
-#include <sstream>
-#include <cstdlib>
 #include <map>
 #include <regex>
-
 #include <boost/make_shared.hpp>
 
-#include "rttbStructure.h"
 #include "rttbDicomIODStructureSetGenerator.h"
-#include "rttbDcmrtException.h"
 #include "rttbInvalidParameterException.h"
 
 namespace rttb

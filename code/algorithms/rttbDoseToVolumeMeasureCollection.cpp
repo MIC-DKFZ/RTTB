@@ -15,7 +15,6 @@
 
 #include "rttbDoseToVolumeMeasureCollection.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbDataNotAvailableException.h"
 
 namespace rttb
 {

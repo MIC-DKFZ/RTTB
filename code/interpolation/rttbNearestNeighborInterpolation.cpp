@@ -15,7 +15,6 @@
 
 #include "rttbNearestNeighborInterpolation.h"
 
-#include <array>
 #include <boost/make_shared.hpp>
 
 namespace rttb

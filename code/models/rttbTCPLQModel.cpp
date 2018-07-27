@@ -15,12 +15,7 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
-
-#include <exception>
-#include <map>
-
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "rttbTCPLQModel.h"
 #include "rttbDvhBasedModels.h"

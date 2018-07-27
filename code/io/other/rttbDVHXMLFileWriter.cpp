@@ -16,9 +16,7 @@
 #include "rttbDVHXMLFileWriter.h"
 #include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbException.h"
 
-#include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
 namespace rttb

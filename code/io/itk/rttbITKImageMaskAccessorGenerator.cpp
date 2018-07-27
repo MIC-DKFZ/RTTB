@@ -14,10 +14,8 @@
 //------------------------------------------------------------------------
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "rttbITKImageMaskAccessorGenerator.h"
-#include "rttbException.h"
 #include "rttbInvalidDoseException.h"
 
 namespace rttb

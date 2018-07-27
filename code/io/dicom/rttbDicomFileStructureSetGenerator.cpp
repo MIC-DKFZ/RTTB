@@ -14,12 +14,8 @@
 //------------------------------------------------------------------------
 
 #include <cmath>
-#include <algorithm>
-#include <sstream>
-#include <cstdlib>
 
 #include "rttbInvalidParameterException.h"
-#include "rttbStructure.h"
 
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbDicomIODStructureSetGenerator.h"

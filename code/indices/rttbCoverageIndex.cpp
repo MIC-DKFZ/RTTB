@@ -14,7 +14,6 @@
 //------------------------------------------------------------------------
 
 #include "rttbCoverageIndex.h"
-#include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbExceptionMacros.h"
 

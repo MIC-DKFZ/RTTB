@@ -13,17 +13,13 @@
 //
 //------------------------------------------------------------------------
 
-#include "rttbDicomHelaxDoseAccessor.h"
-
 #include "boost/lexical_cast.hpp"
-#include "boost/filesystem/operations.hpp"
-#include "boost/filesystem/path.hpp"
-#include "boost/numeric/ublas/matrix.hpp"
 
 #include <cstdlib>
 
-#include "rttbInvalidDoseException.h"
+#include "rttbDicomHelaxDoseAccessor.h"#include "rttbInvalidDoseException.h"
 #include "rttbDcmrtException.h"
+#include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
 
 namespace rttb

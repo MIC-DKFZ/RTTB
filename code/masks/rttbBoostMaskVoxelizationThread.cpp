@@ -19,7 +19,6 @@
 
 #include <boost/geometry.hpp>
 #include <boost/thread.hpp>
-#include <boost/make_shared.hpp>
 
 namespace rttb
 {

@@ -14,7 +14,6 @@
 //------------------------------------------------------------------------
 
 #include "rttbConformalIndex.h"
-#include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbExceptionMacros.h"
 

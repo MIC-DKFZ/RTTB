@@ -14,12 +14,10 @@
 //------------------------------------------------------------------------
 
 #include "rttbVolumeToDoseMeasureCollectionCalculator.h"
-#include <boost/thread/thread.hpp>
 #include "rttbInvalidParameterException.h"
 #include "rttbUtils.h"
 
-#include <boost/make_shared.hpp>
-//#include <boost/thread/locks.hpp> 
+#include <boost/thread/thread.hpp>
 
 namespace rttb
 {

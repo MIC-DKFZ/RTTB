@@ -14,12 +14,9 @@
 //------------------------------------------------------------------------
 
 #include "rttbGenericMutableMaskAccessor.h"
-#include "rttbMaskVoxel.h"
-#include "rttbNullPointerException.h"
 
 #include <boost/make_shared.hpp>
 
-#include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
 

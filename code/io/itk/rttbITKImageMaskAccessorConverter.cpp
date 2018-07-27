@@ -16,7 +16,6 @@
 #include <boost/shared_ptr.hpp>
 
 #include "rttbITKImageMaskAccessorConverter.h"
-#include "rttbGeometricInfo.h"
 #include "itkMaskAccessorImageSource.h"
 
 namespace rttb

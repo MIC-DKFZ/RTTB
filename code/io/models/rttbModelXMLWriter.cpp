@@ -14,17 +14,10 @@
 //------------------------------------------------------------------------
 
 #include "rttbModelXMLWriter.h"
-
-#include <cmath>
-
-/*boost includes*/
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <boost/make_shared.hpp>
-
-#include "rttbInvalidParameterException.h"
 #include "rttbDVHXMLFileWriter.h"
-#include "rttbDoseStatisticsXMLWriter.h"
+#include "rttbInvalidParameterException.h"
+
+#include <boost/property_tree/xml_parser.hpp>
 
 namespace rttb
 {

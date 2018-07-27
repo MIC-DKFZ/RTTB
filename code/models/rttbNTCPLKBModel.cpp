@@ -15,12 +15,7 @@
 
 #define _USE_MATH_DEFINES
 #include <string>
-#include <vector>
-#include <exception>
-
 #include <boost/make_shared.hpp>
-
-#include <cmath>
 
 #include "rttbIntegration.h"
 #include "rttbNTCPLKBModel.h"

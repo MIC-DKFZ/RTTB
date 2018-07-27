@@ -14,10 +14,8 @@
 //------------------------------------------------------------------------
 
 #include <map>
-
 #include <boost/make_shared.hpp>
 
-#include "rttbBioModel.h"
 #include "rttbNTCPLKBModel.h"
 #include "rttbBioModelCurve.h"
 #include "rttbDvhBasedModels.h"
