@@ -18,8 +18,6 @@
 
 #include "boost/filesystem.hpp"
 
-#include "itkImage.h"
-
 #include "rttbITKIOHelper.h"
 
 namespace rttb

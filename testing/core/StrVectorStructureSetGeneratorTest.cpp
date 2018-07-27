@@ -17,12 +17,10 @@
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbStrVectorStructureSetGenerator.h"
 #include "DummyStructure.h"
 #include "DummyDoseAccessor.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbStructure.h"
 
 namespace rttb
 {

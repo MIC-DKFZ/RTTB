@@ -13,11 +13,10 @@
 //
 //------------------------------------------------------------------------
 
-#include <iostream>
-
+#include "boost/filesystem.hpp"
 #include "litCheckMacros.h"
 
-#include "boost/filesystem.hpp"
+#include <iostream>
 
 namespace rttb
 {

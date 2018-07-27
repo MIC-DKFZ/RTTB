@@ -17,12 +17,10 @@
 #include <fstream>
 
 #include "litCheckMacros.h"
-#include "rttbBioModel.h"
 #include "rttbTCPLQModel.h"
 #include "rttbNTCPLKBModel.h"
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 #include "boost/filesystem.hpp"
 
 #include "rttbModelXMLWriter.h"

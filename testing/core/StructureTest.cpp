@@ -17,9 +17,6 @@
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
-#include "rttbStructure.h"
-#include "rttbInvalidParameterException.h"
 #include "DummyStructure.h"
 #include "DummyDoseAccessor.h"
 

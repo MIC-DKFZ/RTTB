@@ -14,16 +14,12 @@
 //------------------------------------------------------------------------
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbGenericMaskedDoseIterator.h"
 #include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
-#include "rttbException.h"
-#include "DummyDoseAccessor.h"
 #include "DummyInhomogeneousDoseAccessor.h"
 #include "DummyMaskAccessor.h"
 

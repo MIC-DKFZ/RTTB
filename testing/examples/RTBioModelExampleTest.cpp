@@ -19,15 +19,11 @@
 #include <boost/shared_ptr.hpp>
 
 #include "litCheckMacros.h"
-#include "rttbBioModel.h"
-#include "rttbDVH.h"
 #include "rttbTCPLQModel.h"
 #include "rttbNTCPLKBModel.h"
 #include "rttbNTCPRSModel.h"
-#include "rttbBioModelScatterPlots.h"
 #include "rttbBioModelCurve.h"
 #include "rttbDvhBasedModels.h"
-#include "rttbDoseIteratorInterface.h"
 #include "rttbDVHXMLFileReader.h"
 
 namespace rttb

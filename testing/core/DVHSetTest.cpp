@@ -13,21 +13,13 @@
 //
 //------------------------------------------------------------------------
 
-#include <deque>
-
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
-
+#include "DummyDVHGenerator.h"
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
-#include "rttbDVH.h"
 #include "rttbDVHSet.h"
-#include "rttbNullPointerException.h"
 #include "rttbInvalidParameterException.h"
 
-#include "DummyDVHGenerator.h"
+#include <boost/lexical_cast.hpp>
 
 namespace rttb
 {

@@ -18,8 +18,6 @@
 #include "../../io/other/CompareDoseStatistic.h"
 #include "../../io/other/CompareDVH.h"
 
-#include "litCheckMacros.h"
-
 #include "boost/filesystem.hpp"
 
 namespace rttb

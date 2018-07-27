@@ -14,22 +14,14 @@
 //------------------------------------------------------------------------
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "../core/DummyDoseAccessor.h"
 #include "../core/DummyMaskAccessor.h"
 #include "../core/DummyMutableDoseAccessor.h"
-#include "rttbDoseAccessorInterface.h"
-#include "rttbMutableDoseAccessorInterface.h"
-#include "rttbMutableMaskAccessorInterface.h"
 #include "rttbArithmetic.h"
-#include "rttbNullPointerException.h"
-#include "rttbInvalidParameterException.h"
 #include "rttbGenericMutableMaskAccessor.h"
-#include "rttbMaskAccessorInterface.h"
 
 namespace rttb
 {

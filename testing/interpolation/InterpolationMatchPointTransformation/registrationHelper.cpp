@@ -20,9 +20,6 @@
 #include "registrationHelper.h"
 
 #include "litTestImageIO.h"
-#include "litImageTester.h"
-
-#include <fstream>
 
 int setImageFileNames(std::string targetImage, std::string movingImage, bool isDirectory,
                       AppGlobals& globals)

@@ -14,18 +14,12 @@
 //------------------------------------------------------------------------
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
-#include "rttbBaseTypeModels.h"
-#include "rttbBioModel.h"
-#include "rttbDVH.h"
 #include "rttbTCPLQModel.h"
 #include "rttbNTCPLKBModel.h"
 #include "rttbNTCPRSModel.h"
-#include "rttbBaseTypeModels.h"
 #include "rttbBioModelCurve.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbBioModelScatterPlots.h"

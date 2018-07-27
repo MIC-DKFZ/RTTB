@@ -17,23 +17,15 @@
 // and all it expects is that you have a function called RegisterTests
 
 #include "litCheckMacros.h"
-#include "rttbDoseIndex.h"
-#include "rttbDVHSet.h"
-#include "rttbBaseType.h"
-#include "rttbNullPointerException.h"
 #include "rttbConformalIndex.h"
 #include "rttbConformationNumber.h"
 #include "rttbConformityIndex.h"
 #include "rttbCoverageIndex.h"
 #include "rttbHomogeneityIndex.h"
-#include "rttbException.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbDVHXMLFileReader.h"
 
-#include <math.h>
-
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 namespace rttb
 {

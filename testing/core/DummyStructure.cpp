@@ -13,12 +13,7 @@
 //
 //------------------------------------------------------------------------
 
-#include <math.h>
-
 #include "DummyStructure.h"
-#include "rttbNullPointerException.h"
-#include "rttbInvalidParameterException.h"
-#include "rttbInvalidDoseException.h"
 
 namespace rttb
 {

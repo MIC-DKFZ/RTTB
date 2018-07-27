@@ -13,17 +13,10 @@
 //
 //------------------------------------------------------------------------
 
-#include <deque>
-
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
-
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbDVH.h"
-#include "DummyDoseAccessor.h"
-#include "DummyMaskAccessor.h"
+
 
 namespace rttb
 {

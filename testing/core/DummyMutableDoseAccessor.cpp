@@ -13,14 +13,11 @@
 //
 //------------------------------------------------------------------------
 
-#include <boost/uuid/uuid.hpp>
+#include "DummyMutableDoseAccessor.h"
+#include "rttbIndexOutOfBoundsException.h"
+
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
-
-#include "DummyMutableDoseAccessor.h"
-#include "rttbNullPointerException.h"
-#include "rttbInvalidDoseException.h"
-#include "rttbIndexOutOfBoundsException.h"
 
 namespace rttb
 {

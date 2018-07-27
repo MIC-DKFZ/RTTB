@@ -17,18 +17,12 @@
 // and all it expects is that you have a function called RegisterTests
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "litCheckMacros.h"
 
-#include "rttbDoseStatistics.h"
 #include "rttbDoseStatisticsCalculator.h"
-#include "rttbDicomDoseAccessor.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
-#include "rttbBoostMaskAccessor.h"
-#include "rttbGenericMaskedDoseIterator.h"
 #include "rttbGenericDoseIterator.h"
-#include "rttbBaseType.h"
 
 namespace rttb
 {

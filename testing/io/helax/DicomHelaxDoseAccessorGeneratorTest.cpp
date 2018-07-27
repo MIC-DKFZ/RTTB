@@ -17,16 +17,11 @@
 // and all it expects is that you have a function called RegisterTests
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
-
-#include <iomanip>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbDicomHelaxFileDoseAccessorGenerator.h"
 #include "rttbDicomHelaxIODVecDoseAccessorGenerator.h"
-#include "rttbDicomHelaxDoseAccessor.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
 

@@ -13,12 +13,11 @@
 //
 //------------------------------------------------------------------------
 
-#include "litCheckMacros.h"
-#include <iostream>
-#include <boost/filesystem.hpp>
 #include "itkImage.h"
 #include "itkImageFileReader.h"
-#include <vector>
+#include "litCheckMacros.h"
+
+#include <boost/filesystem.hpp>
 
 /*! @brief VoxelizerToolTest3.
 Test the output, multipleStructs and the booleanVoxelization parameter.

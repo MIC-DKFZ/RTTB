@@ -17,9 +17,6 @@
 #include "litImageTester.h"
 
 #include "boost/filesystem.hpp"
-#include "boost/algorithm/string.hpp"
-
-#include "itkImage.h"
 
 #include "rttbITKIOHelper.h"
 

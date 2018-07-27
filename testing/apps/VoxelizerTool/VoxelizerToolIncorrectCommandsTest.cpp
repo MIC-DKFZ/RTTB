@@ -13,9 +13,9 @@
 //
 //------------------------------------------------------------------------
 
-#include <iostream>
 #include "litCheckMacros.h"
 #include <boost/filesystem.hpp>
+#include <iostream>
 
 /*! @brief VoxelizerToolTest4.
 Test incorrect commands with a wrong structfile, referencefile and a wrong struct.

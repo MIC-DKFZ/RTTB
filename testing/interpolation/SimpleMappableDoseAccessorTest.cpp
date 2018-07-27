@@ -17,16 +17,11 @@
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbSimpleMappableDoseAccessor.h"
 #include "rttbNearestNeighborInterpolation.h"
-#include "rttbLinearInterpolation.h"
-#include "rttbTransformationInterface.h"
 #include "DummyTransformation.h"
-
-#include "rttbNullPointerException.h"
 #include "rttbMappingOutsideOfImageException.h"
 
 namespace rttb

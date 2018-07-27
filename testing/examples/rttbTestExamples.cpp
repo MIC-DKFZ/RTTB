@@ -21,8 +21,6 @@
 
 #include "litMultiTestsMain.h"
 
-#include "RTToolboxConfigure.h"
-
 namespace rttb
 {
 	namespace testing

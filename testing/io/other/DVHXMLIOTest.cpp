@@ -17,22 +17,14 @@
 // and all it expects is that you have a function called RegisterTests
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
-#include "rttbDVH.h"
-#include "rttbDVHSet.h"
 #include "rttbDVHXMLFileReader.h"
 #include "rttbDVHXMLFileWriter.h"
-#include "rttbInvalidParameterException.h"
 #include "rttbNullPointerException.h"
 
 #include "../../core/DummyDVHGenerator.h"
-
-#include "CompareDVH.h"
 
 namespace rttb
 {

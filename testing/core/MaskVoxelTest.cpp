@@ -15,7 +15,6 @@
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbMaskVoxel.h"
 #include "rttbInvalidParameterException.h"
 

@@ -17,25 +17,18 @@
 // and all it expects is that you have a function called RegisterTests
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/filesystem.hpp>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbGenericMaskedDoseIterator.h"
 #include "rttbGenericDoseIterator.h"
-#include "rttbDicomDoseAccessor.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbBoostMaskAccessor.h"
 #include "rttbITKImageMaskAccessorConverter.h"
 #include "rttbImageWriter.h"
 #include "rttbBoostMask.h"
-#include "rttbBoostMaskAccessor.h"
-#include "rttbITKImageAccessorGenerator.h"
-#include "rttbITKImageFileAccessorGenerator.h"
-#include "rttbInvalidParameterException.h"
 
 #include "itkSubtractImageFilter.h"
 #include "itkImageFileReader.h"

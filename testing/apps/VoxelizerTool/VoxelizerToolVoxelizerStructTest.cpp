@@ -13,9 +13,10 @@
 //
 //------------------------------------------------------------------------
 
-#include <iostream>
 #include "litCheckMacros.h"
+
 #include <boost/filesystem.hpp>
+#include <iostream>
 
 /*! @brief VoxelizerToolTest.
 	Tests a struct with multiple files and a single file

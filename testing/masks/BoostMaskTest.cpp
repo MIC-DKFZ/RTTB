@@ -14,24 +14,13 @@
 //------------------------------------------------------------------------
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
-
 #include "../core/DummyStructure.h"
 #include "../core/DummyDoseAccessor.h"
-#include "rttbDicomDoseAccessor.h"
-#include "rttbDicomFileDoseAccessorGenerator.h"
-#include "rttbDicomFileStructureSetGenerator.h"
-#include "rttbDicomFileStructureSetGenerator.h"
-#include "rttbGenericDoseIterator.h"
-#include "rttbDVHCalculator.h"
-#include "rttbGenericMaskedDoseIterator.h"
 #include "rttbBoostMask.h"
 #include "rttbBoostMaskAccessor.h"
-#include "rttbInvalidParameterException.h"
 
 namespace rttb
 {

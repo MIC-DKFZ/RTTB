@@ -17,14 +17,10 @@
 
 #include <boost/make_shared.hpp>
 
-#include "rttbBaseType.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbRosuMappableDoseAccessor.h"
-
 #include "DummyTransformation.h"
-
-#include "rttbNullPointerException.h"
 #include "rttbMappingOutsideOfImageException.h"
 
 namespace rttb

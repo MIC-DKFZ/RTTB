@@ -17,13 +17,9 @@
 // and all it expects is that you have a function called RegisterTests
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
-
-#include <iomanip>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbDicomFileReaderHelper.h"
 
 namespace rttb

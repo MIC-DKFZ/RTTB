@@ -16,8 +16,6 @@
 #include "rttbDoseStatisticsXMLReader.h"
 #include "../../io/other/CompareDoseStatistic.h"
 
-#include "litCheckMacros.h"
-
 #include "boost/filesystem.hpp"
 
 namespace rttb

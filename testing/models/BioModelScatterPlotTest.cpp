@@ -14,21 +14,12 @@
 //------------------------------------------------------------------------
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
-#include "rttbBaseTypeModels.h"
-#include "rttbBioModel.h"
 #include "rttbBioModelScatterPlots.h"
 #include "../core/DummyDVHGenerator.h"
 #include "DummyModel.h"
-#include "rttbIntegration.h"
-
-#include <istream>
-#include <sstream>
-#include <fstream>
 
 namespace rttb
 {

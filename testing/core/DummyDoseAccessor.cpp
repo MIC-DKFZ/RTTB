@@ -18,8 +18,6 @@
 #include <boost/uuid/uuid_io.hpp>
 
 #include "DummyDoseAccessor.h"
-#include "rttbNullPointerException.h"
-#include "rttbInvalidDoseException.h"
 #include "rttbIndexOutOfBoundsException.h"
 
 namespace rttb

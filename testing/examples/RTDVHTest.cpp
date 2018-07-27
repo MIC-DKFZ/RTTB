@@ -18,8 +18,6 @@
 
 #include "litCheckMacros.h"
 
-#include "rttbDVH.h"
-#include "rttbBaseType.h"
 #include "rttbDvhBasedModels.h"
 #include "rttbDVHXMLFileReader.h"
 

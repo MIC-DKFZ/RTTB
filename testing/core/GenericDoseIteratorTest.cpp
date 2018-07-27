@@ -17,9 +17,7 @@
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbGenericDoseIterator.h"
-#include "DummyDoseAccessor.h"
 #include "DummyInhomogeneousDoseAccessor.h"
 #include "rttbInvalidParameterException.h"
 

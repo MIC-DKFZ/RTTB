@@ -15,15 +15,12 @@
 
 #include <vector>
 
-#include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbNearestNeighborInterpolation.h"
 #include "rttbLinearInterpolation.h"
-#include "rttbDicomDoseAccessor.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbNullPointerException.h"

@@ -15,17 +15,11 @@
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
 #include "rttbGenericDoseIterator.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbSimpleMappableDoseAccessor.h"
 #include "rttbNearestNeighborInterpolation.h"
-#include "rttbLinearInterpolation.h"
-#include "rttbGeometricInfo.h"
-#include "rttbTransformationInterface.h"
 #include "rttbMatchPointTransformation.h"
-
-#include "rttbNullPointerException.h"
 
 #include "registrationTest.h"
 #include "simpleRegistrationWorkflow.h"

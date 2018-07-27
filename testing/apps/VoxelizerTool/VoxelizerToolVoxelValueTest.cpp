@@ -13,12 +13,11 @@
 //
 //------------------------------------------------------------------------
 
-#include "litCheckMacros.h"
-#include <boost/filesystem.hpp>
 #include "itkImage.h"
 #include "itkImageFileReader.h"
-#include <vector>
+#include "litCheckMacros.h"
 #include <boost/assign/list_of.hpp>
+#include <boost/filesystem.hpp>
 
 /*! @brief VoxelizerToolTest5.
 Search the coordinate at the Image and return the Voxel(Pixel) value.

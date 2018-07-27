@@ -13,16 +13,10 @@
 //
 //------------------------------------------------------------------------
 
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
-
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
-#include "rttbDoseStatistics.h"
 #include "rttbDataNotAvailableException.h"
-
-#include "rttbVolumeToDoseMeasureCollection.h"
+#include "rttbDoseStatistics.h"
 
 namespace rttb
 {

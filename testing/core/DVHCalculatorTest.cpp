@@ -16,20 +16,17 @@
 // this file defines the rttbCoreTests for the test driver
 // and all it expects is that you have a function called RegisterTests
 
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
-
-#include "litCheckMacros.h"
-
-#include "rttbBaseType.h"
-#include "rttbDVHCalculator.h"
-#include "rttbGenericMaskedDoseIterator.h"
-#include "rttbGeometricInfo.h"
-#include "rttbGenericDoseIterator.h"
-#include "rttbNullPointerException.h"
-#include "rttbInvalidParameterException.h"
 #include "DummyDoseAccessor.h"
 #include "DummyMaskAccessor.h"
+#include "litCheckMacros.h"
+
+#include "rttbDVHCalculator.h"
+#include "rttbGenericDoseIterator.h"
+#include "rttbGenericMaskedDoseIterator.h"
+#include "rttbInvalidParameterException.h"
+#include "rttbNullPointerException.h"
+
+#include <boost/make_shared.hpp>
 
 namespace rttb
 {

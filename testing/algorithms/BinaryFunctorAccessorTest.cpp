@@ -14,17 +14,11 @@
 //------------------------------------------------------------------------
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include "litCheckMacros.h"
 
-#include "rttbBaseType.h"
-#include "rttbDoseAccessorInterface.h"
-#include "rttbDicomDoseAccessor.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbArithmetic.h"
-#include "rttbNullPointerException.h"
-#include "rttbInvalidParameterException.h"
 #include "rttbBinaryFunctorAccessor.h"
 
 namespace rttb

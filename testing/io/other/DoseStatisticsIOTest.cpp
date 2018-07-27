@@ -17,19 +17,13 @@
 // and all it expects is that you have a function called RegisterTests
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
-#include "litCheckMacros.h"
-
-#include "rttbDoseStatistics.h"
 #include "rttbDoseStatisticsCalculator.h"
 #include "rttbDoseStatisticsXMLWriter.h"
 #include "rttbDoseStatisticsXMLReader.h"
 #include "rttbGenericDoseIterator.h"
-#include "rttbDoseIteratorInterface.h"
 #include "rttbInvalidParameterException.h"
 #include "rttbNullPointerException.h"
 

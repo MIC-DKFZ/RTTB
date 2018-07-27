@@ -13,10 +13,10 @@
 //
 //------------------------------------------------------------------------
 
-#include <iostream>
 #include "litCheckMacros.h"
+
 #include <boost/filesystem.hpp>
-#include <vector>
+#include <iostream>
 
 /*! @brief VoxelizerToolTest.
 Tests a selection of structs.

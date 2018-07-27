@@ -17,15 +17,11 @@
 // and all it expects is that you have a function called RegisterTests
 
 #include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
 
-#include "litCheckMacros.h"
-
 #include "rttbGenericMaskedDoseIterator.h"
 #include "rttbGenericDoseIterator.h"
-#include "rttbDicomDoseAccessor.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomFileStructureSetGenerator.h"
 #include "rttbDVHCalculator.h"
