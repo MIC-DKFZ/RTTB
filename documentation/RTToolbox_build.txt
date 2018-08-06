@@ -58,7 +58,7 @@ The following components are needed:
 
 For Windows:
 
-To compile DCMTK with \c /MD flags (standard for all other libs), you need to patch the CMAKE options of DCMTK (PathToDCMTK\CMake\dcmtkPrepare.cmake), either by replacing \c "/MT" with \c "/MD" or by explicitly replacing lines 135 to 171 with the following lines:
+To compile DCMTK with \c /MD flags (standard for all other libs), you need to patch the CMAKE options of DCMTK (PathToDCMTK\CMake\dcmtkPrepare.cmake), either by replacing \c "/MT" with \c "/MD" or by explicitly replacing lines 253 to 283 with the following lines:
 
 \code{.cmake} 
 IF(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS AND NOT BUILD_SHARED_LIBS)
