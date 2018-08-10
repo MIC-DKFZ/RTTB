@@ -3,7 +3,7 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-SET(ITKIO_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbITKIOTests)
+SET(ITKIO_TEST ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}ITKIOTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 

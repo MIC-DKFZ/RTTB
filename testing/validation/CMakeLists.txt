@@ -3,7 +3,7 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-SET(CORE_TEST_VALIDATION ${EXECUTABLE_OUTPUT_PATH}/rttbValidationTests)
+SET(CORE_TEST_VALIDATION ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}ValidationTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/Temporary)
 

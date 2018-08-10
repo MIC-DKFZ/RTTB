@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------------
 
 
-SET(BIOMODELCALC_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbBioModelCalcTests)
+SET(BIOMODELCALC_TEST ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}BioModelCalcTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 

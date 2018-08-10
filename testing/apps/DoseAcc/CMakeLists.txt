@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------------
 
 
-SET(DOSEACC_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbDoseAccTests)
+SET(DOSEACC_TEST ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}DoseAccTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 

@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------------
 
 
-SET(INTERPOLATION_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbInterpolationTests)
+SET(INTERPOLATION_TESTS ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}InterpolationTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 

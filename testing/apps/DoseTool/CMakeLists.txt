@@ -3,7 +3,7 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-SET(DOSETOOL_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbDoseToolTests)
+SET(DOSETOOL_TEST ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}DoseToolTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 

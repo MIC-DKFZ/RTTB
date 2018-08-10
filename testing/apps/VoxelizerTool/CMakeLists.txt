@@ -3,7 +3,7 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-SET(VoxelizerTool_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbVoxelizerToolTests)
+SET(VoxelizerTool_TESTS ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}VoxelizerToolTests)
 SET(TEST_DATA ${RTToolbox_BINARY_DIR}/testing/apps/VoxelizerTool)
 
 IF (WIN32)

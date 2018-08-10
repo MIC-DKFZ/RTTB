@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------------
 
 
-SET(Boost_Mask_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbBoostMaskTests)
+SET(Boost_Mask_TESTS ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}BoostMaskTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
