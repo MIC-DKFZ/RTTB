@@ -37,7 +37,7 @@ namespace rttb
 			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored
 			*   and the mask will be calculated, however, it may cause errors in the mask results.
 			*/
-            class RTTBBoostMask_EXPORT MaskAccessor : public core::MaskAccessorInterface
+            class RTTBMask_EXPORT BoostMaskAccessor : public core::MaskAccessorInterface
 			{
 			public:
 				using MaskVoxelList = core::MaskAccessorInterface::MaskVoxelList;
