@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------------
 
 SET(MODELS_TESTS ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}ModelTests)
-SET(MODELS_HEADER_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbModelsHeaderTest)
+SET(MODELS_HEADER_TEST ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}ModelsHeaderTest)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
