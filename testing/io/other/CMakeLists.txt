@@ -3,7 +3,7 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-SET(OTHERIO_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbOtherIOTests)
+SET(OTHERIO_TEST ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}OtherIOTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 

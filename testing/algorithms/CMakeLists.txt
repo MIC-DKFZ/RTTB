@@ -4,8 +4,8 @@
 #-----------------------------------------------------------------------------
 
 
-SET(ALGORITHMS_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbAlgorithmsTests)
-SET(ALGORITHMS_HEADER_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbAlgorithmsHeaderTest)
+SET(ALGORITHMS_TESTS ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}AlgorithmsTests)
+SET(ALGORITHMS_HEADER_TEST ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}AlgorithmsHeaderTest)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 

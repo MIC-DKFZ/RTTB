@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------------
 
 
-SET(CORE_TEST_EXAMPLES ${EXECUTABLE_OUTPUT_PATH}/rttbExamplesTests)
+SET(CORE_TEST_EXAMPLES ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}ExamplesTests)
 SET(TEMP ${RTTBTesting_BINARY_DIR}/Temporary)
 
 

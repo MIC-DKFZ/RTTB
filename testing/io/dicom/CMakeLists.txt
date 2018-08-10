@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------------
 
 
-SET(DICOMIO_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbDicomIOTests)
+SET(DICOMIO_TEST ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}DicomIOTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 

@@ -3,7 +3,7 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-SET(INTERPOLATION_MP_TRANSFORMATION_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbInterpolationMPTransformationTests)
+SET(INTERPOLATION_MP_TRANSFORMATION_TESTS ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}InterpolationMPTransformationTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 

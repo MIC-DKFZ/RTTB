@@ -14,6 +14,7 @@ SET(RTToolbox_VERSION_PATCH "0")
 # enough to distinguish available features of the toolbox.
 SET(RTToolbox_VERSION_STRING "${RTToolbox_VERSION_MAJOR}.${RTToolbox_VERSION_MINOR}")
 SET(RTToolbox_FULL_VERSION_STRING "${RTToolbox_VERSION_MAJOR}.${RTToolbox_VERSION_MINOR}.${RTToolbox_VERSION_PATCH}")
+SET(RTToolbox_PREFIX "RTTB")
 
 # default build type
 SET(CMAKE_BUILD_TYPE Release)

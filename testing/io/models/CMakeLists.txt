@@ -3,7 +3,7 @@
 # information in case the test doesn't run.
 #-----------------------------------------------------------------------------
 
-SET(MODELSIO_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbModelsIOTests)
+SET(MODELSIO_TEST ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}ModelsIOTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 

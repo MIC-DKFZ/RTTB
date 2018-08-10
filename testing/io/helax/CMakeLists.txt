@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------------
 
 
-SET(HelaxIO_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbHelaxIOTests)
+SET(HelaxIO_TEST ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}HelaxIOTests)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 

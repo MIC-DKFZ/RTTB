@@ -4,8 +4,8 @@
 #-----------------------------------------------------------------------------
 
 
-SET(CORE_TESTS ${EXECUTABLE_OUTPUT_PATH}/rttbCoreTests)
-SET(CORE_HEADER_TEST ${EXECUTABLE_OUTPUT_PATH}/rttbCoreHeaderTest)
+SET(CORE_TESTS ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}CoreTests)
+SET(CORE_HEADER_TEST ${EXECUTABLE_OUTPUT_PATH}/${RTToolbox_PREFIX}CoreHeaderTest)
 
 SET(TEMP ${RTTBTesting_BINARY_DIR}/temporary)
 
