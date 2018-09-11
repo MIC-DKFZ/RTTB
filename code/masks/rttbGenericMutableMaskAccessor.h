@@ -50,7 +50,7 @@ namespace rttb
 		public:
 			~GenericMutableMaskAccessor() override;
 
-			GenericMutableMaskAccessor(const core::GeometricInfo& aGeometricInfo);
+      explicit GenericMutableMaskAccessor(const core::GeometricInfo& aGeometricInfo);
 
 			/*! @brief initialize mask structure if _spRelevantVoxelVector was not previously initialized*/
 			void updateMask() override;

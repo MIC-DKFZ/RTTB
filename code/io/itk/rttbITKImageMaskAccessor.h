@@ -66,7 +66,7 @@ namespace rttb
 
 				~ITKImageMaskAccessor() override;
 
-				ITKImageMaskAccessor(ITKMaskImageType::ConstPointer aMaskImage);
+        explicit ITKImageMaskAccessor(ITKMaskImageType::ConstPointer aMaskImage);
 
 				/*! @brief voxelization of the given structures according to the original RTToolbox algorithm*/
 				void updateMask() override;

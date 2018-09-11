@@ -33,7 +33,7 @@ namespace rttb
 		class RTTBCore_EXPORT InvalidParameterException : public Exception
 		{
 		public:
-			InvalidParameterException(const std::string& aWhat): Exception(aWhat) {}
+      explicit InvalidParameterException(const std::string& aWhat): Exception(aWhat) {}
 		};
 
 	}

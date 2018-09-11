@@ -48,7 +48,7 @@ namespace rttb
 				@pre aMaskImage must point to a valid instance.
 				@exception InvalidDoseException Thrown if aMaskImage is invalid.
 				*/
-				ITKImageMaskAccessorGenerator(const ITKImageMaskAccessor::ITKMaskImageType* aMaskImage);
+        explicit ITKImageMaskAccessorGenerator(const ITKImageMaskAccessor::ITKMaskImageType* aMaskImage);
 
 				/*! @brief Generate MaskAccessor
 				@return Return shared pointer of MaskAccessor.

@@ -33,7 +33,7 @@ namespace rttb
 			class ITKException: public core::Exception
 			{
 			public:
-				ITKException(const std::string& aWhat): Exception(aWhat) {}
+        explicit ITKException(const std::string& aWhat): Exception(aWhat) {}
 			};
 		}
 	}

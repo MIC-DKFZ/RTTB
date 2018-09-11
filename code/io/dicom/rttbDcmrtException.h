@@ -33,7 +33,7 @@ namespace rttb
 			class DcmrtException: public core::Exception
 			{
 			public:
-				DcmrtException(const std::string& aWhat): Exception(aWhat) {}
+				explicit DcmrtException(const std::string& aWhat): Exception(aWhat) {}
 			};
 		}
 	}

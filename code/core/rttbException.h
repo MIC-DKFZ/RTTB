@@ -33,7 +33,7 @@ namespace rttb
 		class RTTBCore_EXPORT Exception : public std::runtime_error
 		{
 		public:
-			Exception(const std::string& aWhat)
+			explicit Exception(const std::string& aWhat)
 				: runtime_error(aWhat)
 			{};
 		};

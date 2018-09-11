@@ -33,7 +33,7 @@ namespace rttb
 		class RTTBCore_EXPORT InvalidDoseException : public Exception
 		{
 		public:
-			InvalidDoseException(const std::string& aWhat): Exception(aWhat) {}
+      explicit InvalidDoseException(const std::string& aWhat): Exception(aWhat) {}
 		};
 
 	}

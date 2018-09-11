@@ -40,7 +40,7 @@ namespace rttb
 
 			TCPModel(): BioModel() {};
 
-			TCPModel(int aNum): BioModel(), _numberOfFractions(aNum) {};
+      explicit TCPModel(int aNum): BioModel(), _numberOfFractions(aNum) {};
 
 			TCPModel(core::DVH::Pointer aDvh, int aNum): BioModel(aDvh), _numberOfFractions(aNum) {};
 

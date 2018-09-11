@@ -47,7 +47,7 @@ namespace rttb
 	{
 	public:
 		UnsignedIndex3D() : boost::numeric::ublas::vector<UnsignedIndex1D>(3,0) {}
-		UnsignedIndex3D(const UnsignedIndex1D value) : boost::numeric::ublas::vector<UnsignedIndex1D>(3,
+		explicit UnsignedIndex3D(const UnsignedIndex1D value) : boost::numeric::ublas::vector<UnsignedIndex1D>(3,
 			        value) {}
 		UnsignedIndex3D(const UnsignedIndex1D  xValue, const UnsignedIndex1D  yValue,
 		                const UnsignedIndex1D  zValue)
@@ -109,7 +109,7 @@ namespace rttb
 	{
 	public:
 		WorldCoordinate3D() : boost::numeric::ublas::vector<WorldCoordinate>(3,0) {}
-		WorldCoordinate3D(const WorldCoordinate value) : boost::numeric::ublas::vector<WorldCoordinate>(3,
+		explicit WorldCoordinate3D(const WorldCoordinate value) : boost::numeric::ublas::vector<WorldCoordinate>(3,
 			        value) {}
 		WorldCoordinate3D(const WorldCoordinate xValue, const WorldCoordinate yValue,
 		                  const WorldCoordinate zValue)
@@ -237,7 +237,7 @@ namespace rttb
 	{
 	public:
 		SpacingVectorType3D() : boost::numeric::ublas::vector<GridVolumeType>(3,0) {}
-		SpacingVectorType3D(const GridVolumeType value) : boost::numeric::ublas::vector<GridVolumeType>(3,
+		explicit SpacingVectorType3D(const GridVolumeType value) : boost::numeric::ublas::vector<GridVolumeType>(3,
 			        value) 
 		{
 			if (value < 0) {
@@ -355,7 +355,7 @@ namespace rttb
 				(*this)(m, m) = 1;
 			}
 		}
-		OrientationMatrix(const WorldCoordinate value) : boost::numeric::ublas::matrix<WorldCoordinate>(3,
+		explicit OrientationMatrix(const WorldCoordinate value) : boost::numeric::ublas::matrix<WorldCoordinate>(3,
 			        3, value) {}
 
 		bool equalsAlmost(const OrientationMatrix& anOrientationMatrix, double errorConstantOM=1e-5) const
@@ -434,7 +434,7 @@ namespace rttb
 	{
 	public:
 		VoxelGridIndex3D() : boost::numeric::ublas::vector<GridIndexType>(3,0) {}
-		VoxelGridIndex3D(const GridIndexType value) : boost::numeric::ublas::vector<GridIndexType>(3,
+		explicit VoxelGridIndex3D(const GridIndexType value) : boost::numeric::ublas::vector<GridIndexType>(3,
 			        value) {}
 		VoxelGridIndex3D(const GridIndexType xValue, const GridIndexType yValue, const GridIndexType zValue)
 			: boost::numeric::ublas::vector<GridIndexType>(3, xValue)
@@ -503,7 +503,7 @@ namespace rttb
 	{
 	public:
 		VoxelGridIndex2D() : boost::numeric::ublas::vector<GridIndexType>(2,0) {}
-		VoxelGridIndex2D(const GridIndexType value) : boost::numeric::ublas::vector<GridIndexType>(2,
+		explicit VoxelGridIndex2D(const GridIndexType value) : boost::numeric::ublas::vector<GridIndexType>(2,
 			        value) {}
 		VoxelGridIndex2D(const GridIndexType xValue, const GridIndexType yValue)
 			: boost::numeric::ublas::vector<GridIndexType>(2, xValue)

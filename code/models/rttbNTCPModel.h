@@ -37,7 +37,7 @@ namespace rttb
 
 		public:
 			NTCPModel(): BioModel() {}
-			NTCPModel(const BioModelParamType aD50): BioModel(), _d50(aD50) {}
+      explicit NTCPModel(const BioModelParamType aD50): BioModel(), _d50(aD50) {}
 			NTCPModel(core::DVH::Pointer aDvh, const BioModelParamType aD50): BioModel(aDvh), _d50(aD50) {}
 
 			const BioModelParamType getD50()

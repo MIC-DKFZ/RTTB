@@ -33,7 +33,7 @@ namespace rttb
 		class RTTBCore_EXPORT DataNotAvailableException : public Exception
 		{
 		public:
-			DataNotAvailableException(const std::string& aWhat) : Exception(aWhat) {}
+			explicit DataNotAvailableException(const std::string& aWhat) : Exception(aWhat) {}
 		};
 
 	}

@@ -53,7 +53,7 @@ namespace rttb
 		public:
 			/*!  @brief Constructor with a DoseIterator this should be the default for all implementations.
 			*/
-			DoseIteratorInterface(DoseAccessorPointer aDoseAccessor);
+			explicit DoseIteratorInterface(DoseAccessorPointer aDoseAccessor);
 
 			virtual ~DoseIteratorInterface() = default;
 

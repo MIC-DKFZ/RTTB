@@ -31,7 +31,7 @@ namespace rttb
 		*/
 		class RTTBCore_EXPORT NullPointerException : public Exception {
 		public:
-			NullPointerException(const std::string& aWhat): Exception(aWhat) {}
+			explicit NullPointerException(const std::string& aWhat): Exception(aWhat) {}
 		};
 
 	}

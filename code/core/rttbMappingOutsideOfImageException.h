@@ -33,7 +33,7 @@ namespace rttb
 		class RTTBCore_EXPORT MappingOutsideOfImageException : public Exception
 		{
 		public:
-			MappingOutsideOfImageException(const std::string& aWhat): Exception(aWhat) {}
+      explicit MappingOutsideOfImageException(const std::string& aWhat): Exception(aWhat) {}
 		};
 
 	}

@@ -54,7 +54,7 @@ namespace rttb
 				/*! @brief Constructor. Initialisation with a directory name
 
 				*/
-				DicomHelaxFileDoseAccessorGenerator(FileNameType aDICOMRTDoseDirName);
+        explicit DicomHelaxFileDoseAccessorGenerator(FileNameType aDICOMRTDoseDirName);
 
 				/*! @brief Generate DoseAccessor
 				@return Return shared pointer of DoseAccessor.
