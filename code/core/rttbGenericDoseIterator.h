@@ -59,7 +59,7 @@ namespace rttb
 			/*! @brief Constructor
 				@param aDoseAccessor contains the corresponding dose data
 			*/
-			GenericDoseIterator(DoseAccessorPointer aDoseAccessor);
+			explicit GenericDoseIterator(DoseAccessorPointer aDoseAccessor);
 
 			/*! @brief Set the itterator to the start of the Dose.
 				@exception InvalidParameterException if a inhomogeneous grid is defined in the dose accessors, because

@@ -46,7 +46,7 @@ namespace rttb
 			public:
 				~ITKImageFileMaskAccessorGenerator() override;
 
-				ITKImageFileMaskAccessorGenerator(const FileNameType& fileName);
+        explicit ITKImageFileMaskAccessorGenerator(const FileNameType& fileName);
 
 				/*! @brief Generate MaskAccessor
 				@return Return shared pointer of MaskAccessor.

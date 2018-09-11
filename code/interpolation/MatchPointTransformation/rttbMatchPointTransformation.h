@@ -47,7 +47,7 @@ namespace rttb
 				@exception core::NullPointerException if one input parameter is nullptr
 				@exception core::PaddingException if the transformation is undefined and if _acceptPadding==false
 			*/
-			MatchPointTransformation(const Registration3D3DType* aRegistration);
+			explicit MatchPointTransformation(const Registration3D3DType* aRegistration);
 
 			~MatchPointTransformation() override = default;
 

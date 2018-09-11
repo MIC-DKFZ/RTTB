@@ -43,7 +43,7 @@ namespace rttb
 			public:
 				/*! @brief Constructor.
 				*/
-				DVHXMLFileReader(FileNameString aFileName);
+        explicit DVHXMLFileReader(FileNameString aFileName);
 
 				~DVHXMLFileReader();
 

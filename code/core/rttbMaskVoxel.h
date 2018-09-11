@@ -47,7 +47,7 @@ namespace rttb
 			/*! @brief Constructor
 				@pre aVoxelGridID needs to point to a valid grid position.
 			*/
-			MaskVoxel(const VoxelGridID& aVoxelGridID);
+      explicit MaskVoxel(const VoxelGridID& aVoxelGridID);
 
 			/*! @brief Constructor
 				@pre aVoxelGridID needs to point to a valid grid position.

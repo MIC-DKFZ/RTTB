@@ -52,7 +52,7 @@ namespace rttb
 				/*! @brief Constructor. Initialization with a boost shared pointer of DRTDoseIOD
 
 				*/
-				DicomIODDoseAccessorGenerator(DRTDoseIODPtr aDRTDoseIODP);
+        explicit DicomIODDoseAccessorGenerator(DRTDoseIODPtr aDRTDoseIODP);
 
 				/*! @brief Generate DoseAccessor
 				@return Return shared pointer of DoseAccessor.

@@ -117,7 +117,7 @@ namespace rttb
 			/*! @brief Constructor
 				@param aDoseIterator the dose to be analyzed
 			*/
-			DoseStatisticsCalculator(DoseIteratorPointer aDoseIterator);
+			explicit DoseStatisticsCalculator(DoseIteratorPointer aDoseIterator);
 
 			DoseIteratorPointer getDoseIterator() const;
 

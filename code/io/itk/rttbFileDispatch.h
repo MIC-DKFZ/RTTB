@@ -50,7 +50,7 @@ namespace rttb
 			FileNameString getFullName();
 			FileNameString getPath();
 
-			FileDispatch(const FileNameString& filePath);
+      explicit FileDispatch(const FileNameString& filePath);
 
 		private:
 			FileNameString _fileName;
