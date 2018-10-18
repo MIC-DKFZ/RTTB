@@ -51,7 +51,7 @@ namespace rttb
 				@pre aDoseImage must point to a valid instance.
 				@exception InvalidDoseException Thrown if aDoseImage is invalid.
 				*/
-				ITKImageAccessorGenerator(const ITKImageType* aDoseImage);
+        explicit ITKImageAccessorGenerator(const ITKImageType* aDoseImage);
 
 				/*! @brief Generate DoseAccessor
 				@return Return shared pointer of DoseAccessor.

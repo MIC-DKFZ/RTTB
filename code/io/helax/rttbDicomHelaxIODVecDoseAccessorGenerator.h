@@ -51,7 +51,7 @@ namespace rttb
 				/*! @brief Constructor. Initialisation with a vector of DRTDoseIOD pointers
 
 				*/
-				DicomHelaxIODVecDoseAccessorGenerator(std::vector<DRTDoseIODPtr>& aDICOMRTDoseVector);
+        explicit DicomHelaxIODVecDoseAccessorGenerator(std::vector<DRTDoseIODPtr>& aDICOMRTDoseVector);
 				/*! @brief Generate DoseAccessor
 				@return Return shared pointer of DoseAccessor.
 				@exception InvalidDoseException Thrown if any DRTDoseIOD pointer of _doseVector is invalid: one of column/row/numberOfFrames/doseGridScaling/pixelSpacing=0

@@ -29,7 +29,7 @@ namespace rttb
             */
 			class DoseStatisticsXMLReader{
 			public:
-				DoseStatisticsXMLReader(const std::string& filename);
+        explicit DoseStatisticsXMLReader(const std::string& filename);
 				~DoseStatisticsXMLReader();
 
 

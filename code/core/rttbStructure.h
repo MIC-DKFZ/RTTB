@@ -76,7 +76,7 @@ namespace rttb
 			/*! @brief Structure Constructor
 				uid will be randomly generated using boost::uuid library at first. To change the uid using setUID().
 			*/
-			Structure(PolygonSequenceType strVector);
+      explicit Structure(PolygonSequenceType strVector);
 
 			Structure(const Structure& copy);
 

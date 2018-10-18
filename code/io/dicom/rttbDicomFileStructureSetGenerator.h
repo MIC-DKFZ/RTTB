@@ -65,7 +65,7 @@ namespace rttb
 				@exception InvalidParameterException thrown if the file does not exist or the directory has no dicom structure file
 				@exception DcmrtException thrown if load and read file failed
 				*/
-				DicomFileStructureSetGenerator(DICOMRTFileNameString aDICOMRTStrSetFileName);
+        explicit DicomFileStructureSetGenerator(DICOMRTFileNameString aDICOMRTStrSetFileName);
 
 				/*! @brief Destructor
 				*/

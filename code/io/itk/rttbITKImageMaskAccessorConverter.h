@@ -47,7 +47,7 @@ namespace rttb
 					return _itkImage;
 				}
 
-				ITKImageMaskAccessorConverter(MaskAccessorPointer accessor);
+        explicit ITKImageMaskAccessorConverter(MaskAccessorPointer accessor);
 				~ITKImageMaskAccessorConverter() override = default;
 
 			private:

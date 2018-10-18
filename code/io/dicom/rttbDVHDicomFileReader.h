@@ -39,7 +39,7 @@ namespace rttb
 				/*! @brief DVHDicomFileReader Constructor
 				@param aFileName the dicom dvh file name
 				*/
-				DVHDicomFileReader(FileNameString aFileName);
+        explicit DVHDicomFileReader(FileNameString aFileName);
 
 				/*! @brief Set the dicom dvh file name (triggers data import)
 				@param aFileName the dicom dvh file name

@@ -31,7 +31,7 @@ namespace rttb
 		class PaddingException: public Exception
 		{
 		public:
-			PaddingException(const std::string& aWhat): Exception(aWhat) {}
+      explicit PaddingException(const std::string& aWhat): Exception(aWhat) {}
 		};
 
 	}

@@ -54,7 +54,7 @@ namespace rttb
 				@exception InvalidParameterException thrown if the file does not exist or the directory has no dicom dose file
 				@exception DcmrtException thrown if load and read file failed
 				*/
-				DicomFileDoseAccessorGenerator(FileNameType aDICOMRTDoseFileName);
+        explicit DicomFileDoseAccessorGenerator(FileNameType aDICOMRTDoseFileName);
 
 				/*! @brief Generate DoseAccessor
 				@return Return shared pointer of DoseAccessor.

@@ -47,7 +47,7 @@ namespace rttb
 					return _itkImage;
 				}
 
-				ITKImageAccessorConverter(DoseAccessorPointer accessor);
+        explicit ITKImageAccessorConverter(DoseAccessorPointer accessor);
 				~ITKImageAccessorConverter() override = default;
 
 			private:

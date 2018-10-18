@@ -61,7 +61,7 @@ namespace rttb
 				@pre image must be a valid instance (and !nullptr)
 				@note the doseImage pixels are assumed absolute
 				*/
-				ITKImageAccessor(ITKImageType::ConstPointer image);
+				explicit ITKImageAccessor(ITKImageType::ConstPointer image);
 
 				/*! @brief returns the dose for an id
 				*/

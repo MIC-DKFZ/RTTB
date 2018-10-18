@@ -33,7 +33,7 @@ namespace rttb
         class RTTBCore_EXPORT IndexOutOfBoundsException : public Exception
 		{
 		public:
-			IndexOutOfBoundsException(const std::string& aWhat): Exception(aWhat) {}
+			explicit IndexOutOfBoundsException(const std::string& aWhat): Exception(aWhat) {}
 		};
 
 	}
