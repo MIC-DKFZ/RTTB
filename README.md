@@ -43,11 +43,11 @@ Can be changed with advanced option `BUILD_SHARED_LIBS`
 
 #### Third party libraries
 
-* [boost](http://www.boost.org), version 1.64.0 or higher
-* [DCMTK](http://dicom.offis.de/dcmtk.php.en), with RT support - 3.6.1_20121102 or newer
-* [ITK](https://itk.org), version 4.4 or higher (*optional*)
+* [boost](http://www.boost.org ), version 1.64.0 or higher
+* [DCMTK](http://dicom.offis.de/dcmtk.php.en ), with RT support - 3.6.1_20121102 or newer
+* [ITK](https://itk.org ), version 4.4 or higher (*optional*)
   * for DoseInterpolation support with ITK transformation or ITK File IO support
-* [MatchPoint](http://mitk.org/download/thirdparty/MatchPoint_rev1610.tar.gz), version 0.12 or higher (*optional*)
+* [MatchPoint](http://mitk.org/download/thirdparty/MatchPoint_rev1610.tar.gz ), version 0.12 or higher (*optional*)
   * for DoseInterpolation support with MatchPoint registration objects
 
 :information_source: To make sure everything runs smoothly, please make sure that all libraries and the RTToolbox are either compiled with `/MD` or `/MT` flags.
@@ -65,6 +65,15 @@ The following components are needed:
 
 :information_source: eventually, it might be needed to add the CMake variable `BOOST_LIBRARY_dir` and set it to the respective library.
 
+For Windows:
+
+To build Boost open a command prompt, change to your boost source directory and copy following command(s):
+Debug:
+b2 -j12 --with-filesystem --with-system --with-thread --with-program_options --with-date_time --with-atomic --with-chrono toolset=msvc-14.1 address-model=64 variant=debug threading=multi link=shared define=_BIND_TO_CURRENT_VCLIBS_VERSION
+Release:
+b2 -j12 --with-filesystem --with-system --with-thread --with-program_options --with-date_time --with-atomic --with-chrono toolset=msvc-14.1 address-model=64 variant=release threading=multi link=shared
+
+If you don´t require `program_options` delete `--with-program_options` from the command before executing it.
 ##### DCMTK
 
 For Windows:
@@ -145,7 +154,7 @@ Build ITK with default options.
 
 ##### MatchPoint
 
-Build MatchPoint with default options.
+Configure MatchPoint. You need to disable BUILD_TESTING before building it.
 :warning: ensure that compiler enables C++11 features by setting `CMAKE_CXX_STANDARD=11` (default for supported compilers)
 
 :warning: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
@@ -176,7 +185,9 @@ Some modules of RT-Toolbox are mandatory (e.g. `RTTBCore`) and build automatical
 
 :information_source: if you build RTTB with VS dynamic, you must ensure that code that uses RTTB DLLs uses the same stl
 
-Set the third party library paths.
+Set DCMTK_DIR to your dcmtk binary file directory and DCMTK_SOURCE_DIR to your dcmtk source directory.
+If you want to build RT-Toolbox with ITK and/or MatchPoint set your ITK_DIR to your itk binary file directory and/or MatchPoint_DIR to your binary matchpoint directory.
+All directory entries left empty do not require a manual input.
 
 Finally, Generate the compilation files for your environment and built it.
 
