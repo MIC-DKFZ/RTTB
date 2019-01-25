@@ -56,6 +56,13 @@ int main(int argc, const char** argv)
 
 	rttb::apps::voxelizerTool::populateAppData(argParser, appData);
 
+	if (argParser->isSet(argParser->OPTION_ALL_STRUCTS))
+	{
+		appData._outputFilename = "output.nrrd";
+		appData._regEx = ".*";
+		appData._multipleStructs = true;
+	}
+
 	std::cout << std::endl << "*******************************************" << std::endl;
 	std::cout << "Struct file: " << appData._structFile << std::endl;
 	std::cout << "Reference Image: " << appData._referenceFile << std::endl;
