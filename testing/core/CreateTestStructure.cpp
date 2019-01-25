@@ -100,7 +100,7 @@ namespace rttb
                     sliceNumber);
 
                 WorldCoordinate3D p1;
-                _geoInfo.geometryCoordinateToWorldCoordinate(indexDouble, p1);
+                _geoInfo.continousIndexToWorldCoordinate(indexDouble, p1);
 
                 polygon.push_back(p1);
             }

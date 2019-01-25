@@ -140,7 +140,7 @@ namespace rttb
                 @note The conversion of values is done even if the target index is not inside the given voxel grid.
                 @returns false if aWorldCoordinate is outside the voxel grid, true otherwise.
 			*/
-			bool geometryCoordinateToWorldCoordinate(const ContinousVoxelGridIndex3D& aIndex,
+			bool continousIndexToWorldCoordinate(const ContinousVoxelGridIndex3D& aIndex,
 			        WorldCoordinate3D& aWorldCoordinate) const;
 
 			/*! @brief convert voxel grid index to world coordinates

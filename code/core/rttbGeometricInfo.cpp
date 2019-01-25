@@ -181,7 +181,7 @@ namespace rttb
 		}
 
 
-		bool GeometricInfo::geometryCoordinateToWorldCoordinate(const ContinousVoxelGridIndex3D& aIndex,
+		bool GeometricInfo::continousIndexToWorldCoordinate(const ContinousVoxelGridIndex3D& aIndex,
 		        WorldCoordinate3D& aWorldCoordinate)
 		const
 		{
@@ -216,7 +216,7 @@ namespace rttb
 		{
 			ContinousVoxelGridIndex3D indexDouble = ContinousVoxelGridIndex3D(aIndex(0), aIndex(1),
 			                                     aIndex(2));
-			return geometryCoordinateToWorldCoordinate(indexDouble, aWorldCoordinate);
+			return continousIndexToWorldCoordinate(indexDouble, aWorldCoordinate);
 		}
 
 		bool GeometricInfo::isInside(const VoxelGridIndex3D& aIndex) const
