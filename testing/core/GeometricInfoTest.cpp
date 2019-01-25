@@ -267,16 +267,16 @@ namespace rttb
 			CHECK(!(geoInfo.isInside(testInside)));
 
             WorldCoordinate3D testWorldCoordinate;
-            DoubleVoxelGridIndex3D testDoubleIndex;
+			ContinousVoxelGridIndex3D testDoubleIndex;
 
-			DoubleVoxelGridIndex3D doubleIndex1 = DoubleVoxelGridIndex3D(0.1, 0, -0.3);
+			ContinousVoxelGridIndex3D doubleIndex1 = ContinousVoxelGridIndex3D(0.1, 0, -0.3);
 			const WorldCoordinate3D expectedDoubleIndex1(20.1, 100, -1000.3);
-			DoubleVoxelGridIndex3D doubleIndex2 = DoubleVoxelGridIndex3D(11, 6, 15); //outside
+			ContinousVoxelGridIndex3D doubleIndex2 = ContinousVoxelGridIndex3D(11, 6, 15); //outside
 			const WorldCoordinate3D expectedDoubleIndex2(31, 106, -985);
-			DoubleVoxelGridIndex3D doubleIndex3 = DoubleVoxelGridIndex3D(10.1, 5.0,
+			ContinousVoxelGridIndex3D doubleIndex3 = ContinousVoxelGridIndex3D(10.1, 5.0,
 			                                      3.0); // outside: Grid dimension = [10,5,3]
 			const WorldCoordinate3D expectedDoubleIndex3(30.1, 105, -997);
-			DoubleVoxelGridIndex3D doubleIndex4 = DoubleVoxelGridIndex3D(0.0, 0.0, 0.0);
+			ContinousVoxelGridIndex3D doubleIndex4 = ContinousVoxelGridIndex3D(0.0, 0.0, 0.0);
 			const WorldCoordinate3D expectedDoubleIndex4 = geoInfo.getImagePositionPatient();
 
 			//test double index to world coordinate
@@ -368,17 +368,17 @@ namespace rttb
             OrientationMatrix OMOnes;
             geoInfoSimple.setOrientationMatrix(OMOnes);
 
-            const DoubleVoxelGridIndex3D doubleIndexPixelOutside1 = DoubleVoxelGridIndex3D(-0.501, 0.0, 0.0);
-            const DoubleVoxelGridIndex3D doubleIndexPixelOutside2 = DoubleVoxelGridIndex3D(0.0, 9.501, 0.0);
-            const DoubleVoxelGridIndex3D doubleIndexPixelZero1 = DoubleVoxelGridIndex3D(0.0, 0.0, 0.0);
-            const DoubleVoxelGridIndex3D doubleIndexPixelZero2 = DoubleVoxelGridIndex3D(-0.5, -0.5, -0.5);
-            const DoubleVoxelGridIndex3D doubleIndexPixelZero3 = DoubleVoxelGridIndex3D(0.499999, 0.499999, 0.499999);
-            const DoubleVoxelGridIndex3D doubleIndexPixelOne1 = DoubleVoxelGridIndex3D(1.0, 0.0, 0.0);
-            const DoubleVoxelGridIndex3D doubleIndexPixelOne2 = DoubleVoxelGridIndex3D(0.5, 0.499999, 0.499999);
-            const DoubleVoxelGridIndex3D doubleIndexPixelOne3 = DoubleVoxelGridIndex3D(1.49, -0.5, -0.5);
-            const DoubleVoxelGridIndex3D doubleIndexPixelLast1 = DoubleVoxelGridIndex3D(9.0, 9.0, 9.0);
-            const DoubleVoxelGridIndex3D doubleIndexPixelLast2 = DoubleVoxelGridIndex3D(9.4999, 9.4999, 9.4999);
-            const DoubleVoxelGridIndex3D doubleIndexPixelLast3 = DoubleVoxelGridIndex3D(8.501, 8.501, 8.501);
+            const ContinousVoxelGridIndex3D doubleIndexPixelOutside1 = ContinousVoxelGridIndex3D(-0.501, 0.0, 0.0);
+            const ContinousVoxelGridIndex3D doubleIndexPixelOutside2 = ContinousVoxelGridIndex3D(0.0, 9.501, 0.0);
+            const ContinousVoxelGridIndex3D doubleIndexPixelZero1 = ContinousVoxelGridIndex3D(0.0, 0.0, 0.0);
+            const ContinousVoxelGridIndex3D doubleIndexPixelZero2 = ContinousVoxelGridIndex3D(-0.5, -0.5, -0.5);
+            const ContinousVoxelGridIndex3D doubleIndexPixelZero3 = ContinousVoxelGridIndex3D(0.499999, 0.499999, 0.499999);
+            const ContinousVoxelGridIndex3D doubleIndexPixelOne1 = ContinousVoxelGridIndex3D(1.0, 0.0, 0.0);
+            const ContinousVoxelGridIndex3D doubleIndexPixelOne2 = ContinousVoxelGridIndex3D(0.5, 0.499999, 0.499999);
+            const ContinousVoxelGridIndex3D doubleIndexPixelOne3 = ContinousVoxelGridIndex3D(1.49, -0.5, -0.5);
+            const ContinousVoxelGridIndex3D doubleIndexPixelLast1 = ContinousVoxelGridIndex3D(9.0, 9.0, 9.0);
+            const ContinousVoxelGridIndex3D doubleIndexPixelLast2 = ContinousVoxelGridIndex3D(9.4999, 9.4999, 9.4999);
+            const ContinousVoxelGridIndex3D doubleIndexPixelLast3 = ContinousVoxelGridIndex3D(8.501, 8.501, 8.501);
 
             const VoxelGridIndex3D indexPixelOutside = VoxelGridIndex3D(11, 0, 0);
             const VoxelGridIndex3D indexPixelZero = VoxelGridIndex3D(0, 0, 0);

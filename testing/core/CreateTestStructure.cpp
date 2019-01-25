@@ -96,7 +96,7 @@ namespace rttb
             for (size_t i = 0; i < aVoxelVector.size(); i++)
             {
                 VoxelGridIndex3D voxelIndex;
-                DoubleVoxelGridIndex3D indexDouble = DoubleVoxelGridIndex3D((aVoxelVector.at(i)).x(), (aVoxelVector.at(i)).y(),
+				ContinousVoxelGridIndex3D indexDouble = ContinousVoxelGridIndex3D((aVoxelVector.at(i)).x(), (aVoxelVector.at(i)).y(),
                     sliceNumber);
 
                 WorldCoordinate3D p1;

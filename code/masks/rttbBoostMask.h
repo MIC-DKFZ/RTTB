@@ -159,8 +159,8 @@ namespace rttb
 				*	@return Return true if the polygon is planar, which means that the minimal and maximal z-coordinate of the polygon is not larger than a error constant
 				*/
 				bool preprocessingPolygon(const rttb::PolygonType& aRTTBPolygon,
-				                          rttb::PolygonType& geometryCoordinatePolygon, rttb::DoubleVoxelGridIndex3D& minimum,
-				                          rttb::DoubleVoxelGridIndex3D& maximum, double aErrorConstant) const;
+				                          rttb::PolygonType& geometryCoordinatePolygon, rttb::ContinousVoxelGridIndex3D& minimum,
+				                          rttb::ContinousVoxelGridIndex3D& maximum, double aErrorConstant) const;
 
 				/*! @brief Convert a rttb 3d polygon to a 2d boost ring*/
 				BoostRing2D convertRTTBPolygonToBoostRing(const rttb::PolygonType& aRTTBPolygon) const;

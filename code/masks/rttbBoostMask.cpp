@@ -88,9 +88,9 @@ namespace rttb
 				//Convert world coordinate polygons to the polygons with geometry coordinate
 				rttb::PolygonSequenceType geometryCoordinatePolygonVector;
 				rttb::PolygonSequenceType::iterator it;
-				rttb::DoubleVoxelGridIndex3D globalMaxGridIndex(std::numeric_limits<double>::min(),
+				rttb::ContinousVoxelGridIndex3D globalMaxGridIndex(std::numeric_limits<double>::min(),
 				        std::numeric_limits<double>::min(), std::numeric_limits<double>::min());
-				rttb::DoubleVoxelGridIndex3D globalMinGridIndex(_geometricInfo->getNumColumns(),
+				rttb::ContinousVoxelGridIndex3D globalMinGridIndex(_geometricInfo->getNumColumns(),
 				        _geometricInfo->getNumRows(), 0);
 
 				for (it = polygonSequence.begin(); it != polygonSequence.end(); ++it)
@@ -226,8 +226,8 @@ namespace rttb
 			}
 
 			bool BoostMask::preprocessingPolygon(const rttb::PolygonType& aRTTBPolygon,
-			                                     rttb::PolygonType& geometryCoordinatePolygon, rttb::DoubleVoxelGridIndex3D& minimum,
-			                                     rttb::DoubleVoxelGridIndex3D& maximum, double aErrorConstant) const
+			                                     rttb::PolygonType& geometryCoordinatePolygon, rttb::ContinousVoxelGridIndex3D& minimum,
+			                                     rttb::ContinousVoxelGridIndex3D& maximum, double aErrorConstant) const
 			{
 
 				double minZ = _geometricInfo->getNumSlices();
@@ -236,7 +236,7 @@ namespace rttb
 				for (auto worldCoordinatePoint : aRTTBPolygon)
 				{
 						//convert to geometry coordinate polygon
-					rttb::DoubleVoxelGridIndex3D geometryCoordinatePoint;
+					rttb::ContinousVoxelGridIndex3D geometryCoordinatePoint;
 					_geometricInfo->worldCoordinateToGeometryCoordinate(worldCoordinatePoint, geometryCoordinatePoint);
 
 					geometryCoordinatePolygon.push_back(geometryCoordinatePoint);

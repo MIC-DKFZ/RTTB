@@ -137,7 +137,7 @@ namespace rttb
 		}
 
 		bool GeometricInfo::worldCoordinateToGeometryCoordinate(const WorldCoordinate3D& aWorldCoordinate,
-		        DoubleVoxelGridIndex3D& aIndex)
+			ContinousVoxelGridIndex3D& aIndex)
 		const
 		{
 			WorldCoordinate3D distanceToIP;
@@ -150,9 +150,9 @@ namespace rttb
 			boost::numeric::ublas::vector<WorldCoordinate> resultS = boost::numeric::ublas::element_div(result,
 			        _spacing);
 
-			aIndex = DoubleVoxelGridIndex3D(resultS(0), resultS(1), resultS(2));
+			aIndex = ContinousVoxelGridIndex3D(resultS(0), resultS(1), resultS(2));
 
-            //if we convert DoubleVoxelGridIndex3D (double) to VoxelGridIndex3D (unsigned int), we can't find out if it's negative. 
+            //if we convert ContinousVoxelGridIndex3D (double) to VoxelGridIndex3D (unsigned int), we can't find out if it's negative. 
             //So we have to check before.
             if (aIndex(0) < -0.5 || aIndex(1) < -0.5 || aIndex(2) < -0.5){
                 return false;
@@ -171,7 +171,7 @@ namespace rttb
 		        VoxelGridIndex3D& aIndex)
 		const
 		{
-			DoubleVoxelGridIndex3D doubleIndex;
+			ContinousVoxelGridIndex3D doubleIndex;
 			bool inside = worldCoordinateToGeometryCoordinate(aWorldCoordinate, doubleIndex);
 
 			aIndex = VoxelGridIndex3D(GridIndexType(doubleIndex(0)+0.5), GridIndexType(doubleIndex(1)+0.5),
@@ -181,7 +181,7 @@ namespace rttb
 		}
 
 
-		bool GeometricInfo::geometryCoordinateToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
+		bool GeometricInfo::geometryCoordinateToWorldCoordinate(const ContinousVoxelGridIndex3D& aIndex,
 		        WorldCoordinate3D& aWorldCoordinate)
 		const
 		{
@@ -196,7 +196,7 @@ namespace rttb
 
 			aWorldCoordinate = result + _imagePositionPatient;
 
-            //if we convert DoubleVoxelGridIndex3D (double) to VoxelGridIndex3D (unsigned int), we can't find out if it's negative. 
+            //if we convert ContinousVoxelGridIndex3D (double) to VoxelGridIndex3D (unsigned int), we can't find out if it's negative. 
             //So we have to check before.
             if (aIndex(0) < -0.5 || aIndex(1) < -0.5 || aIndex(2) < -0.5){
                 return false;
@@ -214,7 +214,7 @@ namespace rttb
 		        WorldCoordinate3D& aWorldCoordinate)
 		const
 		{
-			DoubleVoxelGridIndex3D indexDouble = DoubleVoxelGridIndex3D(aIndex(0), aIndex(1),
+			ContinousVoxelGridIndex3D indexDouble = ContinousVoxelGridIndex3D(aIndex(0), aIndex(1),
 			                                     aIndex(2));
 			return geometryCoordinateToWorldCoordinate(indexDouble, aWorldCoordinate);
 		}
