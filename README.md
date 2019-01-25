@@ -185,8 +185,11 @@ Some modules of RT-Toolbox are mandatory (e.g. `RTTBCore`) and build automatical
 
 :information_source: if you build RTTB with VS dynamic, you must ensure that code that uses RTTB DLLs uses the same stl
 
+
 Set DCMTK_DIR to your dcmtk binary file directory and DCMTK_SOURCE_DIR to your dcmtk source directory.
+
 If you want to build RT-Toolbox with ITK and/or MatchPoint set your ITK_DIR to your itk binary file directory and/or MatchPoint_DIR to your binary matchpoint directory.
+
 All directory entries left empty do not require a manual input.
 
 Finally, Generate the compilation files for your environment and built it.
