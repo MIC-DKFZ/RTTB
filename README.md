@@ -63,7 +63,7 @@ The following components are needed:
 * `program_options` 
   * if you plan to build the apps (*optional*)
 
-:information_source: eventually, it might be needed to add the CMake variable `BOOST_LIBRARY_dir` and set it to the respective library.
+:information_source: eventually, it might be needed to add the CMake variable `BOOST_LIBRARY_DIR` and set it to the respective library.
 
 For Windows:
 
@@ -163,7 +163,7 @@ Configure MatchPoint. You need to disable BUILD_TESTING before building it.
 ### Building RT-Toolbox
 
 * Configure with CMake
-* Set `BOOST_INCLUDE_DIR` and `BOOST_DIR` to the main boost directory (where `boost_build.jam` is located). Eventually, you have to set `BOOST_LIBRARYDIR`
+* Set `BOOST_INCLUDE_DIR` and `BOOST_DIR` to the main boost directory (where `boost_build.jam` is located). Eventually, you have to set `BOOST_LIBRARY_DIR` to pathToMainBoostDirectory/stage/lib.
 * Select all packages you like to build (Parameters `BUILD_*` ; e.g. `BUILD_IO_Dicom`). 
   * `BUILD_IO_Dicom`: Reading and writing of DICOM-RT files
   * `BUILD_IO_HELAX`: Reading of Helax DICOM files
