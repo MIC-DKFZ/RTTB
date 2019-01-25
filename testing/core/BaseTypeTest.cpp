@@ -23,7 +23,7 @@ namespace rttb
 	{
 
 		/*! @brief BaseTypeTests - tests the API for the classes in baseType
-		1) UnsignedIndex3D
+		1) Index3D
     2) WorldCoordinate3D
     3) SpacingVectorType3D
     4) OrientationMatrix 
@@ -34,27 +34,27 @@ namespace rttb
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
-      //1)  UnsignedIndex3D
-      CHECK_NO_THROW(UnsignedIndex3D ui);
-      UnsignedIndex3D emptyUnsignedIndex3D;
+      //1)  Index3D
+      CHECK_NO_THROW(Index3D ui);
+      Index3D emptyUnsignedIndex3D;
       CHECK_EQUAL(emptyUnsignedIndex3D.x(), 0);
       CHECK_EQUAL(emptyUnsignedIndex3D.y(), 0);
       CHECK_EQUAL(emptyUnsignedIndex3D.z(), 0);
 
-      CHECK_NO_THROW(UnsignedIndex3D ui(5));
-      UnsignedIndex3D sameValueUnsignedIndex(5);
+      CHECK_NO_THROW(Index3D ui(5));
+      Index3D sameValueUnsignedIndex(5);
       CHECK_EQUAL(sameValueUnsignedIndex.x(), 5);
       CHECK_EQUAL(sameValueUnsignedIndex.y(), 5);
       CHECK_EQUAL(sameValueUnsignedIndex.z(), 5);
 
-      CHECK_NO_THROW(UnsignedIndex3D ui(5, 8, 42));
-      UnsignedIndex3D differentValueUnsignedIndex(5, 8, 42);
+      CHECK_NO_THROW(Index3D ui(5, 8, 42));
+      Index3D differentValueUnsignedIndex(5, 8, 42);
       CHECK_EQUAL(differentValueUnsignedIndex.x(), 5);
       CHECK_EQUAL(differentValueUnsignedIndex.y(), 8);
       CHECK_EQUAL(differentValueUnsignedIndex.z(), 42);
 
-      UnsignedIndex3D threeDimensionalUnsignedIndexSame(5, 8, 42);
-      UnsignedIndex3D threeDimensionalUnsignedIndexDifferent(1, 2, 3);
+      Index3D threeDimensionalUnsignedIndexSame(5, 8, 42);
+      Index3D threeDimensionalUnsignedIndexDifferent(1, 2, 3);
 
       CHECK(differentValueUnsignedIndex == threeDimensionalUnsignedIndexSame);
       CHECK_EQUAL(differentValueUnsignedIndex == threeDimensionalUnsignedIndexDifferent, false);
