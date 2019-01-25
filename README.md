@@ -54,6 +54,10 @@ Can be changed with advanced option `BUILD_SHARED_LIBS`
 
 ##### Boost
 
+In case you work with Windows, we recommend using the pre-build versions of boost (see https://sourceforge.net/projects/boost/files/boost-binaries/ ).
+
+If you want to build the library yourself, consider the following:
+
 Build (using the same compiler options as RTToolbox, usually `STATIC LINKING` and `x64` architecture). 
 The following components are needed: 
 
@@ -63,7 +67,7 @@ The following components are needed:
 * `program_options` 
   * if you plan to build the apps (*optional*)
 
-:information_source: eventually, it might be needed to add the CMake variable `BOOST_LIBRARY_dir` and set it to the respective library.
+:information_source: eventually, it might be needed to add the CMake variable `BOOST_LIBRARYDIR` and set it to the respective library path of boost.
 
 ##### DCMTK
 
@@ -154,7 +158,7 @@ Build MatchPoint with default options.
 ### Building RT-Toolbox
 
 * Configure with CMake
-* Set `BOOST_INCLUDE_DIR` and `BOOST_DIR` to the main boost directory (where `boost_build.jam` is located). Eventually, you have to set `BOOST_LIBRARYDIR`
+* Set `BOOST_INCLUDE_DIR` to the main boost directory. Eventually set `BOOST_LIBRARYDIR` to the respective path (e.g. `<boost_directory>/lib64-msvc-14.1\` for Visual Studio 2017 and 64-bit)
 * Select all packages you like to build (Parameters `BUILD_*` ; e.g. `BUILD_IO_Dicom`). 
   * `BUILD_IO_Dicom`: Reading and writing of DICOM-RT files
   * `BUILD_IO_HELAX`: Reading of Helax DICOM files
@@ -174,7 +178,7 @@ Some modules of RT-Toolbox are mandatory (e.g. `RTTBCore`) and build automatical
 		
 :information_source: enabling `BUILD_All_Modules` builds all modules (except Apps and Testing modules).
 
-:information_source: if you build RTTB with VS dynamic, you must ensure that code that uses RTTB DLLs uses the same stl
+:information_source: if you build RTTB with VS dynamic, you must ensure that code that uses RTTB DLLs uses the same STL
 
 Set the third party library paths.
 
