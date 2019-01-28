@@ -36,30 +36,30 @@ namespace rttb
 
       //1)  Index3D
       CHECK_NO_THROW(Index3D ui);
-      Index3D emptyUnsignedIndex3D;
-      CHECK_EQUAL(emptyUnsignedIndex3D.x(), 0);
-      CHECK_EQUAL(emptyUnsignedIndex3D.y(), 0);
-      CHECK_EQUAL(emptyUnsignedIndex3D.z(), 0);
+      Index3D emptyIndex3D;
+      CHECK_EQUAL(emptyIndex3D.x(), 0);
+      CHECK_EQUAL(emptyIndex3D.y(), 0);
+      CHECK_EQUAL(emptyIndex3D.z(), 0);
 
       CHECK_NO_THROW(Index3D ui(5));
-      Index3D sameValueUnsignedIndex(5);
-      CHECK_EQUAL(sameValueUnsignedIndex.x(), 5);
-      CHECK_EQUAL(sameValueUnsignedIndex.y(), 5);
-      CHECK_EQUAL(sameValueUnsignedIndex.z(), 5);
+      Index3D sameValueIndex(5);
+      CHECK_EQUAL(sameValueIndex.x(), 5);
+      CHECK_EQUAL(sameValueIndex.y(), 5);
+      CHECK_EQUAL(sameValueIndex.z(), 5);
 
       CHECK_NO_THROW(Index3D ui(5, 8, 42));
-      Index3D differentValueUnsignedIndex(5, 8, 42);
-      CHECK_EQUAL(differentValueUnsignedIndex.x(), 5);
-      CHECK_EQUAL(differentValueUnsignedIndex.y(), 8);
-      CHECK_EQUAL(differentValueUnsignedIndex.z(), 42);
+      Index3D differentValueIndex(5, 8, 42);
+      CHECK_EQUAL(differentValueIndex.x(), 5);
+      CHECK_EQUAL(differentValueIndex.y(), 8);
+      CHECK_EQUAL(differentValueIndex.z(), 42);
 
-      Index3D threeDimensionalUnsignedIndexSame(5, 8, 42);
-      Index3D threeDimensionalUnsignedIndexDifferent(1, 2, 3);
+      Index3D threeDimensionalIndexSame(5, 8, 42);
+      Index3D threeDimensionalIndexDifferent(1, 2, 3);
 
-      CHECK(differentValueUnsignedIndex == threeDimensionalUnsignedIndexSame);
-      CHECK_EQUAL(differentValueUnsignedIndex == threeDimensionalUnsignedIndexDifferent, false);
-      CHECK_EQUAL(differentValueUnsignedIndex == sameValueUnsignedIndex, false);
-      CHECK_EQUAL(emptyUnsignedIndex3D == sameValueUnsignedIndex, false);
+      CHECK(differentValueIndex == threeDimensionalIndexSame);
+      CHECK_EQUAL(differentValueIndex == threeDimensionalIndexDifferent, false);
+      CHECK_EQUAL(differentValueIndex == sameValueIndex, false);
+      CHECK_EQUAL(emptyIndex3D == sameValueIndex, false);
 
       //2) WorldCoordinate3D
       CHECK_NO_THROW(WorldCoordinate3D wc);
@@ -231,7 +231,7 @@ namespace rttb
 
       CHECK_EQUAL(vgiValueDifferent.toString(), "2 3 5");
 
-      CHECK_NO_THROW(vgiValueDifferent = threeDimensionalUnsignedIndexSame);
+      CHECK_NO_THROW(vgiValueDifferent = threeDimensionalIndexSame);
       CHECK_EQUAL(vgiValueDifferent.x(), 5);
       CHECK_EQUAL(vgiValueDifferent.y(), 8);
       CHECK_EQUAL(vgiValueDifferent.z(), 42);
