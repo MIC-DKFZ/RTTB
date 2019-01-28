@@ -84,7 +84,7 @@ namespace rttb
 
 		const ImageSize GeometricInfo::getImageSize() const
 		{
-			return ImageSize(static_cast<UnsignedIndex1D>(getNumColumns()), static_cast<UnsignedIndex1D>(getNumRows()), static_cast<UnsignedIndex1D>(getNumSlices()));
+			return ImageSize(static_cast<Index1D>(getNumColumns()), static_cast<Index1D>(getNumRows()), static_cast<Index1D>(getNumSlices()));
 		}
 
 		void GeometricInfo::setNumColumns(const VoxelGridDimensionType aValue)

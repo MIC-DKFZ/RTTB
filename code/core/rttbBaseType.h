@@ -38,34 +38,34 @@ namespace rttb
 	const double errorConstant = 1e-5;
 	const double reducedErrorConstant = 0.0001;
 
-	using UnsignedIndex1D = unsigned short;
+	using Index1D = unsigned short;
 
 	/*! @class Index3D
 		@brief 3D index.
 	*/
-	class Index3D: public boost::numeric::ublas::vector<UnsignedIndex1D>
+	class Index3D: public boost::numeric::ublas::vector<Index1D>
 	{
 	public:
-		Index3D() : boost::numeric::ublas::vector<UnsignedIndex1D>(3,0) {}
-		explicit Index3D(const UnsignedIndex1D value) : boost::numeric::ublas::vector<UnsignedIndex1D>(3,
+		Index3D() : boost::numeric::ublas::vector<Index1D>(3,0) {}
+		explicit Index3D(const Index1D value) : boost::numeric::ublas::vector<Index1D>(3,
 			        value) {}
-		Index3D(const UnsignedIndex1D  xValue, const UnsignedIndex1D  yValue,
-		                const UnsignedIndex1D  zValue)
-			: boost::numeric::ublas::vector<UnsignedIndex1D >(3, xValue)
+		Index3D(const Index1D  xValue, const Index1D  yValue,
+		                const Index1D  zValue)
+			: boost::numeric::ublas::vector<Index1D >(3, xValue)
 		{
 			(*this)(1) = yValue;
 			(*this)(2) = zValue;
 		}
 
-		const UnsignedIndex1D x() const
+		const Index1D x() const
 		{
 			return (*this)(0);
 		}
-		const UnsignedIndex1D y() const
+		const Index1D y() const
 		{
 			return (*this)(1);
 		}
-		const UnsignedIndex1D z() const
+		const Index1D z() const
 		{
 			return (*this)(2);
 		}
@@ -94,7 +94,7 @@ namespace rttb
 		}
 	};
 
-	using UnsignedIndexList = std::list<Index3D>;
+	using IndexList = std::list<Index3D>;
 
 	using FileNameString = std::string;
 
