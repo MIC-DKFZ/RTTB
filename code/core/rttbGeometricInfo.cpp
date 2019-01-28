@@ -136,7 +136,7 @@ namespace rttb
 			        && getNumRows() == another.getNumRows() && getNumSlices() == another.getNumSlices());
 		}
 
-		bool GeometricInfo::worldCoordinateToGeometryCoordinate(const WorldCoordinate3D& aWorldCoordinate,
+		bool GeometricInfo::worldCoordinateToContinousIndex(const WorldCoordinate3D& aWorldCoordinate,
 			ContinousVoxelGridIndex3D& aIndex)
 		const
 		{
@@ -172,7 +172,7 @@ namespace rttb
 		const
 		{
 			ContinousVoxelGridIndex3D doubleIndex;
-			bool inside = worldCoordinateToGeometryCoordinate(aWorldCoordinate, doubleIndex);
+			bool inside = worldCoordinateToContinousIndex(aWorldCoordinate, doubleIndex);
 
 			aIndex = VoxelGridIndex3D(GridIndexType(doubleIndex(0)+0.5), GridIndexType(doubleIndex(1)+0.5),
 			                          GridIndexType(doubleIndex(2)+0.5));

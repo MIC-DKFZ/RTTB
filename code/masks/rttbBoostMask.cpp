@@ -237,7 +237,7 @@ namespace rttb
 				{
 						//convert to geometry coordinate polygon
 					rttb::ContinousVoxelGridIndex3D geometryCoordinatePoint;
-					_geometricInfo->worldCoordinateToGeometryCoordinate(worldCoordinatePoint, geometryCoordinatePoint);
+					_geometricInfo->worldCoordinateToContinousIndex(worldCoordinatePoint, geometryCoordinatePoint);
 
 					geometryCoordinatePolygon.push_back(geometryCoordinatePoint);
 

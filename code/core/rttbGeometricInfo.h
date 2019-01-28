@@ -128,7 +128,7 @@ namespace rttb
                 @note The conversion of values is done even if the target index is not inside the given voxel grid.
                 @returns false if aWorldCoordinate is outside the voxel grid, true otherwise.
 			*/
-			bool worldCoordinateToGeometryCoordinate(const WorldCoordinate3D& aWorldCoordinate,
+			bool worldCoordinateToContinousIndex(const WorldCoordinate3D& aWorldCoordinate,
 				ContinousVoxelGridIndex3D& aIndex) const;
 
 			/*! @brief converts double geometry coordinate to world coordinates. 

@@ -34,7 +34,7 @@ namespace rttb
 			9) test equalsAlmost
 			10) test world to index coordinate conversion
 			11) test isInside and index to world coordinate conversion
-            12) test with simple Geometry: isInside, continousIndexToWorldCoordinate(), worldCoordinateToGeometryCoordinate(), indexToWorldCoordinate()
+            12) test with simple Geometry: isInside, continousIndexToWorldCoordinate(), worldCoordinateToContinousIndex(), indexToWorldCoordinate()
 			13) test getNumberOfVoxels
 			14) Test convert, validID and validIndex
 		*/
@@ -289,15 +289,15 @@ namespace rttb
 			geoInfo.continousIndexToWorldCoordinate(doubleIndex4, testWorldCoordinate);
 			CHECK_EQUAL(testWorldCoordinate, expectedDoubleIndex4);
 
-			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex4, testDoubleIndex);
+			geoInfo.worldCoordinateToContinousIndex(expectedDoubleIndex4, testDoubleIndex);
 			CHECK_EQUAL(testDoubleIndex, doubleIndex4);
-			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex3, testDoubleIndex);
+			geoInfo.worldCoordinateToContinousIndex(expectedDoubleIndex3, testDoubleIndex);
 			CHECK_CLOSE(testDoubleIndex(0), doubleIndex3(0), errorConstant);
 			CHECK_CLOSE(testDoubleIndex(1), doubleIndex3(1), errorConstant);
 			CHECK_CLOSE(testDoubleIndex(2), doubleIndex3(2), errorConstant);
-			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex2, testDoubleIndex);
+			geoInfo.worldCoordinateToContinousIndex(expectedDoubleIndex2, testDoubleIndex);
 			CHECK_EQUAL(testDoubleIndex, doubleIndex2);
-			geoInfo.worldCoordinateToGeometryCoordinate(expectedDoubleIndex1, testDoubleIndex);
+			geoInfo.worldCoordinateToContinousIndex(expectedDoubleIndex1, testDoubleIndex);
 			CHECK_CLOSE(testDoubleIndex(0), doubleIndex1(0), errorConstant);
 			CHECK_CLOSE(testDoubleIndex(1), doubleIndex1(1), errorConstant);
 			CHECK_CLOSE(testDoubleIndex(2), doubleIndex1(2), errorConstant);
@@ -359,7 +359,7 @@ namespace rttb
 			CHECK(!(geoInfo.isInside(testInside)));
 			CHECK_EQUAL(expectedIndex4, testInside);
 
-            //12) test with simple Geometry: isInside, continousIndexToWorldCoordinate(), worldCoordinateToGeometryCoordinate(), indexToWorldCoordinate()
+            //12) test with simple Geometry: isInside, continousIndexToWorldCoordinate(), worldCoordinateToContinousIndex(), indexToWorldCoordinate()
             core::GeometricInfo geoInfoSimple;
             ImageSize rttbSimpleSize = ImageSize(10, 10, 10);
             geoInfoSimple.setImageSize(rttbSimpleSize);
@@ -431,35 +431,35 @@ namespace rttb
             CHECK_EQUAL(testWorldCoordinate, worldCoordinatePixelLast3);
             CHECK(isInside);
 
-            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinateOutside1, testDoubleIndex);
+            isInside = geoInfoSimple.worldCoordinateToContinousIndex(worldCoordinateOutside1, testDoubleIndex);
             CHECK(!isInside);
-            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinateOutside2, testDoubleIndex);
+            isInside = geoInfoSimple.worldCoordinateToContinousIndex(worldCoordinateOutside2, testDoubleIndex);
             CHECK(!isInside);
-            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelZero1, testDoubleIndex);
+            isInside = geoInfoSimple.worldCoordinateToContinousIndex(worldCoordinatePixelZero1, testDoubleIndex);
             CHECK_EQUAL(testDoubleIndex, doubleIndexPixelZero1);
             CHECK(isInside);
-            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelZero2, testDoubleIndex);
+            isInside = geoInfoSimple.worldCoordinateToContinousIndex(worldCoordinatePixelZero2, testDoubleIndex);
             CHECK_EQUAL(testDoubleIndex, doubleIndexPixelZero2);
             CHECK(isInside);
-            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelZero3, testDoubleIndex);
+            isInside = geoInfoSimple.worldCoordinateToContinousIndex(worldCoordinatePixelZero3, testDoubleIndex);
             CHECK_EQUAL(testDoubleIndex, doubleIndexPixelZero3);
             CHECK(isInside);
-            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelOne1, testDoubleIndex);
+            isInside = geoInfoSimple.worldCoordinateToContinousIndex(worldCoordinatePixelOne1, testDoubleIndex);
             CHECK_EQUAL(testDoubleIndex, doubleIndexPixelOne1);
             CHECK(isInside);
-            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelOne2, testDoubleIndex);
+            isInside = geoInfoSimple.worldCoordinateToContinousIndex(worldCoordinatePixelOne2, testDoubleIndex);
             CHECK_EQUAL(testDoubleIndex, doubleIndexPixelOne2);
             CHECK(isInside);
-            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelOne3, testDoubleIndex);
+            isInside = geoInfoSimple.worldCoordinateToContinousIndex(worldCoordinatePixelOne3, testDoubleIndex);
             CHECK_EQUAL(testDoubleIndex, doubleIndexPixelOne3);
             CHECK(isInside);
-            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelLast1, testDoubleIndex);
+            isInside = geoInfoSimple.worldCoordinateToContinousIndex(worldCoordinatePixelLast1, testDoubleIndex);
             CHECK_EQUAL(testDoubleIndex, doubleIndexPixelLast1);
             CHECK(isInside);
-            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelLast2, testDoubleIndex);
+            isInside = geoInfoSimple.worldCoordinateToContinousIndex(worldCoordinatePixelLast2, testDoubleIndex);
             CHECK_EQUAL(testDoubleIndex, doubleIndexPixelLast2);
             CHECK(isInside);
-            isInside = geoInfoSimple.worldCoordinateToGeometryCoordinate(worldCoordinatePixelLast3, testDoubleIndex);
+            isInside = geoInfoSimple.worldCoordinateToContinousIndex(worldCoordinatePixelLast3, testDoubleIndex);
             CHECK_EQUAL(testDoubleIndex, doubleIndexPixelLast3);
             CHECK(isInside);
 
