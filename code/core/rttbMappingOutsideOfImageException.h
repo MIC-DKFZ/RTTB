@@ -20,8 +20,6 @@
 
 #include "rttbException.h"
 
-#include "RTTBCoreExports.h"
-
 namespace rttb
 {
 	namespace core
@@ -30,7 +28,7 @@ namespace rttb
 		/*! @class MappingOutsideOfImageException
 			@brief This exception will be thrown if a transformation leads to an invalid position outside of the image.
 		*/
-		class RTTBCore_EXPORT MappingOutsideOfImageException : public Exception
+		class MappingOutsideOfImageException : public Exception
 		{
 		public:
       explicit MappingOutsideOfImageException(const std::string& aWhat): Exception(aWhat) {}

@@ -19,8 +19,6 @@
 #include <string>
 #include "rttbException.h"
 
-#include "RTTBCoreExports.h"
-
 namespace rttb
 {
 	namespace core
@@ -29,7 +27,7 @@ namespace rttb
 		/*! @class NullPointerException
 			@brief This exception will be thrown if any pointer is nullptr.
 		*/
-		class RTTBCore_EXPORT NullPointerException : public Exception {
+		class NullPointerException : public Exception {
 		public:
 			explicit NullPointerException(const std::string& aWhat): Exception(aWhat) {}
 		};
