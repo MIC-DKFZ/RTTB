@@ -20,8 +20,6 @@
 
 #include "rttbException.h"
 
-#include "RTTBCoreExports.h"
-
 namespace rttb
 {
 	namespace core
@@ -30,7 +28,7 @@ namespace rttb
 		/*! @class DataNotAvailableException
 			@brief This exception will be thrown if the requested data is not available.
 		*/
-		class RTTBCore_EXPORT DataNotAvailableException : public Exception
+		class DataNotAvailableException : public Exception
 		{
 		public:
 			explicit DataNotAvailableException(const std::string& aWhat) : Exception(aWhat) {}

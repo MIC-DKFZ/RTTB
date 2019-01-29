@@ -19,8 +19,6 @@
 #include <string>
 #include <stdexcept>
 
-#include "RTTBCoreExports.h"
-
 namespace rttb
 {
 	namespace core
@@ -30,7 +28,7 @@ namespace rttb
 			@brief Exception interface used by all RTToolbox exceptions.
 		*/
 
-		class RTTBCore_EXPORT Exception : public std::runtime_error
+		class Exception : public std::runtime_error
 		{
 		public:
 			explicit Exception(const std::string& aWhat)
