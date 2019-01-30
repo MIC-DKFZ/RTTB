@@ -17,7 +17,7 @@ ELSE()
 	SET(Boost_USE_STATIC_LIBS OFF)
 ENDIF()
 find_package(Boost REQUIRED COMPONENTS program_options)
-include_directories(${Boost_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
 add_subdirectory(${MAIN_DIR})
