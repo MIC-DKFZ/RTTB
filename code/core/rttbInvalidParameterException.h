@@ -20,8 +20,6 @@
 
 #include "rttbException.h"
 
-#include "RTTBCoreExports.h"
-
 namespace rttb
 {
 	namespace core
@@ -30,7 +28,7 @@ namespace rttb
 		/*! @class InvalidParameterException
 			@brief This exception will be thrown if any parameter is invalid.
 		*/
-		class RTTBCore_EXPORT InvalidParameterException : public Exception
+		class InvalidParameterException : public Exception
 		{
 		public:
       explicit InvalidParameterException(const std::string& aWhat): Exception(aWhat) {}
