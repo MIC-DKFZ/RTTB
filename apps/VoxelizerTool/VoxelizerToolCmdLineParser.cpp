@@ -43,8 +43,8 @@ namespace rttb
 				addPositionalOption(OPTION_REFERENCE_FILE, 1);
 				addPositionalOption(OPTION_OUTPUT_FILE_NAME, 1);
 				
-				addOption<std::string>(OPTION_REGEX, OPTION_GROUP_REQUIRED,
-					"set a regular expression describing the structs of interest",'e', true);
+				addOptionWithDefaultValue<std::string>(OPTION_REGEX, OPTION_GROUP_REQUIRED,
+					"set a regular expression describing the structs of interest",".*",".*",'e', true);
                 addInformationForXML(OPTION_REGEX, cmdlineparsing::XMLGenerator::paramType::STRING);
 
 				
