@@ -96,11 +96,11 @@ namespace rttb
             for (size_t i = 0; i < aVoxelVector.size(); i++)
             {
                 VoxelGridIndex3D voxelIndex;
-				ContinousVoxelGridIndex3D indexDouble = ContinousVoxelGridIndex3D((aVoxelVector.at(i)).x(), (aVoxelVector.at(i)).y(),
+				ContinuousVoxelGridIndex3D indexDouble = ContinuousVoxelGridIndex3D((aVoxelVector.at(i)).x(), (aVoxelVector.at(i)).y(),
                     sliceNumber);
 
                 WorldCoordinate3D p1;
-                _geoInfo.continousIndexToWorldCoordinate(indexDouble, p1);
+                _geoInfo.continuousIndexToWorldCoordinate(indexDouble, p1);
 
                 polygon.push_back(p1);
             }

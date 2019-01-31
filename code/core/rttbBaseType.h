@@ -223,7 +223,7 @@ namespace rttb
 	};
 
     /* ! @brief continuous index */
-	using ContinousVoxelGridIndex3D = rttb::WorldCoordinate3D;
+	using ContinuousVoxelGridIndex3D = rttb::WorldCoordinate3D;
 
 	using ImageSize = rttb::Index3D;
 
