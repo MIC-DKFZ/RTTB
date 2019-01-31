@@ -58,9 +58,17 @@ int main(int argc, const char** argv)
 
 	if (argParser->isSet(argParser->OPTION_ALL_STRUCTS))
 	{
-		appData._outputFilename = "output.nrrd";
-		appData._regEx = ".*";
-		appData._multipleStructs = true;
+		if (appData._outputFilename == "out.hdr")
+		{
+			appData._outputFilename = "output.nrrd";
+		}
+		if (appData._multipleStructs == false || appData._regEx != ".*")
+		{
+			std::cout << std::endl << "WARNING: MultipleStructs will be turned on and struct regex will be generalized!" << std::endl;
+			appData._multipleStructs = true;
+			appData._regEx = ".*";
+		}
+
 	}
 
 	std::cout << std::endl << "*******************************************" << std::endl;
