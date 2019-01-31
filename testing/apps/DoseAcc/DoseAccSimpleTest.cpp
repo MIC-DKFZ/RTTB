@@ -50,7 +50,8 @@ namespace rttb
                 referenceFilename = argv[4];
 			}
 
-            std::string doseAccExeWithPath = callingPath.parent_path().string() + "/" + doseAccExecutable;
+			auto doseAccExecutablePath = callingPath.parent_path() / doseAccExecutable;
+			std::string doseAccExeWithPath = doseAccExecutablePath.string();
 
 			std::string defaultOutputFilename = "doseAccOutput.nrrd";
 
