@@ -38,38 +38,38 @@ namespace rttb
 	const double errorConstant = 1e-5;
 	const double reducedErrorConstant = 0.0001;
 
-	using UnsignedIndex1D = unsigned short;
+	using Index1D = unsigned short;
 
-	/*! @class UnsignedIndex3D
+	/*! @class Index3D
 		@brief 3D index.
 	*/
-	class UnsignedIndex3D: public boost::numeric::ublas::vector<UnsignedIndex1D>
+	class Index3D: public boost::numeric::ublas::vector<Index1D>
 	{
 	public:
-		UnsignedIndex3D() : boost::numeric::ublas::vector<UnsignedIndex1D>(3,0) {}
-		explicit UnsignedIndex3D(const UnsignedIndex1D value) : boost::numeric::ublas::vector<UnsignedIndex1D>(3,
+		Index3D() : boost::numeric::ublas::vector<Index1D>(3,0) {}
+		explicit Index3D(const Index1D value) : boost::numeric::ublas::vector<Index1D>(3,
 			        value) {}
-		UnsignedIndex3D(const UnsignedIndex1D  xValue, const UnsignedIndex1D  yValue,
-		                const UnsignedIndex1D  zValue)
-			: boost::numeric::ublas::vector<UnsignedIndex1D >(3, xValue)
+		Index3D(const Index1D  xValue, const Index1D  yValue,
+		                const Index1D  zValue)
+			: boost::numeric::ublas::vector<Index1D >(3, xValue)
 		{
 			(*this)(1) = yValue;
 			(*this)(2) = zValue;
 		}
 
-		const UnsignedIndex1D x() const
+		const Index1D x() const
 		{
 			return (*this)(0);
 		}
-		const UnsignedIndex1D y() const
+		const Index1D y() const
 		{
 			return (*this)(1);
 		}
-		const UnsignedIndex1D z() const
+		const Index1D z() const
 		{
 			return (*this)(2);
 		}
-		friend bool operator==(const UnsignedIndex3D& gi1, const UnsignedIndex3D& gi2)
+		friend bool operator==(const Index3D& gi1, const Index3D& gi2)
 		{
 			if (gi1.size() != gi2.size())
 			{
@@ -87,14 +87,14 @@ namespace rttb
 			return true;
 		}
 
-		friend std::ostream& operator<<(std::ostream& s, const UnsignedIndex3D& aVector)
+		friend std::ostream& operator<<(std::ostream& s, const Index3D& aVector)
 		{
 			s << "[ " << aVector(0) << ", " << aVector(1) << ", " << aVector(2) << " ]";
 			return s;
 		}
 	};
 
-	using UnsignedIndexList = std::list<UnsignedIndex3D>;
+	using IndexList = std::list<Index3D>;
 
 	using FileNameString = std::string;
 
@@ -223,9 +223,9 @@ namespace rttb
 	};
 
     /* ! @brief continuous index */
-	using DoubleVoxelGridIndex3D = rttb::WorldCoordinate3D;
+	using ContinuousVoxelGridIndex3D = rttb::WorldCoordinate3D;
 
-	using ImageSize = rttb::UnsignedIndex3D;
+	using ImageSize = rttb::Index3D;
 
 	using GridVolumeType = double;
 
@@ -462,7 +462,7 @@ namespace rttb
       return s;
 		}
 
-		VoxelGridIndex3D& operator=(const UnsignedIndex3D& ui)
+		VoxelGridIndex3D& operator=(const Index3D& ui)
 		{
 			(*this)(0) = ui(0);
 			(*this)(1) = ui(1);
