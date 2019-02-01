@@ -43,8 +43,8 @@ namespace rttb
 				addPositionalOption(OPTION_REFERENCE_FILE, 1);
 				addPositionalOption(OPTION_OUTPUT_FILE_NAME, 1);
 				
-				addOption<std::string>(OPTION_REGEX, OPTION_GROUP_REQUIRED,
-					"set a regular expression describing the structs of interest",'e', true);
+				addOptionWithDefaultValue<std::string>(OPTION_REGEX, OPTION_GROUP_REQUIRED,
+					"set a regular expression describing the structs of interest",".*",".*",'e', true);
                 addInformationForXML(OPTION_REGEX, cmdlineparsing::XMLGenerator::paramType::STRING);
 
 				
@@ -70,6 +70,8 @@ namespace rttb
                 addOption(OPTION_NO_STRICT_VOXELIZATION, OPTION_GROUP_OPTIONAL,
 					"Deviations of wrong voxel volumes are tolerated and corrected.",'i');
                 addInformationForXML(OPTION_NO_STRICT_VOXELIZATION, cmdlineparsing::XMLGenerator::paramType::BOOLEAN);
+				addOption(OPTION_ALL_STRUCTS, OPTION_GROUP_OPTIONAL, "Voxelizes all structures in a struct file",'f');
+				addInformationForXML(OPTION_ALL_STRUCTS, cmdlineparsing::XMLGenerator::paramType::BOOLEAN);
 
 				parse(argc, argv);
 			}

@@ -41,6 +41,7 @@ namespace rttb
 				_binaryVoxelization = false;
 				_addStructures = false;
 				_noStrictVoxelization = false;
+				_allStructs = false;
 			}
 
 			void populateAppData(boost::shared_ptr<VoxelizerCmdLineParser> argParser, ApplicationData& appData)
@@ -80,6 +81,11 @@ namespace rttb
 				if (argParser->isSet(argParser->OPTION_NO_STRICT_VOXELIZATION))
 				{
 					appData._noStrictVoxelization = true;
+				}
+
+				if (argParser->isSet(argParser->OPTION_ALL_STRUCTS))
+				{
+					appData._allStructs = true;
 				}
 			}
 		}
