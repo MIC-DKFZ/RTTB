@@ -83,6 +83,12 @@ namespace rttb
 				CHECK_EQUAL(returnValue, 0);
 			}
 
+			std::string allStructsCommand = voxelizerToolExeWithPath + " -s \"" + structFile + "\"";
+			allStructsCommand += " -r \"" + referenceFile + "\" -f";
+			int allStructsReturnValue = system(allStructsCommand.c_str());
+			std::cout << "Command line call: " + allStructsCommand << std::endl;
+			CHECK_EQUAL(allStructsReturnValue, 0);
+
 			for (size_t i = 0; i < filenames.size(); i++)
 			{
 				const std::string HDRfileName = tempDirectory + "/" + filenames.at(i) + ".hdr";
