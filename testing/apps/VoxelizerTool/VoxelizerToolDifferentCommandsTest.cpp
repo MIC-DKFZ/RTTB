@@ -50,8 +50,8 @@ namespace rttb
 			}
 
 			std::vector<std::string> commands;
-			commands.push_back("\"Niere.*\" -m -o Test.hdr");
-			commands.push_back("\"Rueckenmark\" -o Boolean.hdr -z");
+			commands.push_back("\"Niere.*\" -m -o Test.nrrd");
+			commands.push_back("\"Rueckenmark\" -o BooleanNRRD -z");
 
 			std::vector<std::string> filenames;
 			filenames.push_back("Test_Niere li");
@@ -85,20 +85,20 @@ namespace rttb
 
 			for (size_t i = 0; i < filenames.size(); i++)
 			{
-				const std::string HDRfileName = tempDirectory + "/" + filenames.at(i) + ".hdr";
-				boost::filesystem::path HDRFile(HDRfileName);
+				const std::string NRRDfileName = tempDirectory + "/" + filenames.at(i) + ".nrrd";
+				boost::filesystem::path NRRDFile(NRRDfileName);
 
 				const std::string IMGfileName = tempDirectory + "/" + filenames.at(i) + ".img";
 				boost::filesystem::path IMGFile(IMGfileName);
 
-				CHECK_EQUAL(boost::filesystem::exists(HDRFile), true);
+				CHECK_EQUAL(boost::filesystem::exists(NRRDFile), true);
 				CHECK_EQUAL(boost::filesystem::exists(IMGFile), true);
 
         //check voxel values
-        if (boost::filesystem::exists(HDRFile))
+        if (boost::filesystem::exists(NRRDFile))
         {
           ReaderType::Pointer reader = ReaderType::New();
-          reader->SetFileName(HDRfileName);
+          reader->SetFileName(NRRDfileName);
           reader->Update();
 
           ReaderType::OutputImageType::ConstPointer image = reader->GetOutput();
@@ -117,9 +117,9 @@ namespace rttb
 					boost::filesystem::remove(IMGFile);
 				}
 
-				if (boost::filesystem::exists(HDRFile))
+				if (boost::filesystem::exists(NRRDFile))
 				{
-					boost::filesystem::remove(HDRFile);
+					boost::filesystem::remove(NRRDFile);
 				}
 			}
 

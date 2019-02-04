@@ -35,8 +35,8 @@ namespace rttb
 			std::string structFile;
 			std::string referenceFile;
 
-			boost::filesystem::path HDRFile(tempDirectory);
-			HDRFile /= "outputSingleStruct.hdr";
+			boost::filesystem::path NRRDFile(tempDirectory);
+			NRRDFile /= "outputSingleStruct.nrrd";
 
 			boost::filesystem::path IMGFile(tempDirectory);
 			IMGFile /= "outputSingleStruct.img";
@@ -56,7 +56,7 @@ namespace rttb
 			std::string baseCommand = voxelizerToolExeWithPath;
 			baseCommand += " -s \"" + structFile + "\"";
 			baseCommand += " -r \"" + referenceFile + "\"";
-			baseCommand += " -o outputSingleStruct.hdr";
+			baseCommand += " -o outputSingleStruct.nrrd";
 			baseCommand += " -y itkDicom";
 			baseCommand += " -e \"";
 
@@ -66,15 +66,15 @@ namespace rttb
 
 			CHECK_EQUAL(returnValue, 0);
 
-			CHECK_EQUAL(boost::filesystem::exists(HDRFile), true);
+			CHECK_EQUAL(boost::filesystem::exists(NRRDFile), true);
 			CHECK_EQUAL(boost::filesystem::exists(IMGFile), true);
 
 
 
 			baseCommand = voxelizerToolExeWithPath;
 			baseCommand += " -s \"" + structFile + "\"";
-			baseCommand += " -r \"" + HDRFile.string() + "\"";
-			baseCommand += " -o outputSingleStruct.hdr";
+			baseCommand += " -r \"" + NRRDFile.string() + "\"";
+			baseCommand += " -o outputSingleStruct.nrrd";
 			baseCommand += " -y itk";
 			baseCommand += " -e \"";
 
@@ -88,8 +88,8 @@ namespace rttb
 				boost::filesystem::remove(IMGFile);
 			}
 
-			if (boost::filesystem::exists(HDRFile)) {
-				boost::filesystem::remove(HDRFile);
+			if (boost::filesystem::exists(NRRDFile)) {
+				boost::filesystem::remove(NRRDFile);
 			}
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

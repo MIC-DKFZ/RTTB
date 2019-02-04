@@ -58,7 +58,7 @@ int main(int argc, const char** argv)
 
 	if (argParser->isSet(argParser->OPTION_ALL_STRUCTS))
 	{
-		if (appData._outputFilename == "out.hdr")
+		if (appData._outputFilename == "out.nrrd")
 		{
 			appData._outputFilename = "output.nrrd";
 		}
