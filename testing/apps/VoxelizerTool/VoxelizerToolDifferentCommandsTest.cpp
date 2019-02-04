@@ -51,7 +51,7 @@ namespace rttb
 
 			std::vector<std::string> commands;
 			commands.push_back("\"Niere.*\" -m -o Test.nrrd");
-			commands.push_back("\"Rueckenmark\" -o BooleanNRRD -z");
+			commands.push_back("\"Rueckenmark\" -o Boolean.nrrd -z");
 
 			std::vector<std::string> filenames;
 			filenames.push_back("Test_Niere li");
@@ -88,33 +88,24 @@ namespace rttb
 				const std::string NRRDfileName = tempDirectory + "/" + filenames.at(i) + ".nrrd";
 				boost::filesystem::path NRRDFile(NRRDfileName);
 
-				const std::string IMGfileName = tempDirectory + "/" + filenames.at(i) + ".img";
-				boost::filesystem::path IMGFile(IMGfileName);
-
 				CHECK_EQUAL(boost::filesystem::exists(NRRDFile), true);
-				CHECK_EQUAL(boost::filesystem::exists(IMGFile), true);
 
-        //check voxel values
-        if (boost::filesystem::exists(NRRDFile))
-        {
-          ReaderType::Pointer reader = ReaderType::New();
-          reader->SetFileName(NRRDfileName);
-          reader->Update();
-
-          ReaderType::OutputImageType::ConstPointer image = reader->GetOutput();
-
-          ImageType::PixelType voxelValueInside = image->GetPixel(voxelsToTestInside.at(i).first);
-          ImageType::PixelType expectedVoxelValueInside = voxelsToTestInside.at(i).second;
-          CHECK_EQUAL(voxelValueInside, expectedVoxelValueInside);
-
-          ImageType::PixelType voxelValueOutside = image->GetPixel(voxelsToTestOutside.at(i).first);
-          ImageType::PixelType expectedVoxelValueOutside = voxelsToTestOutside.at(i).second;
-          CHECK_EQUAL(voxelValueOutside, expectedVoxelValueOutside);
-        }
-
-				if (boost::filesystem::exists(IMGFile))
+				//check voxel values
+				if (boost::filesystem::exists(NRRDFile))
 				{
-					boost::filesystem::remove(IMGFile);
+				  ReaderType::Pointer reader = ReaderType::New();
+				  reader->SetFileName(NRRDfileName);
+				  reader->Update();
+
+				  ReaderType::OutputImageType::ConstPointer image = reader->GetOutput();
+
+				  ImageType::PixelType voxelValueInside = image->GetPixel(voxelsToTestInside.at(i).first);
+				  ImageType::PixelType expectedVoxelValueInside = voxelsToTestInside.at(i).second;
+				  CHECK_EQUAL(voxelValueInside, expectedVoxelValueInside);
+
+				  ImageType::PixelType voxelValueOutside = image->GetPixel(voxelsToTestOutside.at(i).first);
+				  ImageType::PixelType expectedVoxelValueOutside = voxelsToTestOutside.at(i).second;
+				  CHECK_EQUAL(voxelValueOutside, expectedVoxelValueOutside);
 				}
 
 				if (boost::filesystem::exists(NRRDFile))

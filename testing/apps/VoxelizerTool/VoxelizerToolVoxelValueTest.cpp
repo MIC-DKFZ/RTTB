@@ -85,10 +85,8 @@ namespace rttb
 			            0.265865)(0.819613);
 
 			std::string filenameNRRDWithVoxelization = tempDirectory + "/testOutputVoxelValue.nrrd";
-			std::string filenameIMGWithVoxelization = tempDirectory + "/testOutputVoxelValue.img";
 
 			CHECK(boost::filesystem::exists(filenameNRRDWithVoxelization));
-			CHECK(boost::filesystem::exists(filenameIMGWithVoxelization));
 
 			if (boost::filesystem::exists(filenameNRRDWithVoxelization))
 			{
@@ -114,11 +112,6 @@ namespace rttb
 				}
                 
 				boost::filesystem::remove(filenameNRRDWithVoxelization);
-
-				if (boost::filesystem::exists(filenameIMGWithVoxelization))
-				{
-					boost::filesystem::remove(filenameIMGWithVoxelization);
-				}
 			}
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

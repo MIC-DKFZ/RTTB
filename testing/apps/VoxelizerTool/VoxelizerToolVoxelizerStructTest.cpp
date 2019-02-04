@@ -38,9 +38,6 @@ namespace rttb
 			boost::filesystem::path NRRDFile(tempDirectory);
 			NRRDFile /= "outputSingleStruct.nrrd";
 
-			boost::filesystem::path IMGFile(tempDirectory);
-			IMGFile /= "outputSingleStruct.img";
-
 			if (argc > 4) {
 				voxelizerToolExe = argv[1];
 				tempDirectory = argv[2];
@@ -67,9 +64,6 @@ namespace rttb
 			CHECK_EQUAL(returnValue, 0);
 
 			CHECK_EQUAL(boost::filesystem::exists(NRRDFile), true);
-			CHECK_EQUAL(boost::filesystem::exists(IMGFile), true);
-
-
 
 			baseCommand = voxelizerToolExeWithPath;
 			baseCommand += " -s \"" + structFile + "\"";
@@ -83,10 +77,6 @@ namespace rttb
 			returnValue = system(command.c_str());
 
 			CHECK_EQUAL(returnValue, 0);
-
-			if (boost::filesystem::exists(IMGFile)) {
-				boost::filesystem::remove(IMGFile);
-			}
 
 			if (boost::filesystem::exists(NRRDFile)) {
 				boost::filesystem::remove(NRRDFile);

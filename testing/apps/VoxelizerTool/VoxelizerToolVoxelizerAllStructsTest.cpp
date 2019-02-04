@@ -70,21 +70,9 @@ namespace rttb
 				boost::filesystem::path NRRDFile(tempDirectory);
 				NRRDFile /= "outputAllStructs.nrrd";
 
-				boost::filesystem::path IMGFile(tempDirectory);
-				IMGFile /= "outputAllStructs.img";
-
 				CHECK_EQUAL(
 				    boost::filesystem::exists(NRRDFile),
 				    true);
-				CHECK_EQUAL(
-				    boost::filesystem::exists(IMGFile),
-				    true);
-
-
-				if (boost::filesystem::exists(IMGFile))
-				{
-					boost::filesystem::remove(IMGFile);
-				}
 
 				if (boost::filesystem::exists(NRRDFile))
 				{
