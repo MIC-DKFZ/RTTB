@@ -144,11 +144,11 @@ namespace rttb
 			for (size_t i = 0; i < structnames.size(); i++)
 			{
 				const std::string structName = tempDirectory + "/output_" + structnames.at(i) + ".nrrd";
-				boost::filesystem::path structFile(structName);
-				CHECK_EQUAL(boost::filesystem::exists(structFile), true);
-				if (boost::filesystem::exists(structFile))
+				boost::filesystem::path structFilePath(structName);
+				CHECK_EQUAL(boost::filesystem::exists(structFilePath), true);
+				if (boost::filesystem::exists(structFilePath))
 				{
-					boost::filesystem::remove(structFile);
+					boost::filesystem::remove(structFilePath);
 				}
 			}
 
