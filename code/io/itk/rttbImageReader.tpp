@@ -167,20 +167,20 @@ namespace rttb
 
 				if (strippedFileName.empty())
 				{
-					std::cerr << "No file name specified. Use first DICOM series found in directory." << std::endl;
+					std::cout << "No file name specified. Use first DICOM series found in directory." << std::endl;
 					fileNames = nameGenerator->GetInputFileNames();
 				}
 				else
 				{
 					::itk::SerieUIDContainer seriesUIDs = nameGenerator->GetSeriesUIDs();
 
-					std::cerr << "Checking found DICOM series." << std::endl;
+					std::cout << "Checking found DICOM series." << std::endl;
 
 					//check the found series for the filename to pick the right series correlated to the passed filename
 					while (seriesUIDs.size() > 0)
 					{
 						fileNames = nameGenerator->GetFileNames(seriesUIDs.back());
-						std::cerr << "Checking series: " << seriesUIDs.back() << " (file count: " <<
+						std::cout << "Checking series: " << seriesUIDs.back() << " (file count: " <<
 						          fileNames.size() << ")" << std::endl;
 						seriesUIDs.pop_back();
 
@@ -191,7 +191,7 @@ namespace rttb
 							{
 								//this series containes the passed filename ->
 								//we have the right block of files -> we are done.
-								std::cerr << "Found right series!" << std::endl;
+								std::cout << "Found right series!" << std::endl;
 								seriesUIDs.clear();
 								break;
 							}
