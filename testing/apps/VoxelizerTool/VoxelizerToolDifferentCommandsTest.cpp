@@ -33,8 +33,8 @@ namespace rttb
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
-      typedef itk::Image< double, 3 > ImageType;
-      typedef itk::ImageFileReader<ImageType> ReaderType;
+			typedef itk::Image< double, 3 > ImageType;
+			typedef itk::ImageFileReader<ImageType> ReaderType;
 
 			std::string voxelizerToolExe;
 			std::string tempDirectory;
@@ -57,6 +57,18 @@ namespace rttb
 			filenames.push_back("Test_Niere li");
 			filenames.push_back("Test_Niere re");
 			filenames.push_back("Boolean");
+
+			std::vector<std::string> structnames;
+			structnames.push_back("Boost");
+			structnames.push_back("PTV");
+			structnames.push_back("Ref.Pkt");
+			structnames.push_back("Darm");
+			structnames.push_back("Leber");
+			structnames.push_back("Magen_DD");
+			structnames.push_back("Niere li");
+			structnames.push_back("Niere re");
+			structnames.push_back("Rueckenmark");
+			structnames.push_back("Aussenkontur");
 
 		    std::vector<std::pair<ImageType::IndexType, ImageType::PixelType> > voxelsToTestInside;
 		    std::vector<std::pair<ImageType::IndexType, ImageType::PixelType> > voxelsToTestOutside;
@@ -82,12 +94,6 @@ namespace rttb
 				std::cout << "Command line call: " + command << std::endl;
 				CHECK_EQUAL(returnValue, 0);
 			}
-
-			std::string allStructsCommand = voxelizerToolExeWithPath + " -s \"" + structFile + "\"";
-			allStructsCommand += " -r \"" + referenceFile + "\" -f";
-			int allStructsReturnValue = system(allStructsCommand.c_str());
-			std::cout << "Command line call: " + allStructsCommand << std::endl;
-			CHECK_EQUAL(allStructsReturnValue, 0);
 
 			for (size_t i = 0; i < filenames.size(); i++)
 			{
@@ -126,6 +132,23 @@ namespace rttb
 				if (boost::filesystem::exists(HDRFile))
 				{
 					boost::filesystem::remove(HDRFile);
+				}
+			}
+
+			std::string allStructsCommand = voxelizerToolExeWithPath + " -s \"" + structFile + "\"";
+			allStructsCommand += " -r \"" + referenceFile + "\" -f";
+			int allStructsReturnValue = system(allStructsCommand.c_str());
+			std::cout << "Command line call: " + allStructsCommand << std::endl;
+			CHECK_EQUAL(allStructsReturnValue, 0);
+
+			for (size_t i = 0; i < structnames.size(); i++)
+			{
+				const std::string structName = tempDirectory + "/output_" + structnames.at(i) + ".nrrd";
+				boost::filesystem::path structFile(structName);
+				CHECK_EQUAL(boost::filesystem::exists(structFile), true);
+				if (boost::filesystem::exists(structFile))
+				{
+					boost::filesystem::remove(structFile);
 				}
 			}
 
