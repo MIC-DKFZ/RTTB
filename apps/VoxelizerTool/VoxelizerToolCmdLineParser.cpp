@@ -36,8 +36,8 @@ namespace rttb
 				addOptionWithDefaultValue<std::string>(OPTION_OUTPUT_FILE_NAME, OPTION_GROUP_REQUIRED,
 					"Set output file name. Remark: if it used in conjunction with flag -m, it is only regarded as "
                     "hint for the file name pattern. VoxelizerTool will add a suffix indicating the voxelized "
-                    "structure to each filename.","out.hdr","out.hdr", 'o', true);
-                addInformationForXML(OPTION_OUTPUT_FILE_NAME, cmdlineparsing::XMLGenerator::paramType::OUTPUT, { "hdr", "nrrd", "*" });
+                    "structure to each filename.","out.nrrd","out.nrrd", 'o', true);
+                addInformationForXML(OPTION_OUTPUT_FILE_NAME, cmdlineparsing::XMLGenerator::paramType::OUTPUT, { "nrrd", "hdr", "*" });
 				
 				addPositionalOption(OPTION_STRUCT_FILE,1);
 				addPositionalOption(OPTION_REFERENCE_FILE, 1);
@@ -90,7 +90,7 @@ namespace rttb
 
 				if (get<std::string>(OPTION_OUTPUT_FILE_NAME).find('.') == std::string::npos)
 				{
-					throw cmdlineparsing::InvalidConstraintException(OPTION_OUTPUT_FILE_NAME + " has to specify a file format (e.g. output.hdr). None is given: " +
+					throw cmdlineparsing::InvalidConstraintException(OPTION_OUTPUT_FILE_NAME + " has to specify a file format (e.g. output.nrrd). None is given: " +
 						get<std::string>(OPTION_OUTPUT_FILE_NAME) );
 				}
 			
