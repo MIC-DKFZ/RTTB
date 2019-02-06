@@ -153,7 +153,8 @@ ENDIF(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS AND NOT BUILD_SHARED_LIBS)
 Then build DCMTK.
 
 For Linux:
-install required dependencies: `sudo apt-get install libpng12-dev libtiff5-dev libxml2-dev libjpeg8-dev zlib1g-dev libwrap0-dev libssl-dev`
+install required dependencies (Ubuntu 18.04 and newer): `sudo apt-get install libpng-dev libtiff5-dev libxml2-dev libjpeg8-dev zlib1g-dev libwrap0-dev libssl-dev`
+install required dependencies (Ubuntu 17.10 and older): `sudo apt-get install libpng12-dev libtiff5-dev libxml2-dev libjpeg8-dev zlib1g-dev libwrap0-dev libssl-dev`
 Enable `BUILD_SHARED_LIBS`. `BUILD_APPS` can be switched off.
 
 ##### ITK
