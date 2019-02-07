@@ -124,23 +124,23 @@ namespace rttb
                 The world coordinate of the image position patient is the center of the first voxel (0.0/0.0/0.0).
                 (-0.5/-0.5/-0.5) --> (-0.5/-0.5/-0.5) and (0.4999/0.4999/0.4999) --> (0.4999/0.4999/0.4999)
                 with spacing=1, orientation= x y z (identity matrix) and imagePositionPatient=(0/0/0).
-                @sa WorldCoordinate3D, DoubleVoxelGridIndex3D
+                @sa WorldCoordinate3D, ContinuousVoxelGridIndex3D
                 @note The conversion of values is done even if the target index is not inside the given voxel grid.
                 @returns false if aWorldCoordinate is outside the voxel grid, true otherwise.
 			*/
-			bool worldCoordinateToGeometryCoordinate(const WorldCoordinate3D& aWorldCoordinate,
-			        DoubleVoxelGridIndex3D& aIndex) const;
+			bool worldCoordinateToContinuousIndex(const WorldCoordinate3D& aWorldCoordinate,
+				ContinuousVoxelGridIndex3D& aIndex) const;
 
 			/*! @brief converts double geometry coordinate to world coordinates. 
                 @details This is needed because of a double precision voxel coordinate system for voxelization.
                 The world coordinate of the image position patient is the center of the first voxel (0.0/0.0/0.0).
                 (-0.5/-0.5/-0.5) --> (-0.5/-0.5/-0.5) and (5.5/3.2/1.0) --> (5.5/3.2/1.0)
                 with spacing=1, orientation= x y z (identity matrix) and imagePositionPatient=(0/0/0).
-                @sa DoubleVoxelGridIndex3D, WorldCoordinate3D
+                @sa ContinuousVoxelGridIndex3D, WorldCoordinate3D
                 @note The conversion of values is done even if the target index is not inside the given voxel grid.
                 @returns false if aWorldCoordinate is outside the voxel grid, true otherwise.
 			*/
-			bool geometryCoordinateToWorldCoordinate(const DoubleVoxelGridIndex3D& aIndex,
+			bool continuousIndexToWorldCoordinate(const ContinuousVoxelGridIndex3D& aIndex,
 			        WorldCoordinate3D& aWorldCoordinate) const;
 
 			/*! @brief convert voxel grid index to world coordinates

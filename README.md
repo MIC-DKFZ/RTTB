@@ -1,3 +1,4 @@
+
 # RTToolbox
 
 RTToolbox is a software library to support quantitative analysis of treatment outcome for radiotherapy.
@@ -32,8 +33,9 @@ These instructions will get you a copy of the project up and running on your loc
 * Visual Studio 2015
 * Visual Studio 2017
 * GCC 5.4
+* GCC 7.3
 
-Other compiler may work as well, but are not tested.
+Other compilers may work as well, but are not tested.
 
 #### Linking Static/Dynamic library support
 
@@ -54,6 +56,10 @@ Can be changed with advanced option `BUILD_SHARED_LIBS`
 
 ##### Boost
 
+In case you work with Windows, we recommend using the [pre-build versions of boost](https://sourceforge.net/projects/boost/files/boost-binaries/).
+
+If you want to build the library yourself, consider the following:
+
 Build (using the same compiler options as RTToolbox, usually `STATIC LINKING` and `x64` architecture). 
 The following components are needed: 
 
@@ -63,15 +69,15 @@ The following components are needed:
 * `program_options` 
   * if you plan to build the apps (*optional*)
 
-:information_source: eventually, it might be needed to add the CMake variable `BOOST_LIBRARY_DIR` and set it to the respective library.
+:information_source: eventually, it might be needed to add the CMake variable `BOOST_LIBRARYDIR` and set it to the respective library path of boost.
 
 For Windows:
 
 To build Boost open a command prompt, change to your boost source directory and copy following command(s):
 Debug:
-b2 -j12 --with-filesystem --with-system --with-thread --with-program_options --with-date_time --with-atomic --with-chrono toolset=msvc-14.1 address-model=64 variant=debug threading=multi link=shared define=_BIND_TO_CURRENT_VCLIBS_VERSION
+`b2 -j12 --with-filesystem --with-system --with-thread --with-program_options --with-date_time --with-atomic --with-chrono toolset=msvc-14.1 address-model=64 variant=debug threading=multi link=shared define=_BIND_TO_CURRENT_VCLIBS_VERSION`
 Release:
-b2 -j12 --with-filesystem --with-system --with-thread --with-program_options --with-date_time --with-atomic --with-chrono toolset=msvc-14.1 address-model=64 variant=release threading=multi link=shared
+`b2 -j12 --with-filesystem --with-system --with-thread --with-program_options --with-date_time --with-atomic --with-chrono toolset=msvc-14.1 address-model=64 variant=release threading=multi link=shared`
 
 If you don´t require `program_options` delete `--with-program_options` from the command before executing it.
 ##### DCMTK
@@ -143,7 +149,13 @@ IF(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS AND NOT BUILD_SHARED_LIBS)
 ENDIF(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS AND NOT BUILD_SHARED_LIBS)
 ```
 
-Then build DCMTK. `BUILD_APPS` can be switched off.
+`BUILD_APPS` can be switched off.
+Then build DCMTK.
+
+For Linux:
+install required dependencies (Ubuntu 18.04 and newer): `sudo apt-get install libpng-dev libtiff5-dev libxml2-dev libjpeg8-dev zlib1g-dev libwrap0-dev libssl-dev`
+install required dependencies (Ubuntu 17.10 and older): `sudo apt-get install libpng12-dev libtiff5-dev libxml2-dev libjpeg8-dev zlib1g-dev libwrap0-dev libssl-dev`
+Enable `BUILD_SHARED_LIBS`. `BUILD_APPS` can be switched off.
 
 ##### ITK
 
@@ -154,7 +166,7 @@ Build ITK with default options.
 
 ##### MatchPoint
 
-Configure MatchPoint. You need to disable BUILD_TESTING before building it.
+Configure MatchPoint. Please disable `BUILD_TESTING` before building it.
 :warning: ensure that compiler enables C++11 features by setting `CMAKE_CXX_STANDARD=11` (default for supported compilers)
 
 :warning: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
@@ -163,7 +175,7 @@ Configure MatchPoint. You need to disable BUILD_TESTING before building it.
 ### Building RT-Toolbox
 
 * Configure with CMake
-* Set `BOOST_INCLUDE_DIR` and `BOOST_DIR` to the main boost directory (where `boost_build.jam` is located). Eventually, you have to set `BOOST_LIBRARY_DIR` to pathToMainBoostDirectory/stage/lib.
+* Set `BOOST_INCLUDE_DIR` to the main boost directory. Eventually set `BOOST_LIBRARYDIR` to the respective path (e.g. `<boost_directory>/lib64-msvc-14.1\` for Visual Studio 2017 and 64-bit)
 * Select all packages you like to build (Parameters `BUILD_*` ; e.g. `BUILD_IO_Dicom`). 
   * `BUILD_IO_Dicom`: Reading and writing of DICOM-RT files
   * `BUILD_IO_HELAX`: Reading of Helax DICOM files
@@ -183,12 +195,12 @@ Some modules of RT-Toolbox are mandatory (e.g. `RTTBCore`) and build automatical
 		
 :information_source: enabling `BUILD_All_Modules` builds all modules (except Apps and Testing modules).
 
-:information_source: if you build RTTB with VS dynamic, you must ensure that code that uses RTTB DLLs uses the same stl
+:information_source: if you build RTTB with VS dynamic, you must ensure that code that uses RTTB DLLs uses the same STL
 
 
-Set DCMTK_DIR to your dcmtk binary file directory and DCMTK_SOURCE_DIR to your dcmtk source directory.
+Set `DCMTK_DIR` to your dcmtk binary file directory and `DCMTK_SOURCE_DIR` to your dcmtk source directory.
 
-If you want to build RT-Toolbox with ITK and/or MatchPoint set your ITK_DIR to your itk binary file directory and/or MatchPoint_DIR to your binary matchpoint directory.
+If you want to build RT-Toolbox with ITK and/or MatchPoint set your `ITK_DIR` to your itk binary file directory and/or `MatchPoint_DIR` to your binary matchpoint directory.
 
 All directory entries left empty do not require a manual input.
 
@@ -223,6 +235,7 @@ Enabling testing is done as follows:
 * Configure with CMake
 * Enable tests of interest
 * Generate CMake configuration
+* Build RT-Toolbox
 * Run tests (build `RUN_TESTS` project or call `ctest` in commandline) to ensure that everything is correct.
 
 :information_source: `BUILD_Tester_All` builds all test modules.

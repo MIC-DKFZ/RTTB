@@ -39,7 +39,8 @@ namespace rttb
 			}
 
 			boost::filesystem::path callingPath(_callingAppPath);
-            std::string doseAccExeWithPath = callingPath.parent_path().string() + "/" + doseAccExecutable;
+			auto doseAccExecutablePath = callingPath.parent_path() / doseAccExecutable;
+			std::string doseAccExeWithPath = doseAccExecutablePath.string();
 
 			//call with too few parameters
             std::string toofewParametersCommand = doseAccExeWithPath;

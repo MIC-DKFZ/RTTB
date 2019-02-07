@@ -59,7 +59,7 @@ namespace rttb
 			command += " -s \"" + structFile + "\"";
 			command += " -r \"" + referenceFile + "\"";
 			command += " -e " + structName;
-            command += " -o testOutputVoxelValue.hdr";
+            command += " -o testOutputVoxelValue.nrrd";
 
 			int returnValue = system(command.c_str());
 			CHECK_EQUAL(returnValue, 0);
@@ -84,16 +84,14 @@ namespace rttb
 			std::vector<ImageType::PixelType> expectedVoxelValues = boost::assign::list_of(1.0)(1.0)(0.0)(0.0)(
 			            0.265865)(0.819613);
 
-			std::string filenameHDRWithVoxelization = tempDirectory + "/testOutputVoxelValue.hdr";
-			std::string filenameIMGWithVoxelization = tempDirectory + "/testOutputVoxelValue.img";
+			std::string filenameNRRDWithVoxelization = tempDirectory + "/testOutputVoxelValue.nrrd";
 
-			CHECK(boost::filesystem::exists(filenameHDRWithVoxelization));
-			CHECK(boost::filesystem::exists(filenameIMGWithVoxelization));
+			CHECK(boost::filesystem::exists(filenameNRRDWithVoxelization));
 
-			if (boost::filesystem::exists(filenameHDRWithVoxelization))
+			if (boost::filesystem::exists(filenameNRRDWithVoxelization))
 			{
 				ReaderType::Pointer reader = ReaderType::New();
-				reader->SetFileName(filenameHDRWithVoxelization);
+				reader->SetFileName(filenameNRRDWithVoxelization);
 				reader->Update();
 
 				ReaderType::OutputImageType::ConstPointer image = reader->GetOutput();
@@ -113,12 +111,7 @@ namespace rttb
 					}
 				}
                 
-				boost::filesystem::remove(filenameHDRWithVoxelization);
-
-				if (boost::filesystem::exists(filenameIMGWithVoxelization))
-				{
-					boost::filesystem::remove(filenameIMGWithVoxelization);
-				}
+				boost::filesystem::remove(filenameNRRDWithVoxelization);
 			}
 
 			RETURN_AND_REPORT_TEST_SUCCESS;

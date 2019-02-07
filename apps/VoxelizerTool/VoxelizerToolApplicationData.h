@@ -49,6 +49,7 @@ namespace rttb
         bool _binaryVoxelization;
         bool _addStructures;
         bool _noStrictVoxelization;
+		bool _allStructs;
 
         /*! @brief Resets the variables.
         */

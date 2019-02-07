@@ -56,7 +56,7 @@ namespace rttb
 			std::string baseCommand = voxelizerToolExeWithPath;
 			baseCommand += " -s \"" + structFile + "\"";
 			baseCommand += " -r \"" + referenceFile + "\"";
-            baseCommand += " -o outputAllStructs.hdr";
+            baseCommand += " -o outputAllStructs.nrrd";
 			baseCommand += " -e \"";
 
 			for (size_t i = 0; i < structNames.size(); i++)
@@ -67,28 +67,16 @@ namespace rttb
 
 				CHECK_EQUAL(returnValue, 0);
 
-				boost::filesystem::path HDRFile(tempDirectory);
-				HDRFile /= "outputAllStructs.hdr";
-
-				boost::filesystem::path IMGFile(tempDirectory);
-				IMGFile /= "outputAllStructs.img";
+				boost::filesystem::path NRRDFile(tempDirectory);
+				NRRDFile /= "outputAllStructs.nrrd";
 
 				CHECK_EQUAL(
-				    boost::filesystem::exists(HDRFile),
-				    true);
-				CHECK_EQUAL(
-				    boost::filesystem::exists(IMGFile),
+				    boost::filesystem::exists(NRRDFile),
 				    true);
 
-
-				if (boost::filesystem::exists(IMGFile))
+				if (boost::filesystem::exists(NRRDFile))
 				{
-					boost::filesystem::remove(IMGFile);
-				}
-
-				if (boost::filesystem::exists(HDRFile))
-				{
-					boost::filesystem::remove(HDRFile);
+					boost::filesystem::remove(NRRDFile);
 				}
 			}
 

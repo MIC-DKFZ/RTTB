@@ -4,7 +4,7 @@
 
 set(ArgumentParsingLib_INCLUDE_DIR ${ArgumentParsingLib_SOURCE_DIR}/main)
 set(ArgumentParsingLib_LIBRARY_DIR ${ArgumentParsingLib_BUILD_DIR}/main)
-set(ArgumentParsingLib_Boost_INCLUDE_DIR ${Boost_INCLUDE_DIR})
+set(ArgumentParsingLib_Boost_INCLUDE_DIR ${Boost_INCLUDE_DIRS})
 set(ArgumentParsingLib_Boost_LIBRARY_DIR ${Boost_LIBRARYDIR})
 set(ArgumentParsingLib_Boost_LIBRARIES ${Boost_LIBRARIES})
 

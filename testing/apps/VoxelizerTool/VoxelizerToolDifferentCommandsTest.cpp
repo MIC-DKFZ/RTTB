@@ -33,8 +33,8 @@ namespace rttb
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
-      typedef itk::Image< double, 3 > ImageType;
-      typedef itk::ImageFileReader<ImageType> ReaderType;
+			typedef itk::Image< double, 3 > ImageType;
+			typedef itk::ImageFileReader<ImageType> ReaderType;
 
 			std::string voxelizerToolExe;
 			std::string tempDirectory;
@@ -50,22 +50,34 @@ namespace rttb
 			}
 
 			std::vector<std::string> commands;
-			commands.push_back("\"Niere.*\" -m -o Test.hdr");
-			commands.push_back("\"Rueckenmark\" -o Boolean.hdr -z");
+			commands.push_back("\"Niere.*\" -m -o Test.nrrd");
+			commands.push_back("\"Rueckenmark\" -o Boolean.nrrd -z");
 
 			std::vector<std::string> filenames;
 			filenames.push_back("Test_Niere li");
 			filenames.push_back("Test_Niere re");
 			filenames.push_back("Boolean");
 
-      std::vector<std::pair<ImageType::IndexType, ImageType::PixelType> > voxelsToTestInside;
-      std::vector<std::pair<ImageType::IndexType, ImageType::PixelType> > voxelsToTestOutside;
-      voxelsToTestInside.push_back(std::make_pair(ImageType::IndexType{ 48, 31, 18 }, 1.0)); //Niere li inside
-      voxelsToTestOutside.push_back(std::make_pair(ImageType::IndexType{ 19, 31, 18 }, 0.0)); //Niere li outside
-      voxelsToTestInside.push_back(std::make_pair(ImageType::IndexType{ 19, 31, 18 }, 1.0)); //Niere re inside
-      voxelsToTestOutside.push_back(std::make_pair(ImageType::IndexType{ 48, 31, 18 }, 0.0)); //Niere re outside
-      voxelsToTestInside.push_back(std::make_pair(ImageType::IndexType{ 35, 32, 30 }, 1.0)); //Rueckenmark inside
-      voxelsToTestOutside.push_back(std::make_pair(ImageType::IndexType{ 35, 30, 23 }, 0.0)); //Rueckenmark outside
+			std::vector<std::string> structnames;
+			structnames.push_back("Boost");
+			structnames.push_back("PTV");
+			structnames.push_back("Ref.Pkt");
+			structnames.push_back("Darm");
+			structnames.push_back("Leber");
+			structnames.push_back("Magen_DD");
+			structnames.push_back("Niere li");
+			structnames.push_back("Niere re");
+			structnames.push_back("Rueckenmark");
+			structnames.push_back("Aussenkontur");
+
+		    std::vector<std::pair<ImageType::IndexType, ImageType::PixelType> > voxelsToTestInside;
+		    std::vector<std::pair<ImageType::IndexType, ImageType::PixelType> > voxelsToTestOutside;
+		    voxelsToTestInside.push_back(std::make_pair(ImageType::IndexType{ 48, 31, 18 }, 1.0)); //Niere li inside
+		    voxelsToTestOutside.push_back(std::make_pair(ImageType::IndexType{ 19, 31, 18 }, 0.0)); //Niere li outside
+		    voxelsToTestInside.push_back(std::make_pair(ImageType::IndexType{ 19, 31, 18 }, 1.0)); //Niere re inside
+		    voxelsToTestOutside.push_back(std::make_pair(ImageType::IndexType{ 48, 31, 18 }, 0.0)); //Niere re outside
+		    voxelsToTestInside.push_back(std::make_pair(ImageType::IndexType{ 35, 32, 30 }, 1.0)); //Rueckenmark inside
+		    voxelsToTestOutside.push_back(std::make_pair(ImageType::IndexType{ 35, 30, 23 }, 0.0)); //Rueckenmark outside
 
 			boost::filesystem::path callingPath(_callingAppPath);
 			std::string voxelizerToolExeWithPath = callingPath.parent_path().string() + "/" + voxelizerToolExe;
@@ -85,41 +97,49 @@ namespace rttb
 
 			for (size_t i = 0; i < filenames.size(); i++)
 			{
-				const std::string HDRfileName = tempDirectory + "/" + filenames.at(i) + ".hdr";
-				boost::filesystem::path HDRFile(HDRfileName);
+				const std::string NRRDfileName = tempDirectory + "/" + filenames.at(i) + ".nrrd";
+				boost::filesystem::path NRRDFile(NRRDfileName);
 
-				const std::string IMGfileName = tempDirectory + "/" + filenames.at(i) + ".img";
-				boost::filesystem::path IMGFile(IMGfileName);
+				CHECK_EQUAL(boost::filesystem::exists(NRRDFile), true);
 
-				CHECK_EQUAL(boost::filesystem::exists(HDRFile), true);
-				CHECK_EQUAL(boost::filesystem::exists(IMGFile), true);
-
-        //check voxel values
-        if (boost::filesystem::exists(HDRFile))
-        {
-          ReaderType::Pointer reader = ReaderType::New();
-          reader->SetFileName(HDRfileName);
-          reader->Update();
-
-          ReaderType::OutputImageType::ConstPointer image = reader->GetOutput();
-
-          ImageType::PixelType voxelValueInside = image->GetPixel(voxelsToTestInside.at(i).first);
-          ImageType::PixelType expectedVoxelValueInside = voxelsToTestInside.at(i).second;
-          CHECK_EQUAL(voxelValueInside, expectedVoxelValueInside);
-
-          ImageType::PixelType voxelValueOutside = image->GetPixel(voxelsToTestOutside.at(i).first);
-          ImageType::PixelType expectedVoxelValueOutside = voxelsToTestOutside.at(i).second;
-          CHECK_EQUAL(voxelValueOutside, expectedVoxelValueOutside);
-        }
-
-				if (boost::filesystem::exists(IMGFile))
+				//check voxel values
+				if (boost::filesystem::exists(NRRDFile))
 				{
-					boost::filesystem::remove(IMGFile);
+				  ReaderType::Pointer reader = ReaderType::New();
+				  reader->SetFileName(NRRDfileName);
+				  reader->Update();
+
+				  ReaderType::OutputImageType::ConstPointer image = reader->GetOutput();
+
+				  ImageType::PixelType voxelValueInside = image->GetPixel(voxelsToTestInside.at(i).first);
+				  ImageType::PixelType expectedVoxelValueInside = voxelsToTestInside.at(i).second;
+				  CHECK_EQUAL(voxelValueInside, expectedVoxelValueInside);
+
+				  ImageType::PixelType voxelValueOutside = image->GetPixel(voxelsToTestOutside.at(i).first);
+				  ImageType::PixelType expectedVoxelValueOutside = voxelsToTestOutside.at(i).second;
+				  CHECK_EQUAL(voxelValueOutside, expectedVoxelValueOutside);
 				}
 
-				if (boost::filesystem::exists(HDRFile))
+				if (boost::filesystem::exists(NRRDFile))
 				{
-					boost::filesystem::remove(HDRFile);
+					boost::filesystem::remove(NRRDFile);
+				}
+			}
+
+			std::string allStructsCommand = voxelizerToolExeWithPath + " -s \"" + structFile + "\"";
+			allStructsCommand += " -r \"" + referenceFile + "\" -f";
+			int allStructsReturnValue = system(allStructsCommand.c_str());
+			std::cout << "Command line call: " + allStructsCommand << std::endl;
+			CHECK_EQUAL(allStructsReturnValue, 0);
+
+			for (size_t i = 0; i < structnames.size(); i++)
+			{
+				const std::string structName = tempDirectory + "/output_" + structnames.at(i) + ".nrrd";
+				boost::filesystem::path structFilePath(structName);
+				CHECK_EQUAL(boost::filesystem::exists(structFilePath), true);
+				if (boost::filesystem::exists(structFilePath))
+				{
+					boost::filesystem::remove(structFilePath);
 				}
 			}
 

@@ -56,6 +56,21 @@ int main(int argc, const char** argv)
 
 	rttb::apps::voxelizerTool::populateAppData(argParser, appData);
 
+	if (argParser->isSet(argParser->OPTION_ALL_STRUCTS))
+	{
+		if (appData._outputFilename == "out.nrrd")
+		{
+			appData._outputFilename = "output.nrrd";
+		}
+		if (appData._multipleStructs == false || appData._regEx != ".*")
+		{
+			std::cout << std::endl << "WARNING: MultipleStructs will be turned on and struct regex will be generalized!" << std::endl;
+			appData._multipleStructs = true;
+			appData._regEx = ".*";
+		}
+
+	}
+
 	std::cout << std::endl << "*******************************************" << std::endl;
 	std::cout << "Struct file: " << appData._structFile << std::endl;
 	std::cout << "Reference Image: " << appData._referenceFile << std::endl;
