@@ -162,6 +162,8 @@ Enable `BUILD_SHARED_LIBS`. `BUILD_APPS` can be switched off.
 Build ITK with default options.
 :warning: ensure that compiler enables C++11 features by setting `CMAKE_CXX_STANDARD=11` (default for supported compilers)
 
+:warning: if you use ITK 5, turn on `RTTB_ITK5_SUPPORT`
+
 :warning: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
 
 ##### MatchPoint
@@ -171,6 +173,7 @@ Configure MatchPoint. Please disable `BUILD_TESTING` before building it.
 
 :warning: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
 
+:warning: MatchPoint currently does not support ITK 5
 
 ### Building RT-Toolbox
 
