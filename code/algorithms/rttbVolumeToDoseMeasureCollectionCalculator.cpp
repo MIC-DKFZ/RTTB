@@ -14,12 +14,13 @@
 //------------------------------------------------------------------------
 
 #include "rttbVolumeToDoseMeasureCollectionCalculator.h"
-#include <boost/thread/thread.hpp>
+
+#include <thread>
+
 #include "rttbInvalidParameterException.h"
 #include "rttbUtils.h"
 
 #include <boost/make_shared.hpp>
-//#include <boost/thread/locks.hpp> 
 
 namespace rttb
 {
@@ -36,7 +37,7 @@ namespace rttb
 
 		void VolumeToDoseMeasureCollectionCalculator::compute()
 		{
-			std::vector<boost::thread> threads;
+			std::vector<std::thread> threads;
 
 			for (double _precomputeVolumeValue : _precomputeVolumeValues)
 			{
@@ -45,7 +46,6 @@ namespace rttb
 					if (_multiThreading)
 					{
 						throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
-						//threads.push_back(boost::thread(&VolumeToDoseMeasureCollectionCalculator::insertIntoMeasureCollection, this, xAbsolute, computeSpecificValue(xAbsolute)));
 					}
 					else
 					{
@@ -56,7 +56,10 @@ namespace rttb
 
 			for (auto & thread : threads)
 			{
-				thread.join();
+        if (thread.joinable())
+        {
+          thread.join();
+        }
 			}
 		}
 		void VolumeToDoseMeasureCollectionCalculator::addPrecomputeVolumeValues(const std::vector<double>& values)

@@ -14,11 +14,11 @@
 //------------------------------------------------------------------------
 
 #include <limits>
+#include <thread>
 
 #include <boost/geometry/geometries/register/point.hpp>
 #include <boost/geometry/geometries/register/ring.hpp>
 #include <boost/make_shared.hpp>
-#include <boost/thread/thread.hpp>
 
 #include "rttbBoostMask.h"
 #include "rttbNullPointerException.h"
@@ -54,7 +54,7 @@ namespace rttb
 
 				if (_numberOfThreads == 0)
 				{
-					_numberOfThreads = ::boost::thread::hardware_concurrency();
+					_numberOfThreads = std::thread::hardware_concurrency();
                     if (_numberOfThreads == 0)
                     {
                         throw rttb::core::InvalidParameterException("Error: detection of the number of hardware threads is not possible. Please specify number of threads for voxelization explicitly as parameter in BoostMask.");
@@ -164,17 +164,24 @@ namespace rttb
 				polygonMapVector.push_back(polygonMap); //insert the last one
 
 				//generate voxelization map, multi-threading
-				::boost::thread_group threads;
-                auto aMutex = ::boost::make_shared<::boost::shared_mutex>();
+				std::vector<std::thread> threads;
+
+        auto aMutex = ::boost::make_shared<std::mutex>();
 
 				for (const auto & i : polygonMapVector)
 				{
-					BoostMaskVoxelizationThread t(i, _globalBoundingBox,
-                        _voxelizationMap, aMutex, _strict);
-					threads.create_thread(t);
+          BoostMaskVoxelizationThread t(i, _globalBoundingBox,
+            _voxelizationMap, aMutex, _strict);
+					threads.emplace_back(t);
 				}
 
-				threads.join_all();
+        for (auto& thread : threads)
+        {
+          if (thread.joinable())
+          {
+            thread.join();
+          }
+        }
 			}
 
 			void BoostMask::generateMaskVoxelList()
@@ -192,8 +199,8 @@ namespace rttb
 
 
 
-				::boost::thread_group threads;
-                auto aMutex = ::boost::make_shared<::boost::shared_mutex>();
+        std::vector<std::thread> threads;
+        auto aMutex = ::boost::make_shared<std::mutex>();
 
 				unsigned int sliceNumberInAThread = _geometricInfo->getNumSlices() / _numberOfThreads;
 
@@ -217,11 +224,17 @@ namespace rttb
 					                                       _voxelizationThickness, beginSlice, endSlice,
 					                                       _voxelInStructure, _strict, aMutex);
 
-					threads.create_thread(t);
+          threads.emplace_back(t);
 
 				}
 
-				threads.join_all();
+        for (auto& thread : threads)
+        {
+          if (thread.joinable())
+          {
+            thread.join();
+          }
+        }
 
 			}
 

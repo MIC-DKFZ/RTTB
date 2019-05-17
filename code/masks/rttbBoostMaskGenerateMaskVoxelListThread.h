@@ -20,9 +20,11 @@
 #include "rttbGeometricInfo.h"
 #include "rttbMaskAccessorInterface.h"
 
+#include <mutex>
+#include <map>
+
 #include <boost/multi_array.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/thread/shared_mutex.hpp>
 
 namespace rttb
 {
@@ -49,7 +51,7 @@ namespace rttb
 				                                     double aVoxelizationThickness,
 				                                     unsigned int aBeginSlice,
 				                                     unsigned int aEndSlice,
-                                                     MaskVoxelListPointer aMaskVoxelList, bool strictVoxelization, ::boost::shared_ptr<::boost::shared_mutex> aMutex);
+                                                     MaskVoxelListPointer aMaskVoxelList, bool strictVoxelization, ::boost::shared_ptr<std::mutex> aMutex);
 				void operator()();
 
 			private:
@@ -66,7 +68,7 @@ namespace rttb
 				unsigned int _endSlice;
 
                 MaskVoxelListPointer _resultMaskVoxelList;
-                ::boost::shared_ptr<::boost::shared_mutex> _mutex;
+                ::boost::shared_ptr<std::mutex> _mutex;
 
 				/*! @brief For each dose grid index z, calculate the weight vector for each structure contour
 				*/
