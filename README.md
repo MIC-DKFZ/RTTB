@@ -64,8 +64,7 @@ Build (using the same compiler options as RTToolbox, usually `STATIC LINKING` an
 The following components are needed: 
 
 * `filesystem`, 
-* `system`, 
-* `thread` and 
+* `system` and
 * `program_options` 
   * if you plan to build the apps (*optional*)
 

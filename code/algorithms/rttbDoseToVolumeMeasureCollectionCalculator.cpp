@@ -14,13 +14,13 @@
 //------------------------------------------------------------------------
 
 #include "rttbDoseToVolumeMeasureCollectionCalculator.h"
-#include <boost/thread/thread.hpp>
+
+#include <thread>
+
 #include "rttbInvalidParameterException.h"
 #include "rttbUtils.h"
 
 #include <boost/make_shared.hpp>
-
-//#include <boost/thread/locks.hpp> 
 
 namespace rttb
 {
@@ -37,7 +37,7 @@ namespace rttb
 
 		void DoseToVolumeMeasureCollectionCalculator::compute()
 		{
-			std::vector<boost::thread> threads;
+			std::vector<std::thread> threads;
 
 			for (double _precomputeDoseValue : _precomputeDoseValues)
 			{
@@ -46,7 +46,6 @@ namespace rttb
 					if (_multiThreading)
 					{
 						throw rttb::core::InvalidParameterException("MultiThreading is not implemented yet.");
-						//threads.push_back(boost::thread(&DoseToVolumeMeasureCollectionCalculator::insertIntoMeasureCollection, this , xAbsolute, computeSpecificValue(xAbsolute)));
 					}
 					else
 					{

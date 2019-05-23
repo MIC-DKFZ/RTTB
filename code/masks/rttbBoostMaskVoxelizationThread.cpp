@@ -18,7 +18,6 @@
 #include "rttbInvalidParameterException.h"
 
 #include <boost/geometry.hpp>
-#include <boost/thread.hpp>
 #include <boost/make_shared.hpp>
 
 namespace rttb
@@ -28,7 +27,7 @@ namespace rttb
 		namespace boost
 		{
 			BoostMaskVoxelizationThread::BoostMaskVoxelizationThread(const BoostPolygonMap& APolygonMap,
-                const VoxelIndexVector& aGlobalBoundingBox, BoostArrayMapPointer anArrayMap, ::boost::shared_ptr<::boost::shared_mutex> aMutex, bool strict) : _geometryCoordinateBoostPolygonMap(APolygonMap),
+                const VoxelIndexVector& aGlobalBoundingBox, BoostArrayMapPointer anArrayMap, ::boost::shared_ptr<std::mutex> aMutex, bool strict) : _geometryCoordinateBoostPolygonMap(APolygonMap),
                 _globalBoundingBox(aGlobalBoundingBox), _resultVoxelization(anArrayMap), _mutex(aMutex), _strict(strict)
 			{
 			}
@@ -75,7 +74,7 @@ namespace rttb
                     voxelizationMapInThread.insert(std::pair<double, BoostArray2DPointer>(it.first, ::boost::make_shared<BoostArray2D>(maskArray)));
 				}
                 //insert gathered values into voxelization map
-                ::boost::unique_lock<::boost::shared_mutex> lock(*_mutex);
+                std::unique_lock<std::mutex> lock(*_mutex);
                 _resultVoxelization->insert(voxelizationMapInThread.begin(), voxelizationMapInThread.end());
 
 			}

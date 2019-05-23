@@ -18,13 +18,10 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
 #include <boost/assign/list_of.hpp>
-#include <boost/thread/locks.hpp> 
 
 #include "rttbNullPointerException.h"
 #include "rttbInvalidDoseException.h"
 #include "rttbInvalidParameterException.h"
-
-#include <boost/thread/thread.hpp>
 
 namespace rttb
 {
@@ -47,7 +44,7 @@ namespace rttb
 			_complexDoseStatisticsCalculated = false;
 
 			_multiThreading = false;
-			_mutex = ::boost::make_shared<::boost::shared_mutex>();
+			_mutex = ::boost::make_shared<std::mutex>();
 		}
 
 

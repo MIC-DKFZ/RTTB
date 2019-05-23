@@ -17,12 +17,13 @@
 #define __BOOST_MASK_VOXELIZATION_THREAD_H
 
 #include <deque>
+#include <mutex>
+#include <map>
 
 #include "rttbBaseType.h"
 
 #include <boost/multi_array.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/thread/shared_mutex.hpp>
 #include <boost/geometry/geometries/point_xy.hpp>
 #include <boost/geometry/geometries/polygon.hpp>
 
@@ -53,7 +54,7 @@ namespace rttb
                 * @param strict true means that volumeFractions of <0 and >1 are NOT corrected. Otherwise, they are automatically corrected to 0 or 1, respectively.
                 */
 				BoostMaskVoxelizationThread(const BoostPolygonMap& APolygonMap,
-                    const VoxelIndexVector& aGlobalBoundingBox, BoostArrayMapPointer anArrayMap, ::boost::shared_ptr<::boost::shared_mutex> aMutex, bool strict);
+                    const VoxelIndexVector& aGlobalBoundingBox, BoostArrayMapPointer anArrayMap, ::boost::shared_ptr<std::mutex> aMutex, bool strict);
 
 				void operator()();
 
@@ -66,9 +67,9 @@ namespace rttb
 
 				BoostPolygonMap _geometryCoordinateBoostPolygonMap;
 				VoxelIndexVector _globalBoundingBox;
-                BoostArrayMapPointer _resultVoxelization;
-                ::boost::shared_ptr<::boost::shared_mutex> _mutex;
-                bool _strict;
+        BoostArrayMapPointer _resultVoxelization;
+        ::boost::shared_ptr<std::mutex> _mutex;
+        bool _strict;
 
 				/*! @brief Get intersection polygons of the contour and a voxel polygon
 				* @param aVoxelIndex3D The 3d grid index of the voxel

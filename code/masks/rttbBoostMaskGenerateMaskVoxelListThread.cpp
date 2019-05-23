@@ -13,10 +13,10 @@
 //
 //------------------------------------------------------------------------
 
+
 #include "rttbBoostMaskGenerateMaskVoxelListThread.h"
 
 #include "rttbInvalidParameterException.h"
-#include <boost/thread.hpp>
 
 namespace rttb
 {
@@ -33,7 +33,7 @@ namespace rttb
 			    unsigned int aEndSlice,
                 MaskVoxelListPointer aMaskVoxelList,
         bool strictVoxelization,
-                ::boost::shared_ptr<::boost::shared_mutex> aMutex) :
+                ::boost::shared_ptr<std::mutex> aMutex) :
 				_globalBoundingBox(aGlobalBoundingBox), _geometricInfo(aGeometricInfo),
 				_voxelizationMap(aVoxelizationMap), _voxelizationThickness(aVoxelizationThickness),
 				_beginSlice(aBeginSlice), _endSlice(aEndSlice),
@@ -103,8 +103,8 @@ namespace rttb
 					}
 				}
 
-                ::boost::unique_lock<::boost::shared_mutex> lock(*_mutex);
-                _resultMaskVoxelList->insert(_resultMaskVoxelList->end(), maskVoxelsInThread.begin(), maskVoxelsInThread.end());
+        std::unique_lock<std::mutex> lock(*_mutex);
+        _resultMaskVoxelList->insert(_resultMaskVoxelList->end(), maskVoxelsInThread.begin(), maskVoxelsInThread.end());
 			}
 
 			void BoostMaskGenerateMaskVoxelListThread::calcWeightVector(const rttb::VoxelGridID& aIndexZ,

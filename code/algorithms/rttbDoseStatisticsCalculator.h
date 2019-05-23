@@ -17,9 +17,9 @@
 #define __DOSE_STATISTICS_CALCULATOR_H
 
 #include <vector>
+#include <mutex>
 
 #include <boost/shared_ptr.hpp>
-#include <boost/thread/shared_mutex.hpp>
 
 #include "rttbDoseIteratorInterface.h"
 #include "rttbDoseStatistics.h"
@@ -77,7 +77,7 @@ namespace rttb
 
 			bool _multiThreading;
 
-			::boost::shared_ptr<boost::shared_mutex> _mutex;
+			::boost::shared_ptr<std::mutex> _mutex;
 
 			VxDoseToVolumeMeasureCollectionCalculator::Pointer _Vx;
 			DxVolumeToDoseMeasureCollectionCalculator::Pointer _Dx;

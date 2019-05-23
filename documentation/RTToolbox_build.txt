@@ -48,8 +48,7 @@ If third party library packages cannot be found automatically, CMake will ask fo
 Build (using the same compiler options as RTToolbox, usually \c STATIC LINKING and x64 architecture). 
 The following components are needed: 
 - \c filesystem, 
-- \c system, 
-- \c thread and 
+- \c system and
 - \c program_options if you plan to build the apps.
 
 \note eventually, it might be needed to add the CMake variable BOOST_LIBRARY dir and set it to the respective library.
