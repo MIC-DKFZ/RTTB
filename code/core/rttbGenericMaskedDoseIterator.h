@@ -56,8 +56,7 @@ namespace rttb
 			MaskVoxelListPointer _maskVoxelVec;
 
 			/*! the volume in cm^3 of the current dose voxel*/
-			DoseVoxelVolumeType _currentVoxelVolume;
-
+			DoseVoxelVolumeType _currentVoxelVolume = 0.;
 
 		public:
 

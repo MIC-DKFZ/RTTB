@@ -39,7 +39,7 @@ namespace rttb
 			14) Test convert, validID and validIndex
 		*/
 
-		int GeometricInfoTest(int argc, char* argv[])
+		int GeometricInfoTest(int /*argc*/, char* /*argv*/[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
@@ -527,8 +527,8 @@ namespace rttb
 
 			CHECK(geoInfo.validID(startId));
 			CHECK(geoInfo.validIndex(startIndex));
-			VoxelGridIndex3D aIndex;
-			VoxelGridID aId;
+			VoxelGridIndex3D aIndex(9999999,999999,999999);
+			VoxelGridID aId = 99999999;
 
 			CHECK(geoInfo.convert(startIndex, aId));
 			CHECK(geoInfo.convert(startId, aIndex));

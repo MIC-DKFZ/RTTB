@@ -35,7 +35,7 @@ namespace rttb
 			2) test reset/next/get current values/isPositionValid
       3) test DoseIteratorInterface functions
 		*/
-		int GenericDoseIteratorTest(int argc, char* argv[])
+		int GenericDoseIteratorTest(int /*argc*/, char* /*argv*/[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 

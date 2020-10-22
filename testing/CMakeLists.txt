@@ -69,6 +69,7 @@ MESSAGE(STATUS "Process All Tests...")
 OPTION(BUILD_Tester_Core "build project on/off" OFF)
 OPTION(BUILD_Tester_Examples "build project on/off" OFF)
 OPTION(BUILD_Tester_Algorithms "build project on/off" OFF)
+OPTION(BUILD_Tester_Indices "build project on/off" OFF)
 OPTION(BUILD_Tester_Models "build project on/off" OFF)
 OPTION(BUILD_Tester_IO "build project on/off" OFF)
 OPTION(BUILD_Tester_Masks "build project on/off" OFF)
@@ -86,6 +87,10 @@ ENDIF()
 
 IF(BUILD_Tester_All OR BUILD_Tester_Algorithms)
 	ADD_SUBDIRECTORY(algorithms)
+ENDIF()
+
+IF(BUILD_Tester_All OR BUILD_Tester_Indices)
+	ADD_SUBDIRECTORY(indices)
 ENDIF()
 
 IF(BUILD_Tester_All OR BUILD_Tester_Models)

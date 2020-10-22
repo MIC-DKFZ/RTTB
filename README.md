@@ -213,7 +213,6 @@ Finally, Generate the compilation files for your environment and built it.
 Some examples can be found in ´testing/examples´:
 
 * `RTBioModelExampleTest`: Computation of Biological model indices (TCP/NTCP) from a given DVH
-* `RTDoseIndexTest`: Computation of dose indices (Conformation Number, Conformal Index, Conformity index) from a given DVH
 * `RTDoseStatisticsDicomTest`: Computation of dose statistics (max dose/mean dose/min dose/Dx/Vx) based on dose data for a specified structure
 * `RTDVHTest`: Computation of statistics (max value/mean value/min value/Dx/Vx) based on a DVH
 
@@ -222,6 +221,7 @@ Other examples include:
 * `DVHCalculatorTest` (`testing/core`): Computation of a DVH from dose and structure
 * `VoxelizationValidationTest` (`testing/validation`): Computation of a voxelization
 * `ITKDoseAccessorConverterTest`: (`testing/io/itk`): Saving image RTToolbox image data as an ITK file
+* `DoseIndex tests`: (`testing/indices`): Computation of different dose indices (e.g. Conformation Number, Conformal Index, Conformity index)
 
 ## Running the tests
 

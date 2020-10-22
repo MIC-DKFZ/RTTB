@@ -31,7 +31,7 @@ namespace rttb
       4) test operator "<"
 		*/
 
-		int MaskVoxelTest(int argc, char* argv[])
+		int MaskVoxelTest(int /*argc*/, char* /*argv*/[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 

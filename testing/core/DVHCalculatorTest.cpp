@@ -46,7 +46,7 @@ namespace rttb
 		 1) test constructors (values as expected?)
 		*/
 
-		int DVHCalculatorTest(int argc, char* argv[])
+		int DVHCalculatorTest(int /*argc*/, char* /*argv*/[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 

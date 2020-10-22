@@ -39,7 +39,7 @@ namespace rttb
 			1) test constructor (values as expected?)
 			2) test reset/next/get current values/isPositionValid
 		*/
-		int GenericMaskedDoseIteratorTest(int argc, char* argv[])
+		int GenericMaskedDoseIteratorTest(int /*argc*/, char* /*argv*/[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 

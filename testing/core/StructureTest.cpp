@@ -32,7 +32,7 @@ namespace rttb
 			1) constructors
 			2) get/setXX
 		*/
-		int StructureTest(int argc, char* argv[])
+		int StructureTest(int /*argc*/, char* /*argv*/[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
