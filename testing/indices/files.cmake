@@ -5,6 +5,7 @@ SET(CPP_FILES
 	ConformityIndexTest.cpp
 	CoverageIndexTest.cpp
 	HomogeneityIndexTest.cpp
+	GammaIndexTest.cpp
  )
 
 SET(H_FILES 

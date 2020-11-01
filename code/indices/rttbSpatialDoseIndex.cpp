@@ -14,62 +14,28 @@
 //------------------------------------------------------------------------
 
 #include "rttbSpatialDoseIndex.h"
-#include "rttbException.h"
-#include "rttbInvalidParameterException.h"
+#include "rttbExceptionMacros.h"
+#include "rttbNullPointerException.h"
 
 namespace rttb
 {
-	namespace indices
-	{
+  namespace indices
+  {
 
-		//SpatialDoseIndex::SpatialDoseIndex(DoseTypeGy aDoseReference)
-		//	: _doseReference(aDoseReference), _initSuccess(false) {}
+    SpatialDoseIndex::SpatialDoseIndex(core::DoseAccessorInterface::ConstPointer aDose)
+      : _dose(aDose)
+    {
+      if (nullptr == aDose)
+      {
+        rttbExceptionMacro(core::NullPointerException, "aDose must not be nullptr!");
+      }
+    }
 
-  //      SpatialDoseIndex::~SpatialDoseIndex()= default;
-
-		//bool SpatialDoseIndex::init()
-		//{
-		//	if (!(this->checkInputs()))
-		//	{
-		//		throw core::InvalidParameterException("Check inputs failed: invalid parameters! ");
-		//	}
-
-		//	if (this->calcIndex())
-		//	{
-		//		_initSuccess = true;
-		//	}
-		//	else
-		//	{
-		//		throw core::InvalidParameterException("Index calculation failed! ");
-		//	}
-
-		//	return _initSuccess;
-		//}
-
-		//void SpatialDoseIndex::setDoseReference(DoseTypeGy aDoseReference)
-		//{
-		//	_doseReference = aDoseReference;
-		//	_initSuccess = false;
-		//	init();
-		//}
-
-		//DoseTypeGy SpatialDoseIndex::getDoseReference() const
-		//{
-		//	return _doseReference;
-		//}
-
-		//IndexValueType SpatialDoseIndex::getValue() const
-		//{
-		//	if (_initSuccess)
-		//	{
-		//		return _value;
-		//	}
-		//	else
-		//	{
-		//		throw core::Exception("SpatialDoseIndex init error: init() must be called first!");
-		//	}
-		//}
-	}
+    const core::GeometricInfo& SpatialDoseIndex::getGeometricInfo() const
+    {
+      return _dose->getGeometricInfo();
+    }
+  }
 }
 
 

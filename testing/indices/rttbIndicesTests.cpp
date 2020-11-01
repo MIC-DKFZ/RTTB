@@ -34,6 +34,7 @@ namespace rttb
 			LIT_REGISTER_TEST(ConformityIndexTest);
 			LIT_REGISTER_TEST(CoverageIndexTest);
 			LIT_REGISTER_TEST(HomogeneityIndexTest);
+			LIT_REGISTER_TEST(GammaIndexTest);
 		}
 	}
 }

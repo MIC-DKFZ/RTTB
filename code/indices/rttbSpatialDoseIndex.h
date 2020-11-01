@@ -42,9 +42,10 @@ namespace rttb
 
     protected:
 
-      /*! @brief Constructor with the referece dose*/
+      /*! @brief Constructor with the referece dose.
+      @pre dose pointer must be valid.*/
       SpatialDoseIndex(core::DoseAccessorInterface::ConstPointer aDose);
-      virtual ~SpatialDoseIndex();
+      virtual ~SpatialDoseIndex() = default;
 
       core::DoseAccessorInterface::ConstPointer _dose;
     };
