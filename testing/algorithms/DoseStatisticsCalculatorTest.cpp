@@ -34,7 +34,7 @@
 #include "../io/other/CompareDoseStatistic.h"
 #include "../../code/io/other/rttbDoseStatisticsXMLReader.h"
 
-#include "../core/DummyDoseAccessor.h"
+#include "DummyDoseAccessor.h"
 
 namespace rttb
 {

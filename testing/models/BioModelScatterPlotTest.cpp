@@ -22,7 +22,7 @@
 #include "rttbBaseTypeModels.h"
 #include "rttbBioModel.h"
 #include "rttbBioModelScatterPlots.h"
-#include "../core/DummyDVHGenerator.h"
+#include "DummyDVHGenerator.h"
 #include "DummyModel.h"
 #include "rttbIntegration.h"
 

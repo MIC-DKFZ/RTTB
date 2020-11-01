@@ -23,3 +23,4 @@ IF(BUILD_All_Modules OR BUILD_Masks)
 ENDIF()
 
 ADD_SUBDIRECTORY(io)
+ADD_SUBDIRECTORY(testhelper)

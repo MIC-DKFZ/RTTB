@@ -18,6 +18,8 @@
 
 #include "DummyDoseAccessor.h"
 
+#include "RTTBTestHelperExports.h"
+
 namespace rttb
 {
 	namespace testing
@@ -26,7 +28,7 @@ namespace rttb
 		/*! @class DummyInhomogeneousDoseAccessor
 			@brief A dummy DoseAccessor for testing with inhomogeneous grid
 		*/
-		class DummyInhomogeneousDoseAccessor: public DummyDoseAccessor
+		class RTTBTestHelper_EXPORT DummyInhomogeneousDoseAccessor: public DummyDoseAccessor
 		{
 		public:
 			~DummyInhomogeneousDoseAccessor();

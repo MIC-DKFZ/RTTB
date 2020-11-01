@@ -4,7 +4,6 @@ SET(CPP_FILES
 	rttbScatterTester.cpp
 	BioModelScatterPlotTest.cpp
 	DummyModel.cpp
-	../core/DummyDVHGenerator.cpp
 	DvhBasedModelsTest.cpp
 	LQModelAccessorTest.cpp
   )
@@ -12,5 +11,4 @@ SET(CPP_FILES
 SET(H_FILES 
 	rttbScatterTester.h
 	DummyModel.h
-	../core/DummyDVHGenerator.h
 )
