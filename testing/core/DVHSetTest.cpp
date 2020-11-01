@@ -44,7 +44,7 @@ namespace rttb
 			5) test getDVH<Type>Set
 			6) test get<Type>Volume
 		*/
-		int DVHSetTest(int argc, char* argv[])
+		int DVHSetTest(int /*argc*/, char* /*argv*/[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
