@@ -71,6 +71,11 @@ namespace rttb
       GeometricInfo()
 			= default;
 
+			GeometricInfo(const GeometricInfo& source) = default;
+
+			/**Returns a clone of the current instance*/
+			GeometricInfo::Pointer clone() const;
+
 			void setSpacing(const SpacingVectorType3D& aSpacingVector);
 
 			const SpacingVectorType3D& getSpacing() const;
