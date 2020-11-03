@@ -33,7 +33,7 @@ namespace rttb
       info and is spatialy distributed.
       @ingroup indices
     */
-    class RTTBIndices_EXPORT SpatialDoseIndex : core::AccessorInterface
+    class RTTBIndices_EXPORT SpatialDoseIndex : public core::AccessorInterface
     {
     public:
       rttbClassMacro(SpatialDoseIndex, AccessorInterface);

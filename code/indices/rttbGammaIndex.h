@@ -31,7 +31,7 @@ namespace rttb
       @brief TODO
       @ingroup indices
     */
-    class RTTBIndices_EXPORT GammaIndex : SpatialDoseIndex
+    class RTTBIndices_EXPORT GammaIndex : public SpatialDoseIndex
     {
     public:
       rttbClassMacro(GammaIndex, SpatialDoseIndex);
