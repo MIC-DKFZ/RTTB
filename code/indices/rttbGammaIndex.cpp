@@ -197,6 +197,7 @@ namespace rttb
 
     void GammaIndex::UpdatePrecomputedDistancePenalties()
     {
+
       DATPreComputationVectorType newPenalties;
       const auto min = -1 * static_cast<int>(_searchSamplingRate);
       const auto max = static_cast<int>(_searchSamplingRate);
@@ -233,8 +234,9 @@ namespace rttb
     std::pair<GenericValueType, WorldCoordinate3D> GammaIndex::computeValueAndPosition(const WorldCoordinate3D& aPoint) const
     {
       const auto measuredDose = _doseInterpolator->getValue(aPoint);
+      const auto referenceDose = _referenceDoseInterpolator->getValue(aPoint);
 
-      const DoseTypeGy doseThresholdGy = ((_useLocalDose) ? measuredDose : _globalDose) * _ddt;
+      const DoseTypeGy doseThresholdGy = ((_useLocalDose) ? referenceDose : _globalDose) * _ddt;
       const DoseTypeGy doseThresholdGySquared = doseThresholdGy*doseThresholdGy;
 
       if (0. == doseThresholdGySquared)
@@ -261,13 +263,13 @@ namespace rttb
             const GenericValueType penalty = std::sqrt(distancePenalty.distancePenalty + dosePenalty);
             if (penalty < bestFinding.first)
             {
-              bestFinding.first = penalty;
-              bestFinding.second = distancePenalty.searchPosition;
+                //gamma index value is limited to 1.0 based on the literature
+                bestFinding.first = std::min(penalty, 1.0);
+                bestFinding.second = distancePenalty.searchPosition;
             }
           }
         }
       }
-
       return bestFinding;
     }
 
