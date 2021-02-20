@@ -18,65 +18,84 @@
 #
 ##################################################################
 MACRO(RTTB_CREATE_APPLICATION APP_NAME_IN)
-  MACRO_PARSE_ARGUMENTS(APP
-                        "INCLUDE_DIRS;DEPENDS;PACKAGE_DEPENDS"
-                        "FORCE_STATIC;HEADERS_ONLY"
-                        ${ARGN})
+
+  set(_macro_params)
+
+  set(_macro_multiparams
+      INCLUDE_DIRS           # include directories: [PUBLIC|PRIVATE|INTERFACE] <list>
+      DEPENDS                # list of modules this module depends on: [PUBLIC|PRIVATE|INTERFACE] <list>
+      PACKAGE_DEPENDS        # list of "packages this module depends on (e.g. Qt, VTK, etc.): [PUBLIC|PRIVATE|INTERFACE] <package-list>
+     )
+
+  set(_macro_options)
+
+  cmake_parse_arguments(APP "${_macro_options}" "${_macro_params}" "${_macro_multiparams}" ${ARGN})
 
 	SET(APP_NAME ${APP_NAME_IN})
 	SET(WAIT_FOR_DEPENDENCY_LIBS "ArgumentParsingLib") #each application depends on ArgumentParsingLib
+	set(MODULE_FILES_CMAKE files.cmake)
+    # assume worst case
+    SET(APP_IS_ENABLED 0)
 
     MESSAGE(STATUS "configuring Application ${APP_NAME}...")
     # first of all we check for the dependencies
-    RTTB_CHECK_MODULE(_MISSING_DEP ${APP_DEPENDS})
-    IF(_MISSING_DEP)
+
+
+    _rttb_parse_package_args(${APP_DEPENDS})
+    rttb_check_module_dependencies(MODULES ${MODULE_DEPENDS}
+                                   PACKAGES ${PACKAGE_NAMES}
+                                   MISSING_DEPENDENCIES_VAR _MISSING_DEP
+                                   PACKAGE_DEPENDENCIES_VAR PACKAGE_NAMES)
+
+    if(_MISSING_DEP)
       MESSAGE("Application ${APP_NAME} won't be built, missing dependency: ${_MISSING_DEP}")
       SET(APP_IS_ENABLED 0)
-    ELSE(_MISSING_DEP)
+    else()
       SET(APP_IS_ENABLED 1)
       # now check for every package if it is enabled. This overlaps a bit with
       # RTTB_CHECK_MODULE ...
-      FOREACH(_package ${APP_PACKAGE_DEPENDS})
-        IF((DEFINED RTTB_USE_${_package}) AND NOT (RTTB_USE_${_package}))
-          MESSAGE("Application ${APP_NAME} won't be built. Turn on RTTB_USE_${_package} if you want to use it.")
-		  SET(APP_IS_ENABLED 0)
-	    ENDIF()
-      ENDFOREACH()
+      foreach(_package ${PACKAGE_NAMES})
+        if((DEFINED RTTB_USE_${_package}) AND NOT (RTTB_USE_${_package}))
+          message("Application ${APP_NAME} won't be built. Turn on RTTB_USE_${_package} if you want to use it.")
+          set(MODULE_IS_ENABLED 0)
+          break()
+        endif()
+      endforeach()
+    endif()
 
-      IF(APP_IS_ENABLED)
-		SET(DEPENDS "${APP_DEPENDS}")
-		SET(DEPENDS_BEFORE "not initialized")
-		SET(PACKAGE_DEPENDS "${APP_PACKAGE_DEPENDS}")
-		RTTB_USE_MODULE("${APP_DEPENDS}")
 
-		IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/source)
-          SET(ALL_INCLUDE_DIRECTORIES ${ALL_INCLUDE_DIRECTORIES} ${CMAKE_CURRENT_SOURCE_DIR}/source)
-        ENDIF()
+  IF(APP_IS_ENABLED)
 
-        IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include)
-          SET(ALL_INCLUDE_DIRECTORIES ${ALL_INCLUDE_DIRECTORIES} ${CMAKE_CURRENT_SOURCE_DIR}/include)
-        ENDIF()
+    if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${MODULE_FILES_CMAKE}")
+      include(${MODULE_FILES_CMAKE})
+    endif()
 
-		INCLUDE_DIRECTORIES(. ${ALL_INCLUDE_DIRECTORIES})
-		INCLUDE(files.cmake)
+	ORGANIZE_SOURCES(SOURCE ${CPP_FILES}
+			 HEADER ${H_FILES}
+			 TPP ${TPP_FILES}
+			 DOC ${DOX_FILES}
+			 )
 
-		ORGANIZE_SOURCES(SOURCE ${CPP_FILES}
-			     HEADER ${H_FILES}
-			     TPP ${TPP_FILES}
-			     DOC ${DOX_FILES}
-			     )
+	SET(coverage_sources ${CPP_FILES} ${H_FILES} ${TXX_FILES})
 
-		LINK_DIRECTORIES(${ALL_LIBRARY_DIRS})
+	ADD_EXECUTABLE(${APP_NAME} ${coverage_sources})
 
-	    SET(coverage_sources ${CPP_FILES} ${H_FILES} ${TXX_FILES})
+    SET(DEPENDS "${APP_DEPENDS}")
+	SET(DEPENDS_BEFORE "not initialized")
+    rttb_use_modules(TARGET ${APP_NAME}
+                     MODULES ${DEPENDS}
+                     PACKAGES ${APP_PACKAGE_DEPENDS}
+                    )
 
-		ADD_EXECUTABLE(${APP_NAME} ${coverage_sources})
+    set (_app_include_dirs . ${APP_INCLUDE_DIRS})
+	IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/source)
+	  SET(_app_include_dirs ${_app_include_dirs} ${CMAKE_CURRENT_SOURCE_DIR}/source)
+	ENDIF()
+	IF (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include)
+	  SET(_app_include_dirs ${_app_include_dirs} ${CMAKE_CURRENT_SOURCE_DIR}/include)
+	ENDIF()
+    target_include_directories(${APP_NAME} PUBLIC ${_app_include_dirs})
 
-        TARGET_LINK_LIBRARIES(${APP_NAME} ${ALL_LIBRARIES})
-		# Necessary so the build waits for libs to build
-		ADD_DEPENDENCIES(${APP_NAME} ${WAIT_FOR_DEPENDENCY_LIBS})
-      ENDIF(APP_IS_ENABLED)
-
-    ENDIF(_MISSING_DEP)
+  ENDIF(APP_IS_ENABLED)
 
 ENDMACRO(RTTB_CREATE_APPLICATION)
