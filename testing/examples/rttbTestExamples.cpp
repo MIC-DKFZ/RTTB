@@ -31,7 +31,6 @@ namespace rttb
 		{
 			LIT_REGISTER_TEST(RTBioModelExampleTest);
 			LIT_REGISTER_TEST(RTDVHTest);
-			LIT_REGISTER_TEST(RTDoseIndexTest);
 			LIT_REGISTER_TEST(RTDoseStatisticsDicomTest);
 			LIT_REGISTER_TEST(RTBioModelScatterPlotExampleTest);
 		}
