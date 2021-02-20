@@ -20,6 +20,8 @@
 
 #include "rttbException.h"
 
+#include "RTTBDicomIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -30,7 +32,7 @@ namespace rttb
 			/*! @class DcmrtException
 			@brief This class represents a DcmrtException. Any dcmrt error will throw this exception.
 			*/
-			class DcmrtException: public core::Exception
+			class RTTBDicomIO_EXPORT DcmrtException: public core::Exception
 			{
 			public:
 				explicit DcmrtException(const std::string& aWhat): Exception(aWhat) {}

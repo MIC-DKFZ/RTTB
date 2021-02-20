@@ -16,11 +16,13 @@
 #ifndef __DICOM_FILE_DOSE_ACCESSOR_GENERATOR_H
 #define __DICOM_FILE_DOSE_ACCESSOR_GENERATOR_H
 
-#include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */
-#include "drtdose.h"
+#include <dcmtk/config/osconfig.h>    /* make sure OS specific configuration is included first */
+#include <dcmtk/dcmrt/drtdose.h>
 
 #include "rttbDoseAccessorGeneratorBase.h"
 #include "rttbBaseType.h"
+
+#include "RTTBDicomIOExports.h"
 
 namespace rttb
 {
@@ -31,7 +33,7 @@ namespace rttb
 			/*! @class DicomFileDoseAccessorGenerator
 			@brief Load dose data from dicom file and generate DicomDoseAccessor.
 			*/
-			class DicomFileDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
+			class RTTBDicomIO_EXPORT DicomFileDoseAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
 			public:
 				using DRTDoseIODPtr = boost::shared_ptr<DRTDoseIOD>;

@@ -19,6 +19,8 @@
 #include "rttbBaseType.h"
 #include "rttbDVHGeneratorInterface.h"
 
+#include "RTTBOtherIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -29,7 +31,7 @@ namespace rttb
 			/*! @class DVHXMLFileReader
 			@brief Reads DVH data from xml files.
 			*/
-			class DVHXMLFileReader: public core::DVHGeneratorInterface
+			class RTTBOtherIO_EXPORT DVHXMLFileReader: public core::DVHGeneratorInterface
 			{
 			private:
 				FileNameString _fileName;

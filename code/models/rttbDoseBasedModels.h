@@ -15,6 +15,8 @@
 
 #include "rttbBaseTypeModels.h"
 
+#include "RTTBModelsExports.h"
+
 namespace rttb
 {
 	namespace models
@@ -31,7 +33,7 @@ namespace rttb
 		@return The LQ value
 		@exception rttb::core::InvalidParameterException Thrown if parameters were not set correctly.
 		*/
-		BioModelValueType calcLQ(DoseTypeGy dose, DoseCalcType alpha,
+		RTTBModels_EXPORT BioModelValueType calcLQ(DoseTypeGy dose, DoseCalcType alpha,
 		                         DoseCalcType beta, unsigned int nFractions=1);
 	}
 }

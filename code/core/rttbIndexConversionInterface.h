@@ -20,7 +20,9 @@
 #pragma warning(push)
 #pragma warning(disable: 4251)
 #endif
+
 #include <rttbCommon.h>
+#include "RTTBCoreExports.h"
 
 namespace rttb
 {
@@ -30,7 +32,7 @@ namespace rttb
 		/*! @class IndexConversionInterface
 			@brief This class represents the conversion of 3D grid indices to 1D grid IDs.
 		*/
-		class IndexConversionInterface
+		class RTTBCore_EXPORT IndexConversionInterface
 		{
     public:
       rttbClassMacroNoParent(IndexConversionInterface);
@@ -40,7 +42,7 @@ namespace rttb
 			IndexConversionInterface& operator=(const
 			                                    IndexConversionInterface&) = delete;//not implemented on purpose -> non-copyable
 
-		public:
+		protected:
 			IndexConversionInterface() = default;
 			virtual ~IndexConversionInterface() = default;
 

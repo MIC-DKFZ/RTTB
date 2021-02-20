@@ -18,6 +18,8 @@
 
 #include "rttbDoseStatistics.h"
 
+#include "RTTBOtherIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -27,7 +29,7 @@ namespace rttb
             /*! @class DoseStatisticsXMLReader
             @brief Reads a dose statistics XML into a DoseStatistics object
             */
-			class DoseStatisticsXMLReader{
+			class RTTBOtherIO_EXPORT DoseStatisticsXMLReader{
 			public:
         explicit DoseStatisticsXMLReader(const std::string& filename);
 				~DoseStatisticsXMLReader();

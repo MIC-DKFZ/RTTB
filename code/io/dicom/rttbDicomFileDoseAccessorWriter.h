@@ -21,6 +21,8 @@
 #include "../itk/rttbDoseAccessorConversionSettingInterface.h"
 #include "rttbDicomDoseAccessor.h"
 
+#include "RTTBDicomIOExports.h"
+
 //pixel data max value UINT16_MAX
 #define PixelDataMaxValue 0xffff
 
@@ -34,7 +36,7 @@ namespace rttb
 				@brief Class converts/dumps the processed accessor into an dicom file
 				@remark DoseAccessorConversionInterface defines how the converter should react on non valid dose values.
 			*/
-			class DicomFileDoseAccessorWriter: public core::DoseAccessorProcessorBase,
+			class RTTBDicomIO_EXPORT DicomFileDoseAccessorWriter: public core::DoseAccessorProcessorBase,
 				public core::DoseAccessorConversionSettingInterface
 			{
 			public:

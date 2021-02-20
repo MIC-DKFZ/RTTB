@@ -20,6 +20,8 @@
 #include "rttbBaseType.h"
 #include "rttbCommon.h"
 
+#include "RTTBCoreExports.h"
+
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4251)
@@ -33,7 +35,7 @@ namespace rttb
 		/*! @class MutableDoseAccessorInterface
 			@brief Extends the DoseAccessorInterface to provide writing access to the data.
 		*/
-		class MutableDoseAccessorInterface: public DoseAccessorInterface
+		class RTTBCore_EXPORT MutableDoseAccessorInterface: public DoseAccessorInterface
 		{
 
 		public:
@@ -43,6 +45,14 @@ namespace rttb
 
 			virtual void setDoseAt(const VoxelGridIndex3D& aIndex, DoseTypeGy value) = 0;
 
+		protected:
+			MutableDoseAccessorInterface() = default;
+			~MutableDoseAccessorInterface() override = default;
+
+		private:
+			MutableDoseAccessorInterface(const MutableDoseAccessorInterface&) = delete; //not implemented on purpose -> non-copyable
+			MutableDoseAccessorInterface& operator=(const
+				MutableDoseAccessorInterface&) = delete;//not implemented on purpose -> non-copyable
 		};
 	}
 }

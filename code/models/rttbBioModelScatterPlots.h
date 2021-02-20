@@ -19,6 +19,8 @@
 #include "rttbBaseType.h"
 #include "rttbBaseTypeModels.h"
 
+#include "RTTBModelsExports.h"
+
 namespace rttb
 {
 	namespace models
@@ -48,7 +50,7 @@ namespace rttb
 		approximately 20% more often.
 		@exception InvalidParameterException Thrown if aNormalisationDose<=0 or aMinDose<=aMaxiDose
 		*/
-		ScatterPlotType getScatterPlotVary1Parameter(BioModel& aModel, int aParamId,
+		RTTBModels_EXPORT ScatterPlotType getScatterPlotVary1Parameter(BioModel& aModel, int aParamId,
 		        BioModelParamType aMean, BioModelParamType aVariance, DoseTypeGy aNormalisationDose,
 		        int numberOfPoints = 100,
 		        DoseTypeGy aMinDose = 0, DoseTypeGy aMaxDose = 150);
@@ -75,14 +77,14 @@ namespace rttb
 		approximately 20% more often.
 		@exception InvalidParameterException Thrown if aNormalisationDose<=0 or aMinDose<=aMaxiDose
 		*/
-		ScatterPlotType getScatterPlotVaryParameters(BioModel& aModel, std::vector<int> aParamIdVec,
+		RTTBModels_EXPORT ScatterPlotType getScatterPlotVaryParameters(BioModel& aModel, std::vector<int> aParamIdVec,
 		       ParamVectorType aMeanVec, ParamVectorType aVarianceVec,
 		        DoseTypeGy aNormalisationDose, int numberOfPoints = 50, DoseTypeGy aMinDose = 0,
 		        DoseTypeGy aMaxDose = 150);
 
 		/*! Compute normal probability density function for zero mean at aValue with aVariance.
 		*/
-		double normal_pdf(double aValue, double aVariance);
+		RTTBModels_EXPORT double normal_pdf(double aValue, double aVariance);
 
 	}
 }

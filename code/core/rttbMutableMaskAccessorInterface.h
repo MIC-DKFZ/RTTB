@@ -21,6 +21,8 @@
 #include "rttbMaskAccessorInterface.h"
 #include "rttbBaseType.h"
 
+#include "RTTBCoreExports.h"
+
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4251)
@@ -36,7 +38,7 @@ namespace rttb
 		@details This interface is created for external manipulation of generated masks. For example to store
 		the results of arithmetic operations on other masks.
 		*/
-		class MutableMaskAccessorInterface: public MaskAccessorInterface
+		class RTTBCore_EXPORT MutableMaskAccessorInterface: public MaskAccessorInterface
 		{
 		public:
       rttbClassMacro(MutableMaskAccessorInterface, MaskAccessorInterface)
@@ -49,8 +51,23 @@ namespace rttb
 
 			virtual void setMaskAt(const VoxelGridIndex3D& gridIndex, const MaskVoxel& voxel) = 0;
 
+			virtual bool isGridHomogeneous() const
+			{
+				return false;
+			}
+
+		protected:
+			MutableMaskAccessorInterface() = default;
+			~MutableMaskAccessorInterface() override = default;
+
+		private:
+			MutableMaskAccessorInterface(const MutableMaskAccessorInterface&) = delete; //not implemented on purpose -> non-copyable
+			MutableMaskAccessorInterface& operator=(const
+				MutableMaskAccessorInterface&) = delete;//not implemented on purpose -> non-copyable
+
 		};
 	}
+
 }
 
 #ifdef _MSC_VER

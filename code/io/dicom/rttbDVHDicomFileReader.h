@@ -19,6 +19,8 @@
 #include "rttbBaseType.h"
 #include "rttbDVHGeneratorInterface.h"
 
+#include "RTTBDicomIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -29,7 +31,7 @@ namespace rttb
 			/*! @class DVHDicomFileReader
 			@brief Read DVH data from a dicom file and create corresponding DVH object.
 			*/
-			class DVHDicomFileReader: public core::DVHGeneratorInterface
+			class RTTBDicomIO_EXPORT DVHDicomFileReader: public core::DVHGeneratorInterface
 			{
 			private:
 				FileNameString _fileName;

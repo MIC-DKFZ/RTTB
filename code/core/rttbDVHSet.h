@@ -119,22 +119,16 @@ namespace rttb
 				@return Return -1 if DVH of _dvhTVSet init() failed
 			*/
 			VolumeType getTargetVolume(DoseTypeGy aDoseAbsolute) const;
-
-			/*! DVHSets are considered equal if they have the same structureSet, dose and voxelization ID
-				and the number of DVHs are equal.
-			*/
-			bool friend operator==(const DVHSet& aDVHSet, const DVHSet& otherDVHSet);
-
-			friend std::ostream& operator<<(std::ostream& s, const DVHSet& aDVHSet);
-
-			friend std::ostream& operator<<(std::ostream& s, const DVHSetType& aDVHSet);
 		};
 
-		bool operator==(const DVHSet& aDVHSet, const DVHSet& otherDVHSet);
+		/*! DVHSets are considered equal if they have the same structureSet, dose and voxelization ID
+			and the number of DVHs are equal.
+		*/
+		RTTBCore_EXPORT bool operator==(const DVHSet& aDVHSet, const DVHSet& otherDVHSet);
 
-		std::ostream& operator<<(std::ostream& s, const DVHSet& aDVHSet);
+		RTTBCore_EXPORT std::ostream& operator<<(std::ostream& s, const DVHSet& aDVHSet);
 
-		std::ostream& operator<<(std::ostream& s, const DVHSet::DVHSetType& aDVHSet);
+		RTTBCore_EXPORT std::ostream& operator<<(std::ostream& s, const DVHSet::DVHSetType& aDVHSet);
 
 	}
 }

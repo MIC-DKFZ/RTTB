@@ -173,10 +173,10 @@ namespace rttb
 			/*! @brief test if given index is inside current dose grid
 			*/
 			bool validIndex(const VoxelGridIndex3D& aIndex) const;
-
-			/*!@ brief generates string stream representation of the GeometricInfo object. */
-            friend std::ostream& operator << (std::ostream& s, const GeometricInfo& anGeometricInfo);
 		};
+
+		/*!@ brief generates string stream representation of the GeometricInfo object. */
+		RTTBCore_EXPORT std::ostream& operator << (std::ostream& s, const GeometricInfo& anGeometricInfo);
 	}
 }
 

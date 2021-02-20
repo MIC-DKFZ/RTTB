@@ -16,6 +16,8 @@
 #ifndef __MODEL_CURVE_H
 #define __MODEL_CURVE_H
 
+#include "RTTBModelsExports.h"
+
 namespace rttb
 {
 	namespace models
@@ -34,7 +36,7 @@ namespace rttb
 			@param maxDose max value for x axis
 			@param normalisationDose prescribed dose of the current _dvh or mean/maximum.
 		*/
-		CurveDataType getCurveDoseVSBioModel(BioModel& aModel, double normalisationDose, int aBin = 201,
+		RTTBModels_EXPORT CurveDataType getCurveDoseVSBioModel(BioModel& aModel, double normalisationDose, int aBin = 201,
 		                                     double minDose = 0.1, double maxDose = 150);
 
 		/*! @brief Get the curve NTCP Value vs EUD, dvh variant between minFactor*deltaD and maxFactor*deltaD.
@@ -42,7 +44,7 @@ namespace rttb
 			@param minFactor min factor for dvh deltaD
 			@param maxFactor max factor for dvh deltaD
 		*/
-		CurveDataType getCurveEUDVSBioModel(NTCPLKBModel& aModel, DoseCalcType maxFactor = 10,
+		RTTBModels_EXPORT CurveDataType getCurveEUDVSBioModel(NTCPLKBModel& aModel, DoseCalcType maxFactor = 10,
 		                                    DoseCalcType minFactor = 0.1, int aBin = 201);
 	}
 }

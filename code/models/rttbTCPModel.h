@@ -18,6 +18,8 @@
 
 #include "rttbBioModel.h"
 
+#include "RTTBModelsExports.h"
+
 namespace rttb
 {
 
@@ -28,7 +30,7 @@ namespace rttb
 		/*! @class TCPModel
 			@brief This is the interface class for TCP(Tumor Control Probability) models
 		*/
-		class TCPModel: public BioModel
+		class RTTBModels_EXPORT TCPModel: public BioModel
 		{
 		public:
 			using ParamVectorType = BioModel::ParamVectorType;

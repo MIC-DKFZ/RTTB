@@ -20,6 +20,8 @@
 #include "rttbDoseAccessorInterface.h"
 #include "rttbBaseTypeModels.h"
 
+#include "RTTBModelsExports.h"
+
 namespace rttb
 {
 	namespace models
@@ -27,7 +29,7 @@ namespace rttb
 		/*! @class LQModelAccessor
 		@brief This class gives access to the LQ Model information in an image
 		*/
-		class LQModelAccessor: public core::AccessorWithGeoInfoBase
+		class RTTBModels_EXPORT LQModelAccessor: public core::AccessorWithGeoInfoBase
 		{
 		public:
 			using DoseAccessorPointer = core::DoseAccessorInterface::Pointer;
