@@ -1,6 +1,6 @@
 ##################################################################
 #
-# RTTB_CREATE_MODULE
+# RTTB_CREATE_TEST_MODULE
 #
 #! Creates a module for the automatic module dependency system within RTTB.
 #! Configurations are generated in the moduleConf directory.
@@ -8,11 +8,9 @@
 #! USAGE:
 #!
 #! \code
-#! RTTB_CREATE_MODULE( <moduleName>
+#! RTTB_CREATE_TEST_MODULE( <moduleName>
 #!     [INCLUDE_DIRS <include directories>]
-#!     [INTERNAL_INCLUDE_DIRS <internally used include directories>]
 #!     [DEPENDS <modules we need>]
-#!     [PROVIDES <library name which is built>]
 #!     [PACKAGE_DEPENDS <packages we need, like ITK, VTK, QT>]
 #!     [HEADER_TEST]
 #! \endcode
@@ -21,132 +19,172 @@
 #
 ##################################################################
 MACRO(RTTB_CREATE_TEST_MODULE MODULE_NAME_IN)
-  MACRO_PARSE_ARGUMENTS(MODULE
-                        "INCLUDE_DIRS;INTERNAL_INCLUDE_DIRS;DEPENDS;DEPENDS_INTERNAL;PROVIDES;PACKAGE_DEPENDS;ADDITIONAL_LIBS"
-                        "HEADER_TESTS"
-                        ${ARGN})
 
-	SET(MODULE_NAME "${RTToolbox_PREFIX}${MODULE_NAME_IN}Tests")
-	SET(WAIT_FOR_DEPENDENCY_LIBS "Litmus") #each test depends on Litmus
+  set(_macro_params)
 
-	# assume worst case
-	SET(MODULE_IS_ENABLED 0)
-	# first we check if we have an explicit module build list
-	IF(RTTB_MODULES_TO_BUILD)
-		LIST(FIND RTTB_MODULES_TO_BUILD ${MODULE_NAME} _MOD_INDEX)
-		IF(_MOD_INDEX EQUAL -1)
-			SET(MODULE_IS_EXCLUDED 1)
-		ENDIF()
-	ENDIF()
+  set(_macro_multiparams
+      INCLUDE_DIRS           # include directories: [PUBLIC|PRIVATE|INTERFACE] <list>
+      DEPENDS                # list of modules this module depends on: [PUBLIC|PRIVATE|INTERFACE] <list>
+      PACKAGE_DEPENDS        # list of "packages this module depends on (e.g. Qt, VTK, etc.): [PUBLIC|PRIVATE|INTERFACE] <package-list>
+     )
 
-	IF(NOT MODULE_IS_EXCLUDED)
-		MESSAGE(STATUS "configuring Tests ${MODULE_NAME}...")
-		# first of all we check for the dependencies
-		RTTB_CHECK_MODULE(_MISSING_DEP ${MODULE_DEPENDS})
-		IF(_MISSING_DEP)
-			MESSAGE("Module ${MODULE_NAME} won't be built, missing dependency: ${_MISSING_DEP}")
-			SET(MODULE_IS_ENABLED 0)
-		ELSE(_MISSING_DEP)
-			SET(MODULE_IS_ENABLED 1)
-			# now check for every package if it is enabled. This overlaps a bit with
-			# RTTB_CHECK_MODULE ...
-			FOREACH(_package ${MODULE_PACKAGE_DEPENDS})
-				IF((DEFINED RTTB_USE_${_package}) AND NOT (RTTB_USE_${_package}))
-					MESSAGE("Module ${MODULE_NAME} won't be built. Turn on RTTB_USE_${_package} if you want to use it.")
-					SET(MODULE_IS_ENABLED 0)
-				ENDIF()
-			ENDFOREACH()
+  set(_macro_options
+      HEADER_TESTS
+     )
 
-			IF(NOT MODULE_PROVIDES)
-				SET(MODULE_PROVIDES ${MODULE_NAME})
-			ENDIF(NOT MODULE_PROVIDES)
+  cmake_parse_arguments(MODULE "${_macro_options}" "${_macro_params}" "${_macro_multiparams}" ${ARGN})
 
-			SET(DEPENDS "${MODULE_DEPENDS}")
-			SET(DEPENDS_BEFORE "not initialized")
-			SET(PACKAGE_DEPENDS "${MODULE_PACKAGE_DEPENDS}")
-			RTTB_USE_MODULE("${MODULE_DEPENDS}")
+  SET(MODULE_NAME "${RTToolbox_PREFIX}${MODULE_NAME_IN}Tests")
+  SET(WAIT_FOR_DEPENDENCY_LIBS "Litmus") #each test depends on Litmus
+  set(MODULE_FILES_CMAKE files.cmake)
 
-			# ok, now create the module itself
-			INCLUDE_DIRECTORIES(. ${ALL_INCLUDE_DIRECTORIES})
-			INCLUDE(files.cmake)
+  # -----------------------------------------------------------------
+  # Check if module should be build
 
-			ORGANIZE_SOURCES(SOURCE ${CPP_FILES}
-					 HEADER ${H_FILES}
-					 TXX ${TXX_FILES}
-					 DOC ${DOX_FILES}
-					 )
+  set(MODULE_TARGET ${MODULE_NAME})
 
-			IF(ALL_LIBRARY_DIRS)
-				# LINK_DIRECTORIES applies only to targets which are added after the call to LINK_DIRECTORIES
-				LINK_DIRECTORIES(${ALL_LIBRARY_DIRS})
-			ENDIF(ALL_LIBRARY_DIRS)
+    # assume worst case
+    SET(MODULE_IS_ENABLED 0)
+    # first we check if we have an explicit module build list
+    IF(RTTB_MODULES_TO_BUILD)
+        LIST(FIND RTTB_MODULES_TO_BUILD ${MODULE_NAME} _MOD_INDEX)
+        IF(_MOD_INDEX EQUAL -1)
+            SET(MODULE_IS_EXCLUDED 1)
+        ENDIF()
+    ENDIF()
 
-			SET(coverage_sources ${CPP_FILES} ${H_FILES} ${TXX_FILES})
+    IF(NOT MODULE_IS_EXCLUDED)
+        MESSAGE(STATUS "configuring Tests ${MODULE_NAME}...")
+    # first of all we check for the dependencies
+    _rttb_parse_package_args(${MODULE_PACKAGE_DEPENDS})
+    rttb_check_module_dependencies(MODULES ${MODULE_DEPENDS}
+                                   PACKAGES ${PACKAGE_NAMES}
+                                   MISSING_DEPENDENCIES_VAR _MISSING_DEP
+                                   PACKAGE_DEPENDENCIES_VAR PACKAGE_NAMES)
 
-			ADD_EXECUTABLE(${MODULE_PROVIDES} ${coverage_sources} ${CPP_FILES_GENERATED})
+    if(_MISSING_DEP)
+      message("${_Module_type} ${MODULE_NAME} won't be built, missing dependency: ${_MISSING_DEP}")
+      set(MODULE_IS_ENABLED 0)
+    else()
+      set(MODULE_IS_ENABLED 1)
+      # now check for every package if it is enabled. This overlaps a bit with
+      # RTTB_CHECK_MODULE ...
+      foreach(_package ${PACKAGE_NAMES})
+        if((DEFINED RTTB_USE_${_package}) AND NOT (RTTB_USE_${_package}))
+          message("${_Module_type} ${MODULE_NAME} won't be built. Turn on RTTB_USE_${_package} if you want to use it.")
+          set(MODULE_IS_ENABLED 0)
+          break()
+        endif()
+      endforeach()
+    endif()
+  endif()
 
-			IF(ALL_LIBRARIES)
-				TARGET_LINK_LIBRARIES(${MODULE_PROVIDES} ${ALL_LIBRARIES})
-			ENDIF(ALL_LIBRARIES)
+  # -----------------------------------------------------------------
+  # Start creating the module
 
-			IF(MODULE_HEADER_TESTS)
-				MESSAGE(STATUS "generating header tests ${MODULE_NAME}...")
-				SET(HEADER_TEST_CPP "${CMAKE_CURRENT_BINARY_DIR}/${RTToolbox_PREFIX}${MODULE_NAME_IN}HeaderTest.cpp")
-				MESSAGE(STATUS "generating header tests ${HEADER_TEST_CPP}")
+  if(MODULE_IS_ENABLED)
 
-				FILE(WRITE ${HEADER_TEST_CPP} ${RTTB_HEADER_TESTS_HEADER})
-				FOREACH(_h_file ${H_FILES})
-				FILE(APPEND ${HEADER_TEST_CPP} "#include <${_h_file}>\n")
-				ENDFOREACH()
-				FILE(APPEND ${HEADER_TEST_CPP} ${RTTB_HEADER_TESTS_FOOTER})
+    if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${MODULE_FILES_CMAKE}")
+      include(${MODULE_FILES_CMAKE})
+    endif()
 
-				ADD_EXECUTABLE(${RTToolbox_PREFIX}${MODULE_NAME_IN}HeaderTest ${HEADER_TEST_CPP})
+    if(CPP_FILES)
+      set(MODULE_HEADERS_ONLY 0)
+    else()
+      set(MODULE_HEADERS_ONLY 1)
+    endif()
 
-				IF(ALL_LIBRARIES)
-				TARGET_LINK_LIBRARIES(${RTToolbox_PREFIX}${MODULE_NAME_IN}HeaderTest ${ALL_LIBRARIES})
-				ENDIF(ALL_LIBRARIES)
+    if(MODULE_FORCE_STATIC)
+      set(_STATIC ${RTTB_WIN32_FORCE_STATIC)
+    else()
+      set(_STATIC )
+    endif(MODULE_FORCE_STATIC)
 
-			ENDIF(MODULE_HEADER_TESTS)
+    ORGANIZE_SOURCES(
+      SOURCE ${CPP_FILES}
+      HEADER ${H_FILES}
+      TXX ${TXX_FILES}
+      DOC ${DOX_FILES}
+      )
 
-			# Necessary so the build waits for libs to build
-			ADD_DEPENDENCIES(${MODULE_NAME} ${WAIT_FOR_DEPENDENCY_LIBS})
+    set(coverage_sources
+        ${CPP_FILES} ${H_FILES} ${GLOBBED__H_FILES} ${CORRESPONDING__H_FILES} ${TXX_FILES})
 
-			#-----------------------------------------------------------------------------
+    ADD_EXECUTABLE(${MODULE_TARGET} ${coverage_sources} ${CPP_FILES_GENERATED})
 
-			IF(RTToolbox_BINARY_DIR)
-				SET(RTToolbox_SYSTEM_INFORMATION_DIR ${RTToolbox_BINARY_DIR})
-			ELSE(RTToolbox_BINARY_DIR)
-				SET(RTToolbox_SYSTEM_INFORMATION_DIR ${RTTBTesting_BINARY_DIR})
-			ENDIF(RTToolbox_BINARY_DIR)
+    SET(DEPENDS "${MODULE_DEPENDS}")
+    SET(DEPENDS_BEFORE "not initialized")
 
-			WRITE_FILE(
-			 "${RTToolbox_SYSTEM_INFORMATION_DIR}/testing/HTML/TestingResults/Sites/${SITE}/${BUILDNAME}/BuildNameNotes.xml"
+    rttb_use_modules(TARGET ${MODULE_TARGET}
+                     MODULES ${DEPENDS}
+                     PACKAGES ${MODULE_PACKAGE_DEPENDS}
+                    )
 
-			 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-			 "<Site BuildName=\"CMakeCache\" Name=\"crd\">\n"
-			 "<BuildNameNotes>\n"
-			 "<Note>\n"
-			 "<DateTime>Wed Oct 24 1:00:00 EST</DateTime>\n"
-			 "<Text>\n"
-			 "Here is some basic information:\n"
-			 "RTToolbox_SOURCE_DIR = ${RTToolbox_SOURCE_DIR}\n"
-			 "RTToolbox_BINARY_DIR = ${RTToolbox_BINARY_DIR}\n"
-			 "RTTBTesting_SOURCE_DIR = ${RTTBTesting_SOURCE_DIR}\n"
-			 "RTTBTesting_BINARY_DIR = ${RTTBTesting_BINARY_DIR}\n"
-			 "CMAKE_C_COMPILER = ${CMAKE_C_COMPILER}\n"
-			 "CMAKE_C_FLAGS = ${CMAKE_C_FLAGS}\n"
-			 "CMAKE_CXX_COMPILER = ${CMAKE_CXX_COMPILER}\n"
-			 "CMAKE_CXX_FLAGS = ${CMAKE_CXX_FLAGS}\n"
-			 "CMAKE_SYSTEM = ${CMAKE_SYSTEM}\n"
-			 "CMAKE_MAKE_PROGRAM = ${CMAKE_MAKE_PROGRAM}\n"
-			 "</Text>\n"
-			 "</Note>\n"
-			 "</BuildNameNotes>\n"
-			 "</Site>\n"
-			)
+    # add include directories
+    target_include_directories(${MODULE_TARGET} PUBLIC .)
+    target_include_directories(${MODULE_TARGET} PUBLIC ${MODULE_INCLUDE_DIRS})
 
-		ENDIF(_MISSING_DEP)
-	ENDIF(NOT MODULE_IS_EXCLUDED)
+    IF(MODULE_HEADER_TESTS)
+      MESSAGE(STATUS "generating header tests ${MODULE_NAME}...")
+      SET(HEADER_TEST_CPP "${CMAKE_CURRENT_BINARY_DIR}/${RTToolbox_PREFIX}${MODULE_NAME_IN}HeaderTest.cpp")
+      MESSAGE(STATUS "generating header tests ${HEADER_TEST_CPP}")
+
+	  FILE(WRITE ${HEADER_TEST_CPP} ${RTTB_HEADER_TESTS_HEADER})
+	  FOREACH(_h_file ${H_FILES})
+	    FILE(APPEND ${HEADER_TEST_CPP} "#include <${_h_file}>\n")
+	  ENDFOREACH()
+	  FILE(APPEND ${HEADER_TEST_CPP} ${RTTB_HEADER_TESTS_FOOTER})
+
+	  ADD_EXECUTABLE(${RTToolbox_PREFIX}${MODULE_NAME_IN}HeaderTest ${HEADER_TEST_CPP})
+
+      SET(DEPENDS "${MODULE_DEPENDS}")
+      SET(DEPENDS_BEFORE "not initialized")
+
+      rttb_use_modules(TARGET ${RTToolbox_PREFIX}${MODULE_NAME_IN}HeaderTest
+                       MODULES ${DEPENDS}
+                       PACKAGES ${MODULE_PACKAGE_DEPENDS}
+                      )
+
+     ENDIF(MODULE_HEADER_TESTS)
+
+        # Necessary so the build waits for libs to build
+        ADD_DEPENDENCIES(${MODULE_NAME} ${WAIT_FOR_DEPENDENCY_LIBS})
+
+        #-----------------------------------------------------------------------------
+
+        IF(RTToolbox_BINARY_DIR)
+            SET(RTToolbox_SYSTEM_INFORMATION_DIR ${RTToolbox_BINARY_DIR})
+        ELSE(RTToolbox_BINARY_DIR)
+            SET(RTToolbox_SYSTEM_INFORMATION_DIR ${RTTBTesting_BINARY_DIR})
+        ENDIF(RTToolbox_BINARY_DIR)
+
+        WRITE_FILE(
+         "${RTToolbox_SYSTEM_INFORMATION_DIR}/testing/HTML/TestingResults/Sites/${SITE}/${BUILDNAME}/BuildNameNotes.xml"
+
+         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+         "<Site BuildName=\"CMakeCache\" Name=\"crd\">\n"
+         "<BuildNameNotes>\n"
+         "<Note>\n"
+         "<DateTime>Wed Oct 24 1:00:00 EST</DateTime>\n"
+         "<Text>\n"
+         "Here is some basic information:\n"
+         "RTToolbox_SOURCE_DIR = ${RTToolbox_SOURCE_DIR}\n"
+         "RTToolbox_BINARY_DIR = ${RTToolbox_BINARY_DIR}\n"
+         "RTTBTesting_SOURCE_DIR = ${RTTBTesting_SOURCE_DIR}\n"
+         "RTTBTesting_BINARY_DIR = ${RTTBTesting_BINARY_DIR}\n"
+         "CMAKE_C_COMPILER = ${CMAKE_C_COMPILER}\n"
+         "CMAKE_C_FLAGS = ${CMAKE_C_FLAGS}\n"
+         "CMAKE_CXX_COMPILER = ${CMAKE_CXX_COMPILER}\n"
+         "CMAKE_CXX_FLAGS = ${CMAKE_CXX_FLAGS}\n"
+         "CMAKE_SYSTEM = ${CMAKE_SYSTEM}\n"
+         "CMAKE_MAKE_PROGRAM = ${CMAKE_MAKE_PROGRAM}\n"
+         "</Text>\n"
+         "</Note>\n"
+         "</BuildNameNotes>\n"
+         "</Site>\n"
+        )
+
+    endif()
 ENDMACRO(RTTB_CREATE_TEST_MODULE)
 
 SET(RTTB_HEADER_TESTS_HEADER

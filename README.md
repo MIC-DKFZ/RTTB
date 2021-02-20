@@ -46,7 +46,7 @@ Can be changed with advanced option `BUILD_SHARED_LIBS`
 #### Third party libraries
 
 * [boost](http://www.boost.org ), version 1.64.0 or higher
-* [DCMTK](http://dicom.offis.de/dcmtk.php.en ), with RT support - 3.6.1_20121102 or newer
+* [DCMTK](http://dicom.offis.de/dcmtk.php.en ) 3.6.5 or higher
 * [ITK](https://itk.org ), version 4.4 or higher (*optional*)
   * for DoseInterpolation support with ITK transformation or ITK File IO support
 * [MatchPoint](http://mitk.org/download/thirdparty/MatchPoint_rev1610.tar.gz ), version 0.12 or higher (*optional*)
@@ -74,79 +74,16 @@ For Windows:
 
 To build Boost open a command prompt, change to your boost source directory and copy following command(s):
 Debug:
-`b2 -j12 --with-filesystem --with-system --with-thread --with-program_options --with-date_time --with-atomic --with-chrono toolset=msvc-14.1 address-model=64 variant=debug threading=multi link=shared define=_BIND_TO_CURRENT_VCLIBS_VERSION`
+`b2 -j12 --with-filesystem --with-system --with-thread --with-program_options --with-date_time --with-atomic --with-chrono toolset=<your toolset identifier> address-model=64 variant=debug threading=multi link=shared define=_BIND_TO_CURRENT_VCLIBS_VERSION`
 Release:
-`b2 -j12 --with-filesystem --with-system --with-thread --with-program_options --with-date_time --with-atomic --with-chrono toolset=msvc-14.1 address-model=64 variant=release threading=multi link=shared`
+`b2 -j12 --with-filesystem --with-system --with-thread --with-program_options --with-date_time --with-atomic --with-chrono toolset=<your toolset identifier> address-model=64 variant=release threading=multi link=shared`
 
+Set the <your toolset identifier> in the commands above accordingly.
 If you don´t require `program_options` delete `--with-program_options` from the command before executing it.
 ##### DCMTK
 
 For Windows:
-
-To compile DCMTK with `/MD` flags (standard for all other libs), you need to patch the CMAKE options of DCMTK (`PathToDCMTK\CMake\dcmtkPrepare.cmake`), either by replacing `"/MT"` with `"/MD"` or by explicitly replacing lines 135 to 171 with the following lines:
-
-```
-IF(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS AND NOT BUILD_SHARED_LIBS)
-
-  
-	# settings for Microsoft Visual Studio
-  
-	IF(CMAKE_GENERATOR MATCHES "Visual Studio .*")
-    
-		# get Visual Studio Version
-    
-		STRING(REGEX REPLACE "Visual Studio ([0-9]+).*" "\\1" VS_VERSION "${CMAKE_GENERATOR}")
-    
-		# these settings never change even for C or C++
-    
-		SET(CMAKE_C_FLAGS_DEBUG "/MDd /Z7 /Od")
-    
-		SET(CMAKE_C_FLAGS_RELEASE "/DNDEBUG /MD /O2")
-    
-		SET(CMAKE_C_FLAGS_MINSIZEREL "/DNDEBUG /MD /O2")
-    
-		SET(CMAKE_C_FLAGS_RELWITHDEBINFO "/DNDEBUG /MDd /Z7 /Od")
-
-    
-		SET(CMAKE_CXX_FLAGS_DEBUG "/MDd /Z7 /Od")
-    
-		SET(CMAKE_CXX_FLAGS_RELEASE "/DNDEBUG /MD /O2")
-    
-		SET(CMAKE_CXX_FLAGS_MINSIZEREL "/DNDEBUG /MD /O2")
-    
-		SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/DNDEBUG /MDd /Z7 /Od")
-    
-		# specific settings for the various Visual Studio versions
-    
-		IF(VS_VERSION EQUAL 6)
-      
-			SET(CMAKE_C_FLAGS "/nologo /W3 /GX /Gy /YX")
-      
-			SET(CMAKE_CXX_FLAGS "/nologo /W3 /GX /Gy /YX /Zm500") # /Zm500 increments heap size which is needed on some system to compile templates in dcmimgle
-    
-		ENDIF(VS_VERSION EQUAL 6)
-    
-		IF(VS_VERSION EQUAL 7)
-      
-			SET(CMAKE_C_FLAGS "/nologo /W3 /Gy")
-      
-			SET(CMAKE_CXX_FLAGS "/nologo /W3 /Gy")
-    
-		ENDIF(VS_VERSION EQUAL 7)
-    
-		IF(VS_VERSION GREATER 7)
-      
-			SET(CMAKE_C_FLAGS "/nologo /W3 /Gy /EHsc")
-      
-			SET(CMAKE_CXX_FLAGS "/nologo /W3 /Gy /EHsc")
-    
-		ENDIF(VS_VERSION GREATER 7)
-  
-	ENDIF(CMAKE_GENERATOR MATCHES "Visual Studio .*")
-
-
-ENDIF(DCMTK_OVERWRITE_WIN32_COMPILER_FLAGS AND NOT BUILD_SHARED_LIBS)
-```
+To compile DCMTK with `/MD` flags (standard for all other libs), you need to set DCMTK_COMPILE_WIN32_MULTITHREADED_DLL to "ON".
 
 `BUILD_APPS` can be switched off.
 Then build DCMTK.
