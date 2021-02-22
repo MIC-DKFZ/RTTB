@@ -109,7 +109,7 @@ function(RTTB_CREATE_MODULE)
   endif()
 
   if(NOT MODULE_IS_EXCLUDED)
-    message(STATUS "configuring Module ${MODULE_NAME}...") 
+    message(STATUS "configuring Module ${MODULE_NAME}...")
     # first of all we check for the dependencies
     _rttb_parse_package_args(${MODULE_PACKAGE_DEPENDS})
     rttb_check_module_dependencies(MODULES ${MODULE_DEPENDS}
@@ -178,8 +178,6 @@ function(RTTB_CREATE_MODULE)
 
     if(MODULE_HEADERS_ONLY)
       add_library(${MODULE_TARGET} INTERFACE)
-      # INTERFACE_LIBRARY targets may only have whitelisted properties. The property "FOLDER" is not allowed.
-      # set_property(TARGET ${MODULE_TARGET} PROPERTY FOLDER "${RTTB_ROOT_FOLDER}/Modules")
     else()
       add_library(${MODULE_TARGET} ${_STATIC}
                   ${coverage_sources} ${CPP_FILES_GENERATED}
@@ -197,11 +195,12 @@ function(RTTB_CREATE_MODULE)
       # create export macros
       CONFIGURE_FILE(${RTToolbox_SOURCE_DIR}/cmake/moduleExports.h.in ${RTTB_MODULES_CONF_DIR}/${MODULE_NAME}Exports.h @ONLY)
 
-      # create export macros
-#      generate_export_header(${MODULE_NAME}
-#          EXPORT_FILE_NAME ${MODULE_NAME}Exports.h)
-
       target_include_directories(${MODULE_TARGET} PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${RTTB_MODULES_CONF_DIR})
+
+      INSTALL(TARGETS ${MODULE_TARGET} EXPORT RTToolboxExport
+         RUNTIME DESTINATION ${RTTOOLBOX_INSTALL_BIN_DIR} COMPONENT RuntimeLibraries
+         LIBRARY DESTINATION ${RTTOOLBOX_INSTALL_LIB_DIR} COMPONENT RuntimeLibraries
+         ARCHIVE DESTINATION ${RTTOOLBOX_INSTALL_LIB_DIR} COMPONENT Development)
 
     endif()
 
@@ -229,6 +228,11 @@ function(RTTB_CREATE_MODULE)
     # add include directories
     target_include_directories(${MODULE_TARGET} ${_module_property_type} .)
     target_include_directories(${MODULE_TARGET} ${_module_property_type} ${MODULE_INCLUDE_DIRS})
+
+    IF(NOT RTTOOLBOX_INSTALL_NO_DEVELOPMENT)
+	  INSTALL(FILES ${H_FILES} ${TXX_FILES}
+	    DESTINATION ${RTTOOLBOX_INSTALL_INCLUDE_DIR} COMPONENT Development)
+    ENDIF(NOT RTTOOLBOX_INSTALL_NO_DEVELOPMENT)
 
   endif()
 
