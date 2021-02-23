@@ -19,6 +19,8 @@
 #include "rttbBioModel.h"
 #include "rttbBaseTypeModels.h"
 
+#include "RTTBModelsExports.h"
+
 namespace rttb
 {
 	namespace models
@@ -27,7 +29,7 @@ namespace rttb
 		/*! @class NTCPModel
 			@brief This is the interface class for NTCP(Normal Tissue Complication Probability) models
 		*/
-		class NTCPModel: public BioModel
+		class RTTBModels_EXPORT NTCPModel: public BioModel
 		{
 		public:
 			using ParamVectorType = BioModel::ParamVectorType;

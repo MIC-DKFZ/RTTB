@@ -32,7 +32,7 @@ namespace rttb
 		(Lyman 1985, Kutcher and Burman 1989)
 		@see NTCPModel
 		*/
-		class NTCPLKBModel: public NTCPModel
+		class RTTBModels_EXPORT NTCPLKBModel: public NTCPModel
 		{
 		public:
 			using ParamVectorType = NTCPModel::ParamVectorType;

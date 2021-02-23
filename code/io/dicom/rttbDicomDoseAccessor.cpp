@@ -13,7 +13,7 @@
 //
 //------------------------------------------------------------------------
 
-#include "drtdose.h"
+#include <dcmtk/dcmrt/drtdose.h>
 
 #include <boost/lexical_cast.hpp>
 

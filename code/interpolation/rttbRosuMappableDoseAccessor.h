@@ -22,6 +22,8 @@
 #include "rttbInterpolationBase.h"
 #include "rttbMappableDoseAccessorInterface.h"
 
+#include "RTTBInterpolationExports.h"
+
 namespace rttb
 {
 	namespace interpolation
@@ -32,7 +34,7 @@ namespace rttb
 		@details implementation of the following paper: Rosu, M., Chetty, I. J., Balter, J. M., Kessler, M. L., McShan, D. L., & Ten Haken, R. K. (2005). Dose reconstruction in deforming lung anatomy: Dose grid size effects and clinical implications. Medical Physics, 32(8), 2487.
 		@ingroup interpolation
 		*/
-		class RosuMappableDoseAccessor: public MappableDoseAccessorInterface
+		class RTTBInterpolation_EXPORT RosuMappableDoseAccessor: public MappableDoseAccessorInterface
 		{
 		private:
 			InterpolationBase::Pointer _spInterpolation;

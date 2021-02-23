@@ -21,6 +21,8 @@
 #include "rttbMaskVoxel.h"
 #include "rttbIndexConversionInterface.h"
 
+#include "RTTBCoreExports.h"
+
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4251)
@@ -34,7 +36,7 @@ namespace rttb
 		/*! @class MaskAccessorInterface
 			@brief This class triggers the voxelization and gives acess to the masked voxels.
 		*/
-		class MaskAccessorInterface: public IndexConversionInterface
+		class RTTBCore_EXPORT MaskAccessorInterface: public IndexConversionInterface
 		{
 		public:
       rttbClassMacro(MaskAccessorInterface, IndexConversionInterface);
@@ -45,11 +47,11 @@ namespace rttb
 			MaskAccessorInterface(const MaskAccessorInterface&) = delete; //not implemented on purpose -> non-copyable
 			MaskAccessorInterface& operator=(const
 			                                 MaskAccessorInterface&) = delete;//not implemented on purpose -> non-copyable
-
-		public:
+		protected:
 			MaskAccessorInterface() = default;
 			~MaskAccessorInterface() override = default;
 
+		public:
 			/*! @brief Start generation of mask
 			@post mask is valid and acessible
 			*/
@@ -97,6 +99,7 @@ namespace rttb
 			virtual IDType getMaskUID() const = 0;
 		};
 	}
+
 }
 
 #ifdef _MSC_VER

@@ -16,8 +16,8 @@
 #ifndef __DICOM_DOSE_ACCESSOR_H
 #define __DICOM_DOSE_ACCESSOR_H
 
-#include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */
-#include "drtdose.h"
+#include <dcmtk/config/osconfig.h>    /* make sure OS specific configuration is included first */
+#include <dcmtk/dcmrt/drtdose.h>
 
 #include <vector>
 #include <exception>
@@ -26,6 +26,8 @@
 
 #include "rttbAccessorWithGeoInfoBase.h"
 #include "rttbBaseType.h"
+
+#include "RTTBDicomIOExports.h"
 
 namespace rttb
 {
@@ -36,7 +38,7 @@ namespace rttb
 			/*! @class DicomDoseAccessor
 			@brief This class gives access to dose information from DRTDoseIOD and DcmItem
 			*/
-			class DicomDoseAccessor: public core::AccessorWithGeoInfoBase
+			class RTTBDicomIO_EXPORT DicomDoseAccessor: public core::AccessorWithGeoInfoBase
 			{
 			public:
 				using DRTDoseIODPtr = boost::shared_ptr<DRTDoseIOD>;

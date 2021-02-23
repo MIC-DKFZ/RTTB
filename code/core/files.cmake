@@ -13,6 +13,7 @@ SET(CPP_FILES
   rttbStructureSet.cpp
   rttbStrVectorStructureSetGenerator.cpp
   rttbUtils.cpp
+  rttbMutableMaskAccessorInterface.cpp
   )
 
 SET(H_FILES 

@@ -21,6 +21,8 @@
 #include "rttbNTCPModel.h"
 #include "rttbBaseTypeModels.h"
 
+#include "RTTBModelsExports.h"
+
 namespace rttb
 {
 
@@ -31,7 +33,7 @@ namespace rttb
 			@brief This class represents a NTCP(Normal Tissue Complication Probability) relative seriality model (Kaellman 1992)
 			@see NTCPModel
 		*/
-		class NTCPRSModel: public NTCPModel
+		class RTTBModels_EXPORT NTCPRSModel: public NTCPModel
 		{
 		public:
 			using ParamVectorType = NTCPModel::ParamVectorType;

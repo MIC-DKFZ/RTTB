@@ -115,18 +115,6 @@ namespace rttb
 			*/
 			DVH& operator=(const DVH& copy);
 
-			/*! equality operator
-				DVHs are considered equal if the following are equal (let alone double inconsistencies):
-        - structureID
-        - doseID
-        - voxelizationID
-        - number of voxels
-        - Histogram entries.
-			*/
-			bool friend operator==(const DVH& aDVH, const DVH& otherDVH);
-
-			friend std::ostream& operator<<(std::ostream& s, const DVH& aDVH);
-
 			void setLabel(StructureLabel aLabel);
 			StructureLabel getLabel() const;
 
@@ -203,6 +191,18 @@ namespace rttb
 			*/
 			std::map <DoseTypeGy, PercentType> getNormalizedDVH(DVHType dvhType = { DVHType::Cumulative }) const;
 		};
+
+		/*! equality operator
+			DVHs are considered equal if the following are equal (let alone double inconsistencies):
+			- structureID
+			- doseID
+			- voxelizationID
+			- number of voxels
+			- Histogram entries.
+		*/
+		RTTBCore_EXPORT bool operator==(const DVH& aDVH, const DVH& otherDVH);
+
+		RTTBCore_EXPORT std::ostream& operator<<(std::ostream& s, const DVH& aDVH);
 	}
 }
 

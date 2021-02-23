@@ -26,6 +26,8 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/multi_array.hpp>
 
+#include "RTTBMaskExports.h"
+
 namespace rttb
 {
 	namespace masks
@@ -40,7 +42,7 @@ namespace rttb
 			*   If "strict" is set to false, debug information will be displayed when the given structure has self intersection. Self intersections will be ignored
 			*   and the mask will be calculated, however, it may cause errors in the mask results.
 			*/
-			class BoostMask
+			class RTTBMask_EXPORT BoostMask
 			{
 
 			public:

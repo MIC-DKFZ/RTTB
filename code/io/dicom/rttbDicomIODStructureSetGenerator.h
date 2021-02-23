@@ -23,10 +23,12 @@ This class should only provide general structure functionality.
 
 #include <boost/shared_ptr.hpp>
 
-#include "drtstrct.h"
+#include <dcmtk/dcmrt/drtstrct.h>
 
 #include "rttbBaseType.h"
 #include "rttbStrVectorStructureSetGenerator.h"
+
+#include "RTTBDicomIOExports.h"
 
 namespace rttb
 {
@@ -38,7 +40,7 @@ namespace rttb
 			/*! @class DicomIODStructureSetGenerator
 			@brief Generate a structure set from a DRTStructureSetIOD pointer.
 			*/
-			class DicomIODStructureSetGenerator: public core::StrVectorStructureSetGenerator
+			class RTTBDicomIO_EXPORT DicomIODStructureSetGenerator: public core::StrVectorStructureSetGenerator
 			{
 			public:
 				using StructTypePointer = core::Structure::Pointer;

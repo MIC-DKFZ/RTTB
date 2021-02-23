@@ -22,6 +22,8 @@
 #include "rttbTCPModel.h"
 #include "rttbBaseTypeModels.h"
 
+#include "RTTBModelsExports.h"
+
 namespace rttb
 {
 
@@ -34,7 +36,7 @@ namespace rttb
 			@see TCPModel
 		*/
 
-		class TCPLQModel: public TCPModel
+		class RTTBModels_EXPORT TCPLQModel: public TCPModel
 		{
 		public:
 			using ParamVectorType = TCPModel::ParamVectorType;

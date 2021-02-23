@@ -21,7 +21,7 @@
 #include <exception>
 
 #include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */
-#include "drtdose.h"
+#include "dcmtk/dcmrt/drtdose.h"
 
 #include "rttbDoseAccessorGeneratorBase.h"
 #include "rttbBaseType.h"

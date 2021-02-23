@@ -18,11 +18,13 @@
 
 #include <vector>
 
-#include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */
-#include "drtdose.h"
+#include <dcmtk/config/osconfig.h>    /* make sure OS specific configuration is included first */
+#include <dcmtk/dcmrt/drtdose.h>
 
 #include "rttbBaseType.h"
 #include "boost/shared_ptr.hpp"
+
+#include "RTTBDicomIOExports.h"
 
 namespace rttb
 {
@@ -49,21 +51,21 @@ namespace rttb
 			@exception InvalidParameterException thrown if the file/directory does not exist or the modality is invalid
 			@exception DcmrtException thrown if load/read file failed
 			*/
-			std::vector<FileNameType> getFileNamesWithSameUID(FileNameType aDirName, Modality aModality);
+			RTTBDicomIO_EXPORT std::vector<FileNameType> getFileNamesWithSameUID(FileNameType aDirName, Modality aModality);
 
 			/*! Return the vector of all files with the same UID in the directory of the given file
 			@exception InvalidParameterException thrown if the file does not exist
 			@exception DcmrtException thrown if load/read file failed
 			*/
-			std::vector<FileNameType> getFileNames(FileNameType aFileName);
+			RTTBDicomIO_EXPORT std::vector<FileNameType> getFileNames(FileNameType aFileName);
 
 			/*! Return modality DcmTagKey(0x0008, 0x0060)
 			@exception DcmrtException thrown if reading modality failed*/
-			OFString getModality(DcmDataSetPtr aDcmDataSet);
+			RTTBDicomIO_EXPORT OFString getModality(DcmDataSetPtr aDcmDataSet);
 
 			/*! Return uid DcmTagKey(0x0020, 0x000e)
 			@exception DcmrtException thrown if reading uid failed*/
-			OFString getUID(DcmDataSetPtr aDcmDataSet);
+			RTTBDicomIO_EXPORT OFString getUID(DcmDataSetPtr aDcmDataSet);
 
 
 		};

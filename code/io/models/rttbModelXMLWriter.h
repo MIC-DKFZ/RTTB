@@ -18,6 +18,8 @@
 
 #include "rttbBioModel.h"
 
+#include "RTTBModelsIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -27,7 +29,7 @@ namespace rttb
             /*! @class ModelXMLWriter
             @brief Writes a model (TCP, NTCP, ...) to an xml file
             */
-			class ModelXMLWriter
+			class RTTBModelsIO_EXPORT ModelXMLWriter
 			{
 			private:
 				std::string _filename;
