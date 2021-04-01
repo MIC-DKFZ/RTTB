@@ -218,6 +218,7 @@ namespace rttb
           {
             const WorldCoordinate z = _dta * iZ / static_cast<double>(_searchSamplingRate);
             WorldCoordinate3D newPos = { x,y,z };
+
             const auto newDistance = boost::numeric::ublas::norm_2(newPos);
             const auto penalty = (newDistance * newDistance) / (_dta * _dta);
             if (penalty>0 && penalty <= 1)
@@ -234,14 +235,14 @@ namespace rttb
     std::pair<GenericValueType, WorldCoordinate3D> GammaIndex::computeValueAndPosition(const WorldCoordinate3D& aPoint) const
     {
       const auto measuredDose = _doseInterpolator->getValue(aPoint);
-      const auto referenceDose = _referenceDoseInterpolator->getValue(aPoint);
 
-      const DoseTypeGy doseThresholdGy = ((_useLocalDose) ? referenceDose : _globalDose) * _ddt;
+      const DoseTypeGy doseThresholdGy = ((_useLocalDose) ? measuredDose : _globalDose) * _ddt;
       const DoseTypeGy doseThresholdGySquared = doseThresholdGy*doseThresholdGy;
 
       if (0. == doseThresholdGySquared)
       {
-        //TODO needs to clarify what to do if dose threshold is 0 because we would devide through it?!??
+        // This is likely to occur if a mask is applied before
+        // but should in general not occur if dose values inside the mask are given
         return std::make_pair(std::nan(""),WorldCoordinate3D(0.));
       }
 
@@ -255,12 +256,13 @@ namespace rttb
         { //search position could beat the best finding -> evaluate it
           const WorldCoordinate3D refPoint = aPoint + distancePenalty.searchPosition;
 
-          if (_indexGeometry->isInside(refPoint) && _referenceDose->getGeometricInfo().isInside(refPoint))
-          { //needed refpoint is part of index and reference dose geometry -> go on
+          if (_referenceDose->getGeometricInfo().isInside(refPoint))
+          { //needed refpoint is part reference dose geometry -> go on
             const auto refDose = _referenceDoseInterpolator->getValue(refPoint);
             const auto doseDifferenceSquared = std::pow(refDose - measuredDose, 2);
             const auto dosePenalty = doseDifferenceSquared / doseThresholdGySquared;
             const GenericValueType penalty = std::sqrt(distancePenalty.distancePenalty + dosePenalty);
+
             if (penalty < bestFinding.first)
             {
                 //gamma index value is limited to 1.0 based on the literature

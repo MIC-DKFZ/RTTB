@@ -20,7 +20,6 @@
 
 #include "rttbSpatialDoseIndex.h"
 #include "rttbInterpolationBase.h"
-
 #include "RTTBIndicesExports.h"
 
 namespace rttb

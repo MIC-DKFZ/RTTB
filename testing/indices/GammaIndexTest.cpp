@@ -150,12 +150,63 @@ namespace rttb
       CHECK_EQUAL(42., gamma.getGlobalDose());
     }
 
+    void Test_Computation()
+    {
+        core::GeometricInfo geoInfo;
+        geoInfo.setImageSize({ 2,2,2 });
+        geoInfo.setSpacing({ 1,1,1 });
+
+        core::GeometricInfo geoInfo2;
+        geoInfo2.setImageSize({ 3,3,3 });
+        geoInfo2.setSpacing({ 1,1,1 });
+
+        core::DoseAccessorInterface::ConstPointer refDose = boost::make_shared<DummyDoseAccessor>(std::vector<DoseTypeGy>({ 1,2,3,4,5,6,7,8 }), geoInfo);
+        core::DoseAccessorInterface::ConstPointer simpleDose = boost::make_shared<DummyDoseAccessor>();
+
+        indices::GammaIndex gamma(simpleDose, refDose);
+        auto nnInterpolator = boost::make_shared<interpolation::LinearInterpolation>();
+        auto nnInterpolator2 = boost::make_shared<interpolation::LinearInterpolation>();
+
+        gamma.setDistanceToAgreementThreshold(2.0);
+        gamma.setDoseDifferenceThreshold(0.03);
+        gamma.setSearchSamplingRate(1);
+        gamma.setUseLocalDose(false);
+        gamma.setGlobalDose(5.0);
+
+        core::GeometricInfo geoInfo_8_1;
+        geoInfo.setImageSize({ 8,8,8 });
+        geoInfo.setSpacing({ 1,1,1 });
+
+        core::GeometricInfo geoInfo_4_05;
+        geoInfo.setImageSize({ 4,4,4 });
+        geoInfo.setSpacing({ 0.5,0.5,0.5 });
+
+        auto doseValues4 = std::vector<DoseTypeGy>({4.85, 4.85, 4.85, 4.85,
+                                                    4.9 , 4.9 , 4.9 , 4.9 ,
+                                                    4.95, 4.95, 4.95, 4.95,
+                                                    5.  , 5.  , 5.  , 5.});
+        auto doseRefValues4 = std::vector<DoseTypeGy>({4.85, 4.9 , 4.95, 5.,
+                                                       4.85, 4.9 , 4.95, 5.,
+                                                       4.85, 4.9 , 4.95, 5.,
+                                                       4.85, 4.9 , 4.95, 5.});
+
+
+
+        core::DoseAccessorInterface::ConstPointer dose4 = boost::make_shared<DummyDoseAccessor>(doseValues4,geoInfo_4_05);
+        core::DoseAccessorInterface::ConstPointer refDose4 = boost::make_shared<DummyDoseAccessor>(doseValues4, geoInfo_4_05);
+        indices::GammaIndex gamma2(dose4, refDose4);
+        std::cout << gamma2.getValueAt(1) << std::endl;
+
+
+    }
+
     /*! @brief Test of GammaIndex.*/
     int GammaIndexTest(int /*argc*/, char* /*argv*/[])
     {
       PREPARE_DEFAULT_TEST_REPORTING;
 
       Test_Initialization();
+      Test_Computation();
 
 
       RETURN_AND_REPORT_TEST_SUCCESS;
