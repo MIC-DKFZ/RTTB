@@ -152,6 +152,7 @@ namespace rttb
 
     void Test_Computation()
     {
+        /*
         core::GeometricInfo geoInfo;
         geoInfo.setImageSize({ 2,2,2 });
         geoInfo.setSpacing({ 1,1,1 });
@@ -197,7 +198,7 @@ namespace rttb
         indices::GammaIndex gamma2(dose4, refDose4);
         std::cout << gamma2.getValueAt(1) << std::endl;
 
-
+    */
     }
 
     /*! @brief Test of GammaIndex.*/
