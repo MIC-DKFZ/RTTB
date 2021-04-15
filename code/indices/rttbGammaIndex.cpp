@@ -97,7 +97,7 @@ namespace rttb
     const IDType GammaIndex::getUID() const
     {
       std::stringstream uidStream;
-      uidStream << "gammaindex." << _dta << "." << _searchSamplingRate << "." << _ddt << "." << _useLocalDose << "." << _globalDose << "_" << _dose->getUID() << "_" << _referenceDose->getUID();
+      uidStream << "gammaindex." << _dta << "." << _samplingStepSizes << "." << _ddt << "." << _useLocalDose << "." << _globalDose << "_" << _dose->getUID() << "_" << _referenceDose->getUID();
       return uidStream.str();
     }
 
@@ -161,18 +161,15 @@ namespace rttb
       return _ddt;
     }
 
-    void GammaIndex::setSearchSamplingRate(unsigned int rate)
+    void GammaIndex::setSearchSamplingRate(double rateX, double rateY, double rateZ)
     {
-      if (rate != _searchSamplingRate)
-      {
-        _searchSamplingRate = rate;
-        this->UpdatePrecomputedDistancePenalties();
-      }
+      _samplingStepSizes = SpacingVectorType3D(rateX, rateY, rateZ);
+      this->UpdatePrecomputedDistancePenalties();
     }
 
-    unsigned int GammaIndex::getSearchSamplingRate() const
+    SpacingVectorType3D GammaIndex::getSearchSamplingRate() const
     {
-      return _searchSamplingRate;
+      return _samplingStepSizes;
     }
 
     void GammaIndex::setUseLocalDose(bool useLocalDose)
@@ -199,29 +196,39 @@ namespace rttb
     {
 
       DATPreComputationVectorType newPenalties;
-      const auto min = -1 * static_cast<int>(_searchSamplingRate);
-      const auto max = static_cast<int>(_searchSamplingRate);
 
-      /*We add the penalty for the search center (measured point)
+      int min[3];
+      int max[3];
+
+      min[0] = -1 * static_cast<int>(_dta / _samplingStepSizes.x() + std::numeric_limits<double>::epsilon());
+      max[0] = static_cast<int>(_dta / _samplingStepSizes.x() + std::numeric_limits<double>::epsilon());
+
+      min[1] = -1 * static_cast<int>(_dta / _samplingStepSizes.y() + std::numeric_limits<double>::epsilon());
+      max[1] = static_cast<int>(_dta / _samplingStepSizes.y() + std::numeric_limits<double>::epsilon());
+
+      min[2] = -1 * static_cast<int>(_dta / _samplingStepSizes.z() + std::numeric_limits<double>::epsilon());
+      max[2] = static_cast<int>(_dta / _samplingStepSizes.z() + std::numeric_limits<double>::epsilon());
+
+    /*We add the penalty for the search center (measured point)
         explicitly at the beginning to check it first. This allows
         us to shortcut in cases where the measured point equals the
         expected or is very close.*/
-      newPenalties.emplace_back(WorldCoordinate3D( 0.,0.,0. ), 0., 0.);
+      newPenalties.emplace_back(WorldCoordinate3D(0., 0., 0.), 0., 0.);
 
-      for (int iX = min; iX <= max; ++iX)
+      for (int iX = min[0]; iX <= max[0]; ++iX)
       {
-        const WorldCoordinate x = _dta * iX / static_cast<double>(_searchSamplingRate);
-        for (int iY = min; iY <= max; ++iY)
+        const WorldCoordinate x = _samplingStepSizes.x() * iX;
+        for (int iY = min[1]; iY <= max[1]; ++iY)
         {
-          const WorldCoordinate y = _dta * iY / static_cast<double>(_searchSamplingRate);
-          for (int iZ = min; iZ <= max; ++iZ)
+        const WorldCoordinate y = _samplingStepSizes.y() * iY;
+          for (int iZ = min[2]; iZ <= max[2]; ++iZ)
           {
-            const WorldCoordinate z = _dta * iZ / static_cast<double>(_searchSamplingRate);
+            const WorldCoordinate z = _samplingStepSizes.z() * iZ;
             WorldCoordinate3D newPos = { x,y,z };
 
             const auto newDistance = boost::numeric::ublas::norm_2(newPos);
             const auto penalty = (newDistance * newDistance) / (_dta * _dta);
-            if (penalty>0 && penalty <= 1)
+            if (penalty > 0 && penalty <= 1)
             { //we skip the origin (penalty == 0) as it was added before the loop
               //and we skip every point that would not pass because the dta penalty is to high (>1)
               newPenalties.emplace_back(newPos, penalty, std::sqrt(penalty));

@@ -95,8 +95,8 @@ namespace rttb
       void setDoseDifferenceThreshold(DDTValueType ddt);
       DDTValueType getDoseDifferenceThreshold() const;
 
-      void setSearchSamplingRate(unsigned int rate);
-      unsigned int getSearchSamplingRate() const;
+      void setSearchSamplingRate(double rateX, double rateY, double rateZ);
+      SpacingVectorType3D getSearchSamplingRate() const;
 
       void setUseLocalDose(bool useLocalDose);
       bool getUseLocalDose() const;
@@ -128,7 +128,7 @@ namespace rttb
 
       /** To calculate the gamma index one has to sample the reference dose within the DTA. This
        variable controls how dense the sampling is within the Dit is sampled a Distance to aggreement (DTA) threshold for the gamma index comutation. Specified in mm.*/
-      unsigned int _searchSamplingRate = 5;
+      SpacingVectorType3D _samplingStepSizes = { 1.0,1.0,1.0 };
 
       /** */
       bool _useLocalDose = true;
