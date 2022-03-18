@@ -55,9 +55,9 @@ namespace rttb
 
 				using GenericOutputImageType = ::itk::DataObject;
 
-				using LoadedPixelType = ::itk::ImageIOBase::IOPixelType;
+				using LoadedPixelType = ::itk::IOPixelEnum;
 
-				using LoadedComponentType = ::itk::ImageIOBase::IOComponentType;
+				using LoadedComponentType = ::itk::IOComponentEnum;
 
 				using MetaDataDictionaryArrayType = std::vector< ::itk::MetaDataDictionary>;
 

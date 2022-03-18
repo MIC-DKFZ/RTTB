@@ -16,7 +16,7 @@
 #include "itkMaskAccessorImageSource.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 #include "rttbGeometricInfo.h"
 
