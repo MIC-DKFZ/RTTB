@@ -234,6 +234,10 @@ ELSE()
 	ENDIF()
 ENDIF()
 
+IF (MSVC_VERSION)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+ENDIF()
+
 IF(NOT RTToolbox_NO_LIBRARY_VERSION)
   # This setting of SOVERSION assumes that any API change
   # will increment either the minor or major version number of RTToolbox.
