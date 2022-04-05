@@ -47,7 +47,7 @@ Can be changed with advanced option `BUILD_SHARED_LIBS`
 
 * [boost](http://www.boost.org ), version 1.64.0 or higher
 * [DCMTK](http://dicom.offis.de/dcmtk.php.en ) 3.6.5 or higher
-* [ITK](https://itk.org ), version 4.4 or higher (*optional*)
+* [ITK](https://itk.org ), version 5.2 or higher (*optional*)
   * for DoseInterpolation support with ITK transformation or ITK File IO support
 * [MatchPoint](http://mitk.org/download/thirdparty/MatchPoint_rev1610.tar.gz ), version 0.12 or higher (*optional*)
   * for DoseInterpolation support with MatchPoint registration objects
@@ -97,8 +97,6 @@ Enable `BUILD_SHARED_LIBS`. `BUILD_APPS` can be switched off.
 
 Build ITK with default options.
 :warning: ensure that compiler enables C++11 features by setting `CMAKE_CXX_STANDARD=11` (default for supported compilers)
-
-:warning: if you use ITK 5, turn on `RTTB_ITK5_SUPPORT`
 
 :warning: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
 

@@ -11,7 +11,8 @@ SET(CPP_FILES
 	rttbITKImageMaskAccessorGenerator.cpp
 	rttbITKImageMaskAccessorConverter.cpp
 	rttbITKIOHelper.cpp
-	${ITK_DEPENDENT_SOURCE_FILES}
+	ITK5/itkDoseAccessorImageFilter.cpp
+	ITK5/itkMaskAccessorImageSource.cpp
   )
 
 SET(H_FILES 
@@ -34,5 +35,6 @@ SET(H_FILES
 	rttbITKImageMaskAccessorGenerator.h
 	rttbITKIOHelper.h
 	rttbITKIOHelper.tpp
-	${ITK_DEPENDENT_HEADER_FILES}
+	ITK5/itkDoseAccessorImageFilter.h
+	ITK5/itkMaskAccessorImageSource.h
 )
