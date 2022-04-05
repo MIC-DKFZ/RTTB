@@ -107,8 +107,6 @@ Configure MatchPoint. Please disable `BUILD_TESTING` before building it.
 
 :warning: Only use one ITK version consistently throughout all libraries and RTToolbox! Otherwise, linker errors will occur.
 
-:warning: MatchPoint currently does not support ITK 5
-
 ### Building RT-Toolbox
 
 * Configure with CMake
