@@ -44,7 +44,7 @@ namespace rttb
 
 				::itk::ImageIOBase::Pointer imageIO =
 				    ::itk::ImageIOFactory::CreateImageIO(probeFileName.c_str(),
-				            ::itk::ImageIOFactory::ReadMode);
+				            ::itk::IOFileModeEnum::ReadMode);
 
 				if (!imageIO)
 				{
@@ -60,10 +60,10 @@ namespace rttb
 				this->_loadedComponentType = imageIO->GetComponentType();
 				this->_loadedPixelType = imageIO->GetPixelType();
 
-				if (this->_loadedPixelType == ::itk::ImageIOBase::RGB && imageIO->GetNumberOfComponents() == 1)
+				if (this->_loadedPixelType == ::itk::IOPixelEnum::RGB && imageIO->GetNumberOfComponents() == 1)
 				{
 					//if only one channel per pixel handle as scalar as long as RGB etc. is not supported
-					this->_loadedPixelType = ::itk::ImageIOBase::SCALAR;
+					this->_loadedPixelType = ::itk::IOPixelEnum::SCALAR;
 				}
 
 				this->_loadedComponentTypeStr = imageIO->GetComponentTypeAsString(this->_loadedComponentType);
@@ -83,7 +83,7 @@ namespace rttb
 
 				switch (_loadedPixelType)
 				{
-					case ::itk::ImageIOBase::SCALAR:
+					case ::itk::IOPixelEnum::SCALAR:
 					{
 						if (this->_loadedDimensions == 2)
 						{
@@ -115,70 +115,70 @@ namespace rttb
 				// Use the pixel type to instantiate the appropriate reader
 				switch (this->_loadedComponentType)
 				{
-					case ::itk::ImageIOBase::UCHAR:
+					case ::itk::IOComponentEnum::UCHAR:
 					{
 						this->_spImage = readImage<unsigned char, unsigned char, IDimension>(_fileName, _seriesReadStyle,
 						                 false, 0, 0, _upperSeriesLimit, &_dictionaryArray);
 						break;
 					}
 
-					case ::itk::ImageIOBase::CHAR:
+					case ::itk::IOComponentEnum::CHAR:
 					{
 						this->_spImage = readImage<char, char, IDimension>(_fileName, _seriesReadStyle, false, 0, 0,
 						                 _upperSeriesLimit, &_dictionaryArray);
 						break;
 					}
 
-					case ::itk::ImageIOBase::USHORT:
+					case ::itk::IOComponentEnum::USHORT:
 					{
 						this->_spImage = readImage<unsigned short, unsigned short, IDimension>(_fileName, _seriesReadStyle,
 						                 false, 0, 0, _upperSeriesLimit, &_dictionaryArray);
 						break;
 					}
 
-					case ::itk::ImageIOBase::SHORT:
+					case ::itk::IOComponentEnum::SHORT:
 					{
 						this->_spImage = readImage<short, short, IDimension>(_fileName, _seriesReadStyle, false, 0, 0,
 						                 _upperSeriesLimit, &_dictionaryArray);
 						break;
 					}
 
-					case ::itk::ImageIOBase::UINT:
+					case ::itk::IOComponentEnum::UINT:
 					{
 						this->_spImage = readImage<unsigned int, unsigned int, IDimension>(_fileName, _seriesReadStyle,
 						                 false, 0, 0, _upperSeriesLimit, &_dictionaryArray);
 						break;
 					}
 
-					case ::itk::ImageIOBase::INT:
+					case ::itk::IOComponentEnum::INT:
 					{
 						this->_spImage = readImage<int, int, IDimension>(_fileName, _seriesReadStyle, false, 0, 0,
 						                 _upperSeriesLimit, &_dictionaryArray);
 						break;
 					}
 
-					case ::itk::ImageIOBase::ULONG:
+					case ::itk::IOComponentEnum::ULONG:
 					{
 						this->_spImage = readImage<unsigned long, unsigned long, IDimension>(_fileName, _seriesReadStyle,
 						                 false, 0, 0, _upperSeriesLimit, &_dictionaryArray);
 						break;
 					}
 
-					case ::itk::ImageIOBase::LONG:
+					case ::itk::IOComponentEnum::LONG:
 					{
 						this->_spImage = readImage<long, long, IDimension>(_fileName, _seriesReadStyle, false, 0, 0,
 						                 _upperSeriesLimit, &_dictionaryArray);
 						break;
 					}
 
-					case ::itk::ImageIOBase::FLOAT:
+					case ::itk::IOComponentEnum::FLOAT:
 					{
 						this->_spImage = readImage<float, float, IDimension>(_fileName, _seriesReadStyle, false, 0, 0,
 						                 _upperSeriesLimit, &_dictionaryArray);
 						break;
 					}
 
-					case ::itk::ImageIOBase::DOUBLE:
+					case ::itk::IOComponentEnum::DOUBLE:
 					{
 						this->_spImage = readImage<double, double, IDimension>(_fileName, _seriesReadStyle, false, 0, 0,
 						                 _upperSeriesLimit, &_dictionaryArray);

@@ -40,7 +40,7 @@ namespace rttb
 			*/
 			ITKImageType::Pointer handleGenericImage(GenericImageReader::GenericOutputImageType*
 			        itkGenericImage,
-			        ::itk::ImageIOBase::IOComponentType& loadedComponentType);
+			        ::itk::IOComponentEnum& loadedComponentType);
 
 			/*! @brief Casts into itkImage<DoseTypeGy,3>
 			*/

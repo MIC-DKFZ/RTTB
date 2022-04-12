@@ -16,8 +16,7 @@
 #include "itkMaskAccessorImageSource.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkProgressReporter.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 #include "rttbGeometricInfo.h"
 
@@ -32,12 +31,8 @@ namespace itk
 
 	void
 	MaskAccessorImageSource
-	::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-	                       ThreadIdType threadId)
+	::DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread)
 	{
-		ProgressReporter progress(this, threadId,
-		                          outputRegionForThread.GetNumberOfPixels());
-
 		using OutputImageRegionIteratorType = ImageRegionIterator<OutputImageType>;
 
 		OutputImagePointer outputPtr = dynamic_cast< OutputImageType* >(ProcessObject::GetOutput(0));
@@ -73,8 +68,6 @@ namespace itk
             outputItr.Set(m_InvalidMaskValue);
           }
         }
-
-				progress.CompletedPixel();
 			}
 		}
 	}

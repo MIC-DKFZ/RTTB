@@ -52,12 +52,12 @@ namespace rttb
 						throw core::InvalidParameterException("image dimensions != 3. Only dim = 3 supported.");
 					}
 
-					if (loadedPixelType != ::itk::ImageIOBase::SCALAR)
+					if (loadedPixelType != ::itk::IOPixelEnum::SCALAR)
 					{
 						throw core::InvalidParameterException("image component type != SCALAR. Only SCALAR supported.");
 					}
 
-					if (loadedComponentType == ::itk::ImageIOBase::DOUBLE)
+					if (loadedComponentType == ::itk::IOComponentEnum::DOUBLE)
 					{
 						itkDoubleImage = dynamic_cast<ITKImageType*>(itkGenericImage.GetPointer());
 					}
@@ -83,67 +83,67 @@ namespace rttb
 
 			ITKImageType::Pointer handleGenericImage(
 			    GenericImageReader::GenericOutputImageType* itkGenericImage,
-			    ::itk::ImageIOBase::IOComponentType& loadedComponentType)
+			    ::itk::IOComponentEnum& loadedComponentType)
 			{
 				ITKImageType::Pointer itkDoubleImage;
 
 				switch (loadedComponentType)
 				{
-					case ::itk::ImageIOBase::UCHAR:
+					case ::itk::IOComponentEnum::UCHAR:
 					{
 						itkDoubleImage = doCasting<unsigned char>(itkGenericImage);
 						break;
 					}
 
-					case ::itk::ImageIOBase::CHAR:
+					case ::itk::IOComponentEnum::CHAR:
 					{
 						itkDoubleImage = doCasting<char>(itkGenericImage);
 						break;
 					}
 
-					case ::itk::ImageIOBase::USHORT:
+					case ::itk::IOComponentEnum::USHORT:
 					{
 						itkDoubleImage = doCasting<unsigned short>(itkGenericImage);
 						break;
 					}
 
-					case ::itk::ImageIOBase::SHORT:
+					case ::itk::IOComponentEnum::SHORT:
 					{
 						itkDoubleImage = doCasting<short>(itkGenericImage);
 						break;
 					}
 
-					case ::itk::ImageIOBase::UINT:
+					case ::itk::IOComponentEnum::UINT:
 					{
 						itkDoubleImage = doCasting<unsigned int>(itkGenericImage);
 						break;
 					}
 
-					case ::itk::ImageIOBase::INT:
+					case ::itk::IOComponentEnum::INT:
 					{
 						itkDoubleImage = doCasting<int>(itkGenericImage);
 						break;
 					}
 
-					case ::itk::ImageIOBase::ULONG:
+					case ::itk::IOComponentEnum::ULONG:
 					{
 						itkDoubleImage = doCasting<unsigned long>(itkGenericImage);
 						break;
 					}
 
-					case ::itk::ImageIOBase::LONG:
+					case ::itk::IOComponentEnum::LONG:
 					{
 						itkDoubleImage = doCasting<long>(itkGenericImage);
 						break;
 					}
 
-					case ::itk::ImageIOBase::FLOAT:
+					case ::itk::IOComponentEnum::FLOAT:
 					{
 						itkDoubleImage = doCasting<float>(itkGenericImage);
 						break;
 					}
 
-					case ::itk::ImageIOBase::DOUBLE:
+					case ::itk::IOComponentEnum::DOUBLE:
 					{
 						itkDoubleImage = doCasting<double>(itkGenericImage);
 						break;

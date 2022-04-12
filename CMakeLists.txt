@@ -234,6 +234,10 @@ ELSE()
 	ENDIF()
 ENDIF()
 
+IF (MSVC_VERSION)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+ENDIF()
+
 IF(NOT RTToolbox_NO_LIBRARY_VERSION)
   # This setting of SOVERSION assumes that any API change
   # will increment either the minor or major version number of RTToolbox.
@@ -277,10 +281,6 @@ MESSAGE (STATUS "generating Project RTToolbox")
 ADD_SUBDIRECTORY (code)
 IF (BUILD_Apps)
 	ADD_SUBDIRECTORY (apps)
-ENDIF()
-
-IF (BUILD_All_Modules OR BUILD_IO_ITK)
-	OPTION(RTTB_ITK5_SUPPORT "Determine if ITK v5 should be supported." OFF)
 ENDIF()
 
 IF (BUILD_TESTING)
