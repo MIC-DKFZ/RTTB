@@ -1,0 +1,2 @@
+RTTB_CREATE_MODULE(RTTBTestHelper DEPENDS RTTBCore RTTBAlgorithms RTTBInterpolation PACKAGE_DEPENDS Boost)
+

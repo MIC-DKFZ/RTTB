@@ -30,7 +30,7 @@
 #include "rttbInvalidParameterException.h"
 #include "rttbNullPointerException.h"
 
-#include "../../core/DummyDVHGenerator.h"
+#include "DummyDVHGenerator.h"
 
 #include "CompareDVH.h"
 

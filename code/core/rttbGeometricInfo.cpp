@@ -18,11 +18,18 @@
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/lu.hpp>
 #include <boost/numeric/ublas/io.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 
 namespace rttb
 {
 	namespace core
 	{
+
+		GeometricInfo::Pointer GeometricInfo::clone() const
+		{
+			return boost::make_shared<GeometricInfo>(*this);
+		};
 
 		void GeometricInfo::setSpacing(const SpacingVectorType3D& aSpacingVector)
 		{

@@ -6,6 +6,8 @@ SET(CPP_FILES
   rttbDoseIndex.cpp
   rttbDvhBasedDoseIndex.cpp
   rttbHomogeneityIndex.cpp
+  rttbSpatialDoseIndex.cpp
+  rttbGammaIndex.cpp
   )
 
 SET(H_FILES 
@@ -16,4 +18,6 @@ SET(H_FILES
   rttbDoseIndex.h
   rttbDvhBasedDoseIndex.h
   rttbHomogeneityIndex.h
+  rttbSpatialDoseIndex.h
+  rttbGammaIndex.h
 )

@@ -20,8 +20,8 @@
 
 #include "rttbBaseType.h"
 
-#include "../core/DummyStructure.h"
-#include "../core/DummyDoseAccessor.h"
+#include "DummyStructure.h"
+#include "DummyDoseAccessor.h"
 #include "rttbDicomDoseAccessor.h"
 #include "rttbDicomFileDoseAccessorGenerator.h"
 #include "rttbDicomFileStructureSetGenerator.h"

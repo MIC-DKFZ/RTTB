@@ -14,6 +14,7 @@ SET(CPP_FILES
   rttbStrVectorStructureSetGenerator.cpp
   rttbUtils.cpp
   rttbMutableMaskAccessorInterface.cpp
+  rttbMutableDoseAccessorInterface.cpp
   )
 
 SET(H_FILES 

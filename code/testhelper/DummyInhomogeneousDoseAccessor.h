@@ -13,47 +13,34 @@
 //
 //------------------------------------------------------------------------
 
-// this file defines the rttbCoreTests for the test driver
-// and all it expects is that you have a function called RegisterTests
+#ifndef __DUMMY_DOSE_INHOMOGENEOUS_ACCESSOR_H
+#define __DUMMY_DOSE_INHOMOGENEOUS_ACCESSOR_H
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#endif
+#include "DummyDoseAccessor.h"
 
-#include "litMultiTestsMain.h"
+#include "RTTBTestHelperExports.h"
 
 namespace rttb
 {
 	namespace testing
 	{
 
-		void registerTests()
+		/*! @class DummyInhomogeneousDoseAccessor
+			@brief A dummy DoseAccessor for testing with inhomogeneous grid
+		*/
+		class RTTBTestHelper_EXPORT DummyInhomogeneousDoseAccessor: public DummyDoseAccessor
 		{
-			LIT_REGISTER_TEST(ConformationNumberTest);
-			LIT_REGISTER_TEST(ConformalIndexTest);
-			LIT_REGISTER_TEST(ConformityIndexTest);
-			LIT_REGISTER_TEST(CoverageIndexTest);
-			LIT_REGISTER_TEST(HomogeneityIndexTest);
-			LIT_REGISTER_TEST(GammaIndexTest);
-		}
+		public:
+			~DummyInhomogeneousDoseAccessor();
+
+			/*! @brief A dummy DoseAccessor for testing filled with random dose values between 0 and 100.
+				    The default grid size is [11,10,5]
+			    */
+      DummyInhomogeneousDoseAccessor();
+
+      bool isGridHomogeneous() const override;
+		};
 	}
 }
 
-int main(int argc, char* argv[])
-{
-	int result = 0;
-
-	rttb::testing::registerTests();
-
-	try
-	{
-		result = lit::multiTestsMain(argc, argv);
-	}
-
-	catch (...)
-	{
-		result = -1;
-	}
-
-	return result;
-}
+#endif

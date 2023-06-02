@@ -25,8 +25,9 @@ ADD_TEST(CoverageIndexTest ${INDICES_TESTS} CoverageIndexTest
 ADD_TEST(HomogeneityIndexTest ${INDICES_TESTS} HomogeneityIndexTest
 "${TEST_DATA_ROOT}/DVH/XML/dvh_test_TV.xml" "${TEST_DATA_ROOT}/DVH/XML/dvh_test_HT1.xml"
 "${TEST_DATA_ROOT}/DVH/XML/dvh_test_HT2.xml" "${TEST_DATA_ROOT}/DVH/XML/dvh_test_HT3.xml")
+ADD_TEST(GammaIndexTest ${INDICES_TESTS} GammaIndexTest)
 
-RTTB_CREATE_TEST_MODULE(Indices DEPENDS RTTBCore RTTBIndices RTTBOtherIO PACKAGE_DEPENDS Boost Litmus)
+RTTB_CREATE_TEST_MODULE(Indices DEPENDS RTTBCore RTTBIndices RTTBTestHelper RTTBOtherIO PACKAGE_DEPENDS Boost Litmus)
 
 
 

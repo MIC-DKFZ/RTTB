@@ -13,32 +13,9 @@
 //
 //------------------------------------------------------------------------
 
-#ifndef __DUMMY_DOSE_INHOMOGENEOUS_ACCESSOR_H
-#define __DUMMY_DOSE_INHOMOGENEOUS_ACCESSOR_H
 
-#include "DummyDoseAccessor.h"
+#include "rttbMutableDoseAccessorInterface.h"
 
-namespace rttb
-{
-	namespace testing
-	{
-
-		/*! @class DummyInhomogeneousDoseAccessor
-			@brief A dummy DoseAccessor for testing with inhomogeneous grid
-		*/
-		class DummyInhomogeneousDoseAccessor: public DummyDoseAccessor
-		{
-		public:
-			~DummyInhomogeneousDoseAccessor();
-
-			/*! @brief A dummy DoseAccessor for testing filled with random dose values between 0 and 100.
-				    The default grid size is [11,10,5]
-			    */
-      DummyInhomogeneousDoseAccessor();
-
-      bool isGridHomogeneous() const override;
-		};
-	}
-}
-
-#endif
+//This file was added, because on windows some compiler
+//do not export the class symbols correctly if only the
+//header is specified.

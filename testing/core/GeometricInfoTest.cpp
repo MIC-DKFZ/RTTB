@@ -37,6 +37,7 @@ namespace rttb
             12) test with simple Geometry: isInside, continuousIndexToWorldCoordinate(), worldCoordinateToContinuousIndex(), indexToWorldCoordinate()
 			13) test getNumberOfVoxels
 			14) Test convert, validID and validIndex
+			15) Cloning of information
 		*/
 
 		int GeometricInfoTest(int /*argc*/, char* /*argv*/[])
@@ -547,6 +548,20 @@ namespace rttb
 			CHECK(!geoInfo.validIndex(indexInvalid));
 			CHECK(!geoInfo.convert(idInvalid, aIndex));
 			CHECK(!geoInfo.convert(indexInvalid, aId));
+
+			//15) Test of GeometricInfo cloning
+			core::GeometricInfo sourceInfo;
+			sourceInfo.setNumColumns(50);
+			sourceInfo.setNumRows(30);
+			sourceInfo.setNumSlices(40);
+			sourceInfo.setSpacing(expectedSpacing);
+			sourceInfo.setOrientationMatrix(testOM);
+
+			core::GeometricInfo clone1 = core::GeometricInfo(sourceInfo);
+			CHECK(clone1 == sourceInfo);
+
+			core::GeometricInfo::Pointer clone2 = sourceInfo.clone();
+			CHECK(*clone2 == sourceInfo);
 
 			RETURN_AND_REPORT_TEST_SUCCESS;
 		}

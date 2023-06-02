@@ -19,9 +19,9 @@
 #include "litCheckMacros.h"
 
 #include "rttbBaseType.h"
-#include "../core/DummyDoseAccessor.h"
-#include "../core/DummyMaskAccessor.h"
-#include "../core/DummyMutableDoseAccessor.h"
+#include "DummyDoseAccessor.h"
+#include "DummyMaskAccessor.h"
+#include "DummyMutableDoseAccessor.h"
 #include "rttbDoseAccessorInterface.h"
 #include "rttbMutableDoseAccessorInterface.h"
 #include "rttbMutableMaskAccessorInterface.h"

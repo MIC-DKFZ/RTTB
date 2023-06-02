@@ -30,7 +30,7 @@ namespace rttb
     5) VoxelGridIndex3D
     6) VoxelGridIndex2D
 		*/
-		int BaseTypeTest(int argc, char* argv[])
+		int BaseTypeTest(int /*argc*/, char* /*argv*/[])
 		{
 			PREPARE_DEFAULT_TEST_REPORTING;
 
@@ -213,28 +213,28 @@ namespace rttb
       //5) VoxelGridIndex3D
       CHECK_NO_THROW(VoxelGridIndex3D vgi);
       VoxelGridIndex3D vgi;
-      CHECK_EQUAL(vgi.x(), 0);
-      CHECK_EQUAL(vgi.y(), 0);
-      CHECK_EQUAL(vgi.z(), 0);
+      CHECK_EQUAL(vgi.x(), 0u);
+      CHECK_EQUAL(vgi.y(), 0u);
+      CHECK_EQUAL(vgi.z(), 0u);
 
       CHECK_NO_THROW(VoxelGridIndex3D vgiValue(2));
       VoxelGridIndex3D vgiValue(2);
-      CHECK_EQUAL(vgiValue.x(), 2);
-      CHECK_EQUAL(vgiValue.y(), 2);
-      CHECK_EQUAL(vgiValue.z(), 2);
+      CHECK_EQUAL(vgiValue.x(), 2u);
+      CHECK_EQUAL(vgiValue.y(), 2u);
+      CHECK_EQUAL(vgiValue.z(), 2u);
 
       CHECK_NO_THROW(VoxelGridIndex3D vgiValueDifferent(2,3,5));
       VoxelGridIndex3D vgiValueDifferent(2,3,5);
-      CHECK_EQUAL(vgiValueDifferent.x(), 2);
-      CHECK_EQUAL(vgiValueDifferent.y(), 3);
-      CHECK_EQUAL(vgiValueDifferent.z(), 5);
+      CHECK_EQUAL(vgiValueDifferent.x(), 2u);
+      CHECK_EQUAL(vgiValueDifferent.y(), 3u);
+      CHECK_EQUAL(vgiValueDifferent.z(), 5u);
 
       CHECK_EQUAL(vgiValueDifferent.toString(), "2 3 5");
 
       CHECK_NO_THROW(vgiValueDifferent = threeDimensionalIndexSame);
-      CHECK_EQUAL(vgiValueDifferent.x(), 5);
-      CHECK_EQUAL(vgiValueDifferent.y(), 8);
-      CHECK_EQUAL(vgiValueDifferent.z(), 42);
+      CHECK_EQUAL(vgiValueDifferent.x(), 5u);
+      CHECK_EQUAL(vgiValueDifferent.y(), 8u);
+      CHECK_EQUAL(vgiValueDifferent.z(), 42u);
 
       VoxelGridIndex3D vgiValueDifferentSame(5, 8, 42);
 
@@ -242,20 +242,20 @@ namespace rttb
       CHECK_EQUAL(vgiValueDifferentSame == vgiValueDifferent, true);
 
       //6) VoxelGridIndex2D
-      CHECK_NO_THROW(VoxelGridIndex2D vgi);
+      CHECK_NO_THROW(VoxelGridIndex2D vgi2Dempty);
       VoxelGridIndex2D vgi2D;
-      CHECK_EQUAL(vgi2D.x(), 0);
-      CHECK_EQUAL(vgi2D.y(), 0);
+      CHECK_EQUAL(vgi2D.x(), 0u);
+      CHECK_EQUAL(vgi2D.y(), 0u);
 
       CHECK_NO_THROW(VoxelGridIndex2D vgi2DValue(2));
       VoxelGridIndex2D vgi2DValue(2);
-      CHECK_EQUAL(vgi2DValue.x(), 2);
-      CHECK_EQUAL(vgi2DValue.y(), 2);
+      CHECK_EQUAL(vgi2DValue.x(), 2u);
+      CHECK_EQUAL(vgi2DValue.y(), 2u);
 
       CHECK_NO_THROW(VoxelGridIndex2D vgi2DValueDifferent(2, 3));
       VoxelGridIndex2D vgi2DValueDifferent(2, 3);
-      CHECK_EQUAL(vgi2DValueDifferent.x(), 2);
-      CHECK_EQUAL(vgi2DValueDifferent.y(), 3);
+      CHECK_EQUAL(vgi2DValueDifferent.x(), 2u);
+      CHECK_EQUAL(vgi2DValueDifferent.y(), 3u);
 
       CHECK_EQUAL(vgi2DValueDifferent.toString(), "2 3");
 

@@ -33,7 +33,7 @@
 #include "rttbInvalidParameterException.h"
 #include "rttbNullPointerException.h"
 
-#include "../../core/DummyDoseAccessor.h"
+#include "DummyDoseAccessor.h"
 
 #include "CompareDoseStatistic.h"
 

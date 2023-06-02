@@ -37,6 +37,11 @@ namespace rttb
 			}
 		};
 
+		core::AccessorInterface::ConstPointer InterpolationBase::getAccessorPointer() const
+		{
+			return _spOriginalData;
+		}
+
 		void InterpolationBase::getNeighborhoodVoxelValues(
 		    const WorldCoordinate3D& aWorldCoordinate,
 		    unsigned int neighborhood, std::array<double, 3>& target,

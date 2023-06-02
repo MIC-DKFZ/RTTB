@@ -57,6 +57,8 @@ namespace rttb
 			*/
 			void setAccessorPointer(core::AccessorInterface::ConstPointer originalData);
 
+			core::AccessorInterface::ConstPointer getAccessorPointer() const;
+
 			/*! @brief Returns the interpolated value for the given world coordinate
 			*/
 			virtual DoseTypeGy getValue(const WorldCoordinate3D& aWorldCoordinate) const = 0;

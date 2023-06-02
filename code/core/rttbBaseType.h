@@ -118,6 +118,7 @@ namespace rttb
 			(*this)(1) = yValue;
 			(*this)(2) = zValue;
 		}
+
 		WorldCoordinate3D(const WorldCoordinate3D& w): boost::numeric::ublas::vector<WorldCoordinate>(3)
 		{
 			(*this)(0) = w.x();
@@ -139,7 +140,7 @@ namespace rttb
 		}
 
 		//vector cross product (not included in boost.ublas)
-		WorldCoordinate3D cross(WorldCoordinate3D aVector) const
+		WorldCoordinate3D cross(const WorldCoordinate3D& aVector) const
 		{
 			WorldCoordinate3D result;
 			WorldCoordinate x = (*this)(0);
@@ -167,7 +168,7 @@ namespace rttb
 			return (*this);
 		}
 
-		WorldCoordinate3D& operator=(const boost::numeric::ublas::vector<WorldCoordinate> wc)
+		WorldCoordinate3D& operator=(const boost::numeric::ublas::vector<WorldCoordinate>& wc)
 		{
 			(*this)(0) = wc(0);
 			(*this)(1) = wc(1);
@@ -175,12 +176,12 @@ namespace rttb
 			return (*this);
 		}
 
-		WorldCoordinate3D operator-(const boost::numeric::ublas::vector<WorldCoordinate> wc)
+		WorldCoordinate3D operator-(const boost::numeric::ublas::vector<WorldCoordinate>& wc) const
 		{
 			return WorldCoordinate3D((*this)(0) - wc(0), (*this)(1) - wc(1), (*this)(2) - wc(2));
 		}
 
-		WorldCoordinate3D operator+(const boost::numeric::ublas::vector<WorldCoordinate> wc)
+		WorldCoordinate3D operator+(const boost::numeric::ublas::vector<WorldCoordinate>& wc) const
 		{
 			return WorldCoordinate3D((*this)(0) + wc(0), (*this)(1) + wc(1), (*this)(2) + wc(2));
 		}
