@@ -49,6 +49,8 @@ namespace rttb
 				using Superclass = ::itk::Object;
 				using Pointer = ::itk::SmartPointer<Self>;
 				using ConstPointer = ::itk::SmartPointer<const Self>;
+				using LightObject = ::itk::LightObject;
+				template<class T> using ObjectFactory = ::itk::ObjectFactory<T>;
 
 				itkTypeMacro(GenericImageReader, ::itk::Object);
 				itkNewMacro(Self);
