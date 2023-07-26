@@ -24,6 +24,9 @@ namespace rttb
 	{
 		namespace itk
 		{
+			using LightObject = ::itk::LightObject;
+			template<class T> using ObjectFactory = ::itk::ObjectFactory<T>;
+
 			/** @class ImageReader
 			* @brief Helper class manages the generic loading (unspecified dimension and pixel type) of 2D/3D images ...
 			*
@@ -49,8 +52,6 @@ namespace rttb
 				using Superclass = ::itk::Object;
 				using Pointer = ::itk::SmartPointer<Self>;
 				using ConstPointer = ::itk::SmartPointer<const Self>;
-				using LightObject = ::itk::LightObject;
-				template<class T> using ObjectFactory = ::itk::ObjectFactory<T>;
 
 				itkTypeMacro(GenericImageReader, ::itk::Object);
 				itkNewMacro(Self);
