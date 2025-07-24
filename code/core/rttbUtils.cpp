@@ -14,59 +14,51 @@
 //------------------------------------------------------------------------
 
 #include <rttbUtils.h>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 namespace rttb {
+	namespace core {
 
-  namespace core {
-    
-	bool isKey(const std::map<double, double>& values, const double value) {
-		for (auto const& collectionElements : values) {
-			if (std::abs(collectionElements.first - value) <= errorConstant) {
-				return true;
+		bool isKey(const std::map<double, double>& values, const double value) {
+			for (auto const& collectionElements : values) {
+				if (std::abs(collectionElements.first - value) <= errorConstant) {
+					return true;
+				}
 			}
+			return false;
 		}
 
-		return false;
-	}
-
-	bool isKey(const std::vector<double>& values, double value) {
-		for (auto const& collectionElement : values) {
-			if (std::abs(collectionElement - value) <= errorConstant) {
-				return true;
+		bool isKey(const std::vector<double>& values, double value) {
+			for (auto const& collectionElement : values) {
+				if (std::abs(collectionElement - value) <= errorConstant) {
+					return true;
+				}
 			}
+			return false;
 		}
 
-		return false;
+		bool valueIsClose(double value1, double value2, double specificErrorConstant) {
+			return std::abs(value1 - value2) < specificErrorConstant;
+		}
+
+		bool isFile(FileNameType aName) {
+			std::filesystem::path path(aName);
+			return (std::filesystem::exists(path) && std::filesystem::is_regular_file(path));
+		}
+
+		bool isDirectory(FileNameType aName) {
+			std::filesystem::path path(aName);
+			return (std::filesystem::exists(path) && std::filesystem::is_directory(path));
+		}
+
+		std::string getFilenameWithoutEnding(const std::string& outfilename) {
+			std::filesystem::path p(outfilename);
+			return p.replace_extension("").string();
+		}
+
+		std::string getFileEnding(const std::string& outfilename) {
+			std::filesystem::path p(outfilename);
+			return p.extension().string();
+		}
 	}
-
-    bool valueIsClose(double value1, double value2, double specificErrorConstant) {
-		return std::abs(value1 - value2) < specificErrorConstant;
-    }
-
-	bool isFile(FileNameType aName) {
-		boost::filesystem::path path = boost::filesystem::path(aName);
-
-		return (boost::filesystem::exists(path) && boost::filesystem::is_regular_file(path));
-	}
-
-	bool isDirectory(FileNameType aName) {
-		boost::filesystem::path path = boost::filesystem::path(aName);
-
-		return (boost::filesystem::exists(path) && boost::filesystem::is_directory(path));
-	}
-
-	std::string getFilenameWithoutEnding(const std::string& outfilename) {
-		boost::filesystem::path p(outfilename);
-		
-		return p.replace_extension("").string();
-	}
-
-	std::string getFileEnding(const std::string& outfilename) {
-		boost::filesystem::path p(outfilename);
-		
-		return p.extension().string();
-	}
-
-  }
 }

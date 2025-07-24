@@ -18,9 +18,10 @@
 
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
+
+#include <filesystem>>
 
 #include "litCheckMacros.h"
 
@@ -75,11 +76,11 @@ namespace rttb
 
 			FileNameString filenameSimple = "testStatisticsSimple.xml";
 			CHECK_NO_THROW(doseStatisticsXMLWriter.writeDoseStatistics(myDoseStatsSimple, filenameSimple));
-            CHECK(boost::filesystem::exists(filenameSimple));
+            CHECK(std::filesystem::exists(filenameSimple));
 
             FileNameString filenameComplex = "testStatisticsComplex.xml";
             CHECK_NO_THROW(doseStatisticsXMLWriter.writeDoseStatistics(myDoseStatsComplex, filenameComplex));
-            CHECK(boost::filesystem::exists(filenameComplex));
+            CHECK(std::filesystem::exists(filenameComplex));
 
             //2) test reading statistics from XML file and compare DoseStatistics
 			io::other::DoseStatisticsXMLReader readerSimple= io::other::DoseStatisticsXMLReader(filenameSimple);

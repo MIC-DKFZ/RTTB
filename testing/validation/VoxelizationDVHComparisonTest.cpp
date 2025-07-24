@@ -19,7 +19,8 @@
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/filesystem.hpp>
+
+#include <filesystem>>
 
 #include "litCheckMacros.h"
 
@@ -110,7 +111,7 @@ namespace rttb
 			        RTSTRUCT_FILENAME.c_str()).generateStructureSet();
 
             //create directory
-            boost::filesystem::create_directories(RTDVH_XML_BOOST_DIRECTORY);
+            std::filesystem::create_directories(RTDVH_XML_BOOST_DIRECTORY);
 
 			//start evaluation
 			clock_t start(clock());
@@ -125,10 +126,10 @@ namespace rttb
 					
                     auto label = rtStructureSet->getStructure(j)->getLabel();
                     ::boost::replace_all(label, "/", "_");
-                    boost::filesystem::path dvhOTBFilename(RTDVH_XML_OTB_DIRECTORY);
+                    std::filesystem::path dvhOTBFilename(RTDVH_XML_OTB_DIRECTORY);
                     dvhOTBFilename /= "DVH_" + label + ".xml";
 
-                    boost::filesystem::path dvhBoostFilename(RTDVH_XML_BOOST_LEGACY_DIRECTORY);
+                    std::filesystem::path dvhBoostFilename(RTDVH_XML_BOOST_LEGACY_DIRECTORY);
                     dvhBoostFilename /= "DVH_" + label + ".xml";
 
                     io::other::DVHXMLFileReader dvhReaderOTB(dvhOTBFilename.string());
@@ -138,7 +139,7 @@ namespace rttb
                     auto dvhBoost = dvhReaderBoost.generateDVH();
 
                     auto dvhBoostRedesign = calcDVH(spMaskedDoseIteratorBoostRedesign, (rtStructureSet->getStructure(j))->getUID(), doseAccessor1->getUID());
-                    boost::filesystem::path dvhBoostRedesignFilename(RTDVH_XML_BOOST_DIRECTORY);
+                    std::filesystem::path dvhBoostRedesignFilename(RTDVH_XML_BOOST_DIRECTORY);
                     dvhBoostRedesignFilename /= "DVH_" + label + ".xml";
                     writeCumulativeDVH(dvhBoostRedesignFilename.string(), dvhBoostRedesign);
 
@@ -152,7 +153,7 @@ namespace rttb
 
 					//compare DVH for different voxelizations
                     auto diffDVH = computeDiffDVH(dvhOTB, boost::make_shared<core::DVH>(dvhBoostRedesign));
-                    boost::filesystem::path dvhBoostRedesignDiffFilename(RTDVH_XML_BOOST_DIRECTORY);
+                    std::filesystem::path dvhBoostRedesignDiffFilename(RTDVH_XML_BOOST_DIRECTORY);
                     dvhBoostRedesignDiffFilename /= "DVHDiff_" + label + ".xml";
                     writeCumulativeDVH(dvhBoostRedesignDiffFilename.string(), *diffDVH);
 				}

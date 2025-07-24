@@ -18,8 +18,8 @@
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/lexical_cast.hpp>
-#include "boost/filesystem/operations.hpp"
-#include "boost/filesystem/path.hpp"
+
+#include <filesystem>
 
 #include "rttbDcmrtException.h"
 #include "rttbInvalidParameterException.h"
@@ -66,7 +66,7 @@ namespace rttb
 				std::vector<FileNameType> fileNameVector;
 				std::string modalityStrArray[] = {"RTDOSE", "RTSTRUCT", "RTPLAN"};
 
-				boost::filesystem::path path = boost::filesystem::path(aDirName);
+				std::filesystem::path path = std::filesystem::path(aDirName);
 
 				OFCondition status;
 				DcmFileFormat fileformat;
@@ -83,15 +83,15 @@ namespace rttb
 				if (core::isDirectory(aDirName))
 				{
 
-					boost::filesystem::directory_iterator end_iter;
+					std::filesystem::directory_iterator end_iter;
 					bool isFirst = true;
 
-					for (boost::filesystem::directory_iterator dir_itr(path); dir_itr != end_iter; ++dir_itr)
+					for (std::filesystem::directory_iterator dir_itr(path); dir_itr != end_iter; ++dir_itr)
 					{
-						if (boost::filesystem::is_regular_file(dir_itr->status()))
+						if (std::filesystem::is_regular_file(dir_itr->status()))
 						{
-							boost::filesystem::path filePath(dir_itr->path().filename().string());
-							filePath = boost::filesystem::system_complete(dir_itr->path());
+							std::filesystem::path filePath(dir_itr->path().filename().string());
+							filePath = std::filesystem::absolute(dir_itr->path());
 
 							status = fileformat.loadFile(filePath.string().c_str());
 
@@ -154,7 +154,7 @@ namespace rttb
 
 				std::vector<FileNameType> fileNameVector;
 
-				boost::filesystem::path path = boost::filesystem::path(aFileName);
+				std::filesystem::path path = std::filesystem::path(aFileName);
 
 				OFCondition status;
 				DcmFileFormat fileformat;
@@ -174,19 +174,19 @@ namespace rttb
 				uid = getUID(datasetPtr);
 
 				//get parent directory
-				boost::filesystem::path parentDir = path.parent_path();
+				std::filesystem::path parentDir = path.parent_path();
 
-				if (boost::filesystem::is_directory(parentDir))
+				if (std::filesystem::is_directory(parentDir))
 				{
 
-					boost::filesystem::directory_iterator end_iter;
+					std::filesystem::directory_iterator end_iter;
 
-					for (boost::filesystem::directory_iterator dir_itr(parentDir); dir_itr != end_iter; ++dir_itr)
+					for (std::filesystem::directory_iterator dir_itr(parentDir); dir_itr != end_iter; ++dir_itr)
 					{
-						if (boost::filesystem::is_regular_file(dir_itr->status()))
+						if (std::filesystem::is_regular_file(dir_itr->status()))
 						{
-							boost::filesystem::path currentFilePath(dir_itr->path().filename().string());
-							currentFilePath = boost::filesystem::system_complete(dir_itr->path());
+							std::filesystem::path currentFilePath(dir_itr->path().filename().string());
+							currentFilePath = std::filesystem::absolute(dir_itr->path());
 
 							status = fileformat.loadFile(currentFilePath.string().c_str());
 

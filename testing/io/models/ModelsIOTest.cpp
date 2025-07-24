@@ -23,7 +23,7 @@
 
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
-#include "boost/filesystem.hpp"
+#include <filesystem>>
 
 #include "rttbModelXMLWriter.h"
 
@@ -89,7 +89,7 @@ namespace rttb
 			std::string filename = "BioModeltcpleqIOTest.xml";
 			rttb::io::models::ModelXMLWriter writer = rttb::io::models::ModelXMLWriter(filename, tcplq, false);
 			CHECK_NO_THROW(writer.writeModel());
-			CHECK_EQUAL(boost::filesystem::exists(filename), true);
+			CHECK_EQUAL(std::filesystem::exists(filename), true);
 
 			std::string defaultAsIs = readFile(filename);
 			std::string defaultExpected = readFile(expectedxmlfilenametcpleq);
@@ -107,7 +107,7 @@ namespace rttb
 			filename = "BioModelntcplkIOTest.xml";
 			rttb::io::models::ModelXMLWriter writer2 = rttb::io::models::ModelXMLWriter(filename, ntcplk);
 			CHECK_NO_THROW(writer2.writeModel());
-			CHECK_EQUAL(boost::filesystem::exists(filename), true);
+			CHECK_EQUAL(std::filesystem::exists(filename), true);
 
 
 			defaultAsIs = readFile(filename);

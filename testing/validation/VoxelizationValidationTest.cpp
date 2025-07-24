@@ -18,7 +18,8 @@
 
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/filesystem.hpp>
+
+#include <filesystem>
 
 #include "litCheckMacros.h"
 
@@ -87,7 +88,7 @@ namespace rttb
             }
 
             //create directory
-            boost::filesystem::create_directories(BoostMask_DIRNAME);
+            std::filesystem::create_directories(BoostMask_DIRNAME);
 
             /* read dicom-rt dose */
             io::dicom::DicomFileDoseAccessorGenerator doseAccessorGenerator1(RTDOSE_FILENAME.c_str());
@@ -105,7 +106,7 @@ namespace rttb
                     std::cout << j << ": " << rtStructureSet->getStructure(j)->getLabel() << std::endl;
 
                     //read OTB mask image
-                    boost::filesystem::path otbMaskFilename(OTBMask_DIRNAME);
+                    std::filesystem::path otbMaskFilename(OTBMask_DIRNAME);
                     otbMaskFilename /= boost::lexical_cast<std::string>(j)+".mhd";
 
                     typedef itk::ImageFileReader<io::itk::ITKImageMaskAccessor::ITKMaskImageType> ReaderType;
@@ -131,14 +132,14 @@ namespace rttb
                     rttb::io::itk::ITKImageMaskAccessorConverter itkConverterR(boostMaskRPtr);
                     CHECK(itkConverterR.process());
 
-                    boost::filesystem::path redesignFilename(BoostMask_DIRNAME);
+                    std::filesystem::path redesignFilename(BoostMask_DIRNAME);
                     redesignFilename /= boost::lexical_cast<std::string>(j)+".nrrd";
                     rttb::io::itk::ImageWriter writerR(redesignFilename.string(), itkConverterR.getITKImage().GetPointer());
                     CHECK(writerR.writeFile());
 
                     auto subtractedRedesignImage = subtractImages(otbMaskImage, itkConverterR.getITKImage());
 
-                    boost::filesystem::path subtractRedesignFilename(BoostMask_DIRNAME);
+                    std::filesystem::path subtractRedesignFilename(BoostMask_DIRNAME);
                     subtractRedesignFilename /= boost::lexical_cast<std::string>(j)+"_subtracted.nrrd";
                     rttb::io::itk::ImageWriter writerRSubtracted(subtractRedesignFilename.string(), subtractedRedesignImage.GetPointer());
 
