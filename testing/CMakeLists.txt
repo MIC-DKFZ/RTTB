@@ -49,7 +49,7 @@ message(STATUS "RTTBdata will be automatically downloaded.")
 ExternalProject_Add(
 	RTTBData
     SOURCE_DIR ${RTTBDATA_DIR}
-    GIT_REPOSITORY "https://phabricator.mitk.org/source/rttb-data.git"
+    GIT_REPOSITORY "https://git.dkfz.de/mic/internal/rttb-data.git"
 	CONFIGURE_COMMAND ""
 	BUILD_COMMAND ""
 	INSTALL_COMMAND ""

@@ -23,7 +23,7 @@
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 #include "rttbBaseType.h"
 #include "rttbITKImageAccessorConverter.h"
