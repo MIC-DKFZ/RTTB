@@ -20,6 +20,8 @@
 #include "rttbBaseType.h"
 #include "rttbITKImageMaskAccessor.h"
 
+#include "RTTBITKIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -31,7 +33,7 @@ namespace rttb
 			@brief Load 3D Mask data using the itk loading methods and wraps the resulting itk image in a ITKImageMaskAccessor.
 			* this is normally used if Mask distributions are stored in formats like meta image, nrrd...
 			*/
-			class ITKImageFileMaskAccessorGenerator: public core::MaskAccessorGeneratorBase
+			class RTTBITKIO_EXPORT ITKImageFileMaskAccessorGenerator: public core::MaskAccessorGeneratorBase
 			{
 			public:
 				using MaskAccessorPointer = MaskAccessorGeneratorBase::MaskAccessorPointer;

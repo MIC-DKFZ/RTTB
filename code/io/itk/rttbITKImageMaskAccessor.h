@@ -22,6 +22,8 @@
 
 #include "itkImage.h"
 
+#include "RTTBITKIOExports.h"
+
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4251)
@@ -36,7 +38,7 @@ namespace rttb
 			/*! @class ITKImageMaskAccessor
 			@brief This class gives access to mask information stored in an itk image
 			*/
-			class ITKImageMaskAccessor: public core::MaskAccessorInterface
+			class RTTBITKIO_EXPORT ITKImageMaskAccessor: public core::MaskAccessorInterface
 			{
 			public:
 				typedef ::itk::Image<DoseTypeGy, 3> ITKMaskImageType;

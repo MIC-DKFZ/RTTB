@@ -21,6 +21,8 @@
 #include "rttbMutableDoseAccessorInterface.h"
 #include "rttbMaskAccessorInterface.h"
 
+#include "RTTBAlgorithmsExports.h"
+
 namespace rttb
 {
 	namespace algorithms
@@ -73,15 +75,15 @@ namespace rttb
 			                MutableMaskAccessorPointer result, TMaskOperation op);
 
 			//convenience functions
-			void add(const DoseAccessorPointer dose1, const DoseAccessorPointer dose2,
+			RTTBAlgorithms_EXPORT void add(const DoseAccessorPointer dose1, const DoseAccessorPointer dose2,
 			         MutableDoseAccessorPointer result);
 			//void add(const DoseAccessorPointer dose1, const MappableDoseAccessorPointer dose2,
 			//	  MutableDoseAccessorPointer result);
-			void add(const MaskAccessorPointer mask1, const MaskAccessorPointer mask2,
+			RTTBAlgorithms_EXPORT void add(const MaskAccessorPointer mask1, const MaskAccessorPointer mask2,
 			         MutableMaskAccessorPointer result);
-			void subtract(const MaskAccessorPointer mask1, const MaskAccessorPointer mask2,
+			RTTBAlgorithms_EXPORT void subtract(const MaskAccessorPointer mask1, const MaskAccessorPointer mask2,
 			              MutableMaskAccessorPointer result);
-			void multiply(const DoseAccessorPointer dose, const MaskAccessorPointer mask,
+			RTTBAlgorithms_EXPORT void multiply(const DoseAccessorPointer dose, const MaskAccessorPointer mask,
 			              MutableDoseAccessorPointer result);
 
 			/*all operation classes need to implement the function calc() that performs the entry wise operation
@@ -92,12 +94,13 @@ namespace rttb
 			//Operations for binary-dose-operation template
 			namespace doseOp
 			{
-				class Add
+				class RTTBAlgorithms_EXPORT Add
 				{
 				public:
 					DoseTypeGy calc(const DoseTypeGy dose1Val, const DoseTypeGy dose2Val) const;
 				};
-				class AddWeighted
+
+				class RTTBAlgorithms_EXPORT AddWeighted
 				{
 				private:
 					DoseCalcType weight1, weight2;
@@ -108,7 +111,8 @@ namespace rttb
 
 					DoseTypeGy calc(const DoseTypeGy dose1Val, const DoseTypeGy dose2Val) const;
 				};
-				class Multiply
+
+				class RTTBAlgorithms_EXPORT Multiply
 				{
 				public:
 					DoseTypeGy calc(const DoseTypeGy dose1Val, const DoseTypeGy dose2Val) const;
@@ -118,7 +122,7 @@ namespace rttb
 			//Operations for binary-dose-mask-operation template
 			namespace doseMaskOp
 			{
-				class Multiply
+				class RTTBAlgorithms_EXPORT Multiply
 				{
 				public:
 					DoseTypeGy calc(const DoseTypeGy doseVal, const FractionType maskVal) const;
@@ -130,12 +134,13 @@ namespace rttb
 			//the result of these operations needs to be between 0 and 1
 			namespace maskOp
 			{
-				class Add
+				class RTTBAlgorithms_EXPORT Add
 				{
 				public:
 					FractionType calc(const FractionType mask1Val, const FractionType mask2Val) const;
 				};
-				class Subtract
+
+				class RTTBAlgorithms_EXPORT Subtract
 				{
 				public:
 					FractionType calc(const FractionType mask1Val, const FractionType mask2Val) const;

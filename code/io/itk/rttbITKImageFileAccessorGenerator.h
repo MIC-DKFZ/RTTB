@@ -21,6 +21,8 @@
 
 #include "itkImage.h"
 
+#include "RTTBITKIOExports.h"
+
 namespace rttb
 {
 	namespace io
@@ -33,7 +35,7 @@ namespace rttb
 			* this can be used if dose distributions are stored in formats like meta image, nrrd...
 			* @note it implies that the dose information is stored in absolute Gy values.
 			*/
-			class ITKImageFileAccessorGenerator: public core::DoseAccessorGeneratorBase
+			class RTTBITKIO_EXPORT ITKImageFileAccessorGenerator: public core::DoseAccessorGeneratorBase
 			{
 			public:
 				typedef ::itk::Image<GenericValueType, 3> ITKImageType;

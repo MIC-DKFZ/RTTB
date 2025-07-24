@@ -20,6 +20,8 @@
 #include "rttbBaseType.h"
 #include "rttbGeometricInfo.h"
 
+#include "RTTBMaskExports.h"
+
 namespace rttb
 {
 	namespace masks
@@ -28,7 +30,7 @@ namespace rttb
 		@brief Default implementation of MutableMaskAccessorInterface.
 		@see MutableMaskAccessorInterface
 		*/
-		class GenericMutableMaskAccessor: public core::MutableMaskAccessorInterface
+		class RTTBMask_EXPORT GenericMutableMaskAccessor: public core::MutableMaskAccessorInterface
 		{
 		public:
 			using MaskVoxelList = core::MutableMaskAccessorInterface::MaskVoxelList;
